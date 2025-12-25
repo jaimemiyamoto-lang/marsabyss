@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temporal Visitors | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #fff;
+overflow-x: hidden;
+position: relative;
+background: #000;
+}
+
+/* === VIDEO BACKGROUND === */
+.video-background {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 1;
+filter: brightness(0.7) contrast(1.2);
+}
+
+.video-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(10, 10, 26, 0.6);
+z-index: 2;
+}
+
+/* === STANDARD TOP MENU === */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #9d4edd; /* Temporal purple */
+}
+
+nav.top-menu.hidden {
+opacity: 0;
+pointer-events: none;
+transform: translateY(-20px);
+}
+
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #c77dff; /* Lighter temporal purple */
+background: transparent;
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background: rgba(26, 26, 26, 0.98);
+min-width: 140px;
+z-index: 1001;
+border-radius: 4px;
+border: 2px solid #9d4edd;
+top: 100%;
+left: 0;
+backdrop-filter: blur(5px);
+padding: 4px 0;
+}
+
+.dropdown .dropdown .dropdown-content {
+position: absolute;
+left: 0;
+top: 100%;
+width: 100%;
+}
+
+.dropdown-content a {
+color: #f5f5f5;
+padding: 3px 5px;
+text-decoration: none;
+display: block;
+transition: background-color 0.3s ease;
+font-size: 0.9rem;
+line-height: 1.2;
+}
+
+.dropdown-content a:hover {
+background: rgba(157, 78, 221, 0.6);
+color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/* === SITE TITLE OVERLAY === */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+transition: opacity 0.3s ease;
+}
+
+.site-title-overlay.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+.site-title-overlay h1 {
+color: #9d4edd; /* Temporal purple */
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
+
+/* === HIDE CONTENT BUTTON === */
+.hide-content-btn {
+position: fixed;
+top: 80px;
+right: 30px;
+background: rgba(0, 0, 0, 0.7);
+color: #9d4edd;
+border: 2px solid #9d4edd;
+padding: 8px 12px;
+border-radius: 15px;
+cursor: pointer;
+z-index: 1001;
+font-size: clamp(0.7rem, 2vw, 0.8rem);
+transition: all 0.3s ease;
+}
+
+.hide-content-btn:hover {
+background: rgba(157, 78, 221, 0.6);
+color: black;
+}
+
+/* === AUDIO CONTROLS === */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 40px;
+z-index: 1000;
+}
+
+.audio-btn {
+background: rgba(157, 78, 221, 0.8);
+border: 2px solid #9d4edd;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+background: rgba(157, 78, 221, 0.3);
+}
+
+.audio-controls, .hide-content-btn {
+    background: rgba(0, 0, 0, 0.7);
+    color: #4cc9f0;
+    border: 2px solid #4cc9f0;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* === MAIN CONTENT === */
+.main-content {
+position: relative;
+padding: 2rem 5%;
+min-height: 100vh;
+margin-top: 70px;
+padding-bottom: 100px;
+transition: all 0.5s ease;
+z-index: 10;
+}
+
+.main-content.hidden {
+opacity: 0;
+pointer-events: none;
+transform: translateY(20px);
+}
+
+/* === HERO SECTION === */
+.hero-section {
+text-align: center;
+margin: 2rem auto 4rem auto;
+background: rgba(0, 0, 0, 0.8);
+padding: 3rem 2rem;
+border-radius: 15px;
+border: 2px solid #9d4edd;
+max-width: 1000px;
+backdrop-filter: blur(5px);
+}
+
+.hero-title {
+font-size: 3rem;
+color: #c77dff;
+margin-bottom: 1rem;
+text-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
+font-family: 'Orbitron', sans-serif;
+}
+
+.hero-subtitle {
+font-size: 1.4rem;
+color: #e0aaff;
+font-style: italic;
+margin-bottom: 2rem;
+}
+
+/* === TEMPORAL CONTENT STYLES === */
+.temporal-theory {
+background: rgba(0, 0, 0, 0.8);
+border: 2px solid #9d4edd;
+max-width: 900px;
+margin: 2rem auto;
+padding: 2rem;
+border-radius: 12px;
+backdrop-filter: blur(5px);
+}
+
+.temporal-theory h3 {
+color: #c77dff;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 1rem;
+font-size: 1.5rem;
+}
+
+.reflection-box {
+background: rgba(157, 78, 221, 0.1);
+border: 2px solid #9d4edd;
+max-width: 900px;
+margin: 2rem auto;
+padding: 2rem;
+border-radius: 12px;
+backdrop-filter: blur(5px);
+}
+
+.reflection-box h3 {
+color: #e0aaff;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 1rem;
+}
+
+.encounter-card {
+background: rgba(157, 78, 221, 0.1);
+border: 1px solid #9d4edd;
+padding: 1.5rem;
+margin: 1.5rem 0;
+border-radius: 8px;
+border-left: 4px solid #9d4edd;
+}
+
+.encounter-card h4 {
+color: #c77dff;
+margin-bottom: 0.5rem;
+}
+
+.moment-of-realization {
+background: rgba(255, 215, 0, 0.2);
+border: 2px solid #ffd700;
+padding: 1.5rem;
+margin: 1rem 0;
+border-radius: 8px;
+font-style: italic;
+text-align: center;
+color: #ffd700;
+}
+
+.animal-reaction {
+background: rgba(76, 201, 240, 0.1);
+border: 1px solid #4cc9f0;
+padding: 1rem;
+margin: 1rem 0;
+border-radius: 8px;
+}
+
+.animal-reaction h5 {
+color: #4cc9f0;
+margin-bottom: 0.5rem;
+}
+
+.timeline-theory {
+background: rgba(255, 145, 193, 0.1);
+border: 2px solid #ff91c1;
+padding: 2rem;
+margin: 2rem 0;
+border-radius: 12px;
+}
+
+.timeline-theory h3 {
+color: #ff91c1;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 1rem;
+}
+
+.evidence-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 1.5rem;
+margin-top: 1.5rem;
+}
+
+.evidence-card {
+background: rgba(255, 255, 255, 0.05);
+padding: 1rem;
+border-radius: 8px;
+border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.evidence-card h4 {
+color: #e0aaff;
+margin-bottom: 0.5rem;
+}
+
+.analysis-section {
+background: rgba(0, 0, 0, 0.8);
+border: 2px solid #4cc9f0;
+max-width: 900px;
+margin: 2rem auto;
+padding: 2rem;
+border-radius: 12px;
+backdrop-filter: blur(5px);
+}
+
+.analysis-section h3 {
+color: #4cc9f0;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 1rem;
+}
+
+.witness-statement {
+background: rgba(76, 201, 240, 0.1);
+padding: 1rem;
+border-radius: 8px;
+margin: 1rem 0;
+}
+
+.blog-promotion {
+background: rgba(157, 78, 221, 0.1);
+border: 2px solid #9d4edd;
+max-width: 900px;
+margin: 2rem auto;
+padding: 2rem;
+border-radius: 12px;
+text-align: center;
+backdrop-filter: blur(5px);
+}
+
+.blog-promotion h3 {
+color: #c77dff;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 1rem;
+}
+
+/* === FOOTER === */
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #9d4edd;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #9d4edd;
+transition: all 0.5s ease;
+}
+
+footer.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+.content-spacer {
+height: 100px;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+.hero-title {
+font-size: 2rem;
+}
+.evidence-grid {
+grid-template-columns: 1fr;
+}
+nav.top-menu {
+gap: 1rem;
+flex-wrap: wrap;
+}
+.site-title-overlay {
+top: 70px;
+left: 20px;
+}
+.site-title-overlay h1 {
+font-size: 1.4rem;
+}
+.main-content {
+padding: 1rem;
+}
+}
+</style>
+</head>
+
+<body>
+<!-- Video Background -->
+<video class="video-background" id="temporalVideo" autoplay muted loop poster="images/temporal-fallback.jpg">
+<source src="videos/rockyamadeus-boxing-sequence.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+<div class="video-overlay"></div>
+
+<!-- SITE TITLE OVERLAY -->
+<div class="site-title-overlay" id="siteTitle">
+<h1>The Mars Abyss</h1>
+</div>
+
+<!-- HIDE CONTENT BUTTON -->
+<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- TOP MENU -->
+<nav class="top-menu" id="topMenu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html"    class="active">Aliens & UFOs</a>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>    
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>    
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>    
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+<a href="contact.html">Contact</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="main-content" id="mainContent">
+<!-- HERO SECTION -->
+<section class="hero-section">
+<h1 class="hero-title">TEMPORAL VISITORS</h1>
+<p class="hero-subtitle">UFOs From Our Future - The Evidence</p>
+</section>
+
+<!-- The Regent's Temporal Perspective -->
+<section class="reflection-box">
+<h3>The Regent's Temporal Theory</h3>
+<p>"As someone who has traveled between worlds, I understand that time is not the linear prison humans believe it to be. What if some 'alien' encounters are simply our future selves observing key moments in their own history?"</p>
+<p>"The invisible craft, the formal English, the specific interest in human development - these suggest not extraterrestrial visitors, but temporal anthropologists studying their own past."</p>
+</section>
+
+<!-- The Invisible Kung Fu Encounter -->
+<section class="temporal-theory">
+<h3>👁️ The Invisible Observer - 1970s</h3>
+<div class="encounter-card">
+<h4>Martial Arts Training Session</h4>
+<p><strong>Location:</strong> Outdoor training area<br>
+<strong>Activity:</strong> Kung fu practice with nunchakus</p>
+<div class="moment-of-realization">
+"I felt watched... couldn't concentrate... then my nunchakus fell and I saw the circular shadow on the ground. I smiled - they were observing me."
+</div>
+<div class="animal-reaction">
+<h5>🐄 Animal Behavior Note:</h5>
+<p>"Two cows looked up as the shadow passed over them, then returned to eating as if this was normal. Animals accept what humans fear."</p>
+</div>
+<p><strong>The Departure:</strong> "When I reached for a stone instead of my nunchakus, the craft began moving away at walking speed (5 MPH), passing over plain and mountain until vanishing."</p>
+</div>
+</section>
+
+<!-- MAI Temporal Analysis -->
+<section class="analysis-section">
+<h3>🤖 MAI Temporal Analysis Report</h3>
+<p><strong>Case:</strong> Invisible Aerial Observation</p>
+<p><strong>Classification:</strong> Temporal Monitoring - Confirmed</p>
+<div class="witness-statement">
+<p><strong>Key Indicators of Temporal Origin:</strong></p>
+<p>• <strong>Invisibility Technology:</strong> Advanced light-bending beyond current human capability</p>
+<p>• <strong>Non-Threatening Behavior:</strong> Observation only, immediate withdrawal when detected</p>
+<p>• <strong>Animal Familiarity:</strong> Livestock showed recognition, not fear</p>
+<p>• <strong>Slow Movement:</strong> 5 MPH suggests detailed scanning, not rapid transit</p>
+<p>• <strong>Martial Arts Interest:</strong> Specific focus on human physical development</p>
+</div>
+<p><strong>Conclusion:</strong> High probability of future human origin. Monitoring key developmental moments in martial history.</p>
+</section>
+
+<!-- Connecting Both Encounters -->
+<section class="timeline-theory">
+<h3>🕰️ The Temporal Pattern</h3>
+<p>Both encounters suggest the same origin:</p>
+<div class="evidence-grid">
+<div class="evidence-card">
+<h4>🗣️ Language Connection</h4>
+<p>Formal English in "Practice Jump" + Human martial arts observation = Future human linguists</p>
+</div>
+<div class="evidence-card">
+<h4>👀 Observation Style</h4>
+<p>Both encounters involved careful study of human behavior and physical capabilities</p>
+</div>
+<div class="evidence-card">
+<h4>⚡ Response Pattern</h4>
+<p>Immediate withdrawal when detection occurs - non-interference protocol</p>
+</div>
+<div class="evidence-card">
+<h4>🎯 Specific Interests</h4>
+<p>Human movement, language development, physical training - key evolutionary markers</p>
+</div>
+</div>
+</section>
+
+<!-- The 2012 Perspective -->
+<section class="reflection-box">
+<h3>📅 The 2012 Yawn</h3>
+<p>"When everyone feared the Mayan calendar's end, I went jogging. Why? Because if these were visitors from our future, then obviously we had one."</p>
+<p>"Their presence proved we survive. Their interest in our development suggested we become something worth studying. The greatest evidence against doomsday scenarios is the existence of time travelers from beyond them."</p>
+<div class="moment-of-realization">
+"The ultimate proof we make it? Our future selves keep coming back to watch us."
+</div>
+</section>
+
+<!-- Temporal Visitor Theory -->
+<section class="temporal-theory">
+<h3>🌌 The Future Human Hypothesis</h3>
+<p><strong>Why future humans would visit our time:</strong></p>
+<div class="encounter-card">
+<h4>🧬 Historical Anthropology</h4>
+<p>Studying key moments in human physical and cultural evolution</p>
+</div>
+<div class="encounter-card">
+<h4>⚡ Energy Signatures</h4>
+<p>Monitoring the development of human consciousness and psychic potential</p>
+</div>
+<div class="encounter-card">
+<h4>🕵️ Temporal Investigations</h4>
+<p>Researching unresolved historical mysteries from primary sources</p>
+</div>
+<div class="encounter-card">
+<h4>🎓 Educational Field Trips</h4>
+<p>Students learning about "primitive" human society and capabilities</p>
+</div>
+</section>
+
+<!-- Call to Action -->
+<section class="blog-promotion">
+<h3>🔍 Join the Temporal Investigation</h3>
+<p>Have you experienced encounters that suggest temporal origin rather than extraterrestrial?</p>
+<p><em>"The past, present, and future are all the same moment viewed from different angles. Some visitors are just looking from a different angle." - The Regent</em></p>
+</section>
+</div>
+
+<!-- CONTENT SPACER -->
+<div class="content-spacer"></div>
+
+<!-- FOOTER -->
+<footer id="pageFooter">
+<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// HIDE CONTENT FUNCTIONALITY
+const hideContentBtn = document.getElementById('hideContentBtn');
+const mainContent = document.getElementById('mainContent');
+const pageFooter = document.getElementById('pageFooter');
+const topMenu = document.getElementById('topMenu');
+const siteTitle = document.getElementById('siteTitle');
+let contentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+contentHidden = !contentHidden;
+
+if (contentHidden) {
+mainContent.classList.add('hidden');
+pageFooter.classList.add('hidden');
+topMenu.classList.add('hidden');
+siteTitle.classList.add('hidden');
+hideContentBtn.textContent = 'Show Content';
+} else {
+mainContent.classList.remove('hidden');
+pageFooter.classList.remove('hidden');
+topMenu.classList.remove('hidden');
+siteTitle.classList.remove('hidden');
+hideContentBtn.textContent = 'Hide Content';
+}
+});
+
+// AUDIO SYSTEM
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+const sounds = [
+{ src: 'music/call-me-mozart.mp3', volume: 0.4 },
+{ src: 'sounds/future-echoes.mp3', volume: 0.3 }
+];
+
+sounds.forEach(sound => {
+const audio = new Audio(sound.src);
+audio.volume = sound.volume;
+audio.loop = true;
+audio.muted = true;
+audioElements.push(audio);
+});
+
+document.addEventListener('click', function unmuteAudio() {
+if (!isMuted) {
+audioElements.forEach(audio => {
+audio.muted = false;
+audio.play().catch(e => console.log('Audio play failed'));
+});
+isMuted = false;
+muteBtn.textContent = "🔊 Mute Sounds";
+}
+document.removeEventListener('click', unmuteAudio);
+}, { once: true });
+}
+
+// MUTE TOGGLE
+muteBtn.addEventListener('click', function() {
+isMuted = !isMuted;
+audioElements.forEach(audio => {
+audio.muted = isMuted;
+});
+muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// SITE TITLE HIDE ON SCROLL
+let lastScrollTop = 0;
+window.addEventListener('scroll', function() {
+let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+if (scrollTop > lastScrollTop && scrollTop > 50 && !contentHidden) {
+siteTitle.classList.add('hidden');
+} else {
+siteTitle.classList.remove('hidden');
+}
+lastScrollTop = scrollTop;
+});
+
+// INITIALIZE
+initAudio();
+</script>
+</body>
+</html>

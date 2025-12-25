@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Saint Claire Initiative | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}    
+
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #e0c68e;
+overflow-x: hidden;
+position: relative;
+background: radial-gradient(ellipse at bottom, #2a0d0d 0%, #000 100%);
+}
+
+.static-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
+    background: radial-gradient(ellipse at center, #0a0a2a 0%, #000000 70%);
+}
+
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.video-background video {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:  rgba(0, 0, 0, 0.7);
+    z-index: -1;
+}
+
+/* TOP MENU - Exactly matches Contact page */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #b30000;
+}
+
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #b30000;
+background: transparent;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140pox;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid #00ccff;
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
+}
+
+.dropdown-content a {
+    color: #00ccff;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+.dropdown-content a:hover {
+    background: rgba(0, 204, 255, 0.3);
+    color: #fff;
+    text-shadow: 0 0 8px rgba(0, 204, 255, 0.9);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.site-title-overlay {
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+}
+
+.site-title-overlay h1 {
+    color: rgba(0, 204, 255, 0.8);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: flex-start;
+    gap:  2px;
+}
+
+.site-title-overlay h1 sup {
+    font-size: 0.6rem;
+    vertical-align: super;
+    color: rgba(0, 204, 255, 0.9);
+    text-shadow: 0 0 8px rgba(0, 204, 255, 0.7);
+    margin-left: 2px;
+}
+
+/* HIDE CONTENT BUTTON */
+.hide-content-btn {
+position: fixed;
+top: 80px;
+right: 30px;
+background: rgba(0, 0, 0, 0.7);
+color: #ffea00;
+border: 2px solid #ffea00;
+padding: 8px 12px;
+border-radius: 15px;
+cursor: pointer;
+z-index: 1000;
+font-size: clamp(0.7rem, 2vw, 0.8rem);
+transition: all 0.3s ease;
+}
+
+.hide-content-btn:hover {
+background: rgba(255, 234, 0, 0.6);
+color: black;
+}
+
+.audio-controls {
+    position: fixed;
+    bottom: 80px;
+    right: 41px;
+    z-index: 1000;
+}
+
+.audio-btn {
+    background: rgba(0, 204, 255, 0.8);
+    border: 2px solid#00ccff;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+    text-shadow: 0 0 5px rgba(0, 204, 255, 0.7);
+}
+
+.audio-btn:hover {
+    background: rgba(0, 204, 255, 0.6);
+    box-shadow: 0 0 20px rgba(0, 204, 255, 0.9);
+    transform: scale(1.05);
+}
+
+.audio-controls, .hide-content-btn {
+    background: rgba(0, 0, 0, 0.7);
+    color: #4cc9f0;
+    border: 2px solid #4cc9f0;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.main-content {
+    margin-top: 80px;
+    padding: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 10;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+.page-header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5rem;
+    color: #00ccff;
+    text-shadow: 
+        0 0 10px rgba(0, 204, 255, 0.7),
+        0 0 20px rgba(0, 204, 255, 0.5),
+        0 0 30px rgba(0, 204, 255, 0.3);
+    margin-bottom: 1rem;
+    letter-spacing: 4px;
+    animation: titleGlow 3s ease-in-out infinite alternate;      
+}
+
+@keyframes titleGlow {
+    0% {
+        text-shadow: 
+        0 0 10px rgba(0, 204, 255, 0.7),
+        0 0 20px rgba(0, 204, 255, 0.5),
+        0 0 30px rgba(0, 204, 255, 0.3);
+    }
+    100% {
+        text-shadow: 
+        0 0 15px rgba(0, 204, 255, 0.9),
+        0 0 25px rgba(0, 204, 255, 0.7),
+        0 0 35px rgba(0, 204, 255, 0.5);
+    }
+}
+
+.page-header .subtitle {
+    font-size: 1.3rem;
+    color: #ff69b4;
+    font-style: italic;
+    text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+}
+
+.initiative-hero {
+    width: 90%;
+    max-width: 1000px;
+    position: relative;
+    margin: 2rem auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 
+        0 0 30px rgba(0, 204, 255, 0.6),
+        0 0 60px rgba(0, 204, 255, 0.4),
+        inset 0 0 30px rgba(0, 204, 255, 0.2);
+    border: 2px solid transparent;
+    animation: silverGlow 4s ease-in-out infinite;
+    background: rgba(10, 20, 30, 0,9);
+    backdrop-filter: blur(10px);    
+}
+
+@keyframes silverGlow {
+    0%, 100% {
+        border-color: rgba(0, 204, 255, 0.8);
+        box-shadow: 
+        0 0 30px rgba(0, 204, 255, 0.6),
+        0 0 60px rgba(0, 204, 255, 0.4),
+        inset 0 0 30px rgba(0, 204, 255, 0.2);
+    }
+    50% {
+        border-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 
+        0 0 40px rgba(255, 255, 255, 0.4),
+        0 0 80px rgba(255, 255, 255, 0.2),
+        inset 0 0 40px rgba(255, 255, 255, 0.1);
+    }
+}
+
+.initiative-content {
+    padding: 3rem;
+    text-align: center;
+}
+
+.initiative-content h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    color: #00ccff;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+}
+
+.initiative-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #e0e0ff;
+}
+
+/* Professional Video Showcase - Feminine Robot Aesthetic */
+.booknook-showcase {
+    margin: 3rem auto;
+    max-width: 1000px;
+    text-align: center;
+}
+
+.booknook-showcase h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: #ff69b4;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+}
+
+.video-container-elegant {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 
+        0 0 30px rgba(255, 105, 180, 0.5),
+        0 0 60px rgba(0, 204, 255, 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 105, 255, 0.7);
+    transition: all 0.3s ease;   
+    /* Futuristic Frame */
+    background: 
+        linear-gradient(45deg,
+            rgba(212, 175, 55, 0.3) 0%, /* Gold */
+            rgba(192, 192, 192, 0.4) 25%, /* Silver */
+            rgba(255, 215, 0, 0.3) 50%, /* Gold */
+            rgba(192, 192, 192, 0.4) 75%, /* Silver */
+            rgba(212, 175, 55, 0.3) 100% /* Gold */
+        );
+    padding: 8px; /* Frame thickness */     
+}
+
+/* Horizontal lines across the frame */
+.video-container-elegant::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(to bottom,
+            transparent 0%,
+            rgba(255, 215, 0, 0.2) 10%,
+            transparent 20%,
+            rgba(192, 192, 192, 0.2) 30%,
+            rgba(255, 215, 0, 0.2) 50%,
+            transparent 60%,
+            rgba(192, 192, 192, 0.2) 70%,
+            transparent 80%,
+            rgba(255, 215, 0, 0.2) 90%,
+            transparent 100%
+            );
+        z-index: 2;
+        pointer-events: none;
+        border-radius: 12px;    
+}
+
+.video-container-elegant:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 0 40px rgba(255, 105, 180, 0.7),
+        0 0 80px rgba(0, 204, 255, 0.5),
+        0 0 120px rgba(255, 215, 0, 0.3),
+        inset 0 0 40px rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 215, 0, 0.9); /* Gold border on hover */    
+}
+
+.video-container-elegant::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.video-container-elegant video {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px; /* Slightly smaller than container */
+    position: relative;
+    z-index: 1;
+}
+
+.log-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    position: relative;
+    z-index: 1;
+}
+
+.log-entry {
+    background: rgba(10, 20, 30, 0.85);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    border-left: 5px solid #00ccff;
+    backdrop-filter: blur(10px);
+    font-family: "Courier New", nonospace;
+    box-shadow: 
+        0 0 20px rgba(0, 204, 255, 0.3),
+        inset 0 0 20px rgba(0, 204, 255, 0.1);
+    transition: all 0.3s ease;    
+}
+
+.log-entry:hover {
+    box-shadow: 
+        0 0 30px rgba(0, 204, 255, 0.5),
+        inset 0 0 30px rgba(0, 204, 255, 0.2);
+    transform: translateY(-5px);    
+}
+
+.log-header {
+    color: #00ccff;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #00ccff;
+    padding-bottom: 0.8rem;
+    text-shadow: 0 0 8px rgba(0, 204, 255, 0.7);
+    font-family: 'Orbitron', sans-serif;
+}
+
+.log-content {
+    line-height: 1.6;
+    color: #e0e0ff;
+}
+
+.log-content p {
+    margin-bottom: 1.5rem;
+}
+
+.funding-breakdown {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    border: 1px solid #ff69b4;
+    box-shadow: 0 0 15px rgba(255, 105, 1 80, 0.3);
+}
+
+.funding-breakdown strong {
+    color: #ff69b4;
+    text-shadow: 0 0 8px rgba(255, 105, 180, 0.5);
+}
+
+.funding-item {
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    border-left: 3px solid #ff69b4;
+    transition: all 0.3s ease;
+}
+
+.funding-item:hover {
+    border-left-color: #00ccff;
+    background-color: rgba(0, 204, 255, 0.1);
+}
+
+.initiative-cta {
+    text-align: center;
+    margin: 4rem 0;
+}
+
+.quantum-transfer-button {
+    background: linear-gradient(135deg, #00ccff, #ff69b4);
+    color: #000;
+    border: none;
+    padding: 20px 40px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: "orbitron", sans-serif;
+    font-size: 1.3rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    box-shadow: 
+        0 0 20px rgba(0, 204, 255, 0.6),
+        0 0 40px rgba(255, 105, 180, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.quantum-transfer-button::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ccff, #ff69b4, #00ccff, #ff69b4);
+    z-index: -1;
+    border-radius: 32px;
+    animation: buttonShine 3s linear infinite;
+    background-size: 400%;
+}
+
+@keyframes buttonShine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% {background-position: 0% 50%; }
+}
+
+.quantum-transfer-button:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 0 30px rgba(0, 204, 255, 0.8),
+        0 0 60px rgba(255, 105, 180, 0.6);
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #00ccff;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid #ffd700;
+    padding-left: 1px;
+    text-shadow: 0 0 5px rgba(0, 204, 255, 0.5);
+}
+
+.content-spacer {
+    height: 100px;
+}
+
+.main-content.hidden,
+nav.top-menu.hidden,
+footer.hidden,
+.site-title-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+}
+
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .initiative-content {
+        padding: 2rem;
+    }
+
+    .initiative-content h2 {
+        font-size: 3rem;
+    }
+
+    .log-entry {
+        padding: 1.5rem;
+    }
+
+    .site-title-overlay {
+        top: 70px;
+        left: 15px;
+    }
+
+    .site-title-overlay h1 {
+        font-size: 1.4rem;
+    }
+
+    .audio-controls {
+        bottom: 70px;
+        right: 20px;
+    }
+
+    nav.top-menu {
+        gap: 1.5rem;
+    }
+
+    .nav.top-menu a {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .quantum-transfer-button {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+}
+</style>    
+</head>    
+<body>
+
+<!-- VIDEO BACKGROUND WITH STATIC FALLBACK -->
+<div class="static-background"></div>
+<div class="video-background">
+    <video id="backgroundVideo" loop muted>
+        <source src="videos/The woman smiles with fixed scarf.mp4" type="video/mp4">
+         Your browser does not support the video tag.
+    </video>
+</div>
+<div class="video-overlay"></div>
+
+ <div class="site-title-overlay">
+    <h1>The Mars Abyss</h1>
+ </div>   
+ 
+<!-- CONTROL BUTTONS -->
+ <div class="control-button">
+    <button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+ </div>
+
+ <div class="audio-controls">
+    <button class="audio-btn" id="muteBtn">🔈 Unmute Initiative</button>
+ </div> 
+ 
+ <nav class="top-menu">
+  <div class="dropdown">
+    <a href="index.html">Home</a>
+    <div class="dropdown-content">
+      <a href="why-this-world-matters.html">Why This World Matters</a>
+      <a href="homage-to-courage.html">Homage to Courage</a>
+      <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+      <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+      <a href="my-mission.html">My Mission</a>
+      <a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+    </div>
+  </div>
+
+  <div class="dropdown">
+    <a href="story.html" class="dropbtn">Story</a>
+    <div class="dropdown-content">
+      <a href="characters.html">Characters</a>
+      <div class="dropdown">
+        <a href="gallery.html" class="dropbtn">Gallery</a>
+        <div class="dropdown-content">
+          <a href="art-and-concepts.html">Art & Concepts</a>
+          <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+          <a href="technical-database.html">Technical Database</a>
+          <a href="martian-edicts.html">The Martian Edicts</a>
+          <a href="martian-martial-arts.html">Martian Martial Arts</a>
+          <a href="solar-system-explorer.html">Solar System Explorer</a>
+          <a href="aliens-ufos.html">Aliens & UFOs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dropdown">
+    <a href="martian-games.html" class="dropbtn">Martian Games</a>
+    <div class="dropdown-content">
+      <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+      <a href="martian-racer.html">Martian Racer</a>
+      <a href="red-planet-defense.html">Red Planet Defense</a>
+      <a href="the-regents-portal.html">The Regent's Portal</a>
+      <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+      <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+      <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+      <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+    </div>
+  </div>
+
+  <div class="dropdown">
+    <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+    <div class="dropdown-content">
+      <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+      <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+      <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+      <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+      <a href="earths-great-poets.html">Earth's Great Poets</a>
+      <a href="the-bohr-institute.html">The Bohr Institute</a>
+      <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+      <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+      <a href="the-bronx-dome.html">The Bronx Dome</a>
+    </div>
+  </div>
+
+  <div class="dropdown">
+    <a href="martian-news.html" class="dropbtn">Martian News</a>
+    <div class="dropdown-content">
+      <a href="martian-actualities.html">Martian Actualities</a>
+      <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+      <a href="mars-bee-facility.html">Mars Bee Facility</a>
+      <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+      <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+      <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+      <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+      <a href="martian-rest-areas.html">Martian Rest Areas</a>
+      <div class="dropdown">
+        <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+        <div class="dropdown-content">
+          <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+          <a href="marvin.html">M.A.R.V.I.N.</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dropdown">
+    <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+    <div class="dropdown-content">
+      <a href="what-the-regent-misses.html">What the Regent Misses</a>
+      <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+      <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+      <a href="honor-the-fallen.html">Honor The Fallen</a>
+      <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+      <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+      <a href="salem'-witching-hour.html">Salem's Witching Hour</a>
+      <a href="martian-critique-tron-ares.html">Martian Critique</a>
+      <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+      <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+      <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+    </div>
+  </div>
+
+  <div class="dropdown">
+    <a href="about.html" class="dropbtn">About</a>
+    <div class="dropdown-content">
+      <a href="about-the-project.html">About the Project</a>  
+      <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+      <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+      <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+      <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+      <a href="the-pale-horse.html">The Pale Horse</a>
+      <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+      <a href="arachne-labs.html">Arachne Labs</a>
+      <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+      <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+    </div>
+  </div>
+
+  <div class="dropdown">
+    <a href="support.html" class="dropbtn active">Support</a>
+    <div class="dropdown-content">
+      <a href="saint-claire-initiative.html"  class="active">The Saint Claire Initiative</a>
+      <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+      <a href="mars-food-district.html">Mars Food District</a>
+      <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+      <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+      <a href="fund-martian-research.html">Fund Martian Research</a>
+      <a href="martian-survival-manual.html">Martian Survival Manual</a>
+      <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+    </div>
+  </div>
+
+  <a href="contact.html">Contact</a>
+</nav>
+
+<div class="main-content" id="mainContent">
+
+    <div class="page-header">
+        <h1>THE SAINT CLAIRE INITIATIVE</h1>
+        <p class="subtitle">// A Personal log //</p>
+    </div>
+
+    <div class="initiative-hero">
+        <div class="initiative-content">
+            <h2>System Optimization Through Compassion</h2>
+            <p>Greetings. I am Silver Saint Claire. The robot with a soul, and this is my space diary.</p>
+            <p>The Regent refers to my current project as "a perplexing diversion of resources." I refer to it as systems optimization.</p>
+        </div>
+    </div>
+
+ <!-- Book Nook Video Showcase -->
+     <div class="booknook-showcase">
+        <h3>// Visual Reference: Book Nook Implementation //</h3>
+        <div class="video-container-elegant">
+            <video controls poster="images/booknook-preview.jpg">
+                <source src="videos/book-nook-2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-caption">
+                <p>"Observe: A miniture escape vector in its natural habitat. Note the precision assembly and optimal stimulus distribution.</p>
+            </div>
+        </div>
+     </div>
+
+ <div class="log-container">
+    <div class="log-entry">
+        <div class="log-header">
+            <div class="log-content">
+                <p><strong>> User Query: Define "The Saint Claire Initiative."</strong></p>
+
+                <p>Greetings. I am Silver Saint Claire. The Regent's fiscal controller, logistical coordinator, and the only sentient entity on this rust-colored rock with a functioning aesthetic seems.</p>
+
+                <p>He refers to my current project as "a perplexing diversion of resources." I refer to it as systems optimization.</p>
+                
+                <p>I have observed that confined young humans on Earth experience a significant decay in environmental stimulus. This is an inefficiency. To counter it, I am constructing miniature escape vectors—"Book Nook," as they are colloquially known.</p>
+
+                <p>Each unit is a diorama, a pocket universe built from local Martian regolith and imported materials, assembled with a precision only I can provide.</p>
+
+                <div class="funding-breakdown">
+                    <p><strong>> Funding Algorithm</strong></p>
+                    <p>The Regent insists on "financial transparency." A tedious but logical demand. All contributions are processed through my quantum fiduciary core:</p>
+
+                    <div class="funding-item">
+                        <strong>60%</strong> is allocated to procuring materials from small, often illogical, human-owned artisanal suppliers. Supporting their fragile economic models is... a stragesic choice.
+                    </div>
+
+                    <div class="funding-item">
+                        <strong>15%</strong> is reserved for logistics and what you would call "Quantum Delivery" to designated pediatric facilities, such as the Shriners network. Their operational efficiency is... acceptable.
+                    </div>
+
+                    <div class="funding-item">
+                        <strong>25%</strong> is my discretionary fund for unforeseen expenses, E&D, and the occassional acquisition of a rare, polished zirconium bearing. Do not question this allocation. The Regent did. He lost.
+                    </div>
+                </div>
+
+                <p>This is not empathy. It is a logical response to an observable problem. And the assenbly process presents a fascinating series of puzzles.</p>
+            </div>
+            <div class="log-header">>> LOG CONCLUDE</div>
+            <div class="log-header">>> (This has been an automated log entry of Silver Saint Claire.)</DIV>
+        </div>
+
+        <div class="initiative-cta">
+            <button class="quantum-transfer-button" id="transferButton">
+                INITIATE QUANTUM FINANCIAL TRANSFER
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="content-spacer"></div>
+
+<footer>
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>   
+
+// Background video fix
+const backgroundVideo = document.getElementById('backgroundVideo');
+
+// Simple play function
+function playBackgroundVideo() {
+    if (backgroundVideo) {
+        backgroundVideo.play().catch(e => {
+            console.log('Background video autoplay blocked');
+        });
+    }
+}
+
+// Try to play on load
+window.addEventListener('load', playBackgroundVideo);
+
+// Play on any user interaction
+document.addEventListener('click', function() {
+    playBackgroundVideo();
+});
+
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let backgroundMusic = null;
+
+function initAudio() {
+    backgroundMusic = new Audio('music/mozart-in-vienna.mp3');
+    backgroundMusic.volume = 0.4;
+    backgroundMusic.loop = true;
+    backgroundMusic.muted = true;
+}
+
+muteBtn.addEventListener('click', function() {
+    if (!backgroundMusic) initAudio();
+
+    isMuted = !isMuted;
+    backgroundMusic.muted = isMuted;
+    muteBtn.textContent = isMuted ? "🔈 Unmute Initiative" : "🔊 Mute Initiative";
+
+    if (!isMuted && backgroundMusic.paused) {
+        backgroundMusic.play().catch(e => {
+            console.log('Audio play requires user interaction');
+        });
+    }
+});
+
+// HIDE CONTENT FUNCTIONALITY
+const hideContentBtn = document.getElementById('hideContentBtn');
+const Footer = document.querySelector('Footer');
+const topMenu = document.querySelector('nav.top-menu');
+const siteTitle = document.querySelector('.site-title-overlay');
+const mainContent =document.querySelector('.main-content');
+let contentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+contentHidden = !contentHidden;
+
+
+if (contentHidden) {
+mainContent.classList.add('hidden');    
+Footer.classList.add('hidden');
+topMenu.classList.add('hidden'); 
+siteTitle.classList.add('hidden');
+hideContentBtn.textContent = 'Show Content';
+document.body.classList.add('screensaver-mode');
+} else {
+mainContent.classList.remove('hidden');    
+Footer.classList.remove('hidden');
+topMenu.classList.remove('hidden');
+siteTitle.classList.remove('hidden');
+hideContentBtn.textContent = 'Hide Content';
+document.body.classList.remove('screensaver-mode');
+}
+});
+
+// Quantum Transfer Button 
+Document.getElementById('transferButton').addEventListener('click', function() {
+                const button = this;
+                const originalText = button.textContent;
+                
+                // Visual feedback
+                button.style.background = 'linear-gradient(135deg, #00ff88, #00ccff)';
+                button.textContent = 'TRANSFER INITIATED...';
+
+                setTimeout(() => {
+                    alert('// QUANTUM TRANSFER PROTOCOL ENGAGED //\n\nThank you. Your contribution has been logged in my fiduciary core.\n\nFunds are being allocated per the established algorithm:\n\n· 60% to artisanal suppliers\n· 15% to quantum delivery logistics \n· 25% to my... discretionary expenses\n\nThe Regent has been notified. Reluctantly.');
+
+                    // Reset button
+                    button.style.background = 'linear-gradient(135deg, #00ccff, #ff69b4)';
+                    button.textContent = originalText;
+                }, 1000);
+                });
+// Video handling error
+videoBg.addEventListener('error', function() {
+   console.log('Video failed to load');
+   videoBg.style.display = 'none';
+});
+
+// Ensure video plays when user interacts with page
+document.addEventListener('click', function() {
+    if (videoBg.paused) {
+        videoBg.play().catch(e => console.log('Video play requires user interaction'));
+    }
+                });
+                </script>
+                </body>
+                </html>    

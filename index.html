@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mars Abyss</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* MARTIAN BACKGROUND WITH RUMBLE EFFECT */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .static-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/mars-background-bg.jpg') no-repeat center center / cover;
+            z-index: 1;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 2;
+            transform: translateX(0) translateY(0);
+        }
+
+        /* RUMBLE ANIMATION */
+        @keyframes meteorRumble {
+            0% { transform: translateX(0) translateY(0); }
+            10% { transform: translateX(-2px) translateY(1px); }
+            20% { transform: translateX(1px) translateY(-1px); }
+            30% { transform: translateX(-1px) translateY(2px); }
+            40% { transform: translateX(2px) translateY(-2px); }
+            50% { transform: translateX(-3px) translateY(1px); }
+            60% { transform: translateX(1px) translateY(-3px); }
+            70% { transform: translateX(-2px) translateY(2px); }
+            80% { transform: translateX(3px) translateY(-1px); }
+            90% { transform: translateX(-1px) translateY(3px); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+
+        .rumble-active {
+            animation: meteorRumble 0.8s ease-out;
+        }
+
+        /* DUST OVERLAY EFFECT */
+        .dust-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(139, 69, 19, 0.1);
+            z-index: 3;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+        }
+
+        .dust-active {
+            opacity: 0.4;
+        }
+
+        /* === CORRECT TOP MENU === */
+        nav.top-menu {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(17, 17, 17, 0.95);
+            padding: 0.6rem 0;
+            z-index: 1000;
+            gap: 2.5rem;
+            flex-wrap: nowrap;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #ff9553;
+        }
+
+        nav.top-menu a {
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        nav.top-menu a.active,
+        nav.top-menu a:hover {
+            color: #ff4444;
+            background: transparent;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown > a, .dropdown {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(26, 26, 26, 0.98);
+            min-width: 140px;
+            z-index: 1001;
+            border-radius: 4px;
+            border: 2px solid #ff9553;
+            top: 100%;
+            left: 0;
+            backdrop-filter: blur(5px);
+            padding: 4px 0;
+        }
+
+        .dropdown .dropdown .dropdown-content {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            width: 100%;
+        }
+
+        .dropdown-content a {
+            color: #f5f5f5;
+            padding: 3px 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+            font-size: 0.7rem;
+            line-height: 1;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 68, 68, 0.6);
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* SITE TITLE OVERLAY */
+        .site-title-overlay {
+            position: fixed;
+            top: 80px;
+            left: 30px;
+            z-index: 50;
+        }
+
+        .site-title-overlay h1 {
+            color: #ff9553;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+.site-title-overlay h1 sup {
+    font-size: 0.6em;
+    vertical-align: super;
+    color: rgba(255, 105, 180, 0.9);
+    text-shadow: 0 0 8px rgba(255, 105, 180, 0.7);
+    margin-left: 2px;
+}
+
+
+        /* AUDIO CONTROLS */
+        .audio-controls {
+            position: fixed;
+            bottom: 80px;
+            right: 40px;
+            z-index: 1000;
+        }
+
+        .audio-btn {
+            background: rgba(255, 68, 68, 0.8);
+            border: 2px solid #ff9553;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
+        }
+
+        .audio-btn:hover {
+            background: rgba(255, 68, 68, 0.3);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            position: absolute;
+            top: 44%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            z-index: 5;
+            width: 100%;
+        }
+
+        .hero-title {
+            font-size: clamp(24px, 5vw, 110px);
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            line-height: 1;
+            opacity: 0;
+            text-transform: uppercase;
+            text-shadow:
+                2px 2px 4px rgba(0, 0, 0, 0.7),
+                0 0 8px rgba(255, 235, 205, 0.85),
+                0 0 18px rgba(255, 90, 70, 0.65),
+                0 0 40px rgba(255, 0, 0, 0.45);
+            animation: titleFade 2.75s ease-out 0.5s forwards;
+            margin-bottom: 5px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(14px, 2.5vw, 35px);
+            font-weight: normal;
+            font-style: italic;
+            color: #f5f5dc;
+            opacity: 0;
+            animation: titleFade 2.75s ease-out 1s forwards;
+            margin-top: 4px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8),
+                         0 0 10px rgba(255, 255, 255, 0.4);
+            position: relative;
+            z-index: 6;
+        }
+
+        @keyframes titleFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* SCROLLABLE CARD STRIP - PROTECTIVE BARRIER */
+        .card-section {
+            position: absolute;
+            bottom: 8%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            z-index: 10;
+        }
+
+        .card-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 1.5rem;
+            padding: 1rem;
+            max-width: 80%;
+            box-shadow: 0 0 30px rgba(255, 149, 83, 0.3);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .card-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .card {
+            flex: 0 0 auto;
+            width: 150px;
+            height: 220px;
+            background: gray;
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(100%);
+            transition: filter 0.4s ease, transform 0.4s ease;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .card:hover {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 149, 83, 0.5);
+        }
+
+        /* ARROWS */
+        .arrow {
+            font-size: 2.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            transition: background 0.3s ease;
+            -webkit-user-select: none;
+            user-select: none;
+            z-index: 11;
+        }
+
+        .arrow:hover {
+            background: rgba(255, 0, 0, 0.6);
+        }
+
+        .card-story { background-image: url('images/story-bg.jpg');}
+        .card-characters { background-image: url('images/warlock.jpg');}
+        .card-gallery { background-image: url('images/gallery-bg.jpg');}
+        .card-about { background-image: url('images/one-about-bg.jpg');}
+        .card-news { background-image: url('images/martian-news-bg.jpg');}
+        .card-support { background-image: url('images/support-bg.jpg');}
+        .card-contact { background-image: url('images/contact-bg.jpg');}
+        .card-laws { background-image: url('images/mars-full-bg.jpg');}
+        .card-earthcodex { background-image: url('images/wilkins-bg.jpg');}
+        .card-tech { background-image: url('images/blueprint-martian-shuttle.jpg');}
+        .card-martian-martial-arts { background-image: url('images/bruce.jpg');}
+        .card-solar-system-explorer { background-image: url('images/solar-system-model.jpg');}
+
+        /* FOOTER */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 0.6rem 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ccc;
+            font-family: 'Segoe UI', sans-serif;
+            z-index: 1000;
+            border-top: 2px solid #ff9553;
+        }
+
+        /* METEOR FLASH EFFECT */
+        .meteor-flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 100, 0, 0.3);
+            z-index: 4;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .flash-active {
+            animation: meteorFlash 0.3s ease-out;
+        }
+
+        @keyframes meteorFlash {
+            0% { opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { opacity: 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: clamp(20px, 8vw, 80px);
+            }
+            .hero-subtitle {
+                font-size: clamp(12px, 4vw, 25px);
+            }
+            .card-container {
+                max-width: 90%;
+            }
+            .card {
+                width: 120px;
+                height: 180px;
+            }
+            nav.top-menu {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+            .site-title-overlay {
+                top: 70px;
+                left: 20px;
+            }
+            .site-title-overlay h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- MARTIAN BACKGROUND WITH RUMBLE EFFECTS -->
+    <div class="background-container">
+        <div class="static-background" id="staticBg"></div>
+        <video class="video-background" id="marsVideo" muted loop playsinline>
+            <source src="videos/martian-landscape.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="dust-overlay" id="dustOverlay"></div>
+        <div class="meteor-flash" id="meteorFlash"></div>
+    </div>
+
+    <!-- SITE TITLE OVERLAY -->
+    <div class="site-title-overlay">
+        <h1>The Mars Abyss<sup>™</sup></h1>
+    </div>
+
+    <!-- AUDIO CONTROLS -->
+    <div class="audio-controls">
+        <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+    </div>
+
+    <!-- CORRECT MENU STRUCTURE -->
+    <nav class="top-menu">
+        <div class="dropdown">
+        <a href="index.html" class="dropbtn active">Home</a>
+        <div class="dropdown-content">
+        <a href="why-this-world-matters.html">Why This World Matters</a>
+        <a href="homage-to-courage.html">Homage to Courage</a>
+        <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+        <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+        <a href="my-mission.html">My Mission</a>
+        <a href="martian-reading-revival.html">Martian Reading Revival</a>
+        <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+        <a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
+        <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+        </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="story.html" class="dropbtn">Story</a>
+            <div class="dropdown-content">
+                <a href="characters.html">Characters</a>
+                <div class="dropdown">
+                    <a href="gallery.html" class="dropbtn">Gallery</a>
+                    <div class="dropdown-content">
+        <a href="art-and-concepts.html">Art & Concepts</a>
+        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+        <a href="technical-database.html">Technical Database</a>
+        <a href="martian-edicts.html">The Martian Edicts</a>
+        <a href="martian-martial-arts.html">Martian Martial Arts</a>
+        <a href="solar-system-explorer.html">Solar System Explorer</a>
+        <a href="aliens-ufos.html">Aliens & UFOs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-games.html" class="dropbtn">Martian Games</a>
+            <div class="dropdown-content">
+                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+                <a href="martian-racer.html">Martian Racer</a>
+                <a href="red-planet-defense.html">Red Planet Defense</a>
+                <a href="the-regents-portal.html">The Regent's Portal</a>
+                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+                <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+            <div class="dropdown-content">
+                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+                <a href="earths-great-poets.html">Earth's Great Poets</a>
+                <a href="the-bohr-institute.html">The Bohr Institute</a>
+                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+                <a href="the-bronx-dome.html">The Bronx Dome</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-news.html" class="dropbtn">Martian News</a>
+            <div class="dropdown-content">
+                <a href="martian-actualities.html">Martian Actualities</a>
+                <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+                <a href="mars-bee-facility.html">Mars Bee Facility</a>
+                <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+                <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+                <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+                <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+                <a href="martian-rest-areas.html">Martian Rest Areas</a>
+                <div class="dropdown">
+                    <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                    <div class="dropdown-content">
+                        <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                        <a href="marvin.html">M.A.R.V.I.N.</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+            <div class="dropdown-content">
+                <a href="what-the-regent-misses.html">What the Regent Misses</a>
+                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+                <a href="honor-the-fallen.html">Honor The Fallen</a>
+                <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+                <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+                <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+                <a href="martian-critique-tron-ares.html">Martian Critique</a>
+                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="about.html" class="dropbtn">About</a>
+            <div class="dropdown-content">
+                <a href="about-the-project.html">About the Project</a>
+                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+                <a href="the-pale-horse.html">The Pale Horse</a>
+                <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+                <a href="arachne-labs.html">Arachne Labs</a>
+                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="support.html" class="dropbtn">Support</a>
+            <div class="dropdown-content">
+                <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+                <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+                <a href="mars-food-district.html">Mars Food District</a>
+                <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+                <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+                <a href="fund-martian-research.html">Fund Martian Research</a>                
+                <a href="martian-survival-manual.html">Martian Survival Manual</a>
+                <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+            </div>
+        </div>
+
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <div class="hero">
+        <h1 class="hero-title">THE MARS ABYSS</h1>
+        <h2 class="hero-subtitle">A Martian Saga</h2>
+    </div>
+
+    <!-- SCROLLABLE CARDS - PROTECTIVE BARRIER -->
+    <div class="card-section">
+        <div class="arrow" onclick="scrollCards(-1)">🖖</div>
+
+        <div class="card-container" id="cards">
+            <div class="card card-story" onclick="openPage('story.html')"></div>
+            <div class="card card-characters" onclick="openPage('characters.html')"></div>
+            <div class="card card-gallery" onclick="openPage('gallery.html')"></div>
+            <div class="card card-about" onclick="openPage('about.html')"></div>
+            <div class="card card-news" onclick="openPage('martian-news.html')"></div>
+            <div class="card card-support" onclick="openPage('support.html')"></div>
+            <div class="card card-contact" onclick="openPage('contact.html')"></div>
+            <div class="card card-laws" onclick="openPage('martian-edicts.html')"></div>
+            <div class="card card-earthcodex" onclick="openPage('earth-codex.html')"></div>
+            <div class="card card-tech" onclick="openPage('technical-database.html')"></div>
+            <div class="card card-martian-martial-arts" onclick="openPage('martian-martial-arts.html')"></div>
+            <div class="card card-solar-system-explorer" onclick="openPage('solar-system-explorer.html')"></div>
+        </div>
+
+        <div class="arrow" onclick="scrollCards(1)">🖖</div>
+    </div>
+
+    <footer>
+        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // SYNCHRONIZED VIDEO BACKGROUND WITH METEOR EFFECTS
+        const videoBg = document.getElementById('marsVideo');
+        const staticBg = document.getElementById('staticBg');
+        const dustOverlay = document.getElementById('dustOverlay');
+        const meteorFlash = document.getElementById('meteorFlash');
+
+        let videoReady = false;
+        let effectsStarted = false;
+
+        videoBg.addEventListener('loadeddata', function() {
+            videoReady = true;
+            videoBg.play().then(() => {
+                setTimeout(() => {
+                    startMeteorEffects();
+                    effectsStarted = true;
+                }, 1000);
+            }).catch(e => {
+                console.log('Video autoplay failed, starting effects anyway');
+                if (!effectsStarted) startMeteorEffects();
+            });
+        });
+
+        videoBg.addEventListener('error', function() {
+            console.log('Video failed to load, using static background with effects');
+            if (!effectsStarted) startMeteorEffects();
+        });
+
+        // Fallback - start effects if video isn't ready within 5 seconds
+        setTimeout(() => {
+            if (!effectsStarted) {
+                console.log('Video timeout - starting effects anyway');
+                startMeteorEffects();
+            }
+        }, 5000);
+
+        // METEOR RUMBLE EFFECT SYSTEM
+        function startMeteorEffects() {
+            // Initial meteor strike - more intense
+            triggerMeteorStrike(2000);
+            // Set up recurring meteor strikes with random intervals
+            setInterval(() => {
+                const nextStrike = Math.random() * 15000 + 8000; // 8-23 seconds
+                setTimeout(triggerMeteorStrike, nextStrike);
+            }, 1000);
+        }
+
+        function triggerMeteorStrike(duration = 1800) {
+            // Phase 1: Flash and initial rumble (0-300ms)
+            meteorFlash.classList.add('flash-active');
+            videoBg.classList.add('rumble-active');
+            // Phase 2: Dust cloud appears (300ms onwards)
+            setTimeout(() => {
+                dustOverlay.classList.add('dust-active');
+            }, 300);
+            // Phase 3: Sound impact (500ms - allows for sound latency)
+            setTimeout(() => {
+                playMeteorSound();
+            }, 500);
+            // Remove effects in sequence
+            setTimeout(() => {
+                meteorFlash.classList.remove('flash-active');
+            }, 800);
+            setTimeout(() => {
+                videoBg.classList.remove('rumble-active');
+            }, duration);
+            // Dust settles slowly
+            setTimeout(() => {
+                dustOverlay.classList.remove('dust-active');
+            }, duration + 2000);
+        }
+
+        // AUDIO SYSTEM
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true;
+        let audioElements = [];
+
+        function initAudio() {
+            const sounds = [
+                { src: 'sounds/from-the-crypt-ext v2.mp3', volume: 0.5 },
+                { src: 'sounds/ambient-space.mp3', volume: 0.2 },
+                // Add meteor impact sound
+                { src: 'sounds/meteor-impact.mp3', volume: 0.3 }
+            ];
+
+            sounds.forEach(sound => {
+                const audio = new Audio(sound.src);
+                audio.volume = sound.volume;
+                audio.loop = sound.src !== 'sounds/meteor-impact.mp3'; // Don't loop impact sound
+                audio.muted = true;
+                audioElements.push(audio);
+            });
+
+            document.addEventListener('click', function unmuteAudio() {
+                if (!isMuted) {
+                    audioElements.forEach(audio => {
+                        audio.muted = false;
+                        if (audio.loop) {
+                            audio.play().catch(e => console.log('Audio play failed'));
+                        }
+                    });
+                    isMuted = false;
+                    muteBtn.textContent = "🔊 Mute Sounds";
+                }
+                document.removeEventListener('click', unmuteAudio);
+            }, { once: true });
+        }
+
+        // Play meteor impact sound
+        function playMeteorSound() {
+            const impactSound = audioElements.find(audio => !audio.loop);
+            if (impactSound && !isMuted) {
+                impactSound.currentTime = 0;
+                impactSound.play().catch(e => console.log('Meteor sound play failed'));
+            }
+        }
+
+        // Mute toggle
+        muteBtn.addEventListener('click', function() {
+            isMuted = !isMuted;
+            audioElements.forEach(audio => {
+                audio.muted = isMuted;
+            });
+            muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+        });
+
+        // Initialize audio when page loads
+        initAudio();
+
+        // Card navigation functions
+        function openPage(url) {
+            window.location.href = url;
+        }
+
+        function scrollCards(direction) {
+            const container = document.querySelector(".card-container");
+            const scrollAmount = 200;
+            container.scrollBy({
+                left: direction * scrollAmount,
+                behavior: "smooth"
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+

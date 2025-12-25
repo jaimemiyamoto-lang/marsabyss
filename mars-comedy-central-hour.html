@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mars Central Comedy Hour - The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #fff;
+overflow-x: hidden;
+position: relative;
+background: #000;
+}
+
+/* VIDEO BACKGROUND WITH STATIC FALLBACK */
+.background-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 1;
+}
+
+.static-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(45deg, #2d1b4e, #0a0a2a, #1a1035);
+z-index: -1;
+display: none;
+}
+
+.video-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 1;
+opacity: 1;
+filter: none;
+}
+
+/* SITE TITLE OVERLAY */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+transition: opacity 0.5s ease;
+}
+
+.site-title-overlay h1 {
+color: rgba(255, 105, 180, 0.8);
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
+
+/* === COMPLETE TOP MENU === */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #FF69B4;
+transition: opacity 0.5s ease;
+}
+
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background: rgba(26, 26, 26, 0.98);
+min-width: 140px;
+z-index: 1001;
+border-radius: 4px;
+border: 2px solid #FF69B4;
+top: 100%;
+left: 0%;
+backdrop-filter: blur(5px);
+padding: 4px 0;
+}
+
+.dropdown-content a {
+color: #f5f5f5;
+padding: 3px 5px;
+text-decoration: none;
+display: block;
+transition: background-color 0.3s ease;
+font-size: 0.8rem;
+line-height: 1;
+}
+
+.dropdown-content a:hover {
+background: rgba(255, 105, 180, 0.3);
+color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #FF69B4;
+background: transparent;
+}
+
+/* CONTROL BUTTONS */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 40px;
+z-index: 1000;
+transition: opacity 0.5s ease;
+}
+
+.view-toggle {
+position: fixed;
+top: 80px;
+right: 30px;
+z-index: 1000;
+transition: opacity 0.5s ease;
+}
+
+.audio-btn, .view-btn {
+background: rgba(255, 105, 180, 0.8);
+border: 2px solid #FF69B4;
+color: #fff;
+padding: 8px 16px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+min-width: 120px;
+text-align: center;
+}
+
+.view-btn {
+background: rgba(255, 193, 7, 0.8);
+border: 2px solid #ffc107;
+}
+
+.audio-btn:hover, .view-btn:hover {
+transform: scale(1.05);
+}
+
+/* Main Content */
+.main-content {
+position: relative;
+padding: 2rem 5%;
+min-height: 100vh;
+margin-top: 70px;
+transition: opacity 0.5s ease;
+z-index: 10;
+}
+
+/* Comedy Hero Section */
+.comedy-hero {
+text-align: center;
+padding: 4rem 2rem;
+margin-bottom: 3rem;
+}
+
+.comedy-hero h1 {
+font-size: 3.5rem;
+margin-bottom: 1rem;
+background: linear-gradient(45deg, #FF69B4, #9370DB, #00BFFF);
+-webkit-background-clip: text;
+background-clip: text;
+-webkit-text-fill-color: transparent;
+text-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+}
+
+.hero-subtitle {
+font-size: 1.4rem;
+color: #f3e8f3;
+margin-bottom: 2rem;
+font-style: italic;
+}
+
+.regent-quote {
+background: rgba(255, 105, 180, 0.2);
+padding: 1.5rem 2rem;
+border-radius: 10px;
+display: inline-block;
+margin: 1rem 0;
+border: 2px solid #FF69B4;
+max-width: 800px;
+font-style: italic;
+}
+
+/* Comedy Hall of Fame */
+.comedy-hall {
+background: rgba(45, 27, 78, 0.8);
+padding: 3rem 2rem;
+margin: 3rem auto;
+border-radius: 15px;
+border: 2px solid #FF69B4;
+max-width: 1200px;
+backdrop-filter: blur(10px);
+}
+
+.comedy-hall h2 {
+color: #FF69B4;
+font-size: 2.2rem;
+margin-bottom: 2rem;
+text-align: center;
+text-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+}
+
+.comedians-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap: 2rem;
+margin-top: 2rem;
+}
+
+.comedian-card {
+background: rgba(255, 255, 255, 0.1);
+border-radius: 10px;
+overflow: hidden;
+transition: transform 0.3s ease;
+border: 1px solid #9370DB;
+text-align: center;
+}
+
+.comedian-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 20px rgba(255, 105, 180, 0.3);
+}
+
+.comedian-image {
+width: 100%;
+height: 200px;
+background: linear-gradient(45deg, #FF69B4, #9370DB);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 4rem;
+}
+
+.comedian-info {
+padding: 1.5rem;
+}
+
+.comedian-info h3 {
+color: #FF69B4;
+margin-bottom: 0.5rem;
+font-size: 1.4rem;
+}
+
+.comedian-info p {
+color: #ccc;
+font-size: 0.9rem;
+margin-bottom: 1rem;
+line-height: 1.5;
+}
+
+.comedian-era {
+color: #00BFFF;
+font-weight: bold;
+font-size: 0.8rem;
+}
+
+/* Language Warning Styles */
+.language-warning {
+border: 2px solid #FF6B6B;
+position: relative;
+}
+
+.warning-badge {
+background: #FF6B6B;
+color: white;
+font-size: 0.7rem;
+padding: 2px 6px;
+border-radius: 10px;
+margin-left: 8px;
+vertical-align: middle;
+}
+
+.video-btn {
+background: rgba(255, 105, 180, 0.3);
+color: #FF69B4;
+border: 1px solid #FF69B4;
+padding: 0.5rem 1rem;
+border-radius: 15px;
+cursor: pointer;
+transition: all 0.3s ease;
+margin-top: 0.5rem;
+font-size: 0.8rem;
+}
+
+.video-btn:hover {
+background: #FF69B4;
+color: white;
+}
+
+/* Projection Schedule */
+.projection-schedule {
+padding: 3rem 2rem;
+margin: 3rem auto;
+max-width: 1000px;
+}
+
+.projection-schedule h2 {
+text-align: center;
+color: #00BFFF;
+font-size: 2.2rem;
+margin-bottom: 3rem;
+text-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
+}
+
+.schedule-table {
+width: 100%;
+border-collapse: collapse;
+background: rgba(30, 20, 60, 0.8);
+border-radius: 10px;
+overflow: hidden;
+}
+
+.schedule-table th, .schedule-table td {
+padding: 1rem;
+text-align: left;
+border-bottom: 1px solid #9370DB;
+}
+
+.schedule-table th {
+background: rgba(255, 105, 180, 0.3);
+color: #FF69B4;
+font-weight: bold;
+}
+
+.schedule-table tr:hover {
+background: rgba(255, 105, 180, 0.1);
+}
+
+/* Comedy Philosophy */
+.comedy-philosophy {
+background: rgba(45, 27, 78, 0.8);
+padding: 3rem 2rem;
+margin: 3rem auto;
+border-radius: 15px;
+border: 2px solid #9370DB;
+max-width: 1000px;
+backdrop-filter: blur(10px);
+}
+
+.comedy-philosophy h2 {
+color: #9370DB;
+font-size: 2.2rem;
+margin-bottom: 2rem;
+text-align: center;
+text-shadow: 0 0 15px rgba(147, 112, 219, 0.4);
+}
+
+.philosophy-content {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+}
+
+.philosophy-point {
+background: rgba(255, 255, 255, 0.1);
+padding: 1.5rem;
+border-radius: 10px;
+border-left: 4px solid #FF69B4;
+}
+
+.philosophy-point h3 {
+color: #FF69B4;
+margin-bottom: 1rem;
+}
+
+.philosophy-point p {
+color: #e0e0e0;
+line-height: 1.6;
+}
+
+/* Regent's Viewing Chamber */
+.regent-chamber {
+margin: 4rem auto;
+max-width: 1200px;
+}
+
+.viewing-scene {
+display: grid;
+grid-template-columns: 1fr 2fr;
+gap: 3rem;
+align-items: start;
+margin: 2rem 0;
+}
+
+.regent-study {
+background: rgba(30, 20, 60, 0.8);
+padding: 2rem;
+border-radius: 15px;
+border: 2px solid #9370DB;
+text-align: center;
+}
+
+.book-cover {
+display: flex;
+justify-content: center;
+margin: 1rem 0 2rem 0;
+perspective: 1000px;
+}
+
+.book-spine {
+width: 20px;
+height: 120px;
+background: linear-gradient(45deg, #2d1b4e, #1a1035);
+border-radius: 3px 0 0 3px;
+transform: rotateY(20deg);
+}
+
+.book-front {
+width: 100px;
+height: 120px;
+background: linear-gradient(45deg, #FF69B4, #9370DB);
+border-radius: 0 5px 5px 0;
+padding: 1rem;
+text-align: center;
+transform: rotateY(-10deg);
+position: relative;
+box-shadow: -5px 5px 15px rgba(0,0,0,0.3);
+}
+
+.book-front h4 {
+color: white;
+font-size: 0.8rem;
+margin-bottom: 0.5rem;
+font-weight: bold;
+}
+
+.book-front p {
+color: rgba(255,255,255,0.9);
+font-size: 0.7rem;
+font-style: italic;
+}
+
+.bookmark {
+position: absolute;
+top: -5px;
+right: 10px;
+width: 20px;
+height: 30px;
+background: #FFD700;
+clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
+}
+
+.viewing-window {
+background: rgba(0, 0, 0, 0.7);
+padding: 2rem;
+border-radius: 15px;
+border: 2px solid #00BFFF;
+}
+
+.dome-projection {
+background: linear-gradient(45deg, #1a1035, #2d1b4e);
+padding: 2rem;
+border-radius: 10px;
+margin-bottom: 2rem;
+border: 1px solid #FF69B4;
+}
+
+.honeymooners-scene {
+text-align: center;
+animation: pulse 3s ease-in-out infinite;
+}
+
+.ralph-kramden {
+font-size: 4rem;
+margin-bottom: 1rem;
+}
+
+.comedy-text {
+color: #FFD700;
+font-size: 1.5rem;
+font-weight: bold;
+text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+font-family: 'Orbitron', sans-serif;
+}
+
+.martian-audience {
+display: flex;
+justify-content: space-around;
+flex-wrap: wrap;
+gap: 1rem;
+}
+
+.audience-reaction {
+display: flex;
+align-items: center;
+gap: 1rem;
+background: rgba(255, 105, 180, 0.1);
+padding: 1rem;
+border-radius: 25px;
+border: 1px solid #FF69B4;
+}
+
+.martian-citizen {
+font-size: 2rem;
+}
+
+.reaction-bubble {
+background: rgba(255, 255, 255, 0.1);
+padding: 0.8rem 1.2rem;
+border-radius: 20px;
+color: #00BFFF;
+font-size: 0.9rem;
+position: relative;
+}
+
+.reaction-bubble::before {
+content: '';
+position: absolute;
+left: -10px;
+top: 50%;
+transform: translateY(-50%);
+width: 0;
+height: 0;
+border-top: 8px solid transparent;
+border-bottom: 8px solid transparent;
+border-right: 10px solid rgba(255, 255, 255, 0.1);
+}
+
+.regent-philosophy {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+margin-top: 3rem;
+}
+
+/* Personal Sounds Styling */
+.personal-sounds {
+margin: 4rem auto;
+max-width: 1000px;
+}
+
+.sound-bites-container {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+gap: 2rem;
+margin: 3rem 0;
+}
+
+.sound-bite-card {
+background: rgba(45, 27, 78, 0.9);
+padding: 2rem;
+border-radius: 15px;
+border: 2px solid #00BFFF;
+text-align: center;
+transition: transform 0.3s ease;
+}
+
+.sound-bite-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 25px rgba(0, 191, 255, 0.3);
+}
+
+.sound-icon {
+font-size: 3rem;
+margin-bottom: 1rem;
+}
+
+.sound-bite-card h3 {
+color: #00BFFF;
+margin-bottom: 1rem;
+font-size: 1.4rem;
+}
+
+.sound-description {
+color: #ccc;
+font-style: italic;
+margin: 1rem 0;
+line-height: 1.5;
+}
+
+.audio-note {
+color: #FF69B4;
+font-size: 0.9rem;
+margin-top: 1rem;
+font-style: italic;
+}
+
+/* Mars Audio Player Styling */
+.mars-audio-player {
+width: 100%;
+margin: 1.5rem 0;
+border-radius: 25px;
+background: rgba(255, 105, 180, 0.1);
+border: 1px solid #FF69B4;
+}
+
+.mars-audio-player::-webkit-media-controls-panel {
+background: rgba(45, 27, 78, 0.9);
+}
+
+.mars-audio-player::-webkit-media-controls-play-button {
+background-color: #FF69B4;
+border-radius: 50%;
+}
+
+/* Comedy Philosophy */
+        .comedy-philosophy {
+            background: rgba(45, 27, 78, 0.8);
+            padding: 3rem 2rem;
+            margin: 3rem auto;
+            border-radius: 15px;
+            border: 2px solid #9370DB;
+            max-width: 1000px;
+            backdrop-filter: blur(10px);
+        }
+
+        .comedy-philosophy h2 {
+            color: #9370DB;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.4);
+        }
+
+        .philosophy-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .philosophy-point {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #FF69B4;
+        }
+
+        .philosophy-point h3 {
+            color: #FF69B4;
+            margin-bottom: 1rem;
+        }
+
+        .philosophy-point p {
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+/* Sign-off Styling */
+.mars-sign-off {
+text-align: center;
+margin-top: 3rem;
+padding: 2rem;
+background: rgba(255, 105, 180, 0.1);
+border-radius: 15px;
+border: 1px solid #FF69B4;
+}
+
+.carson-signoff {
+margin-bottom: 2rem;
+}
+
+.sign-off-text {
+font-size: 2rem;
+color: #FFD700;
+font-family: 'Orbitron', sans-serif;
+text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+margin-bottom: 0.5rem;
+}
+
+.sign-off-credit {
+color: #9370DB;
+font-style: italic;
+}
+
+.regent-final-word {
+color: #00BFFF;
+font-size: 1.1rem;
+font-style: italic;
+margin-top: 1rem;
+}
+
+/* AFI Link Section */
+.afi-section {
+text-align: center;
+margin: 3rem auto;
+padding: 2rem;
+background: rgba(30, 20, 60, 0.8);
+border-radius: 15px;
+border: 2px solid #FFD700;
+max-width: 600px;
+}
+
+.afi-section h3 {
+color: #FFD700;
+margin-bottom: 1rem;
+}
+
+.afi-link {
+display: inline-block;
+background: linear-gradient(45deg, #FF69B4, #FFD700);
+color: #000;
+padding: 1rem 2rem;
+border-radius: 25px;
+text-decoration: none;
+font-weight: bold;
+margin: 1rem 0;
+transition: transform 0.3s ease;
+}
+
+.afi-link:hover {
+transform: scale(1.05);
+}
+
+/* Johnny Carson Quote */
+.carson-quote {
+background: rgba(255, 215, 0, 0.2);
+padding: 2rem;
+margin: 3rem auto;
+border-radius: 10px;
+border: 2px solid #FFD700;
+max-width: 800px;
+text-align: center;
+}
+
+.carson-quote p {
+font-size: 1.3rem;
+font-style: italic;
+color: #332f1a;
+margin-bottom: 1rem;
+}
+
+.carson-signature {
+color: #FF69B4;
+font-weight: bold;
+}
+
+/* HIDDEN CLASS FOR TOGGLE FUNCTIONALITY */
+.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+/* FOOTER */
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #ccc;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #ff69b4;
+transition: opacity 0.5s ease;
+}
+
+.content-spacer {
+height: 100px;
+}
+
+/* Animations */
+@keyframes float {
+0%, 100% { transform: translateY(0px); }
+50% { transform: translateY(-10px); }
+}
+
+.floating {
+animation: float 3s ease-in-out infinite;
+}
+
+.pulse {
+animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.7; }
+}
+
+.laugh-emoji {
+font-size: 2rem;
+display: inline-block;
+animation: float 2s ease-in-out infinite;
+margin: 0 5px;
+}
+
+/* Animation for the book closing */
+@keyframes bookClose {
+0% { transform: rotateY(-10deg) scale(1); }
+50% { transform: rotateY(5deg) scale(0.95); }
+100% { transform: rotateY(0deg) scale(1); }
+}
+
+.book-cover:hover {
+animation: bookClose 1s ease-in-out;
+}
+
+/* Video Modal */
+.video-modal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.9);
+z-index: 2000;
+justify-content: center;
+align-items: center;
+}
+
+.video-modal iframe {
+width: 80%;
+height: 70%;
+border: 3px solid #FF69B4;
+border-radius: 10px;
+}
+
+.close-modal {
+position: absolute;
+top: 20px;
+right: 30px;
+color: white;
+font-size: 2rem;
+cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+<!-- VIDEO BACKGROUND WITH STATIC FALLBACK -->
+<div class="background-container">
+<div class="static-background" id="staticBg"></div>
+<video class="video-background" id="videoBg" muted loop playsinline preload="auto">
+<source src="videos/pixar-like-rover-robot.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+
+<!-- SITE TITLE OVERLAY -->
+<div class="site-title-overlay" id="siteTitle">
+<h1>The Mars Abyss</h1>
+</div>
+
+<!-- CONTROL BUTTONS -->
+<div class="view-toggle" id="viewToggleContainer">
+<button class="view-btn" id="viewToggle">🌌 Hide Content</button>
+</div>
+
+<div class="audio-controls" id="audioControls">
+<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- COMPLETE TOP MENU -->
+<nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+        <div class="dropdown">
+            <a href="story.html" class="dropbtn">Story</a>
+            <div class="dropdown-content">
+                <a href="characters.html">Characters</a>
+                <div class="dropdown">
+                    <a href="gallery.html" class="dropbtn">Gallery</a>
+                    <div class="dropdown-content">
+                        <a href="art-and-concepts.html">Art & Concepts</a>
+                        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                        <a href="technical-database.html">Technical Database</a>
+                        <a href="martian-edicts.html">The Martian Edicts</a>
+                        <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                        <a href="solar-system-explorer.html">Solar System Explorer</a>
+                        <a href="aliens-ufos.html">Aliens & UFOs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-games.html" class="dropbtn">Martian Games</a>
+            <div class="dropdown-content">
+                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+                <a href="martian-racer.html">Martian Racer</a>
+                <a href="red-planet-defense.html">Red Planet Defense</a>
+                <a href="the-regents-portal.html">The Regent's Portal</a>
+                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+                <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+            <div class="dropdown-content">
+                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+                <a href="earths-great-poets.html">Earth's Great Poets</a>
+                <a href="the-bohr-institute.html">The Bohr Institute</a>
+                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+                <a href="the-bronx-dome.html">The Bronx Dome</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-news.html" class="dropbtn">Martian News</a>
+            <div class="dropdown-content">
+                <a href="martian-actualities.html">Martian Actualities</a>
+                <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+                <a href="mars-bee-facility.html">Mars Bee Facility</a>
+                <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+                <a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
+                <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+                <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+                <a href="martian-rest-areas.html">Martian Rest Areas</a>
+                <div class="dropdown">
+                <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                <div class="dropdown-content">
+                <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                <a href="marvin.html">M.A.R.V.I.N.</a>
+            </div>
+           </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="the-regents-scrolls.html" class="active">The Regent's Scrolls</a>
+            <div class="dropdown-content">
+                <a href="what-the-regent-misses.html">What the Regent Misses</a>
+                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+                <a href="honor-the-fallen.html">Honor The Fallen</a>
+                <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+                <a href="mars-comedy-central-hour.html" class="active">Mars Comedy Central Hour</a>
+                <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+                <a href="martian-critique-tron-ares.html">Martian Critique</a>
+                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="about.html" class="dropbtn">About</a>
+            <div class="dropdown-content">
+                <a href="about-the-project.html">About the Project</a>
+                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+                <a href="the-pale-horse.html">The Pale Horse</a>
+                <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+                <a href="arachne-labs.html">Arachne Labs</a>
+                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>    
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+<!-- Hero Section -->
+<section class="comedy-hero">
+<h1 class="floating">Mars Central Comedy Hour</h1>
+<p class="hero-subtitle">Honoring Earth's Greatest Comedians Across the Martian Skyline</p>
+<div class="regent-quote pulse">
+<p>"Laughter is the oxygen of the soul, and we continue celebrating it, from 140 million miles away."</p>
+<p style="text-align: right; margin-top: 10px;">- The Regent of Mars</p>
+</div>
+</section>
+
+<!-- Comedy Hall of Fame -->
+<section class="comedy-hall">
+<h2>The Laughter Hall of Fame <span class="laugh-emoji">😂</span></h2>
+<p style="text-align: center; color: #e0e0e0; margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.6;">
+These legendary comedians are projected nightly across Martian dome interiors, bringing joy and laughter to our red planet home.
+</p>
+<div class="comedians-grid">
+<!-- Red Skelton -->
+<div class="comedian-card">
+<div class="comedian-image" style="background: linear-gradient(45deg, #FF6B6B, #FFD93D);">🤡</div>
+<div class="comedian-info">
+<h3>Red Skelton</h3>
+<p>Master of character comedy and wholesome humor. The Regent's personal favorite for clean, heartfelt laughter.</p>
+<p class="comedian-era">1930s-1970s</p>
+<button class="video-btn" data-comedian="red-skelton">Watch Classic</button>
+</div>
+</div>
+<!-- Lucille Ball -->
+<div class="comedian-card">
+<div class="comedian-image" style="background: linear-gradient(45deg, #FF69B4, #9370DB);">👩‍🍳</div>
+<div class="comedian-info">
+<h3>Lucille Ball</h3>
+<p>Pioneer of physical comedy and television innovation. "I Love Lucy" remains mandatory viewing in Martian homes.</p>
+<p class="comedian-era">1930s-1970s</p>
+<button class="video-btn" data-comedian="lucy">Watch Classic</button>
+</div>
+</div>
+<!-- George Carlin -->
+<div class="comedian-card language-warning">
+<div class="comedian-image" style="background: linear-gradient(45deg, #2d1b4e, #9370DB);">🧠</div>
+<div class="comedian-info">
+<h3>George Carlin <span class="warning-badge">⚠️ Strong Language</span></h3>
+<p>Master of observational comedy and social commentary. Required viewing for Martian philosophy students.</p>
+<p class="comedian-era">1960s-2000s</p>
+<button class="video-btn" data-comedian="carlin">Watch Classic</button>
+</div>
+</div>
+<!-- Bernie Mac -->
+<div class="comedian-card language-warning">
+<div class="comedian-image" style="background: linear-gradient(45deg, #FF69B4, #2d1b4e);">🎤</div>
+<div class="comedian-info">
+<h3>Bernie Mac <span class="warning-badge">⚠️ Strong Language</span></h3>
+<p>Raw, honest storytelling that resonated across generations. The Regent's favorite for unfiltered truth.</p>
+<p class="comedian-era">1990s-2000s</p>
+<button class="video-btn" data-comedian="bernie-mac">Watch Classic</button>
+</div>
+</div>
+<!-- Jackie Gleason -->
+<div class="comedian-card">
+<div class="comedian-image" style="background: linear-gradient(45deg, #00BFFF, #9370DB);">👔</div>
+<div class="comedian-info">
+<h3>Jackie Gleason</h3>
+<p>"The Great One" whose Honeymooners sketches are Martian cultural touchstones. "To the moon, Alice!"</p>
+<p class="comedian-era">1940s-1980s</p>
+<button class="video-btn" data-comedian="gleason">Watch Classic</button>
+</div>
+</div>
+<!-- Dave Chappelle -->
+<div class="comedian-card language-warning">
+<div class="comedian-image" style="background: linear-gradient(45deg, #FFD700, #FF69B4);">🔥</div>
+<div class="comedian-info">
+<h3>Dave Chappelle <span class="warning-badge">⚠️ Strong Language</span></h3>
+<p>Bold social commentary wrapped in masterful storytelling. His sketches are studied in Martian comedy academies.</p>
+<p class="comedian-era">1990s-Present</p>
+<button class="video-btn" data-comedian="chappelle">Watch Classic</button>
+</div>
+</div>
+<!-- Rodney Dangerfield -->
+
+<div class="comedian-card">
+<div class="comedian-image" style="background: linear-gradient(45deg, #FFD700, #FF69B4);">🔥</div>
+<div class="comedian-info">
+<h3>Rodney Dangerfield</h3>
+<p>The apostle of anxiety who proved "no respect" is a universal condition, even on Mars. His tales of woe and struggle are required listening for all Martians feeling underappreciated.</p>
+<p class="comedian-era">1960s-2000s</p>
+<button class="video-btn" data-comedian="richard pryor">Watch Classic</button>
+</div>
+</div>
+<!-- Carol Burnett -->
+<div class="comedian-card">
+<div class="comedian-image" style="background: linear-gradient(45deg, #FF69B4, #9370DB);">👩‍🍳</div>
+<div class="comedian-info">
+<h3>Carol Burnett</h3>
+<p>Queen of the variety show, her Tarzan yell is a recognized form of Martian communication. A supreme virtuoso of character and physical comedy, her ear tugs are a signal of love across the galaxy.</p>
+<p class="comedian-era">1950s-2010s</p>
+<button class="video-btn" data-comedian="lucy">Watch Classic</button>
+</div>
+</div>
+
+<!-- Cantinflas -->
+<div class="comedian-card">
+<div class="comedian-image" style="background: linear-gradient(45deg, #FFD700, #FF69B4);">🔥</div>
+<div class="comedian-info">
+<h3>Mario Moreno (Cantinflas)</h3>
+<p>The legendary "peladito" whose rapid-fire, witty wordplay is a cornerstone of interplanetary comedic linguistics. Mexico's comic ambassador, full of charm and satire in every atmosphere.</p>
+<p class="comedian-era">1930s-1980s</p>
+<button class="video-btn" data-comedian="cantinflas">Watch Classic</button>
+</div>
+</div>
+
+<!-- Add more comedians as needed -->
+</div>
+</section>
+
+<!-- Projection Schedule -->
+<section class="projection-schedule">
+<h2>Weekly Projection Schedule <span class="laugh-emoji">📺</span></h2>
+<table class="schedule-table">
+<thead>
+<tr>
+<th>Day</th>
+<th>Time (Mars Standard)</th>
+<th>Featured Comedian</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solonday</td>
+<td>19:00 - 21:00</td>
+<td>Red Skelton Show</td>
+<td>Central Dome - North Wall</td>
+</tr>
+<tr>
+<td>Terratuesday</td>
+<td>20:00 - 22:00</td>
+<td>I Love Lucy Marathon</td>
+<td>All Residential Domes</td>
+</tr>
+<tr>
+<td>Woden Wednesday</td>
+<td>18:30 - 20:30</td>
+<td>Carlin's Greatest Bits</td>
+<td>Philosophy Dome - East Wall</td>
+</tr>
+<tr>
+<td>Thorturday</td>
+<td>21:00 - 23:00</td>
+<td>The Honeymooners</td>
+<td>Central Dome - Full Sphere</td>
+</tr>
+<tr>
+<td>Freyday</td>
+<td>19:30 - 21:30</td>
+<td>Bernie Mac Show</td>
+<td>Youth Dome - West Wall</td>
+</tr>
+<tr>
+<td>Saturnoday</td>
+<td>20:00 - 22:00</td>
+<td>Chappelle's Show</td>
+<td>Comedy Academy Dome</td>
+</tr>
+<tr>
+<td>Solday</td>
+<td>17:00 - 19:00</td>
+<td>Regent's Choice</td>
+<td>Central Dome - Full Sphere</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<!-- The Regent's Viewing Chamber -->
+<section class="regent-chamber">
+<div class="comedy-philosophy">
+<h2>The Regent's Viewing Chamber <span class="laugh-emoji">📚</span></h2>
+<div class="viewing-scene">
+<div class="regent-study">
+<div class="book-cover">
+<div class="book-spine"></div>
+<div class="book-front">
+<h4>Yanis Varoufakis</h4>
+<p>Another Now</p>
+<div class="bookmark"></div>
+</div>
+</div>
+<div class="regent-quote" style="margin: 2rem 0;">
+<p>"I study Earth's economic theories not to judge, but to understand. Then I watch Gleason to remember what truly connects us all."</p>
+<p style="text-align: right; margin-top: 10px;">- The Regent of Mars</p>
+</div>
+</div>
+
+<div class="viewing-window">
+<div class="dome-projection">
+<div class="honeymooners-scene">
+<div class="ralph-kramden">🎭</div>
+<div class="comedy-text">"One of these days, Alice... POW! RIGHT IN THE KISSER!"</div>
+</div>
+</div>
+<div class="martian-audience">
+<div class="audience-reaction">
+<div class="martian-citizen">👽</div>
+<div class="reaction-bubble">"HAHA! He says it every time!"</div>
+</div>
+<div class="audience-reaction">
+<div class="martian-citizen">👽</div>
+<div class="reaction-bubble">"To the moon, Alice! 😂"</div>
+</div>
+<div class="audience-reaction">
+<div class="martian-citizen">👽</div>
+<div class="reaction-bubble">*Martian laughter sounds*</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- The Regent's Philosophy -->
+<div class="regent-philosophy">
+<div class="philosophy-point">
+<h3>📖 Reading Between Worlds</h3>
+<p>"I read Earth's economic theorists to understand the systems, but I watch Earth's comedians to understand the people. One tells me how Earth works, the other tells me why Earth matters."</p>
+</div>
+<div class="philosophy-point">
+<h3>🎭 Comedy as Universal Language</h3>
+<p>"Gleason's 'POW!' needs no translation. It connects a 21st century Martian to 20th century Brooklyn instantly. That's more powerful than any economic theory."</p>
+</div>
+<div class="philosophy-point">
+<h3>🌍 Observing Without Interfering</h3>
+<p>"I watch Earth's political theater with academic interest, but I celebrate Earth's comedic genius with genuine joy. One is their process, the other is their soul."</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- AFI Link Section -->
+<section class="afi-section">
+<h3>Honoring Film History</h3>
+<p>The Regent recognizes the importance of preserving Earth's cinematic heritage through the American Film Institute.</p>
+<a href="https://www.afi.com" class="afi-link" target="_blank">Visit AFI.com</a>
+<p style="color: #ccc; margin-top: 1rem; font-size: 0.9rem;">Exploring the art and history of motion pictures across the cosmos</p>
+</section>
+
+<!-- Comedy Philosophy -->
+        <section class="comedy-philosophy">
+            <h2>The Regent's Comedy Philosophy <span class="laugh-emoji">👑</span></h2>
+            <div class="philosophy-content">
+                <div class="philosophy-point">
+                    <h3>Laughter as Therapy</h3>
+                    <p>"In the harsh environment of Mars, laughter isn't just entertainment - it's essential psychological maintenance. Our comedians are as important as our engineers."</p>
+                </div>
+                
+                <div class="philosophy-point">
+                    <h3>Roasting the Regent</h3>
+                    <p>"When Earth comedians make fun of me, it's the highest honor. It means our Martian society matters enough to be part of Earth's cultural conversation."</p>
+                </div>
+                
+                <div class="philosophy-point">
+                    <h3>Preserving Earth's Legacy</h3>
+                    <p>"We're not just building a new world on Mars - we're carrying forward the best of Earth's culture. Comedy is humanity's universal language."</p>
+                </div>
+                
+                <div class="philosophy-point">
+                    <h3>Comedy Diplomacy</h3>
+                    <p>"Laughter builds bridges between planets. When we share a joke from Earth, we remember our shared humanity across the cosmic divide."</p>
+                </div>
+            </div>
+               </section> 
+
+<!-- Personal Sound Bites Section -->
+<section class="personal-sounds">
+<div class="comedy-philosophy">
+<h2>The Regent's Personal Laughter Archive <span class="laugh-emoji">🎭</span></h2>
+<div class="regent-quote" style="margin-bottom: 2rem;">
+<p>"Some of the best comedy comes from our own lives. This moment from 2010 still makes me laugh - Silver's practical nature versus my desperate plea for a ride!"</p>
+<p style="text-align: right; margin-top: 10px;">- The Regent of Mars</p>
+</div>
+
+<div class="sound-bites-container">
+<!-- Your Personal Sound Bite -->
+<div class="sound-bite-card">
+<div class="sound-icon">🚀</div>
+<h3>Silver's Stingy Departure (2010)</h3>
+<p>"Hey, hey, give me a ride!" - The Regent</p>
+<p class="sound-description">From the Poser animation featuring Silver Saint Claire. Complete with cork-pop soundtrack and "repetitive" music that perfectly captures Silver's fuel-conscious practicality.</p>
+<audio controls class="mars-audio-player">
+<source src="audio/silver-jetbike-2010.mp3" type="audio/mp3">
+Your browser does not support the audio element.
+</audio>
+<p class="audio-note">The sound that launched a thousand Martian laughs</p>
+</div>
+
+<!-- Classic Follow-up -->
+<div class="sound-bite-card">
+<div class="sound-icon">👊</div>
+<h3>The Martian Goodnight</h3>
+<p>"One of these days, Alice... POW! Right in the kisser!" - Jackie Gleason</p>
+<p class="sound-description">The most quoted Earth phrase on Mars. Heard in every dome at closing time.</p>
+<audio controls class="mars-audio-player">
+<source src="audio/honeymooners-pow.mp3" type="audio/mp3">
+Your browser does not support the audio element.
+</audio>
+<p class="audio-note">Followed by Carson's "Thank you, and good night!"</p>
+</div>
+</div>
+
+<!-- The Official Sign-off -->
+<div class="mars-sign-off">
+<div class="carson-signoff">
+<p class="sign-off-text">"Thank you, and good night."</p>
+<p class="sign-off-credit">- Johnny Carson</p>
+</div>
+<p class="regent-final-word">"Until next time, may your laughter echo through the domes and your heart arrive safely home."</p>
+<p class="sign-off-credit">- The Regent of Mars</p>
+</div>
+</div>
+</section>
+<!-- Johnny Carson Quote -->
+<section class="carson-quote">
+<p>"The only true wisdom is knowing you know nothing... and being able to make people laugh about it."</p>
+<p class="carson-signature">- Johnny Carson</p>
+</section>
+
+</div>
+
+<!-- Video Modal -->
+<div class="video-modal">
+<span class="close-modal">&times;</span>
+<iframe src="" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<!-- Content spacer for footer -->
+<div class="content-spacer"></div>
+
+<!-- Footer -->
+<footer id="pageFooter">
+<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// VIDEO BACKGROUND - PROPER AUDIO CONTROL
+const videoBg = document.getElementById('videoBg');
+const staticBg = document.getElementById('staticBg');
+const muteBtn = document.getElementById('muteBtn');
+
+let isVideoMuted = true; // Start with video muted
+
+// Initialize video - muted to allow autoplay
+videoBg.muted = true;
+
+videoBg.addEventListener('loadeddata', function() {
+videoBg.classList.add('loaded');
+setTimeout(() => {
+videoBg.play().catch(e => {
+console.log('Video autoplay prevented');
+});
+}, 500);
+});
+
+// MUTE BUTTON - CONTROLS BOTH VIDEO AND BACKGROUND MUSIC
+muteBtn.addEventListener('click', function() {
+isVideoMuted = !isVideoMuted;
+// Toggle video audio
+videoBg.muted = isVideoMuted;
+// Toggle background music (your existing audio system)
+audioElements.forEach(audio => {
+audio.muted = isVideoMuted;
+});
+// Update button text
+muteBtn.textContent = isVideoMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// Remove any other audio initialization code that might conflict
+// Only keep the audioElements array initialization if you need background music:
+let audioElements = [];
+
+function initAudio() {
+const sounds = [
+{ src: 'music/comedy-show-music.mp3', volume: 0.4 },
+];
+
+sounds.forEach(sound => {
+const audio = new Audio(sound.src);
+audio.volume = sound.volume;
+audio.loop = true;
+audio.muted = true; // Start muted
+audioElements.push(audio);
+});
+}
+
+initAudio();
+
+// HIDE/SHOW CONTENT TOGGLE - NO AUDIO CHANGES HERE
+const viewToggle = document.getElementById('viewToggle');
+const mainContent = document.getElementById('mainContent');
+const mainMenu = document.getElementById('mainMenu');
+const siteTitle = document.getElementById('siteTitle');
+const pageFooter = document.getElementById('pageFooter');
+
+viewToggle.addEventListener('click', function() {
+// Only toggle visibility, don't touch audio
+mainContent.classList.toggle('hidden');
+mainMenu.classList.toggle('hidden');
+siteTitle.classList.toggle('hidden');
+pageFooter.classList.toggle('hidden');
+if (mainContent.classList.contains('hidden')) {
+viewToggle.textContent = '📄 Show Content';
+} else {
+viewToggle.textContent = '🌌 Hide Content';
+}
+});
+
+videoBg.addEventListener('error', function() {
+console.log('Video failed to load');
+videoBg.style.display = 'none';
+});
+
+// Video Modal Functionality
+const videoModal = document.querySelector('.video-modal');
+const closeModal = document.querySelector('.close-modal');
+
+document.querySelectorAll('.video-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+const comedian = this.getAttribute('data-comedian');
+// You would replace these with actual video URLs
+const videoUrls = {
+'red-skelton': 'https://youtube.com/embed/...',
+'lucy': 'https://youtube.com/embed/...', 
+'carlin': 'https://youtube.com/embed/...',
+'bernie-mac': 'https://youtube.com/embed/...',
+'gleason': 'https://youtube.com/embed/...',
+'chappelle': 'https://youtube.com/embed/...'
+};
+videoModal.querySelector('iframe').src = videoUrls[comedian];
+videoModal.style.display = 'flex';
+});
+});
+
+closeModal.addEventListener('click', function() {
+videoModal.style.display = 'none';
+videoModal.querySelector('iframe').src = '';
+});
+
+// Interactive viewing chamber
+document.addEventListener('DOMContentLoaded', function() {
+const bookCover = document.querySelector('.book-cover');
+const honeymoonersScene = document.querySelector('.honeymooners-scene');
+// Book interaction
+bookCover.addEventListener('click', function() {
+this.style.animation = 'bookClose 1s ease-in-out';
+setTimeout(() => {
+// Trigger the Honeymooners scene emphasis
+honeymoonersScene.style.animation = 'pulse 1s ease-in-out 3';
+}, 500);
+});
+// Martian audience reactions
+const reactionBubbles = document.querySelectorAll('.reaction-bubble');
+reactionBubbles.forEach((bubble, index) => {
+// Stagger the appearance of reaction bubbles
+setTimeout(() => {
+bubble.style.animation = 'float 2s ease-in-out';
+}, index * 1000);
+});
+// Auto-restart the Honeymooners animation
+setInterval(() => {
+honeymoonersScene.style.animation = 'pulse 3s ease-in-out infinite';
+}, 10000);
+});
+
+// Enhanced audio experience with sequential play
+document.addEventListener('DOMContentLoaded', function() {
+const audioPlayers = document.querySelectorAll('.mars-audio-player');
+const signOffText = document.querySelector('.sign-off-text');
+// Add Mars-themed audio event listeners
+audioPlayers.forEach((player, index) => {
+player.addEventListener('play', function() {
+// Pause other players when one plays
+audioPlayers.forEach((otherPlayer, otherIndex) => {
+if (otherIndex !== index && !otherPlayer.paused) {
+otherPlayer.pause();
+otherPlayer.currentTime = 0;
+}
+});
+// Add visual feedback
+this.parentElement.style.background = 'rgba(255, 105, 180, 0.2)';
+});
+player.addEventListener('ended', function() {
+this.parentElement.style.background = 'rgba(45, 27, 78, 0.9)';
+// If it's the first sound bite, suggest playing the second
+if (index === 0) {
+setTimeout(() => {
+if (confirm('Would you like to hear the classic Martian goodnight?')) {
+audioPlayers[1].play();
+}
+}, 1000);
+}
+});
+});
+// Animate the sign-off text when it comes into view
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+signOffText.style.animation = 'pulse 2s ease-in-out';
+setTimeout(() => {
+signOffText.style.animation = '';
+}, 2000);
+}
+});
+});
+observer.observe(signOffText);
+});
+
+// Ensure video plays when user interacts with page
+document.addEventListener('click', function() {
+if (videoBg.paused) {
+videoBg.play().catch(e => console.log('Video play requires user interaction'));
+}
+});
+</script>
+</body>
+</html>

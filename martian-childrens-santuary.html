@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Martian Children's Sanctuary - The Mars Abyss</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            background: #000;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        /* === COMPLETE TOP MENU === */
+        nav.top-menu {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(17, 17, 17, 0.95);
+            padding: 0.6rem 0;
+            z-index: 1000;
+            gap: 2.5rem;
+            flex-wrap: nowrap;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00ccff;
+        }
+
+        nav.top-menu a {
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        nav.top-menu a.active,
+        nav.top-menu a:hover {
+            color: #00ccff;
+            background: transparent;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(26, 26, 26, 0.98);
+            min-width: 140px;
+            z-index: 1001;
+            border-radius: 4px;
+            border: 2px solid #00ccff;
+            top: 100%;
+            left: 0;
+            backdrop-filter: blur(5px);
+            padding: 4px 0;
+        }
+
+        .dropdown-content a {
+            color: #f5f5f5;
+            padding: 3px 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+            line-height: 1;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(0, 204, 255, 0.6);
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .site-title-overlay {
+            position: fixed;
+            top: 80px;
+            left: 30px;
+            z-index: 50;
+        }
+
+        .site-title-overlay h1 {
+            color: #00ccff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .audio-controls {
+            position: fixed;
+            bottom: 80px;
+            right: 41px;
+            z-index: 1000;
+        }
+
+        .audio-btn {
+            background: rgba(0, 204, 255, 0.8);
+            border: 2px solid #00ccff;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
+        }
+
+        .audio-btn:hover {
+            background: rgba(0, 204, 255, 0.6);
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+        }
+
+        .hide-content-btn {
+            position: fixed;
+            top: 80px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00ccff;
+            border: 2px solid #00ccff;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            z-index: 1001;
+            font-size: clamp(0.7rem, 2vw, 0.8rem);
+            transition: all 0.3s ease;
+        }
+
+        .hide-content-btn:hover {
+            background: rgba(0, 204, 255, 0.6);
+            color: black;
+        }
+
+        .content-container {
+            position: relative;
+            z-index: 10;
+            margin-top: 150px;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            border: 2px solid #00ccff;
+            box-shadow: 0 0 20px rgba(0, 204, 255, 0.5);
+            transition: all 0.5s ease;
+        }
+
+        .content-container.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+        }
+
+        /* RESTORE ORIGINAL HOSPITAL HEADER */
+        .hospital-header {
+            background: rgba(178, 31, 31, 0.8);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            border: 2px solid #fdbb2d;
+            margin-bottom: 2rem;
+        }
+
+        .martian-red-cross {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #00ccff;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+        }
+
+        .page-subtitle {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #e0e0ff;
+            font-style: italic;
+        }
+
+        /* MISSION GRID */
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .mission-card {
+            background: rgba(30, 30, 30, 0.8);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid #00ccff;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.3);
+        }
+
+        .mission-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* MARTIAN MEDICAL MIRACLES */
+        .tech-showcase {
+            background: rgba(26, 42, 108, 0.8);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border: 1px solid #00ccff;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(0, 204, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.4);
+        }
+
+        .video-container {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* STORIES OF HOPE */
+        .stories-section {
+            background: rgba(253, 187, 45, 0.2);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border: 1px solid #fdbb2d;
+        }
+
+        .story-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-left: 4px solid #fdbb2d;
+        }
+
+        /* QUANTUM CARE NETWORK */
+        .interdimensional-care {
+            background: rgba(178, 31, 31, 0.3);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            text-align: center;
+            border: 1px solid #b21f1f;
+        }
+
+        .portal-care {
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* FIXED BUTTON ALIGNMENT */
+        .support-section {
+            background: rgba(26, 42, 108, 0.6);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #1a2a6c;
+            margin: 2rem 0;
+        }
+
+        .donation-options {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .donation-btn {
+            background: #fdbb2d;
+            color: #1a2a6c;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px; /* Fixed width for alignment */
+            height: 60px; /* Fixed height for alignment */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .donation-btn:hover {
+            background: #ffd166;
+            transform: scale(1.05);
+        }
+
+        /* REAL DONATION PORTAL - FIXED BUTTON ALIGNMENT */
+        .donation-portal {
+            background: rgba(26, 42, 108, 0.9);
+            padding: 3rem;
+            border-radius: 15px;
+            margin: 3rem 0;
+            border: 2px solid #fdbb2d;
+            text-align: center;
+        }
+
+        .charity-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .charity-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #00ccff;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .charity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 204, 255, 0.4);
+        }
+
+        .charity-logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .charity-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .real-donate-btn {
+            background: #fdbb2d;
+            color: #1a2a6c;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: auto; /* Pushes button to bottom */
+            min-width: 200px; /* Matches other buttons */
+            height: 60px; /* Matches other buttons */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            align-self: center; /* Centers the button */
+        }
+
+        .real-donate-btn:hover {
+            background: #ffd166;
+            transform: scale(1.05);
+        }
+
+        .disclaimer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            border-left: 4px solid #00ccff;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 0.6rem 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ccff;
+            font-family: 'Segoe UI', sans-serif;
+            z-index: 1000;
+            border-top: 2px solid #00ccff;
+            transition: opacity 0.5s ease;
+        }
+
+        footer.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .site-title-overlay {
+                top: 70px;
+                left: 20px;
+            }
+            .site-title-overlay h1 {
+                font-size: 1.4rem;
+            }
+            .audio-controls {
+                right: 20px;
+                bottom: 70px;
+            }
+            .hide-content-btn {
+                top: 70px;
+                right: 20px;
+            }
+            .page-title {
+                font-size: 2rem;
+            }
+            .page-subtitle {
+                font-size: 1.2rem;
+            }
+            .content-container {
+                margin-top: 120px;
+                padding: 15px;
+            }
+            .mission-grid {
+                grid-template-columns: 1fr;
+            }
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            .charity-options {
+                grid-template-columns: 1fr;
+            }
+            .donation-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            .donation-btn, .real-donate-btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- VIDEO BACKGROUND -->
+    <video class="video-background" id="marsVideo" muted loop playsinline autoplay>
+        <source src="videos/double-helix-in-cosmic-void.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- SITE TITLE OVERLAY -->
+    <div class="site-title-overlay">
+        <h1>The Mars Abyss</h1>
+    </div>
+
+    <!-- HIDE CONTENT BUTTON -->
+    <button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
+    <!-- AUDIO CONTROLS -->
+    <div class="audio-controls">
+        <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+    </div>
+
+    <!-- COMPLETE TOP MENU -->
+     <nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+        <div class="dropdown">
+            <a href="story.html" class="dropbtn">Story</a>
+            <div class="dropdown-content">
+                <a href="characters.html">Characters</a>
+                <div class="dropdown">
+                    <a href="gallery.html" class="dropbtn">Gallery</a>
+                    <div class="dropdown-content">
+                        <a href="art-and-concepts.html">Art & Concepts</a>
+                        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                        <a href="technical-database.html">Technical Database</a>
+                        <a href="martian-edicts.html">The Martian Edicts</a>
+                        <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                        <a href="solar-system-explorer.html">Solar System Explorer</a>
+                        <a href="aliens-ufos.html">Aliens & UFOs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-games.html" class="dropbtn">Martian Games</a>
+            <div class="dropdown-content">
+                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+                <a href="martian-racer.html">Martian Racer</a>
+                <a href="red-planet-defense.html">Red Planet Defense</a>
+                <a href="regents-gaming-portal.html">The Regent's Portal</a>
+                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+            <div class="dropdown-content">
+                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+                <a href="earths-great-poets.html">Earth's Great Poets</a>
+                <a href="the-bohr-institute.html">The Bohr Institute</a>
+                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+                <a href="the-bronx-dome.html">The Bronx Dome</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-news.html" class="dropbtn">Martian News</a>
+            <div class="dropdown-content">
+                <a href="martian-actualities.html">Martian Actualities</a>
+                <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+                <a href="mars-bee-facility.html">Mars Bee Facility</a>
+                <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+                <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+                <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+                <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+                <a href="martian-rest-areas.html">Martian Rest Areas</a>
+                <div class="dropdown">
+                <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                <div class="dropdown-content">
+                <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                <a href="marvin.html">M.A.R.V.I.N.</a>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+            <div class="dropdown-content">
+                <a href="what-the-regent-misses.html">What the Regent Misses</a>
+                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+                <a href="honor-the-fallen.html">Honor The Fallen</a>
+                <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+                <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+                <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+                <a href="martian-critique-tron-ares.html">Martian Critique</a>
+                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="about.html" class="dropbtn">About</a>
+            <div class="dropdown-content">
+                <a href="about-the-project.html">About the Project</a>
+                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+                <a href="the-pale-horse.html">The Pale Horse</a>
+                <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+                <a href="arachne-labs.html">Arachne Labs</a>
+                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+            </div>
+        </div>
+
+        <!-- CHILDREN'S SANCTUARY IN SUPPORT -->
+        <div class="dropdown">
+            <a href="support.html" class="dropbtn active">Support</a>
+            <div class="dropdown-content">
+                <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+                <a href="martian-childrens-sanctuary.html" class="active">Children's Sanctuary</a>
+                <a href="mars-food-district.html">Mars Food District</a>
+                <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+                <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+                <a href="fund-martian-research.html">Fund Martian Research</a>           
+                <a href="martian-survival-manual.html">Martian Survival Manual</a>
+                <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+            </div>
+        </div>
+
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- HOSPITAL CONTENT -->
+    <div class="content-container" id="contentContainer">
+        <!-- RESTORED ORIGINAL HOSPITAL HEADER -->
+        <header class="hospital-header">
+            <div class="martian-red-cross">🏥✨</div>
+            <h1 class="page-title">MARTIAN CHILDREN'S SANCTUARY</h1>
+            <p class="page-subtitle">Healing Across Worlds, Caring Beyond Dimensions</p>
+        </header>
+
+        <!-- MISSION STATEMENT -->
+        <section class="mission-intro">
+            <h2 style="color: #00ccff; text-align: center; margin-bottom: 1rem;">Our Galactic Mission</h2>
+            <p style="text-align: center; font-size: 1.2rem; line-height: 1.6;">
+                The Martian Children's Sanctuary represents the highest ideal of Martian society: that no child should suffer, 
+                whether born of Earth or Mars. Through quantum-entangled medical technology and interdimensional compassion, 
+                we extend healing across both worlds.
+            </p>
+        </section>
+
+        <!-- MISSION GRID -->
+        <div class="mission-grid">
+            <div class="mission-card">
+                <div class="mission-icon">🌍</div>
+                <h3>Earth Outreach</h3>
+                <p>Providing advanced Martian medical technology to Earth's children's hospitals through quantum-entangled treatment portals.</p>
+            </div>
+            
+            <div class="mission-card">
+                <div class="mission-icon">🚀</div>
+                <h3>Martian Care</h3>
+                <p>State-of-the-art medical facilities in every Martian dome city, offering zero-gravity therapy and genetic restoration.</p>
+            </div>
+            
+            <div class="mission-card">
+                <div class="mission-icon">⚡</div>
+                <h3>Quantum Healing</h3>
+                <p>Using interdimensional medical science to treat conditions previously thought incurable in both worlds.</p>
+            </div>
+        </div>
+
+        <!-- MARTIAN MEDICAL MIRACLES -->
+        <section class="tech-showcase">
+            <h2 style="color: #00ccff; text-align: center;">Martian Medical Miracles</h2>
+            <p style="text-align: center; margin-bottom: 1rem;">Click on any technology to see it in action</p>
+            <div class="tech-grid">
+                <div class="tech-item" onclick="toggleVideo('zeroGVideo')">
+                    <h4>Zero-G Rehabilitation</h4>
+                    <p>Healing in Martian low-gravity environments accelerates recovery and reduces pain.</p>
+                    <div class="video-container" id="zeroGVideo">
+                        <video controls>
+                            <source src="videos/zero-g-therapy.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <div class="tech-item" onclick="toggleVideo('geneticVideo')">
+                    <h4>Genetic Restoration</h4>
+                    <p>Advanced gene therapy to correct hereditary conditions at their source.</p>
+                    <div class="video-container" id="geneticVideo">
+                        <video controls>
+                            <source src="videos/genetic-restoration.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <div class="tech-item" onclick="toggleVideo('quantumVideo')">
+                    <h4>Quantum Diagnostics</h4>
+                    <p>Instantaneous medical scanning through quantum-entangled particles.</p>
+                    <div class="video-container" id="quantumVideo">
+                        <video controls>
+                            <source src="videos/quantum-scanning.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <div class="tech-item" onclick="toggleVideo('holographicVideo')">
+                    <h4>Holographic Surgery</h4>
+                    <p>Precision medical procedures guided by augmented reality interfaces.</p>
+                    <div class="video-container" id="holographicVideo">
+                        <video controls>
+                            <source src="videos/holographic-surgery.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STORIES OF HOPE -->
+        <section class="stories-section">
+            <h2 style="color: #fdbb2d; text-align: center;">Stories of Interdimensional Hope</h2>
+            
+            <div class="story-card">
+                <h4>Lena's Journey - Earth to Mars</h4>
+                <p>"When Earth doctors said there was no hope for Lena's rare condition, the Martian Sanctuary offered quantum treatment. She's now the first child to fully recover through interdimensional medicine."</p>
+            </div>
+            
+            <div class="story-card">
+                <h4>Kael's New Beginning</h4>
+                <p>"Born on Mars with unique genetic adaptations, Kael received specialized care that wouldn't be possible on Earth. He now helps other children adapt to Martian life."</p>
+            </div>
+        </section>
+
+        <!-- QUANTUM-ENTANGLED CARE NETWORK -->
+        <section class="interdimensional-care">
+            <div class="portal-care">🌌⚕️</div>
+            <h2 style="color: #fff;">Quantum-Entangled Care Network</h2>
+            <p>Our medical portals allow instant transfer of medical expertise, treatments, and even selective matter transfer between Earth and Mars. When a child needs specialized care that exists only in one world, we bridge the gap.</p>
+        </section>
+
+        <!-- SUPPORT HEALING ACROSS WORLDS - FIXED BUTTON ALIGNMENT -->
+        <section class="support-section">
+            <h2 style="color: #00ccff;">Support Healing Across Worlds</h2>
+            <p>Your contribution helps maintain the quantum medical portals and provides care for children in both dimensions.</p>
+            
+            <div class="donation-options">
+                <button class="donation-btn">Support Earth Care</button>
+                <button class="donation-btn">Fund Martian Research</button>
+                <button class="donation-btn">Adopt a Quantum Portal</button>
+            </div>
+            
+            <p style="margin-top: 1rem; font-style: italic; color: #e0e0ff;">
+                "The measure of a civilization is how it treats its most vulnerable members." - Martian Proverb
+            </p>
+        </section>
+
+        <!-- REAL DONATION PORTAL - FIXED BUTTON ALIGNMENT -->
+        <section class="donation-portal">
+            <h2 style="color: #fdbb2d; margin-bottom: 2rem;">Support Real Children's Hospitals</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                While our Martian sanctuary exists in fiction, these real organizations are doing incredible work to help children right now.
+            </p>
+
+            <div class="charity-options">
+                <div class="charity-card">
+                    <div class="charity-logo">🏥</div>
+                    <div class="charity-content">
+                        <h3>Shriners Hospitals for Children</h3>
+                        <p>Providing specialized pediatric care to children with orthopedic conditions, burns, spinal cord injuries, and more.</p>
+                        <button class="real-donate-btn" onclick="window.open('https://www.shrinerschildrens.org/en/giving', '_blank')">
+                            Donate to Shriners
+                        </button>
+                    </div>
+                </div>
+
+                <div class="charity-card">
+                    <div class="charity-logo">🎗️</div>
+                    <div class="charity-content">
+                        <h3>St. Jude Children's Research Hospital</h3>
+                        <p>Leading the way in treating and defeating childhood cancer and other life-threatening diseases.</p>
+                        <button class="real-donate-btn" onclick="window.open('https://www.stjude.org/donate/donate-to-st-jude.html', '_blank')">
+                            Support St. Jude
+                        </button>
+                    </div>
+                </div>
+
+                <div class="charity-card">
+                    <div class="charity-logo">❤️</div>
+                    <div class="charity-content">
+                        <h3>Make-A-Wish Foundation</h3>
+                        <p>Creating life-changing wishes for children with critical illnesses.</p>
+                        <button class="real-donate-btn" onclick="window.open('https://wish.org/', '_blank')">
+                            Grant a Wish
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                <h4 style="color: #00ccff; margin-bottom: 1rem;">Important Notice</h4>
+                <p>
+                    <strong>All donations go directly to the official charities listed above.</strong> 
+                    The Mars Abyss does not receive any portion of these donations. 
+                    I simply provide this portal to connect compassionate visitors with legitimate organizations 
+                    doing incredible work for children in need.
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <footer id="pageFooter">
+        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // SIMPLIFIED WORKING VERSION
+document.addEventListener('DOMContentLoaded', function() {
+    const videoBg = document.getElementById('marsVideo');
+    const muteBtn = document.getElementById('muteBtn');
+    const hideContentBtn = document.getElementById('hideContentBtn');
+    const contentContainer = document.getElementById('contentContainer');
+    const pageFooter = document.getElementById('pageFooter');
+    
+    let contentHidden = false;
+    
+    // VIDEO FIX
+    if (videoBg) {
+        console.log('Video element found');
+        videoBg.style.zIndex = '1';
+        
+        // Try to play video immediately
+        videoBg.play().catch(error => {
+            console.log('Video needs user interaction:', error);
+        });
+        
+        // Play on click anywhere
+        document.addEventListener('click', function playVideo() {
+            if (videoBg.paused) {
+                videoBg.play().catch(error => {
+                    console.log('Video play failed:', error);
+                });
+            }
+        }, { once: true });
+    } else {
+        console.log('Video element not found - check ID matches');
+    }
+    
+    // MUTE BUTTON FIX
+    if (muteBtn) {
+        console.log('Mute button found');
+        let isMuted = true;
+        
+        muteBtn.addEventListener('click', function() {
+            if (videoBg) {
+                isMuted = !isMuted;
+                videoBg.muted = isMuted;
+                muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+                console.log('Mute toggled:', isMuted);
+            }
+        });
+    } else {
+        console.log('Mute button not found - check ID matches');
+    }
+    
+    // HIDE CONTENT BUTTON FIX
+    if (hideContentBtn && contentContainer && pageFooter) {
+        console.log('Hide content elements found');
+        
+        hideContentBtn.addEventListener('click', function() {
+            contentHidden = !contentHidden;
+            
+            if (contentHidden) {
+                contentContainer.classList.add('hidden');
+                pageFooter.classList.add('hidden');
+                hideContentBtn.textContent = 'Show Content';
+            } else {
+                contentContainer.classList.remove('hidden');
+                pageFooter.classList.remove('hidden');
+                hideContentBtn.textContent = 'Hide Content';
+            }
+            console.log('Content hidden:', contentHidden);
+        });
+    } else {
+        console.log('Hide content elements missing');
+        if (!hideContentBtn) console.log('Hide button missing');
+        if (!contentContainer) console.log('Content container missing');
+        if (!pageFooter) console.log('Footer missing');
+    }
+});
+
+        // AUDIO SYSTEM
+        const muteBtn = document.getElementById('muteBtn');
+        let backgroundAudio = null;
+        let isMuted = true;
+        let audioInitialized = false;
+
+        function initAudio() {
+            if (audioInitialized) return;
+            
+            backgroundAudio = new Audio('sounds/children-sanctuary-theme.mp3');
+            backgroundAudio.loop = true;
+            backgroundAudio.volume = 0.3;
+            backgroundAudio.muted = true;
+            
+            backgroundAudio.addEventListener('error', function(e) {
+                console.error('Audio loading error - check file path:', backgroundAudio.src);
+            });
+            
+            audioInitialized = true;
+        }
+
+        document.addEventListener('click', function initAudioOnFirstClick() {
+            initAudio();
+            
+            if (backgroundAudio && isMuted) {
+                setTimeout(() => {
+                    backgroundAudio.muted = false;
+                    backgroundAudio.play().then(() => {
+                        isMuted = false;
+                        muteBtn.textContent = "🔊 Mute Sounds";
+                    }).catch(e => {
+                        console.log('Audio play failed:', e);
+                    });
+                }, 100);
+            }
+            
+            document.removeEventListener('click', initAudioOnFirstClick);
+        });
+
+        muteBtn.addEventListener('click', function() {
+            if (backgroundAudio) {
+                isMuted = !isMuted;
+                backgroundAudio.muted = isMuted;
+                muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+            }
+        });
+
+        // HIDE CONTENT FUNCTIONALITY
+        const hideContentBtn = document.getElementById('hideContentBtn');
+        const contentContainer = document.getElementById('contentContainer');
+        const pageFooter = document.getElementById('pageFooter');
+        let contentHidden = false;
+
+        hideContentBtn.addEventListener('click', function() {
+            contentHidden = !contentHidden;
+            
+            if (contentHidden) {
+                contentContainer.classList.add('hidden');
+                pageFooter.classList.add('hidden');
+                hideContentBtn.textContent = 'Show Content';
+            } else {
+                contentContainer.classList.remove('hidden');
+                pageFooter.classList.remove('hidden');
+                hideContentBtn.textContent = 'Hide Content';
+            }
+        });
+
+        // CLICKABLE MEDICAL CARDS FUNCTIONALITY
+        function toggleVideo(videoId) {
+            const videoContainer = document.getElementById(videoId);
+            const allVideos = document.querySelectorAll('.video-container');
+            
+            // Close all other videos
+            allVideos.forEach(video => {
+                if (video.id !== videoId) {
+                    video.style.display = 'none';
+                    const videoElement = video.querySelector('video');
+                    if (videoElement) {
+                        videoElement.pause();
+                        videoElement.currentTime = 0;
+                    }
+                }
+            });
+            
+            // Toggle current video
+            if (videoContainer.style.display === 'block') {
+                videoContainer.style.display = 'none';
+                const videoElement = videoContainer.querySelector('video');
+                if (videoElement) {
+                    videoElement.pause();
+                    videoElement.currentTime = 0;
+                }
+            } else {
+                videoContainer.style.display = 'block';
+                const videoElement = videoContainer.querySelector('video');
+                if (videoElement) {
+                    videoElement.play().catch(e => {
+                        console.log('Video play requires user interaction');
+                    });
+                }
+            }
+        }
+
+        // Initialize everything when page loads
+        window.addEventListener('load', function() {
+            initVideo();
+            initAudio();
+        });
+    </script>
+</body>
+</html>
+

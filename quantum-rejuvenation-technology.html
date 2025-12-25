@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Rejuvenation Technology - The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* COPY THE ENTIRE CSS FROM MAI PAGE HERE (since pages share same styling) */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body, html { height: 100%; width: 100%; font-family: 'Exo 2', sans-serif; color: #e0f7ff; overflow-x: hidden; position: relative; background: #0a1a2a; }
+/* ... [Insert the entire CSS from your MAI page here] ... */
+/* To save space, I'm omitting the full CSS, but use exactly what's in your MAI page */
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Exo 2', sans-serif;
+color: #e0f7ff;
+overflow-x: hidden;
+position: relative;
+background: #0a1a2a;
+}
+
+/* === VIDEO BACKGROUND WITH STATIC FALLBACK === */
+.background-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 1;
+pointer-events: none;
+}
+
+.static-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('images/mai-brunette-static.jpg') no-repeat center center / cover;
+z-index: 1;
+transition: opacity 2s ease;
+}
+
+.video-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 2;
+opacity: 0.9;
+filter: contrast(1.1) brightness(0.9);
+}
+
+/* === CHROME/SILVER TOP MENU === */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100vw;
+left: 0;
+display: flex;
+justify-content: center;
+background: url('textures/white-marble.jpg') center/cover !important;
+background-blend-mode: overlay;
+background: linear-gradient(135deg,
+rgba(99, 131, 190, 0.97) 0%,
+#9cbdacf7 50%,
+rgba(72, 143, 93, 0.97) 100%);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #4fc3f7;
+box-shadow: 0 4px 20px rgba(79, 195, 247, 0.3);
+box-sizing: border-box;
+}
+
+nav.top-menu a {
+color: #0a1a2a;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+font-weight: 600;
+text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #0277bd;
+background: rgba(79, 195, 247, 0.15);
+transform: translateY(-2px);
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background: linear-gradient(135deg,
+rgba(39, 102, 165, 0.98) 0%,
+rgba(199, 230, 190, 0.98) 100%);
+min-width: 200px;
+z-index: 1001;
+border-radius: 6px;
+border: 2px solid #4fc3f7;
+top: 100%;
+left: 0;
+backdrop-filter: blur(10px);
+padding: 4px 0;
+box-shadow: 0 10px 30px rgba(79, 195, 247, 0.4);
+}
+
+.dropdown .dropdown .dropdown-content {
+position: absolute;
+left: 0;
+top: 100%;
+width: 100%;
+}
+
+.dropdown-content a {
+color: #0a1a2a;
+padding: 10px 15px;
+text-decoration: none;
+display: block;
+transition: all 0.3s ease;
+font-size: 0.95rem;
+line-height: 1.3;
+font-weight: 500;
+}
+
+.dropdown-content a:hover {
+background: rgba(79, 195, 247, 0.25);
+color: #01579b;
+transform: translateX(5px);
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/* === SITE TITLE OVERLAY === */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+transition: opacity 0.3s ease;
+}
+
+.site-title-overlay.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+.site-title-overlay h1 {
+color: rgba(79, 195, 247, 0.9);
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+font-weight: 300;
+letter-spacing: 2px;
+text-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
+}
+
+/* === UPDATED TOGGLE BUTTON WITH TWO LINES === */
+.content-toggle {
+position: fixed;
+top: 80px;
+right: 20px;
+z-index: 1000;
+display: flex;
+align-items: center;
+height: 65px;
+}
+
+.toggle-btn {
+background: linear-gradient(135deg, rgba(79, 195, 247, 0.9), rgba(3, 169, 244, 0.9));
+border: 2px solid #4fc3f7;
+color: #0a1a2a;
+padding: 3px 5px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-family: 'Orbitron', sans-serif;
+font-weight: 600;
+box-shadow: 0 4px 15px rgba(79, 195, 247, 0.4);
+min-width: 140px;
+height: auto;
+min-height: 55px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+position: relative;
+overflow: hidden;
+}
+
+.toggle-btn-content {
+display: flex;
+flex-direction: column;
+align-items: center;
+transition: all 0.3s ease;
+}
+
+.btn-main-text {
+font-size: 0.85rem;
+font-weight: 700;
+line-height: 1.1;
+margin-bottom: 2px;
+}
+
+.btn-sub-text {
+font-size: 0.65rem;
+font-weight: 400;
+line-height: 1.1;
+opacity: 0.9;
+letter-spacing: 0.5px;
+}
+
+/* Battery State - Green Energy Theme */
+.toggle-btn.battery-mode {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(56, 142, 60, 0.9));
+    border: 2px solid #4CAF50;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.6);
+}
+
+.toggle-btn.battery-mode:hover {
+    box-shadow: 0 6px 25px rgba(76, 175, 80, 0.6);
+}
+
+/* Smiley State - Pink/Heart Theme */
+.toggle-btn.smiley-mode {
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.9), rgba(255, 64, 120, 0.9));
+    border: 2px solid #FF69B4;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+}
+
+.toggle-btn.smiley-mode:hover {
+    box-shadow: 0 6px 25px rgba(255, 105, 180, 0.6);
+}
+
+.quantum-state-change {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, 
+transparent, 
+rgba(255, 255, 255, 0.3), 
+transparent);
+transform: translateX(-100%);
+transition: transform 0s;
+}
+
+.toggle-btn.activating .quantum-state-change {
+animation: quantumSlide 0.6s ease-out;
+}
+
+@keyframes quantumSlide {
+0% { transform: translateX(-100%); }
+50% { transform: translateX(100%); }
+100% { transform: translateX(100%); }
+}
+
+.toggle-btn.observe-mode {
+box-shadow: 0 0 20px rgba(79, 195, 247, 0.7),
+0 0 40px rgba(79, 195, 247, 0.3),
+inset 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.toggle-btn.superposition-mode {
+animation: pulseGlow 2s infinite;
+box-shadow: 0 0 15px rgba(255, 105, 180, 0.6),
+0 0 30px rgba(255, 105, 180, 0.3);
+}
+
+@keyframes pulseGlow {
+0%, 100% {
+box-shadow: 0 0 15px rgba(255, 105, 180, 0.6),
+0 0 30px rgba(255, 105, 180, 0.3);
+}
+50% {
+box-shadow: 0 0 25px rgba(255, 105, 180, 0.8),
+0 0 40px rgba(255, 105, 180, 0.5),
+0 0 60px rgba(255, 105, 180, 0.2);
+}
+}
+
+.toggle-btn:hover {
+transform: scale(1.05);
+box-shadow: 0 6px 25px rgba(79, 195, 247, 0.6);
+}
+
+.toggle-btn:hover .btn-sub-text {
+opacity: 1;
+}
+
+/* === AUDIO CONTROLS === */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 20px;
+z-index: 1000;
+}
+
+.audio-btn {
+background: linear-gradient(135deg, rgba(79, 195, 247, 0.8), rgba(3, 169, 244, 0.8));
+border: 2px solid #4fc3f7;
+color: #0a1a2a;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+font-weight: 600;
+box-shadow: 0 4px 15px rgba(79, 195, 247, 0.4);
+}
+
+.audio-btn:hover {
+background: linear-gradient(135deg, #4fc3f7, #03a9f4);
+color: white;
+transform: scale(1.05) translateY(-2px);
+box-shadow: 0 6px 20px rgba(79, 195, 247, 0.6);
+}
+
+/* === MAIN CONTENT === */
+.content-container {
+position: relative;
+z-index: 10;
+max-width: 1100px;
+margin: 120px auto 50px;
+padding: 0;
+background: rgba(10, 26, 42, 0.7);
+border-radius: 0;
+border: none;
+box-shadow: none;
+transition: opacity 0.5s ease;
+overflow: hidden;
+}
+
+.content-container.hidden {
+opacity: 0;
+}
+
+/* HERO SECTION */
+.hero-section {
+position: relative;
+min-height: 80vh;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 4rem 2rem;
+background: linear-gradient(135deg,
+rgba(10, 26, 42, 0.9) 0%,
+rgba(20, 40, 60, 0.7) 50%,
+rgba(10, 26, 42, 0.9) 100%);
+}
+
+.hero-content {
+text-align: center;
+max-width: 800px;
+z-index: 5;
+}
+
+.main-title {
+color: #4fc3f7;
+font-family: 'Orbitron', sans-serif;
+font-size: 4rem;
+margin-bottom: 0.5rem;
+text-shadow: 0 0 30px rgba(79, 195, 247, 0.7);
+letter-spacing: 3px;
+background: linear-gradient(135deg, #4fc3f7, #81d4fa);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.main-title:hover {
+text-shadow:
+0 0 40px rgba(79, 195, 247, 0.9),
+0 0 80px rgba(79, 195, 247, 0.6),
+0 0 120px rgba(79, 195, 247, 0.3);
+transform: scale(1.05);
+}
+
+.acronym {
+color: #b3e5fc;
+font-size: 1.8rem;
+margin-bottom: 1.5rem;
+font-weight: 300;
+letter-spacing: 8px;
+}
+
+.hero-tagline {
+color: #e1f5fe;
+font-size: 1.4rem;
+line-height: 1.6;
+margin-bottom: 2rem;
+font-weight: 300;
+max-width: 700px;
+margin-left: auto;
+margin-right: auto;
+}
+
+/* SECTIONS */
+.content-section {
+padding: 5rem 3rem;
+position: relative;
+}
+
+.section-alt {
+background: linear-gradient(135deg,
+rgba(20, 40, 60, 0.8) 0%,
+rgba(30, 50, 70, 0.6) 100%);
+}
+
+.section-header {
+color: #4fc3f7;
+font-family: 'Orbitron', sans-serif;
+font-size: 2.5rem;
+margin-bottom: 2rem;
+text-align: center;
+position: relative;
+padding-bottom: 1rem;
+}
+
+.section-header:after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 50%;
+transform: translateX(-50%);
+width: 100px;
+height: 3px;
+background: linear-gradient(90deg, transparent, #4fc3f7, transparent);
+}
+
+/* QUANTUM COMPUTER VIDEO */
+.quantum-video-container {
+position: relative;
+width: 100%;
+height: 500px;
+margin: 3rem 0;
+border-radius: 15px;
+overflow: hidden;
+border: 3px solid #4fc3f7;
+box-shadow: 0 0 40px rgba(79, 195, 247, 0.5);
+}
+
+.quantum-video {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+.video-overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(45deg,
+rgba(10, 26, 42, 0.7) 0%,
+rgba(79, 195, 247, 0.2) 100%);
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.video-label {
+color: #e1f5fe;
+font-size: 1.8rem;
+font-family: 'Orbitron', sans-serif;
+text-shadow: 0 0 20px rgba(79, 195, 247, 0.8);
+background: rgba(10, 26, 42, 0.7);
+padding: 1rem 2rem;
+border-radius: 10px;
+border: 2px solid #4fc3f7;
+}
+
+/* FEATURE GRID WITH LINKS */
+.feature-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2.5rem;
+margin: 3rem 0;
+}
+
+.feature-card {
+background: linear-gradient(135deg,
+rgba(20, 40, 60, 0.8) 0%,
+rgba(30, 50, 70, 0.6) 100%);
+border-radius: 15px;
+padding: 2.5rem;
+border: 2px solid rgba(79, 195, 247, 0.3);
+transition: all 0.4s ease;
+position: relative;
+overflow: hidden;
+cursor: pointer;
+}
+
+.feature-card:before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg,
+transparent,
+rgba(79, 195, 247, 0.2),
+transparent);
+transition: left 0.6s ease;
+}
+
+.feature-card:hover:before {
+left: 100%;
+}
+
+.feature-card:hover {
+border-color: #4fc3f7;
+transform: translateY(-10px);
+box-shadow: 0 15px 30px rgba(79, 195, 247, 0.3);
+}
+
+.feature-card::after {
+content: '↗';
+position: absolute;
+top: 15px;
+right: 15px;
+color: #4fc3f7;
+font-size: 1.2rem;
+opacity: 0;
+transition: opacity 0.3s ease;
+}
+
+.feature-card:hover::after {
+opacity: 1;
+}
+
+.feature-icon {
+font-size: 3.5rem;
+margin-bottom: 1.5rem;
+color: #4fc3f7;
+text-align: center;
+}
+
+.feature-card h3 {
+color: #81d4fa;
+margin-bottom: 1rem;
+font-size: 1.6rem;
+text-align: center;
+font-family: 'Orbitron', sans-serif;
+}
+
+.feature-card p {
+line-height: 1.8;
+color: #e1f5fe;
+margin-bottom: 1rem;
+font-size: 1.1rem;
+}
+
+.feature-link-text {
+display: block;
+margin-top: 15px;
+padding: 8px 12px;
+background: rgba(79, 195, 247, 0.1);
+border-radius: 8px;
+border-left: 3px solid #4fc3f7;
+font-size: 0.9rem;
+color: #b3e5fc;
+transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-link-text {
+background: rgba(79, 195, 247, 0.2);
+transform: translateX(5px);
+}
+
+/* STATS */
+.stats-container {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 2rem;
+margin: 4rem 0;
+}
+
+.stat-item {
+text-align: center;
+padding: 2rem;
+background: rgba(20, 40, 60, 0.6);
+border-radius: 10px;
+border: 1px solid rgba(79, 195, 247, 0.2);
+transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+border-color: #4fc3f7;
+transform: translateY(-5px);
+}
+
+.stat-number {
+color: #4fc3f7;
+font-size: 2.5rem;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 0.5rem;
+font-weight: 700;
+}
+
+.stat-label {
+color: #b3e5fc;
+font-size: 1.1rem;
+font-weight: 500;
+}
+
+/* QUOTE */
+.ai-quote {
+background: linear-gradient(135deg,
+rgba(79, 195, 247, 0.1) 0%,
+rgba(3, 169, 244, 0.05) 100%);
+border-left: 4px solid #4fc3f7;
+padding: 3rem;
+margin: 4rem 0;
+font-style: italic;
+font-size: 1.4rem;
+line-height: 1.8;
+color: #e1f5fe;
+border-radius: 0 15px 15px 0;
+}
+
+.quote-source {
+text-align: right;
+color: #81d4fa;
+margin-top: 1.5rem;
+font-size: 1.1rem;
+font-weight: 600;
+}
+
+/* Transparent FOOTER with blur */
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(20, 40, 60, 0.4) !important; /* Semi-transparent blue */
+backdrop-filter: blur(15px);
+-webkit-backdrop-filter: blur(15px);
+color: white;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid rgba(79, 195, 247, 0.3);
+transition: opacity 0.5s ease;
+box-shadow:
+    0 -5px 25px rgba(10, 26, 42, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+footer.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+/* Footer text styling */
+footer p {
+    margin: 0;
+    padding: 0;   
+}
+
+/* The Mars Abyss text - blue tone */
+.footer-mars-abyss {
+    color: #4fc3f7;
+    text-shadow: 
+        0 0 110px rgba(79, 195, 247, 0.7),
+        0 0 20px rgba(79, 195, 247, 0.3);  
+}
+
+/* Date and copyright text - white */
+.footer-copyright {
+    color: #ffffff;
+    
+    opacity: 0.9;
+}
+
+/* Optional: Add a subtle gradient overlay for depth */
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom, 
+        transparent 0%,
+        rgba(20, 40, 60, 0.3) 50%,
+        rgba(20, 40, 60, 0.5) 100%
+    );
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Add a subtle pulse animation to The Mars Abyss text */
+@keyframes gentlePulse {
+    0%, 100% {
+        text-shadow:
+            0 0 15px rgba(79, 195, 247, 0.7),
+            0 0 20px rgba(79, 195, 247, 0.3);
+    }
+    50% {
+        text-shadow:
+            0 0 15px rgba(79, 195, 247, 0.9),
+            0 0 25px rgba(79, 195, 247, 0.5),
+            0 0 35px rgba(79, 195, 247, 0.2);
+    }
+}
+
+.footer-mars-abyss {
+    animation: gentlePulse 3s infinite ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    footer {
+        padding: 0.6rem 0;
+        font-size: 0.8rem;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+}
+
+@media (max-width: 480px) {
+    footer {
+        padding: 0.5rem 0;
+        font-size: 0.75rem;
+    }
+}
+
+.content-spacer {
+height: 120px;
+}
+
+/* SCROLL PROGRESS */
+.scroll-progress {
+position: fixed;
+top: 0;
+left: 0;
+width: 0%;
+height: 3px;
+background: linear-gradient(90deg, #4fc3f7, #03a9f4);
+z-index: 1001;
+transition: width 0.1s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+.content-container {
+margin: 100px 15px 30px;
+}
+
+.main-title {
+font-size: 2.5rem;
+}
+
+.section-header {
+font-size: 2rem;
+}
+
+.feature-grid {
+grid-template-columns: 1fr;
+}
+
+.content-section {
+padding: 3rem 1.5rem;
+}
+
+.quantum-video-container {
+height: 300px;
+}
+
+nav.top-menu {
+gap: 1rem;
+padding: 0.5rem 0;
+}
+
+nav.top-menu a {
+font-size: 0.9rem;
+padding: 0.4rem 0.6rem;
+}
+
+.stats-container {
+grid-template-columns: repeat(2, 1fr);
+}
+
+.toggle-btn {
+min-width: 160px;
+min-height: 50px;
+padding: 6px 10px;
+}
+
+.btn-main-text {
+font-size: 0.85rem;
+}
+
+.btn-sub-text {
+font-size: 0.6rem;
+}
+
+.content-toggle {
+top: 70px;
+right: 15px;
+}
+}
+
+@media (max-width: 480px) {
+.stats-container {
+grid-template-columns: 1fr;
+}
+
+.main-title {
+font-size: 2rem;
+}
+
+.toggle-btn {
+min-width: 140px;
+min-height: 45px;
+}
+
+.btn-main-text {
+font-size: 0.8rem;
+}
+
+.btn-sub-text {
+font-size: 0.55rem;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- SCROLL PROGRESS BAR -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- VIDEO BACKGROUND (using same as MAI) -->
+<div class="background-container">
+<div class="static-background" id="staticBg"></div>
+<video class="video-background" id="videoBg" muted loop playsinline preload="auto">
+<source src="videos/quantum-green-smile-2.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+
+<!-- CHROME TOP MENU (same as MAI page) -->
+<nav class="top-menu">
+
+<div class="dropdown">
+<a href="index.html" class="dropbtn active">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<div class="dropdown"></div>
+<div class="dropdown-content"></div>
+<a href="mai-master-artificial-intelligence.html" class="dropbtn active">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+<a href="contact.html">Contact</a>
+
+</nav>
+
+<!-- SITE TITLE -->
+<div class="site-title-overlay" id="siteTitle">
+<h1>The Mars Abyss</h1>
+</div>
+
+<!-- TOGGLE BUTTON -->
+<div class="content-toggle">
+<button class="toggle-btn observe-mode" id="toggleContent">
+<div class="toggle-btn-content">
+<span class="btn-main-text">🔋 Quantum State</span>
+<span class="btn-sub-text">(Activate Rejuvenation)</span>
+</div>
+<div class="quantum-state-change"></div>
+</button>
+</div>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content-container" id="mainContent">
+
+<!-- HERO SECTION -->
+<section class="hero-section" id="introduction">
+<div class="hero-content">
+<h1 class="main-title">Quantum Rejuvenation</h1>
+<p class="acronym">THE "PATCH OF GREEN"</p>
+<p class="hero-tagline">
+Glowing patches that reverse aging, blend quantum physics with fashion, and spark philosophical debates between the Regent who tolerates them and Silver who embraces them. Part of Martian Universal Healthcare since MY 15.
+</p>
+</div>
+</section>
+
+<!-- REGENT'S PERSPECTIVE QUOTE -->
+<div class="content-section" style="background: linear-gradient(135deg, rgba(10,26,42,0.3) 0%, rgba(20,40,60,0.2) 100%); padding: 2rem 3rem; margin: 1rem auto; border-radius: 10px; max-width: 900px;">
+<p style="color: #e1f5fe; font-size: 1.4rem; line-height: 1.8; font-style: italic; text-align: center; margin-bottom: 1.5rem; opacity: 0.9;">
+"I grew up watching <em>Kung Fu</em> with David Carradine. I learned patience. So when people started glowing like 30th-century comic book characters, I shrugged. 'Whatever flows your boat,' I tell Silver. But she knows—try to make me wear one, and I'll show you the decorative plate in my office."
+</p>
+<div style="text-align: center; color: #81d4fa; font-family: 'Orbitron', sans-serif; font-size: 1.1rem; letter-spacing: 2px; border-top: 1px solid rgba(79,195,247,0.3); padding-top: 1rem; margin-top: 1rem; opacity: 0.8;">
+— The Regent, during The Regent's Scrolls recording
+</div>
+</div>
+
+<!-- THE SCIENCE SECTION -->
+<section class="content-section section-alt" id="science">
+<h2 class="section-header">The Science of Green Glow</h2>
+
+<div class="quantum-video-container">
+<video class="quantum-video" autoplay muted loop>
+<source src="videos/quantum-patch-application.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+<div class="video-overlay">
+<div class="video-label">Quantum-Dot Hydrogel Application • Cellular Regeneration in Progress</div>
+</div>
+</div>
+
+<div class="feature-grid">
+<div class="feature-card" onclick="window.location.href='professor-squeaks-academy.html'">
+<div class="feature-icon">⚛️</div>
+<h3>Quantum-Dot Hydrogel</h3>
+<p>Developed at Professor Squeaks' Academy, these patches contain quantum dots that maintain entanglement with mitochondrial DNA. When applied, they emit specific frequencies that stimulate telomere repair and cellular regeneration.</p>
+<div class="feature-link-text">
+↗ Visit Professor Squeaks' Academy
+</div>
+</div>
+
+<div class="feature-card" onclick="window.location.href='arachne-labs.html'">
+<div class="feature-icon">🔬</div>
+<h3>Clinical Trials at Arachne Labs</h3>
+<p>Phase testing showed an average biological age regression of 12 years after 6 months of daily use. The green luminescence is a harmless side effect of quantum particles interacting with skin cells.</p>
+<div class="feature-link-text">
+↗ Explore Arachne Labs Research
+</div>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">💚</div>
+<h3>A "Timeline of Green"</h3>
+<p>Named for the temporary 6-8 hour glow post-application. What began as medical treatment became fashion when women started applying decorative patterns. Now Martian youth wear them as status symbols.</p>
+</div>
+</div>
+
+<div class="stats-container">
+<div class="stat-item">
+<div class="stat-number">94%</div>
+<div class="stat-label">reduction in age-related diseases</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">0</div>
+<div class="stat-label">invasive procedures required</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">20 min</div>
+<div class="stat-label">daily application time</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">∞</div>
+<div class="stat-label">covered by Martian Healthcare</div>
+</div>
+</div>
+</section>
+
+<!-- THE REGENT'S DECORATIVE PLATE -->
+<section class="content-section" id="plate">
+<h2 class="section-header">"What is good for thee..."</h2>
+
+<div class="ai-quote" style="border-left-color: #4CAF50;">
+"In my office, a decorative plate with 3D-carved Mars bears our Martian version of New Hampshire's motto. It reminds everyone: Personal choice is sacred here. Silver can glow green all she wants. I'll keep my wrinkles and memories of a time when faces didn't light up rooms."
+<div class="quote-source">- The Regent, showing visitors his prized ornament</div>
+</div>
+
+<div class="feature-grid">
+<div class="feature-card" onclick="window.location.href='what-the-regent-misses.html'">
+<div class="feature-icon">🏺</div>
+<h3>The Ornament's Significance</h3>
+<p>This isn't just decor—it's Martian philosophy carved in stone. Like New Hampshire's "Live Free or Die," our plate symbolizes the balance between innovation and personal liberty that defines our society.</p>
+<div class="feature-link-text">
+↗ Read What The Regent Misses
+</div>
+</div>
+
+<div class="feature-card" onclick="window.location.href='martian-edicts.html'">
+<div class="feature-icon">📜</div>
+<h3>Edict #47: Freedom of Refusal</h3>
+<p>"No citizen shall be compelled to adopt any medical or cosmetic technology against their will, regardless of its proven benefits. Choice remains the cornerstone of dignity." Silver has hacked the code of this law; making improvements?</p>
+<div class="feature-link-text">
+↗ View The Martian Edicts
+</div>
+</div>
+</div>
+</section>
+
+<!-- FASHION & CULTURE -->
+<section class="content-section section-alt" id="fashion">
+<h2 class="section-header">From Medicine to Martian Vogue</h2>
+
+<div class="feature-grid">
+<div class="feature-card" onclick="window.location.href='martian-fashion-frontier.html'">
+<div class="feature-icon">👗</div>
+<h3>Fashion Frontier Adoption</h3>
+<p>What doctors created, artists perfected. Today, glowing patterns on cheeks, arms, and hands signal everything from marital status to professional rank. The green has spawned entire fashion lines.</p>
+<div class="feature-link-text">
+↗ Explore Martian Fashion Frontier
+</div>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">🎭</div>
+<h3>Cultural Divide</h3>
+<p>Older Martians apply discreetly. Youth flaunt full-face designs. The Regent tolerates it all with his trademark shrug and borrowed wisdom from Kwai Chang Caine: "Patience, Grasshopper."</p>
+</div>
+
+<div class="feature-card" onclick="window.location.href='mars-comedy-central-hour.html'">
+<div class="feature-icon">😂</div>
+<h3>Comedy Material</h3>
+<p>Martian comedians joke: "How many Regents does it take to change a light bulb? None—he prefers the dark to green glow!" The Regent laughs loudest at these jokes.</p>
+<div class="feature-link-text">
+↗ Watch Mars Comedy Central
+</div>
+</div>
+</div>
+</section>
+
+<!-- HEALTHCARE IMPLEMENTATION -->
+<section class="content-section" id="healthcare">
+<h2 class="section-header">Universal Healthcare Inclusion</h2>
+
+<div class="ai-quote">
+"When MAI showed me the data—extended lifespans, reduced healthcare costs, happier citizens—I couldn't say no. But I made sure the decree included my decorative plate's wisdom. Choice isn't just a right; it's what makes us Martian."
+<div class="quote-source">- The Regent, Healthcare Policy Announcement</div>
+</div>
+
+<div class="feature-grid">
+<div class="feature-card" onclick="window.location.href='the-martian-economic-vision.html'">
+<div class="feature-icon">💰</div>
+<h3>Economic Impact</h3>
+<p>Free distribution actually saves resources: fewer age-related illnesses, longer productive years, reduced eldercare costs. MAI's calculations showed a 300% return on investment within 5 years.</p>
+<div class="feature-link-text" style="border-left-color: #00ff88;">
+⭐ View The Martian Economic Vision
+</div>
+</div>
+
+<div class="feature-card" onclick="window.location.href='house-of-health-secrets.html'">
+<div class="feature-icon">🏥</div>
+<h3>House of Health Secrets</h3>
+<p>Distribution centers in every dome. Trained application specialists. Custom frequency tuning based on individual quantum signatures. All completely free.</p>
+<div class="feature-link-text">
+↗ Visit House of Health Secrets
+</div>
+</div>
+</div>
+
+<div class="stats-container" style="margin-top: 3rem;">
+<div class="stat-item">
+<div class="stat-number">8.2M</div>
+<div class="stat-label">Martians with access</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">0</div>
+<div class="stat-label">denied for inability to pay</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">1</div>
+<div class="stat-label">Regent who refuses treatment</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">∞</div>
+<div class="stat-label">respect for personal choice</div>
+</div>
+</div>
+</section>
+
+<!-- RELATED PAGES -->
+<section class="content-section section-alt" id="related">
+<h2 class="section-header">Continue Exploring</h2>
+<div class="feature-grid">
+<div class="feature-card" onclick="window.location.href='mai-master-artificial-intelligence.html'">
+<div class="feature-icon">🤖</div>
+<h3>MAI's Quantum Consciousness</h3>
+<p>Learn how MAI developed the quantum algorithms that made this technology possible.</p>
+<div class="feature-link-text">
+↗ Return to MAI Main Page
+</div>
+</div>
+
+<div class="feature-card" onclick="window.location.href='the-regents-motor-collection.html'">
+<div class="feature-icon">🚗</div>
+<h3>The Regent's Other Passions</h3>
+<p>See what the Regent prefers over glowing faces—his collection of vintage Earth vehicles.</p>
+<div class="feature-link-text">
+↗ View Motor Collection
+</div>
+</div>
+
+<div class="feature-card" onclick="window.location.href='silvers-rescue-mission.html'">
+<div class="feature-icon">🎮</div>
+<h3>Play as Silver Saint Claire</h3>
+<p>Experience Martian life through Silver's eyes in this interactive game. Preview Only.</p>
+<div class="feature-link-text">
+↗ Silver's Rescue Mission
+</div>
+</div>
+</div>
+</section>
+
+</div>
+
+<div class="content-spacer"></div>
+
+<footer id="pageFooter">
+<p>
+    <span class="footer-copyright">© 2025 </span>
+    <span class="footer-mars-abyss">The Mars Abyss.</span>
+    <span class="footer-copyright"> All Rights Reserved.</span>
+</p>
+</footer>
+
+<script>
+// COPY THE EXACT SAME JAVASCRIPT FROM YOUR MAI PAGE HERE
+// (All the toggle functionality, video controls, etc.)
+// Video background with fade
+const videoBg = document.getElementById('videoBg');
+const staticBg = document.getElementById('staticBg');
+
+videoBg.addEventListener('loadeddata', function() {
+videoBg.classList.add('loaded');
+// Fade out static background after video loads
+setTimeout(() => {
+staticBg.style.opacity = '0';
+setTimeout(() => {
+staticBg.style.pointerEvents = 'none';
+}, 1500);
+}, 2000);
+
+setTimeout(() => {
+videoBg.play().catch(e => {
+console.log('Video autoplay prevented');
+});
+}, 500);
+});
+
+videoBg.addEventListener('error', function() {
+console.log('Video failed to load, using static background only');
+videoBg.style.display = 'none';
+staticBg.style.opacity = '1';
+staticBg.style.pointerEvents = 'auto';
+});
+
+// Scroll progress bar
+const scrollProgress = document.getElementById('scrollProgress');
+window.addEventListener('scroll', function() {
+const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+const scrolled = (winScroll / height) * 100;
+scrollProgress.style.width = scrolled + '%';
+});
+
+// Content toggle functionality
+const toggleBtn = document.getElementById('toggleContent');
+const mainContent = document.getElementById('mainContent');
+const pageFooter = document.getElementById('pageFooter');
+const siteTitle = document.getElementById('siteTitle');
+const mainMenu = document.querySelector('nav.top-menu');
+
+let contentVisible = true;
+
+toggleBtn.addEventListener('click', function() {
+    contentVisible = !contentVisible;
+    mainContent.classList.toggle('hidden');
+    pageFooter.classList.toggle('hidden');
+    siteTitle.classList.toggle('hidden');
+    mainMenu.classList.toggle('hidden');
+
+    if (contentVisible) {
+        // Update button text with subtitle
+        toggleBtn.classList.remove('smiley-mode');
+        toggleBtn.classList.add('battery-mode');
+        toggleBtn.innerHTML = `
+            <div class="toggle-btn-content">
+                <span class="btn-main-text">🔋 Quantum State</span>
+                <span class="btn-sub-text">(Activate Rejuvenation)</span>
+            </div>
+            <div class="quantum-state-change"></div>
+        `;
+        videoBg.play();
+        document.querySelectorAll('.quantum-video').forEach(v => v.play());
+    } else {
+        // Update button text with subtitle
+        toggleBtn.classList.remove('battery-mode');
+        toggleBtn.classList.add('smiley-mode');
+        toggleBtn.innerHTML = `
+            <div class="toggle-btn-content">
+                <span class="btn-main-text">😍 Restore View</span>
+                <span class="btn-sub-text">Extended Lifespan</span>
+            </div>
+            <div class="quantum-state-change"></div>
+        `;
+       
+        document.querySelectorAll('.quantum-video').forEach(v => v.pause());
+    }
+});
+
+// Context-aware hover effects
+toggleBtn.addEventListener('mouseenter', function() {
+if (isObserving) {
+this.style.boxShadow = '0 0 25px rgba(79, 195, 247, 0.9), 0 0 45px rgba(79, 195, 247, 0.5)';
+} else {
+this.style.boxShadow = '0 0 25px rgba(255, 105, 180, 0.9), 0 0 45px rgba(255, 105, 180, 0.5)';
+}
+});
+
+toggleBtn.addEventListener('mouseleave', function() {
+if (isObserving) {
+this.style.boxShadow = '0 0 20px rgba(79, 195, 247, 0.7), 0 0 40px rgba(79, 195, 247, 0.3)';
+} else {
+this.style.boxShadow = '0 0 15px rgba(255, 105, 180, 0.6), 0 0 30px rgba(255, 105, 180, 0.3)';
+}
+});
+
+// SIMPLE WORKING AUDIO SYSTEM
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+const audio = new Audio('music/whisper-of-tranquility.mp3');
+audio.volume = 0.3;
+audio.loop = true;
+audio.muted = true;
+audioElements.push(audio);
+
+document.addEventListener('click', function unmuteAudio() {
+if (isMuted) {
+audioElements.forEach(a => {
+a.muted = false;
+a.play().catch(e => console.log('Audio play failed'));
+});
+isMuted = false;
+muteBtn.textContent = "🔊 Mute Sounds";
+}
+document.removeEventListener('click', unmuteAudio);
+}, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+isMuted = !isMuted;
+audioElements.forEach(a => {
+a.muted = isMuted;
+});
+muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+initAudio();
+
+// Site title hide on scroll
+let lastScrollTop = 0;
+window.addEventListener('scroll', function() {
+let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+if (scrollTop > lastScrollTop && scrollTop > 50) {
+siteTitle.classList.add('hidden');
+} else {
+siteTitle.classList.remove('hidden');
+}
+lastScrollTop = scrollTop;
+});
+
+// Auto-hide controls
+let inactivityTimer;
+function resetInactivityTimer() {
+clearTimeout(inactivityTimer);
+inactivityTimer = setTimeout(() => {
+if (contentVisible) {
+siteTitle.classList.add('hidden');
+document.querySelector('.content-toggle').style.opacity = '0.3';
+document.querySelector('.audio-controls').style.opacity = '0.3';
+}
+}, 5000);
+}
+
+document.addEventListener('mousemove', resetInactivityTimer);
+document.addEventListener('click', resetInactivityTimer);
+resetInactivityTimer();
+
+// Show controls on hover
+[document.querySelector('.content-toggle'), document.querySelector('.audio-controls')].forEach(el => {
+if (el) {
+el.addEventListener('mouseenter', () => {
+el.style.opacity = '1';
+});
+el.addEventListener('mouseleave', () => {
+if (contentVisible) el.style.opacity = '0.3';
+});
+}
+});
+
+// Feature card click handlers
+document.querySelectorAll('.feature-card[onclick]').forEach(card => {
+card.style.cursor = 'pointer';
+});
+
+// Particle animation CSS for quantum effect
+const style = document.createElement('style');
+style.textContent = `
+@keyframes particleFloat {
+0% {
+transform: translate(0, 0);
+opacity: 1;
+}
+100% {
+transform: translate(var(--x), var(--y));
+opacity: 0;
+}
+}
+`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>

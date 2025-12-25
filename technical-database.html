@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technical Database - The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #fff;
+overflow-x: hidden;
+position: relative;
+background: #000;
+}
+
+/* FIXED BACKGROUND - NO BLINKING */
+.background-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 1;
+}
+
+.static-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('images/blueprint-sector-7bg.jpg') no-repeat center center / cover;
+z-index: 1;
+}
+
+.video-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 2;
+opacity: 0.7;
+}
+
+/* SITE TITLE OVERLAY */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+}
+
+.site-title-overlay h1 {
+color: #00ccff;
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
+
+/* HIDE CONTENT BUTTON */
+.hide-content-btn {
+position: fixed;
+top: 80px;
+right: 30px;
+z-index: 1000;
+background: rgba(0, 204, 255, 0.8);
+border: 2px solid #00ccff;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+}
+
+.hide-content-btn:hover {
+background: rgba(0, 204, 255, 0.6);
+box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+}
+
+/* AUDIO CONTROLS - POSITION FIXED */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 41px;
+z-index: 1000;
+}
+
+.audio-btn {
+background: rgba(0, 204, 255, 0.8);
+border: 2px solid #00ccff;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+background: rgba(0, 204, 255, 0.6);
+box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+}
+
+/* === ENHANCED TOP MENU === */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #00ccff;
+}
+
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #00ccff;
+background: transparent;
+text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background: rgba(26, 26, 26, 0.98);
+min-width: 140px;
+z-index: 1001;
+border-radius: 4px;
+border: 2px solid #00ccff;
+top: 100%;
+left: 0;
+backdrop-filter: blur(5px);
+padding: 4px 0;
+}
+
+.dropdown .dropdown .dropdown-content {
+position: absolute;
+left: 0;
+top: 100%;
+width: 100%;
+}
+
+.dropdown-content a {
+color: #f5f5f5;
+padding: 3px 5px;
+text-decoration: none;
+display: block;
+transition: background-color 0.3s ease;
+font-size: 0.9rem;
+line-height: 1.2;
+}
+
+.dropdown-content a:hover {
+background: rgba(0, 204, 255, 0.6);
+color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/* BLUEPRINT DETAIL STYLES */
+.blueprint-detail {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 10, 20, 0.95);
+z-index: 2000;
+overflow-y: auto;
+}
+
+.blueprint-detail.active {
+display: block;
+animation: blueprintSlide 0.5s ease-out;
+}
+
+@keyframes blueprintSlide {
+from { opacity: 0; transform: scale(0.9); }
+to { opacity: 1; transform: scale(1); }
+}
+
+.blueprint-header {
+background: rgba(0, 20, 40, 0.95);
+padding: 2rem;
+border-bottom: 3px solid #00ccff;
+text-align: center;
+}
+
+.blueprint-title {
+font-size: 3rem;
+color: #00ccff;
+margin-bottom: 0.5rem;
+text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+}
+
+.blueprint-subtitle {
+font-size: 1.3rem;
+color: #aaddff;
+font-style: italic;
+}
+
+.blueprint-content {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 2rem;
+padding: 2rem;
+max-width: 1400px;
+margin: 0 auto;
+}
+
+.blueprint-media {
+background: rgba(0, 0, 0, 0.7);
+padding: 1.5rem;
+border-radius: 10px;
+border: 2px solid #00ccff;
+}
+
+.blueprint-image {
+width: 100%;
+height: 300px;
+object-fit: contain;
+background: #001122;
+border: 1px solid #00ccff;
+margin-bottom: 1rem;
+}
+
+.blueprint-video {
+width: 100%;
+height: 250px;
+background: #000;
+border: 1px solid #00ccff;
+}
+
+.blueprint-specs {
+background: rgba(0, 0, 0, 0.7);
+padding: 1.5rem;
+border-radius: 10px;
+border: 2px solid #00ccff;
+}
+
+.specs-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 1rem;
+margin: 1.5rem 0;
+}
+
+.spec-item {
+background: rgba(0, 51, 102, 0.5);
+padding: 1rem;
+border-radius: 5px;
+border-left: 3px solid #00ccff;
+}
+
+.spec-item h4 {
+color: #00ccff;
+margin-bottom: 0.5rem;
+}
+
+.close-blueprint {
+position: absolute;
+top: 1rem;
+right: 1rem;
+background: #00ccff;
+color: #001122;
+border: none;
+padding: 0.5rem 1rem;
+border-radius: 5px;
+cursor: pointer;
+font-weight: bold;
+transition: background 0.3s ease;
+z-index: 2001;
+}
+
+.close-blueprint:hover {
+background: #00aaff;
+}
+
+/* TITLE SECTION */
+.tech-database-hero {
+position: absolute;
+top: 20%;
+left: 50%;
+transform: translateX(-50%);
+text-align: center;
+padding: 40px;
+background: rgba(0, 20, 40, 0.9);
+border-radius: 10px;
+border-left: 4px solid #00ccff;
+width: 80%;
+max-width: 900px;
+animation: fadeIn 2s ease-out;
+transition: all 0.8s ease-in-out;
+z-index: 5;
+}
+
+.tech-database-hero.fade-out {
+opacity: 0;
+transform: translateX(-50%) translateY(-20px);
+pointer-events: none;
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.tech-database-hero h1 {
+font-size: 3.5rem;
+color: #00ccff;
+margin-bottom: 1rem;
+text-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
+}
+
+.tech-intro {
+font-size: 1.3rem;
+line-height: 1.6;
+color: #aaddff;
+font-style: italic;
+}
+
+/* CARD SECTION */
+.card-section {
+position: fixed;
+bottom: 30px;
+left: 0;
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 1rem;
+z-index: 100;
+opacity: 0;
+transition: opacity 0.5s ease;
+}
+
+.card-section.visible {
+opacity: 1;
+}
+
+.card-container {
+display: flex;
+overflow-x: auto;
+scroll-behavior: smooth;
+gap: 1.5rem;
+padding: 1rem;
+max-width: 80%;
+min-height: 240px;
+}
+
+.card-container::-webkit-scrollbar {
+display: none;
+}
+
+.card {
+flex: 0 0 auto;
+width: 150px;
+height: 220px;
+background-size: cover;
+background-position: center;
+filter: grayscale(100%) contrast(150%);
+transition: all 0.4s ease;
+border-radius: 8px;
+cursor: pointer;
+border: 2px solid transparent;
+position: relative;
+}
+
+.card:hover {
+filter: grayscale(0%) contrast(100%);
+transform: scale(1.05);
+border-color: #00ccff;
+z-index: 150;
+}
+
+.card-label {
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+background: rgba(0, 0, 0, 0.9);
+color: #00ccff;
+padding: 8px;
+font-size: 0.9rem;
+text-align: center;
+border-bottom-left-radius: 8px;
+border-bottom-right-radius: 8px;
+font-family: 'Courier New', monospace;
+font-weight: bold;
+}
+
+/* CARD SHUFFLING */
+.card-container.shuffling {
+animation: shuffleAnimation 1s ease-in-out;
+}
+
+@keyframes shuffleAnimation {
+0% { transform: translateX(0); }
+25% { transform: translateX(-100px); }
+50% { transform: translateX(100px); opacity: 0.5; }
+75% { transform: translateX(-50px); opacity: 0.7; }
+100% { transform: translateX(0); opacity: 1; }
+}
+
+.cards-hidden .card {
+display: none;
+}
+
+/* ARROWS */
+.arrow {
+font-size: 2.5rem;
+cursor: pointer;
+padding: 0.5rem;
+background: rgba(0, 0, 0, 0.5);
+border-radius: 50%;
+transition: background 0.3s ease;
+user-select: none;
+z-index: 110;
+color: #00ccff;
+border: 2px solid #00ccff;
+}
+
+.arrow:hover {
+background: rgba(0, 204, 255, 0.6);
+transform: scale(1.1);
+color: black;
+}
+
+.arrow.shuffle-mode {
+background: rgba(255, 100, 0, 0.6);
+animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+0% { transform: scale(1); }
+50% { transform: scale(1.1); }
+100% { transform: scale(1); }
+}
+
+/* ENHANCED FOOTER - POSITION FIXED */
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #00ccff;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #00ccff;
+padding-left: 1px;
+}
+
+/* CARD BACKGROUNDS */
+.card-martian-shuttle { background-image: url('images/blueprint-martian-shuttle.jpg'); }
+.card-bio-suit { background-image: url('images/blueprint-bio-suit.jpg'); }
+.card-colony-schematic { background-image: url('images/blueprint-colony-schematic.jpg'); }
+.card-surface-rover { background-image: url('images/blueprint-surface-rover.jpg'); }
+.card-mining-drone { background-image: url('images/blueprint-mining-probe.jpg'); }
+.card-comm-satellite { background-image: url('images/blueprint-comm-satellite.jpg'); }
+.card-habitat-module { background-image: url('images/blueprint-habitat-module.jpg'); }
+.card-rescue-craft { background-image: url('images/blueprint-rescue-craft.jpg'); }
+.card-science-probe { background-image: url('images/blueprint-science-vessel.jpg'); }
+.card-class-v-freighter { background-image: url('images/blueprint-class-v-freighter.jpg'); }
+.card-company-service-vehicle { background-image: url('images/blueprint-company-service-vehicle.jpg'); }
+.card-life-support { background-image: url('images/blueprint-life-support.jpg'); }
+.card-aether-warship { background-image: url('images/blueprint-aether-wing-warship.jpg'); }
+.card-isometric-facility { background-image: url('images/blueprint-isometric-assembly-facility.jpg'); }
+.card-medical-craft { background-image: url('images/blueprint-medical-craft.jpg'); }
+.card-sleeping-quarters { background-image: url('images/blueprint-sleeping-quarters.jpg'); }
+.card-utility-vehicle { background-image: url('images/blueprint-utility-vehicle-yv-875.jpg'); }
+.card-interplanetary-vessel { background-image: url('images/blueprint-mk-iv-interplanetary-vessel.jpg'); }
+.card-personal-vehicle { background-image: url('images/blueprint-explorer-vehicle-model-mev-527.jpg'); }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+.blueprint-content {
+grid-template-columns: 1fr;
+}
+.tech-database-hero {
+top: 15%;
+width: 90%;
+padding: 20px;
+}
+.tech-database-hero h1 {
+font-size: 2.5rem;
+}
+.card-section {
+bottom: 70px;
+}
+.card {
+width: 120px;
+height: 180px;
+}
+.site-title-overlay {
+top: 70px;
+left: 20px;
+}
+.site-title-overlay h1 {
+font-size: 1.4rem;
+}
+.audio-controls {
+right: 20px;
+bottom: 70px;
+}
+.hide-content-btn {
+top: 70px;
+right: 20px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- FIXED MARTIAN BACKGROUND - NO BLINKING -->
+<div class="background-container">
+<div class="static-background" id="staticBg"></div>
+<video class="video-background" id="marsVideo" muted loop playsinline preload="auto">
+<source src="videos/blueprint-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+
+<!-- SITE TITLE OVERLAY -->
+<div class="site-title-overlay">
+<h1>The Mars Abyss</h1>
+</div>
+
+<!-- HIDE CONTENT BUTTON -->
+<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- ENHANCED TOP MENU -->
+<nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html" class="active">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martiab Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>    
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>    
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+<a href="contact.html">Contact</a>
+</nav>
+
+<!-- BLUEPRINT DETAIL VIEWS -->
+<div class="blueprint-detail" id="martian-shuttle-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">MV-17 Martian Shuttle</h1>
+<p class="blueprint-subtitle">Atmospheric & Orbital Transport Vehicle</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-martian-shuttle.jpg" alt="Martian Shuttle Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/martian-shuttle-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Max Speed</h4>
+<p>Mach 3.2 (Atmospheric)</p>
+</div>
+<div class="spec-item">
+<h4>Range</h4>
+<p>2,500 km (Surface to Orbit)</p>
+</div>
+<div class="spec-item">
+<h4>Crew Capacity</h4>
+<p>8 Personnel + 2,000 kg Cargo</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Dual Fusion Reactors</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Primary transport between Martian surface settlements and orbital stations. Capable of vertical takeoff and landing with advanced heat shields for atmospheric re-entry.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="bio-suit-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Advanced Bio-Suit</h1>
+<p class="blueprint-subtitle">Personal Environmental Protection System</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-bio-suit.jpg" alt="Bio-Suit Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/bio-suit-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Oxygen Supply</h4>
+<p>72 Hours (Standard)</p>
+</div>
+<div class="spec-item">
+<h4>Temperature Range</h4>
+<p>-150°C to +80°C</p>
+</div>
+<div class="spec-item">
+<h4>Mobility Rating</h4>
+<p>Enhanced Articulation</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Micro-Fusion Cell</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Advanced personal protection system designed for extended Martian surface operations. Features integrated communications, environmental monitoring, and emergency life support systems.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="colony-schematic-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Colony Schematic</h1>
+<p class="blueprint-subtitle">Primary Martian Settlement Design</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-colony-schematic.jpg" alt="Colony Schematic Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/colony-schematic-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Population Capacity</h4>
+<p>5,000 Residents</p>
+</div>
+<div class="spec-item">
+<h4>Dome Diameter</h4>
+<p>2.5 Kilometers</p>
+</div>
+<div class="spec-item">
+<h4>Life Support</h4>
+<p>Redundant Systems</p>
+</div>
+<div class="spec-item">
+<h4>Power Generation</h4>
+<p>Geothermal + Solar</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Complete colony design featuring residential zones, agricultural sectors, research facilities, and industrial areas. All systems designed with redundancy and emergency protocols.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="surface-rover-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Surface Rover</h1>
+<p class="blueprint-subtitle">All-Terrain Exploration Vehicle</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-surface-rover.jpg" alt="Surface Rover Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/surface-rover-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Max Speed</h4>
+<p>120 km/h</p>
+</div>
+<div class="spec-item">
+<h4>Range</h4>
+<p>800 km</p>
+</div>
+<div class="spec-item">
+<h4>Crew Capacity</h4>
+<p>4 Personnel</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Solar + Battery Array</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Rugged all-terrain vehicle designed for extended surface exploration. Features advanced suspension, radiation shielding, and sample collection systems.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="mining-drone-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Mining Drone</h1>
+<p class="blueprint-subtitle">Autonomous Resource Extraction Unit</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-mining-probe.jpg" alt="Mining Drone Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/mining-drone-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Operation Depth</h4>
+<p>Up to 500 meters</p>
+</div>
+<div class="spec-item">
+<h4>Payload Capacity</h4>
+<p>2,000 kg</p>
+</div>
+<div class="spec-item">
+<h4>Autonomy</h4>
+<p>72 hours continuous</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Nuclear Thermal</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Autonomous mining unit capable of subsurface operations. Equipped with advanced sensors, drilling apparatus, and material processing systems.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="comm-satellite-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Comm Satellite</h1>
+<p class="blueprint-subtitle">Orbital Communications Relay</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-comm-satellite.jpg" alt="Comm Satellite Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/comm-satellite-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Orbit Type</h4>
+<p>Geosynchronous</p>
+</div>
+<div class="spec-item">
+<h4>Bandwidth</h4>
+<p>50 Gbps</p>
+</div>
+<div class="spec-item">
+<h4>Coverage</h4>
+<p>Full Martian Surface</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Solar Arrays</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Advanced communications satellite providing global coverage for Martian settlements. Features quantum encryption and redundant systems for maximum reliability.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="habitat-module-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Habitat Module</h1>
+<p class="blueprint-subtitle">Expandable Living Quarters</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-habitat-module.jpg" alt="Habitat Module Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/habitat-module-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Capacity</h4>
+<p>12 Residents</p>
+</div>
+<div class="spec-item">
+<h4>Deployment Time</h4>
+<p>4 Hours</p>
+</div>
+<div class="spec-item">
+<h4>Life Support</h4>
+<p>90 Days Autonomous</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Integrated Solar</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Rapid-deployment habitat module with integrated life support, radiation shielding, and emergency systems. Designed for both temporary and permanent settlements.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="rescue-craft-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Rescue Craft</h1>
+<p class="blueprint-subtitle">Emergency Response Vehicle</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-rescue-craft.jpg" alt="Rescue Craft Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/rescue-craft-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Response Time</h4>
+<p>< 5 Minutes</p>
+</div>
+<div class="spec-item">
+<h4>Medical Capacity</h4>
+<p>8 Patients + 4 Medics</p>
+</div>
+<div class="spec-item">
+<h4>Range</h4>
+<p>1,000 km</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Turbine + Battery</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Rapid-response emergency vehicle equipped with advanced medical facilities, search and rescue equipment, and all-weather capability.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="science-probe-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Science Probe</h1>
+<p class="blueprint-subtitle">Deep Space Research Vessel</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-science-vessel.jpg" alt="Science Probe Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/science-probe-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Mission Duration</h4>
+<p>5 Years Autonomous</p>
+</div>
+<div class="spec-item">
+<h4>Sensor Array</h4>
+<p>Multi-spectral</p>
+</div>
+<div class="spec-item">
+<h4>Data Storage</h4>
+<p>100 Petabytes</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>RTG + Solar</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Advanced research vessel designed for deep space exploration. Equipped with state-of-the-art sensors, sample collection systems, and autonomous operation capabilities.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="class-v-freighter-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Class V Freighter</h1>
+<p class="blueprint-subtitle">Height Cargo Transport</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-class-v-freighter.jpg" alt="Class V Freighter Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/class-v-freighter-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Cargo Capacity</h4>
+<p>50,000 Metric Tons</p>
+</div>
+<div class="spec-item">
+<h4>Max Speed</h4>
+<p>0.1c (Cruise)</p>
+</div>
+<div class="spec-item">
+<h4>Crew</h4>
+<p>12 + AI Assistant</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Fusion Drive</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Heavy interstellar cargo vessel designed for bulk transport between Mars and outer colonies. Features advanced automation and redundant systems.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="company-service-vehicle-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Service Vehicle</h1>
+<p class="blueprint-subtitle">Multi-purpose Utility Craft</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-company-service-vehicle.jpg" alt="Service Vehicle Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/service-vehicle-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Configurations</h4>
+<p>8 Modular</p>
+</div>
+<div class="spec-item">
+<h4>Operation Time</h4>
+<p>16 Hours Continuous</p>
+</div>
+<div class="spec-item">
+<h4>Crew Capacity</h4>
+<p>2-6 Personnel</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Hybrid Electric</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Versatile utility vehicle with modular configurations for various missions including maintenance, construction, and emergency response.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="life-support-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Life Support System</h1>
+<p class="blueprint-subtitle">Environmental Control & Life Support</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-life-support.jpg" alt="Life Support Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/life-support-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Oxygen Production</h4>
+<p>1000 L/hour</p>
+</div>
+<div class="spec-item">
+<h4>Water Recycling</h4>
+<p>98% Efficiency</p>
+</div>
+<div class="spec-item">
+<h4>CO2 Scrubbing</h4>
+<p>99.9% Effective</p>
+</div>
+<div class="spec-item">
+<h4>Power Consumption</h4>
+<p>25 kW Peak</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Advanced environmental control system providing breathable air, temperature regulation, and waste recycling for long-duration missions.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="aether-warship-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Aether Warship</h1>
+<p class="blueprint-subtitle">Planetary Defense Vessel</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-aether-wing-warship.jpg" alt="Aether Warship Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/aether-warship-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Armament</h4>
+<p>Plasma Cannons x8</p>
+</div>
+<div class="spec-item">
+<h4>Shielding</h4>
+<p>Quantum Field</p>
+</div>
+<div class="spec-item">
+<h4>Max Speed</h4>
+<p>0.25c</p>
+</div>
+<div class="spec-item">
+<h4>Crew</h4>
+<p>50 + AI Core</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Advanced warship designed for planetary defense and deep space combat operations. Features state-of-the-art weaponry and defensive systems.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="isometric-facility-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Isometric Facility</h1>
+<p class="blueprint-subtitle">Advanced Manufacturing Plant</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-isometric-assembly-facility.jpg" alt="Isometric Facility Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/isometric-facility-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Production Rate</h4>
+<p>100 Units/Day</p>
+</div>
+<div class="spec-item">
+<h4>Automation Level</h4>
+<p>95% Autonomous</p>
+</div>
+<div class="spec-item">
+<h4>Power Requirements</h4>
+<p>500 MW</p>
+</div>
+<div class="spec-item">
+<h4>Workforce</h4>
+<p>50 Technicians</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>State-of-the-art manufacturing facility capable of producing everything from microchips to spacecraft components using advanced 3D printing and robotic assembly.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="medical-craft-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Medical Craft</h1>
+<p class="blueprint-subtitle">Mobile Hospital Unit</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-medical-craft.jpg" alt="Medical Craft Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/medical-craft-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Patient Capacity</h4>
+<p>20 Critical Care</p>
+</div>
+<div class="spec-item">
+<h4>Surgical Suites</h4>
+<p>3 Operating Rooms</p>
+</div>
+<div class="spec-item">
+<h4>Deployment Time</h4>
+<p>30 Minutes</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Dual Reactors</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Fully equipped mobile medical facility with surgical capabilities, diagnostic imaging, and advanced life support systems for emergency response.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="sleeping-quarters-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Sleeping Quarters</h1>
+<p class="blueprint-subtitle">Crew Accommodation Module</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-sleeping-quarters.jpg" alt="Sleeping Quarters Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/sleeping-quarters-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Occupancy</h4>
+<p>24 Crew Members</p>
+</div>
+<div class="spec-item">
+<h4>Privacy Level</h4>
+<p>Individual Cabins</p>
+</div>
+<div class="spec-item">
+<h4>Environmental Control</h4>
+<p>Individual Zones</p>
+</div>
+<div class="spec-item">
+<h4>Power Consumption</h4>
+<p>15 kW Average</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Comfortable crew accommodation with individual sleeping pods, personal storage, and recreational areas designed for long-duration missions.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="utility-vehicle-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Utility Vehicle YV-875</h1>
+<p class="blueprint-subtitle">Multi-role Support Craft</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-utility-vehicle-yv-875.jpg" alt="Utility Vehicle Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/utility-vehicle-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Payload Capacity</h4>
+<p>5,000 kg</p>
+</div>
+<div class="spec-item">
+<h4>Attachment Points</h4>
+<p>12 Modular</p>
+</div>
+<div class="spec-item">
+<h4>Operation Range</h4>
+<p>500 km</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Fuel Cell + Solar</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Versatile utility vehicle designed for construction, maintenance, and cargo transport operations with quick-change modular attachments.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="interplanetary-vessel-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">MK-IV Interplanetary Vessel</h1>
+<p class="blueprint-subtitle">Long-range Exploration Ship</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-mk-iv-interplanetary-vessel.jpg" alt="Interplanetary Vessel Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/interplanetary-vessel-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Max Speed</h4>
+<p>0.2c</p>
+</div>
+<div class="spec-item">
+<h4>Mission Duration</h4>
+<p>10 Years</p>
+</div>
+<div class="spec-item">
+<h4>Crew Capacity</h4>
+<p>100 Personnel</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Fusion Drive</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Advanced interplanetary vessel designed for extended missions throughout the solar system. Features artificial gravity, advanced laboratories, and extensive cargo capacity.</p>
+</div>
+</div>
+</div>
+
+<div class="blueprint-detail" id="personal-vehicle-detail">
+<button class="close-blueprint" onclick="closeBlueprint()">Close Blueprint</button>
+<div class="blueprint-header">
+<h1 class="blueprint-title">Explorer Vehicle MEV-527</h1>
+<p class="blueprint-subtitle">Personal Transport & Exploration</p>
+</div>
+<div class="blueprint-content">
+<div class="blueprint-media">
+<img src="images/blueprint-explorer-vehicle-model-mev-527.jpg" alt="Personal Vehicle Blueprint" class="blueprint-image">
+<div class="blueprint-video">
+<video controls width="100%" height="100%">
+<source src="videos/personal-vehicle-animation.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="blueprint-specs">
+<h3>Technical Specifications</h3>
+<div class="specs-grid">
+<div class="spec-item">
+<h4>Seating Capacity</h4>
+<p>4 Adults</p>
+</div>
+<div class="spec-item">
+<h4>Max Speed</h4>
+<p>180 km/h</p>
+</div>
+<div class="spec-item">
+<h4>Range</h4>
+<p>600 km</p>
+</div>
+<div class="spec-item">
+<h4>Power Source</h4>
+<p>Electric + Solar</p>
+</div>
+</div>
+<h3>Operational Details</h3>
+<p>Personal exploration vehicle designed for both surface transportation and short-range exploration missions. Features comfortable seating, advanced navigation, and all-terrain capability.</p>
+</div>
+</div>
+</div>
+
+<!-- HERO SECTION -->
+<div class="tech-database-hero" id="techHero">
+<h1>Technical Database</h1>
+<p class="tech-intro">"Engineering the future of humanity on Mars. Detailed blueprints, specifications, and operational data for all Martian vehicles and systems."</p>
+</div>
+
+<!-- SCROLLABLE CARDS -->
+<div class="card-section" id="cardSection">
+<div class="arrow" id="leftArrow" onclick="scrollCards(-1)">🖖</div>
+<div class="card-container" id="cards">
+<div class="card card-martian-shuttle" onclick="openBlueprint('martian-shuttle')">
+<div class="card-label">MV-17 SHUTTLE</div>
+</div>
+<div class="card card-bio-suit" onclick="openBlueprint('bio-suit')">
+<div class="card-label">BIO-SUIT</div>
+</div>
+<div class="card card-colony-schematic" onclick="openBlueprint('colony-schematic')">
+<div class="card-label">COLONY SCHEMATIC</div>
+</div>
+<div class="card card-surface-rover" onclick="openBlueprint('surface-rover')">
+<div class="card-label">SURFACE ROVER</div>
+</div>
+<div class="card card-mining-drone" onclick="openBlueprint('mining-drone')">
+<div class="card-label">MINING DRONE</div>
+</div>
+<div class="card card-comm-satellite" onclick="openBlueprint('comm-satellite')">
+<div class="card-label">COMM SATELLITE</div>
+</div>
+<div class="card card-habitat-module" onclick="openBlueprint('habitat-module')">
+<div class="card-label">HABITAT MODULE</div>
+</div>
+<div class="card card-rescue-craft" onclick="openBlueprint('rescue-craft')">
+<div class="card-label">RESCUE CRAFT</div>
+</div>
+<div class="card card-science-probe" onclick="openBlueprint('science-probe')">
+<div class="card-label">SCIENCE PROBE</div>
+</div>
+<div class="card card-class-v-freighter" onclick="openBlueprint('class-v-freighter')">
+<div class="card-label">CLASS V FREIGHTER</div>
+</div>
+<div class="card card-company-service-vehicle" onclick="openBlueprint('company-service-vehicle')">
+<div class="card-label">SERVICE VEHICLE</div>
+</div>
+<div class="card card-life-support" onclick="openBlueprint('life-support')">
+<div class="card-label">LIFE SUPPORT</div>
+</div>
+<div class="card card-aether-warship" onclick="openBlueprint('aether-warship')">
+<div class="card-label">AETHER WARSHIP</div>
+</div>
+<div class="card card-isometric-facility" onclick="openBlueprint('isometric-facility')">
+<div class="card-label">ISOMETRIC FACILITY</div>
+</div>
+<div class="card card-medical-craft" onclick="openBlueprint('medical-craft')">
+<div class="card-label">MEDICAL CRAFT</div>
+</div>
+<div class="card card-sleeping-quarters" onclick="openBlueprint('sleeping-quarters')">
+<div class="card-label">SLEEPING QUARTERS</div>
+</div>
+<div class="card card-utility-vehicle" onclick="openBlueprint('utility-vehicle')">
+<div class="card-label">UTILITY VEHICLE</div>
+</div>
+<div class="card card-interplanetary-vessel" onclick="openBlueprint('interplanetary-vessel')">
+<div class="card-label">INTERPLANETARY VESSEL</div>
+</div>
+<div class="card card-personal-vehicle" onclick="openBlueprint('personal-vehicle')">
+<div class="card-label">PERSONAL VEHICLE</div>
+</div>
+</div>
+<div class="arrow" id="rightArrow" onclick="scrollCards(1)">🖖</div>
+</div>
+
+<footer>
+<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// FIXED VIDEO BACKGROUND LOADING - NO BLINKING
+const videoBg = document.getElementById('marsVideo');
+const staticBg = document.getElementById('staticBg');
+
+// Preload and handle video properly
+videoBg.addEventListener('loadeddata', function() {
+videoBg.classList.add('loaded');
+setTimeout(() => {
+videoBg.play().catch(e => {
+console.log('Autoplay prevented, waiting for user interaction');
+});
+}, 500);
+});
+
+videoBg.addEventListener('canplaythrough', function() {
+videoBg.classList.add('loaded');
+});
+
+videoBg.addEventListener('error', function() {
+console.log('Video failed to load, using static background only');
+videoBg.style.display = 'none';
+});
+
+// Fallback: if video doesn't load within 3 seconds, hide it
+setTimeout(() => {
+if (!videoBg.classList.contains('loaded')) {
+videoBg.style.display = 'none';
+console.log('Video loading timeout, falling back to static background');
+}
+}, 3000);
+
+// AUDIO SYSTEM
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+const sounds = [
+{ src: 'music/staub-unter-meinem-herz ext-v2.mp3', volume: 0.7 },
+{ src: 'sounds/technical-hum.mp3', volume: 0.2 }
+];
+
+sounds.forEach(sound => {
+const audio = new Audio(sound.src);
+audio.volume = sound.volume;
+audio.loop = true;
+audio.muted = true;
+audioElements.push(audio);
+});
+
+// Audio initialization
+document.addEventListener('click', function unmuteAudio() {
+if (!isMuted) {
+audioElements.forEach(audio => {
+audio.muted = false;
+audio.play().catch(e => console.log('Audio play failed'));
+});
+isMuted = false;
+muteBtn.textContent = "🔊 Mute Sounds";
+}
+document.removeEventListener('click', unmuteAudio);
+}, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+isMuted = !isMuted;
+audioElements.forEach(audio => {
+audio.muted = isMuted;
+});
+muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// Initialize audio when page loads
+initAudio();
+
+// HIDE CONTENT FUNCTIONALITY
+const hideContentBtn = document.getElementById('hideContentBtn');
+let isContentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+isContentHidden = !isContentHidden;
+const hero = document.getElementById('techHero');
+const cardSection = document.getElementById('cardSection');
+const footer = document.querySelector('footer');
+const nav = document.querySelector('nav.top-menu');
+const siteTitle = document.querySelector('.site-title-overlay');
+const audioControls = document.querySelector('.audio-controls');
+
+if (isContentHidden) {
+hero.style.display = 'none';
+cardSection.style.display = 'none';
+footer.style.display = 'none';
+nav.style.display = 'none';
+siteTitle.style.display = 'none';
+audioControls.style.display = 'none';
+hideContentBtn.textContent = 'Show Content';
+} else {
+hero.style.display = 'block';
+cardSection.style.display = 'flex';
+footer.style.display = 'block';
+nav.style.display = 'flex';
+siteTitle.style.display = 'block';
+audioControls.style.display = 'block';
+hideContentBtn.textContent = 'Hide Content';
+}
+});
+
+// AUTO-FADING TITLE AND CARD APPEARANCE
+let fadeTimeOut;
+let quickFadeTimeout;
+let isTitleVisible = true;
+let isShuffleMode = false;
+
+function startFadeTimer() {
+clearTimeout(fadeTimeOut);
+clearTimeout(quickFadeTimeout);
+
+fadeTimeOut = setTimeout(() => {
+if (isTitleVisible) {
+document.getElementById('techHero').classList.add('fade-out');
+isTitleVisible = false;
+// Show cards after title fades out
+setTimeout(() => {
+document.getElementById('cardSection').classList.add('visible');
+}, 500);
+}
+}, 4000);
+}
+
+function showTitle() {
+clearTimeout(fadeTimeOut);
+clearTimeout(quickFadeTimeout);
+
+// Hide cards when showing title
+document.getElementById('cardSection').classList.remove('visible');
+    
+document.getElementById('techHero').classList.remove('fade-out');
+isTitleVisible = true;
+
+quickFadeTimeout = setTimeout(() => {
+if (isTitleVisible) {
+document.getElementById('techHero').classList.add('fade-out');
+isTitleVisible = false;
+// Show cards again after title fades
+setTimeout(() => {
+document.getElementById('cardSection').classList.add('visible');
+}, 500);
+}
+}, 2000);
+}
+
+// CARD SCROLLING FUNCTION
+function scrollCards(direction) {
+if (isShuffleMode) {
+toggleShuffleMode();
+return;
+}
+const container = document.querySelector(".card-container");
+const scrollAmount = 200;
+container.scrollBy({
+left: direction * scrollAmount,
+behavior: "smooth"
+});
+}
+
+// CARD SHUFFLING FUNCTIONALITY
+function toggleShuffleMode() {
+const container = document.querySelector(".card-container");
+const rightArrow = document.getElementById('rightArrow');
+const leftArrow = document.getElementById('leftArrow');
+if (!isShuffleMode) {
+// Enter shuffle mode - hide cards with animation
+isShuffleMode = true;
+container.classList.add('shuffling', 'cards-hidden');
+rightArrow.classList.add('shuffle-mode');
+leftArrow.classList.add('shuffle-mode');
+setTimeout(() => {
+container.classList.remove('shuffling');
+}, 1000);
+} else {
+// Exit shuffle mode - show cards with animation
+container.classList.remove('cards-hidden');
+container.classList.add('shuffling');
+rightArrow.classList.remove('shuffle-mode');
+leftArrow.classList.remove('shuffle-mode');
+setTimeout(() => {
+container.classList.remove('shuffling');
+isShuffleMode = false;
+}, 1000);
+}
+}
+
+// BLUEPRINT FUNCTIONS
+function openBlueprint(blueprintId) {
+document.querySelector('.tech-database-hero').style.display = 'none';
+const blueprintDetail = document.getElementById(blueprintId + '-detail');
+if (blueprintDetail) {
+blueprintDetail.classList.add('active');
+}
+document.querySelector('.card-section').style.display = 'none';
+document.querySelector('footer').style.display = 'none';
+document.querySelector('nav.top-menu').style.display = 'none';
+document.querySelector('.site-title-overlay').style.display = 'none';
+document.querySelector('.audio-controls').style.display = 'none';
+document.querySelector('.hide-content-btn').style.display = 'none';
+}
+
+function closeBlueprint() {
+document.querySelectorAll('.blueprint-detail').forEach(detail => {
+detail.classList.remove('active');
+});
+document.querySelector('.tech-database-hero').style.display = 'block';
+document.querySelector('.card-section').style.display = 'flex';
+document.querySelector('footer').style.display = 'block';
+document.querySelector('nav.top-menu').style.display = 'flex';
+document.querySelector('.site-title-overlay').style.display = 'block';
+document.querySelector('.audio-controls').style.display = 'block';
+document.querySelector('.hide-content-btn').style.display = 'block';
+showTitle();
+}
+
+// Initialize title fade system
+document.addEventListener('DOMContentLoaded', function() {
+startFadeTimer();
+
+// Show title when mouse moves near top of screen
+document.addEventListener('mousemove', function(e) {
+if (e.clientY < 100) {
+showTitle();
+}
+});
+
+// Double click right arrow to enter shuffle mode
+document.getElementById('rightArrow').addEventListener('dblclick', function() {
+if (!isShuffleMode) {
+toggleShuffleMode();
+}
+});
+});
+
+// KEYBOARD NAVIGATION
+document.addEventListener('keydown', function(event) {
+if (event.key === 'ArrowLeft') scrollCards(-1);
+if (event.key === 'ArrowRight') scrollCards(1);
+if (event.key === 's' || event.key === 'S') toggleShuffleMode();
+if (event.key === 'Escape') closeBlueprint();
+if (event.key === 'h' || event.key === 'H') document.getElementById('hideContentBtn').click();
+});
+
+// CLOSE BLUEPRINT WHEN CLICKING OUTSIDE CONTENT
+document.querySelectorAll('.blueprint-detail').forEach(detail => {
+detail.addEventListener('click', function(e) {
+if (e.target === this) {
+closeBlueprint();
+}
+});
+});
+
+// Ensure video plays when user interacts with page
+document.addEventListener('click', function() {
+if (videoBg.paused) {
+videoBg.play().catch(e => console.log('Video play requires user interaction'));
+}
+});
+</script>
+</body>
+</html>
+
+
+
+

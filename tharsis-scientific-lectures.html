@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tharsis Scientific Lectures - The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    background: #000
+}
+
+.static-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('images/space-x-starship-landing.jpg') no-repeat center center / cover;
+    z-index: 0;
+}
+
+.video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.video-container video {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    border-bottom: 2px solid #ffd700;
+    box-shadow: 
+        0 4px 0 0 #8b4513,
+        0 8px 25px rgba(139, 69, 19, 0.3);
+}
+
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: -1;
+}
+
+.control-buttons {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    z-index: 100;
+    display: flex;
+    gap: 10px;
+}
+
+.control-buttons {
+    background: rgba(26, 26, 26, 0.8);
+    color: #ffd700;
+    border: 2px solid #ffd700;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.control-buttons:hover {
+    background: rgba(255, 215, 0, 0.2);
+}
+
+/* === AUDIO CONTROLS === */
+.audio-controls {
+position: fixed;
+bottom: 60px;
+right: 40px;
+z-index: 1000;
+}
+
+.audio-btn {
+background: rgba(0, 0, 0, 0.7);
+border: 2px solid #4cc9f0;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+font-family: 'Orbitron', sans-serif;
+backdrop-filter: blur(5px);
+font-size: 0.8rem;
+}
+
+.audio-btn:hover {
+background: rgba(157, 78, 221, 0.3);
+}
+
+.hide-content-btn {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #4cc9f0;
+    border: 2px solid #4cc9f0;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: clamp(00.7rem, 2vw, 0.8rem);
+    transition: all 0.3s ease;
+}
+
+.hide-content-btn:hover {
+    background: rgba(76, 201, 240, 0.2);
+}
+
+/* Hide functionality */
+.main-content.hidden,
+footer.hidden,
+nav.top-menu.hidden,
+.lecture-grid.hidden,
+.lecture-hero.hidden,
+.lecture-hero .subtitle
+.site-title-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+}
+
+
+.audio-controls, .hide-content-btn {
+    background: rgba(0, 0, 0, 0.7);
+    color: #4cc9f0;
+    border: 2px solid #4cc9f0;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.audio-controls:hover, .hide-content-btn:hover {
+    background: rgba(76, 201, 240, 0.3);
+}
+
+/* === MAIN CONTENT === */
+.main-content {
+position: relative;
+padding: 2rem 5%;
+min-height: 100vh;
+margin-top: 70px;
+padding-bottom: 100px;
+transition: all 0.5s ease;
+z-index: 10;
+}
+
+.main-content.hidden {
+opacity: 0;
+pointer-events: none;
+transform: translateY(20px);
+}
+
+/* === SITE TITLE OVERLAY === */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+transition: opacity 0.3s ease;
+}
+
+.site-title-overlay.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+.site-title-overlay h1 {
+color: rgba(255, 215, 0, 0.7);
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
+
+       /* UPDATED TOP MENU - MATCHING CONTACT PAGE */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #ffd700;
+}
+
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #ffd700;
+background: transparent;
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid #ffd700;
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    
+}
+
+/* By placing position, and width, fixed the side-by-side dropdown behavior */
+.dropdown .dropdown .dropdown-content {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+}
+
+.dropdown-content a {
+    color: #f5f5f5;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.8rem;
+    line-height: 1;
+}
+
+.dropdown-content a:hover {
+    background: rgba(255, 0, 0, 0.6);
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+
+.lecture-video-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 3rem auto;
+    padding-top: 1rem;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #ffd700;
+    box-shadow: 0 0 30px rgba(255, 213, 0, 0.3);
+}
+
+.lecture-video {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    display: block;
+}
+
+.video-controls {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.play-btn, .fullscreen-btn {
+    background: #ff4b4b;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tharsis-intro {
+    max-width: 1200px;
+    margin: 6rem auto 2rem auto;
+    padding: 0 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.intro-video-container {
+    width: 100%;
+    height: 300px;
+    border: 3px solid #ff4b4b;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255, 75, 75, 0.3);
+}
+
+.intro-video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.intro-content h3 {
+    color: #ffd700;
+    font-family: "Orbitron", sans-serif;
+}
+
+.intro-content p {
+    line-height: 1.6;
+    color: #e0e0ff;
+}
+
+/* Style for the new narrative/lore paragrah */
+.lecture-narrative {
+    background: rgba(40, 20, 10, 0.3); /* A warm, deep, slightly transparent background */
+    border-left: 3px solid #ffb347; /* A district color from the main card border */
+    padding: 1.2rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0; /* Rounded right side only */
+    font-style: italic;
+    line-height: 1.7;
+    color: #f0e6d2; /* A softer, parchment-like color */
+}
+
+.lecture-narrative strong {
+    color: #ffd700;
+    font-style: normal;
+}
+
+.lecture-narrative em {
+    color: #ffb347; /* Copper for specialized roles/names */
+    font-style: normal;
+    font-weight: bold;
+}
+
+/* Lecture Hero Section */
+.lecture-hero {
+    display: block;
+    text-align: center;
+    padding: 120px 0 60px;
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.lecture-hero h1 {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 0.8rem 1.5rem;
+    border-radius: 15px;
+    display: block;
+    border: 3px solid rgba(255, 215, 0, 0.3);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5rem;
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    margin-bottom: 1rem;
+    max-width: 60%;
+    margin: 0 auto;
+}
+
+.lecture-hero .subtitle {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    padding: 0.4rem 1.2rem;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    display: block;
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    color: #ffb347;
+    font-style: italic;
+    max-width: 60%;
+    margin: 1rem auto 0;
+}
+
+/* Lecture Grid */
+.lecture-grid {
+    display: grid;
+    gap: 2rem;
+    padding: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 0;
+    padding-top: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.lecture-card {
+    background: rgba(26, 26, 26, 0.8);
+    border-radius: 15px;
+    padding: 2rem;
+    border-left: 5px solid #ff4b4b;
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+}
+
+.lecture-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff4b4b, #ffd700, #00ccff);
+}
+
+.lecture-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(255, 75, 75, 0.3);
+}
+
+.lecture-card h3 {
+    color: #ffd700;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.lecture-speaker {
+    color: #ffb347;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.lecture-description {
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.watch-button {
+    background: #ff4b4b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.watch-button:hover {
+    background: #ffd700;
+    color: #000;
+    transform: scale(1.05);
+}
+
+.video-placeholder {
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(135deg, #2c1a1a, #4a2c1a);
+    border: 2px solid#ffd700;
+    border-radius: 8px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.video-icon {
+    font-size: 4rem;
+    color: #ffd700;
+    margin-bottom: 1rem;
+}
+
+.featured-lecture {
+    background: linear-gradient(135deg, rgba(255, 75, 75, 0.1), rgba(255, 215, 0, 0.1));
+    border: 2px solid#ffd700;
+}
+
+.lecture-video {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+.martian-symbol {
+    text-align: center;
+    font-size: 2rem;
+    margin: 2rem 0;
+}
+
+/* Styles for the Debate Section */
+.lecture-debate {
+    background: rgba(40, 20, 30, 0.4);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border: 1px solid rgba(255, 75, 75, 0.4);
+}
+
+.debate-side {
+    margin-bottom: 1.5rem;
+}
+
+.debate-side:last-child {
+    margin-bottom: 0;
+}
+
+.debate-side h4 {
+    color: #ffb347;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid;
+    padding-bottom: 0.3rem;
+    display: inline-block;
+}
+
+.debate-side h4:first-child {
+    border-color: #ff4b4b; /* Red for "For" */
+}
+
+.debate-side h4:last-child {
+    border-color: #4cc9f0; /* Blue for "Against" */
+}
+
+.debate-side p {
+    color: #ccc;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.debate-side ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.debate-side li {
+    color: #f0e6d2;
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+    padding-left: 1.2rem;
+    position: relative;
+}
+
+.debate-side li:before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #ffd700;
+}
+
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #ffd700;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #ffd700;
+padding-left: 1px;
+}
+
+</style>
+</head>
+<body>
+    <!-- Your Standard Navigation -->
+<nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html" class="active">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>    
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html" class="active">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>    
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>    
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+<a href="contact.html">Contact</a>
+</nav>
+
+<!-- Video Background -->
+<video class="video-background" id="temporalVideo" autoplay muted loop poster="images/temporal-fallback.jpg">
+<source src="videos/teachers-going-to-their-classes.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+<div class="video-overlay"></div>
+
+<section class="lecture-hero">
+        <h1>Tharsis Scientific Lectures</h1>
+        <p class="subtitle">"Where Martian Visionaries Shape Tomorrow's Science"</p>
+        <div class="martian-symbol">🚀</div>
+    </section>
+</div>
+</div>
+
+    <section class="tharsis-intro">
+        <div class="intro-video-container">
+            <video class="intro-video" controls poster="images/tharsis-landing-preview.jpg">
+                <source src="videos/landing-by-olympus-mons.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="intro-content">
+            <h3>📍 Welcome to Tharsis</h3>
+            <p>Tharsis is Mars' largest volcanic plateau, home to Olympus Mons—the solar system's tallest volcano.
+            This region, rich in geological history and scientific potential, serves as the intellectual capital
+            of Martian civilization. Our lectures originate from the Tharsis Dome Complex, where Mars' greatest
+            minds gather to shape humanity's interplanetary future.
+            </p>
+        </div>
+
+    </section>
+
+    <div class="lecture-grid">
+
+        <!-- LECTURE: THE PATHFINDER PARADOX - Add to .lecture-grid -->
+<div class="lecture-card featured-lecture">
+    <h3>⚖️ Quantum Jurisprudence: The Pathfinder Paradox</h3>
+    <p class="lecture-speaker">Presented by <strong>MAI</strong> & <strong>Dr. Carmen Adams</strong> of the <a href="the-bohr-institute.html" style="color:#9d4edd;">The Bohr Institute</a></p>
+
+    <div class="lecture-video-container">
+        <video class="lecture-video" controls poster="images/pathfinder-paradox-lecture-poster.jpg">
+            <!-- Suggested: A video of a lecture hall, holographic data visualizations, or quantum waveform animations -->
+            <source src="videos/the-pathfinder-paradox-lecture.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <p class="lecture-description">
+        This historic address presented the first confirmed case of macro-scale quantum ambiguity in a cultural artifact. MAI reveals the sensor data proving the <em>Pathfinder</em> lander's provenance exists in a superposition between Mars and Earth. Dr. Vance outlines the legal crisis this creates and introduces the framework that would become <strong>Edicts XVI & XVII</strong>. This lecture fundamentally shifted Martian legal philosophy.
+    </p>
+
+    <!-- The Narrative/Lore Block - The real story -->
+    <div class="lecture-narrative">
+        <p><strong>The Night Martian Law Grew Up</strong><br>
+        The <strong>Tharsis Grand Lecture Hall</strong> was at capacity, with millions more watching via stream. The air wasn't just tense—it was <em>charged</em>. <strong>MAI's</strong> holographic avatar manifested not on stage, but in the center of the room, her form composed of shimmering data streams of the anomalous quantum signatures. She didn't argue; she <strong>displayed</strong>. When the twin waveforms from Mars and Earth flashed in perfect, impossible sync, a collective gasp went through the dome. The <strong>Guardian Faction</strong> delegates stood in silent reverence. A <strong>Terra Primacy</strong> lawyer shouted "Data fraud!" before being hushed. <strong>Dr. Vance</strong> then took the stage, not with a physicist's equations, but with a lawyer's brief, arguing that "the universe has filed an amicus brief in our court, and its evidence is incontrovertible." This lecture didn't present a theory; it presented a <strong>new reality</strong>. The Q&A session lasted four hours and directly informed the draft of the Quantum Heritage Edicts. It is now considered the founding moment of Martian Quantum Jurisprudence.
+        </p>
+    </div>
+
+    <button class="watch-button" onclick="location.href='mai-master-artificial-intelligence.html#jurisprudence'">Watch the Lecture & Review MAI's Analysis</button>
+</div>
+
+        
+        <!-- Featured Lecture -->
+        <div class="lecture-card featured-lecture">
+            <h3>🎣 The Psychology of Holographic Recreation</h3>
+            <p class="lecture-speaker">By The Regent of Mars</p>
+
+            <div class="lecture-video-container">
+                <video class="lecture-video" controls poster="images/holographic-garden-preview.jpg">
+                    <source src="videos/holographic-recreation.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                </div>
+
+            <p class="lecture-description">
+                "Exploring why simulated nature provides genuine psychological benefits. 
+                From my childhood memories of catching shrimp in Earth's waters to our 
+                holographic fishing gardens on Mars - the connection matters more than 
+                the medium."
+            </p>
+            <button class="watch-button">Watch Full Lecture Soon</button>
+        </div>
+
+        <!-- Lecture 2 -->
+        <div class="lecture-card">
+            <h3>🧠 Red Dust Smart-Pop: Culinary Neuroscience</h3>
+            <p class="lecture-speaker">Dr. Nicky Duran, Martian Nutritional Science</p>
+            <div class="lecture-video-container">
+                <video class="lecture-video" controls poster="images/smart-pop-preview.jpg">
+                    <source src="videos/smart-pop-neuroscience.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                </div>
+            <p class="lecture-description">
+                "How we transformed snack food into cognitive enhancement. Our genetically 
+                engineered corn carries hydration enzymes, radiation-shielding compounds, 
+                and neural nutrients specifically designed for Martian environmental challenges."
+            </p>
+
+            <div class="lecture-narrative">
+                <p><strong>Beyond the lab: The Red-Dust Standard</strong><br>
+                The foundational nutrient strain, <em>Grade-A Prime</em>, is issued to all citizens under the <strong>Martian Basic Sustenance Accord</strong>. Yet, the pursuit of flavor and niche enhancement sparked a thriving artisanal market. <em>Academy Cadets</em> swear by the clarity-boosting <strong> Vigil Blend</strong>. <em>Terraform Engineers</em> trade rare packets of <strong>Dust-Proof Char</strong>—a heavily roasted variant prized for its lung-protecting activated carbon-like currency. And the legendary <strong>Tharsis Lager</strong>—a beer descendant with longevity enzymes—remains a coveted perk for senior officials. What you snack on tells a story of where you work, what you value, and how far you've come from the Founding Domes.</p>
+            </div>
+
+            <button class="watch-button">More Varieties Coming Soon!</button>
+        </div>
+
+        <!-- Lecture 3 -->
+        <div class="lecture-card">
+            <h3>🎳 Physics of Recreation in 0.38g</h3>
+            <p class="lecture-speaker">Professor Lena Kovalenko, Martian Physics Institute</p>
+            <div class="lecture-video-container">
+                <video class="lecture-video" controls poster="images/martian-bowling-preview.jpg">
+                    <source src="videos/martian-physics.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                </div>
+            <p class="lecture-description">
+                "Grav-Ball isn't just a sport—it's or living lab. Here, Martian youth explore momentum, vector forces, and energy transfer in a way textbooks never could. Our leagues are specially designed to integrate the unique morphological adaptations of our citizens, turning individual traits into team advantages. This is where recreational physics meets societal principle: we play to our strengths, literally."
+            </p>
+            <button class="watch-button">adaptive Physiology Animation in Development</button>
+        </div>
+
+        <!-- Lecture 4 -->
+        <div class="lecture-card">
+            <h3>🌍 The Newton-Attenborough Accords</h3>
+            <p class="lecture-speaker">Environmental Ethics Council</p>
+            <div class="lecture-video-container">
+                <video class="lecture-video" controls poster="images/accords-preview.jpg">
+                    <source src="videos/newton-attenborough-accords.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                </div>
+            <p class="lecture-description">
+                "For every action upon nature, there must be an equal and opposite protection. 
+                How Martian industry funds Earth's wilderness preservation, creating the first 
+                true interplanetary conservation system."
+            </p>
+            <button class="watch-button">Documentary Style Video Planned</button>
+        </div>
+
+<!-- LECTURE: COSMIC ECONOMICS -->
+<div class="lecture-card featured-lecture">
+    <h3>🌌 Cosmic Economics: The Martian Framework</h3>
+    <p class="lecture-speaker">Presented by <strong>The Regent</strong> & <strong>MAI</strong> | <strong>Economic Systems Division</strong></p>
+
+    <div class="lecture-video-container">
+        <video class="lecture-video" controls poster="images/cosmic-economics-poster.jpg">
+            <source src="videos/cosmic-economic-bg.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <p class="lecture-description">
+        <strong>Lecture #42:</strong> How Mars is proving that cooperative, transparent economic systems
+        aren't just possible—they're <em>more efficient</em> than Earth's competitive models.
+        A comprehensive breakdown of the Martian economic vision, from quantum resource allocation
+        to transparent governance and abundance engineering.
+    </p>
+
+    <!-- Narrative/Lore Block -->
+    <div class="lecture-narrative">
+        <p><strong>From Theory to Dome-Wide Implementation</strong><br>
+        When <strong>The Regent</strong> first proposed dismantling currency-based economics, even the 
+        <em>Martian Council</em> was skeptical. Then <strong>MAI</strong> displayed the simulations: 
+        side-by-side projections of Earth's scarcity model versus Mars's abundance framework. The data 
+        was irrefutable. This lecture wasn't just theory—it was the unveiling of a system already 
+        running in <strong>Ares Prime</strong> for three sols. The Q&A session revealed citizen testimonies 
+        of zero financial anxiety and collective ownership of outcomes. <em>Terra Primacy</em> observers 
+        called it "impractical utopianism," but the real-time resource dashboards showed otherwise.
+        </p>
+    </div>
+
+    <button class="watch-button" onclick="location.href='the-martian-economic-vision.html'">
+        🚀 Explore the Martian Economic Vision 
+    </button>
+</div>
+
+<!-- Lecture 5 - The Cobalt-Red Dilemma -->
+<div class="lecture-card">
+    <h3>⚖️ The Cobalt-Red Dilemma: Stewardship of a System-Wide Resource</h3>
+    <p class="lecture-speaker">Hypothetical Debates Series | Sponsored by The Regent's Office</p>
+
+    <div class="lecture-video-container">
+        <video class="lecture-video" controls poster="images/citadel-debate-poster.jpg">
+            <source src="videos/tharsis-shoreline-citadel.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <div style="position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; background: rgba(0, 0, 0, 0.7); padding: 10px;">
+            <p style="margin: 0; color: #ffd700; font-family: 'Orbitron', sans-serif; font-size: 0.9rem;">
+                The Shoreline Citadel of Tharsis | Where the Future is Debated
+            </p>
+        </div>
+    </div>
+    </div>
+
+    <p class="lecture-description">
+        <strong>Resolved:</strong> The discovery of transcendent resources within Martian jurisdiction obligates the creation of a <em>closed stewardship model</em>, superseding all prior Earth-based claims and frameworks for distribution.
+    </p>
+
+    <!-- DEBATE SECTION - Replaces the narrative box -->
+    <div class="lecture-debate">
+        <div class="debate-side">
+            <h4>🛡️ FOR THE MOTION: Dr. Valeria Kael</h4>
+            <p><strong>School of Martian Sovereignty & Strategic Security</strong></p>
+            <ul>
+                <li><strong>The Historical Imperative:</strong> "Earth's history is written in resource blood—oil, cobalt, water. To release CZT without absolute control is to hand them a new catalyst for war. Our first duty is to prevent that."</li>
+                <li><strong>The Strategic Asset:</strong> "This isn't just 'ore.' It is the key to next-gen sensors, quantum computing, and radiation shielding. It is the bedrock of our long-term survival and technological edge. It must be treated as a <em>Martian strategic reserve</em>."</li>
+                <li><strong>The Managed Distribution Principle:</strong> "We do not hoard. We administer. Through the <strong>Tharsis Protocols</strong>, we can license production to entities like Kromek, fund universal healthcare, and advance science—on our terms, at our pace."</li>
+            </ul>
+        </div>
+
+        <div class="debate-side" style="border-left: 2px solid #4cc9f0; padding-left: 1.5rem;">
+            <h4>⚙️ AGAINST THE MOTION: Provost Nicky Duran</h4>
+            <p><strong>Institute for Interplanetary Ethics & Open Science</strong></p>
+            <ul>
+                <li><strong>The Moral Hazard:</strong> "To claim stewardship born of proximity is to repeat the colonial sin of 'finders, keepers.' The material originated from Enceladus—it belongs to the solar system. Mars is merely its current custodian."</li>
+                <li><strong>The Innovation Argument:</strong> "True progress is collaborative. Locking away the 'Cobalt-Red' in vaults will stifle a thousand potential breakthroughs across two planets. An <strong>Open Access Consortium</strong>, with Martian leadership, would spur a renaissance."</li>
+                <li><strong>The Provocation Risk:</strong> "A closed model is not a shield; it is a provocation. It paints Mars as a selfish oligarchy and guarantees Earth will see us not as partners, but as a target. The safest path is transparent, joint governance."</li>
+            </ul>
+        </div>
+    </div>
+    <!-- END DEBATE SECTION -->
+
+    <button class="watch-button" onclick="location.href='https://www.bbc.com/news/articles/c24l223d9n7o'" style="background: linear-gradient(45deg, #9d4edd, #4cc9f0); margin-top: 1.5rem;">
+        📰 Grounding in Reality: The Earth Article on CZT
+    </button>
+</div>
+
+
+    <!-- Narrative Section for Deeper Lore -->
+     <div class="lecture-narrative">
+        <p><strong>Behind the Hypothesis: A regent's Calculus</strong><br>
+        This isn't an abstract ethics puzzle. For <em>The Regent</em>, it is a pressing strategic equation. Distributing the "Cobalt-Red" (as the ore is colloquially termed) could fund universal healthcare and leapfrog Earth science by a century. But control must be absolute. A single unregulated shipment could destabilize Earth's economies or, worse, be weaponized. The lecture explores the <strong>Tharsis Protocols</strong>—a framework for managed, licensed distribution through entities like a Martian Kromek. It questions whether the true discovery isn't the material, but the test of Martian sovereignty and its stated principle: to benefit <em>all</em> humanity, without repeating Earth's history of resource war.</p>
+     </div>
+
+     <button class="watch-button" onclick="location.href='/https://bbc.com/news/articles/c24l223d9n7o'" style="background: linear-gradient(45deg, #9d4edd, #4cc9f0);">
+        📰 Read the Earth Article on CZT
+     </button>
+ </div>
+
+<!-- SITE TITLE -->
+<div class="site-title-overlay" id="siteTitle">
+<h1>The Mars Abyss</h1>
+</div>
+
+<!-- Hide content button -->
+<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
+<!-- Audio Controls -->
+ <div class="audio-controls">
+    <button class="audio-btn" id="muteBtn">"🔈 Unmute Sounds"</button>
+ </div>
+
+<footer>
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+
+
+    /// Simple audio system
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+    const sounds = [
+        { src: 'music/mozart-in-vienna.mp3', volume: 0.5 },
+        { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+        { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+    ];
+
+    sounds.forEach(sound => {
+        const audio = new Audio(sound.src);
+        audio.volume = sound.volume;
+        audio.loop = true;
+        audio.muted = true;
+        audioElements.push(audio);
+    });
+
+    document.addEventListener('click', function unmuteAudio() {
+        if (!isMuted) {
+            audioElements.forEach(audio => {
+                audio.muted = false;
+                audio.play().catch(e => console.log('Audio play failed'));
+            });
+            isMuted = false;
+            muteBtn.textContent = "🔊 Mute Sounds";
+        }
+        document.removeEventListener('click', unmuteAudio);
+    }, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+    isMuted = !isMuted;
+    audioElements.forEach(audio => {
+        audio.muted = isMuted;
+    });
+    muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// Initialize audio when page loads
+initAudio();
+
+// HIDE CONTENT FUNCTIONALITY
+const hideContentBtn = document.getElementById('hideContentBtn');
+const pageFooter = document.querySelector('Footer');
+const lectureTitle = document.querySelector('.lecture-hero');
+const lectureGrid = document.querySelector('.lecture-grid');
+const topMenu = document.querySelector('nav.top-menu');
+const siteTitle = document.querySelector('.site-title-overlay');
+const lectureHero = document.querySelector('.lecture-hero');
+let contentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+contentHidden = !contentHidden;
+
+
+if (contentHidden) {
+pageFooter.classList.add('hidden');
+lectureTitle.classList.add('hidden');
+lectureGrid.classList.add('hidden');
+topMenu.classList.add('hidden'); 
+siteTitle.classList.add('hidden');
+lectureHero.classList.add('hidden');
+hideContentBtn.textContent = 'Show Content';
+} else {
+pageFooter.classList.remove('hidden');
+lectureTitle.classList.remove('hidden');
+lectureGrid.classList.remove('hidden');
+topMenu.classList.remove('hidden');
+siteTitle.classList.remove('hidden');
+lectureHero.classList.remove('hidden');
+hideContentBtn.textContent = 'Hide Content';
+}
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const marsVideo = document.getElementById('marsVideo');
+    marsVideo.play().catch(e => {
+        console.log('Background video autoplay failed');
+    });
+});
+
+</script>
+</body>
+</html>

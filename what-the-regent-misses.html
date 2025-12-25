@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What The Regent Misses - Puerto Rico | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    color: #e0e0ff;
+    overflow-x: hidden;
+    position: relative;
+    background: #000;
+}
+
+/* Background with star effect */
+.stars-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: radial-gradient(ellipse at center, #0a0a2a 0%, #000000 70%);
+}
+
+.star {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    animation: twinkle 5s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+/* === ENHANCED TOP MENU === */
+nav.top-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #FF69B4;
+}
+
+nav.top-menu a {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+    color: #FF69B4;
+    background: transparent;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid #ff9553;
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
+}
+
+.dropdown-content a {
+    color: #ff9553;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.8rem;
+    line-height: 1.2;
+}
+
+.dropdown-content a:hover {
+    background: rgba(255, 187, 0, 0.6);
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* SITE TITLE OVERLAY */
+.site-title-overlay {
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+}
+
+.site-title-overlay h1 {
+    color: rgba(255, 105, 180, 0.8);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.site-title-overlay h1 sup {
+    font-size: 0.6em;
+    vertical-align: super;
+    color: rgba(255, 105, 180, 0.9);
+    text-shadow: 0 0 8px rgba(255, 105, 180, 0.7);
+    margin-left: 2px;
+}
+
+/* AUDIO CONTROLS - Always accessible */
+.audio-controls {
+    position: fixed;
+    bottom: 80px;
+    right: 41px;
+    z-index: 10000;
+}
+
+.audio-btn {
+    background: rgba(0, 204, 255, 0.8);
+    border: 2px solid #00ccff;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+    background: rgba(0, 204, 255, 0.6);
+    box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+}
+
+/* Main Content Area */
+.main-content {
+    margin-top: 80px;
+    padding: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 10;
+}
+
+/* Page Header */
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+.page-header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    color: #4cc9f0;
+    text-shadow: 0 0 15px rgba(76, 201, 240, 0.7);
+    margin-bottom: 1rem;
+    letter-spacing: 3px;
+}
+
+.page-header p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: #e0e0ff;
+}
+
+/* Tron-Inspired Video Container */
+.tron-video-container {
+    width: 90%;
+    max-width: 1200px;
+    position: relative;
+    margin: 2rem auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(76, 201, 240, 0.5),
+                0 0 60px rgba(76, 201, 240, 0.3),
+                inset 0 0 30px rgba(76, 201, 240, 0.2);
+    border: 2px solid transparent;
+    animation: tronGlow 4s ease-in-out infinite;
+}
+
+@keyframes tronGlow {
+    0%, 100% {
+        border-color: rgba(76, 201, 240, 0.7);
+        box-shadow: 0 0 30px rgba(76, 201, 240, 0.5),
+                    0 0 60px rgba(76, 201, 240, 0.3),
+                    inset 0 0 30px rgba(76, 201, 240, 0.2);
+    }
+    50% {
+        border-color: rgba(255, 105, 180, 0.7);
+        box-shadow: 0 0 40px rgba(255, 105, 180, 0.5),
+                    0 0 80px rgba(255, 105, 180, 0.3),
+                    inset 0 0 40px rgba(255, 105, 180, 0.2);
+    }
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    background: #000;
+}
+
+.video-wrapper video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(76, 201, 240, 0.1) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgba(255, 105, 180, 0.1) 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Video Controls - Clean and transparent */
+.video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tron-video-container:hover .video-controls {
+    opacity: 1;
+}
+
+.control-btn {
+    background: rgba(76, 201, 240, 0.2);
+    border: 1px solid rgba(76, 201, 240, 0.5);
+    color: #e0e0ff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    backdrop-filter: blur(5px);
+}
+
+.control-btn:hover {
+    background: rgba(76, 201, 240, 0.4);
+    transform: scale(1.05);
+}
+
+.progress-container {
+    flex-grow: 1;
+    height: 6px;
+    margin: 0 1rem;
+    position: relative;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(90deg, #4cc9f0, #ff69b4);
+    width: 0%;
+    border-radius: 3px;
+    transition: width 0.1s linear;
+}
+
+/* Location Info */
+.location-info {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 3px solid #4cc9f0;
+    z-index: 3;
+    backdrop-filter: blur(5px);
+    max-width: 300px;
+}
+
+.location-info h3 {
+    color: #4cc9f0;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.location-info p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #e0e0ff;
+}
+
+/* Description Section */
+.description {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: rgba(26, 18, 11, 0.8);
+    border-left: 4px solid #d4af37;
+    border-radius: 0 10px 10px 0;
+    backdrop-filter: blur(5px);
+}
+
+.description h2 {
+    color: #d4af37;
+    font-family: 'Cinzel', serif;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.description p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: #e0e0ff;
+}
+
+.description em {
+    color: #4cc9f0;
+    font-style: italic;
+}
+
+/* Country Selector - TV Remote Style */
+.country-selector {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: rgba(26, 18, 11, 0.7);
+    border: 1px solid rgba(76, 201, 240, 0.3);
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+
+.country-selector h3 {
+    color: #4cc9f0;
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.alphabet-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.letter {
+    padding: 0.3rem 0.6rem;
+    background: rgba(76, 201, 240, 0.1);
+    border: 1px solid rgba(76, 201, 240, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    color: #e0e0ff;
+}
+
+.letter:hover,
+.letter.active {
+    background: rgba(76, 201, 240, 0.3);
+    border-color: #4cc9f0;
+    transform: scale(1.1);
+}
+
+.countries-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.country-item {
+    padding: 0.8rem 1.2rem;
+    background: rgba(255, 105, 180, 0.1);
+    border: 1px solid rgba(255, 105, 180, 0.3);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #e0e0ff;
+    font-size: 0.9rem;
+}
+
+.country-item:hover {
+    background: rgba(255, 105, 180, 0.2);
+    border-color: #ff69b4;
+    transform: translateY(-2px);
+}
+
+/* Fullscreen Controls - Always visible in fullscreen */
+.fullscreen-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    gap: 1rem;
+    z-index: 10001;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1rem;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(76, 201, 240, 0.5);
+}
+
+/* FOOTER */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #00ccff;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid #ff9553;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    .tron-video-container {
+        width: 95%;
+    }
+    .location-info {
+        max-width: 200px;
+        padding: 0.7rem;
+    }
+    .location-info h3 {
+        font-size: 1rem;
+    }
+    .location-info p {
+        font-size: 0.8rem;
+    }
+    .video-controls {
+        padding: 1rem;
+        flex-wrap: wrap;
+    }
+    .control-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    .site-title-overlay {
+        top: 70px;
+        left: 15px;
+    }
+    .site-title-overlay h1 {
+        font-size: 1.4rem;
+    }
+    .audio-controls {
+        bottom: 70px;
+        right: 20px;
+    }
+    nav.top-menu {
+        gap: 1.5rem;
+    }
+    nav.top-menu a {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.6rem;
+    }
+    .fullscreen-controls {
+        bottom: 10px;
+        padding: 0.7rem;
+        gap: 0.7rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Stars Background -->
+<div class="stars-background" id="starsBackground"></div>
+
+<!-- SITE TITLE OVERLAY -->
+<div class="site-title-overlay">
+    <h1>The Mars Abyss<sup>™</sup></h1>
+</div>
+
+<!-- AUDIO CONTROLS - Always accessible -->
+<div class="audio-controls">
+    <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- Fullscreen Controls - Appear only in fullscreen -->
+<div class="fullscreen-controls" id="fullscreenControls">
+    <button class="control-btn" id="fsPlayPauseBtn">⏸️ PAUSE</button>
+    <button class="control-btn" id="fsMuteBtn">🔇 MUTE</button>
+    <button class="control-btn" id="exitFullscreenBtn">⛶ EXIT</button>
+</div>
+
+<!-- TOP MENU -->
+<nav class="top-menu">
+    <div class="dropdown">
+        <a href="index.html" class="dropbtn">Home</a>
+        <div class="dropdown-content">
+            <a href="why-this-world-matters.html">Why This World Matters</a>
+            <a href="homage-to-courage.html">Homage to Courage</a>
+            <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+            <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+            <a href="my-mission.html">My Mission</a>
+            <a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+        <div class="dropdown-content">
+            <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+            <a href="earths-great-poets.html">Earth's Great Poets</a>
+            <a href="the-bohr-institute.html">The Bohr Institute</a>
+            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+            <a href="the-bronx-dome.html">The Bronx Dome</a>
+            
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn">Martian News</a>
+        <div class="dropdown-content">
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+            <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+            <a href="martian-rest-areas.html">Martian Rest Areas</a>
+            <div class="dropdown">
+                <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                <div class="dropdown-content">
+                    <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                    <a href="marvin.html">M.A.R.V.I.N.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="the-regents-scrolls.html" class="dropbtn active">The Regent's Scrolls</a>
+        <div class="dropdown-content">
+            <a href="what-the-regent-misses.html" class="active">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a>
+            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="support.html" class="dropbtn">Support</a>
+        <div class="dropdown-content">
+            <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+            <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+            <a href="mars-food-district.html">Mars Food District</a>
+            <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+            <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+            <a href="fund-martian-research.html">Fund Martian Research</a>
+            <a href="martian-survival-manual.html">Martian Survival Manual</a>
+            <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+        </div>
+    </div>
+
+    <a href="contact.html">Contact</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>WHAT THE REGENT MISSES</h1>
+        <p>A holographic journey to the beautiful islands of Puerto Rico, Santo Domingo, and many other wonderful places of America, and the world we still call home.</p>
+    </div>
+
+    <!-- Single Dynamic Video Container -->
+    <div class="tron-video-container">
+        <div class="video-wrapper">
+            <video id="mainVideo" muted loop>
+                <!-- Initial video - will be replaced when countries are selected -->
+                <source src="videos/el-morro-daytime.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay"></div>
+            
+            <!-- Dynamic Location Info -->
+            <div class="location-info" id="locationInfo">
+                <h3>EL MORRO - SAN JUAN</h3>
+                <p>16th-century Spanish fortress overlooking the Atlantic Ocean. A UNESCO World Heritage Site.</p>
+            </div>
+            
+            <!-- Video Controls -->
+            <div class="video-controls">
+                <button class="control-btn" id="playPauseBtn">⏯️ PLAY</button>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" id="progressBar"></div>
+                    </div>
+                </div>
+                <button class="control-btn" id="fullscreenBtn">⛶</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Description Section -->
+    <div class="description">
+        <h2>A Glimpse of Paradise</h2>
+        <p>This archival footage showcases the beauty of Puerto Rico, an island territory that continues to thrive on Earth. The Regent occasionally reviews these recordings, reflecting on the natural wonders that Mars cannot replicate.</p>
+        <p><strong>El Morro:</strong> The journey begins at this historic fortress, where centuries of history meet the endless blue of the Atlantic. The drone captures the imposing walls that have withstood both time and sea.</p>
+        <p><strong>Rainforest Canopy:</strong> The footage continues through the lush El Yunque National Forest, the only tropical rainforest in the U.S. National Forest System, with its vibrant biodiversity and cascading waterfalls.</p>
+        <p><strong>Bioluminescent Bays:</strong> As night falls, the video reveals one of Puerto Rico's natural wonders - Mosquito Bay, where microorganisms create a magical glow in the water, a phenomenon unmatched in our Martian seas.</p>
+        <p><strong>Mountain Peaks:</strong> The journey concludes in the central mountain range, with views of coffee plantations and the colorful architecture of towns like Ponce and San Germán.</p>
+        <em>"The Regent's log: Though Mars is our home, these Earthly vistas remind us of the diverse beauty that inspired our species. We preserve these memories not with longing, but with appreciation for what is, and determination for what will be again, on Mars."</em>
+    </div>
+
+    <!-- Country Selector - TV Remote Style -->
+    <div class="country-selector">
+        <h3>Explore More Destinations</h3>
+        <div class="alphabet-nav">
+            <span class="letter" data-letter="A">A</span>
+            <span class="letter active" data-letter="B">B</span>
+            <span class="letter" data-letter="C">C</span>
+            <span class="letter" data-letter="D">D</span>
+            <span class="letter" data-letter="E">E</span>
+            <span class="letter" data-letter="F">F</span>
+            <span class="letter" data-letter="G">G</span>
+            <span class="letter" data-letter="H">H</span>
+            <span class="letter" data-letter="I">I</span>
+            <span class="letter" data-letter="J">J</span>
+            <span class="letter" data-letter="K">K</span>
+            <span class="letter" data-letter="L">L</span>
+            <span class="letter" data-letter="M">M</span>
+            <span class="letter" data-letter="N">N</span>
+            <span class="letter" data-letter="O">O</span>
+            <span class="letter" data-letter="P">P</span>
+            <span class="letter" data-letter="Q">Q</span>
+            <span class="letter" data-letter="R">R</span>
+            <span class="letter" data-letter="S">S</span>
+            <span class="letter" data-letter="T">T</span>
+            <span class="letter" data-letter="U">U</span>
+            <span class="letter" data-letter="V">V</span>
+            <span class="letter" data-letter="W">W</span>
+            <span class="letter" data-letter="X">X</span>
+            <span class="letter" data-letter="Y">Y</span>
+            <span class="letter" data-letter="Z">Z</span>
+        </div>
+        <div class="countries-list">
+            <!-- Countries for B -->
+            <div class="country-group" data-letter="B">
+                <div class="country-item" data-video="videos/el-morro-daytime.mp4" data-title="EL MORRO - SAN JUAN" data-desc="16th-century Spanish fortress overlooking the Atlantic Ocean. A UNESCO World Heritage Site.">Bahamas</div>
+                <div class="country-item" data-video="videos/el-morro-daytime.mp4" data-title="BRAZIL - RIO DE JANEIRO" data-desc="Christ the Redeemer statue overlooking the vibrant city and Copacabana beach.">Brazil</div>
+                <div class="country-item" data-video="videos/el-morro-daytime.mp4" data-title="BELIZE - BARRIER REEF" data-desc="The second largest barrier reef in the world with incredible marine biodiversity.">Belize</div>
+                <div class="country-item" data-video="videos/el-morro-daytime.mp4" data-title="BARBADOS - BRIDGETOWN" data-desc="Historic capital with colonial architecture and beautiful Caribbean beaches.">Barbados</div>
+                <div class="country-item" data-video="videos/el-morro-daytime.mp4" data-title="BOLIVIA - SALAR DE UYUNI" data-desc="The world's largest salt flat creating breathtaking mirror effects during rainy season.">Bolivia</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Create starfield background
+function createStars() {
+    const starsContainer = document.getElementById('starsBackground');
+    const starCount = 150;
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = Math.random() * 3;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 5}s`;
+        starsContainer.appendChild(star);
+    }
+}
+
+// VIDEO DATABASE - Single source of truth for all videos
+const videoDatabase = {
+    'puerto-rico': {
+        src: 'videos/el-morro-daytime.mp4',
+        title: 'EL MORRO - SAN JUAN',
+        description: '16th-century Spanish fortress overlooking the Atlantic Ocean. A UNESCO World Heritage Site.'
+    },
+    'bahamas': {
+        src: 'https://assets.codepen.io/4175257/rain.mp4', // Sample video - replace with actual
+        title: 'BAHAMAS - NASSAU',
+        description: 'Crystal clear waters and white sandy beaches of the Caribbean paradise.'
+    },
+    'brazil': {
+        src: 'videos/el-morro-daytime.mp4', // Replace with actual Brazil video
+        title: 'BRAZIL - RIO DE JANEIRO',
+        description: 'Christ the Redeemer statue overlooking the vibrant city and Copacabana beach.'
+    },
+    'belize': {
+        src: 'videos/el-morro-daytime.mp4', // Replace with actual Belize video
+        title: 'BELIZE - BARRIER REEF',
+        description: 'The second largest barrier reef in the world with incredible marine biodiversity.'
+    }
+};
+
+// AUDIO SYSTEM
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let backgroundMusic = null;
+
+function initAudio() {
+    backgroundMusic = new Audio('music/en-la-costa-del-amor.mp3');
+    backgroundMusic.volume = 0.3;
+    backgroundMusic.loop = true;
+    backgroundMusic.muted = true;
+}
+
+muteBtn.addEventListener('click', function() {
+    if (!backgroundMusic) initAudio();
+    
+    isMuted = !isMuted;
+    backgroundMusic.muted = isMuted;
+    muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+    
+    if (!isMuted && backgroundMusic.paused) {
+        backgroundMusic.play().catch(e => {
+            console.log('Audio play requires user interaction');
+        });
+    }
+});
+
+// VIDEO CONTROLS
+const mainVideo = document.getElementById('mainVideo');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+const progressBar = document.getElementById('progressBar');
+const locationInfo = document.getElementById('locationInfo');
+
+// Fullscreen controls
+const fsPlayPauseBtn = document.getElementById('fsPlayPauseBtn');
+const fsMuteBtn = document.getElementById('fsMuteBtn');
+const exitFullscreenBtn = document.getElementById('exitFullscreenBtn');
+const fullscreenControls = document.getElementById('fullscreenControls');
+
+// Play/Pause functionality
+function togglePlayPause() {
+    if (mainVideo.paused) {
+        mainVideo.play();
+        playPauseBtn.textContent = '⏸️ PAUSE';
+        fsPlayPauseBtn.textContent = '⏸️ PAUSE';
+    } else {
+        mainVideo.pause();
+        playPauseBtn.textContent = '⏯️ PLAY';
+        fsPlayPauseBtn.textContent = '⏯️ PLAY';
+    }
+}
+
+playPauseBtn.addEventListener('click', togglePlayPause);
+fsPlayPauseBtn.addEventListener('click', togglePlayPause);
+
+// Fullscreen functionality
+fullscreenBtn.addEventListener('click', function() {
+    const videoContainer = document.querySelector('.tron-video-container');
+    if (!document.fullscreenElement) {
+        videoContainer.requestFullscreen().catch(err => {
+            console.log(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+});
+
+exitFullscreenBtn.addEventListener('click', function() {
+    document.exitFullscreen();
+});
+
+// Fullscreen change event
+document.addEventListener('fullscreenchange', function() {
+    if (document.fullscreenElement) {
+        fullscreenControls.style.display = 'flex';
+    } else {
+        fullscreenControls.style.display = 'none';
+    }
+});
+
+// Update progress bar
+mainVideo.addEventListener('timeupdate', function() {
+    const progress = (mainVideo.currentTime / mainVideo.duration) * 100;
+    progressBar.style.width = `${progress}%`;
+});
+
+// Click on progress bar to seek
+document.querySelector('.progress-bar').addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    const pos = (e.clientX - rect.left) / this.offsetWidth;
+    mainVideo.currentTime = pos * mainVideo.duration;
+});
+
+// COUNTRY SELECTOR - TV Remote functionality
+document.querySelectorAll('.letter').forEach(letter => {
+    letter.addEventListener('click', function() {
+        document.querySelectorAll('.letter').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
+
+// Country item click - changes main video dynamically
+document.querySelectorAll('.country-item').forEach(item => {
+    item.addEventListener('click', function() {
+        const country = this.textContent.toLowerCase();
+        const videoData = videoDatabase[country];
+        
+        if (videoData) {
+            // Update main video source
+            mainVideo.src = videoData.src;
+            
+            // Update location info
+            locationInfo.querySelector('h3').textContent = videoData.title;
+            locationInfo.querySelector('p').textContent = videoData.description;
+            
+            // Play the new video
+            mainVideo.play();
+            playPauseBtn.textContent = '⏸️ PAUSE';
+            fsPlayPauseBtn.textContent = '⏸️ PAUSE';
+            
+            console.log(`Switched to ${country} video: ${videoData.src}`);
+        } else {
+            console.log(`Video for ${country} not found in database`);
+        }
+    });
+});
+
+// Initialize
+createStars();
+initAudio();
+
+// Autoplay main video when page loads
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        mainVideo.play();
+        playPauseBtn.textContent = '⏸️ PAUSE';
+        fsPlayPauseBtn.textContent = '⏸️ PAUSE';
+    }, 1000);
+});
+</script>
+</body>
+</html>

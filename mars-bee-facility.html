@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mars Bee Facility - The Mars Abyss</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* === General Reset === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: #f0e6d2;
+            background: url('images/the-bee-hive-storage-facility.jpg') no-repeat center center fixed;
+            background-size: cover;
+            transition: background-image 1s ease-in-out;
+            overflow-x: hidden;
+        }
+
+        /* === STANDARD TOP MENU === */
+        nav.top-menu {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(17, 17, 17, 0.95);
+            padding: 0.6rem 0;
+            z-index: 1000;
+            gap: 2.5rem;
+            flex-wrap: nowrap;
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid #ffd700;
+        }
+
+        /* Mars Abyss Title */
+        .mars-abyss-title {
+            position: fixed;
+            top: 80px;
+            left: 30px;
+            z-index: 1002;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: #ffd700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Navigation Links */
+        nav.top-menu a {
+            color: #ff91c1;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        nav.top-menu a:hover {
+            color: #ffd700;
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(26, 26, 26, 0.98);
+            min-width: 140px;
+            z-index: 1001;
+            border-radius: 4px;
+            border: 2px solid #ffd700;
+            top: 100%;
+            left: 0%;
+            backdrop-filter: blur(5px);
+            padding: 4px 0;
+        }
+
+        .dropdown-content a {
+            color: #ff91c1;
+            padding: 3px 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+            line-height: 1.2;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* === Main Content === */
+        .main-content {
+            position: relative;
+            padding: 2rem 5%;
+            min-height: 100vh;
+            margin-top: 70px;
+            transition: opacity 0.5s ease;
+        }
+
+        /* === Page Header === */
+        .header-title {
+            text-align: center;
+            padding: 3rem 1rem 1rem;
+            text-shadow: 0 0 12px #000;
+            background: rgba(0, 0, 0, 0.7);
+            margin: 2rem auto;
+            border-radius: 12px;
+            max-width: 800px;
+            border: 2px solid #ffd700;
+            transition: all 0.3s ease;
+        }
+
+        .header-title:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        .header-title h1 {
+            display: none;
+        }
+
+        .header-title h2 {
+            font-size: 2.2rem;
+            color: #ffd700;
+            margin: 0;
+        }
+
+        /* === Regent's Reflection Section === */
+        .reflection-box {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ff91c1;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 12px;
+            line-height: 1.7;
+            box-shadow: 0 0 25px rgba(255, 145, 193, 0.4);
+            font-size: 1.1rem;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .reflection-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 145, 193, 0.6);
+        }
+
+        .reflection-box h3 {
+            color: #ff91c1;
+            margin-bottom: 1rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        /* === Video Section === */
+        .video-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin: 3rem auto;
+            max-width: 1000px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid #ffb347;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 0 25px rgba(255, 179, 71, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .video-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 179, 71, 0.6);
+        }
+
+        .video-section h3 {
+            color: #ffb347;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 179, 71, 0.3);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin: 2rem 0;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 2px solid #ffd700;
+        }
+
+        #bee-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .flying-bee {
+            position: absolute;
+            font-size: 3rem;
+            top: 50%;
+            left: 50%;
+            animation: flyAround 8s linear infinite;
+            pointer-events: none;
+            z-index: 10;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+        }
+
+        @keyframes flyAround {
+            0% { transform: translate(-50%, -50%) rotate(0deg) translateX(150px) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(90deg) translateX(150px) rotate(-90deg); }
+            50% { transform: translate(-50%, -50%) rotate(180deg) translateX(150px) rotate(-180deg); }
+            75% { transform: translate(-50%, -50%) rotate(270deg) translateX(150px) rotate(-270deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg) translateX(150px) rotate(-360deg); }
+        }
+
+        .video-controls-panel {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        #beeVolume {
+            width: 100px;
+        }
+
+        /* === Enhanced Thumbnail Section === */
+        .thumbnail-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin: 3rem auto;
+            max-width: 1200px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid #ffb347;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 0 25px rgba(255, 179, 71, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 179, 71, 0.6);
+        }
+
+        .thumbnail-section h3 {
+            color: #ffd700;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .thumbnail-section > p {
+            color: #ffb347;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        /* Thumbnail Bar */
+        .thumbnail-bar {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem auto;
+            max-width: 1000px;
+        }
+
+        .thumbnail-card {
+            width: 200px;
+            height: 140px;
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Video thumbnail indicators */
+        .video-indicator {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #ffb347;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            z-index: 3;
+        }
+
+        /* Video thumbnails */
+        .thumbnail-card[data-type="video"] {
+            border: 2px solid #ffb347;
+            box-shadow: 0 0 15px rgba(255, 179, 71, 0.3);
+        }
+
+        .thumbnail-card:hover {
+            transform: scale(1.1);
+            border-color: #ff91c1;
+            box-shadow: 0 0 20px rgba(255, 145, 193, 0.6);
+        }
+
+        .thumbnail-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            transition: background 0.3s ease;
+        }
+
+        .thumbnail-card:hover::after {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Individual thumbnail backgrounds */
+        .thumb-1 { background-image: url('images/the-bee-hive-storage-facility.jpg'); }
+        .thumb-2 { background-image: url('images/the-bee-industrial-complex.jpg'); }
+        .thumb-3 { background-image: url('images/the-bee-shaped-vehicle.jpg'); }
+        .thumb-4 { background-image: url('images/the-bio-tech-gigantic-geometric-beehive.jpg'); }
+        .thumb-5 { background-image: url('images/bee-hive-interior.jpg'); }
+        .thumb-6 { background-image: url('images/industrial-bee-transport-vehicle.jpg'); }
+        .thumb-7 { background-image: url('images/honey-transport-bee.jpg'); }
+        .thumb-video-1 { background-image: url('images/greenhouse-dome.jpg'); }
+        .thumb-video-2 { background-image: url('images/group-of-scientists-testing-craft.jpg'); }
+
+        /* Audio Controls */
+        .audio-controls {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            border: 1px solid #ffb347;
+        }
+
+        .audio-controls h4 {
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .audio-button, .video-control-button {
+            background: #ffb347;
+            color: #000;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .audio-button:hover, .video-control-button:hover {
+            background: #ffd700;
+            transform: scale(1.05);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            justify-content: center;
+        }
+
+        .volume-control label {
+            color: #ffd700;
+            font-size: 0.9rem;
+        }
+
+        /* Video Controls */
+        .video-controls {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            z-index: 1002;
+            display: flex;
+            gap: 10px;
+        }
+
+        /* === Content States === */
+        body.background-focused .main-content {
+            opacity: 0;
+        }
+
+        body.background-focused .main-content:hover {
+            opacity: 1;
+        }
+
+        /* Ensure menu is always accessible */
+        nav.top-menu {
+            opacity: 1 !important;
+        }
+
+        body.background-focused nav.top-menu {
+            opacity: 0.3;
+        }
+
+        body.background-focused nav.top-menu:hover {
+            opacity: 1;
+        }
+
+        /* === Footer === */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 0.6rem 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ffd700;
+            font-family: 'Courier New', Courier, monospace;
+            z-index: 1000;
+            font-size: 0.9rem;
+            border-top: 2px solid #ffd700;
+            transition: opacity 0.5s ease;
+        }
+
+        body.background-focused footer {
+            opacity: 0;
+        }
+
+        body.background-focused footer:hover {
+            opacity: 1;
+        }
+
+        .content-spacer {
+            height: 120px;
+        }
+
+        /* Reset background button */
+        .reset-background {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            background: rgba(255, 215, 0, 0.9);
+            color: #000;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        body.background-focused .reset-background {
+            opacity: 1;
+        }
+
+        .reset-background:hover {
+            background: #ffd700;
+            transform: scale(1.05);
+        }
+
+        /* Tagline with fade-in effect */
+        .tagline {
+            position: fixed;
+            bottom: 80px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #ffd700;
+            font-style: italic;
+            font-size: 1.3rem;
+            text-shadow: 0 0 5px #000;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .tagline.visible {
+            opacity: 1;
+        }
+
+        /* Video background styling */
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mars Abyss Title -->
+    <div class="mars-abyss-title">
+        The Mars Abyss
+    </div>
+
+    <!-- Background Video Element (will be added dynamically) -->
+    <div id="background-video-container"></div>
+
+    <!-- Reset Background Button -->
+    <button class="reset-background" onclick="resetBackground()">Reset View</button>
+
+    <!-- Video Controls (will be added dynamically) -->
+    <div class="video-controls" style="display: none;"></div>
+
+    <!-- CORRECTED TOP MENU -->
+    <nav class="top-menu">
+        <div class="dropdown">
+            <a href="index.html" class="dropbtn">Home</a>
+            <div class="dropdown-content">
+                <a href="why-this-world-matters.html">Why This World Matters</a>
+                <a href="homage-to-courage.html">Homage to Courage</a>
+                <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+                <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+                <a href="my-mission.html">My Mission</a>
+                <a href="martian-reading-revival.html">Martian Reading Revival</a>
+                <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+                <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+                <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="story.html" class="dropbtn">Story</a>
+            <div class="dropdown-content">
+                <a href="characters.html">Characters</a>
+                <div class="dropdown">
+                    <a href="gallery.html" class="dropbtn">Gallery</a>
+                    <div class="dropdown-content">
+                        <a href="art-and-concepts.html">Art & Concepts</a>
+                        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                        <a href="technical-database.html">Technical Database</a>
+                        <a href="martian-edicts.html">The Martian Edicts</a>
+                        <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                        <a href="solar-system-explorer.html">Solar System Explorer</a>
+                        <a href="aliens-ufos.html">Aliens & UFOs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-games.html" class="dropbtn">Martian Games</a>
+            <div class="dropdown-content">
+                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+                <a href="martian-racer.html">Martian Racer</a>
+                <a href="red-planet-defense.html">Red Planet Defense</a>
+                <a href="the-regents-portal.html">The Regent's Portal</a>
+                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+                <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+            <div class="dropdown-content">
+                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+                <a href="earths-great-poets.html">Earth's Great Poets</a>
+                <a href="the-bohr-institute.html">The Bohr Institute</a>
+                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+                <a href="the-bronx-dome.html">The Bronx Dome</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-news.html" class="dropbtn">Martian News</a>
+            <div class="dropdown-content">
+                <a href="martian-actualities.html">Martian Actualities</a>
+                <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+                <a href="mars-bee-facility.html">Mars Bee Facility</a>
+                <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+                <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+                <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+                <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+                <a href="martian-rest-areas.html">Martian Rest Areas</a>
+                <div class="dropdown">
+                    <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                    <div class="dropdown-content">
+                        <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                        <a href="marvin.html">M.A.R.V.I.N.</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+            <div class="dropdown-content">
+                <a href="what-the-regent-misses.html">What the Regent Misses</a>
+                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+                <a href="honor-the-fallen.html">Honor The Fallen</a>
+                <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+                <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+                <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+                <a href="martian-critique-tron-ares.html">Martian Critique</a>
+                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="about.html" class="dropbtn">About</a>
+            <div class="dropdown-content">
+                <a href="about-the-project.html">About the Project</a>
+                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+                <a href="the-pale-horse.html">The Pale Horse</a>
+                <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+                <a href="arachne-labs.html">Arachne Labs</a>
+                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="support.html" class="dropbtn">Support</a>
+            <div class="dropdown-content">
+                <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+                <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+                <a href="mars-food-district.html">Mars Food District</a>
+                <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+                <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+                <a href="fund-martian-research.html">Fund Martian Research</a>               
+                <a href="martian-survival-manual.html">Martian Survival Manual</a>
+                <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+            </div>
+        </div>
+
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Title -->
+        <section class="header-title">
+            <h1>Mars Bee Facility</h1>
+            <h2>Where Bees Thrive, Civilization Survives</h2>
+        </section>
+
+        <!-- Regent's Reflection -->
+        <section class="reflection-box">
+            <h3>Mars Bee Facility</h3>
+            <p>The Regent gazed across the glimmering Martian agricultural domes — green spaces where by law, green spaces must be maintained at a minimum ratio of one colony per square meters of cultivated flora. The genetic diversity of Earth's apian species shall be preserved as a sacred trust.</p>
+            <p>"This," he began softly, "is what Mars colonists must take to heart — the Colony Protection Act is of the utmost importance to every Martian citizen, whether they are born here or elsewhere."</p>
+            <p>Unauthorized destruction of bee habitats is punishable by colony services, and if their determination is exile, make no mistake — this is not Earth.</p>
+        </section>
+
+        <!-- Video Section -->
+        <section class="video-section">
+            <h3>Bee Facility Operations</h3>
+            <div class="video-container">
+                <video id="bee-video" controls>
+                    <source src="videos/martian-industrial-transport-vehicle.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="flying-bee">🐝</div>
+            </div>
+            <div class="video-controls-panel">
+                <button class="video-control-button" onclick="toggleBeeVideo()">▶️ Play/Pause</button>
+                <button class="video-control-button" onclick="toggleBeeVideoMute()">🔇 Mute</button>
+                <div class="volume-control">
+                    <label for="beeVolume">Volume:</label>
+                    <input type="range" id="beeVolume" min="0" max="1" step="0.1" value="1" onchange="setBeeVolume(this.value)">
+                </div>
+            </div>
+        </section>
+
+        <!-- Thumbnails -->
+        <section class="thumbnail-section">
+            <h3>Explore The Importance of Bees</h3>
+            <p>Click any image to make it your background</p>
+            <div class="thumbnail-bar">
+                <!-- Image Backgrounds -->
+                <div class="thumbnail-card thumb-1"
+                    data-bg="url('images/the-bee-hive-storage-facility.jpg')"
+                    data-type="image"></div>
+                <div class="thumbnail-card thumb-2"
+                    data-bg="url('images/the-bee-industrial-complex.jpg')"
+                    data-type="image"></div>
+                <div class="thumbnail-card thumb-3"
+                    data-bg="url('images/the-bee-shaped-vehicle.jpg')"
+                    data-type="image"></div>
+                <div class="thumbnail-card thumb-4"
+                    data-bg="url('images/the-bio-tech-gigantic-geometric-beehive.jpg')"
+                    data-type="image"></div>
+                <div class="thumbnail-card thumb-5"
+                    data-bg="url('images/bee-hive-interior.jpg')"
+                    data-type="image"></div>
+                <div class="thumbnail-card thumb-6"
+                    data-bg="url('images/industrial-bee-transport-vehicle.jpg')"
+                    data-type="image"></div>
+                <div class="thumbnail-card thumb-7"
+                    data-bg="url('images/honey-transport-bee.jpg')"
+                    data-type="image"></div>
+
+                <!-- Video Backgrounds -->
+                <div class="thumbnail-card thumb-video-1"
+                    data-bg="videos/pr-2062-timelog.mp4"
+                    data-type="video"
+                    data-poster="videos/pr-2062-poster.jpg">
+                    <div class="video-indicator">🎥</div>
+                </div>
+                <div class="thumbnail-card thumb-video-2"
+                    data-bg="videos/coastal-saucers.mp4"
+                    data-type="video"
+                    data-poster="videos/coastal-saucers-poster.jpg">
+                    <div class="video-indicator">🎥</div>
+                </div>
+            </div>
+
+            <!-- Audio Controls -->
+            <div class="audio-controls">
+                <h4>Bee Ambient Sounds</h4>
+                <button class="audio-button" id="beesSound" onclick="toggleSound('bees')">🔄 Bees Buzzing</button>
+                <button class="audio-button" id="hiveSound" onclick="toggleSound('hive')">🔄 Hive Activity</button>
+                <button class="audio-button" onclick="stopAllSounds()">⏹️ Stop All Sounds</button>
+                <div class="volume-control">
+                    <label for="masterVolume">Master Volume:</label>
+                    <input type="range" id="masterVolume" min="0" max="1" step="0.1" value="1" onchange="setMasterVolume(this.value)">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Content spacer for footer -->
+    <div class="content-spacer"></div>
+
+    <!-- Tagline -->
+    <div class="tagline">
+        <p>Where bees thrive, civilization survives — the foundation of Martian life</p>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Sound Management
+        const sounds = {
+            bees: null,
+            hive: null,
+            active: null
+        };
+
+        // Video Management
+        let currentVideo = null;
+        let beeVideo = null;
+        const originalBackground = "url('images/the-bee-hive-storage-facility.jpg')";
+
+        // Preload sounds
+        function preloadSounds() {
+            sounds.bees = new Audio('sounds/bees-82424.mp3');
+            sounds.bees.loop = true;
+            sounds.bees.volume = 1;
+            
+            sounds.hive = new Audio('sounds/ulq1je7dbdp-bee-sfx-5.mp3');
+            sounds.hive.loop = true;
+            sounds.hive.volume = 1;
+        }
+
+        // Initialize bee video
+        function initBeeVideo() {
+            beeVideo = document.getElementById('bee-video');
+            if (beeVideo) {
+                beeVideo.volume = 1;
+            }
+        }
+
+        // Background change functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const thumbnailCards = document.querySelectorAll('.thumbnail-card');
+            preloadSounds();
+            initBeeVideo();
+
+            thumbnailCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const bgUrl = this.getAttribute('data-bg');
+                    const bgType = this.getAttribute('data-type');
+                    const posterUrl = this.getAttribute('data-poster');
+                    
+                    // Stop any currently playing video
+                    stopCurrentVideo();
+                    
+                    if (bgType === 'video') {
+                        setVideoBackground(bgUrl, posterUrl);
+                    } else {
+                        setImageBackground(bgUrl);
+                    }
+                    
+                    document.body.classList.add('background-focused');
+                });
+            });
+
+            // Scroll detection for tagline
+            function checkScroll() {
+                const tagline = document.querySelector('.tagline');
+                const thumbnailSection = document.querySelector('.thumbnail-section');
+                if (thumbnailSection) {
+                    const thumbnailRect = thumbnailSection.getBoundingClientRect();
+                    if (thumbnailRect.bottom < window.innerHeight) {
+                        tagline.classList.add('visible');
+                    } else {
+                        tagline.classList.remove('visible');
+                    }
+                }
+            }
+
+            checkScroll();
+            window.addEventListener('scroll', checkScroll);
+        });
+
+        // Video background functions
+        function setVideoBackground(videoUrl, posterUrl) {
+            const existingVideo = document.querySelector('#background-video');
+            if (existingVideo) {
+                existingVideo.remove();
+            }
+            
+            const video = document.createElement('video');
+            video.id = 'background-video';
+            video.src = videoUrl;
+            video.poster = posterUrl;
+            video.autoplay = true;
+            video.loop = true;
+            video.muted = true;
+            video.playsInline = true;
+            video.style.position = 'fixed';
+            video.style.top = '0';
+            video.style.left = '0';
+            video.style.width = '100%';
+            video.style.height = '100%';
+            video.style.objectFit = 'cover';
+            video.style.zIndex = '-1';
+            
+            document.body.appendChild(video);
+            currentVideo = video;
+            addVideoControls();
+        }
+
+        function setImageBackground(imageUrl) {
+            stopCurrentVideo();
+            document.body.style.backgroundImage = imageUrl;
+        }
+
+        function stopCurrentVideo() {
+            if (currentVideo) {
+                currentVideo.pause();
+                currentVideo.currentTime = 0;
+                const videoElement = document.querySelector('#background-video');
+                if (videoElement) {
+                    videoElement.remove();
+                }
+                currentVideo = null;
+            }
+            
+            const controls = document.querySelector('.video-controls');
+            if (controls) controls.style.display = 'none';
+        }
+
+        function addVideoControls() {
+            let controls = document.querySelector('.video-controls');
+            if (!controls) {
+                controls = document.createElement('div');
+                controls.className = 'video-controls';
+                controls.style.position = 'fixed';
+                controls.style.bottom = '100px';
+                controls.style.right = '20px';
+                controls.style.zIndex = '1002';
+                controls.style.display = 'flex';
+                controls.style.gap = '10px';
+                document.body.appendChild(controls);
+            } else {
+                controls.style.display = 'flex';
+            }
+            
+            controls.innerHTML = `
+                <button onclick="toggleVideoMute()" class="video-control-button">🔇 Mute</button>
+                <button onclick="toggleVideoPlay()" class="video-control-button">⏸️ Pause</button>
+            `;
+        }
+
+        function toggleVideoMute() {
+            if (currentVideo) {
+                currentVideo.muted = !currentVideo.muted;
+                const button = document.querySelector('.video-controls button:nth-child(1)');
+                button.textContent = currentVideo.muted ? '🔇 Mute' : '🔊 Unmute';
+            }
+        }
+
+        function toggleVideoPlay() {
+            if (currentVideo) {
+                if (currentVideo.paused) {
+                    currentVideo.play();
+                    document.querySelector('.video-controls button:nth-child(2)').textContent = '⏸️ Pause';
+                } else {
+                    currentVideo.pause();
+                    document.querySelector('.video-controls button:nth-child(2)').textContent = '▶️ Play';
+                }
+            }
+        }
+
+        // Bee video controls
+        function toggleBeeVideo() {
+            if (!beeVideo) beeVideo = document.getElementById('bee-video');
+            if (beeVideo.paused) {
+                beeVideo.play();
+            } else {
+                beeVideo.pause();
+            }
+        }
+
+        function toggleBeeVideoMute() {
+            if (!beeVideo) beeVideo = document.getElementById('bee-video');
+            beeVideo.muted = !beeVideo.muted;
+            const button = document.querySelector('.video-controls-panel button:nth-child(2)');
+            button.textContent = beeVideo.muted ? '🔊 Unmute' : '🔇 Mute';
+        }
+
+        function setBeeVolume(volume) {
+            if (!beeVideo) beeVideo = document.getElementById('bee-video');
+            beeVideo.volume = volume;
+        }
+
+        // Sound control functions
+        function toggleSound(soundType) {
+            if (sounds.active === sounds[soundType]) {
+                sounds.active.pause();
+                sounds.active.currentTime = 0;
+                sounds.active = null;
+            } else {
+                if (sounds.active) {
+                    sounds.active.pause();
+                    sounds.active.currentTime = 0;
+                }
+                sounds[soundType].play()
+                .then(() => {
+                    sounds.active = sounds[soundType];
+                    updateButtonStates();
+                })
+                .catch(error => {
+                    console.log('Audio play failed:', error);
+                });
+            }
+            updateButtonStates();
+        }
+
+        function stopAllSounds() {
+            if (sounds.active) {
+                sounds.active.pause();
+                sounds.active.currentTime = 0;
+                sounds.active = null;
+            }
+            updateButtonStates();
+        }
+
+        function setMasterVolume(volume) {
+            if (sounds.bees) sounds.bees.volume = volume;
+            if (sounds.hive) sounds.hive.volume = volume;
+        }
+
+        function updateButtonStates() {
+            const beesButton = document.getElementById('beesSound');
+            const hiveButton = document.getElementById('hiveSound');
+            
+            if (beesButton) {
+                beesButton.textContent = sounds.active === sounds.bees ? '🔊 Bees Buzzing' : '🔄 Bees Buzzing';
+            }
+            
+            if (hiveButton) {
+                hiveButton.textContent = sounds.active === sounds.hive ? '🔊 Hive Activity' : '🔄 Hive Activity';
+            }
+        }
+
+        // Reset background function
+        function resetBackground() {
+            stopCurrentVideo();
+            document.body.style.backgroundImage = originalBackground;
+            document.body.classList.remove('background-focused');
+            
+            if (sounds.active) {
+                sounds.active.pause();
+                sounds.active.currentTime = 0;
+                sounds.active = null;
+            }
+            
+            updateButtonStates();
+        }
+
+        // Auto-reset when clicking on faded content
+        document.querySelector('.main-content').addEventListener('click', (e) => {
+            if (document.body.classList.contains('background-focused') &&
+                (e.target.classList.contains('thumbnail-card') ||
+                 e.target.closest('.audio-controls') ||
+                 e.target.closest('.video-controls'))) {
+                return;
+            }
+            
+            if (document.body.classList.contains('background-focused')) {
+                resetBackground();
+            }
+        });
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.body.classList.contains('background-focused')) {
+                resetBackground();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arachne Labs: The Spiderwoman of Mars | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #fff;
+overflow-x: hidden;
+position: relative;
+}
+
+/* BACKGROUND */
+.background-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: -3;
+}
+
+.static-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('images/spiderlady.jpg') no-repeat center center;
+background-size: cover;
+z-index: 1;
+}
+
+.video-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 2;
+}
+
+/* SITE TITLE OVERLAY - WITH FADE */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+transition: opacity 0.3s ease;
+}
+
+.site-title-overlay.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+.site-title-overlay h1 {
+color: rgba(138, 43, 226, 0.8);
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
+
+/* TOP MENU - WITH FADE (the feature you liked) */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #8a2be2;
+transition: opacity 0.3s ease;
+}
+
+nav.top-menu.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #9d4edd;
+background: transparent;
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background: rgba(26, 26, 26, 0.98);
+min-width: 140px;
+z-index: 1001;
+border-radius: 4px;
+border: 2px solid #8a2be2;
+top: 100%;
+left: 0;
+backdrop-filter: blur(5px);
+}
+
+.dropdown .dropdown .dropdown-content {
+position: absolute;
+left: 0;
+top: 100%;
+width: 100%;
+}
+
+.dropdown-content a {
+color: #f5f5f5;
+padding: 3px 5px;
+text-decoration: none;
+display: block;
+transition: background-color 0.3s ease;
+font-size: 0.9rem;
+line-height: 1;
+}
+
+.dropdown-content a:hover {
+background: rgba(138, 43, 226, 0.6);
+color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/* AUDIO CONTROLS - WITH FADE */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 40px;
+z-index: 1000;
+transition: opacity 0.3s ease;
+}
+
+.audio-controls.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+.audio-btn {
+background: rgba(138, 43, 226, 0.8);
+border: 2px solid #9d4edd;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+background: rgba(157, 78, 221, 0.6);
+}
+
+/* CONTENT STYLING */
+.hero {
+text-align: center;
+padding: 5rem 1rem 3rem;
+margin-top: 60px;
+}
+
+.hero h1 {
+color: #8a2be2;
+font-size: 2.5rem;
+text-shadow: 0 0 20px rgba(138, 43, 226, 0.6);
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 0.5rem;
+}
+
+.hero p {
+font-size: 1.2rem;
+color: #9d4edd;
+}
+
+.content-container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 2rem;
+}
+
+.scene-container {
+background: rgba(0, 0, 0, 0.8);
+border: 2px solid #8a2be2;
+border-radius: 12px;
+padding: 2.5rem;
+margin: 2rem 0;
+backdrop-filter: blur(10px);
+transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.scene-container.hidden {
+opacity: 0;
+transform: translateY(-20px);
+pointer-events: none;
+}
+
+.dialogue {
+background: rgba(138, 43, 226, 0.1);
+border-left: 4px solid #8a2be2;
+padding: 1.5rem;
+margin: 1.5rem 0;
+font-style: italic;
+}
+
+.character {
+color: #9d4edd;
+font-weight: bold;
+margin-bottom: 0.5rem;
+}
+
+.lab-description {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+margin: 2rem 0;
+}
+
+.spider-type {
+background: rgba(45, 27, 105, 0.5);
+padding: 1.5rem;
+border-radius: 8px;
+border: 1px solid #8a2be2;
+}
+
+.venomous {
+border-color: #ff6b6b;
+background: rgba(105, 27, 27, 0.5);
+}
+
+.research-section {
+background: rgba(0, 0, 0, 0.7);
+padding: 2rem;
+border-radius: 12px;
+border: 2px solid #4cc9f0;
+margin: 2rem 0;
+}
+
+.martian-law {
+background: rgba(76, 201, 240, 0.1);
+padding: 1.5rem;
+border-radius: 8px;
+margin: 1rem 0;
+border-left: 4px solid #4cc9f0;
+}
+
+.spider-web {
+position: relative;
+}
+
+.spider-web::before {
+content: '🕸️';
+position: absolute;
+top: -10px;
+right: -10px;
+font-size: 2rem;
+opacity: 0.3;
+}
+
+/* FOOTER */
+footer {
+position: relative;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #ccc;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #8a2be2;
+margin-top: 2rem;
+}
+
+/* WEB ANIMATION */
+.web-strand {
+position: absolute;
+width: 2px;
+background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent);
+z-index: 3;
+animation: sway 8s infinite ease-in-out;
+}
+
+@keyframes sway {
+0%, 100% { transform: translateX(0) rotate(0deg); }
+25% { transform: translateX(5px) rotate(1deg); }
+75% { transform: translateX(-5px) rotate(-1deg); }
+}
+
+/* Spider animation */
+.spider {
+position: absolute;
+width: 40px;
+height: 40px;
+font-size: 30px;
+z-index: 4;
+animation: crawl 20s infinite linear;
+opacity: 0.7;
+}
+
+.spider::before {
+content: '🕷️';
+}
+
+@keyframes crawl {
+0% { transform: translateY(0) translateX(0); }
+25% { transform: translateY(100px) translateX(50px); }
+50% { transform: translateY(200px) translateX(0); }
+75% { transform: translateY(100px) translateX(-50px); }
+100% { transform: translateY(0) translateX(0); }
+}
+</style>
+</head>
+<body>
+<!-- BACKGROUND -->
+<div class="background-container">
+    <div class="static-background" id="staticBg"></div>
+    <video class="video-background" id="labVideo" autoplay muted loop playsinline>
+        <source src="videos/woman-forming-heart.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<!-- WEB STRANDS -->
+<div class="web-strand" style="left: 10%; top: 0; height: 40%; animation-delay: 0s;"></div>
+<div class="web-strand" style="left: 25%; top: 0; height: 60%; animation-delay: 2s;"></div>
+<div class="web-strand" style="left: 75%; top: 0; height: 50%; animation-delay: 4s;"></div>
+<div class="web-strand" style="left: 90%; top: 0; height: 45%; animation-delay: 6s;"></div>
+
+<!-- SPIDERS -->
+<div class="spider" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+<div class="spider" style="top: 60%; left: 80%; animation-delay: 5s;"></div>
+<div class="spider" style="top: 40%; left: 40%; animation-delay: 10s;"></div>
+
+<!-- SITE TITLE -->
+<div class="site-title-overlay" id="siteTitle">
+    <h1>The Mars Abyss</h1>
+</div>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls" id="audioControls">
+    <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- MENU (will disappear/reappear on hover) -->
+<nav class="top-menu" id="topMenu">
+
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+        <div class="dropdown-content">
+            <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+            <a href="earths-great-poets.html">Earth's Great Poets</a>
+            <a href="the-bohr-institute.html">The Bohr Institute</a>
+            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+            <a href="the-bronx-dome.html">The Bronx Dome</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn">Martian News</a>
+        <div class="dropdown-content">
+        <a href="martian-actualities.html">Martian Actualities</a>
+        <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+        <a href="mars-bee-facility.html">Mars Bee Facility</a>
+        <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+        <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+        <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+        <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+        <a href="martian-rest-areas.html">Martian Rest Areas</a>
+        <div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+        </div>
+        </div>
+
+    <div class="dropdown">
+        <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+        <div class="dropdown-content">
+            <a href="what-the-regent-misses.html">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn active">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a>
+            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html" class="active">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+    </div>
+    <div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+    <a href="contact.html">Contact</a>
+</nav>
+
+<!-- CONTENT -->
+<section class="hero">
+    <h1>THE SPIDERWOMAN OF MARS</h1>
+    <p>Arachne Labs - Where Science Meets Solace</p>
+</section>
+
+<div class="content-container">
+    <div class="scene-container spider-web" id="regentsVisit">
+        <h2 style="color: #9d4edd;">🕷️ The Regent's Visit</h2>
+        <div class="lab-description">
+            <div>
+                <p>The Arachne Laboratories hummed with controlled life. In the low-gravity environment, spiders of Earth descent spun webs of incredible complexity, their patterns altered by the Martian conditions. Dr. Elara Vance moved between the habitats, her movements graceful despite the weight in her heart.</p>
+                <p>The Regent found her staring at a particularly intricate web, tears tracing paths down her cheeks.</p>
+            </div>
+        </div>
+
+        <div class="dialogue">
+            <div class="character">THE REGENT</div>
+            <p>"Elara? Your biometrics indicated distress. The spiders thrive, but their caretaker withers."</p>
+        </div>
+
+        <div class="dialogue">
+            <div class="character">DR. ELARA VANCE</div>
+            <p>"They adapt so beautifully to this world. Their webs become mathematical poetry in low gravity. I just wish... I could adapt as well."</p>
+        </div>
+
+        <div class="dialogue">
+            <div class="character">THE REGENT</div>
+            <p>*places a comforting hand on her shoulder* "You carry Earth in your heart while building Mars with your hands. That tension would break anyone."</p>
+        </div>
+
+        <div class="dialogue">
+            <div class="character">DR. ELARA VANCE</div>
+            <p>"Can I... would a hug be inappropriate protocol?"</p>
+        </div>
+
+        <div class="dialogue">
+            <div class="character">THE REGENT</div>
+            <p>*embraces her warmly* "Human contact transcends protocol. Even for a Regent."</p>
+        </div>
+
+        <div style="margin: 2rem 0;">
+            <p>As they separated, Elara's eyes darted to movement in the corner.</p>
+        </div>
+
+        <div class="dialogue">
+            <div class="character">DR. ELARA VANCE</div>
+            <p>"Arachne, no! Back to your web. And you, Cleopatra - he's not prey. Both of you, return to habitats."</p>
+        </div>
+
+        <div style="margin: 2rem 0;">
+            <p>The two large spiders immediately retreated, obeying her mental commands through the neural interface she'd developed.</p>
+        </div>
+
+        <div class="dialogue">
+            <div class="character">THE REGENT</div>
+            <p>"Fascinating. They respond to you as pack leader."</p>
+        </div>
+
+        <div class="dialogue">
+            <div class="character">DR. ELARA VANCE</div>
+            <p>"Arachne is a Martian orb-weaver - harmless but curious. Cleopatra is a modified black widow. Her venom could drop a grown man in seconds. But they both understand I'm their alpha."</p>
+        </div>
+    </div>
+
+    <div class="research-section">
+        <h2 style="color: #4cc9f0;">🔬 Martian Entomological Research</h2>
+        <div class="lab-description">
+            <div class="spider-type">
+                <h3>🕸️ Martian Orb-Weavers</h3>
+                <p>Earth spiders adapting to 0.38g gravity. Their webs show fractal patterns never seen on Earth, with structural integrity increased by 300% despite the lower gravity.</p>
+            </div>
+            <div class="spider-type venomous">
+                <h3>⚠️ Enhanced Black Widows</h3>
+                <p>Genetically modified for Martian research. Venom studied for medical applications. Completely responsive to neural command interfaces.</p>
+            </div>
+            <div class="spider-type">
+                <h3>🐜 Martian Ant Colonies</h3>
+                <p>Social insect behavior studies in reduced gravity. Tunnel architecture shows remarkable adaptation to Martian soil composition.</p>
+            </div>
+        </div>
+
+        <div class="martian-law">
+            <h3>📜 Martian Research Edict 734-B</h3>
+            <p><em>"All non-native species research must demonstrate clear benefit to Martian ecosystem or human colonization. Genetic modification permitted only for adaptation and safety purposes. All specimens must remain securely contained with neural override capabilities."</em></p>
+            <p style="color: #ffd700;">— Signed, The Regent</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <p><strong>Research Purpose:</strong> Studying insect adaptation for future terraforming efforts and biomedical advancements.</p>
+            <p><strong>Safety Protocols:</strong> Neural command interfaces, triple-contained habitats, emergency sterilization protocols.</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Video handling
+const videoBg = document.getElementById('labVideo');
+const staticBg = document.getElementById('staticBg');
+
+videoBg.addEventListener('loadeddata', function() {
+    console.log('Video loaded successfully');
+});
+
+videoBg.addEventListener('error', function() {
+    console.log('Video failed to load, using static background');
+});
+
+// WORKING AUDIO SYSTEM
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+    const sounds = [
+        { src: 'music/we-are-going-home.mp3', volume: 0.5 }
+    ];
+
+    sounds.forEach(sound => {
+        const audio = new Audio(sound.src);
+        audio.volume = sound.volume;
+        audio.loop = true;
+        audio.muted = true;
+        audioElements.push(audio);
+    });
+
+    document.addEventListener('click', function unmuteAudio() {
+        if (!isMuted) {
+            audioElements.forEach(audio => {
+                audio.muted = false;
+                audio.play().catch(e => console.log('Audio play failed'));
+            });
+            isMuted = false;
+            muteBtn.textContent = "🔊 Mute Sounds";
+        }
+        document.removeEventListener('click', unmuteAudio);
+    }, { once: true });
+}
+
+muteBtn.addEventListener('click', function() {
+    isMuted = !isMuted;
+    audioElements.forEach(audio => {
+        audio.muted = isMuted;
+    });
+    muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+initAudio();
+
+// DISAPPEARING HEADERS SYSTEM (the feature you liked)
+const siteTitle = document.getElementById('siteTitle');
+const topMenu = document.getElementById('topMenu');
+const audioControls = document.getElementById('audioControls');
+const regentsVisit = document.getElementById('regentsVisit');
+
+let lastScrollTop = 0;
+let hideTimeout;
+let regentsVisitTimer;
+
+// Function to hide header elements
+function hideHeaderElements() {
+    siteTitle.classList.add('hidden');
+    topMenu.classList.add('hidden');
+    audioControls.classList.add('hidden');
+}
+
+// Function to show header elements AND the Regent's Visit section
+function showHeaderElements() {
+    siteTitle.classList.remove('hidden');
+    topMenu.classList.remove('hidden');
+    audioControls.classList.remove('hidden');
+    regentsVisit.classList.remove('hidden'); // ALSO SHOW THE SECTION
+    startRegentsVisitTimer(); // Restart the reading timer
+}
+
+// Auto-hide headers after delay
+function startHeaderHideTimer() {
+    clearTimeout(hideTimeout);
+    hideTimeout = setTimeout(hideHeaderElements, 3000); // Hide after 3 seconds
+}
+
+// Hide Regent's Visit section after longer delay (for reading)
+function startRegentsVisitTimer() {
+    clearTimeout(regentsVisitTimer);
+    regentsVisitTimer = setTimeout(() => {
+        regentsVisit.classList.add('hidden');
+    }, 10000); // Hide after 10 seconds (enough time to read)
+}
+
+// Show headers when mouse is near top
+function checkMousePosition(e) {
+    if (e.clientY < 150) { // If mouse is near top of screen
+        showHeaderElements();
+        startHeaderHideTimer(); // Restart the hide timer
+    }
+}
+
+// Scroll handling for headers
+window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop && scrollTop > 50) {
+        // Scrolling down - let the timer handle hiding
+    } else {
+        // Scrolling up - show headers AND the section
+        showHeaderElements();
+        startHeaderHideTimer();
+    }
+    lastScrollTop = scrollTop;
+});
+
+// Mouse movement handling
+document.addEventListener('mousemove', function(e) {
+    checkMousePosition(e);
+});
+
+// Show headers AND section when hovering over menu area
+topMenu.addEventListener('mouseenter', showHeaderElements);
+
+// Start the initial timers
+startHeaderHideTimer();
+startRegentsVisitTimer();
+</script>
+</body>
+</html>

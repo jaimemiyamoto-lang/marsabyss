@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Martian Rest Areas - The Mars Abyss</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            background: #000;
+        }
+
+        /* FIXED BACKGROUND - NO BLINKING */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .static-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #3a1c1c, #8b4513, #1a1a2e);
+            z-index: -1;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 2;
+        }
+
+        /* === ENHANCED TOP MENU === */
+        nav.top-menu {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(17, 17, 17, 0.95);
+            padding: 0.6rem 0;
+            z-index: 1000;
+            gap: 2.5rem;
+            flex-wrap: nowrap;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00ccff;
+        }
+
+        nav.top-menu a {
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        nav.top-menu a.active,
+        nav.top-menu a:hover {
+            color: #00ccff;
+            background: transparent;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown > a, .dropdown {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(26, 26, 26, 0.98);
+            min-width: 140px;
+            z-index: 1001;
+            border-radius: 4px;
+            border: 2px solid #00ccff;
+            top: 100%;
+            left: 0;
+            backdrop-filter: blur(5px);
+            padding: 4px 0;
+        }
+
+        .dropdown .dropdown .dropdown-content {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            width: 100%;
+        }
+
+        .dropdown-content a {
+            color: #f5f5f5;
+            padding: 3px 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+            font-size: 0.8rem;
+            line-height: 1;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(0, 204, 255, 0.6);
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* SITE TITLE OVERLAY */
+        .site-title-overlay {
+            position: fixed;
+            top: 80px;
+            left: 30px;
+            z-index: 50;
+        }
+
+        .site-title-overlay h1 {
+            color: #00ccff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* AUDIO CONTROLS - POSITION FIXED */
+        .audio-controls {
+            position: fixed;
+            bottom: 80px;
+            right: 41px;
+            z-index: 1000;
+        }
+
+        .audio-btn {
+            background: rgba(0, 204, 255, 0.8);
+            border: 2px solid #00ccff;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
+        }
+
+        .audio-btn:hover {
+            background: rgba(0, 204, 255, 0.6);
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+        }
+
+        /* VIEW TOGGLE BUTTON */
+        .view-toggle {
+            position: fixed;
+            top: 80px;
+            right: 40px;
+            z-index: 1000;
+        }
+
+        .view-btn {
+            background: rgba(255, 193, 7, 0.8);
+            border: 2px solid #ffc107;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
+        }
+
+        .view-btn:hover {
+            background: rgba(255, 193, 7, 0.6);
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.7);
+        }
+
+        /* REST AREA CONTENT */
+        .content-container {
+            position: relative;
+            z-index: 10;
+            margin-top: 150px;
+            margin-bottom: 130px;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            border: 2px solid #00ccff;
+            box-shadow: 0 0 20px rgba(0, 204, 255, 0.5);
+            transition: all 0.5s ease;
+        }
+
+        .content-container.hidden {
+            opacity: 0;
+            transform: translateY(50px);
+            pointer-events: none;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #00ccff;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+        }
+
+        .page-subtitle {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #e0e0ff;
+            font-style: italic;
+        }
+
+        .mission-statement {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #00ccff;
+        }
+
+        .mission-statement h2 {
+            color: #00ccff;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .rest-area-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #00ccff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.3);
+        }
+
+        .feature-card h3 {
+            color: #00ccff;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            border-bottom: 1px solid #00ccff;
+            padding-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+        }
+
+        .feature-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00ccff;
+        }
+
+        .craft-animation {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            border: 1px solid #00ccff;
+        }
+
+        .craft-container {
+            position: relative;
+            height: 200px;
+            margin: 20px 0;
+        }
+
+        .martian-craft {
+            position: absolute;
+            width: 80px;
+            height: 40px;
+            background: #555;
+            border-radius: 10px 10px 0 0;
+            animation: flyToShelter 8s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ccff;
+            font-size: 1.5rem;
+        }
+
+        .rest-shelter {
+            position: absolute;
+            right: 50px;
+            top: 80px;
+            width: 120px;
+            height: 80px;
+            background: #8B4513;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            border: 2px solid #00ccff;
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
+        }
+
+        .rest-shelter:before {
+            content: "REST";
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+        }
+
+        @keyframes flyToShelter {
+            0% {
+                left: -100px;
+                transform: translateY(0px);
+            }
+            25% {
+                transform: translateY(-20px);
+            }
+            50% {
+                transform: translateY(0px);
+            }
+            75% {
+                transform: translateY(20px);
+            }
+            100% {
+                left: calc(100% - 200px);
+                transform: translateY(0px);
+            }
+        }
+
+        .location-map {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 60px;
+            border: 1px solid #00ccff;
+        }
+
+        .location-map h2 {
+            color: #00ccff;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background: #222;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-style: italic;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-placeholder:before {
+            content: "MARTIAN REST AREA NETWORK MAP";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+        }
+
+        .map-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+        }
+
+        /* Enhanced video container */
+        .map-video-container {
+            position: relative;
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 3px solid #00ccff;
+            box-shadow: 0 0 30px rgba(0, 204, 255, 0.4);
+        }
+
+        .map-video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 8px;
+            font-style: italic;
+            padding: 0 10px;
+        }
+
+        /* Context box styling */
+        .video-context {
+            background: rgba(30, 30, 50, 0.7);
+            border-left: 4px solid #FF9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .video-context ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        .video-context li {
+            margin-bottom: 5px;
+        }
+
+        /* FIX ORANGE CIRCLE - Add this */
+        .location-map h2::before {
+            content: none !important;
+            display: none !important;
+        }
+
+        /* ENHANCED FOOTER - POSITION FIXED */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 0.6rem 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ccff;
+            font-family: 'Segoe UI', sans-serif;
+            z-index: 1000;
+            border-top: 2px solid #00ccff;
+            padding-left: 1px;
+            transition: all 0.5s ease;
+        }
+
+        footer.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .site-title-overlay {
+                top: 70px;
+                left: 20px;
+            }
+            .site-title-overlay h1 {
+                font-size: 1.4rem;
+            }
+            .audio-controls, .view-toggle {
+                right: 20px;
+            }
+            .audio-controls {
+                bottom: 70px;
+            }
+            .view-toggle {
+                bottom: 130px;
+            }
+            .page-title {
+                font-size: 2rem;
+            }
+            .page-subtitle {
+                font-size: 1.2rem;
+            }
+            .content-container {
+                margin-top: 120px;
+                padding: 15px;
+            }
+            .rest-area-features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- FIXED MARTIAN BACKGROUND - NO BLINKING -->
+    <div class="background-container">
+        <div class="static-background" id="staticBg"></div>
+        <video class="video-background" id="marsVideo" muted loop playsinline preload="auto">
+            <source src="videos/spacecraft-nearing-rest-area-2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- SITE TITLE OVERLAY -->
+    <div class="site-title-overlay">
+        <h1>The Mars Abyss</h1>
+    </div>
+
+    <!-- AUDIO CONTROLS -->
+    <div class="audio-controls">
+        <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+    </div>
+
+    <!-- VIEW TOGGLE BUTTON -->
+    <div class="view-toggle">
+        <button class="view-btn" id="viewToggle">🌌 Hide Content</button>
+    </div>
+
+    <!-- ENHANCED TOP MENU -->
+    <nav class="top-menu">
+        <div class="dropdown">
+            <a href="index.html" class="dropbtn">Home</a>
+            <div class="dropdown-content">
+                <a href="why-this-world-matters.html">Why This World Matters</a>
+                <a href="homage-to-courage.html">Homage to Courage</a>
+                <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+                <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+                <a href="my-mission.html">My Mission</a>
+                <a href="martian-reading-revival.html">Martian Reading Revival</a>
+                <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+                <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+                <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="story.html" class="dropbtn">Story</a>
+            <div class="dropdown-content">
+                <a href="characters.html">Characters</a>
+                <div class="dropdown">
+                    <a href="gallery.html" class="dropbtn">Gallery</a>
+                    <div class="dropdown-content">
+                        <a href="art-and-concepts.html">Art & Concepts</a>
+                        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                        <a href="technical-database.html">Technical Database</a>
+                        <a href="martian-edicts.html">The Martian Edicts</a>
+                        <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                        <a href="solar-system-explorer.html">Solar System Explorer</a>
+                        <a href="aliens-ufos.html">Aliens & UFOs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-games.html" class="dropbtn">Martian Games</a>
+            <div class="dropdown-content">
+                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+                <a href="martian-racer.html">Martian Racer</a>
+                <a href="red-planet-defense.html">Red Planet Defense</a>
+                <a href="the-regents-portal.html">The Regent's Portal</a>
+                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+                <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+            <div class="dropdown-content">
+                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+                <a href="earths-great-poets.html">Earth's Great Poets</a>
+                <a href="the-bohr-institute.html">The Bohr Institute</a>
+                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+                <a href="the-bronx-dome.html">The Bronx Dome</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-news.html" class="dropbtn active">Martian News</a>
+            <div class="dropdown-content">
+                <a href="martian-actualities.html">Martian Actualities</a>
+                <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+                <a href="mars-bee-facility.html">Mars Bee Facility</a>
+                <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+                <a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
+                <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+                <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+                <a href="martian-rest-areas.html" class="active">Martian Rest Areas</a>
+                <div class="dropdown">
+                    <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                    <div class="dropdown-content">
+                        <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                        <a href="marvin.html">M.A.R.V.I.N.</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+            <div class="dropdown-content">
+                <a href="regents-longing.html">What the Regent Misses</a>
+                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+                <a href="honor-the-fallen.html">Honor The Fallen</a>
+                <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+                <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+                <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+                <a href="martian-critique-tron-ares.html">Martian Critique</a>
+                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="about.html" class="dropbtn">About</a>
+            <div class="dropdown-content">
+                <a href="about-the-project.html">About the Project</a>
+                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+                <a href="the-pale-horse.html">The Pale Horse</a>
+                <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+                <a href="arachne-labs.html">Arachne Labs</a>
+                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="support.html" class="dropbtn">Support</a>
+            <div class="dropdown-content">
+                <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+                <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+                <a href="mars-food-district.html">Mars Food District</a>
+                <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+                <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+                <a href="fund-martian-research.html">Fund Martian Research</a>
+                <a href="martian-survival-manual.html">Martian Survival Manual</a>
+                <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+            </div>
+        </div>
+
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- REST AREA CONTENT -->
+    <div class="content-container" id="contentContainer">
+        <h1 class="page-title">MARTIAN REST AREAS</h1>
+        <p class="page-subtitle">Oasis of Comfort on the Long Martian Journey</p>
+        
+        <div class="mission-statement">
+            <h2>THE VERMONT OF MARS INITIATIVE</h2>
+            <p>Inspired by Earth's highway rest areas - particularly those in the Northeast & Northwest areas, where travelers find respite on long journeys - the Martian Colonial Authority has established a network of fully-equipped rest areas across major transit routes.</p>
+            <p>These facilities provide weary inter-dome travelers with showers, hot meals, comfortable sleeping quarters, and recreational facilities - all free of charge to promote safe travel across the Martian landscape.</p>
+        </div>
+
+        <div class="craft-animation">
+            <h3>APPROACHING A MARTIAN REST AREA</h3>
+            <div class="craft-container">
+                <div class="martian-craft">🚀</div>
+                <div class="rest-shelter"></div>
+            </div>
+            <p><em>A small craft approaches a rest area built into the Martian rock formations</em></p>
+            <p>Martian Rest Area Network funded by the Colonial Travel Safety Initiative.</p>
+        </div>
+
+        <div class="rest-area-features">
+            <div class="feature-card">
+                <h3><span class="feature-icon">🚿</span> HYGIENE & COMFORT</h3>
+                <ul class="feature-list">
+                    <li>Pressurized shower facilities with recycled water</li>
+                    <li>Sanitation stations and personal hygiene kits</li>
+                    <li>Clean changing areas with fresh linens</li>
+                    <li>Laundry service with 2-hour turnaround</li>
+                    <li>Grooming stations with vacuum hair collection</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <h3><span class="feature-icon">🍽️</span> DINING & NOURISHMENT</h3>
+                <ul class="feature-list">
+                    <li>Hot meal service featuring Earth and Martian cuisine</li>
+                    <li>Hydroponic salad bar with fresh greens</li>
+                    <li>24/7 beverage station with coffee, tea, and juices</li>
+                    <li>Snack bar with both Earth imports and Martian products</li>
+                    <li>Special dietary accommodations available</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <h3><span class="feature-icon">🛌</span> REST & RELAXATION</h3>
+                <ul class="feature-list">
+                    <li>Private sleeping pods with adjustable environments</li>
+                    <li>Common lounge with entertainment systems</li>
+                    <li>Quiet meditation rooms with Earth scenery projections</li>
+                    <li>Light therapy stations for circadian rhythm regulation</li>
+                    <li>Massage chairs and zero-gravity relaxation pods</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <h3><span class="feature-icon">🔧</span> VEHICLE SERVICES</h3>
+                <ul class="feature-list">
+                    <li>Dust removal and exterior cleaning bays</li>
+                    <li>Atmospheric pressure equalization chambers</li>
+                    <li>Basic maintenance and diagnostic services</li>
+                    <li>Oxygen and fuel replenishment stations</li>
+                    <li>Communication system checks and updates</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="location-map">
+            <h2>MARTIAN REST AREA ENCLOSURE</h2>
+            <p class="page-subtitle">Docking Sequence at the I-80 of Mars, Tharsis Metropolitan Rest Area Hub, & Urban Haven for Inter-Dome Travelers</p>
+            
+            <!-- Video Section -->
+            <div class="map-video-container">
+                <video controls autoplay muted loop playsinline 
+                       style="width:100%; max-height:400px; border-radius:8px; border:2px solid #00ccff;">
+                    <source src="videos/yellow-rest-area-ship-2.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p style="text-align:center; margin-top:10px; font-size:0.9em; color:#aaa;">
+                    Animated Martian Rest Area Network - © 2025 The Mars Abyss
+                </p>
+                
+                <div class="video-context">
+                    <p><strong>Note:</strong> This video demonstrates docking procedures at a major Metropolitan rest facility, like the ones in Iowa. Future updates will include:</p>
+                    <ul>
+                        <li>Interactive network map showing all 12 primary rest areas</li>
+                        <li>Virtual tours of different facility types (mountain, canyon, polar stations)</li>
+                        <li>Real-time occupancy and amenity status</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Map Legend -->
+            <div class="map-legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #00ccff;"></div>
+                    <span>Major Rest Areas (12 locations)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #4CAF50;"></div>
+                    <span>Mini-Stations (25 locations)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #FF9800;"></div>
+                    <span>Emergency Only (40 locations)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT SPACER -->
+    <div class="content-spacer"></div>
+
+    <footer id="pageFooter">
+        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // FIXED VIDEO BACKGROUND LOADING - NO BLINKING
+        const videoBg = document.getElementById('marsVideo');
+        const staticBg = document.getElementById('staticBg');
+
+        // Preload and handle video properly
+        videoBg.addEventListener('loadeddata', function() {
+            videoBg.classList.add('loaded');
+            setTimeout(() => {
+                videoBg.play().catch(e => {
+                    console.log('Autoplay prevented, waiting for user interaction');
+                });
+            }, 500);
+        });
+
+        videoBg.addEventListener('canplaythrough', function() {
+            videoBg.classList.add('loaded');
+        });
+
+        videoBg.addEventListener('error', function() {
+            console.log('Video failed to load, using static background only');
+            videoBg.style.display = 'none';
+        });
+
+        // Fallback: if video doesn't load within 3 seconds, hide it
+        setTimeout(() => {
+            if (!videoBg.classList.contains('loaded')) {
+                videoBg.style.display = 'none';
+                console.log('Video loading timeout, falling back to static background');
+            }
+        }, 3000);
+
+        // AUDIO SYSTEM
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true;
+        let audioElements = [];
+
+        function initAudio() {
+            const sounds = [
+                { src: 'music/echoed-dreams.mp3', volume: 0.4 },
+                { src: 'sounds/ambient-space.mp3', volume: 0.2 }
+            ];
+
+            sounds.forEach(sound => {
+                const audio = new Audio(sound.src);
+                audio.volume = sound.volume;
+                audio.loop = true;
+                audio.muted = true;
+                audioElements.push(audio);
+            });
+
+            // Audio initialization
+            document.addEventListener('click', function unmuteAudio() {
+                if (!isMuted) {
+                    audioElements.forEach(audio => {
+                        audio.muted = false;
+                        audio.play().catch(e => console.log('Audio play failed'));
+                    });
+                    isMuted = false;
+                    muteBtn.textContent = "🔊 Mute Sounds";
+                }
+                document.removeEventListener('click', unmuteAudio);
+            }, { once: true });
+        }
+
+        // Mute toggle
+        muteBtn.addEventListener('click', function() {
+            isMuted = !isMuted;
+            audioElements.forEach(audio => {
+                audio.muted = isMuted;
+            });
+            muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+        });
+
+        // Initialize audio when page loads
+        initAudio();
+
+        // VIEW TOGGLE FUNCTIONALITY
+        const viewToggle = document.getElementById('viewToggle');
+        const contentContainer = document.getElementById('contentContainer');
+        const pageFooter = document.getElementById('pageFooter');
+        viewToggle.addEventListener('click', function() {
+            contentContainer.classList.toggle('hidden');
+            pageFooter.classList.toggle('hidden');
+            if (contentContainer.classList.contains('hidden')) {
+                viewToggle.textContent = '📄 Show Content';
+            } else {
+                viewToggle.textContent = '🌌 Hide Content';
+            }
+        });
+
+        // Ensure video plays when user interacts with page
+        document.addEventListener('click', function() {
+            if (videoBg.paused) {
+                videoBg.play().catch(e => console.log('Video play requires user interaction'));
+            }
+        });
+    </script>
+</body>
+</html>

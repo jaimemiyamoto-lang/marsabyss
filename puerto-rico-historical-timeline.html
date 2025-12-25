@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Earth Codex - Puerto Rico's History - The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    background: #000;
+}
+
+/* FIXED BACKGROUND */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.static-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #0a2e36, #1a535c, #4ecdc4);
+    z-index: 1;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+/* === ENHANCED TOP MENU === */
+nav.top-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #ffd700;
+    transition: all 0.4s ease;
+}
+
+/* Fade effect for content when menu is hovered */
+body.menu-hovered .main-content,
+body.menu-hovered .site-title-overlay,
+body.menu-hovered footer {
+    opacity: 0.3;
+    transition: opacity 0.4s ease;
+}
+
+nav.top-menu:hover {
+    background: rgba(17, 17, 17, 0.98);
+    backdrop-filter: blur(15px);
+}
+
+nav.top-menu a {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+    color: #ffd700;
+    background: transparent;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid #ffd700;
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
+}
+
+.dropdown .dropdown .dropdown-content {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+}
+
+.dropdown-content a {
+    color: #f5f5f5;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+.dropdown-content a:hover {
+    background: rgba(255, 215, 0, 0.6);
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* SITE TITLE OVERLAY */
+.site-title-overlay {
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+    transition: opacity 0.4s ease;
+}
+
+.site-title-overlay h1 {
+    color: #ffd700;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+/* AUDIO CONTROLS - POSITION FIXED */
+.audio-controls {
+    position: fixed;
+    bottom: 80px;
+    right: 41px;
+    z-index: 1000;
+}
+
+.audio-btn {
+    background: rgba(255, 215, 0, 0.8);
+    border: 2px solid #ffd700;
+    color: #000;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.audio-btn:hover {
+    background: rgba(255, 215, 0, 1);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+}
+
+/* MAIN CONTENT */
+.main-content {
+    position: relative;
+    z-index: 10;
+    margin-top: 150px;
+    padding: 20px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: opacity 0.4s ease;
+}
+
+/* Historical Header */
+.history-header {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: rgba(0, 0, 0, 0.8);
+    margin: 2rem auto;
+    border-radius: 12px;
+    border: 3px solid #8B4513;
+    max-width: 900px;
+}
+
+.history-logo {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 2rem;
+    border: 3px solid #ffd700;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #8B4513, #ffd700, #228B22);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+}
+
+.history-header h1 {
+    font-size: 3rem;
+    color: #ffd700;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.tagline {
+    font-size: 1.5rem;
+    color: #aaddff;
+    font-style: italic;
+}
+
+/* Content Sections */
+.history-section {
+    background: rgba(0, 20, 40, 0.8);
+    padding: 2rem;
+    border-radius: 10px;
+    margin: 2rem 0;
+    border-left: 4px solid #8B4513;
+}
+
+.history-section h3 {
+    color: #ffd700;
+    margin-bottom: 1rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.regent-note {
+    background: rgba(139, 69, 19, 0.3);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 3px solid #ffd700;
+    margin: 1rem 0;
+    font-style: italic;
+}
+
+/* Timeline */
+.timeline {
+    background: rgba(139, 69, 19, 0.1);
+    border: 2px solid #8B4513;
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 12px;
+}
+
+.timeline h3 {
+    color: #8B4513;
+    margin-bottom: 1.5rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.timeline-container {
+    display: grid;
+    gap: 1rem;
+}
+
+.timeline-era {
+    background: rgba(139, 69, 19, 0.2);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 3px solid #ffd700;
+}
+
+.timeline-era h4 {
+    color: #ffd700;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.era-media {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.historical-image {
+    width: 180px;
+    height: 120px;
+    object-fit: cover;
+    border: 2px solid #8B4513;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* FIXED VIDEO CONTAINERS */
+.historical-video {
+    width: 100%;
+    max-width: 800px;
+    margin: 1rem auto;
+}
+
+.historical-video video {
+    width: 100%;
+    height: auto;
+    border: 2px solid #8B4513;
+    border-radius: 8px;
+    background: #000;
+}
+
+.historical-image:hover,
+.historical-video:hover {
+    transform: scale(1.05);
+    border-color: #ffd700;
+}
+
+/* Future Connection */
+.future-connection {
+    background: rgba(76, 201, 240, 0.1);
+    border: 2px solid #4cc9f0;
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 12px;
+    position: relative;
+}
+
+.hologram-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 50%, rgba(76, 201, 240, 0.1) 50%);
+    background-size: 10px 10px;
+    pointer-events: none;
+    border-radius: 12px;
+}
+
+.future-connection h3 {
+    color: #4cc9f0;
+    margin-bottom: 1.5rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.navigation-links {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.nav-button {
+    display: inline-block;
+    background: rgba(255, 215, 0, 0.8);
+    color: #000;
+    padding: 12px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+    border: 2px solid #ffd700;
+}
+
+.nav-button:hover {
+    background: rgba(255, 215, 0, 1);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+    transform: translateY(-2px);
+}
+
+.hide-content-btn {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffd700;
+    border: 2px solid #ffd700;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: clamp(00.7rem, 2vw, 00.8rem);
+    transition: all 0.3s ease;
+}
+
+.hide-content-btn:hover {
+    background: rgba(255, 215, 0, 0.6);
+    color: black;
+}
+
+/*Hidden States */
+.main-content.hidden,
+footer.hidden,
+nav.top-menu.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+nav.top-menu.hidden {
+    opacity: 0;
+}
+
+/* ENHANCED FOOTER - POSITION FIXED */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ffd700;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid #ffd700;
+    padding-left: 1px;
+    transition: opacity 0.4s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .site-title-overlay {
+        top: 70px;
+        left: 20px;
+    }
+    .site-title-overlay h1 {
+        font-size: 1.4rem;
+    }
+    .audio-controls {
+        right: 20px;
+        bottom: 70px;
+    }
+    .main-content {
+        margin-top: 120px;
+        padding: 15px;
+    }
+    .history-header h1 {
+        font-size: 2rem;
+    }
+    .era-media {
+        justify-content: center;
+    }
+    .historical-image {
+        width: 150px;
+        height: 100px;
+    }
+    nav.top-menu {
+        gap: 1rem;
+        padding: 0.4rem 0;
+    }
+    nav.top-menu a {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.6rem;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- FIXED BACKGROUND -->
+<div class="background-container">
+    <div class="static-background" id="staticBg"></div>
+    <video class="video-background" id="historyVideo" muted loop playsinline preload="auto">
+        <source src="videos/tourist-cruiseships.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<!-- SITE TITLE OVERLAY -->
+<div class="site-title-overlay">
+    <h1>The Mars Abyss</h1>
+</div>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+    <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- Hide Content Button -->
+<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
+<!-- CORRECTED TOP MENU -->
+<nav class="top-menu">
+    <div class="dropdown">
+        <a href="index.html" class="dropbtn">Home</a>
+        <div class="dropdown-content">
+            <a href="why-this-world-matters.html">Why This World Matters</a>
+            <a href="homage-to-courage.html">Homage to Courage</a>
+            <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+            <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+            <a href="my-mission.html">My Mission</a>
+            <a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+        <div class="dropdown-content">
+            <a href="puerto-rico-future-paradise.html">Puerto Rico: Future Paradise</a>
+            <a href="puerto-rico-historical-timeline.html" class="active">Puerto Rico: Historical Timeline</a>
+            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+            <a href="earths-great-poets.html">Earth's Great Poets</a>
+            <a href="the-bohr-institute.html">The Bohr Institute</a>
+            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+            <a href="the-bronx-dome.html">The Bronx Dome</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn">Martian News</a>
+        <div class="dropdown-content">
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+            <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+            <a href="martian-rest-areas.html">Martian Rest Areas</a>
+            <div class="dropdown">
+                <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                <div class="dropdown-content">
+                    <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                    <a href="marvin.html">M.A.R.V.I.N.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CORRECTED REGENT'S SCROLLS STRUCTURE -->
+    <div class="dropdown">
+        <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+        <div class="dropdown-content">
+            <a href="what-the-regent-misses.html">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="major-tricks-of-mars.html">Major Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a>
+            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="support.html" class="dropbtn">Support</a>
+        <div class="dropdown-content">
+            <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+            <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+            <a href="mars-food-district.html">Mars Food District</a>
+            <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+            <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+            <a href="fund-martian-research.html">Fund Martian Research</a>
+            <a href="volunteer-portal.html">Volunteer Portal</a>
+            <a href="martian-survival-manual.html">Martian Survival Manual</a>
+            <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+        </div>
+    </div>
+
+    <!-- CONTACT DROPDOWN -->
+    <div class="dropdown">
+        <a href="contact.html" class="dropbtn">Contact</a>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <!-- Historical Header -->
+    <section class="history-header">
+        <div class="history-logo">🏝️</div>
+        <h1>Puerto Rico: Historical Timeline</h1>
+        <p class="tagline">Where the Past Meets the Future</p>
+    </section>
+
+    <!-- The Regent's Historical Note -->
+    <section class="history-section">
+        <h3>📜 The Regent's Historical Note</h3>
+        <div class="regent-note">
+            <p>"To understand where we're going, we must remember where we came from. Puerto Rico's resilience through centuries of change prepared it to become Mars' inspiration. The same spirit that rebuilt after hurricanes is the spirit that builds domes on Mars."</p>
+            <p><em>- The Regent, from the Martian Observatory</em></p>
+        </div>
+    </section>
+
+    <!-- Historical Timeline -->
+    <section class="timeline">
+        <h3>⏳ Puerto Rico's Historical Journey</h3>
+        <div class="timeline-container">
+            <div class="timeline-era">
+                <h4>🏹 Taíno Era (Pre-1493)</h4>
+                <p>The original inhabitants called the island "Borikén" - the land of the brave lord. A culture rich with tradition, agriculture, and connection to the land that would influence all future generations.</p>
+                <div class="era-media">
+                    <img src="images/the-island-of-puerto-rico.jpg" alt="Puerto Rico. El Nuevo Imperio Del Reino Borincano" class="historical-image">
+                    <img src="images/taino-parallel-dimension-village.jpg" alt="Taíno taino-parallel-dimension-village" class="historical-image">
+                    <!-- Taino Era Video - placeholder for future -->
+                    <div class="historical-video">
+                        <video controls playsinline>
+                            <source src="videos/the-trees-at-the-swaying-beach.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-era">
+                <h4>⚔️ Spanish Colonial Period (1493-1898)</h4>
+                <p>400 years of Spanish rule shaped culture, architecture, and identity. From the fortifications of Old San Juan to the blending of traditions, this era built the foundation of modern Puerto Rico.</p>
+                <div class="era-media">
+                    <div class="historical-video">
+                        <video controls playsinline>
+                            <source src="videos/morro-at-night.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-era">
+                <h4>🇺🇸 American Period (1898-Present)</h4>
+                <p>The complex relationship that continues to evolve. Through economic changes, cultural exchanges, and natural challenges, Puerto Rico's unique identity strengthened and adapted.</p>
+                <div class="era-media">
+                    <div class="historical-video">
+                        <video controls playsinline>
+                            <source src="videos/Puerto Rico 2062.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Connection to Future -->
+    <section class="future-connection">
+        <div class="hologram-effect"></div>
+        <h3>🔮 The Bridge to Tomorrow</h3>
+        <p>Every historical moment in Puerto Rico's timeline contributed to creating the visionary society that would eventually inspire Martian colonization. The same innovative spirit that rebuilt after hurricanes now builds sustainable habitats on Mars.</p>
+        <p><strong>The Regent observes:</strong> "When I look at Old San Juan's forts, I see the same determination in our Martian domes. When I study Taíno agricultural methods, I see the roots of our hydroponic systems. History isn't just about the past - it's the foundation of our future."</p>
+    </section>
+
+    <!-- Navigation Links -->
+    <section class="navigation-links">
+        <a href="puerto-rico-the-future-paradise.html" class="nav-button">🚀 See Future Paradise</a>
+        <a href="earth-codex.html" class="nav-button">📚 Back to Earth Codex</a>
+    </section>
+</div>
+
+<footer>
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// FIXED VIDEO BACKGROUND LOADING
+const videoBg = document.getElementById('historyVideo');
+const staticBg = document.getElementById('staticBg');
+
+// Preload and handle video properly
+videoBg.addEventListener('loadeddata', function() {
+    videoBg.classList.add('loaded');
+    setTimeout(() => {
+        videoBg.play().catch(e => {
+            console.log('Autoplay prevented, waiting for user interaction');
+        });
+    }, 500);
+});
+
+videoBg.addEventListener('canplaythrough', function() {
+    videoBg.classList.add('loaded');
+});
+
+videoBg.addEventListener('error', function() {
+    console.log('Video failed to load, using static background only');
+    videoBg.style.display = 'none';
+});
+
+// Fallback: if video doesn't load within 3 seconds, hide it
+setTimeout(() => {
+    if (!videoBg.classList.contains('loaded')) {
+        videoBg.style.display = 'none';
+        console.log('Video loading timeout, falling back to static background');
+    }
+}, 3000);
+
+// SIMPLIFIED AUDIO SYSTEM
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let backgroundMusic = null;
+
+function initAudio() {
+    backgroundMusic = new Audio('music/en-la-costa-del-amor.mp3');
+    backgroundMusic.volume = 0.3;
+    backgroundMusic.loop = true;
+    backgroundMusic.muted = true;
+    
+    // One-click unmute system
+    const unmuteOnce = () => {
+        if (isMuted && backgroundMusic) {
+            backgroundMusic.muted = false;
+            backgroundMusic.play().catch(e => {
+                console.log('Audio ready - click unmute when needed');
+            });
+        }
+        document.removeEventListener('click', unmuteOnce);
+    };
+    document.addEventListener('click', unmuteOnce);
+}
+
+// Simple mute toggle
+muteBtn.addEventListener('click', function() {
+    if (backgroundMusic) {
+        isMuted = !isMuted;
+        backgroundMusic.muted = isMuted;
+        muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+        
+        // If unmuting and music isn't playing, start it
+        if (!isMuted && backgroundMusic.paused) {
+            backgroundMusic.play().catch(e => {
+                console.log('Audio play requires user interaction');
+            });
+        }
+    }
+});
+
+// Initialize audio when page loads
+initAudio();
+
+// Initialize all historical videos
+function initHistoricalVideos() {
+    const historicalVideos = document.querySelectorAll('.historical-video video');
+    historicalVideos.forEach(video => {
+        video.addEventListener('loadeddata', function() {
+            video.classList.add('loaded');
+        });
+
+        video.addEventListener('canplaythrough', function() {
+            video.classList.add('loaded');
+        });
+
+        video.addEventListener('error', function() {
+            console.log('Historical video failed to load');
+        });
+    });
+}
+
+// Hide content functionality
+const hideContentBtn = document.getElementById('hideContentBtn');
+const mainContent = document.querySelector('.main-content');
+const pageFooter = document.querySelector('footer');
+const topMenu = document.querySelector('nav.top-menu');
+let contentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+    contentHidden = !contentHidden;
+
+    if (contentHidden) {
+        mainContent.classList.add('hidden');
+        pageFooter.classList.add('hidden');
+        topMenu.classList.add('hidden');
+        hideContentBtn.textContent = 'Show Content';
+    } else {
+        mainContent.classList.remove('hidden');
+        pageFooter.classList.remove('hidden');
+        topMenu.classList.remove('hidden');
+        hideContentBtn.textContent = 'Hide Content';
+    }
+});
+
+// Ensure video plays when user interacts with page
+document.addEventListener('click', function() {
+    if (videoBg.paused) {
+        videoBg.play().catch(e => console.log('Video play requires user interaction'));
+    }
+
+    // Play all historical videos when user interacts
+    const historicalVideos = document.querySelectorAll('.historical-video video');
+    historicalVideos.forEach(video => {
+        if (video.paused) {
+            video.play().catch(e => console.log('Historical video play requires user interaction'));
+        }
+    });
+});
+
+// Image click handlers for background changes
+document.querySelectorAll('.historical-image').forEach(img => {
+    img.addEventListener('click', function() {
+        // Add your background change logic here
+        console.log('Image clicked for background change:', this.src);
+    });
+});
+
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initHistoricalVideos();
+});
+</script>
+</body>
+</html>

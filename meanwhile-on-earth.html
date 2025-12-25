@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meanwhile on Earth... | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    background: #000;
+}
+
+/* Martian Background System */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.static-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('images/mars-background-bg.jpg') no-repeat center center / cover;
+    z-index: 1;
+}
+
+/* Video Background */
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(139, 69, 19, 0.1);
+    z-index: 3;
+}
+
+/* Audio Controls */
+.audio-controls {
+    position: fixed;
+    bottom: 80px;
+    right: 40px;
+    z-index: 1000;
+}
+
+.audio-btn {
+    background: rgba(255, 68, 68, 0.8);
+    border: 2px solid #ff9553;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+    background: rgba(255, 68, 68, 0.3);
+}
+
+/* Hide Content Button */
+.hide-content-btn {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ff9553;
+    border: 2px solid #ff9553;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: clamp(00.7rem, 2vw, 0.8rem);
+    transition: all 0.3s ease;
+}
+
+.hide-content-btn:hover {
+    background: rgba(255, 149, 83, 0.2);
+}
+
+/* Site Title */
+.site-title-overlay {
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+}
+
+.site-title-overlay h1 {
+    color: #ff9553;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+.site-title-overlay h1 sup {
+    font-size: 0.6em;
+    vertical-align: super;
+    color: rgba(255, 149, 83, 0.9);
+}
+
+/* Top Menu */
+nav.top-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #ff9553;
+}
+
+nav.top-menu a {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+    color: #ff4444;
+    background: transparent;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid #ff9553;
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
+}
+
+.dropdown-content a {
+    color: #f5f5f5;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.8rem;
+    line-height: 1;
+}
+
+.dropdown-content a:hover {
+    background: rgba(255, 68, 68, 0.6);
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Main Content */
+.main-content {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    padding: 120px 2rem 2rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    transition: all 0.5s ease;
+}
+
+/* Hide content funcionality */
+.main-content.hidden,
+footer.hidden,
+nav.top-menu.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.page-header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    color: #fda95a;
+    text-shadow: 0 0 15px rgba(255, 68, 68, 0.7);
+    margin-bottom: 1rem;
+}
+
+.page-header p {
+    font-size: 1.2rem;
+    color: #e0e0ff;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Video Gallery */
+.video-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.video-item {
+    background: rgba(30, 30, 30, 0.9);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #ff4444;
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.5);
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.timestamp {
+    background: rgba(255, 68, 68, 0.9);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.duration {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ff9553;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    border: 1px solid #ff9553;
+}
+
+.video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+    padding: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.control-btn {
+    background: rgba(255, 68, 68, 0.8);
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background: rgba(255, 68, 68, 1);
+    transform: scale(1.05);
+}
+
+.speed-control {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ff9553;
+    border: 1px solid #ff9553;
+    padding: 0.5rem;
+    border-radius: 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.video-info {
+    padding: 1.5rem;
+}
+
+.video-info h3 {
+    color: #ff4444;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.company-badge {
+    background: #ff4444;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.fedex-badge {
+    background: #4cc9f0;
+}
+
+.video-info p {
+    color: #ccc;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+}
+
+.blockage-time {
+    color: #ff9553;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Statistics Section - More Lighthearted */
+.stats-section {
+    background: rgba(30, 30, 30, 0.9);
+    padding: 2rem;
+    border-radius: 10px;
+    border: 2px solid #ff9553;
+    margin: 3rem 0;
+    text-align: center;
+}
+
+.stats-section h2 {
+    color: #ff9553;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-item {
+    padding: 1rem;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    color: #ff4444;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    display: block;
+}
+
+.stat-label {
+    color: #e0e0ff;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Lighthearted Call to Action */
+.cta-section {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: rgba(255, 68, 68, 0.1);
+    border-radius: 10px;
+    border: 2px solid #ff4444;
+    margin: 3rem 0;
+}
+
+.cta-section h2 {
+    color: #ff4444;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.cta-section p {
+    color: #e0e0ff;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.contact-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.contact-btn {
+    background: rgba(255, 68, 68, 0.8);
+    border: 2px solid #ff4444;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.contact-btn:hover {
+    background: rgba(255, 68, 68, 1);
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.7);
+}
+
+/* PROPER FOOTER - Clean and minimal */
+footer {
+    position: relative;
+    z-index: 1000;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ccc;
+    font-family: 'Segoe UI', sans-serif;
+    border-top: 2px solid #ff9553;
+}
+
+footer.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .site-title-overlay {
+        top: 70px;
+        left: 20px;
+    }
+    .site-title-overlay h1 {
+        font-size: 1.4rem;
+    }
+    nav.top-menu {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    .video-gallery {
+        grid-template-columns: 1fr;
+    }
+    .contact-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .video-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .audio-controls {
+        bottom: 70px;
+        right: 20px;
+    }
+    .hide-content-btn {
+        top: 70px;
+        right: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Video Background -->
+<div class="background-container">
+    <div class="static-background" id="staticBg"></div>
+    <video class="video-background" id="earthVideo" muted loop playsinline>
+        <source src="videos/animated-car-speeding-away-2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+</div>
+
+<!-- Site Title -->
+<div class="site-title-overlay">
+    <h1>The Mars Abyss<sup>™</sup></h1>
+</div>
+
+<!-- Top Menu -->
+<nav class="top-menu" id="topMenu">
+    <div class="dropdown">
+        <a href="index.html" class="dropbtn">Home</a>
+        <div class="dropdown-content">
+            <a href="why-this-world-matters.html">Why This World Matters</a>
+            <a href="homage-to-courage.html">Homage to Courage</a>
+            <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+            <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+            <a href="my-mission.html">My Mission</a>
+            <a href="martian-reading-revival.html">Martian Reading Revival</a>
+            <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+            <a href="the-atlantis-library-of-mars.html">the Atlantis Library of Mars</a>
+            <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+        <div class="dropdown-content">
+            <a href="puerto-rico-The-future-paradise.html">Puerto Rico: The Future Paradise</a>
+            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+            <a href="earths-great-poets.html">Earth's Great Poets</a>
+            <a href="the-bohr-institute.html">The Bohr Institute</a>
+            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+            <a href="the-bronx-dome.html">The Bronx Dome</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn">Martian News</a>
+        <div class="dropdown-content">
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+            <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+            <a href="martian-rest-areas.html">Martian Rest Areas</a>
+            <div class="dropdown">
+                <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                <div class="dropdown-content">
+                    <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                    <a href="marvin.html">M.A.R.V.I.N.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+        <div class="dropdown-content">
+            <a href="what-the-regent-misses.html">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn active">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a>
+            <a href="meanwhile-on-earth.html" class="active">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="support.html" class="dropbtn">Support</a>
+        <div class="dropdown-content">
+            <a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
+            <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+            <a href="mars-food-district.html">Mars Food District</a>
+            <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+            <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+            <a href="fund-martian-research.html">Fund Martian Research</a>
+            <a href="martian-survival-manual.html">Martian Survival Manual</a>
+            <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+        </div>
+    </div>
+
+    <a href="contact.html">Contact</a>
+</nav>
+
+<!-- Hide Content Button -->
+<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+    <div class="page-header">
+        <h1>MEANWHILE ON EARTH...</h1>
+        <p>The daily adventures of driveway diplomacy. A lighthearted look at the universal struggle for parking space harmony!</p>
+    </div>
+
+    <!-- Audio Controls -->
+    <div class="audio-controls">
+        <button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
+    </div>
+
+    <!-- Video Gallery -->
+    <div class="video-gallery">
+        <div class="video-item">
+            <div class="video-container">
+                <video class="video-player" muted playsinline data-original-duration="960">
+                    <source src="videos/delivery-adventure-2-2.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay">
+                    <div class="timestamp">⏰ 2:30 PM</div>
+                    <div class="duration">16 MIN BLOCKAGE</div>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="togglePlay(this)">▶️ PLAY</button>
+                    <select class="speed-control" onchange="changeSpeed(this, 2.0)">
+                        <option value="0.5">0.5x</option>
+                        <option value="1.0">1x</option>
+                        <option value="2.0" selected>2x</option>
+                        <option value="4.0">4x</option>
+                        <option value="8.0">8x</option>
+                    </select>
+                    <button class="control-btn" onclick="toggleMute(this)">🔊 SOUND</button>
+                </div>
+            </div>
+            <div class="video-info">
+                <h3><span class="company-badge">AMAZON</span> Delivery Adventure</h3>
+                <p>When the sidewalk is just too far away... 😅 Empty space available just feet away!</p>
+                <p class="blockage-time">⏱️ Blockage Time: 16 minutes</p>
+                <p>📅 Recorded: November 15, 2024</p>
+            </div>
+        </div>
+
+        <div class="video-item">
+            <div class="video-container">
+                <video class="video-player" muted playsinline data-original-duration="720">
+                    <source src="videos/ups-blockage-accelerated.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay">
+                    <div class="timestamp">⏰ 10:15 AM</div>
+                    <div class="duration">12 MIN BLOCKAGE</div>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="togglePlay(this)">▶️ PLAY</button>
+                    <select class="speed-control" onchange="changeSpeed(this, 2.0)">
+                        <option value="0.5">0.5x</option>
+                        <option value="1.0">1x</option>
+                        <option value="2.0" selected>2x</option>
+                        <option value="4.0">4x</option>
+                        <option value="8.0">8x</option>
+                    </select>
+                    <button class="control-btn" onclick="toggleMute(this)">🔊 SOUND</button>
+                </div>
+            </div>
+            <div class="video-info">
+                <h3><span class="company-badge">UPS</span> Parking Puzzle</h3>
+                <p>Large vehicle + empty sidewalk = interesting parking choices! 🚚</p>
+                <p class="blockage-time">⏱️ Blockage Time: 12 minutes</p>
+                <p>📅 Recorded: November 12, 2024</p>
+            </div>
+        </div>
+
+        <div class="video-item">
+            <div class="video-container">
+                <video class="video-player" muted playsinline data-original-duration="180">
+                    <source src="videos/fedex-proper-parking.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay">
+                    <div class="timestamp">⏰ 1:45 PM</div>
+                    <div class="duration">3 MIN DELIVERY</div>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="togglePlay(this)">▶️ PLAY</button>
+                    <select class="speed-control" onchange="changeSpeed(this, 1.0)">
+                        <option value="0.5">0.5x</option>
+                        <option value="1.0" selected>1x</option>
+                        <option value="2.0">2x</option>
+                    </select>
+                    <button class="control-btn" onclick="toggleMute(this)">🔊 SOUND</button>
+                </div>
+            </div>
+            <div class="video-info">
+                <h3><span class="company-badge fedex-badge">FEDEX</span> Parking Pro</h3>
+                <p>Proof that it can be done right! Uses empty sidewalk space like a champ! 🏆</p>
+                <p class="blockage-time">✅ No Driveway Blockage</p>
+                <p>📅 Recorded: November 18, 2024</p>
+            </div>
+        </div>
+
+        <div class="video-item">
+            <div class="video-container">
+                <video class="video-player" muted playsinline data-original-duration="1500">
+                    <source src="videos/contractor-blockage-accelerated.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay">
+                    <div class="timestamp">⏰ 8:30 AM</div>
+                    <div class="duration">25 MIN BLOCKAGE</div>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="togglePlay(this)">▶️ PLAY</button>
+                    <select class="speed-control" onchange="changeSpeed(this, 4.0)">
+                        <option value="0.5">0.5x</option>
+                        <option value="1.0">1x</option>
+                        <option value="2.0">2x</option>
+                        <option value="4.0" selected>4x</option>
+                        <option value="8.0">8x</option>
+                    </select>
+                    <button class="control-btn" onclick="toggleMute(this)">🔊 SOUND</button>
+                </div>
+            </div>
+            <div class="video-info">
+                <h3><span class="company-badge">CONTRACTOR</span> Extended Visit</h3>
+                <p>When "I'll just be a minute" turns into a morning adventure! ☕</p>
+                <p class="blockage-time">⏱️ Blockage Time: 25 minutes</p>
+                <p>📅 Recorded: November 10, 2024</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lighthearted Statistics Section -->
+    <div class="stats-section">
+        <h2>BY THE NUMBERS</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">25</span>
+                <span class="stat-label">Years of driving experience</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">0</span>
+                <span class="stat-label">Driveways I've ever blocked</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">47+</span>
+                <span class="stat-label">Documented incidents</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">1</span>
+                <span class="stat-label">Company that gets it right</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lighthearted Call to Action -->
+    <div class="cta-section">
+        <h2>HAVE YOU SEEN THIS PAGE? YOU'RE GONNA LAUGH! 😄</h2>
+        <p>This is just a lighthearted look at the universal struggle for parking space harmony. We're all just trying to get through the day!</p>
+        <p><strong>To the companies:</strong> Maybe show this to your drivers during training? FedEx proves it's possible to deliver without blocking driveways!</p>
+        <p><strong>To fellow homeowners:</strong> You're not alone in this daily adventure! Share a laugh and maybe we can all get better parking karma. ✨</p>
+
+        <div class="contact-buttons">
+            <a href="contact.html" class="contact-btn">Share Your Story</a>
+            <a href="martian-news.html" class="contact-btn">Back to Mars</a>
+        </div>
+    </div>
+</div>
+
+<!-- PROPER FOOTER - Clean and minimal -->
+<footer id="pageFooter">
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Simple audio system - KEPT UNTOUCHED
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+    const sounds = [
+        { src: 'music/Oceanic Embrace ext v2.1.mp3', volume: 0.3 },
+        { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+        { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+    ];
+
+    sounds.forEach(sound => {
+        const audio = new Audio(sound.src);
+        audio.volume = sound.volume;
+        audio.loop = true;
+        audio.muted = true;
+        audioElements.push(audio);
+    });
+
+    document.addEventListener('click', function unmuteAudio() {
+        if (!isMuted) {
+            audioElements.forEach(audio => {
+                audio.muted = false;
+                audio.play().catch(e => console.log('Audio play failed'));
+            });
+            isMuted = false;
+            muteBtn.textContent = "🔊 Mute Sounds";
+        }
+        document.removeEventListener('click', unmuteAudio);
+    }, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+    isMuted = !isMuted;
+    audioElements.forEach(audio => {
+        audio.muted = isMuted;
+    });
+    muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// Initialize audio when page loads
+initAudio();
+
+// Fixed Hide content functionality
+const hideContentBtn = document.getElementById('hideContentBtn');
+const mainContent = document.getElementById('mainContent');
+const pageFooter = document.getElementById('pageFooter');
+const topMenu = document.getElementById('topMenu');
+let contentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+    contentHidden = !contentHidden;
+    
+    // Toggle all content elements
+    mainContent.classList.toggle('hidden', contentHidden);
+    pageFooter.classList.toggle('hidden', contentHidden);
+    topMenu.classList.toggle('hidden', contentHidden);
+    
+    // Update button text
+    hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
+});
+
+// Enhanced Video Controls
+function togglePlay(button) {
+    const video = button.closest('.video-container').querySelector('.video-player');
+    if (video.paused) {
+        video.play();
+        button.innerHTML = '⏸️ PAUSE';
+    } else {
+        video.pause();
+        button.innerHTML = '▶️ PLAY';
+    }
+}
+
+function changeSpeed(select, defaultSpeed) {
+    const video = select.closest('.video-container').querySelector('.video-player');
+    video.playbackRate = parseFloat(select.value);
+}
+
+function toggleMute(button) {
+    const video = button.closest('.video-container').querySelector('.video-player');
+    video.muted = !video.muted;
+    button.innerHTML = video.muted ? '🔇 MUTED' : '🔊 SOUND';
+}
+
+// Auto-play all videos when page loads (muted)
+document.addEventListener('DOMContentLoaded', function() {
+    initAudio();
+
+    const videos = document.querySelectorAll('.video-player');
+    // Set default playback rates based on original duration
+    videos.forEach(video => {
+        const originalDuration = parseInt(video.dataset.originalDuration) || 600;
+        let defaultSpeed = 1.0;
+        if (originalDuration > 600) {
+            defaultSpeed = 4.0;
+        } else if (originalDuration > 300) {
+            defaultSpeed = 2.0;
+        }
+        video.playbackRate = defaultSpeed;
+        const speedControl = video.closest('.video-container').querySelector('.speed-control');
+        if (speedControl) {
+            speedControl.value = defaultSpeed.toString();
+        }
+        // Auto-play muted
+        video.play().catch(e => {
+            console.log('Video autoplay prevented');
+        });
+
+        video.addEventListener('ended', function() {
+            const button = this.closest('.video-container').querySelector('.control-btn');
+            if (button) {
+                button.innerHTML = '▶️ PLAY';
+            }
+        });
+    });
+
+    // Background video
+    const earthVideo = document.getElementById('earthVideo');
+    earthVideo.play().catch(e => {
+        console.log('Background video autoplay failed');
+    });
+});
+</script>
+</body>
+</html>

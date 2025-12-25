@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Knowledge Deck: Martian Academic Cards | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Source+Code+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  overflow-x: hidden;
+  position: relative;
+  background: #000;
+}
+
+/* === TOP MENU - Use your Bronx Dome dark style === */
+nav.top-menu {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  background: rgba(20, 10, 0, 0.9);
+  padding: 0.6rem 0;
+  z-index: 1000;
+  gap: 1.8rem;
+  flex-wrap: nowrap;
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid #FFA500;
+  box-shadow: 0 4px 20px rgba(255, 165, 0, 0.3);
+  box-sizing: border-box;
+}
+
+nav.top-menu a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  position: relative;
+  background: linear-gradient(45deg,
+  rgba(0, 100, 255, 0.1) 0%,
+  rgba(255, 165, 0, 0.1) 100%);
+  border: 2px solid rgba(255, 165, 0, 0.3);
+}
+
+nav.top-menu a:hover {
+  color: white;
+  background: rgba(255, 165, 0, 0.3);
+  transform: translateY(-2px);
+  border: 2px solid rgba(255, 193, 7, 0.6);
+  box-shadow: 0 5px 15px rgba(255, 165, 0, 0.4);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: rgba(20, 10, 0, 0.95);
+  min-width: 200px;
+  z-index: 1001;
+  border-radius: 6px;
+  border: 2px solid #FFA500;
+  top: 100%;
+  left: 0;
+  backdrop-filter: blur(10px);
+  padding: 4px 0;
+  box-shadow: 0 10px 30px rgba(255, 165, 0, 0.4);
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 3px 5px;
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+  font-size: 0.7rem;
+  line-height: 1.1;
+  font-weight: 500;
+  border-bottom: 2px solid rgba(255, 165, 0, 0.2);
+}
+
+.dropdown-content a:hover {
+  background: rgba(255, 165, 0, 0.3);
+  transform: translateX(5px);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* === MARS TEMPERATURE DISPLAY - COMPACT FIX === */
+.temperature-display {
+  position: fixed;
+  top: 140px;
+  right: 20px;
+  z-index: 50;
+  background: rgba(20, 10, 0, 0.9);
+  border: 1px solid #FFA500;
+  border-radius: 6px;
+  padding: 5px 6px;
+  width: 140px;
+  backdrop-filter: blur(5px);
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.7rem;
+  box-sizing: border-box;
+}
+
+.temp-header {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 165, 0, 0.2);
+}
+
+.temp-icon {
+  font-size: 0.8rem;
+  color: #FFA500;
+}
+
+.temp-title {
+  color: #FFD700;
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+.temp-reading {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 6px;
+}
+
+.mars-temp, .earth-temp {
+  display: flex;
+  justify-content: space-between;
+}
+
+.temp-label {
+  color: #FFB347;
+}
+
+.temp-value {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+#marsTemp {
+  color: #4CC9F0;
+}
+
+#earthTemp {
+  color: #4ECDC4;
+}
+
+.temp-toggle {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 4px;
+}
+
+.unit-btn {
+  background: rgba(255, 165, 0, 0.1);
+  border: 1px solid rgba(255, 165, 0, 0.4);
+  color: #FFD700;
+  padding: 1px 3px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 500;
+  flex: 1;
+}
+
+.unit-btn:hover {
+  background: rgba(255, 165, 0, 0.2);
+}
+
+.unit-btn.active {
+  background: #FFA500;
+  color: #000;
+  font-weight: 600;
+}
+
+.temp-formula {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px dashed rgba(255, 165, 0, 0.2);
+  border-radius: 3px;
+  padding: 3px 4px;
+}
+
+.formula-text {
+  color: #FFB347;
+  font-size: 0.55rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.temp-bar {
+  display: none;
+}
+
+/* === SITE TITLE === */
+.site-title-overlay {
+  position: fixed;
+  top: 80px;
+  left: 30px;
+  z-index: 50;
+}
+
+.site-title-overlay h1 {
+  color: rgba(255, 165, 0, 0.9);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
+}
+
+/* === CONTENT TOGGLE === */
+.content-toggle {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.toggle-btn {
+  background: rgba(255, 165, 0, 0.8);
+  border: 2px solid #FFA500;
+  color: #000;
+  padding: 10px 15px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+}
+
+.toggle-btn:hover {
+  background: #FFA500;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* === AUDIO CONTROLS === */
+.audio-controls {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.audio-btn {
+  background: rgba(255, 165, 0, 0.8);
+  border: 2px solid #FFA500;
+  color: #000;
+  padding: 10px 15px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+}
+
+.audio-btn:hover {
+  background: #FFA500;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* === VIDEO BACKGROUND - FIXED === */
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5; /* CHANGED FROM 1 TO 5 */
+  overflow: hidden; /* ADDED */
+  /* REMOVED pointer-events: none; */
+}
+
+.static-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('images/knowledge-deck-bg.jpg') no-repeat center center / cover;
+  z-index: 1;
+}
+
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  opacity: 0.9;
+  /* REMOVED pointer-events: none; */
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 0;
+}
+
+/* === ALIENS VIDEO CONTAINER - OPTIONAL === */
+.aliens-video-container {
+  width: 80%;
+  max-width: 800px;
+  margin: 3rem auto;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 3px solid #4CC9F0;
+  box-shadow: 0 10px 25px rgba(76, 201, 240, 0.4);
+  position: relative;
+  z-index: 20;
+  display: block; /* Change to 'none' if you don't want to show it */
+}
+
+.aliens-video-container video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.aliens-video-caption {
+  text-align: center;
+  padding: 10px;
+  background: rgba(20, 10, 0, 0.9);
+  color: #FFD700;
+  font-family: 'Orbitron', sans-serif;
+  margin: 0;
+  border-top: 1px solid #4CC9F0;
+  font-size: 1rem;
+}
+
+/* === MAIN CONTENT === */
+.main-content {
+  position: relative;
+  z-index: 10;
+  max-width: 1400px;
+  margin: 120px auto 100px;
+  padding: 0 20px;
+}
+
+/* === HERO SECTION === */
+.hero-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  margin-bottom: 2rem;
+  background: rgba(20, 10, 0, 0.8);
+  border: 3px solid #FFA500;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(255, 165, 0, 0.3);
+}
+
+.hero-title {
+  color: #FFA500;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 30px rgba(255, 165, 0, 0.7);
+}
+
+.hero-subtitle {
+  color: #FFD700;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+/* === GAME INSTRUCTIONS === */
+.instructions {
+  background: rgba(0, 20, 40, 0.8);
+  border: 2px solid #4CC9F0;
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.instructions h2 {
+  color: #4CC9F0;
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 1rem;
+}
+
+/* === CARD DECK AREA === */
+.deck-container {
+  position: relative;
+  height: 300px;
+  margin: 3rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.deck {
+  position: relative;
+  width: 200px;
+  height: 280px;
+  cursor: pointer;
+}
+
+.deck-card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 10, 0, 0.9);
+  border: 2px solid #FFA500;
+  border-radius: 10px;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.deck:hover .deck-card {
+  transform: rotate(-10deg) translateY(-20px);
+}
+
+.deck-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  color: #FFD700;
+  text-align: center;
+}
+
+/* === CARD GRID === */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.card {
+  position: relative;
+  height: 350px;
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transform-style: preserve-3d;
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.card-front {
+  background: rgba(20, 10, 0, 0.9);
+  border: 2px solid #FFA500;
+}
+
+.card-back {
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid #4CC9F0;
+  transform: rotateY(180deg);
+  overflow: hidden;
+}
+
+.card-back-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.card-back-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.card.flipped {
+  transform: rotateY(180deg);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card-suit {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.card-rank {
+  font-size: 2rem;
+  font-family: 'Orbitron', sans-serif;
+  color: #FFD700;
+  margin-bottom: 0.5rem;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.card-subtitle {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.card-description {
+  font-size: 0.85rem;
+  color: #ddd;
+  line-height: 1.4;
+}
+
+.card-explore {
+  margin-top: 1rem;
+  padding: 8px 15px;
+  background: rgba(255, 165, 0, 0.3);
+  border: 1px solid #FFA500;
+  border-radius: 20px;
+  color: #FFD700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.card-explore:hover {
+  background: #FFA500;
+  color: black;
+  transform: scale(1.05);
+}
+
+/* === CARD SUIT COLORS === */
+.hearts { color: #FF6B6B; }
+.diamonds { color: #00BBF9; }
+.clubs { color: #4ECDC4; }
+.spades { color: #9D4EDD; }
+.joker { color: #FFE66D; }
+
+/* === FOOTER === */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 0.6rem 0;
+  background: rgba(20, 10, 0, 0.9);
+  color: #FFA500;
+  font-family: 'Segoe UI', sans-serif;
+  z-index: 1000;
+  border-top: 2px solid #FFA500;
+  box-shadow: 0 -5px 20px rgba(255, 165, 0, 0.2);
+}
+
+footer p {
+  color: #FFD700;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  nav.top-menu {
+    gap: 1rem;
+    padding: 0.5rem 0;
+  }
+  nav.top-menu a {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.6rem;
+  }
+  .card {
+    height: 300px;
+  }
+  .aliens-video-container {
+    width: 95%;
+    margin: 2rem auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- VIDEO BACKGROUND - FIXED -->
+<div class="background-container">
+  <div class="static-background"></div>
+  <video class="video-background" id="mainVideo" muted loop playsinline preload="auto">
+    <source src="videos/city-lights-2.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="video-overlay"></div>
+</div>
+
+<!-- SITE TITLE -->
+<div class="site-title-overlay">
+  <h1>The Mars Abyss</h1>
+</div>
+
+<!-- MARS TEMPERATURE DISPLAY -->
+<div class="temperature-display">
+  <div class="temp-header">
+    <span class="temp-icon">🌡️</span>
+    <span class="temp-title">NASA TEMPERATURES</span>
+  </div>
+  <div class="temp-reading">
+    <div class="mars-temp">
+      <span class="temp-label">MARS (Olympus Mons):</span>
+      <span class="temp-value" id="marsTemp">-47.2°F</span>
+    </div>
+    <div class="earth-temp">
+      <span class="temp-label">EARTH (NASA Florida):</span>
+      <span class="temp-value" id="earthTemp">59.0°F</span>
+    </div>
+  </div>
+  <div class="temp-toggle">
+    <button class="unit-btn active" data-unit="f">°F</button>
+    <button class="unit-btn" data-unit="c">°C</button>
+    <button class="unit-btn" data-unit="k">K</button>
+  </div>
+  <div class="temp-formula">
+    <span class="formula-text" id="tempFormula">NASA, FL: 59.0°F</span>
+  </div>
+</div>
+
+<!-- CONTENT TOGGLE -->
+<div class="content-toggle">
+  <button class="toggle-btn" id="toggleContent">🌌 Hide Content</button>
+</div>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+  <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- NAVIGATION -->
+<nav class="top-menu">
+  <div class="dropdown">
+    <a href="index.html" class="dropbtn">Home</a>
+    <div class="dropdown-content">
+      <a href="why-this-world-matters.html">Why This World Matters</a>
+      <a href="homage-to-courage.html">Homage to Courage</a>
+      <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+      <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+      <a href="my-mission.html">My Mission</a>
+      <a href="martian-reading-revival.html">Martian Reading Revival</a>
+      <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+      <a href="the-atlantis-library-of-mars.html" class="active">The-Atlantis-Library-Of-Mars</a>
+      <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+    </div>
+  </div>
+  
+  <div class="dropdown">
+    <a href="story.html" class="dropbtn">Story</a>
+    <div class="dropdown-content">
+      <a href="characters.html">Characters</a>
+      <div class="dropdown">
+        <a href="gallery.html" class="dropbtn">Gallery</a>
+        <div class="dropdown-content">
+          <a href="art-and-concepts.html">Art & Concepts</a>
+          <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+          <a href="technical-database.html">Technical Database</a>
+          <a href="martian-edicts.html">The Martian Edicts</a>
+          <a href="martian-martial-arts.html">Martian Martial Arts</a>
+          <a href="solar-system-explorer.html">Solar System Explorer</a>
+          <a href="aliens-ufos.html">Aliens & UFOs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="dropdown">
+    <a href="martian-games.html" class="dropbtn active">Martian Games</a>
+    <div class="dropdown-content">
+      <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+      <a href="martian-racer.html">Martian Racer</a>
+      <a href="red-planet-defense.html">Red Planet Defense</a>
+      <a href="the-regents-portal.html">The Regent's Portal</a>
+      <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+      <a href="the-knowledge-deck.html" class="active">The Knowledge Deck</a>
+      <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+      <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+    </div>
+  </div>
+  
+  <div class="dropdown">
+    <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+    <div class="dropdown-content">
+      <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+      <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+      <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+      <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+      <a href="earths-great-poets.html">Earth's Great Poets</a>
+      <a href="the-bohr-institute.html">The Bohr Institute</a>
+      <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+      <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+      <a href="the-bronx-dome.html">The Bronx Dome</a>
+    </div>
+  </div>
+  
+  <div class="dropdown">
+    <a href="martian-news.html" class="dropbtn">Martian News</a>
+    <div class="dropdown-content">
+      <a href="martian-actualities.html">Martian Actualities</a>
+      <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+      <a href="mars-bee-facility.html">Mars Bee Facility</a>
+      <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+      <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+      <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+      <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+      <a href="martian-rest-areas.html">Martian Rest Areas</a>
+      <div class="dropdown">
+        <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+        <div class="dropdown-content">
+          <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+          <a href="marvin.html">M.A.R.V.I.N.</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="dropdown">
+    <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+    <div class="dropdown-content">
+      <a href="what-the-regent-misses.html">What the Regent Misses</a>
+      <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+      <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+      <a href="honor-the-fallen.html">Honor The Fallen</a>
+      <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+      <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+      <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+      <a href="martian-critique-tron-ares.html">Martian Critique</a>
+      <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+      <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+      <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+    </div>
+  </div>
+  
+  <div class="dropdown">
+    <a href="about.html" class="dropbtn">About</a>
+    <div class="dropdown-content">
+      <a href="about-the-project.html">About the Project</a>
+      <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+      <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+      <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+      <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+      <a href="the-pale-horse.html">The Pale Horse</a>
+      <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+      <a href="arachne-labs.html">Arachne Labs</a>
+      <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+      <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+    </div>
+  </div>
+  
+  <div class="dropdown">
+    <a href="support.html" class="dropbtn">Support</a>
+    <div class="dropdown-content">
+      <a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
+      <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+      <a href="mars-food-district.html">Mars Food District</a>
+      <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+      <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+      <a href="fund-martian-research.html">Fund Martian Research</a>
+      <a href="martian-survival-manual.html">Martian Survival Manual</a>
+      <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+    </div>
+  </div>
+  
+  <a href="contact.html">Contact</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <h1 class="hero-title">THE KNOWLEDGE DECK</h1>
+    <p class="hero-subtitle">Martian Academic Cards • Earth's Wisdom Reimagined for the Red Planet</p>
+    <p>Click any card to explore human knowledge through Martian eyes. Each card reveals a science, its history, and its future on Mars.</p>
+  </section>
+  
+  <!-- INSTRUCTIONS -->
+  <div class="instructions">
+    <h2>🎮 How to Play</h2>
+    <p><strong>Draw a Card:</strong> Click the deck below to draw a random card</p>
+    <p><strong>Explore:</strong> Click any card to flip it and learn about that science</p>
+    <p><strong>Connect:</strong> Use the "Explore Further" buttons to visit related pages in The Mars Abyss</p>
+    <p><strong>Suits:</strong> ♥ Natural Sciences | ♦ Social Sciences | ♣ Formal Sciences | ♠ Applied Sciences</p>
+  </div>
+  
+  <!-- DECK -->
+  <div class="deck-container">
+    <div class="deck" id="deck" onclick="drawRandomCard()">
+      <div class="deck-card">
+        <div class="deck-text">DRAW A CARD</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- ALIENS PLAYING CARDS VIDEO - OPTIONAL -->
+  <div class="aliens-video-container">
+    <video id="aliensVideo" controls muted preload="metadata" playsinline>
+      <source src="videos/what-goes-around-comes-around.mp4" type="video/mp4">
+      <source src="videos/aliens-playing-cards.webm" type="video/webm">
+      Your browser does not support the video tag.
+    </video>
+    <p class="aliens-video-caption">🃏 Martian Educational Card Games in Action</p>
+  </div>
+  
+  <!-- CARD GRID -->
+  <div class="card-grid" id="cardGrid">
+    <!-- Cards will be generated by JavaScript -->
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// === VIDEO FIX: ENSURE AUTOPLAY WORKS ===
+const mainVideo = document.getElementById('mainVideo');
+const aliensVideo = document.getElementById('aliensVideo');
+
+// Function to play video with fallback
+function playVideoWithFallback(videoElement, videoName) {
+  if (!videoElement) return;
+  
+  const playPromise = videoElement.play();
+  
+  if (playPromise !== undefined) {
+    playPromise.catch(error => {
+      console.log(`${videoName} autoplay prevented:`, error);
+      // Try to play on user interaction
+      document.addEventListener('click', function playOnInteraction() {
+        videoElement.play().catch(e => console.log(`Could not play ${videoName}:`, e));
+        document.removeEventListener('click', playOnInteraction);
+      }, { once: true });
+    });
+  }
+}
+
+// Try to play videos when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  // Play background video
+  playVideoWithFallback(mainVideo, 'background video');
+  
+  // Generate initial cards
+  generateCards();
+  
+  // Initialize all other functionality
+  initializePage();
+});
+
+// === SIMPLE AUDIO SYSTEM ===
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audio = null;
+
+function getAudio() {
+  if (!audio) {
+    audio = new Audio('music/chasing-the-light.mp3');
+    audio.loop = true;
+    audio.volume = 0.3;
+    audio.muted = true;
+  }
+  return audio;
+}
+
+document.addEventListener('click', function enableAudio() {
+  if (isMuted) {
+    const audio = getAudio();
+    audio.muted = false;
+    audio.play().catch(e => {});
+    isMuted = false;
+    muteBtn.textContent = "🔊 Mute Sounds";
+  }
+  document.removeEventListener('click', enableAudio);
+}, { once: true });
+
+muteBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  const audio = getAudio();
+  isMuted = !isMuted;
+  audio.muted = isMuted;
+  if (!isMuted) {
+    audio.play().catch(e => {
+      console.log('Audio play failed');
+    });
+  }
+  muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// === CONTENT TOGGLE ===
+const toggleBtn = document.getElementById('toggleContent');
+const mainContent = document.querySelector('.main-content');
+const footer = document.querySelector('footer');
+const siteTitle = document.querySelector('.site-title-overlay');
+const topMenu = document.querySelector('.top-menu');
+let contentVisible = true;
+
+toggleBtn.addEventListener('click', function() {
+  contentVisible = !contentVisible;
+  mainContent.style.opacity = contentVisible ? '1' : '0';
+  footer.style.opacity = contentVisible ? '1' : '0';
+  siteTitle.style.opacity = contentVisible ? '1' : '0';
+  topMenu.style.opacity = contentVisible ? '1' : '0';
+  
+  if (contentVisible) {
+    toggleBtn.textContent = '🌌 Hide Content';
+    // Try to resume video when showing content
+    if (mainVideo && mainVideo.paused) {
+      mainVideo.play().catch(e => console.log('Video play error'));
+    }
+  } else {
+    toggleBtn.textContent = '📄 Show Content';
+  }
+});
+
+// === MARS TEMPERATURE - NASA DATA ONLY ===
+(function() {
+  const marsF = -47.2;
+  const nasaFloridaF = 59.0;
+  let unit = 'f';
+  
+  function update() {
+    let marsVal, nasaVal, locationText;
+    
+    if (unit === 'f') {
+      marsVal = marsF;
+      nasaVal = nasaFloridaF;
+      locationText = `NASA Florida: ${nasaFloridaF}°F`;
+    } else if (unit === 'c') {
+      marsVal = (marsF-32)*5/9;
+      nasaVal = (nasaFloridaF-32)*5/9;
+      locationText = `NASA Florida: ${nasaVal.toFixed(1)}°C`;
+    } else {
+      marsVal = (marsF-32)*5/9 + 273.15;
+      nasaVal = (nasaFloridaF-32)*5/9 + 273.15;
+      locationText = `NASA Florida: ${nasaVal.toFixed(1)}K`;
+    }
+    
+    document.getElementById('marsTemp').textContent = marsVal.toFixed(1) + '°' + unit.toUpperCase();
+    document.getElementById('earthTemp').textContent = nasaVal.toFixed(1) + '°' + unit.toUpperCase();
+    document.getElementById('tempFormula').textContent = locationText;
+    
+    document.querySelectorAll('.unit-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.unit === unit);
+    });
+  }
+  
+  document.querySelectorAll('.unit-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      unit = this.dataset.unit;
+      update();
+    });
+  });
+  
+  document.querySelector('.unit-btn[data-unit="f"]').classList.add('active');
+  update();
+})();
+
+// === KNOWLEDGE DECK GAME ===
+const sciences = {
+  'natural': {
+    name: 'Natural Sciences',
+    color: 'hearts',
+    symbol: '♥',
+    cards: [
+      {
+        rank: 'A',
+        title: 'Physics',
+        subtitle: 'The Foundation of Reality',
+        description: 'From Newton to Quantum Mechanics, understanding the fundamental laws that govern our universe.',
+        video: 'videos/physics-bg.mp4',
+        link: 'esp-quantum-consciousness.html'
+      },
+      {
+        rank: 'K',
+        title: 'Biology',
+        subtitle: 'The Science of Life',
+        description: 'Exploring life from cellular processes to ecosystems, and now adapting life to Mars.',
+        video: 'videos/biology-bg.mp4',
+        link: 'terraforming-science.html'
+      },
+      {
+        rank: 'Q',
+        title: 'Astronomy',
+        subtitle: 'Mapping the Cosmos',
+        description: 'From ancient star charts to modern exoplanet discovery, humanity looks outward.',
+        video: 'videos/astronomy-bg.mp4',
+        link: 'solar-system-explorer.html'
+      },
+      {
+        rank: 'J',
+        title: 'Chemistry',
+        subtitle: 'Matter & Transformation',
+        description: 'The study of substances, their properties, and how they interact and change.',
+        video: 'videos/chemistry-bg.mp4',
+        link: 'martian-atmosphere.html'
+      }
+    ]
+  },
+  'social': {
+    name: 'Social Sciences',
+    color: 'diamonds',
+    symbol: '♦',
+    cards: [
+      {
+        rank: 'A',
+        title: 'Psychology',
+        subtitle: 'The Human Mind',
+        description: 'Understanding consciousness, behavior, and mental processes in humans and Martians.',
+        video: 'videos/psychology-bg.mp4',
+        link: 'esp-quantum-consciousness.html'
+      },
+      {
+        rank: 'K',
+        title: 'Sociology',
+        subtitle: 'Society & Structure',
+        description: 'How human societies form, function, and evolve—essential for Martian colony design.',
+        video: 'videos/sociology-bg.mp4',
+        link: 'bronx-dome.html'
+      },
+      {
+        rank: 'Q',
+        title: 'Anthropology',
+        subtitle: 'Human Cultures',
+        description: 'Studying human societies, cultures, and their development across time and space.',
+        video: 'videos/anthropology-bg.mp4',
+        link: 'mars-cultural-initiative.html'
+      },
+      {
+        rank: 'J',
+        title: 'Economics',
+        subtitle: 'Resource Systems',
+        description: 'How societies allocate scarce resources—critical for interplanetary trade.',
+        video: 'videos/economics-bg.mp4',
+        link: 'quantum-financial-transfer.html'
+      }
+    ]
+  },
+  'formal': {
+    name: 'Formal Sciences',
+    color: 'clubs',
+    symbol: '♣',
+    cards: [
+      {
+        rank: 'A',
+        title: 'Mathematics',
+        subtitle: 'The Language of Science',
+        description: 'Abstract structures, logic, and relationships that underpin all scientific inquiry.',
+        video: 'videos/mathematics-bg.mp4',
+        link: 'tharsis-scientific-lectures.html'
+      },
+      {
+        rank: 'K',
+        title: 'Computer Science',
+        subtitle: 'Information & Computation',
+        description: 'Algorithms, data structures, and the theoretical foundations of computing.',
+        video: 'videos/computers-bg.mp4',
+        link: 'mai-master-artificial-intelligence.html'
+      },
+      {
+        rank: 'Q',
+        title: 'Logic',
+        subtitle: 'Reasoning & Argument',
+        description: 'The study of valid inference and reasoning, essential for AI and Martian law.',
+        video: 'videos/logic-bg.mp4',
+        link: 'martian-edicts.html'
+      }
+    ]
+  },
+  'applied': {
+    name: 'Applied Sciences',
+    color: 'spades',
+    symbol: '♠',
+    cards: [
+      {
+        rank: 'A',
+        title: 'Engineering',
+        subtitle: 'Applied Problem Solving',
+        description: 'Designing and building solutions to practical problems, from bridges to biodomes.',
+        video: 'videos/engineering-bg.mp4',
+        link: 'technical-database.html'
+      },
+      {
+        rank: 'K',
+        title: 'Medicine',
+        subtitle: 'Health & Healing',
+        description: 'The art and science of diagnosing, treating, and preventing disease.',
+        video: 'videos/medicine-bg.mp4',
+        link: 'house-of-health-secrets.html'
+      },
+      {
+        rank: 'Q',
+        title: 'Architecture',
+        subtitle: 'Designed Environments',
+        description: 'Creating living and working spaces that harmonize with human needs and Martian constraints.',
+        video: 'videos/architecture-bg.mp4',
+        link: 'mars-dome-cities-tour.html'
+      }
+    ]
+  },
+  'martian': {
+    name: 'Martian Sciences',
+    color: 'joker',
+    symbol: '⭐',
+    cards: [
+      {
+        rank: 'JOKER',
+        title: 'Terraforming',
+        subtitle: 'Planetary Engineering',
+        description: 'The science of making Mars habitable for Earth life—humanity\'s greatest engineering challenge.',
+        video: 'videos/terraforming-bg.mp4',
+        link: 'terraforming-science.html'
+      },
+      {
+        rank: 'JOKER',
+        title: 'Exobiology',
+        subtitle: 'Alien Life Science',
+        description: 'Searching for and studying life beyond Earth, whether microbial or intelligent.',
+        video: 'videos/exobiology-bg.mp4',
+        link: 'aliens-ufos.html'
+      }
+    ]
+  }
+};
+
+function generateCards() {
+  const grid = document.getElementById('cardGrid');
+  grid.innerHTML = '';
+  
+  const featuredCards = [
+    sciences.natural.cards[0],
+    sciences.social.cards[1],
+    sciences.formal.cards[0],
+    sciences.applied.cards[0],
+    sciences.martian.cards[0],
+    sciences.natural.cards[1]
+  ];
+  
+  const categories = ['natural', 'social', 'formal', 'applied', 'martian', 'natural'];
+  
+  featuredCards.forEach((card, index) => {
+    const category = categories[index];
+    const categoryData = sciences[category];
+    const cardElement = document.createElement('div');
+    cardElement.className = 'card';
+    cardElement.innerHTML = `
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="card-suit ${categoryData.color}">${categoryData.symbol}</div>
+          <div class="card-rank">${card.rank}</div>
+          <div class="card-title">${card.title}</div>
+          <div class="card-subtitle">${categoryData.name}</div>
+        </div>
+        <div class="card-back">
+          <video class="card-back-video" muted loop playsinline>
+            <source src="${card.video}" type="video/mp4">
+          </video>
+          <div class="card-back-content">
+            <div class="card-title">${card.title}</div>
+            <div class="card-subtitle">${card.subtitle}</div>
+            <div class="card-description">${card.description}</div>
+            <button class="card-explore" onclick="location.href='${card.link}'">Explore Further →</button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    cardElement.addEventListener('click', function() {
+      this.classList.toggle('flipped');
+      const video = this.querySelector('.card-back-video');
+      if (video && this.classList.contains('flipped')) {
+        video.play().catch(e => console.log('Card video play failed'));
+      } else if (video) {
+        video.pause();
+      }
+    });
+    
+    grid.appendChild(cardElement);
+  });
+}
+
+function drawRandomCard() {
+  const allCategories = Object.values(sciences);
+  const randomCategory = allCategories[Math.floor(Math.random() * allCategories.length)];
+  const randomCard = randomCategory.cards[Math.floor(Math.random() * randomCategory.cards.length)];
+  
+  alert(`You drew: ${randomCard.title} (${randomCard.rank} of ${randomCategory.name})\n\n${randomCard.subtitle}\n\n${randomCard.description}\n\nClick "OK" then find this card in the grid to flip it and learn more!`);
+  
+  document.getElementById('cardGrid').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Auto-play card videos when they become visible
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const video = entry.target.querySelector('.card-back-video');
+      if (video && entry.target.classList.contains('flipped')) {
+        video.play().catch(e => {});
+      }
+    }
+  });
+}, { threshold: 0.5 });
+
+function initializePage() {
+  document.querySelectorAll('.card').forEach(card => {
+    observer.observe(card);
+  });
+  
+  // Add click to play for aliens video
+  if (aliensVideo) {
+    aliensVideo.addEventListener('click', function() {
+      if (this.paused) {
+        this.play();
+      } else {
+        this.pause();
+      }
+    });
+  }
+}
+</script>
+</body>
+</html>

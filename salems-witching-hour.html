@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salem's Witching Hour - The Mars Abyss</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            background: #000;
+        }
+
+        /* VIDEO BACKGROUND WITH STATIC FALLBACK */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .static-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/warlock-competition-bg.jpg') no-repeat center center / cover;
+            z-index: 1;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 2;
+            opacity: 0.7;
+        }
+
+        /* UPDATED TOP MENU */
+        nav.top-menu {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(17, 17, 17, 0.95);
+            padding: 0.6rem 0;
+            z-index: 1000;
+            gap: 2.5rem;
+            flex-wrap: nowrap;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #ff00ff;
+            transition: opacity 0.5s ease;
+        }
+
+        nav.top-menu a {
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        nav.top-menu a.active,
+        nav.top-menu a:hover {
+            color: #ff00ff;
+            background: transparent;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown > a, .dropdown {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(26, 26, 26, 0.98);
+            min-width: 140px;
+            z-index: 1001;
+            border-radius: 4px;
+            border: 2px solid #ff00ff;
+            top: 100%;
+            left: 0;
+            backdrop-filter: blur(5px);
+            padding: 4px 0;
+        }
+
+        .dropdown .dropdown .dropdown-content {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            width: 100%;
+        }
+
+        .dropdown-content a {
+            color: #f5f5f5;
+            padding: 3px 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+            font-size: 0.8rem;
+            line-height: 1;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 0, 255, 0.6);
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* SITE TITLE OVERLAY */
+        .site-title-overlay {
+            position: fixed;
+            top: 80px;
+            left: 30px;
+            z-index: 50;
+            transition: opacity 0.5s ease;
+        }
+
+        .site-title-overlay h1 {
+            color: #ff00ff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* CONTROL BUTTONS */
+        .audio-controls {
+            position: fixed;
+            bottom: 80px;
+            right: 40px;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .view-toggle {
+            position: fixed;
+            top: 80px;
+            right: 30px;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .audio-btn, .view-btn {
+            background: rgba(255, 0, 255, 0.8);
+            border: 2px solid #ff00ff;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .view-btn {
+            background: rgba(255, 193, 7, 0.8);
+            border: 2px solid #ffc107;
+        }
+
+        .audio-btn:hover, .view-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.7);
+        }
+
+        .audio-controls, .hide-content-btn {
+    background: rgba(0, 0, 0, 0.7);
+    color: #4cc9f0;
+    border: 2px solid #4cc9f0;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+}
+
+        /* MAIN CONTENT */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            margin-top: 150px;
+            padding: 20px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: opacity 0.5s ease;
+        }
+
+        /* COMPETITION HEADER */
+        .competition-header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            margin: 2rem auto;
+            border-radius: 12px;
+            border: 3px solid #ff00ff;
+            max-width: 900px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .magic-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 50%, rgba(255, 0, 255, 0.1) 100%);
+            animation: pulseGlow 3s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        .warlock-logo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 2rem;
+            border: 3px solid #ff00ff;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff00ff, #00ccff, #000);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .competition-header h1 {
+            font-size: 3rem;
+            color: #ff00ff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #00ccff;
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* CONTENT SECTIONS */
+        .magic-section {
+            background: rgba(0, 20, 40, 0.8);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border-left: 4px solid #ff00ff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .magic-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 50%, rgba(255, 0, 255, 0.05) 50%);
+            background-size: 10px 10px;
+            pointer-events: none;
+        }
+
+        .magic-section h3 {
+            color: #ff00ff;
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+.magic-section a {
+    position: relative;
+    z-index: 10;
+}
+
+        .warlock-quote {
+            background: rgba(255, 0, 255, 0.3);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid #00ccff;
+            margin: 1rem 0;
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* COMPETITION GRID */
+        .competition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .contest-card {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid #ff00ff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contest-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .contest-card:hover::before {
+            left: 100%;
+        }
+
+        .contest-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
+        }
+
+        .contest-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .contest-card h4 {
+            color: #00ccff;
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* SUBMISSION FORM */
+        .submission-form {
+            background: rgba(255, 0, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border: 2px solid #00ccff;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #00ccff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ff00ff;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #ff00ff, #00ccff);
+            border: none;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
+        }
+
+        /* HIDDEN CLASS FOR TOGGLE FUNCTIONALITY */
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .episode-video-container {
+            border: 3px solid; /* Color set inline */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* FOOTER */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 0.6rem 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ccc;
+            font-family: 'Segoe UI', sans-serif;
+            z-index: 1000;
+            border-top: 2px solid #ff00ff;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .site-title-overlay {
+                top: 70px;
+                left: 20px;
+            }
+            .site-title-overlay h1 {
+                font-size: 1.4rem;
+            }
+            .main-content {
+                margin-top: 120px;
+                padding: 15px;
+            }
+            .competition-header h1 {
+                font-size: 2rem;
+            }
+            .competition-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- VIDEO BACKGROUND WITH STATIC FALLBACK -->
+    <div class="background-container">
+        <div class="static-background" id="staticBg"></div>
+        <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
+            <source src="videos/vampire-shadows.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- SITE TITLE OVERLAY -->
+    <div class="site-title-overlay" id="siteTitle">
+        <h1>The Mars Abyss</h1>
+    </div>
+
+    <!-- CONTROL BUTTONS -->
+    <div class="view-toggle" id="viewToggleContainer">
+        <button class="view-btn" id="viewToggle">🌌 Hide Content</button>
+    </div>
+
+    <div class="audio-controls" id="audioControls">
+        <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+    </div>
+
+    <!-- UPDATED MENU STRUCTURE -->
+    <nav class="top-menu" id="mainMenu">
+        <div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+        <div class="dropdown">
+            <a href="story.html" class="dropbtn">Story</a>
+            <div class="dropdown-content">
+                <a href="characters.html">Characters</a>
+                <div class="dropdown">
+                    <a href="gallery.html" class="dropbtn">Gallery</a>
+                    <div class="dropdown-content">
+                        <a href="art-and-concepts.html">Art & Concepts</a>
+                        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                        <a href="technical-database.html">Technical Database</a>
+                        <a href="martian-edicts.html">The Martian Edicts</a>
+                        <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                        <a href="solar-system-explorer.html">Solar System Explorer</a>
+                        <a href="aliens-ufos.html">Aliens & UFOs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-games.html" class="dropbtn">Martian Games</a>
+            <div class="dropdown-content">
+                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+                <a href="martian-racer.html">Martian Racer</a>
+                <a href="red-planet-defense.html">Red Planet Defense</a>
+                <a href="the-regents-portal.html">The Regent's Portal</a>
+                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+                <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+            <div class="dropdown-content">
+                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+                <a href="earths-great-poets.html">Earth's Great Poets</a>
+                <a href="the-bohr-institute.html">The Bohr Institute</a>
+                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+                <a href="the-bronx-dome.html">The Bronx Dome</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-news.html" class="dropbtn">Martian News</a>
+            <div class="dropdown-content">
+                <a href="martian-actualities.html">Martian Actualities</a>
+                <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+                <a href="mars-bee-facility.html">Mars Bee Facility</a>
+                <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+                <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+                <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+                <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+                <a href="martian-rest-areas.html">Martian Rest Areas</a>
+                <div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="the-regents-scrolls.html" class="dropbtn active">The Regent's Scrolls</a>
+            <div class="dropdown-content">
+                <a href="what-the-regent-misses.html">What the Regent Misses</a>
+                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+                <a href="honor-the-fallen.html">Honor The Fallen</a>
+                <a href="magic-trick-of-mars.html">Magic Tricks of Mars</a>
+                <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+                <a href="salems-witching-hour.html" class="active">Salem's Witching Hour</a>
+                <a href="martian-critique-tron-ares.html">Martian Critique</a>
+                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="about.html" class="dropbtn">About</a>
+            <div class="dropdown-content">
+                <a href="about-the-project.html">About the Project</a>
+                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+                <a href="the-pale-horse.html">The Pale Horse</a>
+                <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+                <a href="arachne-labs.html">Arachne Labs</a>
+                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+            </div>
+        </div>
+
+         <div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+<a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="mainContent">
+        <!-- COMPETITION HEADER -->
+        <section class="competition-header">
+            <div class="magic-glow"></div>
+            <div class="warlock-logo">🔮</div>
+            <h1>Salem's Witching Hour</h1>
+            <p class="tagline">Galactic Magic Competition - Prove Your Power!</p>
+        </section>
+
+        <!-- THE CHALLENGE -->
+        <section class="magic-section">
+            <h3>⚡ The Galactic Challenge</h3>
+            <div class="warlock-quote">
+                <p>"True power isn't about defying nature, but conversing with its deepest layers. Show me not a trick, but a <strong>Theorem Made Manifest</strong>. Demonstrate how your tradition manipulates probability, coaxes order from chaos, or sings to the quantum foam. Dazzle me with <strong>Elegance and Proof</strong>."</p>
+                <p><em>- Salem, Grand Technomancer & Chief Judge</em></p>
+            </div>
+            <p>Salem's Witching Hour is the premier interplanetary magic competition, open to practitioners from Earth, Mars, and beyond. Whether you work with traditional elements, quantum manipulation, or psychic abilities, this is your stage to demonstrate magical mastery.</p>
+        </section>
+
+        <!-- COMPETITION CATEGORIES -->
+        <section class="magic-section">
+            <h3>🎭 Competition Categories</h3>
+            <div class="competition-grid">
+                <div class="contest-card">
+                    <div class="contest-icon">🌀</div>
+                    <h4>Environmental Resonance</h4>
+                    <p>Mastery over material states and energy fields. Demonstrate controlled exothermic/e ndothermic reactions, atmospheric lensing, or sustainable force-field harmonics. <em>(Formerly: Elemental Mastery)</em></p>
+                </div>
+                <div class="contest-card">
+                    <div class="contest-icon">🧠</div>
+                    <h4>Noetic Field Manipulation</h4>
+                    <p>Precision work with consciousness as a metric. Projects may include verified telepathic data-transfer, micro-telekinesis with measured force output, or curated shared-sensory experiences. <em>(Formerly: Pychic Arts)</em></p>
+                </div>
+                <div class="contest-card">
+                    <div class="contest-icon">⚙️</div>
+                    <h4>applied Esoterica</h4>
+                    <p>The art of the impossible, made plausible. Integrate holography, nanite swarms, and gravitational lensing to create public spectacles that inspire belief in a boundless universe. <em>(Formerly: Stage Illusion)</em></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="magic-section">
+            <h3>🎬 Competitor Spotlight: The Moment of Precision</h3>
+            <p>.This training footage, captured in the Tharsis Neuro-Kinetic Lab, illustrates the intense focus required for high-stakes Thaumaturgy. Note the stabilizing biometric readings and the coherent energy lattice formation at 0.4 seconds.</p>
+   
+            <div class="episode-video-container" style="margin: 2rem 0; text-align: center;">
+                <video
+                   width="100%"
+                   style="max-width: 854px; border-radius: 8px; border: 2px solid #ff00ff; box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);"
+                   autoplay
+                   muted
+                   loop
+                   playsinline
+                >
+                <source src="videos/technomancer-focus.mp4" type="video/mp4"> 
+                    Your browser does not support the video tag.
+                </video>
+                <p style="color:#aaa; font-size: 0.9rem; margin-top: 0.5rem;">Cadet Liang demonstrating Hexagonal Photon lattice coherency | Tharsis Academy</p>
+            </div>
+
+            <div class="warlock-quote" style="margin-top: 1.5rem; font-size: 0.9rem; background: rgba(30, 30, 40, 0.7);">
+                <strong>Production Log - Shot 42A | Tharsis Central Academy, Dome 7:</strong>
+                <em>"Subject: Cadet Liang (Year 3, Applied Thaumaturgy). Exercise: Sustained coherency of a Hexagonal-like Photon Lattice. Notes: Symmetrical facial and dermal circuits active at 87% capacity. Clean energy emission with minimal particle scatter. Background observers are senior stdents assessing form. The salmon hue of the Martian sky through the dome windows provides ideal ambient wavelength  for this discipline. A textbook demonstration of focus."</em>
+            </div>
+          
+            <p class="warlock-quote" style="margin-top: 1.5rem;">
+                "The public sees the shimmering result. We judges see the thousands of hours of neural calibration, the perfect tremor in the hand, the flawless quantum calculation behind it. <strong>That</strong> is the true magic."
+            </p> 
+        </section>
+
+        <!-- HOW TO ENTER -->
+        <section class="magic-section">
+            <h3>📹 How to Enter</h3>
+            <p><strong>Video Submission:</strong> Record your best magical performance (3-5 minutes maximum)</p>
+            <p><strong>Description:</strong> Explain your technique, tradition, and what makes your magic unique</p>
+            <p><strong>Platform:</strong> Upload to any video platform and share the link with us</p>
+            <p><strong>Judging:</strong> Salem and a panel of interplanetary magic experts will review all submissions</p>
+            <p><strong>Prizes:</strong> Winners receive the Crystal Orb of Mars and featured performances at the Interplanetary Magic Festival</p>
+        </section>
+
+        <!-- SUBMISSION FORM -->
+        <section class="magic-section">
+            <h3>🎪 Enter the Competition</h3>
+            <div class="submission-form">
+                <div class="form-group">
+                    <label for="magicianName">Practitioner/Technomancer Alias</label>
+                    <input type="text" id="magicianName" placeholder="Enter your magical alias">
+                </div>
+                <div class="form-group">
+                    <label for="planetOrigin">Planet of Origin:</label>
+                    <input type="text" id="planetOrigin" placeholder="Earth, Mars, or other">
+                </div>
+                <div class="form-group">
+                    <label for="magicCategory">Primary Discipline</label>
+                    <input type="text" id="magicCategory" placeholder="e.g., Environmental Resonance, Noetic Field Manipulation">
+                </div>
+                <div class="form-group">
+                    <label for="videoLink">Video Link:</label>
+                    <input type="url" id="videoLink" placeholder="Link to your performance video">
+                </div>
+                <div class="form-group">
+                    <label for="magicDescription">Thaumaturgical Process Description</label>
+                    <textarea id="magicDescription" placeholder="Describe the scientific principles, tools (e.g., neural interface model, resonator type), and intended outcome of your demonstration. Clarity and originality are judged."></textarea>
+                </div>
+                <button class="submit-btn" onclick="submitEntry()">✨ Cast Your Submission</button>
+            </div>
+        </section>
+
+        <!-- GALACTIC MAGIC -->
+        <section class="magic-section">
+            <h3>🧪 The New Thaumaturgy: Where Wonder Meets Wavefunction</h3>
+            <div class="warlock-quote">
+                <p>"The greatest 'magicians' of Earth's past were proto-scientists-observing nature's subtle patterns and learning to whisper to them. We have now learned the language. This is not magic. This is <strong>Applied Anomalous Physics</strong>."</p>
+                <p><em>- Salem, Grand Technomancer of Tharsis</em></p>
+            </div>
+            <p>Salem's Witching Hour is the <strong>Olympics of Reality-Shaping</strong>. It is where Martian Technomancers, Venusian Aether-Weavers, and Earth's' Neo-Alchemists compete in the highest discipline: the elegant, controlled manipulation of the universe's underlying substrates.</p>
+            <p>We do not cast "spells." We execute <strong>Precise Thaumaturgical Protocols</strong>. We don't have "familiars." We interface with <strong>Bio-Computational Symbiotes</strong>. The wonder in a child's eyes remains the purest metric of success. The source of that wonder has simply... graduated from superstition to super-science.</p>
+            <p><em>This is the future of magic: respected, quantified, and dedicated to the betterment of all civilizations.</em></p>
+        </section>
+    </div>
+
+    <section class="magic-section" style="text-align: center; border-top: 1px dashed #ff00ff; padding-top: 2rem;">
+        <h3>🧩 Meet the practitioners</h3> 
+        <p>The galaxy of talent is vast. Explore the stories behind the competitors.</p>
+        <p><em>Discover more in <a href="a-day-in-the-life-of.html" style="color: #00ccff;">A Day in the Life of...</a></em> ↗️</p>
+    </section>
+
+<div class="content-spacer"></div>
+
+    <footer id="pageFooter">
+        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // VIDEO BACKGROUND - NO BLINKING
+        const videoBg = document.getElementById('videoBg');
+        const staticBg = document.getElementById('staticBg');
+
+        videoBg.addEventListener('loadeddata', function() {
+            videoBg.classList.add('loaded');
+            setTimeout(() => {
+                videoBg.play().catch(e => {
+                    console.log('Autoplay prevented, waiting for user interaction');
+                });
+            }, 500);
+        });
+
+        videoBg.addEventListener('error', function() {
+            console.log('Video failed to load, using static background only');
+            videoBg.style.display = 'none';
+        });
+
+        // Fallback: if video doesn't load within 3 seconds, hide it
+        setTimeout(() => {
+            if (!videoBg.classList.contains('loaded')) {
+                videoBg.style.display = 'none';
+                console.log('Video loading timeout, falling back to static background');
+            }
+        }, 3000);
+
+        // AUDIO SYSTEM
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true;
+        let audioElements = [];
+
+        function initAudio() {
+            const sounds = [
+                { src: 'music/Unter meinem Herz.mp3', volume: 0.4},
+            ];
+
+            sounds.forEach(sound => {
+                const audio = new Audio(sound.src);
+                audio.volume = sound.volume;
+                audio.loop = true;
+                audio.muted = true;
+                audioElements.push(audio);
+            });
+        }
+
+        muteBtn.addEventListener('click', function() {
+            if (isMuted) {
+                audioElements.forEach(audio => {
+                    audio.muted = false;
+                    audio.play().catch(e => {
+                        console.log('Audio play failed:', e);
+                    });
+                });
+                isMuted = false;
+                muteBtn.textContent = "🔊 Mute Sounds";
+            } else {
+                audioElements.forEach(audio => {
+                    audio.muted = true;
+                });
+                isMuted = true;
+                muteBtn.textContent = "🔈 Unmute Sounds";
+            }
+        });
+
+        initAudio();
+
+        // ENHANCED HIDE/SHOW CONTENT TOGGLE
+        const viewToggle = document.getElementById('viewToggle');
+        const mainContent = document.getElementById('mainContent');
+        const mainMenu = document.getElementById('mainMenu');
+        const siteTitle = document.getElementById('siteTitle');
+        const pageFooter = document.getElementById('pageFooter');
+
+        viewToggle.addEventListener('click', function() {
+            // Toggle all content except control buttons
+            mainContent.classList.toggle('hidden');
+            mainMenu.classList.toggle('hidden');
+            siteTitle.classList.toggle('hidden');
+            pageFooter.classList.toggle('hidden');
+            
+            // Update button text
+            if (mainContent.classList.contains('hidden')) {
+                viewToggle.textContent = '📄 Show Content';
+            } else {
+                viewToggle.textContent = '🌌 Hide Content';
+            }
+        });
+
+        // SUBMISSION FUNCTION
+        function submitEntry() {
+            const name = document.getElementById('magicianName').value;
+            const planet = document.getElementById('planetOrigin').value;
+            const category = document.getElementById('magicCategory').value;
+            const videoLink = document.getElementById('videoLink').value;
+            const description = document.getElementById('magicDescription').value;
+
+            if (!name || !planet || !category || !videoLink || !description) {
+                alert('Please fill in all fields to submit your magical entry!');
+                return;
+            }
+
+            // In a real implementation, this would send data to a server
+            alert(`✨ Magical submission received!\n\n${name} from ${planet}\nCategory: ${category}\n\nYour entry has been cast into the cosmic pool! Salem will review it during the next witching hour.`);
+            
+            // Reset form
+            document.getElementById('magicianName').value = '';
+            document.getElementById('planetOrigin').value = '';
+            document.getElementById('magicCategory').value = '';
+            document.getElementById('videoLink').value = '';
+            document.getElementById('magicDescription').value = '';
+        }
+
+        // Ensure video plays when user interacts with page
+        document.addEventListener('click', function() {
+            if (videoBg.paused) {
+                videoBg.play().catch(e => console.log('Video play requires user interaction'));
+            }
+        });
+    </script>
+</body>
+</html>

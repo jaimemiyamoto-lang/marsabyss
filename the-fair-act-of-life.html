@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Fair Act of Life - Martian Economic Philosophy</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Exo 2', sans-serif;
+    color: #f0e6ff;
+    overflow-x: hidden;
+    position: relative;
+    background: #1a0b2e; /* Deep purple background */
+}
+
+/* === PRINCE'S PURPLE RAIN COLOR SCHEME === */
+:root {
+    --deep-purple: #1a0b2e;
+    --royal-purple: #6a0dad;
+    --prince-purple: #9b30ff;
+    --light-purple: #b19cd9;
+    --purple-rain: #9370db;
+    --gold: #ffd700;
+    --silver: #c0c0c0;
+}
+
+/* === VIDEO BACKGROUND === */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.static-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('images/purple-rain-static.jpg') no-repeat center center / cover;
+    z-index: 1;
+    transition: opacity 2s ease;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+    opacity: 0.7;
+    filter: contrast(1.2) brightness(0.7) hue-rotate(270deg) saturate(1.5);
+}
+
+/* === TOP MENU - PURPLE THEME === */
+nav.top-menu {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(135deg,
+        rgba(106, 13, 173, 0.97) 0%,
+        rgba(155, 48, 255, 0.97) 50%,
+        rgba(74, 0, 128, 0.97) 100%);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--prince-purple);
+    box-shadow: 0 4px 20px rgba(155, 48, 255, 0.4);
+    box-sizing: border-box;
+}
+
+nav.top-menu a {
+    color: #f0e6ff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+    color: #ffd700;
+    background: rgba(155, 48, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(155, 48, 255, 0.3);
+}
+
+/* === SITE TITLE === */
+.site-title-overlay {
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+    transition: opacity 0.3s ease;
+}
+
+.site-title-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.site-title-overlay h1 {
+    color: #9b30ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-shadow: 
+        0 0 15px rgba(155, 48, 255, 0.7),
+        0 0 30px rgba(155, 48, 255, 0.4);
+}
+
+.dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown > a, .dropdown {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: url('textures/white-marble.jpg') center/cover !important;
+            background-blend-mode: overlay;
+            background-color: rgba(39, 102, 165, 0.98) !important;
+            min-width: 200px;
+            z-index: 1001;
+            border-radius: 6px;
+            border: 2px solid #4fc3f7;
+            top: 100%;
+            left: 0;
+            backdrop-filter: blur(10px);
+            padding: 4px 0;
+            box-shadow: 0 10px 30px rgba(79, 195, 247, 0.4);
+        }
+
+        .dropdown .dropdown .dropdown-content {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            width: 100%;
+        }
+
+        .dropdown-content a {
+            color: #0a1a2a;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            line-height: 1.3;
+            font-weight: 500;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(79, 195, 247, 0.25);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* === DROPDOWN MEMORY SYSTEM === */
+        .dropdown.force-open .dropdown-content {
+            display: block !important;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .dropdown.force-open > a {
+            background: rgba(79, 195, 247, 0.3) !important;
+            border-color: #4fc3f7 !important;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+/* === TOGGLE BUTTON - PURPLE THEME === */
+.content-toggle {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    height: 65px;
+}
+
+.toggle-btn {
+    background: linear-gradient(135deg, 
+        rgba(155, 48, 255, 0.9), 
+        rgba(106, 13, 173, 0.9));
+    border: 2px solid var(--prince-purple);
+    color: #f0e6ff;
+    padding: 6px 10px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 600;
+    box-shadow: 
+        0 4px 15px rgba(155, 48, 255, 0.5),
+        0 0 20px rgba(155, 48, 255, 0.3);
+    min-width: 140px;
+    height: auto;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.toggle-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 6px 25px rgba(155, 48, 255, 0.7),
+        0 0 30px rgba(155, 48, 255, 0.4);
+}
+
+.toggle-btn-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.btn-main-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 2px;
+}
+
+.btn-sub-text {
+    font-size: 0.65rem;
+    font-weight: 400;
+    line-height: 1.1;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+/* === AUDIO CONTROLS - PURPLE THEME === */
+.audio-controls {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 1001;
+}
+
+.audio-btn {
+    background: linear-gradient(135deg, 
+        rgba(155, 48, 255, 0.9), 
+        rgba(106, 13, 173, 0.9));
+    border: 2px solid var(--prince-purple);
+    color: #f0e6ff;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 
+        0 4px 15px rgba(155, 48, 255, 0.5),
+        0 0 20px rgba(155, 48, 255, 0.3);
+    min-width: 140px;
+}
+
+.audio-btn:hover {
+    background: linear-gradient(135deg, 
+        #9b30ff, 
+        #6a0dad);
+    color: white;
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 
+        0 6px 25px rgba(155, 48, 255, 0.7),
+        0 0 30px rgba(155, 48, 255, 0.4);
+}
+
+/* === MAIN CONTENT === */
+.content-container {
+    position: relative;
+    z-index: 10;
+    max-width: 1100px;
+    margin: 120px auto 50px;
+    padding: 0;
+    background: rgba(26, 11, 46, 0.8);
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    transition: opacity 0.5s ease;
+    overflow: hidden;
+}
+
+.content-container.hidden {
+    opacity: 0;
+}
+
+/* HERO SECTION */
+.hero-section {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg,
+        rgba(26, 11, 46, 0.9) 0%,
+        rgba(74, 0, 128, 0.7) 50%,
+        rgba(26, 11, 46, 0.9) 100%);
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 800px;
+    z-index: 5;
+}
+
+.main-title {
+    color: #9b30ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 
+        0 0 30px rgba(155, 48, 255, 0.8),
+        0 0 60px rgba(155, 48, 255, 0.4);
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, #9b30ff, #b19cd9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.main-title:hover {
+    text-shadow:
+        0 0 40px rgba(155, 48, 255, 0.9),
+        0 0 80px rgba(155, 48, 255, 0.6),
+        0 0 120px rgba(155, 48, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.acronym {
+    color: #b19cd9;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 8px;
+}
+
+.hero-tagline {
+    color: #e6d8ff;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    font-weight: 300;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* SECTIONS */
+.content-section {
+    padding: 5rem 3rem;
+    position: relative;
+}
+
+.section-alt {
+    background: linear-gradient(135deg,
+        rgba(74, 0, 128, 0.8) 0%,
+        rgba(106, 13, 173, 0.6) 100%);
+}
+
+.section-header {
+    color: #9b30ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.section-header:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        #9b30ff, 
+        transparent);
+}
+
+/* FEATURE GRID */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    margin: 3rem 0;
+}
+
+.feature-card {
+    background: linear-gradient(135deg,
+        rgba(74, 0, 128, 0.8) 0%,
+        rgba(106, 13, 173, 0.6) 100%);
+    border-radius: 15px;
+    padding: 2.5rem;
+    border: 2px solid rgba(155, 48, 255, 0.3);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.feature-card:hover {
+    border-color: #9b30ff;
+    transform: translateY(-10px);
+    box-shadow: 
+        0 15px 30px rgba(155, 48, 255, 0.3),
+        0 0 40px rgba(155, 48, 255, 0.1);
+}
+
+.feature-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    color: #9b30ff;
+    text-align: center;
+    text-shadow: 0 0 15px rgba(155, 48, 255, 0.5);
+}
+
+.feature-card h3 {
+    color: #b19cd9;
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.feature-card p {
+    line-height: 1.8;
+    color: #e6d8ff;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.feature-link-text {
+    display: block;
+    margin-top: 15px;
+    padding: 8px 12px;
+    background: rgba(155, 48, 255, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid #9b30ff;
+    font-size: 0.9rem;
+    color: #b19cd9;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-link-text {
+    background: rgba(155, 48, 255, 0.2);
+    transform: translateX(5px);
+}
+
+/* QUOTE BOXES */
+.ai-quote {
+    background: linear-gradient(135deg,
+        rgba(155, 48, 255, 0.1) 0%,
+        rgba(106, 13, 173, 0.05) 100%);
+    border-left: 4px solid #ffd700; /* Gold accent */
+    padding: 3rem;
+    margin: 4rem 0;
+    font-style: italic;
+    font-size: 1.4rem;
+    line-height: 1.8;
+    color: #e6d8ff;
+    border-radius: 0 15px 15px 0;
+    box-shadow: 
+        0 0 20px rgba(155, 48, 255, 0.1),
+        inset 0 0 30px rgba(155, 48, 255, 0.05);
+}
+
+.quote-source {
+    text-align: right;
+    color: #b19cd9;
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* STATS */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin: 4rem 0;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(74, 0, 128, 0.6);
+    border-radius: 10px;
+    border: 1px solid rgba(155, 48, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    border-color: #9b30ff;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(155, 48, 255, 0.2);
+}
+
+.stat-number {
+    color: #9b30ff;
+    font-size: 2.5rem;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(155, 48, 255, 0.5);
+}
+
+.stat-label {
+    color: #b19cd9;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* FOOTER - Fixed to your specification */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(26, 11, 46, 0.8);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    color: #f0e6ff;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid rgba(155, 48, 255, 0.3);
+    transition: opacity 0.5s ease;
+    box-shadow: 0 -5px 25px rgba(26, 11, 46, 0.5);
+}
+
+footer.hidden {
+    opacity: 0;
+}
+
+.content-spacer {
+    height: 120px;
+}
+
+/* SCROLL PROGRESS */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        #9b30ff, 
+        #6a0dad);
+    z-index: 1001;
+    transition: width 0.1s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .content-container {
+        margin: 100px 15px 30px;
+    }
+
+    .main-title {
+        font-size: 2.5rem;
+    }
+
+    .section-header {
+        font-size: 2rem;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .content-section {
+        padding: 3rem 1.5rem;
+    }
+
+    .toggle-btn {
+        min-width: 120px;
+        min-height: 45px;
+        padding: 5px 8px;
+    }
+
+    .btn-main-text {
+        font-size: 0.75rem;
+    }
+
+    .btn-sub-text {
+        font-size: 0.55rem;
+    }
+
+    .content-toggle {
+        top: 70px;
+        right: 15px;
+    }
+
+    .audio-controls {
+        bottom: 70px;
+        right: 15px;
+    }
+
+    .audio-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 2rem;
+    }
+
+    .toggle-btn {
+        min-width: 110px;
+        min-height: 40px;
+    }
+
+    .audio-btn {
+        min-width: 110px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SCROLL PROGRESS BAR -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- VIDEO BACKGROUND -->
+<div class="background-container">
+    <div class="static-background" id="staticBg"></div>
+    <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
+        <source src="videos/purple-rain-cave-car.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<!-- COPY YOUR NAVIGATION FROM MAI PAGE HERE -->
+<nav class="top-menu">
+
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<div class="dropdown"></div>
+<div class="dropdown-content"></div>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn active">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapons-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+<a href="contact.html">Contact</a>
+
+</nav>
+
+<!-- SITE TITLE -->
+<div class="site-title-overlay" id="siteTitle">
+    <h1>The Mars Abyss</h1>
+</div>
+
+<!-- TOGGLE BUTTON -->
+<div class="content-toggle">
+    <button class="toggle-btn" id="toggleContent">
+        <div class="toggle-btn-content">
+            <span class="btn-main-text">🌌 View Philosophy</span>
+            <span class="btn-sub-text">(The Fair Act)</span>
+        </div>
+    </button>
+</div>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+    <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content-container" id="mainContent">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="introduction">
+        <div class="hero-content">
+            <h1 class="main-title">THE FAIR ACT OF LIFE</h1>
+            <p class="acronym">MARTIAN ECONOMIC PHILOSOPHY</p>
+            <p class="hero-tagline">
+                Where Earth debates affordability as opinion, Mars calculates it as physics. 
+                A system where resources are quantum-tracked, needs are non-negotiable, 
+                and every decision is measured against centuries of future.
+            </p>
+        </div>
+    </section>
+
+    <!-- CORE PRINCIPLE -->
+    <div class="content-section" style="
+        background: linear-gradient(135deg, rgba(26,11,46,0.3) 0%, rgba(74,0,128,0.2) 100%);
+        padding: 2rem 3rem;
+        margin: 1rem auto;
+        border-radius: 10px;
+        max-width: 900px;
+        position: relative;
+    ">
+        <p style="
+            color: #e6d8ff;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        ">
+            "On Earth, they call systemic problems 'personal failures.' 
+            On Mars, we call them 'engineering challenges.' 
+            The difference is between blame and solution."
+        </p>
+        <div style="
+            text-align: center;
+            color: #b19cd9;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            border-top: 1px solid rgba(155,48,255,0.3);
+            padding-top: 1rem;
+            margin-top: 1rem;
+            opacity: 0.8;
+        ">
+            — MAI, Economic Systems Architect
+        </div>
+    </div>
+
+    <!-- Keep your existing sections but they'll automatically use the purple theme -->
+    <!-- QUANTUM RESOURCE TRACKING SECTION -->
+    <section class="content-section section-alt" id="quantum">
+        <h2 class="section-header">Quantum Resource Tracking</h2>
+        
+        <div class="feature-grid">
+            <div class="feature-card" onclick="window.location.href='mai-master-artificial-intelligence.html'">
+                <div class="feature-icon">⚛️</div>
+                <h3>No Money, Just Physics</h3>
+                <p>Mars doesn't use currency for basic needs. MAI's quantum ledger tracks energy, water, housing, and food as physical quantities. Affordability isn't an opinion—it's an equation with verifiable solutions.</p>
+                <div class="feature-link-text">
+                    ↗ Learn About MAI's Quantum Systems
+                </div>
+            </div>
+            
+            <div class="feature-card">
+<div class="feature-icon">📊</div>
+<h3>Real-Time Transparency</h3>
+<p>Every Martian can see the colony's resource status: energy production, water reserves, housing capacity. Scarcity is never hidden; solutions are crowd-sourced from transparent data.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">🔍</div>
+<h3>Predictive Allocation</h3>
+<p>MAI simulates resource needs decades in advance. By the time a child is born, their lifetime housing, education, and healthcare are already accounted for in the quantum forecast.</p>
+</div>
+</div>
+
+<div class="stats-container">
+<div class="stat-item">
+<div class="stat-number">100%</div>
+<div class="stat-label">resource visibility</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">0</div>
+<div class="stat-label">hidden shortages</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">∞</div>
+<div class="stat-label">planning horizon</div>
+</div>
+</div>
+</section>
+            <!-- Other cards remain the same -->
+ <!-- THE PIONEER'S PROMISE SECTION -->
+<section class="content-section" id="promise">
+<h2 class="section-header">The Pioneer's Promise</h2>
+
+<div class="ai-quote">
+"Martian Edict #1: 'No citizen's basic needs shall be negotiable.' We left Earth's scarcity mindset at the airlock. Here, housing, food, healthcare, and education are guaranteed by design—not charity, not politics, but engineering."
+<div class="quote-source">- The Regent, Founding Address</div>
+</div>
+
+<div class="feature-grid">
+<div class="feature-card" onclick="window.location.href='martian-edicts.html'">
+<div class="feature-icon">📜</div>
+<h3>Edict-Based Economics</h3>
+<p>Our economic system is built on Martian Edicts, not market fluctuations. Edict #47 protects personal choice, Edict #52 guarantees basic needs, Edict #31 ensures environmental balance.</p>
+<div class="feature-link-text">
+↗ Read The Martian Edicts
+</div>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">🤝</div>
+<h3>Mutual Assurance</h3>
+<p>Every Martian knows: if they fail, the colony fails. This creates natural accountability. Your neighbor's hunger threatens your oxygen supply. We succeed together or not at all.</p>
+</div>
+
+<div class="feature-card" onclick="window.location.href='the-martian-economic-vision.html'">
+<div class="feature-icon">⭐</div>
+<h3>Economic Vision</h3>
+<p>A detailed blueprint showing how resource tracking creates abundance. From food production to energy distribution, every system is optimized for maximum citizen benefit.</p>
+<div class="feature-link-text" style="border-left-color: #ffd700;">
+⭐ View The Martian Economic Vision
+</div>
+</div>
+</div>
+</section>
+
+<!-- EARTH'S GHOSTS, MARS' SOLUTIONS SECTION -->
+<section class="content-section section-alt" id="comparison">
+<h2 class="section-header">Earth's Ghosts, Mars' Solutions</h2>
+
+<div class="feature-grid">
+<div class="feature-card">
+<div class="feature-icon">👻</div>
+<h3>Earth's Scarcity Mindset</h3>
+<p>Earth economics assumes limited resources must be fought over. Mars economics assumes resources can be engineered and distributed. One creates competition, the other collaboration.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">🔬</div>
+<h3>Problem as Engineering</h3>
+<p>On Mars, homelessness isn't a 'social issue'—it's a housing supply calculation. Hunger isn't 'poverty'—it's a calorie distribution equation. We solve equations, not blame people.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">🚀</div>
+<h3>The Regent's Decorative Plate</h3>
+<p>"What is good for thee, may not be good for me" isn't just about choice—it's Martian philosophy. Universal needs don't mean uniform solutions. Personal choice within guaranteed access.</p>
+</div>
+</div>
+
+<div class="ai-quote" style="margin-top: 4rem; border-left-color: #4caf50;">
+"Silver laughs when Earth visitors ask about our 'economic system.' We don't have one—we have a life support system that happens to include economics. Your survival isn't a transaction here."
+<div class="quote-source">- The Regent, to Earth Diplomat</div>
+</div>
+</section>
+
+<!-- PRACTICAL IMPLEMENTATION SECTION -->
+<section class="content-section" id="implementation">
+<h2 class="section-header">Practical Implementation</h2>
+
+<div class="feature-grid">
+<div class="feature-card" onclick="window.location.href='quantum-rejuvenation-technology.html'">
+<div class="feature-icon">🌿</div>
+<h3>Universal Healthcare</h3>
+<p>Quantum Rejuvenation patches are free because healthy citizens are productive citizens. MAI calculated: every credit 'saved' on healthcare costs three credits in lost productivity.</p>
+<div class="feature-link-text">
+↗ Explore Quantum Rejuvenation
+</div>
+</div>
+
+<div class="feature-card" onclick="window.location.href='house-of-health-secrets.html'">
+<div class="feature-icon">🏥</div>
+<h3>House of Health Secrets</h3>
+<p>Medical care distributed based on need, not wealth. MAI's predictive algorithms ensure treatments are allocated where they'll have maximum colony-wide benefit.</p>
+<div class="feature-link-text">
+↗ Visit House of Health
+</div>
+</div>
+
+<div class="feature-card" onclick="window.location.href='mars-food-district.html'">
+<div class="feature-icon">🍎</div>
+<h3>Food District</h3>
+<p>Vertical farming produces 4,200 calories daily per citizen. Distribution is automated. No one applies for food; it's accounted for in their basic life support allocation.</p>
+<div class="feature-link-text">
+↗ Tour Food District
+</div>
+</div>
+</div>
+
+<div class="stats-container">
+<div class="stat-item">
+<div class="stat-number">0</div>
+<div class="stat-label">homeless Martians</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">100%</div>
+<div class="stat-label">healthcare coverage</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">∞</div>
+<div class="stat-label">educational access</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">1</div>
+<div class="stat-label">economic philosophy</div>
+</div>
+</div>
+</section>
+
+<!-- LINK BACK SECTION -->
+<section class="content-section section-alt" id="links">
+<h2 class="section-header">Continue Exploring</h2>
+<div class="feature-grid">
+<div class="feature-card" onclick="window.location.href='mai-master-artificial-intelligence.html'">
+<div class="feature-icon">🔙</div>
+<h3>Return to MAI</h3>
+<p>Explore the quantum consciousness behind these systems.</p>
+<div class="feature-link-text">
+↗ MAI Main Page
+</div>
+</div>
+
+<div class="feature-card" onclick="window.location.href='cosmic-economics.html'">
+<div class="feature-icon">📈</div>
+<h3>Economic Vision Details</h3>
+<p>See the technical implementation and century-long projections.</p>
+<div class="feature-link-text" style="border-left-color: #ffd700;">
+⭐ Full Economic Vision
+</div>
+</div>
+
+<div class="feature-card" onclick="window.location.href='the-regents-scrolls.html'">
+<div class="feature-icon">📜</div>
+<h3>The Regent's Perspective</h3>
+<p>Read personal reflections on Martian economics from the Regent.</p>
+<div class="feature-link-text">
+↗ Regent's Scrolls
+</div>
+</div>
+</div>
+</section>
+
+</div>
+
+<div class="content-spacer"></div>
+
+<footer id="pageFooter">
+    <p><span>© 2025 </span><span>The Mars Abyss.</span><span> All Rights Reserved.</span></p>
+</footer>
+
+<script>
+// Video background with fade
+const videoBg = document.getElementById('videoBg');
+const staticBg = document.getElementById('staticBg');
+
+videoBg.addEventListener('loadeddata', function() {
+    videoBg.classList.add('loaded');
+    setTimeout(() => {
+        staticBg.style.opacity = '0';
+        setTimeout(() => {
+            staticBg.style.pointerEvents = 'none';
+        }, 1500);
+    }, 2000);
+
+    setTimeout(() => {
+        videoBg.play().catch(e => {
+            console.log('Video autoplay prevented');
+        });
+    }, 500);
+});
+
+videoBg.addEventListener('error', function() {
+    console.log('Video failed to load, using static background only');
+    videoBg.style.display = 'none';
+    staticBg.style.opacity = '1';
+    staticBg.style.pointerEvents = 'auto';
+});
+
+// Scroll progress bar
+const scrollProgress = document.getElementById('scrollProgress');
+window.addEventListener('scroll', function() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    scrollProgress.style.width = scrolled + '%';
+});
+
+// Content toggle functionality
+const toggleBtn = document.getElementById('toggleContent');
+const mainContent = document.getElementById('mainContent');
+const pageFooter = document.getElementById('pageFooter');
+const siteTitle = document.getElementById('siteTitle');
+const mainMenu = document.querySelector('nav.top-menu');
+
+let contentVisible = true;
+
+toggleBtn.addEventListener('click', function() {
+    contentVisible = !contentVisible;
+    mainContent.classList.toggle('hidden');
+    pageFooter.classList.toggle('hidden');
+    siteTitle.classList.toggle('hidden');
+    mainMenu.classList.toggle('hidden');
+
+    if (contentVisible) {
+        toggleBtn.innerHTML = `
+            <div class="toggle-btn-content">
+                <span class="btn-main-text">🌌 View Philosophy</span>
+                <span class="btn-sub-text">(The Fair Act)</span>
+            </div>
+        `;
+        videoBg.play();
+    } else {
+        toggleBtn.innerHTML = `
+            <div class="toggle-btn-content">
+                <span class="btn-main-text">📄 Hide Content</span>
+                <span class="btn-sub-text">(Focus on Video)</span>
+            </div>
+        `;
+        
+    }
+});
+
+// FIXED AUDIO SYSTEM
+const muteBtn = document.getElementById('muteBtn');
+let audio = null;
+let isMuted = true;
+
+function createAudio() {
+    if (!audio) {
+        audio = new Audio('music/whisper-of-tranquility.mp3');
+        audio.volume = 0.3;
+        audio.loop = true;
+        audio.muted = true; // Start muted
+        
+        // Add error handling
+        audio.addEventListener('error', function(e) {
+            console.log('Audio error:', e);
+            muteBtn.textContent = "🔇 Audio Error";
+            muteBtn.disabled = true;
+        });
+    }
+    return audio;
+}
+
+// Initialize audio on first user interaction
+function initAudio() {
+    const audioElement = createAudio();
+    
+    // Try to play audio (will be muted initially)
+    audioElement.play().then(() => {
+        console.log('Audio initialized');
+        muteBtn.textContent = "🔇 Unmute Sounds";
+    }).catch(error => {
+        console.log('Audio autoplay prevented:', error);
+        muteBtn.textContent = "🔇 Click to Unmute";
+    });
+}
+
+// Mute/unmute button
+muteBtn.addEventListener('click', function() {
+    const audioElement = createAudio();
+    
+    if (isMuted) {
+        // Unmute
+        audioElement.muted = false;
+        muteBtn.textContent = "🔊 Mute Sounds";
+        isMuted = false;
+        
+        // Try to play if not already playing
+        audioElement.play().catch(e => {
+            console.log('Play failed:', e);
+        });
+    } else {
+        // Mute
+        audioElement.muted = true;
+        muteBtn.textContent = "🔇 Unmute Sounds";
+        isMuted = true;
+    }
+});
+
+// Initialize audio on first click anywhere on page
+let audioInitialized = false;
+document.addEventListener('click', function initAudioOnce() {
+    if (!audioInitialized) {
+        initAudio();
+        audioInitialized = true;
+        document.removeEventListener('click', initAudioOnce);
+    }
+});
+
+// Site title hide on scroll
+let lastScrollTop = 0;
+window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop && scrollTop > 50) {
+        siteTitle.classList.add('hidden');
+    } else {
+        siteTitle.classList.remove('hidden');
+    }
+    lastScrollTop = scrollTop;
+});
+
+// Auto-hide controls
+let inactivityTimer;
+function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+        if (contentVisible) {
+            siteTitle.classList.add('hidden');
+            document.querySelector('.content-toggle').style.opacity = '0.3';
+            document.querySelector('.audio-controls').style.opacity = '0.3';
+        }
+    }, 5000);
+}
+
+document.addEventListener('mousemove', resetInactivityTimer);
+document.addEventListener('click', resetInactivityTimer);
+resetInactivityTimer();
+
+// Show controls on hover
+[document.querySelector('.content-toggle'), document.querySelector('.audio-controls')].forEach(el => {
+    if (el) {
+        el.addEventListener('mouseenter', () => {
+            el.style.opacity = '1';
+        });
+        el.addEventListener('mouseleave', () => {
+            if (contentVisible) el.style.opacity = '0.3';
+        });
+    }
+});
+
+// Feature card click handlers
+document.querySelectorAll('.feature-card[onclick]').forEach(card => {
+    card.style.cursor = 'pointer';
+});
+</script>
+</body>
+</html>

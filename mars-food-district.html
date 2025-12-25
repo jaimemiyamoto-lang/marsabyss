@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mars Food District - Ending Hunger Through Martian Innovation</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* === YOUR SITE'S BASE STYLES === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    background: #000;
+}
+
+/* === BACKGROUND WITH TRON ELEMENTS === */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.static-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #0a0a1a, #000, #0a1a2a);
+    z-index: -1;
+}
+
+.tron-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(90deg, transparent 99%, rgba(0, 255, 255, 0.05) 99%),
+        linear-gradient(transparent 99%, rgba(0, 255, 255, 0.05) 99%);
+    background-size: 50px 50px;
+    z-index: -1;
+    animation: gridPulse 8s infinite;
+}
+
+@keyframes gridPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+}
+
+/* === YOUR SITE'S NAVIGATION (From Home Page) === */
+.site-title-overlay {
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+}
+
+.site-title-overlay h1 {
+    color: #00ccff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+nav.top-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #00ccff;
+}
+
+nav.top-menu a {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+    color: #00ccff;
+    background: transparent;
+    text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid #00ccff;
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
+}
+
+.dropdown-content a {
+    color: #f5f5f5;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+.dropdown-content a:hover {
+    background: rgba(0, 204, 255, 0.6);
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* === HUNGER VIDEO SECTION === */
+.hunger-video-section {
+    padding: 120px 2rem 3rem;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.hunger-video-container {
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    border: 3px solid #ff4444;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.5);
+}
+
+.hunger-video {
+    width: 100%;
+    height: 500px;
+    background: #000;
+}
+
+.hunger-message {
+    background: rgba(255, 68, 68, 0.1);
+    border: 2px solid #ff4444;
+    padding: 2rem;
+    border-radius: 10px;
+    margin: 2rem auto;
+    max-width: 800px;
+}
+
+.hunger-message h2 {
+    color: #ff4444;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+}
+
+.hunger-message p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #ff9999;
+}
+
+/* === MARS FOOD DISTRICT CONTENT === */
+.district-header {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: rgba(0, 20, 40, 0.9);
+    border-bottom: 3px solid #00ffff;
+    position: relative;
+    overflow: hidden;
+}
+
+.tetron-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    color: #000;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    font-family: 'Orbitron', monospace;
+    animation: tetronPulse 2s infinite;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.7);
+}
+
+@keyframes tetronPulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(255, 0, 255, 0.7);
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(255, 0, 255, 1);
+    }
+}
+
+/* Mission Statement */
+.humanitarian-mission {
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid #ffd700;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 800px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+/* Food Printing Interface */
+.food-printing-lab {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.printer-interface {
+    background: rgba(0, 30, 60, 0.9);
+    border: 2px solid #00ffff;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+.printer-display {
+    background: #000;
+    border: 1px solid #ff00ff;
+    height: 300px;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.printing-animation {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+    border-radius: 50%;
+    animation: printPulse 2s infinite;
+}
+
+@keyframes printPulse {
+    0%, 100% { transform: scale(0.8); opacity: 0.7; }
+    50% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Restaurant Billboard */
+.restaurant-billboard {
+    background: rgba(30, 0, 60, 0.9);
+    border: 2px solid #ff00ff;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+}
+
+.ad-slot {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #00ffff;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.ad-slot::before {
+    content: 'SPONSORED';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #ff00ff;
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.ad-slot:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 255, 255, 0.4);
+}
+
+.ad-premium {
+    border: 2px solid #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.ad-premium::before {
+    background: #ffd700;
+    content: 'PREMIUM SPONSOR';
+}
+
+/* Impact Tracker */
+.impact-tracker {
+    background: rgba(0, 60, 30, 0.9);
+    border: 2px solid #39ff14;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1000px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.impact-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.stat-card {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #39ff14;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #39ff14;
+    margin-bottom: 0.5rem;
+}
+
+/* Business Integration - IMPROVED LAYOUT */
+.business-portal {
+    background: rgba(60, 30, 0, 0.9);
+    border: 2px solid #ff9100;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1000px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.sponsor-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.sponsor-card {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 280px;
+}
+
+.sponsor-card.basic {
+    border: 1px solid #00ccff;
+}
+
+.sponsor-card.premium {
+    border: 2px solid #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.sponsor-card.enterprise {
+    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.1);
+}
+
+.sponsor-button {
+    background: linear-gradient(45deg, #ff9100, #ffd700);
+    color: #000;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.sponsor-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 145, 0, 0.7);
+}
+
+.contact-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    border: 1px solid #ff9100;
+}
+
+.email-contact {
+    font-size: 1.2rem;
+    color: #ffd700;
+    margin: 1rem 0;
+    font-family: 'Orbitron', monospace;
+}
+
+/* REAL ORGANIZATIONS SECTION */
+.real-organizations {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 3rem 2rem;
+    margin: 2rem auto;
+    max-width: 1000px;
+    border-radius: 15px;
+    border: 2px solid #00ccff;
+}
+
+.organization-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.org-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid #00ccff;
+    transition: transform 0.3s ease;
+}
+
+.org-card:hover {
+    transform: translateY(-5px);
+}
+
+.org-card h4 {
+    color: #00ccff;
+    margin-bottom: 1rem;
+}
+
+.org-link {
+    display: inline-block;
+    background: #00ccff;
+    color: #000;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.org-link:hover {
+    background: #ff00ff;
+    color: #fff;
+}
+
+/* Live Allocation Stream */
+.live-allocation-stream {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #00ffff;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 10px;
+    font-family: monospace;
+    text-align: left;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.allocation-entry {
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.allocation-entry:last-child {
+    border-bottom: none;
+}
+
+/* Separate Controls - FIXED POSITION */
+.page-controls {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toggle-button, .audio-button {
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+    color: #000;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 20px;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.toggle-button:hover, .audio-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+}
+
+/* Hide Content Section */
+.hidden-content {
+    display: none;
+}
+
+/* Footer */
+footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+    background: rgba(0, 0, 0, 0.9);
+    color: #00ccff;
+    font-family: 'Segoe UI', sans-serif;
+    border-top: 2px solid #00ccff;
+    margin-top: 3rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .food-printing-lab {
+        grid-template-columns: 1fr;
+    }
+    
+    nav.top-menu {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .hunger-video {
+        height: 300px;
+    }
+    
+    .sponsor-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .page-controls {
+        position: relative;
+        top: auto;
+        right: auto;
+        flex-direction: row;
+        justify-content: center;
+        margin: 1rem 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background -->
+<div class="background-container">
+    <div class="static-background"></div>
+    <div class="tron-grid"></div>
+</div>
+
+<!-- Your Site Navigation -->
+<div class="site-title-overlay">
+    <h1>The Mars Abyss</h1>
+</div>
+
+<nav class="top-menu">
+    <div class="dropdown">
+        <a href="index.html" class="dropbtn">Home</a>
+        <div class="dropdown-content">
+            <a href="why-this-world-matters.html">Why This World Matters</a>
+            <a href="homage-to-courage.html">Homage to Courage</a>
+            <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+            <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+            <a href="my-mission.html">My Mission</a>
+            <a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+        <div class="dropdown-content">
+            <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+            <a href="earths-great-poets.html">Earth's Great Poets</a>
+            <a href="the-bohr-institute.html">The Bohr Institute</a>
+            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+            <a href="the-bronx-dome.html">The Bronx Dome</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn">Martian News</a>
+        <div class="dropdown-content">
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+            <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+            <a href="martian-rest-areas.html">Martian Rest Areas</a>
+            <div class="dropdown">
+                <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                <div class="dropdown-content">
+                    <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                    <a href="marvin.html">M.A.R.V.I.N.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="the-regents-scrolls.html" class="dropbtn">The Regent's Scrolls</a>
+        <div class="dropdown-content">
+            <a href="what-the-regent-misses.html">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a>
+            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="support.html" class="dropbtn active">Support</a>
+        <div class="dropdown-content">
+            <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+            <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+            <a href="mars-food-district.html" class="active">Mars Food District</a>
+            <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+            <a href="fund-martian-research.html">Fund Martian Research</a>           
+            <a href="martian-survival-manual.html">Martian Survival Manual</a>
+            <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+        </div>
+    </div>
+
+    <a href="contact.html">Contact</a>
+</nav>
+
+<!-- Page Controls - Fixed Position -->
+<div class="page-controls">
+    <button id="toggleContent" class="toggle-button">HIDE CONTENT</button>
+    <button id="toggleAudio" class="audio-button">ENABLE AUDIO</button>
+</div>
+
+<!-- Hunger Video Section -->
+<section class="hunger-video-section">
+    <div class="hunger-video-container">
+        <video class="hunger-video" controls poster="images/hunger-crisis-poster.jpg">
+            <source src="videos/ending-world-hunger.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <div class="hunger-message">
+        <h2>THIS ENDS ON MARS</h2>
+        <p>While Earth struggles with hunger, Mars builds a future where every person is fed through advanced technology and compassionate systems.</p>
+        <p><strong>Our mission:</strong> Use Martian innovation to solve Earth's most pressing humanitarian crises.</p>
+    </div>
+</section>
+
+<!-- Mars Food District Content -->
+<div class="district-header">
+    <div class="tetron-badge">TETRÓN APPROVED</div>
+    <h1 style="font-size: 3rem; margin: 0; text-shadow: 0 0 20px #00ffff;">MARS FOOD DISTRICT</h1>
+    <p style="font-size: 1.2rem; color: #ff00ff;">3D Printed Cuisine • Corporate Sponsorships • Global Humanitarian Aid</p>
+</div>
+
+<!-- Humanitarian Mission -->
+<section class="humanitarian-mission">
+    <h2>🌍 EVERY MEAL PRINTED FEEDS TWO WORLDS</h2>
+    <p><strong>100% of advertising revenue funds global causes:</strong> Hunger Relief • Coral Reef Restoration • Clean Water Initiatives • Education Programs</p>
+    <p><em>"On Mars, we remember Earth. Every sponsorship saves lives across both worlds." - Tetrón</em></p>
+</section>
+
+<!-- Main Content Grid -->
+<div class="food-printing-lab">
+    <!-- 3D Food Printer Interface -->
+    <div class="printer-interface">
+        <h2>🔧 3D FOOD SYNTHESIZER v4.2</h2>
+        <p>Molecular assembly technology creating nutritionally perfect meals</p>
+        <div class="printer-display">
+            <div class="printing-animation"></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+            <button class="sponsor-button">PRINT PIZZA</button>
+            <button class="sponsor-button">SYNTHESIZE STEAK</button>
+            <button class="sponsor-button">CREATE SUSHI</button>
+            <button class="sponsor-button">DESIGN CUSTOM</button>
+        </div>
+
+        <div style="margin-top: 1rem;">
+            <h4>NUTRITIONAL OUTPUT:</h4>
+            <p>• Protein: 98% optimized</p>
+            <p>• Vitamins: 100% RDA</p>
+            <p>• Flavor Profile: Customizable</p>
+            <p>• Waste: 0.2%</p>
+        </div>
+    </div>
+
+    <!-- Restaurant Billboard -->
+    <div class="restaurant-billboard">
+        <h2>🏪 RESTAURANT ROW SPONSORSHIPS</h2>
+        <p>Earth businesses supporting Martian development and humanitarian causes</p>
+
+        <!-- Ad Slot 1 -->
+        <div class="ad-slot ad-premium">
+            <h3>🚀 SPACE BURGER CO.</h3>
+            <p>"Every Martian burger sold funds 10 meals for Earth's hungry"</p>
+            <p><strong>Impact:</strong> 50,000+ meals provided monthly</p>
+            <div style="background: #ffd700; color: #000; padding: 0.5rem; border-radius: 5px; margin-top: 0.5rem;">
+                PREMIUM SPONSOR - CORAL REEF DIVISION
+            </div>
+        </div>
+
+        <!-- Ad Slot 2 -->
+        <div class="ad-slot">
+            <h3>🍕 GALACTIC PIZZA</h3>
+            <p>"3D-printed pizza with 100% real cheese replication technology"</p>
+            <p><strong>Impact:</strong> Supports clean water initiatives</p>
+        </div>
+
+        <!-- Ad Slot 3 - Vertical Farm Fresh -->
+        <div class="ad-slot">
+            <h3>🌱 VERTICAL FARM FRESH</h3>
+            <p>"Hydroponic greens grown in Martian soil"</p>
+            <p><strong>Impact:</strong> Funds agricultural education worldwide</p>
+        </div>
+
+        <!-- Ad Slot 4 - Energy Bar Inc. -->
+        <div class="ad-slot ad-premium">
+            <h3>⚡ ENERGY BAR INC.</h3>
+            <p>"Nutrition bars powered by solar energy"</p>
+            <p><strong>Impact:</strong> 1 bar = 1 day of education for Earth child</p>
+            <div style="background: #ffd700; color: #000; padding: 0.5rem; border-radius: 5px; margin-top: 0.5rem;">
+                PREMIUM SPONSOR - EDUCATION FUND
+            </div>
+        </div>
+
+        <!-- Available Ad Slot -->
+        <div class="ad-slot" style="border: 2px dashed #00ffff; background: rgba(0, 255, 255, 0.1);">
+            <h3>🎯 YOUR BUSINESS HERE</h3>
+            <p>Join the Martian humanitarian mission. Sponsor this slot and make an impact.</p>
+            <button class="sponsor-button">BECOME A SPONSOR</button>
+        </div>
+    </div>
+</div>
+
+<!-- Real Organizations Section -->
+<section class="real-organizations">
+    <h2 style="text-align: center; color: #00ccff; margin-bottom: 2rem;">Support These Real Organizations</h2>
+    <div class="organization-grid">
+        <div class="org-card">
+            <h4>World Food Programme</h4>
+            <p>Fighting global hunger emergencies</p>
+            <a href="https://www.wfp.org" class="org-link" target="_blank">Donate</a>
+        </div>
+        <div class="org-card">
+            <h4>Coral Restoration Foundation</h4>
+            <p>Restoring coral reef ecosystems</p>
+            <a href="https://www.coralrestoration.org" class="org-link" target="_blank">Support</a>
+        </div>
+        <div class="org-card">
+            <h4>Water.org</h4>
+            <p>Providing clean water access</p>
+            <a href="https://water.org" class="org-link" target="_blank">Contribute</a>
+        </div>
+        <div class="org-card">
+            <h4>Room to Read</h4>
+            <p>Education for children worldwide</p>
+            <a href="https://www.roomtoread.org" class="org-link" target="_blank">Help Educate</a>
+        </div>
+    </div>
+</section>
+
+<!-- Impact Tracker -->
+<section class="impact-tracker">
+    <h2>📊 REAL-TIME HUMANITARIAN IMPACT</h2>
+    <p>Transparent tracking of every credit earned and allocated</p>
+    <div class="impact-stats">
+        <div class="stat-card">
+            <div class="stat-number" id="mealsFunded">248,917</div>
+            <div>MEALS PROVIDED</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="coralSaved">18,452</div>
+            <div>CORAL FRAGMENTS SAVED</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="waterProjects">89</div>
+            <div>CLEAN WATER PROJECTS</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="kidsEducated">12,647</div>
+            <div>CHILDREN EDUCATED</div>
+        </div>
+    </div>
+
+    <!-- Live Allocation Stream -->
+    <div class="live-allocation-stream" id="allocationStream">
+        <h3>🌐 LIVE ALLOCATION STREAM</h3>
+        <div id="allocationEntries">
+            <div class="allocation-entry">> TRANSFER: 500 credits → World Food Programme ✓</div>
+            <div class="allocation-entry">> TRANSFER: 200 credits → Coral Restoration Foundation ✓</div>
+            <div class="allocation-entry">> TRANSFER: 150 credits → Clean Water Initiative ✓</div>
+            <div class="allocation-entry">> TRANSFER: 300 credits → Education For All ✓</div>
+            <div class="allocation-entry">> PENDING: New sponsorship from Earth business...</div>
+        </div>
+    </div>
+</section>
+
+<!-- Business Portal - IMPROVED LAYOUT -->
+<section class="business-portal">
+    <h2>🏢 EARTH BUSINESS PORTAL</h2>
+    <p>Join Tetrón's humanitarian mission. Advertise on Mars while saving Earth.</p>
+    
+    <div class="sponsor-cards">
+        <div class="sponsor-card basic">
+            <h4>🌍 BASIC SPONSORSHIP</h4>
+            <p>• Digital ad placement</p>
+            <p>• Impact certification</p>
+            <p>• 500 meals funded</p>
+            <button class="sponsor-button">$5K/MONTH</button>
+        </div>
+        
+        <div class="sponsor-card premium">
+            <h4>🚀 PREMIUM SPONSOR</h4>
+            <p>• Featured placement</p>
+            <p>• Impact reports</p>
+            <p>• Coral/education focus</p>
+            <button class="sponsor-button">$15K/MONTH</button>
+        </div>
+        
+        <div class="sponsor-card enterprise">
+            <h4>🛸 ENTERPRISE PARTNER</h4>
+            <p>• Custom integration</p>
+            <p>• Naming rights</p>
+            <p>• Direct project funding</p>
+            <button class="sponsor-button">CONTACT</button>
+            <p style="margin-top: 10px; font-style: italic; color: #ffd700; font-size: 0.9rem;">*Currently held by the world's richest individual</p>
+        </div>
+    </div>
+
+    <div class="contact-section">
+        <h3>📞 CONTACT TETRÓN'S TEAM</h3>
+        <div class="email-contact">sponsorships@marsabyss.com</div>
+        <p>Quantum Comm: 74.832.616</p>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<!-- Audio Element -->
+<audio id="backgroundAudio" loop>
+    <source src="audio/ambient-space.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+</audio>
+
+<script>
+// Animated impact counters
+function animateCounter(elementId, targetNumber) {
+    let current = 0;
+    const increment = targetNumber / 100;
+    const element = document.getElementById(elementId);
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= targetNumber) {
+            current = targetNumber;
+            clearInterval(timer);
+        }
+        element.textContent = Math.floor(current).toLocaleString();
+    }, 20);
+}
+
+// Initialize counters
+document.addEventListener('DOMContentLoaded', function() {
+    animateCounter('mealsFunded', 248917);
+    animateCounter('coralSaved', 18452);
+    animateCounter('waterProjects', 89);
+    animateCounter('kidsEducated', 12647);
+
+    // Sponsor button interactions
+    document.querySelectorAll('.sponsor-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const originalText = this.textContent;
+            this.textContent = 'CONNECTING TO EARTH...';
+            this.style.background = '#39ff14';
+            setTimeout(() => {
+                this.textContent = 'QUANTUM LINK ESTABLISHED ✓';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.background = '';
+                }, 2000);
+            }, 1500);
+        });
+    });
+
+    // Hide/Show Content Toggle
+    const toggleContentButton = document.getElementById('toggleContent');
+    const contentSections = [
+        document.querySelector('.hunger-video-section'),
+        document.querySelector('.district-header'),
+        document.querySelector('.humanitarian-mission'),
+        document.querySelector('.food-printing-lab'),
+        document.querySelector('.real-organizations'),
+        document.querySelector('.impact-tracker'),
+        document.querySelector('.business-portal')
+    ];
+    
+    let contentVisible = true;
+    
+    toggleContentButton.addEventListener('click', function() {
+        contentVisible = !contentVisible;
+        
+        contentSections.forEach(section => {
+            if (section) {
+                section.style.display = contentVisible ? 'block' : 'none';
+            }
+        });
+        
+        this.textContent = contentVisible ? 'HIDE CONTENT' : 'SHOW CONTENT';
+    });
+
+    // Audio Toggle
+    const audioButton = document.getElementById('toggleAudio');
+    const backgroundAudio = document.getElementById('backgroundAudio');
+    let audioEnabled = false;
+    
+    audioButton.addEventListener('click', function() {
+        if (!audioEnabled) {
+            backgroundAudio.play().then(() => {
+                audioEnabled = true;
+                this.textContent = 'DISABLE AUDIO';
+            }).catch(error => {
+                console.log('Audio playback failed:', error);
+                alert('Audio could not be played. Please interact with the page first or check your browser settings.');
+            });
+        } else {
+            backgroundAudio.pause();
+            audioEnabled = false;
+            this.textContent = 'ENABLE AUDIO';
+        }
+    });
+
+    // Simulate live allocation updates
+    setInterval(() => {
+        const allocationEntries = document.getElementById('allocationEntries');
+        if (allocationEntries.children.length > 8) {
+            allocationEntries.removeChild(allocationEntries.firstChild);
+        }
+        const newEntry = document.createElement('div');
+        newEntry.className = 'allocation-entry';
+        
+        const sponsors = ['Red Planet Diner', 'Orbit Cafe', 'Nova Foods', 'Solar Bites', 'Vertical Farm Fresh', 'Energy Bar Inc.'];
+        const programs = ['World Food Programme', 'Coral Restoration', 'Clean Water', 'Education For All'];
+        const randomSponsor = sponsors[Math.floor(Math.random() * sponsors.length)];
+        const randomProgram = programs[Math.floor(Math.random() * programs.length)];
+        
+        newEntry.textContent = `> TRANSFER: ${Math.floor(Math.random() * 500) + 100} credits → ${randomProgram} (${randomSponsor}) ✓`;
+        allocationEntries.appendChild(newEntry);
+        
+        // Scroll to bottom
+        allocationEntries.parentElement.scrollTop = allocationEntries.parentElement.scrollHeight;
+    }, 5000);
+});
+</script>
+</body>
+</html>
+
+
+
+

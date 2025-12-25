@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Mars Abyss - Earth Codex</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+html {
+overflow-y: scroll; /* Always show scrollbar to prevent layout shift */
+}
+
+body {
+font-family: "Segoe UI", sans-serif;
+background: url("images/manolo-urquiza-bg.jpg") no-repeat center center fixed;
+background-size: cover;
+color: white;
+overflow-x: hidden;
+transition: background-image 2s ease-in-out;
+margin: 0;
+padding: 0;
+width: 100%;
+}
+
+/* === FIXED TOP MENU - PREVENTS SCROLLBAR LAYOUT SHIFT === */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100vw; /* Use viewport width instead of 100% */
+left: 0;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #e0c68e; 
+box-sizing: border-box;
+}
+
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #e0c68e; 
+background: transparent;
+text-shadow: 0 0 10px rgba(224, 198, 142, 0.5);
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background: rgba(26, 26, 26, 0.98);
+min-width: 140px;
+z-index: 1001;
+border-radius: 4px;
+border: 2px solid #e0c68e; 
+top: 100%;
+left: 0;
+backdrop-filter: blur(5px);
+padding: 4px 0;
+}
+
+.dropdown .dropdown .dropdown-content {
+position: absolute;
+left: 0;
+top: 100%;
+width: 100%;
+}
+
+.dropdown-content a {
+color: #f5f5f5;
+padding: 3px 5px;
+text-decoration: none;
+display: block;
+transition: background-color 0.3s ease;
+font-size: 0.7rem;
+line-height: 1.1;
+}
+
+.dropdown-content a:hover {
+background: rgba(224, 198, 142, 0.6);
+color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/* === SITE TITLE OVERLAY - FIXED POSITION === */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+transition: opacity 0.3s ease;
+}
+
+.site-title-overlay.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+.site-title-overlay h1 {
+color: rgba(224, 198, 142, 0.6);
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(224, 198, 142, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
+
+/* === AUDIO CONTROLS === */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 10px;
+z-index: 1000;
+}
+
+.audio-btn {
+background: rgba(224, 198, 142, 0.6);
+border: 2px solid #e0c68e;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+background: rgba(224, 198, 142, 1);
+box-shadow: 0 0 15px rgba(224, 198, 142, 0.5);
+}
+
+/* === TRON-STYLE GRID BACKGROUND === */
+.tron-grid-bg {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: 
+    linear-gradient(rgba(10, 10, 26, 0.7), rgba(10, 10, 26, 0.7)),
+    repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(0, 100, 255, 0.1) 50px, rgba(0, 100, 255, 0.1) 51px),
+    repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0, 100, 255, 0.1) 50px, rgba(0, 100, 255, 0.1) 51px);
+z-index: -2;
+pointer-events: none;
+}
+
+/* Cinematic Intro Overlay */
+.cinematic-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.95);
+z-index: 1000;
+display: flex;
+justify-content: center;
+align-items: center;
+animation: cinematicFade 8s ease-in-out forwards;
+opacity: 0;
+}
+
+.intro-container {
+max-width: 800px;
+padding: 2rem;
+text-align: center;
+}
+
+.intro-text {
+font-size: 1.4rem;
+line-height: 1.6;
+color: #e0c68e; 
+text-shadow: 0 0 10px rgba(224, 198, 142, 0.5);
+margin-bottom: 1rem;
+}
+
+.intro-subtitle {
+font-size: 1.1rem;
+color: #ccc;
+font-style: italic;
+}
+
+/* Title Section */
+.title-section {
+text-align: center;
+padding-top: 100px; /* Account for fixed menu */
+height: 100vh;
+background: rgba(0, 0, 0, 0.3);
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+opacity: 0;
+animation: titleSequence 12s ease-in-out forwards;
+animation-delay: 9s;
+}
+
+.title-section h2 {
+font-size: clamp(2rem, 5vw, 2.6em);
+color: #e0c68e; 
+margin-bottom: 15px;
+text-shadow: 2px 2px 5px black;
+}
+
+.title-section p {
+font-size: clamp(2rem, 3vw, 1.2em);
+color: #f5f5f5;
+}
+
+/* Title reveal functionality */
+.title-hover-area {
+position: fixed;
+top: 0;
+left: 50%;
+transform: translateX(-50%);
+width: 200px;
+height: 80px;
+z-index: 1001;
+opacity: 0;
+transition: opacity 0.5s ease-in-out;
+pointer-events: none;
+}
+
+.title-hover-area.active {
+opacity: 1;
+pointer-events: auto;
+}
+
+.codex-hero {
+position: fixed;
+top: 20%;
+left: 50%;
+transform: translateX(-50%);
+text-align: center;
+padding: 30px;
+background: rgba(40, 20, 0, 0.8); 
+border-radius: 10px;
+border: 2px solid #e0c68e;; 
+width: 80%;
+max-width: 800px;
+opacity: 0;
+z-index: 1000;
+transition: all 0.8s ease-in-out;
+box-shadow: 0 0 30px rgba(224, 198, 142, 0.3);
+pointer-events: none;
+}
+
+.codex-hero.active {
+opacity: 1;
+pointer-events: auto;
+}
+
+.codex-hero h1 {
+font-size: 3rem;
+color: #e0c68e;
+margin-bottom: 1rem;
+text-shadow: 0 0 15px rgba(224, 198, 142, 0.5);
+}
+
+.codex-intro {
+font-size: 1.2rem;
+line-height: 1.6;
+color: #d2b48c;
+font-style: italic;
+}
+
+/* Cards Section with Arrows */
+.cards-section {
+display: flex;
+overflow-x: auto;
+scroll-snap-type: x mandatory;
+gap: 30px;
+padding: 120px 20px 80px; /* Adjusted for fixed elements */
+justify-content: flex-start;
+align-items: center;
+background: rgba(10, 10, 10, 0.45);
+position: relative;
+opacity: 0;
+animation: cardsFadeIn 2.5s ease-in-out forwards;
+animation-delay: 10s;
+min-height: 60vh;
+border-top: 2px solid #e0c68e;
+}
+
+/* Tron-style cards */
+.card {
+position: relative;
+flex: 0 0 auto;
+width: min(280px, 80vw);
+height: min(380px, 60vh);
+background: rgba(20, 20, 40, 0.9); /* Tron dark blue */
+border: 2px solid #e0c68e; /* Tron blue */
+border-radius: 15px;
+box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+overflow: hidden;
+scroll-snap-align: center;
+z-index: 2;
+transition: transform 0.4s ease, box-shadow 0.4s ease;
+cursor: pointer;
+}
+
+.card:hover {
+transform: translateY(-10px);
+box-shadow: 0 0 30px rgba(224, 198, 142, 0.9);
+border-color: #ff3366; /* Martian red accent */
+}
+
+.card img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+border-radius: 12px;
+transition: opacity 0.4s ease;
+}
+
+.card:hover img {
+opacity: 0.85;
+}
+
+/* Card arrows - Fixed positioning */
+.arrow-container {
+position: fixed;
+bottom: 50px;
+left: 50%;
+transform: translateX(-50%);
+display: flex;
+gap: 20px;
+z-index: 3;
+}
+
+.arrow {
+font-size: clamp(1.5rem, 4vw, 2rem);
+cursor: pointer;
+padding: 0.5rem;
+background: rgba(0, 0, 0, 0.7);
+border-radius: 50%;
+transition: background 0.3s ease, transform 0.3s ease;
+user-select: none;
+color: #e0c68e; 
+display: flex;
+align-items: center;
+justify-content: center;
+width: clamp(40px, 10vw, 50px);
+height: clamp(40px, 10vw, 50px);
+border: 2px solid #e0c68e;
+}
+
+.arrow:hover {
+background: rgba(224, 198, 142, 0.6);
+transform: scale(1.1);
+color: black;
+}
+
+/* Biography Modal - Tron Style */
+.modal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.8);
+z-index: 2000;
+justify-content: center;
+align-items: center;
+}
+
+.modal-content {
+background: rgba(20, 20, 20, 0.95);
+padding: 30px;
+border-radius: 15px;
+max-width: 600px;
+width: 90%;
+border: 3px solid #e0c68e; 
+position: relative;
+color: #e0c68e; 
+box-shadow: 0 0 40px rgba(0, 204, 255, 0.5);
+}
+
+.close-btn {
+position: absolute;
+top: 15px;
+right: 15px;
+font-size: 1.5rem;
+color: #e0c68e; 
+cursor: pointer;
+background: none;
+border: none;
+transition: transform 0.3s ease;
+}
+
+.close-btn:hover {
+transform: scale(1.2);
+color: #ff3366; /* Martian red */
+}
+
+.modal-title {
+font-size: 2rem;
+color: #e0c68e; 
+margin-bottom: 15px;
+text-align: center;
+text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+}
+
+.modal-body {
+font-size: 1.1rem;
+line-height: 1.6;
+}
+
+/* Background control button */
+.bg-control {
+position: fixed;
+bottom: 40px;
+right: 20px;
+background: rgba(0, 0, 0, 0.7);
+color: #e0c68e; 
+border: 2px solid #e0c68e;
+padding: 8px 12px;
+border-radius: 15px;
+cursor: pointer;
+z-index: 1001;
+font-size: clamp(0.7rem, 2vw, 0.8rem);
+transition: all 0.3s ease;
+}
+
+.bg-control:hover {
+background: rgba(224, 198, 142, 0.6);
+color: black;
+}
+
+/* Smooth scroll - Tron style scrollbar */
+.cards-section::-webkit-scrollbar {
+height: 12px;
+}
+
+.cards-section::-webkit-scrollbar-track {
+background: rgba(0, 0, 0, 0.3);
+border-radius: 6px;
+}
+
+.cards-section::-webkit-scrollbar-thumb {
+background: #e0c68e; 
+border-radius: 6px;
+border: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.cards-section::-webkit-scrollbar-thumb:hover {
+background: #d4b87a;
+}
+
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #e0c68e;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #e0c68e;
+}
+
+/* Animations */
+@keyframes cinematicFade {
+0% { opacity: 1; }
+80% { opacity: 1; }
+100% { opacity: 0; visibility: hidden }
+}
+
+@keyframes cardsFadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes titleSequence {
+0% { opacity: 0; }
+20% { opacity: 1; }
+70% { opacity: 1; }
+100% { opacity: 0; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+.title-section {
+padding-top: 80px;
+}
+
+nav.top-menu {
+gap: 1rem;
+padding: 0.5rem 0;
+}
+
+nav.top-menu a {
+font-size: 0.9rem;
+padding: 0.4rem 0.6rem;
+}
+}
+</style>
+</head>
+
+<body>
+<!-- Tron Grid Background -->
+<div class="tron-grid-bg"></div>
+
+<!-- Cinematic Intro Overlay -->
+<div class="cinematic-overlay" id="cinematicIntro">
+<div class="intro-container">
+<div class="intro-text">
+"A society grows great when old men plant trees whose shade they know they shall never sit in."
+</div>
+<div class="intro-subtitle">
+- Ancient Greek Proverb • Martian Archives Directive 001
+</div>
+</div>
+</div>
+
+<!-- STANDARD TOP MENU - 9 TITLES EXACTLY LIKE OTHER PAGES -->
+ <nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn active">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>   
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>   
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+<a href="contact.html">Contact</a>
+</nav>
+
+<!-- SITE TITLE -->
+<div class="site-title-overlay" id="siteTitle">
+<h1>The Mars Abyss</h1>
+</div>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<section class="title-section">
+<h2>Earth Codex</h2>
+<p>Preserving the Essence of Humanity Across the Stars</p>
+</section>
+
+<section class="cards-section">
+<div class="card" onclick="openCodex('bruce-lee', 'images/bruce.jpg')" data-audio="sounds/bruce-lee-theme.mp3">
+<img src="images/bruce.jpg" alt="Bruce Lee" />
+</div>
+<div class="card" onclick="openCodex('amanda-miguel', 'images/amanda-miguel.jpg')" data-audio="sounds/amanda-miguel-song.mp3">
+<img src="images/amanda-miguel.jpg" alt="Amanda Miguel" />
+</div>
+<div class="card" onclick="openCodex('einstein', 'images/einstein.jpg')" data-audio="sounds/einstein-theme.mp3">
+<img src="images/albert-einstein-sticking-tongue-out.jpg" alt="Albert Einstein" />
+</div>
+<div class="card" onclick="openCodex('wilkins', 'images/wilkins-cu.jpg')" data-audio="sounds/wilkins-margarita.mp3">
+<img src="images/wilkins-cu.jpg" alt="Wilkins" />
+</div>
+<div class="card" onclick="openCodex('urquiza', 'images/david-murphy-manolo-urquiza.jpg')" data-audio="sounds/urquiza-theme.mp3">
+<img src="images/david-murphy-manolo-urquiza.jpg" alt="David Murphy Manolo Urquiza" />
+</div>
+<div class="card" onclick="openCodex('spock', 'images/star-trek-bridge-characters.jpg')" data-audio="sounds/star-trek-theme.mp3">
+<img src="images/star-trek-bridge-characters.jpg" alt="Star Trek" />
+</div>
+<div class="card" onclick="openCodex('tito-puente', 'images/puente-timbales.jpg')" data-audio="sounds/tito-puente-oye-coma-va.mp3">
+<img src="images/puente-timbales.jpg" alt="Tito Puente" />
+</div>
+<div class="card" onclick="openCodex('daniela-romo', 'images/daniela-romo.jpg')" data-audio="sounds/daniela-romo-yo-que-tu.mp3">
+<img src="images/daniela-romo.jpg" alt="Daniela Romo" />
+</div>
+<div class="card" onclick="openCodex('palito-ortega', 'images/palito-ortega.jpg')" data-audio="sounds/palito-ortega-la-felicidad.mp3">
+<img src="images/palito-ortega.jpg" alt="Palito Ortega" />
+</div>
+<div class="card" onclick="openCodex('miguel-bose', 'images/miguel-bose.jpg')" data-audio="sounds/miguel-bose-amante-bandido.mp3">
+<img src="images/miguel-bose.jpg" alt="Miguel Bosé" />
+</div>
+<!-- NEW CARD - Homage to Courage / My Mission -->
+<div class="card" onclick="openCodex('pope-francis', 'images/pope-francis-tribute.jpg')" data-audio="sounds/inspirational-theme.mp3">
+<img src="images/pope-francis-tribute.jpg" alt="Pope Francis - Homage to Courage" />
+</div>
+</div>
+</section>
+
+<!-- Arrow Container - Fixed position -->
+<div class="arrow-container">
+<div class="arrow" onclick="scrollCards(-300)">←</div>
+<div class="arrow" onclick="scrollCards(300)">→</div>
+</div>
+
+<!-- Background Control -->
+<button class="bg-control" onclick="toggleScreensaver()">Pause Screensaver</button>
+
+<!-- Title reveal section -->
+<div class="codex-hero" id="codexHero">
+<h1>Earth Codex</h1>
+<p class="codex-intro">
+"Preserving the genetic and cultural legacy of Earth for Martian generations. This archive preserves the stories of those who planted trees for humanity on Earth, so that we may remember their shade as we plant new forests on Mars."
+</p>
+</div>
+
+<!-- Hover area for title reveal -->
+<div class="title-hover-area" id="titleHoverArea"></div>
+
+<!-- Biography Modal -->
+<div class="modal" id="biographyModal">
+<div class="modal-content">
+<button class="close-btn" onclick="closeModal()">✕</button>
+<h2 class="modal-title" id="modalTitle">Person Name</h2>
+<div class="modal-body" id="modalBody">
+Biography content will appear here.
+</div>
+</div>
+</div>
+
+<footer>
+<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Background images for screensaver
+const backgroundImages = [
+'images/einstein-design.jpg',
+'images/wilkins-fixed-resizedbg.jpg',
+'images/bruce-lee-kicking-bg.jpg',
+'images/amanda-miguel.jpg',
+'images/manolo-answering-call.jpg',
+'images/star-trek-bridge-characters-resized.jpg',
+'images/tito-puente-and-wilkins.jpg',
+'images/daniela-romo.jpg',
+'images/palito-ortega-resized.jpg',
+'images/miguel-bose-resized.jpg',
+'images/manolo-urquiza-bg.jpg',
+'images/pope-francis.jpg'
+];
+
+let currentBgIndex = 0;
+let screensaverInterval;
+let screensaverActive = true;
+const SCREENSAVER_DELAY = 10000;
+
+// Audio system
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+let currentAudio = null;
+
+function initAudio() {
+const sounds = [
+{ src: 'sounds/bailando-en-el-caribe.mp3', volume: 0.3 }
+];
+
+sounds.forEach(sound => {
+const audio = new Audio(sound.src);
+audio.volume = sound.volume;
+audio.loop = true;
+audio.muted = true;
+audioElements.push(audio);
+});
+
+// Unmute and Play sounds first user interaction
+document.addEventListener('click', function unmuteAudio() {
+if (!isMuted) {
+audioElements.forEach(audio => {
+audio.muted = false;
+audio.play().catch(e => console.log('Audio play failed'));
+});
+isMuted = false;
+muteBtn.textContent = "🔊 Mute Sounds";
+}
+document.removeEventListener('click', unmuteAudio);
+}, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+isMuted = !isMuted;
+audioElements.forEach(audio => {
+audio.muted = isMuted;
+});
+if (currentAudio) {
+currentAudio.muted = isMuted;
+}
+muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// Initialize audio when page loads
+initAudio();
+
+// Site title hide on scroll
+const siteTitle = document.getElementById('siteTitle');
+let lastScrollTop = 0;
+
+window.addEventListener('scroll', function() {
+let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+if (scrollTop > lastScrollTop && scrollTop > 50) {
+siteTitle.classList.add('hidden');
+} else {
+siteTitle.classList.remove('hidden');
+}
+lastScrollTop = scrollTop;
+});
+
+// Initialize page elements
+document.addEventListener('DOMContentLoaded', function() {
+// Start screensaver after page loads
+setTimeout(startScreensaver, 15000);
+// Set up title reveal functionality
+const earthCodexLink = document.querySelector('a[href="earth-codex.html"]');
+const hoverArea = document.getElementById('titleHoverArea');
+const codexHero = document.getElementById('codexHero');
+
+if (earthCodexLink && hoverArea && codexHero) {
+earthCodexLink.addEventListener('mouseenter', function() {
+codexHero.classList.add('active');
+hoverArea.classList.add('active');
+});
+
+earthCodexLink.addEventListener('mouseleave', function() {
+setTimeout(() => {
+if (!codexHero.matches(':hover') && !hoverArea.matches(':hover')) {
+codexHero.classList.remove('active');
+hoverArea.classList.remove('active');
+}
+}, 300);
+});
+
+hoverArea.addEventListener('mouseenter', function() {
+codexHero.classList.add('active');
+});
+
+hoverArea.addEventListener('mouseleave', function() {
+setTimeout(() => {
+if (!earthCodexLink.matches(':hover')) {
+codexHero.classList.remove('active');
+hoverArea.classList.remove('active');
+}
+}, 300);
+});
+
+codexHero.addEventListener('mouseenter', function() {
+codexHero.classList.add('active');
+});
+
+codexHero.addEventListener('mouseleave', function() {
+setTimeout(() => {
+if (!earthCodexLink.matches(':hover')) {
+codexHero.classList.remove('active');
+hoverArea.classList.remove('active');
+}
+}, 300);
+});
+}
+});
+
+// Background changing functions
+function changeBackground(imagePath) {
+document.body.style.backgroundImage = `url('${imagePath}')`;
+}
+
+function startScreensaver() {
+if (screensaverActive) {
+screensaverInterval = setInterval(() => {
+currentBgIndex = (currentBgIndex + 1) % backgroundImages.length;
+changeBackground(backgroundImages[currentBgIndex]);
+}, SCREENSAVER_DELAY);
+}
+}
+
+function toggleScreensaver() {
+screensaverActive = !screensaverActive;
+const button = document.querySelector('.bg-control');
+if (screensaverActive) {
+clearInterval(screensaverInterval);
+startScreensaver();
+button.textContent = 'Pause Screensaver';
+} else {
+clearInterval(screensaverInterval);
+button.textContent = 'Start Screensaver';
+}
+}
+
+// Card scrolling functionality
+function scrollCards(distance) {
+const container = document.querySelector(".cards-section");
+container.scrollBy({
+left: distance,
+behavior: 'smooth'
+});
+}
+
+// Play individual audio for each card
+function playCardAudio(audioSrc) {
+// Stop current audio if playing
+if (currentAudio) {
+currentAudio.pause();
+currentAudio.currentTime = 0;
+}
+// Play new audio
+if (audioSrc && !isMuted) {
+currentAudio = new Audio(audioSrc);
+currentAudio.volume = 0.5;
+currentAudio.play().catch(e => console.log('Card audio play failed:', e));
+}
+}
+
+// Earth Codex content functionality
+function openCodex(person, backgroundImage) {
+// Change background immediately when card is clicked
+changeBackground(backgroundImage);
+// Reset screensaver timer
+if (screensaverActive) {
+clearInterval(screensaverInterval);
+startScreensaver();
+}
+// Play individual audio for the card
+const card = document.querySelector(`[onclick="openCodex('${person}', '${backgroundImage}')"]`);
+const audioSrc = card.getAttribute('data-audio');
+playCardAudio(audioSrc);
+
+const codexContent = {
+'einstein': {
+title: "Albert Einstein",
+content: "Theoretical physicist who developed the theory of relativity, one of the two pillars of modern physics. His work is known for its influence on the philosophy of science."
+},
+'wilkins': {
+title: "Wilkins",
+content: "Puerto Rican pop singer and composer who achieved international stardom. He broke cultural barriers as the first pop performer at San Juan's prestigious Fine Arts Center and gained worldwide fame with his hit 'Margarita', earning numerous Gold and Platinum records across the globe."
+},
+'urquiza': {
+title: "Manolo Urquiza",
+content: "Cuban-born media pioneer who was the first live person on Cuban television. He became a legendary film presenter and celebrity interviewer in Puerto Rico, known for his show 'Telecine de la Noche' and his close relationships with Hollywood stars like Sophia Loren, and Elizabeth Taylor. Here with David Murphy, then president of Telemundo, Canal 2, de Puerto Rico."
+},
+'spock': {
+title: "Commander Spock",
+content: "Half-Vulcan science officer and diplomat from Star Trek who embodied the ideal of logic tempered with compassion. He served as a bridge between humanity and other civilizations, famously giving the Vulcan salute 'Live long and Prosper'. This sci-fi character was majestically brought to life by the great, late, Leonard Nimoy, here with Captain James T. Kirk and Dr. McCoy aboard the USS Enterprise."
+},
+'bruce-lee': {
+title: "Bruce Lee",
+content: "Martial artist prophet, philosopher, and cultural icon who revolutionized combat sports and bridged Eastern and Western cultures. He founded Jeet Kung Do and inspired millions worldwide through his films and philosophy."
+},
+'tito-puente': {
+title: "Tito Puente",
+content: "Musical pioneer and master percussionist who brought Latin jazz to global prominence. Known as the 'King of Latin Music,' he earned this title through decades of innovation and energetic performances."
+},
+'amanda-miguel': {
+title: "Amanda Miguel",
+content: "Argentine-Mexican singer and composer whose powerful ballads and emotional delivery defined Latin American pop music in the late 20th century. Known for hits like 'Él me mintió' and 'El Gato y Yo'."
+},
+'daniela-romo': {
+title: "Daniela Romo",
+content: "Versatile Mexican entertainer whose career spanned singing, acting, and television hosting. She became one of the most beloved figures in Latin American media, known for her timeless pop ballads."
+},
+'palito-ortega': {
+title: "Palito Ortega",
+content: "Iconic Argentine singer, actor, and composer who became a star of the 'nueva ola' movement. With hits like 'La Felicidad,' he sold over 28 million records and starred in dozens of films. He also served as Governor of Tucumán and later as a National Senator. In 2013, he was honored with a Latin Grammy Award for Musical Excellence."
+},
+'miguel-bose': {
+title: "Miguel Bosé",
+content: "Spanish singer, songwriter, and actor whose innovative musical style and charismatic performances made him an enduring icon across the Spanish-speaking world. Known for his artistic evolution and hit 'Amante bandido'."
+},
+'pope-francis': {
+title: "Homage to Courage - Pope Francis",
+content: "Part of 'My Mission' - To build a civilization among the stars that carries forward the best of humanity while learning from Earth's struggles. Pope Francis represents the courage to address global challenges with compassion and moral leadership. His papacy emphasizes care for the poor, environmental stewardship, and interfaith dialogue—values essential for any civilization that hopes to thrive among the stars."
+}
+};
+
+const content = codexContent[person];
+if (content) {
+document.getElementById('modalTitle').textContent = content.title;
+document.getElementById('modalBody').textContent = content.content;
+document.getElementById('biographyModal').style.display = 'flex';
+}
+}
+
+function closeModal() {
+document.getElementById('biographyModal').style.display = 'none';
+// Stop card audio when modal closes
+if (currentAudio) {
+currentAudio.pause();
+currentAudio.currentTime = 0;
+}
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', function(event) {
+if (event.key === 'ArrowLeft') scrollCards(-300);
+if (event.key === 'ArrowRight') scrollCards(300);
+if (event.key === 'Escape') closeModal();
+});
+</script>
+</body>
+</html>

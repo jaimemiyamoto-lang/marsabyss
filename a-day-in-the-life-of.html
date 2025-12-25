@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Day in the Life of...- The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">  
+</head> 
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    background: #000;
+}
+
+/* UPDATED TOP MENU */
+        nav.top-menu {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(17, 17, 17, 0.95);
+            padding: 0.6rem 0;
+            z-index: 1000;
+            gap: 2.5rem;
+            flex-wrap: nowrap;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #9370DB;
+        }
+
+        nav.top-menu a {
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        nav.top-menu a.active,
+        nav.top-menu a:hover {
+            color: #9370DB;
+            background: transparent;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown > a, .dropdown {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(26, 26, 26, 0.98);
+            min-width: 140px;
+            z-index: 1001;
+            border-radius: 4px;
+            border: 2px solid #9370DB;
+            top: 100%;
+            left: 0;
+            backdrop-filter: blur(5px);
+            padding: 2px 0;
+        }
+
+        .dropdown .dropdown .dropdown-content {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            width: 100%;
+        }
+
+        .dropdown-content a {
+            color: #f5f5f5;
+            padding: 3px 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+            font-size: 0.8rem;
+            line-height: 1;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(147, 112, 218, 0.6);
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* SITE TITLE OVERLAY */
+        .site-title-overlay {
+            position: fixed;
+            top: 80px;
+            left: 30px;
+            z-index: 50;
+            transition: opacity 0.3s ease;
+        }
+
+        .site-title-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .site-title-overlay h1 {
+            color: rgba(147, 112, 219, 0.7);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(147, 112, 219, 0.5);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+/*=== Hide Content Button === */
+.hide-content-btn {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    transition: all 0.3s ease;
+}
+
+.hide-content-btn:hover {
+    background: rgba(0, 204, 255, 0.6);
+    color: black;
+}
+
+/* === Audio Controls === */
+.audio-controls {
+    position: fixed;
+    bottom: 80px;
+    right: 41px;
+    z-index: 1000;
+}
+
+.audio-btn {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #00ccff;
+    color: #00ccff;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+    background: rgba(0, 204, 255, 0.3);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+}
+
+/* === Hide Content Functionality === */
+.main-content.hidden,
+footer.hidden,
+nav.top-menu.hidden,
+.site-title-overlay.hidden,
+.anthology-hero.hidden,
+.title-card.hidden,
+.episode-card.hidden,
+.next-teaser.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+}
+
+.video-background {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 1;
+    border-bottom: 2px solid #ffd700;
+}
+
+.video-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* Dark overlay for drama */
+    z-index: 2;
+    }
+
+/* Nav, Footer, Controls - keep exactly as is */
+nav.top-menu, footer, .site-title-overlay,
+.hide-content-btn, .audio-controls {
+    /* These will retain your existing styles and functionality */
+    z-index: 1000; /* Ensure they are above the new overlays */
+}    
+
+/* === New Anthology Page === */
+.anthology-hero {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 150px 5% 80px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Twilight Zone Style Title Card */
+.title-card {
+    background: linear-gradient(135deg, rgba(58, 0, 0, 0.9), rgba(0, 0, 20, 0.9));
+    border: 4px solid #8b0000;
+    border-radius: 5px;
+    padding: 3rem;
+    margin: 2rem auto;
+    max-width: 800px;
+    box-shadow: 0 0 50px rgba(139, 0, 0, 0.7);
+    position: relative;
+    overflow: hidden;
+}
+
+.title-card::before {
+    content: '';
+    position: absolute;
+    top: -10px; left: -10px; right: -10px; bottom: -10px;
+    background: conic-gradient(from 0deg, #ffd700, #8b0000, #000000, #8b0000, #ffd700);
+    z-index: -1;
+    border-radius: 10px;
+    animation: rotateBorder 10s linear infinite; 
+    };
+    @keyframes rotateBorder {
+        100% { transform: rotate(360deg); }
+    }
+
+    .title-card h1 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 3.5rem;
+        color: #ffd700;
+        text-shadow: 0 0 15px #8b0000;
+        margin-bottom: 1rem;
+        letter-spacing: 3px;
+    }
+
+    .title-card .subtitle {
+        font-size: 1.5rem;
+        color: #f5f5f5;
+        font-style: italic;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #444;
+        padding-bottom: 1rem;
+    }
+
+    /* Narrator's Scroll (Twilight Zone Intro Text) */
+    .narration-scroll {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: #e0e0ff;
+        text-align: left;
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: rgba(20, 20, 30, 0.6);
+        border-left: 5px solid #4cc9f0;
+        font-family: 'Segoe UI', serif;
+    }
+
+    .narration-scroll .true-story {
+        display: inline-block;
+        background: rgba(255, 215, 0, 0.2);
+        color: #ffb347;
+        font-size: 0.9rem;
+        font-style: italic;
+        padding: 0.2rem 0.5rem;
+        border-radius: 3px;
+        margin-left: 0.5rem;
+    }
+
+    /* Episode Card (Stories of Krypton Style) */
+    .episode-card {
+        background: rgba(30, 30, 40, 0.95);
+        border-radius: 10px;
+        padding: 2.5rem;
+        max-width: 900px;
+        margin: 3rem auto;
+        border-top: 6px solid #9d4edd;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        position: relative;
+        z-index: 10;
+    }
+    .episode-card h2 {
+        color: #9d4edd;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .episode-card h2 .episode-icon {
+        font-size: 2.5rem;
+    }
+
+    .episode-card .character-tag {
+        display: inline-block;
+        background: rgba(157, 78, 221, 0.2);
+        color: #d4b3ff;
+        padding: 0.3rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Video Container */
+    .episode-video-container {
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        margin: 2rem 0;
+        border: 3px solid #444;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .episode-video-container video {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* Story text */
+    .episode-story {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: #f0f0f0;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px dashed #555;
+    }
+
+    /* "Next Episode" Teaser */
+    .next-teaser {
+        text-align: center;
+        margin-top: 4rem;
+        padding:  2rem;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        border: 2px dashed #444;
+    }
+
+    .next-teaser h3 {
+        color: #ffb347;
+        font-family: 'Orbitron', sans-serif;
+    }
+
+
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #ffd700;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #ffd700;
+padding-left: 1px;
+}
+
+</style>   
+</head>
+<body>
+
+<!-- Video Background -->
+     <video class="video-background" id="dayLifeVideo" muted loop playsinline autoplay poster="images/alien-bg-2019.jpg">
+        <source src="videos/martian-structure.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+     </video>
+
+     <!-- Site Title Overlay -->
+      <div class="site-title-overlay">
+        <h1>The Mars Abyss</h1>
+      </div>
+
+      <!-- Hide Content Button -->
+      <button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
+      <!-- Audio Controls -->
+       <div class="audio-controls">
+        <button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
+       </div> 
+
+<nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>    
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn active">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>    
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html" class="active">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>    
+<a href="martian-childrens-sanctuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+<a href="contact.html">Contact</a>
+</nav>
+
+<video class="video-background" autoplay muted loop poster="images/the-sleeping-gun.jpeg">
+    <source src="videos/martian-structure.mp4" type="video.mp4">
+    Your browser does not support the video tag.
+</video>
+<div class="video-overlay"></div>
+
+<!-- Main Anthology Content -->
+ <main class="main-content">
+    <section class="anthology-hero">
+        <!-- Twilight Zone Title Card -->
+      <div class="title-card">
+        <h1>A DAY IN THE LIFE OF...</h1>
+        <P class="subtitle">An Anthology Series from The Mars Abyss</P>
+        <div class="narration-scroll">
+            <p>Submitted for your consideration: a colony not of mere survivors, but of builders. A world where the air is thin, the sky is rust, and every breath is a triumph of will. Yet, within her domes, a different atmosphere thrives—one of memory, curiosity, and the stubbornly human need to connect. These are the stories from the edge of human experience. These are the quiet moments, the lost afternoons, and the personal victories that unfold... in <strong>The Mars Abyss.</strong></p>
+            <p>Our first entry: a simple walk. A leader seeking solitude. A companion's concern. A malfunctioning navigator <span class="true-story">(True Story)</span>. And the chain of cosmic odditties that ensues when one man from the Bronx refuses to be told a neighborhood is "bad."</p>
+        </div>
+      </div>
+
+      <!-- Episode Card -->
+       <div class="episode-card">
+        <h2><span class="episode-icon">🚶🏻‍♂️</span> Episode 1: The Regent's Lost Afternoon</h2>
+        <div class="character-tag">Featuring: The Regent, Silver Saint Claire, & The Warlock of Tharsis</div>
+
+        <!-- Video Placeholder -->
+         <div class="episode-video-container">
+            <video controls poster="images/the-sleeping-gun.jpeg">
+                <source src="videos/martian-structure.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+         </div>
+         
+         <div class="episode-story">
+            <p><strong>SYNOPSIS:</strong> It was supposed to be a fifteen-minute walk. A moment of quiet for the man who carries the weight of a planet. But when the Regent's holographic guide glitched—a familiar echo of a lost afternoon in North Carolina <span class="true-story">(True Story)</span>—he stumbled into the yard of the Warlock of Tharsis, who was attempting to fold spacetime to better water his pain-resistant cacti.</p>
+            <p>What followed was an unplanned journey through a sub-dimensional shortcut, a conversation with a sentient dust storm that remembered the taste of Earth's oceans, and a frantic race against a closing temporal aperture.</p>
+            <p>He returned home late, disheveled, smelling of ozone and forgotten timelines. Silver Saint Claire, who had been calculating the optimal popcorn kernel expansion rate for their upcoming drive-in movie night, took one look at him.</p>
+            <p><strong>Silver:</strong> "Mojón, you are late. The previews start in twenty minutes."<br>
+            <strong>The Regent:</strong> "Silver, you have no idea what just—"<br>
+            <strong>Silver:</strong> "Sonic bath. Now. And for the love of the Founding Domes, do not sing in there. Ms. NoNo has already filed a noise complaint."</p>
+            <p>Sometimes, the most extraordinary adventures are the ones you can't even explain to the person waiting for you at home.</p>
+         </div>
+       </div>
+
+       <!-- New Episode Teaser -->
+        <div class="next-teaser">
+        <h3>Coming Next...</h3>
+        <p><strong>🌙 Episode 2: The Night Manager</strong><br>
+        Commander Valeriya "Rook" Novak oversees the Tharsis Dome during the sleeping cycle. Her adaptation—once called a disability—allows her to see in near-total darkness. But when a silent alarm triggers, she becomes the only person who can navigate the blackout to find the source. Is it a systems failure, or something watching from the unlit corners?</p>
+        <p><em>A story about the gifts we find in our differences.</em></p>
+        </div>
+
+       <!-- Next Episode Teaser-->
+        <div class="next-teaser">
+            <h3>Next Time on "A Day in the Life of...</h3>
+            <strong>🐝 Episode 4: The Beekepper's Dilemma</strong><br>
+            In the Apiary Dome, where the air smells of synthetic pollen and hums with the song of engineered bees, Kaelen faces a mystery: the Queen is producing honey that induces vivd, shared dreams. Is it a breakthrough in communal therapy, or a hidden flaw in the genome? And why is her twin sister, the Spiderwoman of Mars, receiving those same dreams three domes away, in Arachne Labs?</p> 
+            <p><em>A story of synergy, secrets, and the invisible webs that connect us all.</em></p>
+        </div>
+    </section>
+ </main>
+
+  <footer>
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+  </footer>
+
+<script>  
+      // Video Background 
+const videoBg = document.getElementById('dayLifeVideo');
+function initVideo() {
+    videoBg.play().catch(e => {
+        console.log('Video autoplay prevented, will play on user interaction');
+    });
+    document.activeElement('click', function playVideo() {
+        if (videoBg.paused) {
+            videoBg.play().catch(e => {
+                console.log('Video play failed:', e);
+            });
+        }
+        document.removeEventListener('click', playVideo);
+    });
+}
+
+      // Simple audio system
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true; // start muted to avoid autoplay issues
+let audioElements = [];
+
+function initAudio() {
+const sounds = [
+{ src: 'music/mozart-in-vienna.mp3', volume: 0.3 },
+{ src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+{ src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+];
+
+sounds.forEach(sound => {
+const audio = new Audio(sound.src);
+audio.volume = sound.volume;
+audio.loop = true;
+audio.muted = true; // Start muted
+audioElements.push(audio);
+});
+
+// Unmute and Play sounds first user interaction
+document.addEventListener('click', function unmuteAudio() {
+if (!isMuted) {
+audioElements.forEach(audio => {
+audio.muted = false;
+audio.play().catch(e => console.log('Audio play failed'));
+});
+isMuted = false;
+muteBtn.textContent = "🔊 Mute Sounds";
+}
+document.removeEventListener('click', unmuteAudio);
+}, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+isMuted = !isMuted;
+audioElements.forEach(audio => {
+audio.muted = isMuted;
+});
+muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+// Initialize audio when page loads
+initAudio();
+
+// HIDE CONTENT FUNCTIONALITY
+const hideContentBtn = document.getElementById('hideContentBtn');
+const pageFooter = document.querySelector('Footer');
+const anthologyHero = document.querySelector('.anthology-hero');
+const TitleCard = document.querySelector('.title-card');
+const episodeCard = document.querySelector('.episode-card');
+const topMenu = document.querySelector('nav.top-menu');
+const siteTitle = document.querySelector('.site-title-overlay');
+const nextTeaser = document.querySelector('.next-teaser');
+let contentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+contentHidden = !contentHidden;
+
+
+if (contentHidden) {
+pageFooter.classList.add('hidden');
+topMenu.classList.add('hidden'); 
+anthologyHero.classList.add('hidden');
+siteTitle.classList.add('hidden');
+TitleCard.classList.add('hidden');
+episodeCard.classList.add('hidden');
+nextTeaser.classList.add('hidden');
+hideContentBtn.textContent = 'Show Content';
+} else {
+pageFooter.classList.remove('hidden');
+topMenu.classList.remove('hidden');
+anthologyHero.classList.remove('hidden');
+siteTitle.classList.remove('hidden');
+TitleCard.classList.remove('hidden');
+episodeCard.classList.remove('hidden');
+nextTeaser.classList.remove('hidden');
+hideContentBtn.textContent = 'Hide Content';
+}
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const marsVideo = document.getElementById('marsVideo');
+    marsVideo.play().catch(e => {
+        console.log('Background video autoplay failed');
+    });
+});
+</script>
+</body>
+</html>

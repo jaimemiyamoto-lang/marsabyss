@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red Planet Defense | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    background: #000;
+}
+
+/* Video Background Container */
+.video-background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: opacity 0.5s ease;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+   
+    z-index: 2;
+}
+
+/* Site Title */
+.site-title-overlay {
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+    transition: all 0.5s ease;
+}
+
+.site-title-overlay h1 {
+    color: #ff9553;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+.site-title-overlay h1 sup {
+    font-size: 0.6em;
+    vertical-align: super;
+    color: rgba(255, 149, 83, 0.9);
+}
+
+/* HIDE CONTENT BUTTON */
+.hide-content-btn {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ff9553;
+    border: 2px solid #ff9553;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    transition: all 0.3s ease;
+}
+
+.hide-content-btn:hover {
+    background: rgba(255, 149, 83, 0.6);
+    color: black;
+}
+
+/* AUDIO CONTROLS */
+.audio-controls {
+    position: fixed;
+    bottom: 80px;
+    right: 40px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.audio-btn {
+    background: rgba(255, 149, 83, 0.8);
+    border: 2px solid #ff9553;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+    background: rgba(255, 149, 83, 0.6);
+    box-shadow: 0 0 15px rgba(255, 149, 83, 0.7);
+}
+
+/* Small screen audio controls */
+.small-screen-audio {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+}
+
+.small-audio-btn {
+    background: rgba(255, 149, 83, 0.7);
+    border: 1px solid #ff9553;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.small-audio-btn:hover {
+    opacity: 1;
+    background: rgba(255, 149, 83, 0.9);
+}
+
+/* Top Menu */
+nav.top-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #ff4444;
+    transition: all 0.5s ease;
+}
+
+nav.top-menu a {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+    color: #ff4444;
+    background: transparent;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 160px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid #ff4444;
+    top: 100%;
+    left: -20px;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
+}
+
+.dropdown-content a {
+    color: #f5f5f5;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+.dropdown-content a:hover {
+    background: rgba(255, 68, 68, 0.6);
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Main Content */
+.main-content {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    padding: 120px 2rem 2rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.5s ease;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+.page-header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5rem;
+    color: #ff4444;
+    text-shadow: 0 0 20px rgba(255, 68, 68, 0.7);
+    margin-bottom: 1rem;
+    letter-spacing: 3px;
+}
+
+.page-header p {
+    font-size: 1.3rem;
+    color: #e0e0ff;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Coming Soon Container */
+.coming-soon-container {
+    background: rgba(255, 68, 68, 0.1);
+    border: 2px solid #ff4444;
+    border-radius: 15px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 40px rgba(255, 68, 68, 0.3);
+    margin-bottom: 3rem;
+}
+
+.coming-soon-container h2 {
+    color: #ff4444;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+}
+
+.coming-soon-container p {
+    color: #e0e0ff;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* Video Preview */
+.video-preview {
+    width: 100%;
+    max-width: 600px;
+    margin: 2rem auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.4);
+    border: 2px solid #ff4444;
+    position: relative;
+}
+
+.video-preview video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Game Features */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.feature-item {
+    background: rgba(255, 68, 68, 0.05);
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 68, 68, 0.3);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 68, 68, 0.6);
+}
+
+.feature-item h3 {
+    color: #ff4444;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.feature-item p {
+    color: #e0e0ff;
+    line-height: 1.5;
+}
+
+/* Countdown Timer */
+.countdown-timer {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #ff4444;
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.countdown-timer h3 {
+    color: #ff4444;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.timer-display {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    color: #ff4444;
+    text-shadow: 0 0 10px rgba(255, 68, 68, 0.7);
+}
+
+/* Notify Form */
+.notify-form {
+    margin-top: 2rem;
+}
+
+.notify-form input {
+    padding: 0.8rem;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #ff4444;
+    border-radius: 25px;
+    color: #fff;
+    font-size: 1rem;
+    width: 300px;
+    max-width: 100%;
+    margin-right: 1rem;
+}
+
+.notify-btn {
+    background: rgba(255, 68, 68, 0.8);
+    border: 2px solid #ff4444;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+}
+
+.notify-btn:hover {
+    background: rgba(255, 68, 68, 1);
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.7);
+}
+
+/* HIDE CONTENT FUNCTIONALITY */
+.main-content.hidden,
+footer.hidden,
+nav.top-menu.hidden,
+.site-title-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+}
+
+/* Footer */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ccc;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid #ff4444;
+    transition: opacity 0.5s ease;
+}
+
+footer.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .site-title-overlay {
+        top: 70px;
+        left: 20px;
+    }
+    .site-title-overlay h1 {
+        font-size: 1.4rem;
+    }
+    nav.top-menu {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    .page-header h1 {
+        font-size: 2.5rem;
+    }
+    .coming-soon-container {
+        padding: 2rem;
+        margin: 1rem;
+    }
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    .notify-form input {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    .notify-btn {
+        width: 100%;
+    }
+    .hide-content-btn {
+        top: 70px;
+        right: 20px;
+    }
+    .audio-controls {
+        bottom: 70px;
+        right: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Video Background Container -->
+<div class="video-background-container">
+    <video class="video-background" id="defenseVideo" muted loop playsinline autoplay poster="images/red-planet-defense-preview.jpg">
+        <source src="videos/red-defense-game.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+<div class="overlay"></div>
+
+<!-- Site Title -->
+<div class="site-title-overlay" id="siteTitle">
+    <h1>The Mars Abyss<sup>™</sup></h1>
+</div>
+
+<!-- HIDE CONTENT BUTTON -->
+<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+    <button class="audio-btn" id="bgAudioBtn">🔇 Background Audio</button>
+    <button class="audio-btn" id="musicBtn">🔇 Background Music</button>
+</div>
+
+<!-- Top Menu -->
+<nav class="top-menu" id="topMenu">
+    <div class="dropdown">
+        <a href="index.html" class="dropbtn">Home</a>
+        <div class="dropdown-content">
+            <a href="why-this-world-matters.html">Why This World Matters</a>
+            <a href="homage-to-courage.html">Homage to Courage</a>
+            <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+            <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+            <a href="my-mission.html">My Mission</a>
+            <a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn active">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html" class="active">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+        <div class="dropdown-content">
+            <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+            <a href="earths-great-poets.html">Earth's Great Poets</a>
+            <a href="the-bohr-institute.html">The Bohr Institute</a>
+            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+            <a href="the-bronx-dome.html">The Bronx Dome</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn">Martian News</a>
+        <div class="dropdown-content">
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+            <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+            <a href="martian-rest-areas.html">Martian Rest Areas</a>
+            <div class="dropdown">
+                <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                <div class="dropdown-content">
+                    <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                    <a href="marvin.html">M.A.R.V.I.N.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+        <div class="dropdown-content">
+            <a href="what-the-regent-misses.html">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a>
+            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+    </div>
+
+    <!-- CHILDREN'S SANCTUARY ADDED TO SUPPORT DROPDOWN -->
+    <div class="dropdown">
+        <a href="support.html" class="dropbtn">Support</a>
+        <div class="dropdown-content">
+            <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+            <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+            <a href="mars-food-district.html">Mars Food District</a>
+            <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+            <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+            <a href="fund-martian-research.html">Fund Martian Research</a>
+            <a href="martian-survival-manual.html">Martian Survival Manual</a>
+            <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+        </div>
+    </div>
+
+    <a href="contact.html">Contact</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content" id="contentContainer">
+    <div class="page-header">
+        <h1>RED PLANET DEFENSE</h1>
+        <p>Protect Mars from incoming threats using advanced planetary defense systems. Strategic gameplay meets cutting-edge Martian technology.</p>
+    </div>
+
+    <div class="coming-soon-container">
+        <h2>COMING SOON</h2>
+        <p>Mars must be protected at all costs - the future of humanity depends on it. Prepare for the ultimate planetary defense experience.</p>
+        
+        <div class="video-preview">
+            <div class="small-screen-audio">
+                <button class="small-audio-btn" id="gameAudioBtn">🔇</button>
+            </div>
+            <video muted loop playsinline autoplay id="gameVideo">
+                <source src="videos/red-defense-game.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="countdown-timer">
+            <h3>LAUNCH COUNTDOWN</h3>
+            <div class="timer-display" id="countdown">00:00:00:00</div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-item">
+                <h3>🛡️ Planetary Shields</h3>
+                <p>Deploy energy shields to protect Martian cities from meteor showers and orbital attacks</p>
+            </div>
+            <div class="feature-item">
+                <h3>🚀 Missile Defense</h3>
+                <p>Intercept incoming threats with advanced missile systems and laser arrays</p>
+            </div>
+            <div class="feature-item">
+                <h3>🛰️ Satellite Network</h3>
+                <p>Coordinate defense systems across Mars using orbital surveillance satellites</p>
+            </div>
+            <div class="feature-item">
+                <h3>🎯 Strategic Command</h3>
+                <p>Make critical decisions in real-time to protect Martian colonies</p>
+            </div>
+        </div>
+
+        <div class="notify-form">
+            <h3>GET NOTIFIED AT LAUNCH</h3>
+            <input type="email" placeholder="Enter your email" id="notifyEmail">
+            <button class="notify-btn" onclick="signUpForNotifications()">NOTIFY ME</button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer id="pageFooter">
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Video background handling
+const videoBg = document.getElementById('defenseVideo');
+videoBg.play().catch(e => console.log('Video autoplay prevented'));
+
+// Game video
+const gameVideo = document.getElementById('gameVideo');
+gameVideo.play().catch(e => console.log('Game video autoplay prevented'));
+
+// Hide content functionality
+const hideContentBtn = document.getElementById('hideContentBtn');
+const contentContainer = document.getElementById('contentContainer');
+const pageFooter = document.getElementById('pageFooter');
+const topMenu = document.getElementById('topMenu');
+const siteTitle = document.getElementById('siteTitle');
+let contentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+    contentHidden = !contentHidden;
+    
+    if (contentHidden) {
+        contentContainer.classList.add('hidden');
+        pageFooter.classList.add('hidden');
+        topMenu.classList.add('hidden');
+        siteTitle.classList.add('hidden');
+        hideContentBtn.textContent = 'Show Content';
+        // Increase opacity of background video to see it better
+        videoBg.style.opacity = '0.9';
+    } else {
+        contentContainer.classList.remove('hidden');
+        pageFooter.classList.remove('hidden');
+        topMenu.classList.remove('hidden');
+        siteTitle.classList.remove('hidden');
+        hideContentBtn.textContent = 'Hide Content';
+        videoBg.style.opacity = '0.7';
+    }
+});
+
+// Audio system
+const bgAudioBtn = document.getElementById('bgAudioBtn');
+const musicBtn = document.getElementById('musicBtn');
+const gameAudioBtn = document.getElementById('gameAudioBtn');
+let isBgAudioMuted = true;
+let isMusicMuted = true;
+let isGameAudioMuted = true;
+let backgroundMusic = null;
+
+function initAudio() {
+    // Create background music
+    backgroundMusic = new Audio();
+    backgroundMusic.src = 'sounds/background-music.mp3'; // Replace with your music file
+    backgroundMusic.volume = 0.3;
+    backgroundMusic.loop = true;
+    backgroundMusic.muted = true;
+    
+    // Enable audio on first user interaction
+    document.addEventListener('click', function unmuteAudio() {
+        if (!isBgAudioMuted) {
+            videoBg.muted = false;
+        }
+        if (!isMusicMuted) {
+            backgroundMusic.muted = false;
+            backgroundMusic.play().catch(e => console.log('Background music play failed'));
+        }
+        if (!isGameAudioMuted) {
+            gameVideo.muted = false;
+        }
+        document.removeEventListener('click', unmuteAudio);
+    }, { once: true });
+}
+
+// Background video audio toggle
+bgAudioBtn.addEventListener('click', function() {
+    isBgAudioMuted = !isBgAudioMuted;
+    videoBg.muted = isBgAudioMuted;
+    bgAudioBtn.textContent = isBgAudioMuted ? "🔇 Background Audio" : "🔊 Background Audio";
+});
+
+// Music toggle
+musicBtn.addEventListener('click', function() {
+    isMusicMuted = !isMusicMuted;
+    if (backgroundMusic) {
+        backgroundMusic.muted = isMusicMuted;
+        if (!isMusicMuted) {
+            backgroundMusic.play().catch(e => console.log('Background music play failed'));
+        }
+    }
+    musicBtn.textContent = isMusicMuted ? "🔇 Background Music" : "🔊 Background Music";
+});
+
+// Game audio toggle
+gameAudioBtn.addEventListener('click', function() {
+    isGameAudioMuted = !isGameAudioMuted;
+    if (gameVideo) {
+        gameVideo.muted = isGameAudioMuted;
+        if (!isGameAudioMuted) {
+            gameVideo.play().catch(e => console.log('Game video play failed'));
+            
+            // If background music is playing, pause it for 2 seconds when game audio plays
+            if (backgroundMusic && !backgroundMusic.muted) {
+                backgroundMusic.volume = 0.1;
+                setTimeout(() => {
+                    if (backgroundMusic) backgroundMusic.volume = 0.3;
+                }, 2000);
+            }
+        }
+    }
+    gameAudioBtn.textContent = isGameAudioMuted ? "🔇" : "🔊";
+});
+
+// Countdown timer (set to 30 days from now)
+function updateCountdown() {
+    const launchDate = new Date();
+    launchDate.setDate(launchDate.getDate() + 30); // 30 days from now
+    const now = new Date().getTime();
+    const distance = launchDate - now;
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    document.getElementById("countdown").innerHTML =
+        `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    if (distance < 0) {
+        document.getElementById("countdown").innerHTML = "LAUNCHED!";
+    }
+}
+
+// Update countdown every second
+setInterval(updateCountdown, 1000);
+updateCountdown(); // Initial call
+
+// Notification signup
+function signUpForNotifications() {
+    const email = document.getElementById('notifyEmail').value;
+    if (email) {
+        alert(`Thank you! We'll notify you at ${email} when Red Planet Defense launches.`);
+        document.getElementById('notifyEmail').value = '';
+    } else {
+        alert('Please enter your email address.');
+    }
+}
+
+// Initialize audio when page loads
+initAudio();
+
+// Play videos on click if they're paused
+document.addEventListener('click', function() {
+    if (videoBg.paused) {
+        videoBg.play().catch(e => console.log('Video play failed'));
+    }
+    if (gameVideo.paused) {
+        gameVideo.play().catch(e => console.log('Game video play failed'));
+    }
+});
+</script>
+</body>
+</html>

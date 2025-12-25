@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earth's Great Poets - The Mars Abyss</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* === COMPLETE STYLING FOR EARTH'S GREAT POETS === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            color: #e0e0ff;
+            overflow-x: hidden;
+            position: relative;
+            background: #000;
+        }
+
+        /* VIDEO BACKGROUND - BEACH THEME - FIXED Z-INDEX */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .static-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/beach-fallback.jpg') no-repeat center center / cover;
+            z-index: 1;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 2;
+            /* filter: sepia(0.3) hue-rotate(180deg) brightness(0.7); */ /* Commented out for natural colors */
+        }
+
+        /* === TOP MENU - FIXED DROPDOWN === */
+        nav.top-menu {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(17, 17, 17, 0.95);
+            padding: 0.6rem 0;
+            z-index: 1000;
+            gap: 2.5rem;
+            flex-wrap: nowrap;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #FF69B4;
+            transition: opacity 0.5s ease;
+        }
+
+        nav.top-menu a {
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown > a, .dropdown {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        /* FIXED DROPDOWN - LIKE HOME PAGE */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(26, 26, 26, 0.98);
+            min-width: 160px;
+            z-index: 1001;
+            border-radius: 4px;
+            border: 2px solid #FF69B4;
+            top: 100%;
+            left: 0;
+            backdrop-filter: blur(5px);
+            padding: 4px 0;
+        }
+
+        .dropdown-content a {
+            color: #f5f5f5;
+            padding: 3px 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+            font-size: 0.8rem;
+            line-height: 1.1;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 105, 180, 0.3);
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        nav.top-menu a.active,
+        nav.top-menu a:hover {
+            color: #FF69B4;
+            background: transparent;
+        }
+
+        /* SITE TITLE OVERLAY - THE MARS ABYSS */
+        .site-title-overlay {
+            position: fixed;
+            top: 80px;
+            left: 30px;
+            z-index: 50;
+            transition: opacity 0.5s ease;
+        }
+
+        .site-title-overlay h1 {
+            color: rgba(255, 105, 180, 0.8);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            font-weight: 300;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: flex-start;
+            gap: 2px;
+        }
+
+        .site-title-overlay h1 sup {
+            font-size: 0.6em;
+            vertical-align: super;
+            color: rgba(255, 105, 180, 0.9);
+            text-shadow: 0 0 8px rgba(255, 105, 180, 0.7);
+            margin-left: 2px;
+        }
+
+        /* CONTROL BUTTONS */
+        .audio-controls {
+            position: fixed;
+            bottom: 80px;
+            right: 40px;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .view-toggle {
+            position: fixed;
+            top: 80px;
+            right: 30px;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .audio-btn, .view-btn {
+            background: rgba(255, 105, 180, 0.8);
+            border: 2px solid #FF69B4;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .view-btn {
+            background: rgba(255, 193, 7, 0.8);
+            border: 2px solid #ffc107;
+        }
+
+        .audio-btn:hover, .view-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Main Content */
+        .main-content {
+            position: relative;
+            padding: 2rem 5%;
+            min-height: 100vh;
+            margin-top: 70px;
+            transition: opacity 0.5s ease;
+            z-index: 10;
+        }
+
+        /* HIDDEN CLASS FOR TOGGLE FUNCTIONALITY */
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* GREEK THEATER STYLING */
+        .theater-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 80vh;
+        }
+
+        .theater-stage {
+            position: relative;
+            background: linear-gradient(45deg, #2c1810, #1a120b);
+            padding: 40px;
+            border: 15px solid #8B4513;
+            border-image: 
+                linear-gradient(45deg, #8B4513, #5D4037, #8B4513) 30;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.8),
+                inset 0 0 80px rgba(0,0,0,0.6);
+            border-radius: 10px;
+            margin-bottom: 3rem;
+        }
+
+        .theater-plaque {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #d4af37, #f7ef8a);
+            color: #5D4033;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+
+        .podium-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .poet-portrait {
+            flex: 0 0 300px;
+            height: 400px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 5px solid #d4af37;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        /* FIXED: Video and Image styling */
+        .portrait-image, .portrait-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .portrait-image:hover, .portrait-video:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
+        }
+
+        .poet-portrait::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(139, 69, 19, 0.2));
+            z-index: 1;
+        }
+
+        .hologram-poem {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(76, 201, 240, 0.7);
+            border-radius: 10px;
+            padding: 2rem;
+            height: 400px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 
+                0 0 20px rgba(76, 201, 240, 0.5),
+                inset 0 0 20px rgba(76, 201, 240, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .hologram-poem::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, transparent 98%, rgba(76, 201, 240, 0.3) 100%),
+                linear-gradient(0deg, transparent 98%, rgba(76, 201, 240, 0.3) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .poem-content {
+            position: relative;
+            z-index: 2;
+            font-family: 'Cinzel', serif;
+            line-height: 1.8;
+            color: #e0e0ff;
+        }
+
+        .poem-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #d4af37;
+            text-align: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.5);
+            padding-bottom: 0.5rem;
+        }
+
+        .poem-body {
+            font-size: 1.1rem;
+            text-align: center;
+            white-space: pre-line;
+        }
+
+        /* ALPHABETICAL NAVIGATION */
+        .alphabet-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0 2rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .letter-button {
+            background: rgba(139, 69, 19, 0.5);
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .letter-button:hover, .letter-button.active {
+            background: rgba(212, 175, 55, 0.8);
+            color: #5D4033;
+            transform: scale(1.1);
+        }
+
+        /* EXPANDABLE POET SELECTOR */
+        .poet-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .poet-button {
+            background: linear-gradient(45deg, #8B4513, #5D4037);
+            color: #d4af37;
+            border: 2px solid #d4af37;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .poet-button:hover, .poet-button.active {
+            background: linear-gradient(45deg, #5D4037, #8B4513);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .theater-description {
+            background: rgba(26, 18, 11, 0.8);
+            padding: 2rem;
+            margin: 2rem auto;
+            border-left: 4px solid #d4af37;
+            border-radius: 0 10px 10px 0;
+            max-width: 800px;
+        }
+
+        .theater-description h2 {
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .theater-description p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: #e0e0ff;
+        }
+
+        /* EXTERNAL LINKS SECTION */
+        .external-links {
+            background: rgba(26, 18, 11, 0.8);
+            padding: 2rem;
+            margin: 2rem auto;
+            border: 1px solid #d4af37;
+            border-radius: 10px;
+            max-width: 800px;
+        }
+
+        .external-links h2 {
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .external-links p {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #e0e0ff;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .external-link {
+            background: rgba(139, 69, 19, 0.3);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #e0e0ff;
+        }
+
+        .external-link:hover {
+            background: rgba(139, 69, 19, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .external-link h3 {
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+            font-family: 'Cinzel', serif;
+        }
+
+        .external-link p {
+            font-size: 0.9rem;
+            text-align: left;
+            font-style: normal;
+            margin-bottom: 0;
+        }
+
+        .impact-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .impact-card {
+            background: rgba(139, 69, 19, 0.3);
+            border: 2px solid rgba(212, 175, 55, 0.7);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .impact-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .impact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+            border-color: #ff9553;
+            background: rgba(139, 69, 19, 0.5);
+        }
+
+        .impact-card h3 {
+            color: #4cc9f0;
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .impact-card p {
+            color: #e0e0ff;
+            line-height: 1.6;
+        }
+
+        /* Smart Text Gradient Based on Card Position */
+        .impact-card:nth-child(1) h3,
+        .impact-card:nth-child(1) p {
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .impact-card:nth-child(2) h3,
+        .impact-card:nth-child(2) p {
+            color: #f0f0f0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .impact-card:nth-child(3) h3,
+        .impact-card:nth-child(3) p {
+            color: #e8e8e8;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .impact-card h3 {
+            margin-bottom: 1rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .impact-card p {
+            line-height: 1.6;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Enhanced text shadows for all cards on hover */
+        .impact-card:hover h3,
+        .impact-card:hover p {
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Power of Poetry Section */
+        .poetry-power {
+            background: rgba(26, 18, 11, 0.8);
+            padding: 2rem;
+            margin: 2rem auto;
+            border-left: 4px solid #d4af37;
+            border-radius: 0 10px 10px 0;
+            max-width: 800px;
+            backdrop-filter: blur(5px);
+        }
+
+        .poetry-power h2 {
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .poetry-power p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: #e0e0ff;
+        }
+
+        .poetry-power strong {
+            color: #d4af37;
+        }
+
+        .poetry-power em {
+            color: #4cc9f0;
+            font-style: italic;
+        }
+
+        /* FOOTER */
+        footer {
+            position: relative;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 0.6rem 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ccc;
+            font-family: 'Segoe UI', sans-serif;
+            z-index: 1000;
+            border-top: 2px solid #ff9553;
+            transition: opacity 0.5s ease;
+            margin-top: 2rem;
+        }
+
+        .content-spacer {
+            height: 100px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .podium-display {
+                flex-direction: column;
+            }
+            
+            .poet-portrait {
+                flex: 0 0 250px;
+                height: 300px;
+            }
+            
+            .theater-stage {
+                padding: 20px;
+            }
+            
+            nav.top-menu {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .poet-selector {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .impact-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- VIDEO BACKGROUND - BEACH THEME -->
+    <div class="background-container">
+        <div class="static-background" id="staticBg"></div>
+        <video class="video-background" id="beachVideo" muted loop playsinline>
+            <source src="videos/poetic-beach-scene-2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- SITE TITLE OVERLAY - THE MARS ABYSS -->
+    <div class="site-title-overlay" id="siteTitle">
+        <h1>The Mars Abyss<sup>™</sup></h1>
+    </div>
+
+    <!-- CONTROL BUTTONS -->
+    <div class="view-toggle" id="viewToggleContainer">
+        <button class="view-btn" id="viewToggle">🌌 Hide Content</button>
+    </div>
+
+    <div class="audio-controls" id="audioControls">
+        <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+    </div>
+
+    <!-- COMPLETE TOP MENU WITH FIXED DROPDOWN -->
+    <nav class="top-menu">
+        <div class="dropdown">
+            <a href="index.html" class="dropbtn">Home</a>
+            <div class="dropdown-content">
+                <a href="why-this-world-matters.html">Why This World Matters</a>
+                <a href="homage-to-courage.html">Homage to Courage</a>
+                <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+                <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+                <a href="my-mission.html">My Mission</a>
+                <a href="martian-reading-revival.html">Martian Reading Revival</a>
+                <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+                <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+                <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="story.html" class="dropbtn">Story</a>
+            <div class="dropdown-content">
+                <a href="characters.html">Characters</a>
+                <div class="dropdown">
+                    <a href="gallery.html" class="dropbtn">Gallery</a>
+                    <div class="dropdown-content">
+                        <a href="art-and-concepts.html">Art & Concepts</a>
+                        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                        <a href="technical-database.html">Technical Database</a>
+                        <a href="martian-edicts.html">The Martian Edicts</a>
+                        <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                        <a href="solar-system-explorer.html">Solar System Explorer</a>
+                        <a href="aliens-ufos.html">Aliens & UFOs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-games.html" class="dropbtn">Martian Games</a>
+            <div class="dropdown-content">
+                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+                <a href="martian-racer.html">Martian Racer</a>
+                <a href="red-planet-defense.html">Red Planet Defense</a>
+                <a href="the-regents-portal.html">The Regent's Portal</a>
+                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+                <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="earth-codex.html" class="dropbtn active">Earth Codex</a>
+            <div class="dropdown-content">
+                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+                <a href="earths-great-poets.html" class="active">Earth's Great Poets</a>
+                <a href="the-bohr-institute.html">The Bohr Institute</a>
+                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+                <a href="the-bronx-dome.html">The Bronx Dome</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-news.html" class="dropbtn">Martian News</a>
+            <div class="dropdown-content">
+                <a href="martian-actualities.html">Martian Actualities</a>
+                <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+                <a href="mars-bee-facility.html">Mars Bee Facility</a>
+                <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+                <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+                <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+                <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+                <a href="martian-rest-areas.html">Martian Rest Areas</a>
+                <div class="dropdown">
+                    <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                    <div class="dropdown-content">
+                        <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                        <a href="marvin.html">M.A.R.V.I.N.</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+            <div class="dropdown-content">
+                <a href="what-the-regent-misses.html">What the Regent Misses</a>
+                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+                <a href="honor-the-fallen.html">Honor The Fallen</a>
+                <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+                <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+                <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+                <a href="martian-critique-tron-ares.html">Martian Critique</a>
+                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="about.html" class="dropbtn">About</a>
+            <div class="dropdown-content">
+                <a href="about-the-project.html">About the Project</a>
+                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+                <a href="the-pale-horse.html">The Pale Horse</a>
+                <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+                <a href="arachne-labs.html">Arachne Labs</a>
+                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="support.html" class="dropbtn">Support</a>
+            <div class="dropdown-content">
+                <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+                <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+                <a href="mars-food-district.html">Mars Food District</a>
+                <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+                <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+                <a href="fund-martian-research.html">Fund Martian Research</a>               
+                <a href="martian-survival-manual.html">Martian Survival Manual</a>
+                <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+            </div>
+        </div>
+
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="theater-container">
+            <!-- Greek Theater Stage -->
+            <section class="theater-stage">
+                <div class="theater-plaque">EARTH'S GREAT POETS</div>
+                
+                <div class="podium-display">
+                    <!-- Poet Portrait Podium - FIXED: Now supports both video and image -->
+                    <div class="poet-portrait">
+                        <img id="poetImage" class="portrait-image" src="images/poets/william-shakespeare.jpg" alt="Poet Portrait">
+                        <video id="poetVideo" class="portrait-video" autoplay muted loop playsinline style="display: none;">
+                            <source src="" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    
+                    <!-- Holographic Poem Display -->
+                    <div class="hologram-poem">
+                        <div class="poem-content">
+                            <h2 class="poemTitle" id="poemTitle">Select a Poet</h2>
+                            <div class="poem-body" id="poemBody">
+                                Choose a poet from the selection below to view their portrait and read their work in this holographic Martian theater.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Alphabetical Navigation -->
+                <div class="alphabet-nav" id="alphabetNav">
+                    <!-- Letters will be generated by JavaScript -->
+                </div>
+                
+                <!-- Expandable Poet Selector -->
+                <div class="poet-selector" id="poetSelector">
+                    <!-- Poet buttons will be generated by JavaScript -->
+                </div>
+            </section>
+            
+            <!-- Theater Description -->
+            <section class="theater-description">
+                <h2>Martian Holographic Theater</h2>
+                <p>Welcome to the Earth's Great Poets exhibition, a holographic reconstruction of Earth's literary heritage preserved in the Martian archives. This theater recreates the atmosphere of ancient Greek amphitheaters, where poetry was performed for audiences under open skies.</p>
+                
+                <p>The poems you see displayed are holographic projections, carefully reconstructed from Earth's literary records. Each poet's visage has been recreated based on historical documentation, allowing Martian citizens to connect with these masters of Earth's artistic expression.</p>
+                
+                <p>As you read these works, remember they represent a civilization that continues to thrive on the blue planet - a civilization whose artistic achievements continue to inspire us across the cosmic void, bridging our two worlds through the universal language of poetry.</p>
+            </section>
+
+            <!-- Poetry That Changed History -->
+            <section class="fade-section">
+                <h2 style="text-align: center; color: #ff9553; margin-bottom: 2rem; font-family: 'Cinzel', serif; text-shadow: 0 0 10px rgba(255, 149, 83, 0.3); font-size: 2.2rem;">Poetry That Changed History</h2>
+                <div class="impact-cards">
+                    <div class="impact-card">
+                        <h3>Nelson Mandela</h3>
+                        <p>"Invictus" by William Ernest Henley gave Mandela strength during his 27 years in prison. He would recite it to fellow prisoners to maintain hope and dignity against oppression.</p>
+                    </div>
+                    <div class="impact-card">
+                        <h3>World War II Resistance</h3>
+                        <p>Poets like Anna Akhmatova and Paul Celan gave voice to the unspeakable, preserving humanity and resistance spirit during history's darkest hours.</p>
+                    </div>
+                    <div class="impact-card">
+                        <h3>Civil Rights Movement</h3>
+                        <p>Maya Angelou, Langston Hughes, and others used poetry as weapons for equality, their words becoming anthems for justice across generations.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- The Eternal Power of Poetry -->
+            <section class="fade-section">
+                <div class="poetry-power">
+                    <h2>The Eternal Power of Poetry</h2>
+                    <p>Throughout human history, poetry has transcended mere words to become:</p>
+                    <p><strong>Survival:</strong> For prisoners, oppressed peoples, and those in darkness, poetry preserved sanity, hope, and human dignity when all else was lost.</p>
+                    <p><strong>Revolution:</strong> Verses have ignited movements, toppled regimes, and fundamentally changed societies by speaking truth to power.</p>
+                    <p><strong>Connection:</strong> Across time, space, and cultures, poetry connects us to the universal human experience, reminding us of our shared humanity.</p>
+                    <p><strong>Legacy:</strong> From ancient epics to modern verse, poetry preserves the essence of civilizations, their dreams, struggles, and triumphs.</p>
+                    <em>"The Regent observes: On Mars, we preserve Earth's poetic legacy not as museum artifacts, but as living inspiration for our new civilization. These words bridge our worlds, reminding us that humanity's artistic spirit knows no planetary bounds."</em>
+                </div>
+            </section>
+
+            <!-- External Links Section -->
+            <section class="external-links">
+                <h2>Earth Poetry Resources</h2>
+                <p>A gesture of goodwill to fellow poetry enthusiasts across the cosmos. If you represent one of these sites and prefer not to be listed, please contact me.</p>
+                
+                <div class="links-grid">
+                    <a href="https://www.poetryfoundation.org" class="external-link" target="_blank">
+                        <h3>Poetry Foundation</h3>
+                        <p>An independent literary organization committed to poetry's place in our culture.</p>
+                    </a>
+                    
+                    <a href="https://www.poets.org" class="external-link" target="_blank">
+                        <h3>Academy of American Poets</h3>
+                        <p>Largest membership-based nonprofit organization fostering appreciation of poetry.</p>
+                    </a>
+                    
+                    <a href="https://allpoetry.com" class="external-link" target="_blank">
+                        <h3>All Poetry</h3>
+                        <p>Online community where poets can share their work and receive feedback.</p>
+                    </a>
+                    
+                    <a href="https://www.poemhunter.com" class="external-link" target="_blank">
+                        <h3>PoemHunter</h3>
+                        <p>Extensive collection of poems from classic and contemporary poets.</p>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Content spacer for footer -->
+    <div class="content-spacer"></div>
+
+    <!-- FOOTER -->
+    <footer id="pageFooter">
+        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // View toggle functionality
+        const viewToggle = document.getElementById('viewToggle');
+        const mainContent = document.getElementById('mainContent');
+        const mainMenu = document.getElementById('mainMenu');
+        const siteTitle = document.getElementById('siteTitle');
+        const pageFooter = document.getElementById('pageFooter');
+
+        viewToggle.addEventListener('click', function() {
+            mainContent.classList.toggle('hidden');
+            mainMenu.classList.toggle('hidden');
+            pageFooter.classList.toggle('hidden');
+            // Don't hide the site title and control buttons
+            if (mainContent.classList.contains('hidden')) {
+                viewToggle.textContent = '📄 Show Content';
+            } else {
+                viewToggle.textContent = '🌌 Hide Content';
+            }
+        });
+
+        // Beach video loading
+        const bgVideo = document.getElementById('beachVideo');
+        const staticBg = document.getElementById('staticBg');
+
+        bgVideo.addEventListener('loadeddata', function() {
+            setTimeout(() => {
+                bgVideo.play();
+            }, 500);
+        });
+
+        bgVideo.addEventListener('error', function() {
+            console.log('Beach video failed to load, using static background');
+        });
+
+        // Define poet data - EXPANDED COLLECTION WITH MORE POETS
+        const poets = {
+            shakespeare: {
+                name: "William Shakespeare",
+                image: "images/poets/william-shakespeare.jpg",
+                video: "videos/poets-shakespeare-animated-2.mp4",
+                title: "Sonnet 18",
+                poem: `Shall I compare thee to a summer's day?
+Thou art more lovely and more temperate:
+Rough winds do shake the darling buds of May,
+And summer's lease hath all too short a date:
+
+Sometime too hot the eye of heaven shines,
+And often is his gold complexion dimm'd;
+And every fair from fair sometime declines,
+By chance or nature's changing course untrimm'd;
+
+But thy eternal summer shall not fade
+Nor lose possession of that fair thou owest;
+Nor shall Death brag thou wander'st in his shade,
+When in eternal lines to time thou growest:
+
+So long as men can breathe or eyes can see,
+So long lives this, and this gives life to thee.`
+            },
+            poe: {
+                name: "Edgar Allan Poe",
+                image: "images/young-edgar-allan-poe.jpg",
+                video: null,
+                title: "The Raven",
+                poem: `Once upon a midnight dreary, while I pondered, weak and weary,
+Over many a quaint and curious volume of forgotten lore—
+While I nodded, nearly napping, suddenly there came a tapping,
+As of some one gently rapping, rapping at my chamber door.
+" 'Tis some visitor," I muttered, "tapping at my chamber door—
+            Only this and nothing more."`
+            },
+            whitman: {
+                name: "Walt Whitman",
+                image: "images/poets/whitman.jpg",
+                video: null,
+                title: "O Me! O Life!",
+                poem: `Oh me! Oh life! of the questions of these recurring,
+Of the endless trains of the faithless, of cities fill'd with the foolish,
+Of myself forever reproaching myself, (for who more foolish than I, and who more faithless?)
+Of eyes that vainly crave the light, of the objects mean, of the struggle ever renew'd,
+Of the poor results of all, of the plodding and sordid crowds I see around me,
+Of the empty and useless years of the rest, with the rest me intertwined,
+The question, O me! so sad, recurring—What good amid these, O me, O life?
+
+                                                                   Answer.
+That you are here—that life exists and identity,
+That the powerful play goes on, and you may contribute a verse.`
+            },
+            dickinson: {
+                name: "Emily Dickinson",
+                image: "images/poets/dickinson.jpg",
+                video: null,
+                title: "Hope is the thing with feathers",
+                poem: `Hope is the thing with feathers
+That perches in the soul,
+And sings the tune without the words,
+And never stops at all,
+
+And sweetest in the gale is heard;
+And sore must be the storm
+That could abash the little bird
+That kept so many warm.
+
+I've heard it in the chillest land,
+And on the strangest sea;
+Yet, never, in extremity,
+It asked a crumb of me.`
+            },
+            frost: {
+                name: "Robert Frost",
+                image: "images/poets/frost.jpg",
+                video: null,
+                title: "The Road Not Taken",
+                poem: `Two roads diverged in a yellow wood,
+And sorry I could not travel both
+And be one traveler, long I stood
+And looked down one as far as I could
+To where it bent in the undergrowth;
+
+Then took the other, as just as fair,
+And having perhaps the better claim,
+Because it was grassy and wanted wear;
+Though as for that the passing there
+Had worn them really about the same,
+
+And both that morning equally lay
+In leaves no step had trodden black.
+Oh, I kept the first for another day!
+Yet knowing how way leads on to way,
+I doubted if I should ever come back.
+
+I shall be telling this with a sigh
+Somewhere ages and ages hence:
+Two roads diverged in a wood, and I—
+I took the one less traveled by,
+And that has made all the difference.`
+            },
+            angelou: {
+                name: "Maya Angelou",
+                image: "images/poets/angelou.jpg",
+                video: null,
+                title: "Still I Rise",
+                poem: `You may write me down in history
+With your bitter, twisted lies,
+You may trod me in the very dirt
+But still, like dust, I'll rise.
+
+Does my sassiness upset you?
+Why are you beset with gloom?
+'Cause I walk like I've got oil wells
+Pumping in my living room.
+
+Just like moons and like suns,
+With the certainty of tides,
+Just like hopes springing high,
+Still I'll rise.`
+            },
+            neruda: {
+                name: "Pablo Neruda",
+                image: "images/poets/neruda.jpg",
+                video: null,
+                title: "If You Forget Me",
+                poem: `I want you to know
+one thing.
+
+You know how this is:
+if I look
+at the crystal moon, at the red branch
+of the slow autumn at my window,
+if I touch
+near the fire
+the impalpable ash
+or the wrinkled body of the log,
+everything carries me to you,
+as if everything that exists,
+aromas, light, metals,
+were little boats
+that sail
+toward those isles of yours that wait for me.`
+            },
+            blake: {
+                name: "William Blake",
+                image: "images/poets/blake.jpg",
+                video: null,
+                title: "The Tyger",
+                poem: `Tyger Tyger, burning bright,
+In the forests of the night;
+What immortal hand or eye,
+Could frame thy fearful symmetry?
+
+In what distant deeps or skies.
+Burnt the fire of thine eyes?
+On what wings dare he aspire?
+What the hand, dare seize the fire?`
+            },
+            wordsworth: {
+                name: "William Wordsworth",
+                image: "images/poets/wordsworth.jpg",
+                video: null,
+                title: "I Wandered Lonely as a Cloud",
+                poem: `I wandered lonely as a cloud
+That floats on high o'er vales and hills,
+When all at once I saw a crowd,
+A host, of golden daffodils;
+Beside the lake, beneath the trees,
+Fluttering and dancing in the breeze.`
+            },
+            eliot: {
+                name: "T.S. Eliot",
+                image: "images/poets/eliot.jpg",
+                video: null,
+                title: "The Love Song of J. Alfred Prufrock",
+                poem: `Let us go then, you and I,
+When the evening is spread out against the sky
+Like a patient etherized upon a table;
+Let us go, through certain half-deserted streets,
+The muttering retreats
+Of restless nights in one-night cheap hotels
+And sawdust restaurants with oyster-shells:
+Streets that follow like a tedious argument
+Of insidious intent
+To lead you to an overwhelming question ...
+Oh, do not ask, "What is it?"
+Let us go and make our visit.`
+            },
+            hughes: {
+                name: "Langston Hughes",
+                image: "images/poets/hughes.jpg",
+                video: null,
+                title: "Harlem",
+                poem: `What happens to a dream deferred?
+
+Does it dry up
+like a raisin in the sun?
+Or fester like a sore—
+And then run?
+Does it stink like rotten meat?
+Or crust and sugar over—
+like a syrupy sweet?
+
+Maybe it just sags
+like a heavy load.
+
+Or does it explode?`
+            },
+            plath: {
+                name: "Sylvia Plath",
+                image: "images/poets/plath.jpg",
+                video: null,
+                title: "Mirror",
+                poem: `I am silver and exact. I have no preconceptions.
+Whatever I see I swallow immediately
+Just as it is, unmisted by love or dislike.
+I am not cruel, only truthful—
+The eye of a little god, four-cornered.
+Most of the time I meditate on the opposite wall.
+It is pink, with speckles. I have looked at it so long
+I think it is a part of my heart. But it flickers.
+Faces and darkness separate us over and over.`
+            },
+            rumi: {
+                name: "Rumi",
+                image: "images/poets/rumi.jpg",
+                video: null,
+                title: "The Guest House",
+                poem: `This being human is a guest house.
+Every morning a new arrival.
+
+A joy, a depression, a meanness,
+some momentary awareness comes
+as an unexpected visitor.
+
+Welcome and entertain them all!
+Even if they're a crowd of sorrows,
+who violently sweep your house
+empty of its furniture,
+
+still, treat each guest honorably.
+He may be clearing you out
+for some new delight.`
+            },
+            hafiz: {
+                name: "Hafiz",
+                image: "images/poets/hafiz.jpg",
+                video: null,
+                title: "With That Moon Language",
+                poem: `Admit something:
+
+Everyone you see, you say to them,
+"Love me."
+
+Of course you do not do this out loud;
+otherwise,
+someone would call the cops.
+
+Still though, think about this,
+this great pull in us
+to connect.
+
+Why not become the one
+who lives with a full moon in each eye
+that is always saying,
+with that sweet moon
+language,
+what every other eye in this world
+is dying to
+hear?`
+            },
+            basho: {
+                name: "Matsuo Basho",
+                image: "images/poets/basho.jpg",
+                video: null,
+                title: "The Old Pond",
+                poem: `An old silent pond...
+A frog jumps into the pond—
+Splash! Silence again.`
+            },
+            akhmatova: {
+                name: "Anna Akhmatova",
+                image: "images/poets/akhmatova.jpg",
+                video: null,
+                title: "Lot's Wife",
+                poem: `And the just man trailed God's shining agent,
+over a black mountain, in his giant track,
+while a restless voice kept harrying his woman:
+"It's not too late, you can still look back
+
+at the red towers of your native Sodom,
+the square where once you sang, the spinning-shed,
+at the empty windows set in the tall house
+where sons and daughters blessed your marriage-bed."`
+            }
+        };
+
+        // Organize poets by first letter
+        const poetsByLetter = {};
+        Object.keys(poets).forEach(poetId => {
+            const firstLetter = poets[poetId].name.charAt(0).toUpperCase();
+            if (!poetsByLetter[firstLetter]) {
+                poetsByLetter[firstLetter] = [];
+            }
+            poetsByLetter[firstLetter].push(poetId);
+        });
+
+        // Create alphabetical navigation
+        const alphabetNav = document.getElementById('alphabetNav');
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        
+        alphabet.forEach(letter => {
+            const button = document.createElement('button');
+            button.className = 'letter-button';
+            button.textContent = letter;
+            button.setAttribute('data-letter', letter);
+            
+            // Disable if no poets for this letter
+            if (!poetsByLetter[letter]) {
+                button.disabled = true;
+                button.style.opacity = '0.3';
+            }
+            
+            button.addEventListener('click', function() {
+                // Remove active class from all letter buttons
+                document.querySelectorAll('.letter-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Filter poets
+                filterPoetsByLetter(letter);
+            });
+            
+            alphabetNav.appendChild(button);
+        });
+
+        // Create poet selector
+        const poetSelector = document.getElementById('poetSelector');
+        
+        function filterPoetsByLetter(letter) {
+            // Clear current poet buttons
+            poetSelector.innerHTML = '';
+            
+            if (poetsByLetter[letter]) {
+                poetsByLetter[letter].forEach(poetId => {
+                    const poet = poets[poetId];
+                    const button = document.createElement('button');
+                    button.className = 'poet-button';
+                    button.textContent = poet.name;
+                    button.setAttribute('data-poet', poetId);
+                    
+                    button.addEventListener('click', function() {
+                        // Remove active class from all poet buttons
+                        document.querySelectorAll('.poet-button').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked button
+                        this.classList.add('active');
+                        
+                        // Update display
+                        updatePoetDisplay(poetId);
+                    });
+                    
+                    poetSelector.appendChild(button);
+                });
+            }
+        }
+
+        // FIXED: Poet selection functionality - now handles both video and image properly
+        const poetImage = document.getElementById('poetImage');
+        const poetVideo = document.getElementById('poetVideo');
+        const poemTitle = document.getElementById('poemTitle');
+        const poemBody = document.getElementById('poemBody');
+
+        function updatePoetDisplay(poetId) {
+            const poet = poets[poetId];
+            
+            // Update poem text
+            poemTitle.textContent = poet.title;
+            poemBody.textContent = poet.poem;
+            
+            // Set image source for fallback
+            poetImage.src = poet.image;
+            
+            // Handle media display - FIXED LOGIC
+            if (poet.video) {
+                // Try to load and play video
+                const source = poetVideo.querySelector('source');
+                source.src = poet.video;
+                
+                // Load the new video source
+                poetVideo.load();
+                
+                // Show video, hide image
+                poetVideo.style.display = 'block';
+                poetImage.style.display = 'none';
+                
+                // Try to play the video
+                poetVideo.play().then(() => {
+                    // Video successfully playing
+                    console.log(`Video for ${poet.name} is playing`);
+                }).catch(error => {
+                    // Video failed to play, fall back to image
+                    console.log(`Video for ${poet.name} failed to play, using image instead:`, error);
+                    poetVideo.style.display = 'none';
+                    poetImage.style.display = 'block';
+                });
+            } else {
+                // No video available, show image only
+                poetVideo.style.display = 'none';
+                poetImage.style.display = 'block';
+            }
+            
+            // Add holographic effect
+            const hologram = document.querySelector('.hologram-poem');
+            hologram.style.animation = 'none';
+            setTimeout(() => {
+                hologram.style.animation = 'hologramPulse 2s ease';
+            }, 10);
+        }
+
+        // Initialize with first available letter
+        const firstAvailableLetter = Object.keys(poetsByLetter)[0];
+        if (firstAvailableLetter) {
+            const firstLetterButton = document.querySelector(`.letter-button[data-letter="${firstAvailableLetter}"]`);
+            if (firstLetterButton) {
+                firstLetterButton.click();
+                
+                // Select first poet of that letter
+                setTimeout(() => {
+                    const firstPoetButton = document.querySelector('.poet-button');
+                    if (firstPoetButton) {
+                        firstPoetButton.click();
+                    }
+                }, 100);
+            }
+        }
+
+        // SIMPLIFIED AUDIO SYSTEM - Using same MP3 as previous file
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true;
+        let backgroundMusic = null;
+
+        function initAudio() {
+            backgroundMusic = new Audio('music/en-la-costa-del-amor.mp3');
+            backgroundMusic.volume = 0.3;
+            backgroundMusic.loop = true;
+            backgroundMusic.muted = true;
+            // One-click unmute system
+            const unmuteOnce = () => {
+                if (isMuted && backgroundMusic) {
+                    backgroundMusic.muted = false;
+                    backgroundMusic.play().catch(e => {
+                        console.log('Audio ready - click unmute when needed');
+                    });
+                }
+                document.removeEventListener('click', unmuteOnce);
+            };
+            document.addEventListener('click', unmuteOnce);
+        }
+
+        // Simple mute toggle
+        muteBtn.addEventListener('click', function() {
+            if (backgroundMusic) {
+                isMuted = !isMuted;
+                backgroundMusic.muted = isMuted;
+                muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+                if (!isMuted && backgroundMusic.paused) {
+                    backgroundMusic.play().catch(e => {
+                        console.log('Audio play requires user interaction');
+                    });
+                }
+            }
+        });
+
+        // Initialize audio
+        initAudio();
+    </script>
+</body>
+</html>
+
+
+
+

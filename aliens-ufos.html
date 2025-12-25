@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aliens & UFOs | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    background: radial-gradient(ellipse at bottom, #1a1a1a 0%, #000 100%);
+}
+
+/* === STANDARD TOP MENU - EXACTLY LIKE CONTACT PAGE === */
+nav.top-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #00ccff;
+}
+
+nav.top-menu a {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+    color: #00ccff;
+    background: transparent;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid #00ccff;
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
+}
+
+.dropdown .dropdown .dropdown-content {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+}
+
+.dropdown-content a {
+    color: #f5f5f5;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.8rem;
+    line-height: 1;
+}
+
+.dropdown-content a:hover {
+    background: rgba(0, 204, 255, 0.6);
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* === SITE TITLE OVERLAY - EXACT POSITIONING LIKE OTHER PAGES === */
+.site-title-overlay {
+    position: fixed;
+    top: 80px; /* EXACT same height as other pages */
+    left: 30px; /* EXACT same left position as other pages */
+    z-index: 50;
+    transition: opacity 0.3s ease;
+}
+
+.site-title-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.site-title-overlay h1 {
+    color: rgba(0, 204, 255, 0.7);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+/* === AUDIO CONTROLS - EXACT STYLING === */
+.audio-controls {
+    position: fixed;
+    bottom: 80px;
+    right: 40px;
+    z-index: 1000;
+}
+
+.audio-btn {
+    background: rgba(0, 204, 255, 0.8);
+    border: 2px solid #00ccff;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+    background: rgba(0, 204, 255, 0.3);
+}
+
+/* === ALIENS & UFOs CONTENT STYLES === */
+.hero {
+    text-align: center;
+    padding: 5rem 1rem 3rem;
+    margin-top: 60px;
+}
+
+.hero h2 {
+    color: #00ccff;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto;
+    color: #d4b87a;
+    font-style: italic;
+}
+
+/* VIDEO CONTAINER */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    overflow: hidden;
+    margin: 2rem auto;
+    border-top: 1px solid #00ccff;
+    border-bottom: 1px solid #00ccff;
+}
+
+.ufo-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.8) contrast(1.1);
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.replay-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 204, 255, 0.8);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.replay-button.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.replay-button:hover {
+    background: rgba(0, 204, 255, 1);
+    transform: scale(1.05);
+}
+
+/* ENCOUNTER CARDS */
+.encounter-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.card {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #666;
+    border-radius: 12px;
+    text-align: center;
+    padding: 1rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px rgba(0, 204, 255, 0.5);
+    border-color: #00ccff;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.card h3 {
+    margin-top: 1rem;
+    color: #00ccff;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.modal-content {
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid #00ccff;
+    border-radius: 15px;
+    max-width: 600px;
+    width: 100%;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    animation: zoomIn 0.4s ease;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #00ccff;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: #fff;
+}
+
+/* FOOTER - EXACTLY LIKE OTHER PAGES */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #00ccff;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid #00ccff;
+}
+
+.content-spacer {
+    height: 100px;
+}
+</style>
+</head>
+
+<body>
+<!-- STANDARD TOP MENU - 9 TITLES EXACTLY LIKE OTHER PAGES -->
+<nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+    
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn active">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html" class="active">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+        <div class="dropdown-content">
+            <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+            <a href="earths-great-poets.html">Earth's Great Poets</a>
+            <a href="the-bohr-institute.html">The Bohr Institute</a>
+            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+            <a href="the-bronx-dome.html">The Bronx Dome</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn">Martian News</a>
+        <div class="dropdown-content">
+        <a href="martian-actualities.html">Martian Actualities</a>
+        <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+        <a href="mars-bee-facility.html">Mars Bee Facility</a>
+        <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+        <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+        <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+        <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+        <a href="martian-rest-areas.html">Martian Rest Areas</a>
+        <div class="dropdown">
+        <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+        <div class="dropdown-content">
+        <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+        <a href="marvin.html">M.A.R.V.I.N.</a>
+        </div>
+    </div>
+        </div>
+        </div>
+    <div class="dropdown">
+        <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+        <div class="dropdown-content">
+            <a href="what-the-regent-misses.html">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a>
+            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+    <a href="contact.html">Contact</a>
+
+    <!-- SITE TITLE - EXACT SAME POSITION AS OTHER PAGES -->
+    <div class="site-title-overlay" id="siteTitle">
+        <h1>The Mars Abyss</h1>
+    </div>
+</nav>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+    <button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
+</div>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <h2>Aliens & UFOs</h2>
+    <p>Exploring unexplained phenomena and close encounters from Puerto Rico and beyond. Witness the evidence, hear the stories, and decide for yourself.</p>
+</section>
+
+<!-- VIDEO BACKGROUND SECTION -->
+<section class="video-container">
+    <video class="ufo-video" autoplay muted loop id="ufoVideo">
+        <source src="videos/flying saucer.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="video-overlay">
+        <!-- Optional: You could add text overlay here if needed -->
+    </div>
+    <button class="replay-button" id="replayButton" onclick="replayVideo()">Replay Video</button>
+</section>
+
+<!-- ENCOUNTER CARDS SECTION -->
+<section class="encounter-cards" id="encounterCards">
+    <!-- Your encounter cards will be generated here by JavaScript -->
+</section>
+
+<!-- MODAL -->
+<div id="encounterModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <img id="modalImage" src="" alt="Encounter Image">
+        <h3 id="modalTitle"></h3>
+        <p id="modalDescription"></p>
+    </div>
+</div>
+
+<!-- CONTENT SPACER FOR FOOTER -->
+<div class="content-spacer"></div>
+
+<!-- STANDARD FOOTER -->
+<footer>
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Video functionality
+const ufoVideo = document.getElementById('ufoVideo');
+const replayButton = document.getElementById('replayButton');
+
+// Show replay button when video ends
+ufoVideo.addEventListener('ended', function() {
+    replayButton.classList.add('show');
+});
+
+// Replay video function
+function replayVideo() {
+    ufoVideo.currentTime = 0;
+    ufoVideo.play();
+    replayButton.classList.remove('show');
+}
+
+// Hide replay button when video starts playing
+ufoVideo.addEventListener('play', function() {
+    replayButton.classList.remove('show');
+});
+
+// Encounter data with proper links
+const encounters = [
+    {
+        name: "El Yunque Lights",
+        img: "images/el-yunque lights.jpg",
+        desc: "Mysterious floating orbs observed in Puerto Rico's rainforest. Multiple witnesses reported synchronized lights patterns defying conventional explanation.",
+        link: "el-yunque-lights.html"
+    },
+    {
+        name: "San Juan Triangle",
+        img: "images/triangle-shaped-ship.jpg",
+        desc: "Large triangular craft spotted over Old San Juan. Silent, slow-moving object with unusual lighting configuration observed for several minutes.",
+        link: "san-juan-triangle.html"
+    },
+    {
+        name: "Vieques Encounter",
+        img: "images/vieques-encounter.jpg",
+        desc: "Coastal sighting of submerged object emitting blue-green light. Local fisherman reported electromagnetic interference during the event.",
+        link: "vieques-encounter.html"
+    },
+    {
+        name: "Arecibo Anomaly",
+        img: "images/radar-ufo.jpg",
+        desc: "Unexplained radar returns near the famous observatory. Correlated with visual sightings of fast-moving objects at high altitude.",
+        link: "arecibo-anomaly.html"
+    },
+    {
+        name: "Temporal Visitors From Our Future",
+        img: "images/beach-vessel.jpg",
+        desc: "Evidence of future humans observing key moments in our timeline. Analysis of invisible craft and their connection to human development.",
+        link: "temporal-visitors.html"
+    },
+    {
+        name: "The Jumping Incident",
+        img: "images/me-browny.jpg",
+        desc: "Documented personal experience of an alien encounter while practicing my jumping for my Martial Arts Training in the '70s' in front of these stairs to my house.",
+        link: "the-jumping-incident.html"
+    },
+    {
+        name: "The Cosmic Octopus - Earth's First Alien",
+        img: "images/octopus in space.jpg",
+        desc: "Earth's first documented alien life form. Scientific evidence of extraterrestrial origins in our oceans.",
+        link: "the-cosmic-octopus.html"
+    }
+];
+
+// Generate cards with proper links
+const container = document.getElementById('encounterCards');
+encounters.forEach(encounter => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.innerHTML = `
+        <img src="${encounter.img}" alt="${encounter.name}">
+        <h3>${encounter.name}</h3>
+        <p>${encounter.desc}</p>
+    `;
+    
+    // Make cards clickable to navigate to their pages
+    card.addEventListener('click', () => {
+        window.location.href = encounter.link;
+    });
+    
+    container.appendChild(card);
+});
+
+// Modal functionality (kept for any future use)
+const modal = document.getElementById('encounterModal');
+const modalImg = document.getElementById('modalImage');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDescription');
+const closeBtn = document.querySelector('.close');
+
+function openModal(encounter) {
+    modal.style.display = 'flex';
+    modalImg.src = encounter.img;
+    modalTitle.textContent = encounter.name;
+    modalDesc.textContent = encounter.desc;
+}
+
+closeBtn.onclick = () => (modal.style.display = 'none');
+window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
+
+// Site title hide on scroll
+const siteTitle = document.getElementById('siteTitle');
+let lastScrollTop = 0;
+
+window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > lastScrollTop && scrollTop > 50) {
+        siteTitle.classList.add('hidden');
+    } else {
+        siteTitle.classList.remove('hidden');
+    }
+    
+    lastScrollTop = scrollTop;
+});
+
+// === YOUR EXACT WORKING AUDIO CODE - RECORDED FOR FUTURE USE ===
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true; // start muted to avoid autoplay issues
+let audioElements = [];
+
+function initAudio() {
+    const sounds = [
+        { src: 'sounds/ghostly-sighs.mp3', volume: 0.3 },
+       
+    ];
+
+    sounds.forEach(sound => {
+        const audio = new Audio(sound.src);
+        audio.volume = sound.volume;
+        audio.loop = true;
+        audio.muted = true; // Start muted
+        audioElements.push(audio);
+    });
+
+    // Unmute and Play sounds first user interaction
+    document.addEventListener('click', function unmuteAudio() {
+        if (!isMuted) {
+            audioElements.forEach(audio => {
+                audio.muted = false;
+                audio.play().catch(e => console.log('Audio play failed'));
+            });
+            isMuted = false;
+            muteBtn.textContent = "🔊 Mute Sounds";
+        }
+        document.removeEventListener('click', unmuteAudio);
+    }, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+    isMuted = !isMuted;
+    audioElements.forEach(audio => {
+        audio.muted = isMuted;
+    });
+    muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// Initialize audio when page loads
+initAudio();
+</script>
+</body>
+</html>

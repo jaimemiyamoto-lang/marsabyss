@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Mars Abyss - Martian News</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    background: #000;
+}
+
+/* Video Background - CORRECT Z-INDEX */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2; /* CORRECT: POSITIVE 2, NOT -2 */
+}
+
+/* Overlay to make content more readable */
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 26, 0.4);
+    z-index: 3; /* ABOVE VIDEO */
+}
+
+/* === ENHANCED TOP MENU === */
+nav.top-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #e0c68e;
+    transition: all 0.5s ease;
+}
+
+nav.top-menu.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-20px);
+}
+
+nav.top-menu a {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+    color: #e0c68e;
+    background: transparent;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid #e0c68e;
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
+}
+
+.dropdown-content a {
+    color: #f5f5f5;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+.dropdown-content a:hover {
+    background: rgba(224, 198, 142, 0.6);
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* SITE TITLE OVERLAY */
+.site-title-overlay {
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+}
+
+.site-title-overlay h1 {
+    color: #00ccff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+/* HIDE CONTENT BUTTON */
+.hide-content-btn {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    transition: all 0.3s ease;
+}
+
+.hide-content-btn:hover {
+    background: rgba(0, 204, 255, 0.6);
+    color: black;
+}
+
+/* AUDIO CONTROLS - POSITION FIXED */
+.audio-controls {
+    position: fixed;
+    bottom: 80px;
+    right: 41px;
+    z-index: 1000;
+}
+
+.audio-btn {
+    background: rgba(0, 204, 255, 0.8);
+    border: 2px solid #00ccff;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+    background: rgba(0, 204, 255, 0.6);
+    box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+}
+
+/* Main Content Area */
+.main-content {
+    margin-top: 80px;
+    padding: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 0.5s ease;
+    position: relative;
+    z-index: 10; /* ABOVE OVERLAY AND VIDEO */
+}
+
+.main-content.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+}
+
+/* News Header */
+.news-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 12px;
+    border: 2px solid #ff4b4b;
+    box-shadow: 0 0 20px rgba(255, 75, 75, 0.3);
+}
+
+.news-header h1 {
+    font-size: 3rem;
+    color: #ff4b4b;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
+    font-family: 'Orbitron', sans-serif;
+}
+
+.news-header p {
+    font-size: 1.2rem;
+    color: #ffd700;
+    font-style: italic;
+}
+
+/* Breaking News Banner */
+.breaking-news {
+    background: rgba(255, 75, 75, 0.9);
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { background: rgba(255, 75, 75, 0.9); }
+    50% { background: rgba(255, 75, 75, 0.7); }
+    100% { background: rgba(255, 75, 75, 0.9); }
+}
+
+/* News Categories */
+.news-categories {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.category-btn {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ff91c1;
+    border: 1px solid #ff91c1;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-btn:hover, .category-btn.active {
+    background: #ff91c1;
+    color: #000;
+}
+
+/* News Grid */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.news-card {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #4cc9f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+    border-color: #ffd700;
+    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+}
+
+.news-card.featured {
+    grid-column: 1 / -1;
+    border-color: #ff4b4b;
+    background: rgba(20, 0, 0, 0.8);
+}
+
+.news-card.featured:hover {
+    border-color: #ffd700;
+}
+
+.news-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border: 1px solid #4cc9f0;
+}
+
+.news-video {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border: 1px solid #4cc9f0;
+}
+
+.news-date {
+    color: #4cc9f0;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.news-title {
+    color: #ffd700;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.news-excerpt {
+    color: #f0e6d2;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.read-more {
+    color: #ff91c1;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.read-more:hover {
+    color: #ffd700;
+}
+
+/* FOOTER */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #00ccff;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid #00ccff;
+    transition: opacity 0.5s ease;
+}
+
+footer.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Meteor Animation */
+.meteor {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 2px #fff;
+    z-index: 4; /* ABOVE OVERLAY BUT BELOW CONTENT */
+    opacity: 0;
+}
+
+@keyframes meteor {
+    0% {
+        opacity: 1;
+        transform: translateX(0) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(500px) translateY(500px);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+    .news-header h1 {
+        font-size: 2rem;
+    }
+    nav.top-menu {
+        gap: 1rem;
+    }
+    nav.top-menu a {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.5rem;
+    }
+    .site-title-overlay {
+        top: 70px;
+        left: 20px;
+    }
+    .site-title-overlay h1 {
+        font-size: 1.4rem;
+    }
+}
+</style>
+</head>
+
+<body>
+<!-- Video Background - NOW WITH CORRECT Z-INDEX -->
+<video class="video-background" id="newsVideo" autoplay muted loop poster="images/mars-rotation-fallback.jpg">
+    <source src="videos/mars-news.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+<div class="video-overlay"></div>
+
+<!-- SITE TITLE OVERLAY -->
+<div class="site-title-overlay">
+    <h1>The Mars Abyss</h1>
+</div>
+
+<!-- HIDE CONTENT BUTTON -->
+<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+    <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- ENHANCED TOP MENU -->
+<nav class="top-menu">
+    <div class="dropdown">
+        <a href="index.html" class="dropbtn">Home</a>
+        <div class="dropdown-content">
+            <a href="why-this-world-matters.html">Why This World Matters</a>
+            <a href="homage-to-courage.html">Homage to Courage</a>
+            <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+            <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+            <a href="my-mission.html">My Mission</a>
+            <a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+        <div class="dropdown-content">
+            <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+            <a href="earths-great-poets.html">Earth's Great Poets</a>
+            <a href="the-bohr-institute.html">The Bohr Institute</a>
+            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+            <a href="the-bronx-dome.html">The Bronx Dome</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn active">Martian News</a>
+        <div class="dropdown-content">
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+            <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+            <a href="martian-rest-areas.html">Martian Rest Areas</a>
+            <div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+        <div class="dropdown-content">
+            <a href="what-the-regent-misses.html">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a>
+            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="support.html" class="dropbtn">Support</a>
+        <div class="dropdown-content">
+            <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+            <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+            <a href="mars-food-district.html">Mars Food District</a>
+            <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+            <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+            <a href="fund-martian-research.html">Fund Martian Research</a>
+            <a href="martian-survival-manual.html">Martian Survival Manual</a>
+            <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+        </div>
+    </div>
+
+    <a href="contact.html">Contact</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+    <!-- Breaking News Banner -->
+    <div class="breaking-news">
+        <strong>BREAKING:</strong> New water discovery in Valles Marineris could support permanent colony expansion
+    </div>
+
+    <!-- News Header -->
+    <section class="news-header">
+        <h1>MARTIAN NEWS NETWORK</h1>
+        <p>Latest Updates from the Red Planet and Beyond</p>
+    </section>
+
+    <!-- News Categories -->
+    <div class="news-categories">
+        <button class="category-btn active">All News</button>
+        <button class="category-btn">Colony Updates</button>
+        <button class="category-btn">Scientific Discoveries</button>
+        <button class="category-btn">Technology</button>
+        <button class="category-btn">Entertainment</button>
+        <button class="category-btn">Earth Relations</button>
+    </div>
+
+    <!-- News Grid -->
+    <div class="news-grid">
+        <!-- Featured Story -->
+        <div class="news-card featured">
+            <div class="news-date">Sol 892 • March 15, 2098</div>
+            <h2 class="news-title">First Martian-Born Generation Reaches Adulthood</h2>
+            <img src="images/martian-generation.jpg" alt="First Martian-born adults" class="news-image">
+            <p class="news-excerpt">The twenty-three individuals born during the initial colonization period have now reached adulthood, marking a historic milestone for the Martian colony. These "True Martians" represent the first humans to spend their entire lives on another planet.</p>
+            <a href="under-construction.html" class="read-more">Read Full Story →</a>
+        </div>
+
+        <!-- News Story 1 -->
+        <div class="news-card">
+            <div class="news-date">Sol 890 • March 13, 2098</div>
+            <h2 class="news-title">Breakthrough in Atmospheric Processing</h2>
+            <img src="images/atmospheric-processor.jpg" alt="Atmospheric processor on Mars" class="news-image">
+            <p class="news-excerpt">Scientists at Olympus Research Station have developed a new method to extract nitrogen directly from the Martian atmosphere, potentially solving the colony's fertilizer shortage.</p>
+            <a href="under-construction.html" class="read-more">Read More →</a>
+        </div>
+
+        <!-- News Story 2 -->
+        <div class="news-card">
+            <div class="news-date">Sol 888 • March 11, 2098</div>
+            <h2 class="news-title">New Entertainment Dome Opens in New Shanghai</h2>
+            <img src="images/entertainment-dome.jpg" alt="Martian entertainment dome" class="news-image">
+            <p class="news-excerpt">The Regent officially opened the Red Dust Arena, a state-of-the-art entertainment complex featuring zero-gravity sports, holographic theaters, and Martian martial arts demonstrations.</p>
+            <a href="under-construction.html" class="read-more">Read More →</a>
+        </div>
+
+        <!-- News Story 3 -->
+        <div class="news-card">
+            <div class="news-date">Sol 885 • March 8, 2098</div>
+            <h2 class="news-title">Earth Delegation Arrives for Trade Talks</h2>
+            <img src="images/earth-delegation.jpg" alt="Earth delegation on Mars" class="news-image">
+            <p class="news-excerpt">Representatives from the United Earth Council have landed at Port Schiaparelli to negotiate new trade agreements for Martian resources and technology transfers.</p>
+            <a href="under-construction.html" class="read-more">Read More →</a>
+        </div>
+
+        <!-- News Story 4 -->
+        <div class="news-card">
+            <div class="news-date">Sol 882 • March 5, 2098</div>
+            <h2 class="news-title">AI Weather System Prevents Dust Storm Disaster</h2>
+            <img src="images/martian-dust-storm.jpg" alt="Martian dust storm" class="news-image">
+            <p class="news-excerpt">The colony's advanced AI weather prediction system successfully forecasted a massive dust storm 48 hours in advance, allowing critical infrastructure to be secured.</p>
+            <a href="under-construction.html" class="read-more">Read More →</a>
+        </div>
+
+        <!-- News Story 5 -->
+        <div class="news-card">
+            <div class="news-date">Sol 880 • March 3, 2098</div>
+            <h2 class="news-title">Martian Wine Harvest Exceeds Expectations</h2>
+            <img src="images/martian-vineyard.jpg" alt="Martian vineyard" class="news-image">
+            <p class="news-excerpt">The first harvest from the Olympus Vineyards has yielded surprising results, with genetically modified grapes thriving in the controlled Martian environment.</p>
+            <a href="under-construction.html" class="read-more">Read More →</a>
+        </div>
+        
+        <!-- NEW STORY: Whale Sanctuary with Video -->
+        <div class="news-card">
+            <div class="news-date">Sol 878 • March 1, 2098</div>
+            <h2 class="news-title">Regent Saves Smuggled Whales, Creates Gloucester Martian Sanctuary</h2>
+            <video class="news-video" autoplay muted loop poster="images/martian-whale-sanctuary.jpg">
+                <source src="videos/the-martian-whales.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p class="news-excerpt">Two humpback whales abandoned by smugglers in the asteroid belt have been rescued by the Regent, who created a massive aquatic dome to house them. The whales have become an unexpected tourist attraction at Cape Ann, with Martians flocking to see the majestic creatures.</p>
+            <a href="under-construction.html" class="read-more">Read More →</a>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer id="pageFooter">
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// HIDE CONTENT FUNCTIONALITY
+const hideContentBtn = document.getElementById('hideContentBtn');
+const mainContent = document.getElementById('mainContent');
+const pageFooter = document.getElementById('pageFooter');
+const topMenu = document.querySelector('nav.top-menu');
+let contentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+    contentHidden = !contentHidden;
+
+    if (contentHidden) {
+        mainContent.classList.add('hidden');
+        pageFooter.classList.add('hidden');
+        topMenu.classList.add('hidden');
+        hideContentBtn.textContent = 'Show Content';
+    } else {
+        mainContent.classList.remove('hidden');
+        pageFooter.classList.remove('hidden');
+        topMenu.classList.remove('hidden');
+        hideContentBtn.textContent = 'Hide Content';
+    }
+});
+
+// YOUR WORKING AUDIO SYSTEM - EXACTLY AS YOU HAVE IT
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+    const sounds = [
+        { src: 'music/echoes-of-the-abyss-news.mp3', volume: 0.4 },
+        { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+        { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+    ];
+
+    sounds.forEach(sound => {
+        const audio = new Audio(sound.src);
+        audio.volume = sound.volume;
+        audio.loop = true;
+        audio.muted = true; // Start muted
+        audioElements.push(audio);
+    });
+
+    // Unmute and Play sounds first user interaction
+    document.addEventListener('click', function unmuteAudio() {
+        if (!isMuted) {
+            audioElements.forEach(audio => {
+                audio.muted = false;
+                audio.play().catch(e => console.log('Audio play failed'));
+            });
+            isMuted = false;
+            muteBtn.textContent = "🔊 Mute Sounds";
+        }
+        document.removeEventListener('click', unmuteAudio);
+    }, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+    isMuted = !isMuted;
+    audioElements.forEach(audio => {
+        audio.muted = isMuted;
+    });
+    muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// Initialize audio when page loads
+initAudio();
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Create meteor animation
+    function createMeteor() {
+        const meteor = document.createElement('div');
+        meteor.className = 'meteor';
+        // Random starting position
+        const startX = Math.random() * window.innerWidth / 2;
+        const startY = Math.random() * window.innerHeight / 2;
+        meteor.style.left = startX + 'px';
+        meteor.style.top = startY + 'px';
+        document.body.appendChild(meteor);
+        // Animate meteor
+        meteor.style.animation = 'meteor 2s linear forwards';
+        // Remove meteor after animation
+        setTimeout(() => {
+            meteor.remove();
+        }, 2000);
+    }
+
+    // Create a meteor every second
+    setInterval(createMeteor, 1000);
+
+    // Category filter functionality - goes to under construction page
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            window.location.href = 'under-construction.html';
+        });
+    });
+
+    // Make all "Read More" buttons go to under construction page
+    document.querySelectorAll('.read-more').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'under-construction.html';
+        });
+    });
+});
+</script>
+</body>
+</html>

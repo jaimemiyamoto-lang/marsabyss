@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martian Calendar Conversion Chart - Martian Games - The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Exo 2', sans-serif;
+    color: #e0f7ff;
+    overflow: hidden;
+    position: fixed;
+    background: #0a1a2a;
+    user-select: none; /* Prevent text selection during drag */
+}
+
+/* Mars Background (fallback) */
+.mars-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(188, 74, 60, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(139, 64, 54, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0a1a2a 0%, #1a2a3a 100%);
+    z-index: -2;
+}
+
+/* VIDEO BACKGROUND FOR EACH MONTH */
+.month-video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    object-fit: cover;
+}
+
+/* Navigation */
+nav.top-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(79, 195, 247, 0.5);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    transition: opacity 0.5s ease;
+}
+
+nav.top-menu a {
+    color: #81d4fa;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+    color: #4fc3f7;
+    background: rgba(79, 195, 247, 0.1);
+    text-shadow: 0 0 10px rgba(79, 195, 247, 0.7);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.95);
+    min-width: 140px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 1px solid rgba(79, 195, 247, 0.5);
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
+}
+
+.dropdown-content a {
+    color: #81d4fa;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+.dropdown-content a:hover {
+    background: rgba(79, 195, 247, 0.2);
+    color: #e1f5fe;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.site-title-overlay {
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+    transition: opacity 0.5s ease;
+}
+
+.site-title-overlay h1 {
+    color: #4fc3f7;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+/* WALL CALENDAR CONTAINER - Now resizable and draggable */
+.calendar-wall-container {
+    position: fixed;
+    top: 130px;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+    z-index: 10;
+    transition: opacity 0.5s ease, transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    border: 2px solid rgba(79, 195, 247, 0.3);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    resize: both; /* Enable resizing */
+    min-width: 400px;
+    min-height: 500px;
+    max-width: 95vw;
+    max-height: 95vh;
+}
+
+/* Make calendar header draggable */
+.calendar-header {
+    padding: 15px 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    border-bottom: 2px solid rgba(79, 195, 247, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    cursor: move; /* Indicate draggable area */
+    user-select: none;
+}
+
+.calendar-title-container {
+    flex: 1;
+    min-width: 250px;
+}
+
+.calendar-month-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    color: #4fc3f7;
+    margin-bottom: 5px;
+    text-shadow: 0 0 15px rgba(79, 195, 247, 0.7);
+}
+
+.calendar-year-display {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    color: #81d4fa;
+}
+
+.calendar-month-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    color: #b3e5fc;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+.calendar-month-info span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Calendar Controls - Grouped together */
+.calendar-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.calendar-nav-btn {
+    background: rgba(79, 195, 247, 0.2);
+    border: 2px solid #4fc3f7;
+    color: #4fc3f7;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.calendar-nav-btn:hover {
+    background: rgba(79, 195, 247, 0.4);
+    color: white;
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
+}
+
+/* Month Quick Selector */
+.month-quick-selector {
+    position: relative;
+}
+
+.month-select-btn {
+    background: rgba(79, 195, 247, 0.2);
+    border: 1px solid #4fc3f7;
+    color: #81d4fa;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.month-select-btn:hover {
+    background: rgba(79, 195, 247, 0.4);
+    color: white;
+}
+
+.month-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid rgba(79, 195, 247, 0.5);
+    border-radius: 10px;
+    padding: 10px;
+    width: 180px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.month-dropdown.show {
+    display: block;
+}
+
+.month-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.month-item {
+    background: rgba(20, 40, 60, 0.8);
+    border: 1px solid rgba(79, 195, 247, 0.3);
+    color: #81d4fa;
+    padding: 6px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.month-item:hover {
+    background: rgba(79, 195, 247, 0.3);
+    color: #00ccff;
+}
+
+.month-item.active {
+    background: rgba(79, 195, 247, 0.6);
+    color: #fff;
+    border-color: #00ccff;
+}
+
+/* RESIZE HANDLES */
+.resize-handle {
+    position: absolute;
+    background: rgba(79, 195, 247, 0.5);
+    border: 1px solid #4fc3f7;
+    border-radius: 50%;
+    z-index: 1000;
+    cursor: nwse-resize;
+}
+
+.resize-handle.top-left {
+    top: -5px;
+    left: -5px;
+    width: 10px;
+    height: 10px;
+    cursor: nw-resize;
+}
+
+.resize-handle.top-right {
+    top: -5px;
+    right: -5px;
+    width: 10px;
+    height: 10px;
+    cursor: ne-resize;
+}
+
+.resize-handle.bottom-left {
+    bottom: -5px;
+    left: -5px;
+    width: 10px;
+    height: 10px;
+    cursor: sw-resize;
+}
+
+.resize-handle.bottom-right {
+    bottom: -5px;
+    right: -5px;
+    width: 10px;
+    height: 10px;
+    cursor: se-resize;
+}
+
+.resize-handle.top {
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 5px;
+    border-radius: 3px;
+    cursor: n-resize;
+}
+
+.resize-handle.bottom {
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 5px;
+    border-radius: 3px;
+    cursor: s-resize;
+}
+
+.resize-handle.left {
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 30px;
+    border-radius: 3px;
+    cursor: w-resize;
+}
+
+.resize-handle.right {
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 30px;
+    border-radius: 3px;
+    cursor: e-resize;
+}
+
+/* Calendar Grid */
+.calendar-grid-section {
+    flex: 1;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.calendar-days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: auto repeat(8, 1fr);
+    gap: 2px;
+    min-height: 0;
+}
+
+.day-header {
+    background: rgba(79, 195, 247, 0.15);
+    color: #4fc3f7;
+    padding: 10px 5px;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    border-bottom: 2px solid rgba(79, 195, 247, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.day-cell {
+    background: rgba(20, 40, 60, 0.4);
+    border: 1px solid rgba(79, 195, 247, 0.1);
+    padding: 8px 4px;
+    position: relative;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 70px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.day-cell:hover {
+    background: rgba(79, 195, 247, 0.2);
+    border-color: #4fc3f7;
+}
+
+.day-number {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #4fc3f7;
+    text-align: right;
+    margin-bottom: 4px;
+}
+
+.day-event {
+    background: rgba(0, 204, 255, 0.25);
+    border-left: 2px solid #00ccff;
+    padding: 2px 4px;
+    margin-top: 2px;
+    font-size: 0.7rem;
+    color: #b3e5fc;
+    border-radius: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.martian-day {
+    position: absolute;
+    bottom: 3px;
+    left: 3px;
+    font-size: 0.65rem;
+    color: #ff9800;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1px 3px;
+    border-radius: 2px;
+}
+
+/* Special day styling */
+.today {
+    background: rgba(79, 195, 247, 0.35);
+    border: 2px solid #4fc3f7;
+}
+
+.weekend {
+    background: rgba(139, 64, 54, 0.25);
+}
+
+.holiday {
+    background: rgba(255, 87, 87, 0.25);
+}
+
+.holiday .day-number {
+    color: #ff5252;
+}
+
+/* Fullscreen mode */
+.calendar-wall-container.fullscreen {
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    border-radius: 0;
+    border: 2px solid #4fc3f7;
+    resize: none;
+}
+
+.fullscreen .resize-handle {
+    display: none;
+}
+
+/* Event Modal */
+.event-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.event-modal.show {
+    display: flex;
+}
+
+.event-modal-content {
+    background: rgba(10, 26, 42, 0.95);
+    border: 2px solid #4fc3f7;
+    border-radius: 15px;
+    padding: 25px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 0 30px rgba(79, 195, 247, 0.5);
+}
+
+.event-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+
+.event-modal-title {
+    font-family: 'Orbitron', sans-serif;
+    color: #4fc3f7;
+    font-size: 1.3rem;
+}
+
+.event-close {
+    background: none;
+    border: none;
+    color: #81d4fa;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    color: #81d4fa;
+    font-size: 0.85rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(79, 195, 247, 0.5);
+    border-radius: 5px;
+    padding: 8px;
+    color: #e1f5fe;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.9rem;
+}
+
+.form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.event-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #4fc3f7;
+    color: #0a1a2a;
+}
+
+.btn-primary:hover {
+    background: #81d4fa;
+    box-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e1f5fe;
+    border: 1px solid rgba(79, 195, 247, 0.5);
+}
+
+.btn-secondary:hover {
+    background: rgba(79, 195, 247, 0.2);
+}
+
+/* Audio Controls - Fixed position */
+.audio-controls {
+    position: fixed;
+    bottom: 80px; /* Raised from bottom */
+    right: 42px;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+.audio-btn {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid rgba(79, 195, 247, 0.5);
+    color: #81d4fa;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.audio-btn:hover {
+    background: rgba(79, 195, 247, 0.2);
+    color: #e1f5fe;
+}
+
+/* Hide Content Button */
+.hide-content-btn {
+    position: fixed;
+    top: 80px;
+    right: 42px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #4fc3f7;
+    border: 2px solid rgba(79, 195, 247, 0.5);
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.hide-content-btn:hover {
+    background: rgba(79, 195, 247, 0.2);
+    color: #e1f5fe;
+}
+
+/* Fullscreen toggle button */
+.fullscreen-toggle {
+    background: rgba(79, 195, 247, 0.2);
+    border: 1px solid #4fc3f7;
+    color: #4fc3f7;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.fullscreen-toggle:hover {
+    background: rgba(79, 195, 247, 0.4);
+    color: white;
+}
+
+/* Hidden state */
+.hidden-element {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* FOOTER */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.85);
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+    color: #81d4fa;
+    border-top: 3px solid rgba(79, 195, 247, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+/* Scrollbar styling */
+.calendar-grid-section::-webkit-scrollbar {
+    width: 6px;
+}
+
+.calendar-grid-section::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.calendar-grid-section::-webkit-scrollbar-thumb {
+    background: rgba(79, 195, 247, 0.5);
+    border-radius: 3px;
+}
+
+.calendar-grid-section::-webkit-scrollbar-thumb:hover {
+    background: rgba(79, 195, 247, 0.7);
+}
+
+/* PRINT STYLES */
+@media print {
+    nav.top-menu,
+    .hide-content-btn,
+    .audio-controls,
+    footer,
+    .calendar-controls,
+    .resize-handle,
+    .fullscreen-toggle,
+    .month-quick-selector,
+    .day-cell {
+        display: none !important;
+    }
+    
+    .month-video-background {
+        display: none !important;
+    }
+    
+    .mars-background {
+        display: none !important;
+    }
+    
+    body {
+        background-image: var(--print-background);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        position: static;
+        overflow: visible;
+    }
+    
+    .calendar-wall-container {
+        position: static;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: auto;
+    }
+    
+    .calendar-header {
+        background: transparent !important;
+        border: none !important;
+        color: #000 !important;
+        cursor: default !important;
+    }
+    
+    .calendar-month-title {
+        color: #000 !important;
+        text-shadow: none !important;
+        -webkit-text-fill-color: #000 !important;
+    }
+    
+    .calendar-year-display {
+        color: #333 !important;
+    }
+    
+    .calendar-month-info span {
+        color: #666 !important;
+    }
+    
+    .calendar-grid-section {
+        overflow: visible;
+    }
+    
+    .calendar-days-grid {
+        grid-auto-rows: 70px;
+    }
+    
+    .day-header {
+        background: #f0f0f0 !important;
+        color: #333 !important;
+        border-bottom: 1px solid #ccc !important;
+        position: static;
+    }
+    
+    .day-cell {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 1px solid #ddd !important;
+        display: block !important;
+        min-height: 70px;
+    }
+    
+    .day-number {
+        color: #333 !important;
+    }
+    
+    .day-event {
+        background: #e8f4ff !important;
+        border-left: 2px solid #0066cc !important;
+        color: #0066cc !important;
+    }
+    
+    .martian-day {
+        color: #cc6600 !important;
+        background: #fff8e1 !important;
+    }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .calendar-wall-container {
+        top: 120px;
+        left: 20px;
+        right: 20px;
+        bottom: 35px;
+    }
+    
+    .calendar-month-title {
+        font-size: 1.8rem;
+    }
+    
+    .day-cell {
+        min-height: 65px;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-wall-container {
+        top: 100px;
+        left: 10px;
+        right: 10px;
+        bottom: 30px;
+    }
+    
+    .calendar-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        padding: 10px;
+    }
+    
+    .calendar-month-title {
+        font-size: 1.6rem;
+    }
+    
+    .calendar-year-display {
+        font-size: 1.1rem;
+    }
+    
+    .calendar-controls {
+        order: -1;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .day-header {
+        padding: 6px 2px;
+        font-size: 0.8rem;
+    }
+    
+    .day-cell {
+        padding: 4px 2px;
+        min-height: 55px;
+    }
+    
+    .day-number {
+        font-size: 0.9rem;
+    }
+    
+    .day-event {
+        font-size: 0.6rem;
+    }
+    
+    nav.top-menu {
+        gap: 0.8rem;
+        padding: 0.4rem 0;
+    }
+    
+    nav.top-menu a {
+        font-size: 0.85rem;
+        padding: 0.3rem 0.5rem;
+    }
+    
+    .calendar-nav-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+    
+    .site-title-overlay {
+        left: 15px;
+        top: 70px;
+    }
+    
+    .site-title-overlay h1 {
+        font-size: 1.3rem;
+    }
+    
+    .hide-content-btn {
+        top: 70px;
+        right: 15px;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+    
+    footer {
+        padding: 0.4rem 0;
+        font-size: 0.8rem;
+    }
+    
+    /* Hide resize handles on mobile */
+    .resize-handle {
+        display: none;
+    }
+    
+    .calendar-wall-container {
+        resize: none;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- SITE TITLE OVERLAY -->
+<div class="site-title-overlay" id="siteTitle">
+    <h1>The Mars Abyss</h1>
+</div>
+
+<!-- HIDE CONTENT BUTTON -->
+<button class="hide-content-btn" id="hideContentBtn">🫣 Hide Content</button>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls" id="audioControls">
+    <button class="audio-btn" id="musicToggle">
+        <i class="fas fa-music"></i> Play Music
+    </button>
+</div>
+
+<!-- Mars Background (fallback) -->
+<div class="mars-background"></div>
+
+<!-- VIDEO BACKGROUND FOR CURRENT MONTH -->
+<video class="month-video-background" id="monthVideoBackground" autoplay loop muted playsinline>
+    <!-- Video source will be set by JavaScript -->
+</video>
+
+<!-- WALL CALENDAR -->
+<div class="calendar-wall-container" id="calendarContainer">
+    <!-- Resize Handles -->
+    <div class="resize-handle top-left"></div>
+    <div class="resize-handle top-right"></div>
+    <div class="resize-handle bottom-left"></div>
+    <div class="resize-handle bottom-right"></div>
+    <div class="resize-handle top"></div>
+    <div class="resize-handle bottom"></div>
+    <div class="resize-handle left"></div>
+    <div class="resize-handle right"></div>
+    
+    <!-- Calendar Header -->
+    <div class="calendar-header" id="calendarHeader">
+        <div class="calendar-title-container">
+            <div class="calendar-month-title" id="monthTitle">PRIMUS</div>
+            <div class="calendar-year-display" id="yearDisplay">MY 25</div>
+            <div class="calendar-month-info" id="monthInfo">
+                <span><i class="fas fa-sun"></i> 56 Sols</span>
+                <span><i class="fas fa-leaf"></i> Early Spring</span>
+                <span><i class="fas fa-temperature-high"></i> 18°C / 64°F avg</span>
+            </div>
+        </div>
+        
+        <!-- Calendar Controls -->
+        <div class="calendar-controls">
+            <button class="calendar-nav-btn" id="prevMonthBtn" title="Previous Month">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="calendar-nav-btn" id="todayBtn" title="Today">
+                <i class="fas fa-calendar-day"></i>
+            </button>
+            <button class="calendar-nav-btn" id="nextMonthBtn" title="Next Month">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <!-- Fullscreen Toggle -->
+            <button class="fullscreen-toggle" id="fullscreenToggle" title="Toggle Fullscreen">
+                <i class="fas fa-expand"></i>
+            </button>
+        </div>
+        
+        <!-- Month Quick Selector -->
+        <div class="month-quick-selector">
+            <button class="month-select-btn" id="monthSelectBtn">
+                <i class="fas fa-calendar-alt"></i> Jump to Month
+            </button>
+            <div class="month-dropdown" id="monthDropdown">
+                <div class="month-grid" id="monthGrid">
+                    <!-- Months populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Calendar Grid - SCROLLABLE -->
+    <div class="calendar-grid-section">
+        <div class="calendar-days-grid" id="calendarGrid">
+            <!-- Calendar grid populated by JavaScript -->
+        </div>
+    </div>
+</div>
+
+<!-- Event Modal -->
+<div class="event-modal" id="eventModal">
+    <div class="event-modal-content">
+        <div class="event-modal-header">
+            <h3 class="event-modal-title">Add Event</h3>
+            <button class="event-close" id="closeEventModal">&times;</button>
+        </div>
+        <form id="eventForm" class="event-form">
+            <div class="form-group">
+                <label for="eventTitle">Event Title</label>
+                <input type="text" id="eventTitle" name="eventTitle" required>
+            </div>
+            <div class="form-group">
+                <label for="eventDescription">Description</label>
+                <textarea id="eventDescription" name="eventDescription"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="eventType">Event Type</label>
+                <select id="eventType" name="eventType">
+                    <option value="appointment">Appointment</option>
+                    <option value="birthday">Birthday</option>
+                    <option value="holiday">Holiday</option>
+                    <option value="meeting">Meeting</option>
+                    <option value="reminder">Reminder</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="eventColor">Color</label>
+                <select id="eventColor" name="eventColor">
+                    <option value="#00ccff" style="color:#00ccff">Blue</option>
+                    <option value="#ff5252" style="color:#ff5252">Red</option>
+                    <option value="#4caf50" style="color:#4caf50">Green</option>
+                    <option value="#ff9800" style="color:#ff9800">Orange</option>
+                    <option value="#9c27b0" style="color:#9c27b0">Purple</option>
+                    <option value="#ffeb3b" style="color:#ffeb3b">Yellow</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="eventRecurring" name="eventRecurring">
+                    Recurring Event (Yearly)
+                </label>
+            </div>
+            <div class="event-actions">
+                <button type="submit" class="btn btn-primary">Save Event</button>
+                <button type="button" class="btn btn-secondary" id="cancelEvent">Cancel</button>
+                <button type="button" class="btn btn-secondary" id="deleteEvent" style="display:none;">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Hidden audio element for background music -->
+<audio id="backgroundMusic" loop>
+    <source src="music/tomas-mi-mano-y-me-miras.mp3" type="audio/mpeg">
+    <source src="audio/background-music.ogg" type="audio/ogg">
+    Your browser does not support the audio element.
+</audio>
+
+<nav class="top-menu">
+    <!-- Navigation menu -->
+    <div class="dropdown">
+        <a href="index.html" class="dropbtn">Home</a>
+        <div class="dropdown-content">
+            <a href="why-this-world-matters.html">Why This World Matters</a>
+            <a href="homage-to-courage.html">Homage to Courage</a>
+            <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+            <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+            <a href="my-mission.html">My Mission</a>
+            <a href="martian-reading-revival.html">Martian Reading Revival</a>
+            <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+            <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+            <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn active">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+        <div class="dropdown-content">
+            <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+            <a href="earths-great-poets.html">Earth's Great Poets</a>
+            <a href="the-bohr-institute.html">The Bohr Institute</a>
+            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+            <a href="the-bronx-dome.html">The Bronx Dome</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn">Martian News</a>
+        <div class="dropdown-content">
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+            <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+            <a href="martian-rest-areas.html">Martian Rest Areas</a>
+            <div class="dropdown">
+                <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                <div class="dropdown-content">
+                    <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                    <a href="marvin.html">M.A.R.V.I.N.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+        <div class="dropdown-content">
+            <a href="what-the-regent-misses.html">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a>
+            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="support.html" class="dropbtn">Support</a>
+        <div class="dropdown-content">
+            <a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
+            <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+            <a href="mars-food-district.html">Mars Food District</a>
+            <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+            <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+            <a href="fund-martian-research.html">Fund Martian Research</a>
+            <a href="martian-survival-manual.html">Martian Survival Manual</a>
+            <a href="weapons-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+        </div>
+    </div>
+    <a href="contact.html">Contact</a>
+</nav>
+
+<footer id="pageFooter">
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Martian Calendar Data
+const martianMonths = [
+    { 
+        id: 0, 
+        name: "PRIMUS", 
+        sols: 56, 
+        season: "Early Spring", 
+        video: "videos/olympia-formerly-olympus-metro.mp4",
+        printImage: "images/martian-primus-print.jpg",
+        temperatureC: 18,
+        temperatureF: 64,
+        description: "Ares City Dome awakens from winter. Planting season begins."
+    },
+    { 
+        id: 1, 
+        name: "SECUNDUS", 
+        sols: 56, 
+        season: "Mid Spring",
+        video: "videos/martian-secundus.mp4",
+        printImage: "images/martian-secundus-print.jpg",
+        temperatureC: 20,
+        temperatureF: 68,
+        description: "Tharsis Plateau blooms with hardy Martian flora."
+    },
+    { 
+        id: 2, 
+        name: "TERTIUS", 
+        sols: 56, 
+        season: "Late Spring",
+        video: "videos/Mars 2098-1-2.mp4",
+        printImage: "images/martian-tertius-print.jpg",
+        temperatureC: 22,
+        temperatureF: 72,
+        description: "Olympus Mons flowers bloom, releasing oxygen-enhancing spores."
+    },
+    { 
+        id: 3, 
+        name: "QUARTUS", 
+        sols: 56, 
+        season: "Early Summer",
+        video: "videos/martian-quartus.mp4",
+        printImage: "images/martian-quartus-print.jpg",
+        temperatureC: 24,
+        temperatureF: 75,
+        description: "Valles Marineris expeditions commence."
+    },
+    { 
+        id: 4, 
+        name: "QUINTUS", 
+        sols: 56, 
+        season: "Mid Summer",
+        video: "videos/martian-quintus.mp4",
+        printImage: "images/martian-quintus-print.jpg",
+        temperatureC: 26,
+        temperatureF: 79,
+        description: "Solar energy production reaches peak efficiency."
+    },
+    { 
+        id: 5, 
+        name: "SEXTUS", 
+        sols: 56, 
+        season: "Late Summer",
+        video: "videos/martian-sextus.mp4",
+        printImage: "images/martian-sextus-print.jpg",
+        temperatureC: 28,
+        temperatureF: 82,
+        description: "Evening temperatures perfect for outdoor observatories."
+    },
+    { 
+        id: 6, 
+        name: "SEPTIMUS", 
+        sols: 56, 
+        season: "Early Autumn",
+        video: "videos/martian-septimus.mp4",
+        printImage: "images/martian-septimus-print.jpg",
+        temperatureC: 26,
+        temperatureF: 79,
+        description: "Harvest season begins in agricultural domes."
+    },
+    { 
+        id: 7, 
+        name: "OCTAVUS", 
+        sols: 56, 
+        season: "Mid Autumn",
+        video: "videos/martian-octavus.mp4",
+        printImage: "images/martian-octavus-print.jpg",
+        temperatureC: 24,
+        temperatureF: 75,
+        description: "Martian artists create spectacular light installations."
+    },
+    { 
+        id: 8, 
+        name: "NONUS", 
+        sols: 56, 
+        season: "Late Autumn",
+        video: "videos/martian-nonus.mp4",
+        printImage: "images/martian-nonus-print.jpg",
+        temperatureC: 22,
+        temperatureF: 72,
+        description: "Preparation for winter begins across all colonies."
+    },
+    { 
+        id: 9, 
+        name: "DECIMUS", 
+        sols: 56, 
+        season: "Early Winter",
+        video: "videos/martian-decimus.mp4",
+        printImage: "images/martian-decimus-print.jpg",
+        temperatureC: 20,
+        temperatureF: 68,
+        description: "The Regent hosts the Winter Solstice address."
+    },
+    { 
+        id: 10, 
+        name: "UNDECIMUS", 
+        sols: 56, 
+        season: "Mid Winter",
+        video: "videos/martian-undecimus.mp4",
+        printImage: "images/martian-undecimus-print.jpg",
+        temperatureC: 18,
+        temperatureF: 64,
+        description: "Polar expeditions collect ice for water supply."
+    },
+    { 
+        id: 11, 
+        name: "DUODECIMUS", 
+        sols: 56, 
+        season: "Late Winter",
+        video: "videos/martian-duodecimus.mp4",
+        printImage: "images/martian-duodecimus-print.jpg",
+        temperatureC: 16,
+        temperatureF: 61,
+        description: "Martian Christmas celebrations illuminate all domes."
+    }
+];
+
+// Global variables
+let currentMartianMonth = 0;
+let currentMartianYear = 25;
+let isContentHidden = false;
+let isMusicPlaying = false;
+let isFullscreen = false;
+let userEvents = JSON.parse(localStorage.getItem('martianCalendarEvents')) || {};
+let selectedDay = null;
+let editingEventId = null;
+
+const backgroundMusic = document.getElementById('backgroundMusic');
+const monthVideoBackground = document.getElementById('monthVideoBackground');
+const eventModal = document.getElementById('eventModal');
+const eventForm = document.getElementById('eventForm');
+const calendarContainer = document.getElementById('calendarContainer');
+const calendarHeader = document.getElementById('calendarHeader');
+const fullscreenToggle = document.getElementById('fullscreenToggle');
+
+// Drag functionality variables
+let isDragging = false;
+let dragStartX, dragStartY;
+let calendarStartLeft, calendarStartTop;
+
+// Resize functionality variables
+let isResizing = false;
+let resizeDirection = '';
+let resizeStartX, resizeStartY;
+let calendarStartWidth, calendarStartHeight;
+let calendarStartRight, calendarStartBottom;
+
+// Initialize the wall calendar
+function initWallCalendar() {
+    // Setup month selector
+    renderMonthSelector();
+    
+    // Setup current month
+    renderCalendar(currentMartianMonth);
+    
+    // Setup event listeners
+    setupEventListeners();
+    
+    // Try to play music
+    setTimeout(() => {
+        backgroundMusic.play().then(() => {
+            isMusicPlaying = true;
+            updateMusicButton();
+        }).catch(e => console.log("Autoplay prevented"));
+    }, 1000);
+    
+    // Load saved calendar position/size
+    loadCalendarPosition();
+}
+
+// Render month selector list
+function renderMonthSelector() {
+    const monthGrid = document.getElementById('monthGrid');
+    monthGrid.innerHTML = '';
+    
+    martianMonths.forEach(month => {
+        const monthItem = document.createElement('div');
+        monthItem.className = `month-item ${month.id === currentMartianMonth ? 'active' : ''}`;
+        monthItem.textContent = month.name;
+        monthItem.dataset.monthId = month.id;
+        monthItem.addEventListener('click', () => {
+            currentMartianMonth = parseInt(monthItem.dataset.monthId);
+            renderCalendar(currentMartianMonth);
+            updateActiveMonthItem();
+            closeMonthDropdown();
+        });
+        monthGrid.appendChild(monthItem);
+    });
+}
+
+// Update active month in selector
+function updateActiveMonthItem() {
+    document.querySelectorAll('.month-item').forEach(item => {
+        item.classList.remove('active');
+        if (parseInt(item.dataset.monthId) === currentMartianMonth) {
+            item.classList.add('active');
+        }
+    });
+}
+
+// Render the wall calendar for a specific month
+function renderCalendar(monthIndex) {
+    const month = martianMonths[monthIndex];
+    
+    // Update video background
+    monthVideoBackground.src = month.video;
+    monthVideoBackground.play().catch(e => console.log("Video autoplay prevented"));
+    
+    // Set print background image
+    document.body.style.setProperty('--print-background', `url(${month.printImage})`);
+    
+    // Update month title
+    document.getElementById('monthTitle').textContent = month.name;
+    document.getElementById('yearDisplay').textContent = `MY ${currentMartianYear}`;
+    
+    // Update month info with both Celsius and Fahrenheit
+    const monthInfo = document.getElementById('monthInfo');
+    monthInfo.innerHTML = `
+        <span><i class="fas fa-sun"></i> ${month.sols} Sols</span>
+        <span><i class="fas fa-leaf"></i> ${month.season}</span>
+        <span><i class="fas fa-temperature-high"></i> ${month.temperatureC}°C / ${month.temperatureF}°F avg</span>
+    `;
+    
+    // Render calendar grid
+    renderCalendarGrid(monthIndex);
+}
+
+// Render the calendar grid
+function renderCalendarGrid(monthIndex) {
+    const calendarGrid = document.getElementById('calendarGrid');
+    calendarGrid.innerHTML = '';
+    
+    // Day names for the calendar header
+    const dayNames = ["SOL", "LUN", "MAR", "MER", "JOV", "VEN", "SAT"];
+    
+    // Add day headers
+    dayNames.forEach(dayName => {
+        const dayHeader = document.createElement('div');
+        dayHeader.className = 'day-header';
+        dayHeader.textContent = dayName;
+        calendarGrid.appendChild(dayHeader);
+    });
+    
+    // Add day cells (56 days in a Martian month)
+    for (let day = 1; day <= 56; day++) {
+        const dayCell = document.createElement('div');
+        dayCell.className = 'day-cell';
+        dayCell.dataset.day = day;
+        dayCell.dataset.month = monthIndex;
+        dayCell.dataset.year = currentMartianYear;
+        
+        // Check if it's today (simplified)
+        if (monthIndex === 0 && day === 1) {
+            dayCell.classList.add('today');
+        }
+        
+        // Check if it's a weekend (last two days of the week)
+        if (day % 7 === 0 || (day + 1) % 7 === 0) {
+            dayCell.classList.add('weekend');
+        }
+        
+        // Day number
+        const dayNumber = document.createElement('div');
+        dayNumber.className = 'day-number';
+        dayNumber.textContent = day;
+        dayCell.appendChild(dayNumber);
+        
+        // Check for user events on this day
+        const eventKey = `${currentMartianYear}-${monthIndex}-${day}`;
+        const dayEvents = userEvents[eventKey] || [];
+        
+        dayEvents.forEach(event => {
+            const eventElement = document.createElement('div');
+            eventElement.className = 'day-event';
+            eventElement.textContent = event.title;
+            eventElement.style.borderLeftColor = event.color;
+            eventElement.style.background = `${event.color}30`;
+            eventElement.title = `${event.title}\n${event.description || ''}`;
+            eventElement.dataset.eventId = event.id;
+            dayCell.appendChild(eventElement);
+        });
+        
+        // Martian day indicator
+        const martianDay = document.createElement('div');
+        martianDay.className = 'martian-day';
+        martianDay.textContent = `Sol ${day}`;
+        dayCell.appendChild(martianDay);
+        
+        // Add click event for adding/editing events
+        dayCell.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('day-event')) {
+                openEventModal(day, monthIndex, currentMartianYear);
+            }
+        });
+        
+        // Add click event for existing events
+        dayCell.addEventListener('click', (e) => {
+            if (e.target.classList.contains('day-event')) {
+                const eventId = e.target.dataset.eventId;
+                const event = dayEvents.find(ev => ev.id === eventId);
+                if (event) {
+                    openEventModal(day, monthIndex, currentMartianYear, event);
+                }
+            }
+        });
+        
+        calendarGrid.appendChild(dayCell);
+    }
+}
+
+// Setup event listeners
+function setupEventListeners() {
+    // Hide content button
+    document.getElementById('hideContentBtn').addEventListener('click', toggleContentVisibility);
+    
+    // Music toggle button
+    document.getElementById('musicToggle').addEventListener('click', toggleMusic);
+    
+    // Calendar navigation
+    document.getElementById('prevMonthBtn').addEventListener('click', goToPreviousMonth);
+    document.getElementById('nextMonthBtn').addEventListener('click', goToNextMonth);
+    document.getElementById('todayBtn').addEventListener('click', goToToday);
+    
+    // Month selector
+    document.getElementById('monthSelectBtn').addEventListener('click', toggleMonthDropdown);
+    
+    // Fullscreen toggle
+    fullscreenToggle.addEventListener('click', toggleFullscreen);
+    
+    // Event modal
+    document.getElementById('closeEventModal').addEventListener('click', closeEventModal);
+    document.getElementById('cancelEvent').addEventListener('click', closeEventModal);
+    document.getElementById('deleteEvent').addEventListener('click', deleteEvent);
+    
+    // Event form submission
+    eventForm.addEventListener('submit', saveEvent);
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.month-quick-selector')) {
+            closeMonthDropdown();
+        }
+    });
+    
+    // Drag and resize event listeners
+    setupDragAndResize();
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            goToPreviousMonth();
+        } else if (e.key === 'ArrowRight') {
+            goToNextMonth();
+        } else if (e.key === ' ') {
+            toggleMusic();
+            e.preventDefault();
+        } else if (e.key === 'Escape') {
+            closeEventModal();
+            closeMonthDropdown();
+            if (isFullscreen) {
+                toggleFullscreen();
+            }
+        } else if (e.key === 'f' && e.ctrlKey) {
+            toggleFullscreen();
+            e.preventDefault();
+        }
+    });
+}
+
+// Setup drag and resize functionality
+function setupDragAndResize() {
+    // Drag functionality
+    calendarHeader.addEventListener('mousedown', startDrag);
+    document.addEventListener('mousemove', handleDrag);
+    document.addEventListener('mouseup', stopDrag);
+    
+    // Resize functionality for all resize handles
+    document.querySelectorAll('.resize-handle').forEach(handle => {
+        handle.addEventListener('mousedown', (e) => {
+            startResize(e, handle.classList);
+        });
+    });
+    
+    document.addEventListener('mousemove', handleResize);
+    document.addEventListener('mouseup', stopResize);
+}
+
+// Drag functions
+function startDrag(e) {
+    if (isFullscreen) return; // Don't drag in fullscreen
+    
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    
+    const rect = calendarContainer.getBoundingClientRect();
+    calendarStartLeft = rect.left;
+    calendarStartTop = rect.top;
+    
+    calendarContainer.style.cursor = 'grabbing';
+    e.preventDefault();
+}
+
+function handleDrag(e) {
+    if (!isDragging) return;
+    
+    const dx = e.clientX - dragStartX;
+    const dy = e.clientY - dragStartY;
+    
+    const newLeft = calendarStartLeft + dx;
+    const newTop = calendarStartTop + dy;
+    
+    // Keep calendar within viewport bounds
+    const maxLeft = window.innerWidth - calendarContainer.offsetWidth;
+    const maxTop = window.innerHeight - calendarContainer.offsetHeight;
+    
+    calendarContainer.style.left = Math.max(0, Math.min(newLeft, maxLeft)) + 'px';
+    calendarContainer.style.top = Math.max(0, Math.min(newTop, maxTop)) + 'px';
+    calendarContainer.style.right = 'auto';
+    calendarContainer.style.bottom = 'auto';
+}
+
+function stopDrag() {
+    if (!isDragging) return;
+    
+    isDragging = false;
+    calendarContainer.style.cursor = '';
+    saveCalendarPosition();
+}
+
+// Resize functions
+function startResize(e, classList) {
+    if (isFullscreen) return;
+    
+    isResizing = true;
+    resizeStartX = e.clientX;
+    resizeStartY = e.clientY;
+    
+    const rect = calendarContainer.getBoundingClientRect();
+    calendarStartWidth = rect.width;
+    calendarStartHeight = rect.height;
+    calendarStartLeft = rect.left;
+    calendarStartTop = rect.top;
+    calendarStartRight = window.innerWidth - rect.right;
+    calendarStartBottom = window.innerHeight - rect.bottom;
+    
+    // Determine resize direction
+    if (classList.contains('top-left')) resizeDirection = 'top-left';
+    else if (classList.contains('top-right')) resizeDirection = 'top-right';
+    else if (classList.contains('bottom-left')) resizeDirection = 'bottom-left';
+    else if (classList.contains('bottom-right')) resizeDirection = 'bottom-right';
+    else if (classList.contains('top')) resizeDirection = 'top';
+    else if (classList.contains('bottom')) resizeDirection = 'bottom';
+    else if (classList.contains('left')) resizeDirection = 'left';
+    else if (classList.contains('right')) resizeDirection = 'right';
+    
+    e.preventDefault();
+}
+
+function handleResize(e) {
+    if (!isResizing) return;
+    
+    const dx = e.clientX - resizeStartX;
+    const dy = e.clientY - resizeStartY;
+    
+    // Minimum size constraints
+    const minWidth = 400;
+    const minHeight = 400;
+    
+    let newWidth = calendarStartWidth;
+    let newHeight = calendarStartHeight;
+    let newLeft = calendarStartLeft;
+    let newTop = calendarStartTop;
+    
+    switch (resizeDirection) {
+        case 'right':
+            newWidth = Math.max(minWidth, calendarStartWidth + dx);
+            calendarContainer.style.width = newWidth + 'px';
+            break;
+            
+        case 'left':
+            newWidth = Math.max(minWidth, calendarStartWidth - dx);
+            newLeft = calendarStartLeft + dx;
+            calendarContainer.style.width = newWidth + 'px';
+            calendarContainer.style.left = newLeft + 'px';
+            break;
+            
+        case 'bottom':
+            newHeight = Math.max(minHeight, calendarStartHeight + dy);
+            calendarContainer.style.height = newHeight + 'px';
+            break;
+            
+        case 'top':
+            newHeight = Math.max(minHeight, calendarStartHeight - dy);
+            newTop = calendarStartTop + dy;
+            calendarContainer.style.height = newHeight + 'px';
+            calendarContainer.style.top = newTop + 'px';
+            break;
+            
+        case 'bottom-right':
+            newWidth = Math.max(minWidth, calendarStartWidth + dx);
+            newHeight = Math.max(minHeight, calendarStartHeight + dy);
+            calendarContainer.style.width = newWidth + 'px';
+            calendarContainer.style.height = newHeight + 'px';
+            break;
+            
+        case 'bottom-left':
+            newWidth = Math.max(minWidth, calendarStartWidth - dx);
+            newHeight = Math.max(minHeight, calendarStartHeight + dy);
+            newLeft = calendarStartLeft + dx;
+            calendarContainer.style.width = newWidth + 'px';
+            calendarContainer.style.height = newHeight + 'px';
+            calendarContainer.style.left = newLeft + 'px';
+            break;
+            
+        case 'top-right':
+            newWidth = Math.max(minWidth, calendarStartWidth + dx);
+            newHeight = Math.max(minHeight, calendarStartHeight - dy);
+            newTop = calendarStartTop + dy;
+            calendarContainer.style.width = newWidth + 'px';
+            calendarContainer.style.height = newHeight + 'px';
+            calendarContainer.style.top = newTop + 'px';
+            break;
+            
+        case 'top-left':
+            newWidth = Math.max(minWidth, calendarStartWidth - dx);
+            newHeight = Math.max(minHeight, calendarStartHeight - dy);
+            newLeft = calendarStartLeft + dx;
+            newTop = calendarStartTop + dy;
+            calendarContainer.style.width = newWidth + 'px';
+            calendarContainer.style.height = newHeight + 'px';
+            calendarContainer.style.left = newLeft + 'px';
+            calendarContainer.style.top = newTop + 'px';
+            break;
+    }
+}
+
+function stopResize() {
+    if (!isResizing) return;
+    
+    isResizing = false;
+    resizeDirection = '';
+    saveCalendarPosition();
+}
+
+// Save calendar position/size to localStorage
+function saveCalendarPosition() {
+    if (isFullscreen) return;
+    
+    const rect = calendarContainer.getBoundingClientRect();
+    const position = {
+        left: rect.left,
+        top: rect.top,
+        width: rect.width,
+        height: rect.height,
+        isHidden: isContentHidden
+    };
+    
+    localStorage.setItem('martianCalendarPosition', JSON.stringify(position));
+}
+
+// Load calendar position/size from localStorage
+function loadCalendarPosition() {
+    const saved = localStorage.getItem('martianCalendarPosition');
+    if (saved) {
+        const position = JSON.parse(saved);
+        
+        if (position.isHidden === isContentHidden) {
+            calendarContainer.style.left = position.left + 'px';
+            calendarContainer.style.top = position.top + 'px';
+            calendarContainer.style.width = position.width + 'px';
+            calendarContainer.style.height = position.height + 'px';
+            calendarContainer.style.right = 'auto';
+            calendarContainer.style.bottom = 'auto';
+        }
+    }
+}
+
+// Navigate to previous month
+function goToPreviousMonth() {
+    currentMartianMonth = (currentMartianMonth - 1 + 12) % 12;
+    
+    // If we went from Primus to Duodecimus, decrement year
+    if (currentMartianMonth === 11) {
+        currentMartianYear--;
+    }
+    
+    renderCalendar(currentMartianMonth);
+    updateActiveMonthItem();
+}
+
+// Navigate to next month
+function goToNextMonth() {
+    currentMartianMonth = (currentMartianMonth + 1) % 12;
+    
+    // If we went from Duodecimus to Primus, increment year
+    if (currentMartianMonth === 0) {
+        currentMartianYear++;
+    }
+    
+    renderCalendar(currentMartianMonth);
+    updateActiveMonthItem();
+}
+
+// Go to current month (simplified)
+function goToToday() {
+    const today = new Date();
+    currentMartianMonth = today.getMonth() % 12;
+    currentMartianYear = 25;
+    
+    renderCalendar(currentMartianMonth);
+    updateActiveMonthItem();
+}
+
+// Toggle month dropdown
+function toggleMonthDropdown() {
+    const dropdown = document.getElementById('monthDropdown');
+    dropdown.classList.toggle('show');
+}
+
+function closeMonthDropdown() {
+    document.getElementById('monthDropdown').classList.remove('show');
+}
+
+// Toggle fullscreen mode
+function toggleFullscreen() {
+    isFullscreen = !isFullscreen;
+    
+    if (isFullscreen) {
+        calendarContainer.classList.add('fullscreen');
+        fullscreenToggle.innerHTML = '<i class="fas fa-compress"></i>';
+        fullscreenToggle.title = 'Exit Fullscreen';
+        
+        // Save position before going fullscreen
+        saveCalendarPosition();
+    } else {
+        calendarContainer.classList.remove('fullscreen');
+        fullscreenToggle.innerHTML = '<i class="fas fa-expand"></i>';
+        fullscreenToggle.title = 'Enter Fullscreen';
+        
+        // Restore saved position
+        loadCalendarPosition();
+    }
+}
+
+// Toggle content visibility
+function toggleContentVisibility() {
+    isContentHidden = !isContentHidden;
+    
+    const elementsToHide = [
+        document.querySelector('nav.top-menu'),
+        document.getElementById('siteTitle'),
+        document.getElementById('pageFooter'),
+        document.getElementById('audioControls')
+    ];
+    
+    elementsToHide.forEach(element => {
+        if (element) {
+            if (isContentHidden) {
+                element.classList.add('hidden-element');
+            } else {
+                element.classList.remove('hidden-element');
+            }
+        }
+    });
+    
+    // Update button text
+    document.getElementById('hideContentBtn').textContent = 
+        isContentHidden ? 'Show Content' : 'Hide Content';
+    
+    if (isContentHidden) {
+        // Save position and go to full view
+        saveCalendarPosition();
+        calendarContainer.style.top = '20px';
+        calendarContainer.style.left = '20px';
+        calendarContainer.style.right = '20px';
+        calendarContainer.style.bottom = '20px';
+        calendarContainer.style.width = 'auto';
+        calendarContainer.style.height = 'auto';
+        calendarContainer.style.background = 'rgba(0, 0, 0, 0.8)';
+    } else {
+        // Restore saved position
+        loadCalendarPosition();
+        calendarContainer.style.background = 'rgba(0, 0, 0, 0.6)';
+    }
+}
+
+// Toggle background music
+function toggleMusic() {
+    if (isMusicPlaying) {
+        backgroundMusic.pause();
+        isMusicPlaying = false;
+    } else {
+        backgroundMusic.play().then(() => {
+            isMusicPlaying = true;
+        }).catch(e => {
+            console.log("Playback failed:", e);
+            alert("Please click the Play Music button to start audio playback.");
+        });
+    }
+    
+    updateMusicButton();
+}
+
+// Update music button text and icon
+function updateMusicButton() {
+    const musicToggle = document.getElementById('musicToggle');
+    if (isMusicPlaying) {
+        musicToggle.innerHTML = '<i class="fas fa-volume-up"></i> Pause Music';
+    } else {
+        musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i> Play Music';
+    }
+}
+
+// Event modal functions
+function openEventModal(day, month, year, event = null) {
+    selectedDay = { day, month, year };
+    editingEventId = event ? event.id : null;
+    
+    const modal = document.getElementById('eventModal');
+    const title = document.getElementById('eventTitle');
+    const description = document.getElementById('eventDescription');
+    const type = document.getElementById('eventType');
+    const color = document.getElementById('eventColor');
+    const recurring = document.getElementById('eventRecurring');
+    const deleteBtn = document.getElementById('deleteEvent');
+    
+    if (event) {
+        // Editing existing event
+        title.value = event.title;
+        description.value = event.description || '';
+        type.value = event.type || 'other';
+        color.value = event.color || '#00ccff';
+        recurring.checked = event.recurring || false;
+        deleteBtn.style.display = 'block';
+    } else {
+        // Creating new event
+        title.value = '';
+        description.value = '';
+        type.value = 'appointment';
+        color.value = '#00ccff';
+        recurring.checked = false;
+        deleteBtn.style.display = 'none';
+    }
+    
+    modal.classList.add('show');
+}
+
+function closeEventModal() {
+    eventModal.classList.remove('show');
+    selectedDay = null;
+    editingEventId = null;
+    eventForm.reset();
+}
+
+function saveEvent(e) {
+    e.preventDefault();
+    
+    const eventKey = `${selectedDay.year}-${selectedDay.month}-${selectedDay.day}`;
+    const eventId = editingEventId || Date.now().toString();
+    
+    const event = {
+        id: eventId,
+        title: document.getElementById('eventTitle').value,
+        description: document.getElementById('eventDescription').value,
+        type: document.getElementById('eventType').value,
+        color: document.getElementById('eventColor').value,
+        recurring: document.getElementById('eventRecurring').checked,
+        date: selectedDay
+    };
+    
+    if (!userEvents[eventKey]) {
+        userEvents[eventKey] = [];
+    }
+    
+    // Update or add event
+    const eventIndex = userEvents[eventKey].findIndex(ev => ev.id === eventId);
+    if (eventIndex > -1) {
+        userEvents[eventKey][eventIndex] = event;
+    } else {
+        userEvents[eventKey].push(event);
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('martianCalendarEvents', JSON.stringify(userEvents));
+    
+    // Re-render calendar
+    renderCalendar(selectedDay.month);
+    closeEventModal();
+}
+
+function deleteEvent() {
+    if (!selectedDay || !editingEventId) return;
+    
+    const eventKey = `${selectedDay.year}-${selectedDay.month}-${selectedDay.day}`;
+    
+    if (userEvents[eventKey]) {
+        userEvents[eventKey] = userEvents[eventKey].filter(event => event.id !== editingEventId);
+        
+        if (userEvents[eventKey].length === 0) {
+            delete userEvents[eventKey];
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('martianCalendarEvents', JSON.stringify(userEvents));
+        
+        // Re-render calendar
+        renderCalendar(selectedDay.month);
+        closeEventModal();
+    }
+}
+
+// Print the calendar
+function printCalendar() {
+    window.print();
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', initWallCalendar);
+
+// Handle page visibility change
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden && isMusicPlaying) {
+        backgroundMusic.pause();
+        isMusicPlaying = false;
+        updateMusicButton();
+    }
+});
+</script>
+</body>
+</html>

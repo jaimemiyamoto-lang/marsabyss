@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mars Dome Cities Tour - The Mars Abyss</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            color: #e0e0ff;
+            overflow-x: hidden;
+            position: relative;
+            background: #000;
+        }
+
+        /* VIDEO BACKGROUND */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .static-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80') no-repeat center center / cover;
+            z-index: 1;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 2;
+        }
+
+        /* === COMPLETE TOP MENU - MATCHING YOUR SITE === */
+        nav.top-menu {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(17, 17, 17, 0.95);
+            padding: 0.6rem 0;
+            z-index: 1000;
+            gap: 2.5rem;
+            flex-wrap: nowrap;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #FF69B4;
+            transition: opacity 0.5s ease;
+        }
+
+        nav.top-menu a {
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown > a, .dropdown {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(26, 26, 26, 0.98);
+            min-width: 140px;
+            z-index: 1001;
+            border-radius: 4px;
+            border: 2px solid #FF69B4;
+            top: 100%;
+            left: 0%;
+            backdrop-filter: blur(5px);
+            padding: 4px 0;
+        }
+
+        .dropdown-content a {
+            color: #f5f5f5;
+            padding: 3px 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+            line-height: 1.2;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 105, 180, 0.3);
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        nav.top-menu a.active,
+        nav.top-menu a:hover {
+            color: #FF69B4;
+            background: transparent;
+        }
+
+        /* SITE TITLE OVERLAY */
+        .site-title-overlay {
+            position: fixed;
+            top: 80px;
+            left: 30px;
+            z-index: 50;
+            transition: opacity 0.5s ease;
+        }
+
+        .site-title-overlay h1 {
+            color: rgba(255, 105, 180, 0.8);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* CONTROL BUTTONS */
+        .audio-controls {
+            position: fixed;
+            bottom: 80px;
+            right: 40px;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .view-toggle {
+            position: fixed;
+            top: 80px;
+            right: 30px;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .audio-btn, .view-btn {
+            background: rgba(255, 105, 180, 0.8);
+            border: 2px solid #4cc9f0;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .view-btn {
+            background: rgba(255, 193, 7, 0.8);
+            border: 2px solid #ff69b4;
+        }
+
+        .audio-btn:hover, .view-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Main Content */
+        .main-content {
+            position: relative;
+            padding: 2rem 5%;
+            min-height: 100vh;
+            margin-top: 70px;
+            transition: opacity 0.5s ease;
+            z-index: 10;
+        }
+
+        /* HIDDEN CLASS FOR TOGGLE FUNCTIONALITY */
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Fading Sections */
+        .fade-section {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.7s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(76, 201, 240, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .fade-section.faded {
+            opacity: 0.1;
+            transform: scale(0.98);
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(76, 201, 240, 0.2);
+        }
+
+        .fade-section:hover {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+            background: rgba(0, 0, 0, 0.8);
+            border-color: rgba(76, 201, 240, 0.8);
+        }
+
+        /* Header Section */
+        .tour-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid #4cc9f0;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 0 30px rgba(76, 201, 240, 0.3);
+        }
+
+        .tour-title {
+            font-size: 3rem;
+            color: #ff3366;
+            text-shadow: 0 0 20px rgba(255, 51, 102, 0.7);
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff3366, #4cc9f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tour-subtitle {
+            font-size: 1.3rem;
+            color: #4cc9f0;
+            margin-bottom: 1.5rem;
+        }
+
+        .tour-features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            color: #4cc9f0;
+            font-size: 0.9rem;
+        }
+
+        /* Tour Container */
+        .tour-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Video Display */
+        .video-display {
+            position: relative;
+            height: 500px;
+            border: 2px solid #4cc9f0;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .location-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .location-name {
+            font-size: 1.8rem;
+            color: #4cc9f0;
+            margin-bottom: 0.5rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* City Data Legend */
+        .city-data {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid #ff3366;
+            margin-top: 2rem;
+            min-height: 200px;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .data-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(76, 201, 240, 0.1);
+            border-radius: 10px;
+            border: 1px solid #4cc9f0;
+        }
+
+        .data-value {
+            font-size: 2rem;
+            color: #ff3366;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .data-label {
+            color: #4cc9f0;
+            font-size: 0.9rem;
+        }
+
+        /* Updated City Cards - Smaller and Grid Layout */
+        .city-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .city-card {
+            background: rgba(76, 201, 240, 0.1);
+            border: 2px solid #4cc9f0;
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .city-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff3366, #4cc9f0);
+        }
+
+        .city-card:hover {
+            background: rgba(76, 201, 240, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
+        }
+
+        .city-card.active {
+            background: #4cc9f0;
+            color: #0a0a1a;
+            box-shadow: 0 0 20px rgba(76, 201, 240, 0.7);
+        }
+
+        .city-card.active .city-name {
+            color: #0a0a1a;
+            font-weight: bold;
+        }
+
+        .city-name {
+            color: #4cc9f0;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .city-thumbnail {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #4cc9f0;
+        }
+
+        /* Tour Controls */
+        .tour-controls {
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ff3366;
+            border-radius: 15px;
+        }
+
+        .control-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            color: #4cc9f0;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.7);
+        }
+
+        .tour-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tour-btn {
+            background: rgba(255, 51, 102, 0.1);
+            border: 1px solid #ff3366;
+            color: #ff3366;
+            padding: 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .tour-btn:hover {
+            background: rgba(255, 51, 102, 0.3);
+            box-shadow: 0 0 15px rgba(255, 51, 102, 0.5);
+        }
+
+        /* Audio Guide */
+        .audio-guide {
+            background: rgba(76, 201, 240, 0.1);
+            border: 1px solid #4cc9f0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .guide-speaker {
+            width: 100%;
+            height: 20px;
+            background: repeating-linear-gradient(
+                90deg,
+                #4cc9f0,
+                #4cc9f0 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .guide-speaker::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(76, 201, 240, 0.5), transparent);
+            animation: soundWave 2s linear infinite;
+        }
+
+        @keyframes soundWave {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .guide-text {
+            color: #e0e0ff;
+            line-height: 1.6;
+            min-height: 120px;
+            font-style: italic;
+        }
+
+        /* Progress */
+        .tour-progress {
+            margin-top: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 51, 102, 0.2);
+            border-radius: 3px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff3366, #4cc9f0);
+            border-radius: 3px;
+            width: 15%;
+            transition: width 0.3s ease;
+        }
+
+        /* Landmarks Grid */
+        .landmarks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .landmark-card {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #4cc9f0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .landmark-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(76, 201, 240, 0.4);
+        }
+
+        .landmark-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .landmark-name {
+            color: #ff3366;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .landmark-desc {
+            color: #e0e0ff;
+            font-size: 0.9rem;
+        }
+
+        /* FIRST 13 MARTIAN COLONIES SECTION - KEPT INTACT */
+        .colonies-section {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            border: 2px solid #9370DB;
+            margin: 3rem auto;
+            max-width: 1200px;
+        }
+
+        .colonies-section h2 {
+            color: #9370DB;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.4);
+        }
+
+        .colonies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .colony-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #9370DB;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .colony-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .colony-card h3 {
+            color: #FF69B4;
+            margin-bottom: 1rem;
+        }
+
+        .colony-card p {
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 0.6rem 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ccc;
+            font-family: 'Segoe UI', sans-serif;
+            z-index: 1000;
+            border-top: 2px solid #ff9553;
+            transition: opacity 0.5s ease;
+        }
+
+        .content-spacer {
+            height: 100px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tour-container {
+                grid-template-columns: 1fr;
+            }
+            .tour-title {
+                font-size: 2rem;
+            }
+            .landmarks-grid {
+                grid-template-columns: 1fr;
+            }
+            .city-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .colonies-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- VIDEO BACKGROUND -->
+    <div class="background-container">
+        <div class="static-background" id="staticBg"></div>
+        <video class="video-background" id="marsTravelVideo" muted loop playsinline>
+            <source src="videos/Mars 2098-1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- SITE TITLE OVERLAY -->
+    <div class="site-title-overlay" id="siteTitle">
+        <h1>The Mars Abyss</h1>
+    </div>
+
+    <!-- CONTROL BUTTONS -->
+    <div class="view-toggle" id="viewToggleContainer">
+        <button class="view-btn" id="viewToggle">🌌 Hide Content</button>
+    </div>
+
+    <div class="audio-controls" id="audioControls">
+        <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+    </div>
+
+    <!-- COMPLETE TOP MENU -->
+ <nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn active">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html" class="active">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+
+</div>
+</div>
+<div class="dropdown">
+<a href="the-regents-scrolls.html" class="dropbtn">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>    
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>    
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+<a href="contact.html">Contact</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+<div class="prep-container">
+        <!-- Header -->
+        <section class="fade-section tour-header">
+            <h1 class="tour-title">MARTIAN DOME CITIES TOUR</h1>
+            <p class="tour-subtitle">Experience the Red Planet from the comfort of our climate-controlled trolleys</p>
+            <div class="tour-features">
+                <div class="feature">■ LIVE GUIDED TOURS</div>
+                <div class="feature">■ MULTI-LINGUAL AUDIO</div>
+                <div class="feature">■ 360° DOME VIEWS</div>
+            </div>
+        </section>
+
+        <!-- Main Tour Container -->
+        <section class="fade-section">
+            <div class="tour-container">
+                <!-- Video Display and Data Section -->
+                <div>
+                    <!-- Video Display -->
+                    <div class="video-display">
+                        <video class="location-video" id="locationVideo" muted loop autoplay>
+                            <source src="videos/chinese-settlement.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-overlay">
+                            <div class="location-name" id="locationName">ARES PRIME - Central District</div>
+                            <div id="locationDesc">The first and largest domed city on Mars</div>
+                        </div>
+                    </div>
+
+                    <!-- City Data Legend -->
+                    <div class="city-data" id="cityData">
+                        <h3 style="color: #ff3366; margin-bottom: 1rem;">CITY STATISTICS</h3>
+                        <div class="data-grid" id="dataGrid">
+                            <!-- Data will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tour Controls -->
+                <div class="tour-controls">
+                    <!-- City Selection -->
+                    <div class="control-section">
+                        <div class="section-title">🏙️ SELECT DOME CITY</div>
+                        <div class="city-cards-grid" id="cityCards">
+                            <!-- City cards will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Tour Controls -->
+                    <div class="control-section">
+                        <div class="section-title">🎛️ TOUR CONTROLS</div>
+                        <div class="tour-buttons">
+                            <button class="tour-btn" onclick="playTour()">▶️ PLAY</button>
+                            <button class="tour-btn" onclick="pauseTour()">⏸️ PAUSE</button>
+                            <button class="tour-btn" onclick="resetTour()">⏹️ STOP</button>
+                        </div>
+                    </div>
+
+                    <!-- Audio Guide -->
+                    <div class="audio-guide">
+                        <div class="guide-speaker"></div>
+                        <div class="guide-text" id="guideText">
+                            "Welcome to Ares Prime, the first and largest domed city on Mars. As we begin our tour, notice the hexagonal support structures that distribute atmospheric pressure evenly across the dome's surface. The blue glow you see is from the algae farms that provide both oxygen and nutrition for our city..."
+                        </div>
+                    </div>
+
+                    <!-- Tour Progress -->
+                    <div class="tour-progress">
+                        <div class="section-title">📊 TOUR PROGRESS</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="tourProgress"></div>
+                        </div>
+                        <div style="color: #e0e0ff; font-size: 0.9rem; text-align: center;">
+                            Ares Prime Tour • 15% Complete
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Martian Landmarks -->
+        <section class="fade-section">
+            <div class="landmarks-grid">
+                <div class="landmark-card" onclick="selectLandmark('temple')">
+                    <div class="landmark-icon">⚛️</div>
+                    <div class="landmark-name">Temple of Reason</div>
+                    <div class="landmark-desc">Martian chapter continuing Earth's tradition of secular humanism and ethical philosophy</div>
+                </div>
+
+                <div class="landmark-card" onclick="selectLandmark('gardens')">
+                    <div class="landmark-icon">🌿</div>
+                    <div class="landmark-name">Olympus Botanical Gardens</div>
+                    <div class="landmark-desc">Largest collection of extraterrestrial flora in the solar system</div>
+                </div>
+
+                <div class="landmark-card" onclick="selectLandmark('museum')">
+                    <div class="landmark-icon">🏛️</div>
+                    <div class="landmark-name">Museum of Earth Heritage</div>
+                    <div class="landmark-desc">Preserving Earth's history and cultural artifacts for future generations</div>
+                </div>
+
+                <div class="landmark-card" onclick="selectLandmark('beach')">
+                    <div class="landmark-icon">🏖️</div>
+                    <div class="landmark-name">New Boston Beach Dome</div>
+                    <div class="landmark-desc">Artificial beach with Earth-like conditions and holographic sky projections</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FIRST 13 MARTIAN COLONIES SECTION - KEPT INTACT AS REQUESTED -->
+        <section class="colonies-section">
+            <h2>THE FIRST 13 MARTIAN COLONIES</h2>
+            <div class="colonies-grid">
+                <div class="colony-card">
+                    <h3>Ares Prime</h3>
+                    <p>The first and largest colony, named after the Greek god of war and the planet itself.</p>
+                </div>
+                <div class="colony-card">
+                    <h3>New Boston</h3>
+                    <p>Cultural and educational hub, continuing Massachusetts' legacy of learning.</p>
+                </div>
+                <div class="colony-card">
+                    <h3>Salem Dome</h3>
+                    <p>Philosophical center, honoring Salem's history of intellectual freedom.</p>
+                </div>
+                <div class="colony-card">
+                    <h3>Madrid Dome</h3>
+                    <p>Spanish cultural center with authentic architecture and Mediterranean climate.</p>
+                </div>
+                <div class="colony-card">
+                    <h3>Shanghai Dome</h3>
+                    <p>Asian technology hub specializing in robotics and sustainable energy.</p>
+                </div>
+                <div class="colony-card">
+                    <h3>Riyadh Dome</h3>
+                    <p>Desert adaptation research center pioneering water reclamation tech.</p>
+                </div>
+                <div class="colony-card">
+                    <h3>Olympus Metro</h3>
+                    <p>Built into the foothills of Olympus Mons, specializing in geological research.</p>
+                </div>
+                <div class="colony-card">
+                    <h3>Valles City</h3>
+                    <p>Agricultural heartland producing 60% of Mars' food supply in Mariner Valley.</p>
+                </div>
+                <div class="colony-card">
+                    <h3>Dubai-do City</h3>
+                    <p>Luxury district featuring the tallest structures and artificial islands on Mars.</p>
+                </div>
+                <div class="colony-card">
+                    <h3>New York Dome</h3>
+                    <p>Financial center housing the Martian Stock Exchange and banking institutions.</p>
+                </div>
+                <div class="colony-card">
+                    <h3>Beverly Dome</h3>
+                    <p>Entertainment district with holographic theaters and zero-gravity concert halls.</p>
+                </div>
+                <div class="colony-card">
+                    <h3>Tokyo Dome</h3>
+                    <p>Robotics and AI development center where 60% of workforce are advanced AI systems.</p>
+                </div>
+                <div class="colony-card">
+                    <h3>Paris Dome</h3>
+                    <p>Arts district preserving Earth's artistic traditions while pioneering Martian expression.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Content spacer for footer -->
+    <div class="content-spacer"></div>
+
+    <!-- FOOTER -->
+    <footer id="pageFooter">
+        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Enhanced Tour Data with all 13 cities
+        const tourData = {
+            ares: {
+                name: "ARES PRIME - Central District",
+                description: "The first and largest domed city on Mars",
+                video: "videos/ares-prime.mp4",
+                guide: `"Welcome to Ares Prime, the first and largest domed city on Mars. As we begin our tour, notice the hexagonal support structures that distribute atmospheric pressure evenly across the dome's surface. The blue glow you see is from the algae farms that provide both oxygen and nutrition for our city."`,
+                data: {
+                    population: "2.4M",
+                    founded: "2075",
+                    diameter: "8.2km",
+                    elevation: "-1.3km",
+                    specialty: "Government & Commerce"
+                },
+                thumbnail: "🌌"
+            },
+            olympus: {
+                name: "Olympia (formerly Olympus Metro) - Research District",
+                description: "Built into the foothills of Olympus Mons",
+                video: "videos/olympia-formerly-olympus-metro.mp4",
+                guide: `"Olympus Metro, built into the foothills of Olympus Mons. This city specializes in geological research and features the solar system's largest underground transit system. The red rock formations you see are natural Martian bedrock preserved within our dome."`,
+                data: {
+                    population: "1.8M",
+                    founded: "2082",
+                    diameter: "6.5km",
+                    elevation: "+12.4km",
+                    specialty: "Geological Research"
+                },
+                thumbnail: "🏔️"
+            },
+            newboston: {
+                name: "NEW BOSTON - Cultural Hub",
+                description: "Educational and cultural center of Mars",
+                video: "videos/bradbury-haven.mp4",
+                guide: `"New Boston - our educational and cultural hub. Modeled after the Massachusetts original, this dome features historic Earth architecture recreated with Martian materials. The Prudential Tower replica houses the Interplanetary University."`,
+                data: {
+                    population: "1.9M",
+                    founded: "2078",
+                    diameter: "7.1km",
+                    elevation: "-0.8km",
+                    specialty: "Education & Culture"
+                },
+                thumbnail: "🎓"
+            },
+            salem: {
+                name: "SALEM DOME - Philosophy Center",
+                description: "Center for philosophical and ethical studies",
+                video: "videos/pandorum-colony-formerly-salem-dome.mp4",
+                guide: `"Salem Dome, our center for philosophical and ethical studies. Home to the Temple of Reason, this city continues Earth's traditions of secular humanism and intellectual freedom. The autumn foliage is genetically engineered to match New England's colors."`,
+                data: {
+                    population: "1.2M",
+                    founded: "2085",
+                    diameter: "5.8km",
+                    elevation: "-1.1km",
+                    specialty: "Philosophy & Ethics"
+                },
+                thumbnail: "📚"
+            },
+            valles: {
+                name: "VALLES CITY - Agricultural Heartland",
+                description: "Produces 60% of Mars' food supply",
+                video: "videos/valles-city.mp4",
+                guide: `"Valles City, our agricultural heartland. Built in the Mariner Valley, this dome complex produces 60% of Mars' food supply. The terraced farms you see use advanced hydroponics and artificial sunlight technology."`,
+                data: {
+                    population: "1.5M",
+                    founded: "2080",
+                    diameter: "9.3km",
+                    elevation: "-4.2km",
+                    specialty: "Agriculture"
+                },
+                thumbnail: "🌾"
+            },
+            madrid: {
+                name: "MADRID DOME - Spanish Cultural Center",
+                description: "Preserving Spanish heritage and architecture",
+                video: "videos/la-mancha.mp4",
+                guide: `"Welcome to Madrid Dome, where Spanish culture thrives on Mars. This dome features authentic Spanish architecture, plazas, and the famous Prado Museum replica. The climate is carefully controlled to mimic Mediterranean conditions."`,
+                data: {
+                    population: "1.3M",
+                    founded: "2083",
+                    diameter: "6.2km",
+                    elevation: "-0.9km",
+                    specialty: "Cultural Preservation"
+                },
+                thumbnail: "🏛️"
+            },
+            shanghai: {
+                name: "SHANGHAI DOME - Asian Technology Hub",
+                description: "Center for Martian technological innovation",
+                video: "videos/chinese-settlement.mp4",
+                guide: `"Shanghai Dome represents the cutting edge of Martian technology. This city specializes in robotics, AI development, and sustainable energy systems. The skyline features a stunning blend of traditional Chinese architecture and futuristic designs."`,
+                data: {
+                    population: "2.1M",
+                    founded: "2079",
+                    diameter: "7.8km",
+                    elevation: "-1.5km",
+                    specialty: "Technology & Innovation"
+                },
+                thumbnail: "🤖"
+            },
+            riyadh: {
+                name: "The Oasis of Qaseem (formerly Riyadh Dome) - Desert Adaptation Research",
+                description: "Pioneering desert survival technologies",
+                video: "videos/the-oasis-of-qaseem-(formerly-riyadh-dome).mp4",
+                guide: `"Riyadh Dome specializes in desert adaptation technologies that benefit all Martian colonies. The research conducted here has revolutionized water reclamation and energy conservation across the Red Planet."`,
+                data: {
+                    population: "1.1M",
+                    founded: "2086",
+                    diameter: "5.5km",
+                    elevation: "-2.1km",
+                    specialty: "Desert Research"
+                },
+                thumbnail: "🏜️"
+            },
+            dubai: {
+                name: "DUBAI-DO CITY - Luxury District",
+                description: "Martian luxury and architectural marvels",
+                video: "videos/dubai-do.mp4",
+                guide: `"Dubai-do City - where Martian luxury meets architectural innovation. This dome features the tallest structures on Mars, artificial islands, and climate-controlled luxury resorts that attract visitors from across the solar system."`,
+                data: {
+                    population: "0.9M",
+                    founded: "2088",
+                    diameter: "6.8km",
+                    elevation: "-1.8km",
+                    specialty: "Luxury & Tourism"
+                },
+                thumbnail: "🏙️"
+            },
+            newyork: {
+                name: "NEW YORK DOME - Financial Center",
+                description: "Economic hub of Martian commerce",
+                video: "videos/new-york-dome.mp4",
+                guide: `"New York Dome serves as the financial capital of Mars. Home to the Martian Stock Exchange and interplanetary banking institutions, this city never sleeps. The skyline features recreations of Earth's most iconic skyscrapers."`,
+                data: {
+                    population: "2.3M",
+                    founded: "2077",
+                    diameter: "8.5km",
+                    elevation: "-1.2km",
+                    specialty: "Finance & Commerce"
+                },
+                thumbnail: "💼"
+            },
+            beverly: {
+                name: "BEVERLY DOME - Entertainment District",
+                description: "Martian entertainment and media hub",
+                video: "videos/beverly-dome-city.mp4",
+                guide: `"Welcome to Beverly Dome, the entertainment capital of Mars! This district features holographic theaters, zero-gravity concert halls, and the famous Martian Walk of Fame. Most of the Red Planet's media is produced right here."`,
+                data: {
+                    population: "1.4M",
+                    founded: "2084",
+                    diameter: "6.1km",
+                    elevation: "-0.7km",
+                    specialty: "Entertainment"
+                },
+                thumbnail: "🎬"
+            },
+            tokyo: {
+                name: "TOKYO DOME - Robotics Center",
+                description: "Advanced robotics and AI development",
+                video: "videos/tokyo-dome.mp4",
+                guide: `"Tokyo Dome leads Mars in robotics and artificial intelligence. Over 60% of the city's workforce are advanced AI systems working alongside human engineers to push the boundaries of technological possibility."`,
+                data: {
+                    population: "1.7M",
+                    founded: "2081",
+                    diameter: "7.3km",
+                    elevation: "-1.6km",
+                    specialty: "Robotics & AI"
+                },
+                thumbnail: "🔧"
+            },
+            paris: {
+                name: "PARIS DOME - Arts District",
+                description: "Martian center for fine arts and cuisine",
+                video: "videos/paris-dome.mp4",
+                guide: `"Paris Dome preserves Earth's artistic traditions while pioneering new forms of Martian expression. The Louvre Martian houses both classical Earth art and revolutionary Martian creations. The culinary scene here is unmatched in the solar system."`,
+                data: {
+                    population: "1.6M",
+                    founded: "2087",
+                    diameter: "6.9km",
+                    elevation: "-1.0km",
+                    specialty: "Arts & Cuisine"
+                },
+                thumbnail: "🎨"
+            }
+        };
+
+        // Initialize the city cards
+        function initializeCityCards() {
+            const cityCardsContainer = document.getElementById('cityCards');
+            const cities = Object.keys(tourData);
+            
+            cities.forEach(cityId => {
+                const city = tourData[cityId];
+                const card = document.createElement('div');
+                card.className = 'city-card';
+                card.setAttribute('data-city', cityId);
+                card.innerHTML = `
+                    <div class="city-thumbnail">${city.thumbnail}</div>
+                    <div class="city-name">${city.name.split(' - ')[0]}</div>
+                `;
+                
+                card.addEventListener('click', () => {
+                    selectCity(cityId);
+                });
+                
+                cityCardsContainer.appendChild(card);
+            });
+            
+            // Set first city as active
+            document.querySelector('.city-card').classList.add('active');
+        }
+
+        // Update city data display
+        function updateCityData(cityId) {
+            const city = tourData[cityId];
+            const dataGrid = document.getElementById('dataGrid');
+            
+            dataGrid.innerHTML = `
+                <div class="data-item">
+                    <div class="data-value">${city.data.population}</div>
+                    <div class="data-label">POPULATION</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value">${city.data.founded}</div>
+                    <div class="data-label">FOUNDED</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value">${city.data.diameter}</div>
+                    <div class="data-label">DIAMETER</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value">${city.data.elevation}</div>
+                    <div class="data-label">ELEVATION</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value">${city.data.specialty}</div>
+                    <div class="data-label">SPECIALTY</div>
+                </div>
+            `;
+        }
+
+        // Enhanced city selection
+        function selectCity(cityId) {
+            const city = tourData[cityId];
+            if (!city) return;
+
+            // Update active city card
+            document.querySelectorAll('.city-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`.city-card[data-city="${cityId}"]`).classList.add('active');
+
+            // Update video
+            const video = document.getElementById('locationVideo');
+            video.src = city.video;
+            video.load();
+            video.play().catch(e => console.log('Video play error:', e));
+
+            // Update UI
+            document.getElementById('locationName').textContent = city.name;
+            document.getElementById('locationDesc').textContent = city.description;
+            document.getElementById('guideText').textContent = city.guide;
+            
+            // Update city data
+            updateCityData(cityId);
+            
+            currentTour = cityId;
+            updateProgress();
+        }
+
+        // Background video loading
+        const bgVideo = document.getElementById('marsTravelVideo');
+        const staticBg = document.getElementById('staticBg');
+
+        bgVideo.addEventListener('loadeddata', function() {
+            setTimeout(() => {
+                bgVideo.play();
+            }, 500);
+        });
+
+        bgVideo.addEventListener('error', function() {
+            console.log('Background video failed to load, using static background');
+        });
+
+        // Simple audio system
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true;
+        let audioElements = [];
+
+        function initAudio() {
+            const sounds = [
+                { src: 'music/bailando-en-el-caribe-tour-spmg.mp3', volume: 0.5 },
+                { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+                { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+            ];
+
+            sounds.forEach(sound => {
+                const audio = new Audio(sound.src);
+                audio.volume = sound.volume;
+                audio.loop = true;
+                audio.muted = true;
+                audioElements.push(audio);
+            });
+
+            document.addEventListener('click', function unmuteAudio() {
+                if (!isMuted) {
+                    audioElements.forEach(audio => {
+                        audio.muted = false;
+                        audio.play().catch(e => console.log('Audio play failed'));
+                    });
+                    isMuted = false;
+                    muteBtn.textContent = "🔊 Mute Sounds";
+                }
+                document.removeEventListener('click', unmuteAudio);
+            }, { once: true });
+        }
+
+        // Mute toggle
+        muteBtn.addEventListener('click', function() {
+            isMuted = !isMuted;
+            audioElements.forEach(audio => {
+                audio.muted = isMuted;
+            });
+            const video = document.getElementById('locationVideo');
+            video.muted = isMuted;
+            muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+        });
+
+        // View toggle functionality - NOW PROPERLY WORKING
+        const viewToggle = document.getElementById('viewToggle');
+        const mainContent = document.getElementById('mainContent');
+        const mainMenu = document.getElementById('mainMenu');
+        const siteTitle = document.getElementById('siteTitle');
+        const pageFooter = document.getElementById('pageFooter');
+
+        viewToggle.addEventListener('click', function() {
+            mainContent.classList.toggle('hidden');
+            mainMenu.classList.toggle('hidden');
+            siteTitle.classList.toggle('hidden');
+            pageFooter.classList.toggle('hidden');
+            if (mainContent.classList.contains('hidden')) {
+                viewToggle.textContent = '📄 Show Content';
+            } else {
+                viewToggle.textContent = '🌌 Hide Content';
+            }
+        });
+
+        // Initialize audio when page loads
+        initAudio();
+
+        // Tour system variables
+        let currentTour = 'ares';
+        let tourProgress = 15;
+        let isPlaying = false;
+
+        // Initialize tour system
+        function initTour() {
+            initializeCityCards();
+            updateCityData('ares');
+            
+            // Auto-play video with mute by default
+            const video = document.getElementById('locationVideo');
+            video.muted = true;
+            video.play().catch(e => console.log('Auto-play prevented:', e));
+        }
+
+        function selectLandmark(landmark) {
+            const landmarkData = {
+                temple: {
+                    guide: `"The Martian Temple of Reason continues the tradition started in Salem, Massachusetts - promoting secular values, ethical philosophy, and human rights. Unlike Earth's misconceptions, this isn't about worship but about creating space for rational discourse and personal freedom."`
+                },
+                gardens: {
+                    guide: `"These gardens contain over 50,000 species of plants from Earth and 247 species developed specifically for Martian conditions. The centerpiece is the Redwood Forest dome, where trees grow under artificial gravity fields."`
+                },
+                museum: {
+                    guide: `"This museum preserves artifacts from Earth's history that were brought to Mars during the Great Migration. Exhibits include everything from Renaissance art to 21st century technology, ensuring Earth's cultural legacy survives."`
+                },
+                beach: {
+                    guide: `"A completely artificial beach environment with imported Earth sand, controlled wave patterns, and holographic sky projections that simulate Earth's weather. The water is maintained at perfect swimming temperature year-round."`
+                }
+            };
+            
+            const data = landmarkData[landmark];
+            if (!data) return;
+            document.getElementById('guideText').textContent = data.guide;
+        }
+
+        function playTour() {
+            if (!isPlaying) {
+                isPlaying = true;
+                document.querySelector('.guide-speaker').style.animationPlayState = 'running';
+                const interval = setInterval(() => {
+                    if (!isPlaying) {
+                        clearInterval(interval);
+                        return;
+                    }
+                    tourProgress += 0.5;
+                    if (tourProgress >= 100) {
+                        tourProgress = 100;
+                        clearInterval(interval);
+                        isPlaying = false;
+                    }
+                    updateProgress();
+                }, 100);
+            }
+        }
+
+        function pauseTour() {
+            isPlaying = false;
+            document.querySelector('.guide-speaker').style.animationPlayState = 'paused';
+        }
+
+        function resetTour() {
+            isPlaying = false;
+            tourProgress = 0;
+            updateProgress();
+            selectCity(currentTour);
+        }
+
+        function updateProgress() {
+            document.getElementById('tourProgress').style.width = tourProgress + '%';
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            initTour();
+            // Initialize with first section focused
+            setTimeout(() => {
+                const fadeSections = document.querySelectorAll('.fade-section');
+                fadeSections.forEach(section => {
+                    section.classList.remove('faded');
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>

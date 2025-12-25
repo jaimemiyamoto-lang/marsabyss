@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martian Reading Revival - The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #fff;
+overflow-x: hidden;
+position: relative;
+background: #000;
+}
+
+/* === VIDEO BACKGROUND === */
+.video-background {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 1;
+opacity: 0.7;
+}
+
+/* === STANDARD TOP MENU === */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100vw;
+left: 0;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #4cc9f0;
+box-sizing: border-box;
+}
+
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #4cc9f0;
+background: transparent;
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background: rgba(26, 26, 26, 0.98);
+min-width: 180px;
+z-index: 1001;
+border-radius: 4px;
+border: 2px solid #4cc9f0;
+top: 100%;
+left: 0;
+backdrop-filter: blur(5px);
+padding: 4px 0;
+}
+
+.dropdown .dropdown .dropdown-content {
+position: absolute;
+left: 0;
+top: 100%;
+width: 100%;
+}
+
+.dropdown-content a {
+color: #f5f5f5;
+padding: 3px 5px;
+text-decoration: none;
+display: block;
+transition: background-color 0.3s ease;
+font-size: 0.9rem;
+line-height: 1;
+}
+
+.dropdown-content a:hover {
+background: rgba(76, 201, 240, 0.6);
+color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/* === SITE TITLE OVERLAY === */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+transition: opacity 0.3s ease;
+}
+
+.site-title-overlay.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+.site-title-overlay h1 {
+color: rgba(76, 201, 240, 0.7);
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
+
+/* === AUDIO CONTROLS === */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 20px;
+z-index: 1000;
+}
+
+.audio-btn {
+background: rgba(76, 201, 240, 0.6);
+border: 2px solid #4cc9f0;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+background: rgba(76, 201, 240, 0.8);
+}
+
+/* === CONTENT TOGGLE === */
+.content-toggle {
+position: fixed;
+top: 80px;
+right: 20px;
+z-index: 1000;
+}
+
+.toggle-btn {
+background: rgba(76, 201, 240, 0.6);
+border: 2px solid #4cc9f0;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+}
+
+.toggle-btn:hover {
+background: rgba(76, 201, 240, 0.8);
+}
+
+/* === PAGE CONTENT === */
+.content-container {
+position: relative;
+z-index: 10;
+max-width: 900px;
+margin: 120px auto 50px;
+padding: 2.5rem;
+background: rgba(10, 10, 20, 0.85);
+border-radius: 16px;
+border: 3px solid #4cc9f0;
+box-shadow: 0 0 30px rgba(76, 201, 240, 0.3);
+backdrop-filter: blur(10px);
+transition: opacity 0.5s ease;
+}
+
+.content-container.hidden {
+opacity: 0;
+}
+
+.content-title {
+color: #4cc9f0;
+font-family: 'Orbitron', sans-serif;
+font-size: 2.2rem;
+text-align: center;
+margin-bottom: 1rem;
+text-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+}
+
+.content-subtitle {
+color: #d4b87a;
+text-align: center;
+font-size: 1.2rem;
+margin-bottom: 2rem;
+font-style: italic;
+}
+
+/* SECTION HEADERS */
+.section-header {
+color: #4cc9f0;
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-align: center;
+margin: 3rem 0 1.5rem;
+padding-bottom: 0.5rem;
+border-bottom: 2px solid #4cc9f0;
+text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+}
+
+/* STATS GRID */
+.stats-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 1.5rem;
+margin: 2rem 0;
+}
+
+.stat-card {
+background: rgba(0, 0, 0, 0.6);
+border: 1px solid #4cc9f0;
+border-radius: 12px;
+padding: 2rem;
+text-align: center;
+transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 0 20px rgba(76, 201, 240, 0.4);
+}
+
+.stat-number {
+color: #4cc9f0;
+font-size: 2.5rem;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 0.5rem;
+}
+
+.stat-label {
+color: #f5f5f5;
+font-size: 0.9rem;
+}
+
+/* CONTENT SECTIONS */
+.content-section {
+margin: 2rem 0;
+padding: 1.5rem;
+background: rgba(20, 20, 40, 0.6);
+border-radius: 12px;
+border-left: 4px solid #4cc9f0;
+}
+
+.content-section h3 {
+color: #4cc9f0;
+margin-bottom: 1rem;
+font-size: 1.4rem;
+}
+
+.content-section p {
+line-height: 1.6;
+margin-bottom: 1rem;
+}
+
+/* QUOTE */
+.inspiration-quote {
+background: rgba(76, 201, 240, 0.1);
+border-left: 4px solid #ffd700;
+padding: 1.5rem;
+margin: 2rem 0;
+font-style: italic;
+font-size: 1.1rem;
+}
+
+.quote-source {
+text-align: right;
+color: #d4b87a;
+margin-top: 0.5rem;
+font-size: 0.9rem;
+}
+
+/* LIBRARY FEATURES - GOLD THEME */
+.library-section {
+background: rgba(20, 15, 5, 0.7);
+border: 2px solid #d4af37;
+border-radius: 12px;
+padding: 2rem;
+margin: 2.5rem 0;
+}
+
+.library-section .section-header {
+color: #d4af37;
+border-bottom-color: #d4af37;
+text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.library-features {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 2rem;
+margin: 2rem 0;
+}
+
+.feature-card {
+background: rgba(0, 0, 0, 0.6);
+border: 1px solid #d4af37;
+border-radius: 12px;
+padding: 2rem;
+text-align: center;
+transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.feature-icon {
+font-size: 3rem;
+margin-bottom: 1rem;
+color: #d4af37;
+}
+
+.feature-card h3 {
+color: #d4af37;
+margin-bottom: 1rem;
+font-size: 1.3rem;
+}
+
+.feature-card p {
+line-height: 1.6;
+color: #f5f5f5;
+font-size: 0.95rem;
+}
+
+/* VISITOR EXPERIENCE */
+.visitor-experience {
+background: rgba(212, 175, 55, 0.1);
+border: 2px solid #d4af37;
+border-radius: 12px;
+padding: 2rem;
+margin: 2rem 0;
+}
+
+.visitor-experience h3 {
+color: #d4af37;
+margin-bottom: 1rem;
+font-size: 1.4rem;
+}
+
+/* LIST STYLES */
+.feature-list {
+list-style: none;
+padding-left: 0;
+}
+
+.feature-list li {
+padding: 0.5rem 0;
+padding-left: 2rem;
+position: relative;
+}
+
+.feature-list li:before {
+content: "📚";
+position: absolute;
+left: 0;
+}
+
+/* FOOTER */
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #4cc9f0;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #4cc9f0;
+transition: opacity 0.5s ease;
+}
+
+footer.hidden {
+opacity: 0;
+}
+
+.content-spacer {
+height: 100px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+.content-container {
+margin: 100px 20px 30px;
+padding: 1.5rem;
+}
+
+.content-title {
+font-size: 2rem;
+}
+
+.stats-grid, .library-features {
+grid-template-columns: 1fr;
+}
+
+nav.top-menu {
+gap: 1rem;
+padding: 0.5rem 0;
+}
+
+nav.top-menu a {
+font-size: 0.9rem;
+padding: 0.4rem 0.6rem;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- VIDEO BACKGROUND -->
+<video class="video-background" autoplay muted loop id="bgVideo">
+<source src="videos/serene-waterfalls.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+<!-- STANDARD TOP MENU -->
+<nav class="top-menu">
+
+<div class="dropdown">
+<a href="index.html" class="dropbtn active">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html" class="active">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+<a href="contact.html">Contact</a>
+
+</nav>
+
+<!-- SITE TITLE -->
+<div class="site-title-overlay" id="siteTitle">
+<h1>The Mars Abyss</h1>
+</div>
+
+<!-- CONTENT TOGGLE -->
+<div class="content-toggle">
+<button class="toggle-btn" id="toggleContent">🌌 Hide Content</button>
+</div>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content-container" id="mainContent">
+<h1 class="content-title">Martian Reading Revival</h1>
+<p class="content-subtitle">While Earth's attention spans shrank to seconds, Mars cultivated minds that savor sentences.</p>
+
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-number">47</div>
+<div class="stat-label">minutes average daily reading</div>
+</div>
+<div class="stat-card">
+<div class="stat-number">12</div>
+<div class="stat-label">books completed annually</div>
+</div>
+<div class="stat-card">
+<div class="stat-number">100%</div>
+<div class="stat-label">literacy across 300+ languages</div>
+</div>
+</div>
+
+<div class="inspiration-quote">
+"Earth forgot how to read. Mars remembered how to dream."
+<div class="quote-source">- Chief Librarian of Tharsis</div>
+</div>
+
+<!-- SECTION 1: THE READING MOVEMENT -->
+<h2 class="section-header">The Martian Reading Movement</h2>
+
+<div class="content-section">
+<h3>The "Why We Read" Philosophy</h3>
+<p><strong>📚 Empathy Engineering:</strong> "Each book is another life lived" - Martian reading focuses on expanding emotional intelligence through literature, creating citizens who understand multiple perspectives. Unlike Earth's digital echo chambers, Martian literature exposes minds to diverse viewpoints.</p>
+
+<p><strong>🧠 Neural Diversity:</strong> Different writing styles create different thought patterns. From Hemingway's brevity that trains concise communication to Tolstoy's expansiveness that builds patience for complex systems, each author trains different cognitive muscles.</p>
+
+<p><strong>🌌 Cosmic Connection:</strong> "Through books, we carry Earth's soul to the stars" - Preserving cultural heritage across 225 million kilometers, ensuring no story is lost to time or distance. Every dome has at least one physical book from Earth.</p>
+
+<p><strong>🕰️ Temporal Expansion:</strong> Reading stretches subjective time experience, countering digital-era attention fragmentation. Martian psychologists prescribe "book therapy" for those suffering from information overload.</p>
+</div>
+
+<div class="content-section">
+<h3>Daily Ritual: The 20:00 Reading Hour</h3>
+<p>Across all Martian domes, at exactly 20:00 Martian time, a gentle chime sounds. Lights dim to 70%, ambient sounds soften to library-quiet levels, and citizens open their books. For one sacred hour, Mars falls silent except for the gentle rustle of turning pages.</p>
+
+<p>This collective ritual creates a shared experience that transcends dome boundaries, connecting all Martians in simultaneous contemplation. Even essential workers take staggered reading hours, ensuring the entire colony participates in this daily meditation on knowledge.</p>
+
+<p>The 20:00 hour is so ingrained in Martian culture that emergency alerts have a special "reading hour override" that only interrupts for life-threatening situations.</p>
+</div>
+
+<!-- SECTION 2: THE LAST LIBRARY -->
+<div class="library-section">
+<h2 class="section-header">The Last Library</h2>
+<p class="content-subtitle" style="color: #d4b87a; text-align: center; margin-bottom: 2rem;">Mars carries Earth's stories into eternity. Here, every book that ever was, lives again.</p>
+
+<div class="library-features">
+<div class="feature-card">
+<div class="feature-icon">📖</div>
+<h3>Holographic Archive</h3>
+<p>Every book that ever existed, rendered in light. Turn pages with a gesture, smell aged paper (simulated), hear authors' voices (AI-reconstructed). Quantum storage with 10,000-year integrity guarantee.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">🌙</div>
+<h3>Reading Gardens</h3>
+<p>Under simulated moonlight, with Earth-sound ambiance (ocean waves, forest birds, rainfall). The perfect escape from dome life. Each garden is a sensory experience tailored to literary genres.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon">🤖</div>
+<h3>Literary Companion AI</h3>
+<p>Discussion partners who've "read" everything. Debate philosophy with Socrates-AI, poetry with Dickinson-AI, satire with Twain-AI. Perfect for deepening understanding of complex texts.</p>
+</div>
+</div>
+
+<div class="content-section" style="background: rgba(212, 175, 55, 0.05); border-left-color: #d4af37;">
+<h3>Preservation of Lost Works</h3>
+<p>When Earth's digital archives failed in the Great Data Purge of 2073, Mars had already backed up every published work. Our library contains 1.7 million titles Earth itself has forgotten - books considered lost until rediscovered here.</p>
+<p>The preservation protocol includes redundant copies across 3 Martian domes and physical micro-engraved backups in titanium vaults buried deep beneath the surface.</p>
+</div>
+
+<div class="visitor-experience">
+<h3>Visitor's Experience</h3>
+<p>Earth tourists can request any book from history. Most ask for their childhood favorites - a taste of home 225 million km away.</p>
+<p>Special experiences include:</p>
+<ul class="feature-list">
+<li>Author resurrection readings (AI-holograms that debate their own works)</li>
+<li>Book creation workshops with Martian authors</li>
+<li>Inter-dome reading competitions with real-time translation</li>
+<li>Manuscript preservation services for family heirlooms brought from Earth</li>
+<li>The Memory Cathedral - light sculptures representing every book ever written</li>
+</ul>
+</div>
+</div>
+
+<!-- SECTION 3: THE DIGITAL WORD ACT -->
+<h2 class="section-header">The Digital Word Act</h2>
+
+<div class="content-section">
+<h3>Martian Commitment Culture</h3>
+<p>On Mars, there's a cultural equivalent to Earth's "My word is my bond": <strong>"The Digital Word Act = Digital Signature of compromise and follow up."</strong></p>
+
+<p>When Martians make commitments in writing (digital or otherwise), breaking that bond carries consequences recorded in the Martian Edicts. This cultural norm reinforces the importance of written communication and follows through on promises made.</p>
+
+<p>The act has three components:</p>
+<ul class="feature-list">
+<li><strong>Intent Declaration:</strong> Clear written statement of commitment</li>
+<li><strong>Digital Signature:</strong> Biometric confirmation of agreement</li>
+<li><strong>Follow-up Protocol:</strong> Automated system tracks completion</li>
+</ul>
+
+<p>The Digital Word Act applies to everything from business contracts to personal promises, creating a society where written words carry weight and accountability is built into the very fabric of communication. It's the legal foundation that makes the reading culture possible - when words matter, people choose them carefully.</p>
+</div>
+</div>
+
+<div class="content-spacer"></div>
+
+<footer id="pageFooter">
+<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Content toggle functionality
+const toggleBtn = document.getElementById('toggleContent');
+const mainContent = document.getElementById('mainContent');
+const pageFooter = document.getElementById('pageFooter');
+const siteTitle = document.getElementById('siteTitle');
+const mainMenu = document.querySelector('nav.top-menu');
+const bgVideo = document.getElementById('bgVideo');
+
+let contentVisible = true;
+
+toggleBtn.addEventListener('click', function() {
+contentVisible = !contentVisible;
+mainContent.classList.toggle('hidden');
+pageFooter.classList.toggle('hidden');
+siteTitle.classList.toggle('hidden');
+mainMenu.classList.toggle('hidden');
+
+if (contentVisible) {
+toggleBtn.textContent = '🌌 Hide Content';
+bgVideo.play();
+} else {
+toggleBtn.textContent = '📄 Show Content';
+bgVideo.pause();
+}
+});
+
+// SIMPLE WORKING AUDIO SYSTEM
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+// Create audio element
+const audio = new Audio('music/echoes-of-the-abyss-news.mp3');
+audio.volume = 0.4;
+audio.loop = true;
+audio.muted = true;
+audioElements.push(audio);
+
+// Unmute on first click
+document.addEventListener('click', function unmuteAudio() {
+if (isMuted) {
+audioElements.forEach(a => {
+a.muted = false;
+a.play().catch(e => console.log('Audio play failed'));
+});
+isMuted = false;
+muteBtn.textContent = "🔊 Mute Sounds";
+}
+document.removeEventListener('click', unmuteAudio);
+}, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+isMuted = !isMuted;
+audioElements.forEach(a => {
+a.muted = isMuted;
+});
+muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// Initialize audio
+initAudio();
+
+// Site title hide on scroll
+let lastScrollTop = 0;
+window.addEventListener('scroll', function() {
+let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+if (scrollTop > lastScrollTop && scrollTop > 50) {
+siteTitle.classList.add('hidden');
+} else {
+siteTitle.classList.remove('hidden');
+}
+lastScrollTop = scrollTop;
+});
+
+// Auto-hide controls
+let inactivityTimer;
+function resetInactivityTimer() {
+clearTimeout(inactivityTimer);
+inactivityTimer = setTimeout(() => {
+if (contentVisible) {
+siteTitle.classList.add('hidden');
+document.querySelector('.content-toggle').style.opacity = '0.3';
+document.querySelector('.audio-controls').style.opacity = '0.3';
+}
+}, 5000);
+}
+
+document.addEventListener('mousemove', resetInactivityTimer);
+document.addEventListener('click', resetInactivityTimer);
+resetInactivityTimer();
+
+// Show controls on hover
+[document.querySelector('.content-toggle'), document.querySelector('.audio-controls')].forEach(el => {
+if (el) {
+el.addEventListener('mouseenter', () => {
+el.style.opacity = '1';
+});
+el.addEventListener('mouseleave', () => {
+if (contentVisible) el.style.opacity = '0.3';
+});
+}
+});
+
+// Ensure video plays on user interaction
+document.addEventListener('click', function() {
+if (bgVideo.paused) {
+bgVideo.play().catch(e => console.log('Video play requires user interaction'));
+}
+});
+</script>
+</body>
+</html>

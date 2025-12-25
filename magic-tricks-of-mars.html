@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magic Tricks of Mars - The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #fff;
+overflow-x: hidden;
+position: relative;
+}
+
+/* VIDEO BACKGROUND */
+.background-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: -2;
+}
+
+.static-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('images/salem-dome-magic.jpg') no-repeat center center / cover;
+z-index: 1;
+}
+
+.video-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 2;
+opacity: 0;
+transition: opacity 1s ease-in-out;
+}
+
+.video-background.loaded {
+opacity: 1;
+}
+
+/* SITE TITLE OVERLAY */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+}
+
+.site-title-overlay h1 {
+color: rgba(0, 204, 255, 0.8); /* Tron blue */
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
+
+/* === COMPLETE TOP MENU - 8 TITLES === */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #00ccff; /* Tron blue */
+}
+
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background: rgba(26, 26, 26, 0.98);
+min-width: 140px;
+z-index: 1001;
+border-radius: 4px;
+border: 2px solid #00ccff; /* Tron blue */
+top: 100%;
+left: 0%;
+backdrop-filter: blur(5px);
+padding: 4px 0;
+}
+
+.dropdown-content a {
+color: #f5f5f5;
+padding: 3px 5px;
+text-decoration: none;
+display: block;
+transition: background-color 0.3s ease;
+font-size: 0.9rem;
+line-height: 1.2;
+}
+
+.dropdown-content a:hover {
+background: rgba(0, 204, 255, 0.3); /* Tron blue */
+color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #00ccff; /* Tron blue */
+background: transparent;
+text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+}
+
+/* AUDIO CONTROLS */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 41px; /* Matches other pages */
+z-index: 1000;
+}
+
+.audio-btn {
+background: rgba(0, 204, 255, 0.8); /* Tron blue */
+border: 2px solid #00ccff;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+background: rgba(0, 204, 255, 0.6);
+box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+}
+
+/* === CONTENT VISIBILITY CONTROLS === */
+.content-toggle-controls {
+position: fixed;
+top: 80px;
+right: 40px;
+z-index: 1000;
+}
+
+.toggle-btn {
+background: rgba(0, 204, 255, 0.8); /* Tron blue */
+border: 2px solid #00ccff;
+color: #fff;
+padding: 8px 12px;
+border-radius: 20px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.8rem;
+font-weight: bold;
+}
+
+.toggle-btn:hover {
+background: rgba(0, 204, 255, 0.6);
+box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+}
+
+/* Mouse proximity sensor area */
+.mouse-sensor {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100px; /* Top area for mouse detection */
+z-index: 999;
+cursor: pointer;
+}
+
+/* Main Content with Fade Effects */
+.main-content {
+position: relative;
+padding: 2rem 5%;
+min-height: 100vh;
+margin-top: 70px;
+opacity: 1;
+transition: opacity 0.5s ease-in-out;
+}
+
+.main-content.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+/* Hero Section */
+.magic-hero {
+text-align: center;
+padding: 4rem 2rem;
+margin-bottom: 3rem;
+background: rgba(10, 10, 26, 0.7); /* Tron dark blue */
+border-radius: 15px;
+border: 2px solid #00ccff; /* Tron blue */
+backdrop-filter: blur(10px);
+}
+
+.magic-hero h1 {
+font-size: 3.5rem;
+color: #00ccff; /* Tron blue */
+margin-bottom: 1rem;
+text-shadow: 0 0 20px rgba(0, 204, 255, 0.5);
+background: linear-gradient(45deg, #00ccff, #ff3366, #00ccff); /* Tron blue and Martian red */
+-webkit-background-clip: text;
+background-clip: text;
+-webkit-text-fill-color: transparent;
+color: transparent;
+animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+0%, 100% { text-shadow: 0 0 20px rgba(0, 204, 255, 0.5); }
+50% { text-shadow: 0 0 30px rgba(0, 204, 255, 0.8), 0 0 40px rgba(0, 204, 255, 0.6); }
+}
+
+.magic-hero p {
+font-size: 1.3rem;
+color: #e0e0ff; /* Tron light text */
+font-style: italic;
+max-width: 600px;
+margin: 0 auto;
+}
+
+/* Story Section */
+.magic-story {
+background: rgba(10, 10, 26, 0.8); /* Tron dark blue */
+padding: 3rem 2rem;
+margin: 3rem auto;
+text-align: center;
+border: 2px solid #00ccff; /* Tron blue */
+border-radius: 15px;
+max-width: 1000px;
+backdrop-filter: blur(10px);
+}
+
+.magic-story h2 {
+color: #00ccff; /* Tron blue */
+font-size: 2.2rem;
+margin-bottom: 2rem;
+text-shadow: 0 0 15px rgba(0, 204, 255, 0.4);
+}
+
+.story-content {
+max-width: 900px;
+margin: 0 auto;
+text-align: left;
+}
+
+.story-text {
+font-size: 1.1rem;
+line-height: 1.7;
+color: #e0e0e0;
+margin-bottom: 1.5rem;
+text-align: justify;
+}
+
+.story-highlight {
+color: #ff3366; /* Martian red */
+font-weight: 500;
+font-style: italic;
+}
+
+/* Magic Tricks Grid */
+.magic-tricks {
+padding: 3rem 2rem;
+margin: 3rem auto;
+max-width: 1200px;
+background: rgba(10, 10, 26, 0.7); /* Tron dark blue */
+border-radius: 15px;
+border: 2px solid #00ccff; /* Tron blue */
+backdrop-filter: blur(10px);
+}
+
+.magic-tricks h2 {
+text-align: center;
+color: #00ccff; /* Tron blue */
+font-size: 2.2rem;
+margin-bottom: 3rem;
+text-shadow: 0 0 15px rgba(0, 204, 255, 0.4);
+}
+
+.tricks-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+gap: 2rem;
+margin-top: 2rem;
+}
+
+.trick-card {
+background: rgba(20, 20, 40, 0.9); /* Tron dark blue */
+border-radius: 15px;
+padding: 2rem;
+text-align: center;
+border: 2px solid #00ccff; /* Tron blue */
+transition: all 0.4s ease;
+backdrop-filter: blur(10px);
+position: relative;
+overflow: hidden;
+cursor: pointer;
+}
+
+.trick-card::before {
+content: '';
+position: absolute;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: radial-gradient(circle, rgba(0, 204, 255, 0.1) 0%, transparent 70%);
+opacity: 0;
+transition: opacity 0.4s ease;
+}
+
+.trick-card:hover {
+transform: translateY(-10px);
+box-shadow: 0 20px 40px rgba(0, 204, 255, 0.5); /* Enhanced Tron glow */
+border-color: #ff3366; /* Martian red */
+}
+
+.trick-card:hover::before {
+opacity: 1;
+}
+
+.trick-icon {
+font-size: 3rem;
+margin-bottom: 1rem;
+color: #00ccff; /* Tron blue */
+transition: all 0.4s ease;
+}
+
+.trick-card:hover .trick-icon {
+color: #ff3366; /* Martian red */
+transform: scale(1.2);
+}
+
+.trick-card h3 {
+color: #00ccff; /* Tron blue */
+font-size: 1.5rem;
+margin-bottom: 1rem;
+transition: all 0.4s ease;
+}
+
+.trick-card:hover h3 {
+color: #ff3366; /* Martian red */
+text-shadow: 0 0 10px rgba(255, 51, 102, 0.7);
+}
+
+.trick-card p {
+color: #e0e0ff; /* Tron light text */
+line-height: 1.6;
+margin-bottom: 1rem;
+transition: all 0.4s ease;
+}
+
+.trick-card:hover p {
+color: #ffffff;
+}
+
+.gravity-badge {
+background: linear-gradient(45deg, #00ccff, #ff3366); /* Tron blue to Martian red */
+color: white;
+padding: 5px 12px;
+border-radius: 20px;
+font-size: 0.8rem;
+font-weight: bold;
+display: inline-block;
+transition: all 0.4s ease;
+}
+
+.trick-card:hover .gravity-badge {
+transform: scale(1.1);
+box-shadow: 0 0 15px rgba(255, 51, 102, 0.5);
+}
+
+/* Character Moments - ENHANCED WITH GLOW */
+.character-moments {
+background: rgba(10, 10, 26, 0.8); /* Tron dark blue */
+padding: 3rem 2rem;
+margin: 3rem auto;
+text-align: center;
+border: 2px solid #ff3366; /* Martian red */
+border-radius: 15px;
+max-width: 1000px;
+backdrop-filter: blur(10px);
+}
+
+.character-moments h2 {
+color: #ff3366; /* Martian red */
+font-size: 2.2rem;
+margin-bottom: 2rem;
+text-shadow: 0 0 15px rgba(255, 51, 102, 0.4);
+}
+
+.moment-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+margin-top: 2rem;
+}
+
+.moment-card {
+background: rgba(20, 20, 40, 0.9); /* Tron dark blue */
+padding: 2rem;
+border-radius: 10px;
+border: 2px solid #00ccff; /* Tron blue */
+text-align: left;
+transition: all 0.4s ease;
+cursor: pointer;
+backdrop-filter: blur(10px);
+}
+
+.moment-card:hover {
+transform: translateY(-8px);
+box-shadow: 0 15px 30px rgba(0, 204, 255, 0.4); /* Tron blue glow */
+border-color: #ff3366; /* Martian red */
+}
+
+.moment-card h3 {
+color: #00ccff; /* Tron blue */
+margin-bottom: 1rem;
+font-size: 1.3rem;
+transition: all 0.4s ease;
+}
+
+.moment-card:hover h3 {
+color: #ff3366; /* Martian red */
+text-shadow: 0 0 10px rgba(255, 51, 102, 0.7);
+}
+
+.moment-card p {
+color: #e0e0ff; /* Tron light text */
+line-height: 1.6;
+font-style: italic;
+transition: all 0.4s ease;
+}
+
+.moment-card:hover p {
+color: #ffffff;
+}
+
+/* Coming Soon Overlay */
+.coming-soon-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.95);
+z-index: 2000;
+display: none;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+}
+
+.coming-soon-content {
+background: rgba(10, 10, 26, 0.95); /* Tron dark blue */
+padding: 3rem;
+border-radius: 15px;
+border: 3px solid #00ccff; /* Tron blue */
+text-align: center;
+max-width: 500px;
+box-shadow: 0 0 50px rgba(0, 204, 255, 0.5);
+}
+
+.coming-soon-content h2 {
+color: #00ccff; /* Tron blue */
+font-size: 2.5rem;
+margin-bottom: 1rem;
+text-shadow: 0 0 20px rgba(0, 204, 255, 0.7);
+}
+
+.coming-soon-content p {
+color: #e0e0ff; /* Tron light text */
+font-size: 1.2rem;
+margin-bottom: 2rem;
+}
+
+.close-btn {
+background: linear-gradient(45deg, #00ccff, #ff3366); /* Tron blue to Martian red */
+border: none;
+color: white;
+padding: 12px 30px;
+border-radius: 25px;
+cursor: pointer;
+font-size: 1.1rem;
+font-weight: bold;
+transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+transform: scale(1.05);
+box-shadow: 0 0 20px rgba(0, 204, 255, 0.7);
+}
+
+/* FOOTER */
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #ccc;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #ff9553;
+}
+
+.content-spacer {
+height: 100px;
+}
+
+/* Floating animation for magical elements */
+@keyframes float {
+0%, 100% { transform: translateY(0px); }
+50% { transform: translateY(-10px); }
+}
+
+.floating {
+animation: float 3s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+.content-toggle-controls {
+top: 70px;
+right: 20px;
+}
+.toggle-btn {
+font-size: 0.7rem;
+padding: 6px 10px;
+}
+.magic-hero h1 {
+font-size: 2.5rem;
+}
+.tricks-grid {
+grid-template-columns: 1fr;
+}
+}
+</style>
+</head>
+
+<body>
+<!-- VIDEO BACKGROUND -->
+<div class="background-container">
+<div class="static-background" id="staticBg"></div>
+<video class="video-background" id="magicVideo" muted loop playsinline preload="auto">
+<source src="videos/magician.mp4" type="video/mp4">
+<source src="videos/gothic-magic-clip.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+
+<!-- SITE TITLE OVERLAY -->
+<div class="site-title-overlay">
+<h1>The Mars Abyss</h1>
+</div>
+
+<!-- CONTENT VISIBILITY CONTROLS -->
+<div class="content-toggle-controls">
+<button class="toggle-btn" id="hideContentBtn">👁️ Hide Content</button>
+</div>
+
+<!-- MOUSE PROXIMITY SENSOR -->
+<div class="mouse-sensor" id="mouseSensor" title="Move mouse here to show content"></div>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- COMING SOON OVERLAY -->
+<div class="coming-soon-overlay" id="comingSoonOverlay">
+<div class="coming-soon-content">
+<h2>Coming Soon!</h2>
+<p>This magical experience is being prepared for your wonder and amazement.</p>
+<p>Check back soon to witness the magic unfold!</p>
+<button class="close-btn" onclick="closeComingSoon()">Return to Magic</button>
+</div>
+</div>
+
+<!-- COMPLETE TOP MENU - 8 TITLES -->
+ <nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="gallery-media.html">Video & Music</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div><div class="dropdown">
+            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+            <div class="dropdown-content">
+                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+                <a href="earths-great-poets.html">Earth's Great Poets</a>
+                <a href="the-bohr-institute.html">The Bohr Institute</a>
+                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+                <a href="the-bronx-dome.html">The Bronx Dome</a>
+            </div>
+        </div>
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn">Martian News</a>
+        <div class="dropdown-content">
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+            <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+            <a href="martian-rest-areas.html">Martian Rest Areas</a>
+            <div class="dropdown">
+            <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+            <div class="dropdown-content">
+            <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+            <a href="marvin.html">M.A.R.V.I.N.</a>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="dropdown">
+        <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+        <div class="dropdown-content">
+            <a href="what-the-regent-misses.html">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="magic-tricks-of-mars.html" class="active">Magic Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a>
+            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+    </div>
+    <div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+    <a href="contact.html">Contact</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+<!-- Hero Section -->
+<section class="magic-hero">
+<h1 class="floating">Magic Tricks of Mars</h1>
+<p>Where wonder is reborn in the low gravity of the Red Planet</p>
+</section>
+
+<!-- Story Section -->
+<section class="magic-story">
+<h2>The Salem Dome Enchantment</h2>
+<div class="story-content">
+<p class="story-text">
+In the Gothic Sector of Salem Dome, beneath the artificial starlight, something magical happens every weekend. The Regent, seeking to show Silver the beauty of human wonder, takes her to the open-air auditorium where <span class="story-highlight">Master Illusionist Orion</span> performs miracles that defy even Martian logic.
+</p>
+<p class="story-text">
+Silver, with her advanced processors and understanding of physics, should see through every trick. Yet she watches with wide optical sensors, her cooling fans whirring with excitement as doves disappear and flowers materialize from empty space. <span class="story-highlight">"How does he do that?"</span> she whispers, her voice filled with genuine wonder.
+</p>
+<p class="story-text">
+The Martian children laugh with delight, their parents remembering Earthly magic shows from childhood. But it's Silver's reaction that captures hearts - a being of pure logic experiencing the joy of mystery for the first time. In these moments, she's not a robot or a warrior, but simply someone discovering magic.
+</p>
+</div>
+</section>
+
+<!-- Magic Tricks Grid -->
+<section class="magic-tricks">
+<h2>Martian Gravity Marvels</h2>
+<div class="tricks-grid">
+<div class="trick-card floating" onclick="showComingSoon('Floating Water Orb')">
+<div class="trick-icon">🌊</div>
+<h3>Floating Water Orb</h3>
+<p>A sphere of water that holds its shape mid-air, dancing between the magician's hands without any container. The low gravity allows surface tension to create mesmerizing liquid sculptures.</p>
+<span class="gravity-badge">38% Gravity Magic</span>
+</div>
+
+<div class="trick-card floating" onclick="showComingSoon('Martian Dove Cascade')">
+<div class="trick-icon">🕊️</div>
+<h3>Martian Dove Cascade</h3>
+<p>White doves that float gently when released, their wing beats creating beautiful slow-motion patterns in the thin atmosphere before vanishing in a shower of sparkling dust.</p>
+<span class="gravity-badge">Atmospheric Wonder</span>
+</div>
+
+<div class="trick-card floating" onclick="showComingSoon('Anti-Gravity Levitation')">
+<div class="trick-icon">🎭</div>
+<h3>Anti-Gravity Levitation</h3>
+<p>The magician appears to float with impossible grace, making small movements that would require massive effort on Earth. Martian children believe it's real magic.</p>
+<span class="gravity-badge">Low-G Illusion</span>
+</div>
+
+<div class="trick-card floating" onclick="showComingSoon('Crystal Meteor Shower')">
+<div class="trick-icon">💎</div>
+<h3>Crystal Meteor Shower</h3>
+<p>Gemstones that fall like gentle snow, catching the dome's artificial light as they drift downward in perfect formation, creating a galaxy of sparkling lights.</p>
+<span class="gravity-badge">Slow-Motion Marvel</span>
+</div>
+
+<div class="trick-card floating" onclick="showComingSoon('Endless Silk River')">
+<div class="trick-icon">🧵</div>
+<h3>Endless Silk River</h3>
+<p>Colorful silk scarves that seem to flow forever when released, weaving through the air in intricate patterns that would be impossible in Earth's strong gravity.</p>
+<span class="gravity-badge">Fluid Dynamics</span>
+</div>
+
+<div class="trick-card floating" onclick="showComingSoon('Contained Flame Dance')">
+<div class="trick-icon">🔥</div>
+<h3>Contained Flame Dance</h3>
+<p>Fire that burns in perfect spheres, floating and merging in the Martian atmosphere. The different air composition creates unique colored flames.</p>
+<span class="gravity-badge">Atmospheric Alchemy</span>
+</div>
+</div>
+</section>
+
+<!-- Character Moments -->
+<section class="character-moments">
+<h2>Moments of Wonder</h2>
+<div class="moment-grid">
+<div class="moment-card" onclick="showComingSoon('Silver\'s First Trick')">
+<h3>Silver's First Trick</h3>
+<p>"The dove... where did it go? My sensors cannot locate it! Is this what you call... magic?" - Silver, her voice filled with childlike amazement</p>
+</div>
+
+<div class="moment-card" onclick="showComingSoon('The Regent\'s Smile')">
+<h3>The Regent's Smile</h3>
+<p>"I brought her here to show her human wonder. I didn't expect to rediscover it myself through her eyes." - The Regent, watching Silver's delight</p>
+</div>
+
+<div class="moment-card" onclick="showComingSoon('Martian Children')">
+<h3>Martian Children</h3>
+<p>"Look! The water's dancing! On Earth, it would just fall down!" - A young Martian, seeing the floating water orb for the first time</p>
+</div>
+
+<div class="moment-card" onclick="showComingSoon('Master Orion')">
+<h3>Master Orion</h3>
+<p>"On Mars, we don't just perform tricks - we create moments that remind us that wonder is universal, whether you're made of flesh or circuits." - The Illusionist</p>
+</div>
+</div>
+</section>
+</div>
+
+<!-- Content spacer for footer -->
+<div class="content-spacer"></div>
+
+<!-- Footer -->
+<footer>
+<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Content Visibility Controls
+const mainContent = document.getElementById('mainContent');
+const hideContentBtn = document.getElementById('hideContentBtn');
+const mouseSensor = document.getElementById('mouseSensor');
+const comingSoonOverlay = document.getElementById('comingSoonOverlay');
+
+let contentVisible = true;
+let mouseSensorActive = false;
+
+// Button controls
+hideContentBtn.addEventListener('click', () => {
+    mainContent.classList.add('hidden');
+    contentVisible = false;
+    mouseSensorActive = true;
+    hideContentBtn.textContent = '📖 Content Hidden';
+});
+
+// Mouse sensor for showing content
+mouseSensor.addEventListener('mouseenter', () => {
+    if (mouseSensorActive) {
+        mainContent.classList.remove('hidden');
+        contentVisible = true;
+        mouseSensorActive = false;
+        hideContentBtn.textContent = '👁️ Hide Content';
+        // Auto-hide after 10 seconds if user doesn't interact
+        setTimeout(() => {
+            if (contentVisible && !isUserInteracting()) {
+                mainContent.classList.add('hidden');
+                contentVisible = false;
+                mouseSensorActive = true;
+                hideContentBtn.textContent = '📖 Content Hidden';
+            }
+        }, 10000);
+    }
+});
+
+// Also allow showing content by moving mouse to top of screen
+document.addEventListener('mousemove', (e) => {
+    if (e.clientY < 100 && !contentVisible && mouseSensorActive) {
+        mainContent.classList.remove('hidden');
+        contentVisible = true;
+        mouseSensorActive = false;
+        hideContentBtn.textContent = '👁️ Hide Content';
+    }
+});
+
+function isUserInteracting() {
+    return mainContent.matches(':hover') || document.querySelector('.magic-hero').matches(':hover');
+}
+
+// Coming Soon functionality
+function showComingSoon(trickName) {
+    const title = comingSoonOverlay.querySelector('h2');
+    title.textContent = `${trickName} - Coming Soon!`;
+    comingSoonOverlay.style.display = 'flex';
+}
+
+function closeComingSoon() {
+    comingSoonOverlay.style.display = 'none';
+}
+
+// Video background loading
+const videoBg = document.getElementById('magicVideo');
+const staticBg = document.getElementById('staticBg');
+
+videoBg.addEventListener('loadeddata', function() {
+    videoBg.classList.add('loaded');
+    setTimeout(() => {
+        videoBg.play().catch(e => {
+            console.log('Autoplay prevented, waiting for user interaction');
+        });
+    }, 500);
+});
+
+videoBg.addEventListener('error', function() {
+    console.log('Video failed to load, using static background only');
+    videoBg.style.display = 'none';
+});
+
+// Audio System
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+    const sounds = [
+        { src: 'music/magical-martian-theme.mp3', volume: 0.3 },
+        { src: 'sounds/magic-ambience.mp3', volume: 0.2 }
+    ];
+
+    sounds.forEach(sound => {
+        const audio = new Audio(sound.src);
+        audio.volume = sound.volume;
+        audio.loop = true;
+        audio.muted = true;
+        audioElements.push(audio);
+    });
+
+    document.addEventListener('click', function unmuteAudio() {
+        if (!isMuted) {
+            audioElements.forEach(audio => {
+                audio.muted = false;
+                audio.play().catch(e => console.log('Audio play failed'));
+            });
+            isMuted = false;
+            muteBtn.textContent = "🔊 Mute Sounds";
+        }
+        document.removeEventListener('click', unmuteAudio);
+    }, { once: true });
+}
+
+muteBtn.addEventListener('click', function() {
+    isMuted = !isMuted;
+    audioElements.forEach(audio => {
+        audio.muted = isMuted;
+    });
+    muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+initAudio();
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'h' || event.key === 'H') {
+        // Toggle content visibility with 'H' key
+        if (contentVisible) {
+            mainContent.classList.add('hidden');
+            contentVisible = false;
+            mouseSensorActive = true;
+            hideContentBtn.textContent = '📖 Content Hidden';
+        } else {
+            mainContent.classList.remove('hidden');
+            contentVisible = true;
+            mouseSensorActive = false;
+            hideContentBtn.textContent = '👁️ Hide Content';
+        }
+    }
+    if (event.key === 'Escape') {
+        closeComingSoon();
+    }
+});
+
+// Ensure video plays when user interacts with page
+document.addEventListener('click', function() {
+    if (videoBg.paused) {
+        videoBg.play().catch(e => console.log('Video play requires user interaction'));
+    }
+});
+</script>
+</body>
+</html>

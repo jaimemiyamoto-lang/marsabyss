@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Martian Survival Manual - The Mars Abyss</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            background: #000;
+        }
+
+        /* FIXED BACKGROUND - NO BLINKING */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .static-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #3a1c1c, #8b4513, #1a1a2e);
+            z-index: 1;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 2;
+        }
+
+        /* === ENHANCED TOP MENU === */
+        nav.top-menu {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(17, 17, 17, 0.95);
+            padding: 0.6rem 0;
+            z-index: 1000;
+            gap: 2.5rem;
+            flex-wrap: nowrap;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00ccff;
+        }
+
+        nav.top-menu a {
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        nav.top-menu a.active,
+        nav.top-menu a:hover {
+            color: #00ccff;
+            background: transparent;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown > a, .dropdown {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(26, 26, 26, 0.98);
+            min-width: 140px;
+            z-index: 1001;
+            border-radius: 4px;
+            border: 2px solid #00ccff;
+            top: 100%;
+            left: 0;
+            backdrop-filter: blur(5px);
+            padding: 4px 0;
+        }
+
+        .dropdown .dropdown .dropdown-content {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            width: 100%;
+        }
+
+        .dropdown-content a {
+            color: #f5f5f5;
+            padding: 3px 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+            line-height: 1;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(0, 204, 255, 0.6);
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* SITE TITLE OVERLAY */
+        .site-title-overlay {
+            position: fixed;
+            top: 80px;
+            left: 30px;
+            z-index: 50;
+        }
+
+        .site-title-overlay h1 {
+            color: #ce4e05;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* AUDIO CONTROLS - POSITION FIXED */
+        .audio-controls {
+            position: fixed;
+            bottom: 80px;
+            right: 41px;
+            z-index: 1000;
+        }
+
+        .audio-btn {
+            background: rgba(0, 204, 255, 0.8);
+            border: 2px solid #00ccff;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
+        }
+
+        .audio-btn:hover {
+            background: rgba(0, 204, 255, 0.6);
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+        }
+
+        /* HIDE/SHOW BUTTON */
+.view-toggle {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+.view-btn {
+    background: rgba(180, 180, 255, 0.8);
+    border: 2px solid #b4b4ff;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+    min-width: 120px;
+    text-align: center;
+}
+
+.view-btn:hover {
+    transform: scale(1.05);
+}
+
+/* HIDDEN CLASS */
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+
+        /* SURVIVAL MANUAL CONTENT */
+        .content-container {
+            position: relative;
+            z-index: 10;
+            margin-top: 150px;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            border: 2px solid #00ccff;
+            box-shadow: 0 0 20px rgba(0, 204, 255, 0.5);
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #00ccff;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+        }
+
+        .page-subtitle {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #e0e0ff;
+            font-style: italic;
+        }
+
+        .story-intro {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #ff4444;
+        }
+
+        .story-intro h2 {
+            color: #ff4444;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .survival-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .survival-card {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #00ccff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .survival-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.3);
+        }
+
+        .survival-card h3 {
+            color: #00ccff;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            border-bottom: 1px solid #00ccff;
+            padding-bottom: 5px;
+        }
+
+        .survival-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .survival-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .survival-card li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #00ccff;
+        }
+
+        .earth-mars-comparison {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .comparison-box {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid;
+        }
+
+        .earth-box {
+            border-color: #4CAF50;
+        }
+
+        .mars-box {
+            border-color: #ff4444;
+        }
+
+        .comparison-box h3 {
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            border-bottom: 1px solid;
+            padding-bottom: 5px;
+        }
+
+        .earth-box h3 {
+            color: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .mars-box h3 {
+            color: #ff4444;
+            border-color: #ff4444;
+        }
+
+        .emergency-protocol {
+            background: rgba(255, 68, 68, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #ff4444;
+        }
+
+        .emergency-protocol h2 {
+            color: #ff4444;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #ffc107;
+        }
+
+        .warning-box h4 {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+
+        /* ENHANCED FOOTER - POSITION FIXED */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 0.6rem 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ccff;
+            font-family: 'Segoe UI', sans-serif;
+            z-index: 1000;
+            border-top: 2px solid #00ccff;
+            padding-left: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .site-title-overlay {
+                top: 70px;
+                left: 20px;
+            }
+            .site-title-overlay h1 {
+                font-size: 1.4rem;
+            }
+            .audio-controls {
+                right: 20px;
+                bottom: 70px;
+            }
+            .page-title {
+                font-size: 2rem;
+            }
+            .page-subtitle {
+                font-size: 1.2rem;
+            }
+            .content-container {
+                margin-top: 120px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- FIXED MARTIAN BACKGROUND - NO BLINKING -->
+    <div class="background-container">
+        <div class="static-background" id="staticBg"></div>
+        <video class="video-background" id="marsVideo" muted loop playsinline preload="auto">
+            <source src="videos/expedition-vessel.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- SITE TITLE OVERLAY -->
+    <div class="site-title-overlay">
+        <h1>The Mars Abyss</h1>
+    </div>
+
+    <div class="view-toggle">
+    <button class="view-btn" id="viewToggle">🌌 Hide Content</button>
+</div>
+    
+    <!-- AUDIO CONTROLS -->
+    <div class="audio-controls">
+        <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+    </div>
+
+    <!-- ENHANCED TOP MENU -->
+     <nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+        <div class="dropdown">
+            <a href="story.html" class="dropbtn">Story</a>
+            <div class="dropdown-content">
+                <a href="characters.html">Characters</a>
+                <div class="dropdown">
+                    <a href="gallery.html" class="dropbtn">Gallery</a>
+                    <div class="dropdown-content">
+                        <a href="art-and-concepts.html">Art & Concepts</a>
+                        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                        <a href="technical-database.html">Technical Database</a>
+                        <a href="martian-edicts.html">The Martian Edicts</a>
+                        <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                        <a href="solar-system-explorer.html">Solar System Explorer</a>
+                        <a href="aliens-ufos.html">Aliens & UFOs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-games.html" class="dropbtn">Martian Games</a>
+            <div class="dropdown-content">
+                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+                <a href="martian-racer.html">Martian Racer</a>
+                <a href="red-planet-defense.html">Red Planet Defense</a>
+                <a href="the-regents-portal.html">The Regent's Portal</a>
+                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+                <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+            <div class="dropdown-content">
+                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+                <a href="earths-great-poets.html">Earth's Great Poets</a>
+                <a href="the-bohr-institute.html">The Bohr Institute</a>
+                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+                <a href="the-bronx-dome.html">The Bronx Dome</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="martian-news.html" class="dropbtn">Martian News</a>
+            <div class="dropdown-content">
+                <a href="martian-actualities.html">Martian Actualities</a>
+                <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+                <a href="mars-bee-facility.html">Mars Bee Facility</a>
+                <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+                <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+                <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+                <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+                <a href="martian-rest-areas.html">Martian Rest Areas</a>
+                <div class="dropdown">
+                <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                <div class="dropdown-content">
+                <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                <a href="marvin.html">M.A.R.V.I.N.</a>
+            </div>
+        </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+            <div class="dropdown-content">
+                <a href="regents-longing.html">What the Regent Misses</a>
+                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+                <a href="honor-the-fallen.html">Honor The Fallen</a>
+                <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+                <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+                <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+                <a href="martian-critique-tron-ares.html">Martian Critique</a>
+                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="about.html" class="dropbtn">About</a>
+            <div class="dropdown-content">
+                <a href="about-the-project.html">About the Project</a>
+                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+                <a href="the-pale-horse.html">The Pale Horse</a>
+                <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+                <a href="arachne-labs.html">Arachne Labs</a>
+                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html" class="active">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- SURVIVAL MANUAL CONTENT -->
+    <div class="content-container" id="mainContent">
+        <h1 class="page-title">MARTIAN SURVIVAL MANUAL</h1>
+        <p class="page-subtitle">Based on the Incident Report: Exocommunication of Crew Members During Sandstorm Alpha-7</p>
+            <p>Survival protocols based on NASA Martian Contingency Procedures.</p>
+        <div class="story-intro">
+            <h2>INCIDENT REPORT</h2>
+            <p>During a routine geological survey in the Valles Marineris region, two crew members (Dr. Aris Thorne and Engineer Lena Kovac) wandered from the designated trail to investigate an unusual mineral formation. A sudden, unprecedented sandstorm of magnitude 9.2 forced the expedition vessel to evacuate immediately. Communication was lost with the two crew members, who had fallen into a deep crevice while seeking shelter.</p>
+            <p>Despite multiple rescue attempts, the severity of the storm and unstable terrain made recovery impossible. The two are now considered excommunicated from the main colony and must rely on their survival skills until a rescue window opens in 68 Martian days.</p>
+        </div>
+
+        <div class="warning-box">
+            <h4>⚠️ MARTIAN SURVIVAL PRIORITY</h4>
+            <p>On Mars, the order of survival priorities differs from Earth. Atmosphere and temperature regulation take precedence over water and food due to the immediate lethal environment.</p>
+        </div>
+
+        <div class="survival-sections">
+            <div class="survival-card">
+                <h3>PRIMITIVE NAVIGATION</h3>
+                <ul>
+                    <li><strong>Martian North Star:</strong> Use Phobos and Deimos positions to determine direction</li>
+                    <li><strong>Shadow Stick Method:</strong> Works on Mars but requires adjustment for longer day</li>
+                    <li><strong>Wind Patterns:</strong> Note prevailing wind directions for orientation</li>
+                    <li><strong>Landmark Navigation:</strong> Use Olympus Mons as a massive reference point</li>
+                    <li><strong>Emergency Beacons:</strong> Activate personal locator only when rescue likely</li>
+                </ul>
+            </div>
+
+            <div class="survival-card">
+                <h3>CONSERVING ENERGY</h3>
+                <ul>
+                    <li><strong>Oxygen Management:</strong> Limit physical exertion to preserve suit oxygen</li>
+                    <li><strong>Thermal Regulation:</strong> Use rock shelters to maintain body temperature</li>
+                    <li><strong>Sleep Cycles:</strong> Sync with Martian day/night cycle (24h 37m)</li>
+                    <li><strong>Minimal Movement:</strong> Plan routes carefully to avoid unnecessary travel</li>
+                    <li><strong>Mental Preservation:</strong> Practice meditation to reduce stress oxygen consumption</li>
+                </ul>
+            </div>
+
+            <div class="survival-card">
+                <h3>SHELTER BUILDING</h3>
+                <ul>
+                    <li><strong>Lava Tubes:</strong> Seek natural formations for immediate protection</li>
+                    <li><strong>Rock Walls:</strong> Build against windward side of formations</li>
+                    <li><strong>Emergency Hab:</strong> Use damaged equipment to create sealed environment</li>
+                    <li><strong>Thermal Insulation:</strong> Layer regolith for temperature stability</li>
+                    <li><strong>Radiation Shielding:</strong> Minimum 3 meters of regolith required</li>
+                </ul>
+            </div>
+
+            <div class="survival-card">
+                <h3>SIGNALING FOR HELP</h3>
+                <ul>
+                    <li><strong>Solar Reflection:</strong> Use any reflective surface to signal orbiters</li>
+                    <li><strong>Ground Markings:</strong> Create large geometric patterns visible from air</li>
+                    <li><strong>Emergency Frequencies:</strong> Conserve power for scheduled rescue windows</li>
+                    <li><strong>Smoke Signals:</strong> Not applicable in Martian atmosphere</li>
+                    <li><strong>Audio Signals:</strong> Limited effectiveness in thin atmosphere</li>
+                </ul>
+            </div>
+
+            <div class="survival-card">
+                <h3>WATER PROCUREMENT</h3>
+                <ul>
+                    <li><strong>Atmospheric Condensation:</strong> Extract water from air at night</li>
+                    <li><strong>Regolith Processing:</strong> Heat surface soil to release bound water</li>
+                    <li><strong>Ice Mining:</strong> Search for subsurface ice in polar-facing slopes</li>
+                    <li><strong>Recycling:</strong> Maximum efficiency of all bodily fluids</li>
+                    <li><strong>Conservation:</strong> Limit to 500ml daily when supplies low</li>
+                </ul>
+            </div>
+
+            <div class="survival-card">
+                <h3>FOOD SOURCES</h3>
+                <ul>
+                    <li><strong>Emergency Rations:</strong> Stretch standard 7-day supply to 30 days</li>
+                    <li><strong>Martian Lichen:</strong> Certain species are edible with preparation</li>
+                    <li><strong>Insect Protein:</strong> Limited native insectoids may provide nutrition</li>
+                    <li><strong>Hydroponic Recovery:</strong> Attempt to regrow from food waste</li>
+                    <li><strong>Nutrition Prioritization:</strong> Focus on protein and fat preservation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="earth-mars-comparison">
+            <div class="comparison-box earth-box">
+                <h3>EARTH SURVIVAL</h3>
+                <ul>
+                    <li><strong>Rule of 3s:</strong> 3 minutes without air, 3 days without water, 3 weeks without food</li>
+                    <li><strong>Fire:</strong> Critical for warmth, water purification, and signaling</li>
+                    <li><strong>Shelter:</strong> Protection from elements and wildlife</li>
+                    <li><strong>Water:</strong> Can be found from multiple natural sources</li>
+                    <li><strong>Signaling:</strong> Smoke, mirrors, ground markings effective</li>
+                    <li><strong>Navigation:</strong> Sun, stars, natural indicators readily available</li>
+                </ul>
+            </div>
+
+            <div class="comparison-box mars-box">
+                <h3>MARS SURVIVAL</h3>
+                <ul>
+                    <li><strong>Rule of 3s:</strong> 3 SECONDS without suit, 3 minutes without oxygen, 3 hours without temperature control</li>
+                    <li><strong>Fire:</strong> Impossible in low-oxygen atmosphere</li>
+                    <li><strong>Shelter:</strong> Required for radiation and temperature extremes</li>
+                    <li><strong>Water:</strong> Must be extracted from atmosphere or soil</li>
+                    <li><strong>Signaling:</strong> Limited to electronic and visual methods</li>
+                    <li><strong>Navigation:</strong> Requires technological aids or celestial calculation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="emergency-protocol">
+            <h2>MARTIAN EMERGENCY PRIORITY PROTOCOL</h2>
+            <ol>
+                <li><strong>IMMEDIATE:</strong> Assess suit integrity and oxygen levels</li>
+                <li><strong>URGENT:</strong> Find or create pressurized shelter</li>
+                <li><strong>CRITICAL:</strong> Establish communication if possible</li>
+                <li><strong>ESSENTIAL:</strong> Conserve power and oxygen supplies</li>
+                <li><strong>NECESSARY:</strong> Secure water source</li>
+                <li><strong>IMPORTANT:</strong> Ration food supplies</li>
+                <li><strong>SECONDARY:</strong> Plan for long-term survival</li>
+            </ol>
+            <p class="warning-box" style="margin-top: 15px;">
+                <strong>NOTE:</strong> The psychological impact of Martian isolation cannot be overstated. Maintain regular communication with your partner and establish routines to preserve mental health.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+
+        // HIDE/SHOW CONTENT FUNCTIONALITY ONLY
+const viewToggle = document.getElementById('viewToggle');
+const mainContent = document.getElementById('mainContent');
+const siteTitle = document.getElementById('siteTitle');
+const pageFooter = document.getElementById('pageFooter');
+const mainMenu = document.querySelector('nav.top-menu');
+
+viewToggle.addEventListener('click', function() {
+    mainContent.classList.toggle('hidden');
+    siteTitle.classList.toggle('hidden');
+    pageFooter.classList.toggle('hidden');
+    mainMenu.classList.toggle('hidden');
+    
+    if (mainContent.classList.contains('hidden')) {
+        viewToggle.textContent = '📄 Show Content';
+    } else {
+        viewToggle.textContent = '🌌 Hide Content';
+    }
+});
+        // FIXED VIDEO BACKGROUND LOADING - NO BLINKING
+        const videoBg = document.getElementById('marsVideo');
+        const staticBg = document.getElementById('staticBg');
+
+        // Preload and handle video properly
+        videoBg.addEventListener('loadeddata', function() {
+            videoBg.classList.add('loaded');
+            setTimeout(() => {
+                videoBg.play().catch(e => {
+                    console.log('Autoplay prevented, waiting for user interaction');
+                });
+            }, 500);
+        });
+
+        videoBg.addEventListener('canplaythrough', function() {
+            videoBg.classList.add('loaded');
+        });
+
+        videoBg.addEventListener('error', function() {
+            console.log('Video failed to load, using static background only');
+            videoBg.style.display = 'none';
+        });
+
+        // Fallback: if video doesn't load within 3 seconds, hide it
+        setTimeout(() => {
+            if (!videoBg.classList.contains('loaded')) {
+                videoBg.style.display = 'none';
+                console.log('Video loading timeout, falling back to static background');
+            }
+        }, 3000);
+
+        // AUDIO SYSTEM
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true;
+        let audioElements = [];
+
+        function initAudio() {
+            const sounds = [
+                { src: 'music/he-played-like-fire.mp3', volume: 0.5 },
+                { src: 'sounds/ambient-space.mp3', volume: 0.2 }
+            ];
+
+            sounds.forEach(sound => {
+                const audio = new Audio(sound.src);
+                audio.volume = sound.volume;
+                audio.loop = true;
+                audio.muted = true;
+                audioElements.push(audio);
+            });
+
+            // Audio initialization
+            document.addEventListener('click', function unmuteAudio() {
+                if (!isMuted) {
+                    audioElements.forEach(audio => {
+                        audio.muted = false;
+                        audio.play().catch(e => console.log('Audio play failed'));
+                    });
+                    isMuted = false;
+                    muteBtn.textContent = "🔊 Mute Sounds";
+                }
+                document.removeEventListener('click', unmuteAudio);
+            }, { once: true });
+        }
+
+        // Mute toggle
+        muteBtn.addEventListener('click', function() {
+            isMuted = !isMuted;
+            audioElements.forEach(audio => {
+                audio.muted = isMuted;
+            });
+            muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+        });
+
+        // Initialize audio when page loads
+        initAudio();
+
+        // Ensure video plays when user interacts with page
+        document.addEventListener('click', function() {
+            if (videoBg.paused) {
+                videoBg.play().catch(e => console.log('Video play requires user interaction'));
+            }
+        });
+    </script>
+</body>
+</html>

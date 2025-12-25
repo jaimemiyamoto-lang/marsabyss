@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Mars is Safer - The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #fff;
+overflow-x: hidden;
+position: relative;
+background: #000;
+}
+
+/* === VIDEO BACKGROUND === */
+.video-background {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 1;
+opacity: 0.7;
+}
+
+/* === STANDARD TOP MENU === */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100vw;
+left: 0;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #00cc00;
+box-sizing: border-box;
+}
+
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #00cc00;
+background: transparent;
+text-shadow: 0 0 10px rgba(0, 204, 0, 0.5);
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background: rgba(26, 26, 26, 0.98);
+min-width: 180px;
+z-index: 1001;
+border-radius: 4px;
+border: 2px solid #00cc00;
+top: 100%;
+left: 0;
+backdrop-filter: blur(5px);
+padding: 4px 0;
+}
+
+.dropdown .dropdown .dropdown-content {
+position: absolute;
+left: 0;
+top: 100%;
+width: 100%;
+}
+
+.dropdown-content a {
+color: #f5f5f5;
+padding: 8px 12px;
+text-decoration: none;
+display: block;
+transition: background-color 0.3s ease;
+font-size: 0.95rem;
+line-height: 1;
+}
+
+.dropdown-content a:hover {
+background: rgba(0, 204, 0, 0.6);
+color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/* === SITE TITLE OVERLAY === */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+transition: opacity 0.3s ease;
+}
+
+.site-title-overlay.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+.site-title-overlay h1 {
+color: rgba(0, 204, 0, 0.7);
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(0, 204, 0, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
+
+/* === AUDIO CONTROLS === */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 20px;
+z-index: 1000;
+}
+
+.audio-btn {
+background: rgba(0, 204, 0, 0.6);
+border: 2px solid #00cc00;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+background: rgba(0, 204, 0, 1);
+box-shadow: 0 0 15px rgba(0, 204, 0, 0.5);
+}
+
+/* === CONTENT TOGGLE === */
+.content-toggle {
+position: fixed;
+top: 80px;
+right: 20px;
+z-index: 1000;
+}
+
+.toggle-btn {
+background: rgba(0, 100, 200, 0.6);
+border: 2px solid #4cc9f0;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+}
+
+.toggle-btn:hover {
+background: rgba(0, 100, 200, 0.8);
+}
+
+/* === SAFETY CONTENT === */
+.safety-container {
+position: relative;
+z-index: 10;
+max-width: 900px;
+margin: 120px auto 50px;
+padding: 2.5rem;
+background: rgba(10, 20, 10, 0.85);
+border-radius: 16px;
+border: 3px solid #00cc00;
+box-shadow: 0 0 30px rgba(0, 204, 0, 0.3);
+backdrop-filter: blur(10px);
+transition: opacity 0.5s ease;
+}
+
+.safety-container.hidden {
+opacity: 0;
+}
+
+.safety-title {
+color: #00cc00;
+font-family: 'Orbitron', sans-serif;
+font-size: 2.2rem;
+text-align: center;
+margin-bottom: 1rem;
+text-shadow: 0 0 15px rgba(0, 204, 0, 0.5);
+}
+
+.safety-subtitle {
+color: #90ee90;
+text-align: center;
+font-size: 1.2rem;
+margin-bottom: 2rem;
+font-style: italic;
+}
+
+/* STATS GRID */
+.stats-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 1.5rem;
+margin: 3rem 0;
+}
+
+.stat-card {
+background: rgba(0, 20, 0, 0.6);
+border: 1px solid #00cc00;
+border-radius: 12px;
+padding: 2rem;
+text-align: center;
+transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 0 20px rgba(0, 204, 0, 0.4);
+}
+
+.stat-number {
+color: #00cc00;
+font-size: 2.5rem;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 0.5rem;
+}
+
+.stat-label {
+color: #f5f5f5;
+font-size: 0.9rem;
+}
+
+/* QUOTE */
+.safety-quote {
+background: rgba(0, 204, 0, 0.1);
+border-left: 4px solid #ffd700;
+padding: 1.5rem;
+margin: 2rem 0;
+font-style: italic;
+font-size: 1.1rem;
+}
+
+.quote-source {
+text-align: right;
+color: #90ee90;
+margin-top: 0.5rem;
+font-size: 0.9rem;
+}
+
+/* COMPARISON */
+.comparison-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+margin: 3rem 0;
+}
+
+.comparison-card {
+background: rgba(0, 0, 0, 0.6);
+border: 1px solid;
+border-radius: 12px;
+padding: 2rem;
+text-align: center;
+transition: all 0.3s ease;
+}
+
+.earth-card {
+border-color: #cc0000;
+}
+
+.mars-card {
+border-color: #00cc00;
+}
+
+.comparison-card:hover {
+transform: translateY(-5px);
+}
+
+.earth-card:hover {
+box-shadow: 0 0 20px rgba(204, 0, 0, 0.4);
+}
+
+.mars-card:hover {
+box-shadow: 0 0 20px rgba(0, 204, 0, 0.4);
+}
+
+.comparison-icon {
+font-size: 3rem;
+margin-bottom: 1rem;
+}
+
+.earth-card .comparison-icon {
+color: #cc0000;
+}
+
+.mars-card .comparison-icon {
+color: #00cc00;
+}
+
+.comparison-card h3 {
+margin-bottom: 1rem;
+font-size: 1.3rem;
+}
+
+.earth-card h3 {
+color: #cc0000;
+}
+
+.mars-card h3 {
+color: #00cc00;
+}
+
+/* CONTENT SECTIONS */
+.content-section {
+margin: 2rem 0;
+padding: 1.5rem;
+background: rgba(20, 40, 20, 0.6);
+border-radius: 10px;
+border-left: 4px solid #00cc00;
+}
+
+.content-section h3 {
+color: #00cc00;
+margin-bottom: 1rem;
+font-size: 1.4rem;
+}
+
+.content-section p {
+line-height: 1.6;
+margin-bottom: 1rem;
+}
+
+/* FOOTER */
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #00cc00;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #00cc00;
+transition: opacity 0.5s ease;
+}
+
+footer.hidden {
+opacity: 0;
+}
+
+.content-spacer {
+height: 100px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+.safety-container {
+margin: 100px 20px 30px;
+padding: 1.5rem;
+}
+
+.safety-title {
+font-size: 1.8rem;
+}
+
+.stats-grid, .comparison-grid {
+grid-template-columns: 1fr;
+}
+
+nav.top-menu {
+gap: 1rem;
+padding: 0.5rem 0;
+}
+
+nav.top-menu a {
+font-size: 0.9rem;
+padding: 0.4rem 0.6rem;
+}
+
+.content-toggle {
+top: 140px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- VIDEO BACKGROUND -->
+<video class="video-background" autoplay muted loop id="bgVideo">
+<source src="videos/hovering-glider.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+<!-- STANDARD TOP MENU -->
+<nav class="top-menu">
+
+<div class="dropdown">
+<a href="index.html" class="dropbtn active">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html" class="active">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+<a href="contact.html">Contact</a>
+
+</nav>
+
+<!-- SITE TITLE -->
+<div class="site-title-overlay" id="siteTitle">
+<h1>The Mars Abyss</h1>
+</div>
+
+<!-- CONTENT TOGGLE -->
+<div class="content-toggle">
+<button class="toggle-btn" id="toggleContent">🌌 Hide Content</button>
+</div>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="safety-container" id="mainContent">
+<h1 class="safety-title">Why Mars is Safer</h1>
+<p class="safety-subtitle">The numbers don't lie: Mars' social model creates unprecedented safety and security.</p>
+
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-number">0</div>
+<div class="stat-label">military conflicts between domes</div>
+</div>
+<div class="stat-card">
+<div class="stat-number">100%</div>
+<div class="stat-label">access to healthcare & education</div>
+</div>
+<div class="stat-card">
+<div class="stat-number">47%</div>
+<div class="stat-label">more resources per citizen (vs Earth avg)</div>
+</div>
+<div class="stat-card">
+<div class="stat-number">99.7%</div>
+<div class="stat-label">feel "completely safe" in their dome</div>
+</div>
+</div>
+
+<div class="safety-quote">
+"We didn't eliminate weapons. We eliminated the need for them."
+<div class="quote-source">- First Regent of Mars, Sol 87</div>
+</div>
+
+<div class="comparison-grid">
+<div class="comparison-card earth-card">
+<div class="comparison-icon">🌍</div>
+<h3>Earth's Failed Model</h3>
+<p><strong>Cycle:</strong> Conflict → Military Spending → Less for People → More Conflict</p>
+<p><em>"Fear breeds scarcity breeds fear"</em></p>
+</div>
+<div class="comparison-card mars-card">
+<div class="comparison-icon">🚀</div>
+<h3>Mars' Success Model</h3>
+<p><strong>Cycle:</strong> Care → Resource Sharing → Security → More Care</p>
+<p><em>"Trust breeds abundance breeds trust"</em></p>
+</div>
+</div>
+
+<div class="content-section">
+<h3>Safety Statistics Compared to Earth's Safest Countries</h3>
+<p>Based on BBC Travel's 2025 report of the world's safest countries, Mars exceeds all Earth metrics:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.6;">
+<li><strong>Violent crime rate:</strong> 0.01 per 1000 (vs Iceland's 0.12)</li>
+<li><strong>Police response time:</strong> 47 seconds average (Mars Security response)</li>
+<li><strong>Citizen trust in institutions:</strong> 94% (highest on Earth: 86% in Switzerland)</li>
+<li><strong>Youth safety rating:</strong> 99.9/100 (unprecedented for any society)</li>
+<li><strong>Gender safety parity:</strong> 100% equal safety perception</li>
+</ul>
+</div>
+
+<div class="content-section">
+<h3>The Resource-Based Economy Difference</h3>
+<p>Mars eliminated the root causes of violence through fundamental economic restructuring:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.6;">
+<li><strong>Universal Basic Needs:</strong> Food, water, shelter, healthcare guaranteed</li>
+<li><strong>Resource Tracking:</strong> Real-time monitoring prevents hoarding</li>
+<li><strong>Merit-Based Luxury:</strong> Extra comforts earned through contribution</li>
+<li><strong>Transparent Allocation:</strong> Every citizen can audit resource distribution</li>
+</ul>
+<p>This system removed scarcity-driven conflict before it could begin.</p>
+</div>
+
+<div class="content-section">
+<h3>Community-Based Security</h3>
+<p>Instead of militarized police, Mars uses a three-tier security system:</p>
+<ol style="padding-left: 1.5rem; line-height: 1.6;">
+<li><strong>Tier 1: Community Mediators</strong> - Trained volunteers resolve disputes</li>
+<li><strong>Tier 2: Dome Security</strong> - Non-lethal response teams for emergencies</li>
+<li><strong>Tier 3: Mars Defense Force</strong> - External threat protection only</li>
+</ol>
+<p>"Our security begins at the dinner table, not the police station," explains Security Director Kaelen.</p>
+</div>
+
+<div class="content-section">
+<h3>Psychological Safety Infrastructure</h3>
+<p>Mars invests heavily in mental health and community cohesion:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.6;">
+<li>Mandatory conflict resolution training for all adults</li>
+<li>24/7 psychological support available in every dome</li>
+<li>Community decision-making circles for local issues</li>
+<li>Transparent governance with real citizen oversight</li>
+<li>Cultural emphasis on empathy and mutual responsibility</li>
+</ul>
+<p>This creates a society where safety is woven into daily life, not enforced from outside.</p>
+</div>
+</div>
+
+<div class="content-spacer"></div>
+
+<footer id="pageFooter">
+<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Content toggle functionality
+const toggleBtn = document.getElementById('toggleContent');
+const mainContent = document.getElementById('mainContent');
+const pageFooter = document.getElementById('pageFooter');
+const siteTitle = document.getElementById('siteTitle');
+const mainMenu = document.querySelector('nav.top-menu');
+const bgVideo = document.getElementById('bgVideo');
+
+let contentVisible = true;
+
+toggleBtn.addEventListener('click', function() {
+contentVisible = !contentVisible;
+mainContent.classList.toggle('hidden');
+pageFooter.classList.toggle('hidden');
+siteTitle.classList.toggle('hidden');
+mainMenu.classList.toggle('hidden');
+
+if (contentVisible) {
+toggleBtn.textContent = '🌌 Hide Content';
+bgVideo.play();
+} else {
+toggleBtn.textContent = '📄 Show Content';
+bgVideo.pause();
+}
+});
+
+// Simple audio system
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+    const sounds = [
+        { src: 'music/bailando-in-el-caribe-remix.mp3', volume: 0.3 },
+        { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+        { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+    ];
+
+    sounds.forEach(sound => {
+        const audio = new Audio(sound.src);
+        audio.volume = sound.volume;
+        audio.loop = true;
+        audio.muted = true;
+        audioElements.push(audio);
+    });
+
+    document.addEventListener('click', function unmuteAudio() {
+        if (!isMuted) {
+            audioElements.forEach(audio => {
+                audio.muted = false;
+                audio.play().catch(e => console.log('Audio play failed'));
+            });
+            isMuted = false;
+            muteBtn.textContent = "🔊 Mute Sounds";
+        }
+        document.removeEventListener('click', unmuteAudio);
+    }, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+    isMuted = !isMuted;
+    audioElements.forEach(audio => {
+        audio.muted = isMuted;
+    });
+    muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// Initialize audio when page loads
+initAudio();
+
+// Site title hide on scroll
+let lastScrollTop = 0;
+window.addEventListener('scroll', function() {
+let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+if (scrollTop > lastScrollTop && scrollTop > 50) {
+siteTitle.classList.add('hidden');
+} else {
+siteTitle.classList.remove('hidden');
+}
+lastScrollTop = scrollTop;
+});
+
+// Auto-hide controls
+let inactivityTimer;
+function resetInactivityTimer() {
+clearTimeout(inactivityTimer);
+inactivityTimer = setTimeout(() => {
+if (contentVisible) {
+siteTitle.classList.add('hidden');
+document.querySelector('.content-toggle').style.opacity = '0.3';
+document.querySelector('.audio-controls').style.opacity = '0.3';
+}
+}, 5000);
+}
+
+document.addEventListener('mousemove', resetInactivityTimer);
+document.addEventListener('click', resetInactivityTimer);
+resetInactivityTimer();
+
+// Show controls on hover
+[document.querySelector('.content-toggle'), document.querySelector('.audio-controls')].forEach(el => {
+if (el) {
+el.addEventListener('mouseenter', () => {
+el.style.opacity = '1';
+});
+el.addEventListener('mouseleave', () => {
+if (contentVisible) el.style.opacity = '0.3';
+});
+}
+});
+
+// Ensure video plays on user interaction
+document.addEventListener('click', function() {
+if (bgVideo.paused) {
+bgVideo.play().catch(e => console.log('Video play requires user interaction'));
+}
+});
+</script>
+</body>
+</html>

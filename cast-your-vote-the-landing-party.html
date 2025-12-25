@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cast Your Vote - The Landing Party | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  background: #000;
+  overflow-x: hidden;
+}
+
+/* === FIXED TOP MENU - COMPLETE STRUCTURE === */
+nav.top-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #39ff14;
+}
+
+nav.top-menu a {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+    color: #39ff14;
+    background: transparent;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.7);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid #39ff14;
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
+}
+
+.dropdown .dropdown .dropdown-content {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+}
+
+.dropdown-content a {
+    color: #f5f5f5;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.8rem;
+    line-height: 1;
+}
+
+.dropdown-content a:hover {
+    background: rgba(57, 255, 20, 0.6);
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* SITE TITLE OVERLAY - EXACT POSITIONING LIKE OTHER PAGES */
+.site-title-overlay {
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+    transition: opacity 0.3s ease;
+}
+
+.site-title-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.site-title-overlay h1 {
+    color: rgba(57, 255, 20, 0.7);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+/* AUDIO CONTROLS */
+.audio-controls {
+  position: fixed;
+  bottom: 80px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.audio-btn {
+  background: rgba(57, 255, 20, 0.8);
+  border: 2px solid #39ff14;
+  color: #000;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  font-size: 0.9rem;
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+}
+
+.audio-btn:hover {
+  background: rgba(57, 255, 20, 0.9);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.7);
+  transform: scale(1.05);
+}
+
+/* HIDE CONTENT BUTTON */
+.hide-content-btn {
+  position: fixed;
+  top: 80px;
+  right: 30px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #39ff14;
+  border: 2px solid #39ff14;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  z-index: 1001;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.hide-content-btn:hover {
+  background: rgba(57, 255, 20, 0.3);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+nav.top-menu,
+footer {
+    transition: all 0.5s ease;
+}
+
+nav.top-menu.hidden,
+footer.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-20px);
+}
+
+/* LANDING PARTY BACKGROUND */
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.static-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('images/the-landing-party.jpg') no-repeat center center / cover;
+  z-index: 1;
+  opacity: 0.8;
+  transition: opacity 0.5s ease;
+}
+
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  transition: background 0.5s ease;
+}
+
+/* VOTE CONTENT - WITH HIDE FUNCTIONALITY */
+.vote-container {
+  position: relative;
+  z-index: 10;
+  max-width: 900px;
+  margin: 80px auto;
+  padding: 2rem;
+  transition: all 0.5s ease;
+}
+
+.vote-container.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+}
+
+.background-overlay.hidden {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.static-background.hidden {
+  opacity: 1;
+}
+
+.vote-header {
+  background: rgba(20, 20, 0, 0.7);
+  border: 3px solid #39ff14;
+  border-radius: 15px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(20px);
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.vote-header h1 {
+  color: #39ff14;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px rgba(57, 255, 20, 0.7);
+}
+
+.vote-header p {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  color: #4cc9f0;
+  margin-bottom: 0.5rem;
+}
+
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.platform-card {
+  background: rgba(30, 30, 30, 0.6);
+  border: 2px solid #39ff14;
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(25px);
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.platform-card:hover {
+  transform: translateY(-8px);
+  border-color: #4cc9f0;
+  box-shadow: 0 15px 30px rgba(57, 255, 20, 0.4);
+  backdrop-filter: blur(20px);
+}
+
+.platform-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.5));
+}
+
+.platform-card h3 {
+  color: #39ff14;
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.platform-card p {
+    color: #e0e0e0;
+}
+
+.vote-count {
+  color: #4cc9f0;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.dream-message {
+  background: rgba(57, 255, 20, 0.1);
+  border-left: 4px solid #39ff14;
+  padding: 2rem;
+  margin: 2rem 0;
+  border-radius: 8px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dream-message h3 {
+  color: #39ff14;
+  margin-bottom: 1rem;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.back-button {
+  background: rgba(0, 0, 0, 0.7);
+  color: #00ccff;
+  border: 2px solid #00ccff;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  display: block;
+  margin: 2rem auto;
+  text-decoration: none;
+  text-align: center;
+  width: fit-content;
+}
+
+.back-button:hover {
+  background: rgba(0, 204, 255, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
+}
+
+/* FOOTER */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ccc;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid #39ff14;
+}
+
+.total-votes {
+  text-align: center;
+  color: #4cc9f0;
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  font-family: 'Orbitron', sans-serif;
+  backdrop-filter: blur(15px);
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(40, 40, 40, 0.3);
+}
+
+@media (max-width: 768px) {
+  .vote-header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .platform-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .vote-container {
+    margin: 60px auto;
+    padding: 1rem;
+  }
+  
+  /* AUDIO CONTROLS */
+        .audio-controls {
+            position: fixed;
+            bottom: 40px;
+            right: 20px;
+            z-index: 1000;
+        }
+  
+  .hide-content-btn {
+    top: 20px;
+    right: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LANDING PARTY BACKGROUND -->
+<div class="background-container">
+  <div class="static-background" id="staticBackground"></div>
+  <div class="background-overlay" id="backgroundOverlay"></div>
+</div>
+
+<!-- SITE TITLE OVERLAY -->
+<div class="site-title-overlay" id="siteTitle">
+    <h1>The Mars Abyss</h1>
+</div>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+  <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- HIDE CONTENT BUTTON -->
+<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
+<!-- CORRECT MENU STRUCTURE -->
+<nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn active">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote.html" class="active">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-The future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+    </div>
+    </div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a> 
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a> 
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="about-the-project.html">About the Project</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>  
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+<a href="contact.html">Contact</a>
+</nav>
+
+<div class="vote-container" id="voteContainer">
+  <div class="vote-header">
+    <h1>🎬 CAST YOUR VOTE</h1>
+    <p><strong>Where would you like to see "The Landing Party" adventures come to life?</strong></p>
+    <p>Your imagination is the first step toward making dreams reality. Vote for your preferred platform!</p>
+  </div>
+
+  <div class="total-votes" id="totalVotes">Total Votes: 0</div>
+
+  <div class="platform-grid">
+    <div class="platform-card" onclick="castVote('Netflix')">
+      <div class="platform-icon">🎥</div>
+      <h3>Netflix</h3>
+      <p>Binge-worthy series</p>
+      <div class="vote-count" id="netflix-votes">0 votes</div>
+    </div>
+
+    <div class="platform-card" onclick="castVote('Amazon')">
+      <div class="platform-icon">📦</div>
+      <h3>Amazon Prime</h3>
+      <p>Epic streaming</p>
+      <div class="vote-count" id="amazon-votes">0 votes</div>
+    </div>
+
+    <div class="platform-card" onclick="castVote('Apple')">
+      <div class="platform-icon">🍎</div>
+      <h3>Apple TV+</h3>
+      <p>Cinematic quality</p>
+      <div class="vote-count" id="apple-votes">0 votes</div>
+    </div>
+
+    <div class="platform-card" onclick="castVote('Disney')">
+      <div class="platform-icon">🏰</div>
+      <h3>Disney+</h3>
+      <p>Family adventure</p>
+      <div class="vote-count" id="disney-votes">0 votes</div>
+    </div>
+  </div>
+
+  <div class="dream-message">
+    <h3>✨ Imagination is Free - Dreams Might Come True!</h3>
+    <p>Every great story started as someone's dream. By casting your vote, you're not just choosing a platform - you're helping shape the future of "The Landing Party" and the entire Mars Abyss universe!</p>
+    <p><strong>Who knows? Your vote might be the one that catches the attention of the right people! 🚀</strong></p>
+  </div>
+
+  <!-- ADMIN RESET SECTION - HIDDEN FROM USERS -->
+  <div style="display: none;" id="adminSection">
+    <div style="text-align: center; margin: 2rem 0;">
+      <button style="background: rgba(255, 68, 68, 0.8); border: 2px solid #ff4444; color: white; padding: 10px 20px; border-radius: 25px; cursor: pointer;" onclick="resetVotes()">
+        🔄 Admin: Reset All Votes
+      </button>
+    </div>
+  </div>
+
+<!-- CONTENT SPACER FOR FOOTER -->
+<div class="content-spacer"></div>
+
+<!-- STANDARD FOOTER -->
+<footer>
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// VOTE FUNCTIONALITY
+let votes = {
+  Netflix: 0,
+  Amazon: 0,
+  Apple: 0,
+  Disney: 0
+};
+
+function castVote(platform) {
+  votes[platform]++;
+  updateVoteDisplay();
+  
+  // Show confirmation
+  alert(`🎉 Thank you for voting for ${platform}! Your voice matters in bringing "The Landing Party" to life!\n\nTotal votes for ${platform}: ${votes[platform]}`);
+  
+  // Save to localStorage
+  localStorage.setItem('landingPartyVotes', JSON.stringify(votes));
+}
+
+// ADMIN FUNCTION - KEEP HIDDEN
+function resetVotes() {
+    console.log('resetVotes function called');
+  if (confirm('ADMIN: Are you sure you want to reset all votes to zero?')) {
+    console.log('user confirmed reset');
+    votes = {
+      Netflix: 0,
+      Amazon: 0,
+      Apple: 0,
+      Disney: 0
+    };
+    console.log('Votes reset to:', votes);
+    updateVoteDisplay();
+    localStorage.setItem('landingPartyVotes', JSON.stringify(votes));
+    console.log('Local storage updated');
+    alert('All votes have been reset to zero!');
+  }
+}
+
+function updateVoteDisplay() {
+  document.getElementById('netflix-votes').textContent = `${votes.Netflix} vote${votes.Netflix !== 1 ? 's' : ''}`;
+  document.getElementById('amazon-votes').textContent = `${votes.Amazon} vote${votes.Amazon !== 1 ? 's' : ''}`;
+  document.getElementById('apple-votes').textContent = `${votes.Apple} vote${votes.Apple !== 1 ? 's' : ''}`;
+  document.getElementById('disney-votes').textContent = `${votes.Disney} vote${votes.Disney !== 1 ? 's' : ''}`;
+  
+  // Update total votes
+  const total = votes.Netflix + votes.Amazon + votes.Apple + votes.Disney;
+  document.getElementById('totalVotes').textContent = `Total Votes: ${total}`;
+}
+
+// Load saved votes
+window.addEventListener('load', () => {
+  const savedVotes = localStorage.getItem('landingPartyVotes');
+  if (savedVotes) {
+    votes = JSON.parse(savedVotes);
+    updateVoteDisplay();
+  }
+});
+
+// ADMIN ACCESS: Press Ctrl+Shift+R to show reset button (for you only)
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.shiftKey && e.key === 'R') {
+    e.preventDefault();
+    document.getElementById('adminSection').style.display = 'block';
+    console.loq('Admin mpde activated - Ctrl+Shift+R worked!');
+  }
+});
+
+// AUDIO FUNCTIONALITY
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+  const sounds = [
+    { src: 'music/火星为爱.mp3', volume: 0.3 },
+    { src: 'sounds/gentle-ambient.mp3', volume: 0.1 }
+  ];
+
+  sounds.forEach(sound => {
+    const audio = new Audio(sound.src);
+    audio.volume = sound.volume;
+    audio.loop = true;
+    audio.muted = true;
+    audioElements.push(audio);
+  });
+
+  // Unmute and Play sounds on first user interaction
+  document.addEventListener('click', function unmuteAudio() {
+    if (!isMuted) {
+      audioElements.forEach(audio => {
+        audio.muted = false;
+        audio.play().catch(e => console.log('Audio play failed'));
+      });
+      isMuted = false;
+      muteBtn.textContent = "🔊 Mute Sounds";
+    }
+    document.removeEventListener('click', unmuteAudio);
+  }, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+  isMuted = !isMuted;
+  audioElements.forEach(audio => {
+    audio.muted = isMuted;
+  });
+  muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// Initialize audio when page loads
+initAudio();
+
+// Highlight parent menu when child is active
+document.addEventListener('DOMContentLoaded', function() {
+    const activeMenuItem = document.querySelector('.dropdown-content a.active');
+    if (activeMenuItem) {
+        const parentDropdown = activeMenuItem.closest('.dropdown');
+        if (parentDropdown) {
+            const dropbtn = parentDropdown.querySelector('.dropbtn');
+            dropbtn.classList.add('active');
+        }
+    }
+});
+
+// HIDE CONTENT FUNCTIONALITY
+const hideContentBtn = document.getElementById('hideContentBtn');
+const voteContainer = document.getElementById('voteContainer');
+const staticBackground = document.getElementById('staticBackground');
+const backgroundOverlay = document.getElementById('backgroundOverlay');
+const topMenu = document.querySelector('nav.top-menu');
+const footer = document.querySelector('footer');
+let contentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+  contentHidden = !contentHidden;
+
+  if (contentHidden) {
+    voteContainer.classList.add('hidden');
+    staticBackground.classList.add('hidden');
+    backgroundOverlay.classList.add('hidden');
+    topMenu.classList.add('hidden');
+    footer.classList.add('hidden');
+    hideContentBtn.textContent = 'Show Content';
+  } else {
+    voteContainer.classList.remove('hidden');
+    staticBackground.classList.remove('hidden');
+    backgroundOverlay.classList.remove('hidden');
+    topMenu.classList.remove('hidden');
+    footer.classList.remove('hidden');
+    hideContentBtn.textContent = 'Hide Content';
+  }
+});
+</script>
+</body>
+</html>

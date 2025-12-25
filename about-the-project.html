@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About the Project | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #fff;
+overflow-x: hidden;
+position: relative;
+background: #000;
+}
+
+/* Video Background */
+.video-background {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 3;
+opacity: 0.4;
+}
+
+.overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.85);
+z-index: 0;
+}
+
+/* Site Title */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+}
+
+.site-title-overlay h1 {
+color: #ff9553;
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
+
+.site-title-overlay h1 sup {
+font-size: 0.6em;
+vertical-align: super;
+color: rgba(255, 149, 83, 0.9);
+}
+
+/* Top Menu */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #ff9553;
+}
+
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #ff4444;
+background: transparent;
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background: rgba(26, 26, 26, 0.98);
+min-width: 140px;
+z-index: 1001;
+border-radius: 4px;
+border: 2px solid #ff9553;
+top: 100%;
+left: 0;
+backdrop-filter: blur(5px);
+padding: 4px 0;
+}
+
+.dropdown-content a {
+color: #f5f5f5;
+padding: 3px 5px;
+text-decoration: none;
+display: block;
+transition: background-color 0.3s ease;
+font-size: 0.7rem;
+line-height: 1;
+}
+
+.dropdown-content a:hover {
+background: rgba(255, 68, 68, 0.6);
+color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/* Main Content */
+.main-content {
+position: relative;
+z-index: 10;
+min-height: 100vh;
+padding: 120px 2rem 2rem 2rem;
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.page-header {
+text-align: center;
+margin-bottom: 4rem;
+}
+
+.page-header h1 {
+font-family: 'Orbitron', sans-serif;
+font-size: 3.5rem;
+color: #4cc9f0;
+text-shadow: 0 0 20px rgba(76, 201, 240, 0.7);
+margin-bottom: 1rem;
+letter-spacing: 3px;
+}
+
+.page-header p {
+font-size: 1.3rem;
+color: #e0e0ff;
+max-width: 800px;
+margin: 0 auto;
+line-height: 1.6;
+}
+
+/*=== Hide Content Button === */
+.hide-content-btn {
+position: fixed;
+top: 80px;
+right: 30px;
+background: rgba(0, 0, 0, 0.7);
+color: #00ccff;
+border: 2px solid #00ccff;
+padding: 8px 12px;
+border-radius: 15px;
+cursor: pointer;
+z-index: 1001;
+font-size: clamp(0.7rem, 2vw, 0.8rem);
+transition: all 0.3s ease;
+}
+
+.hide-content-btn:hover {
+background: rgba(0, 204, 255, 0.6);
+color: black;
+}
+
+/* === Audio Controls === */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 41px;
+z-index: 1000;
+}
+
+.audio-btn {
+background: rgba(0, 0, 0, 0.7);
+border: 2px solid #00ccff;
+color: #00ccff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+background: rgba(0, 204, 255, 0.3);
+color: #fff;
+box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+}
+
+/* === Hide Content Functionality === */
+.main-content.hidden,
+footer.hidden,
+nav.top-menu.hidden,
+.site-title-overlay.hidden,
+.vision-grid.hidden,
+.personal-journey.hidden,
+.funding-section.hidden,
+.cta-section.hidden,
+.universe-concept.hidden {
+opacity: 0;
+pointer-events: none;
+transform: translateY(20px);
+transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Keep audio and hide buttons always visible */
+.hide-content-btn,
+.audio-controls {
+z-index: 1002;
+}
+
+/* Content Sections */
+.content-section {
+background: rgba(26, 18, 11, 0.8);
+padding: 3rem;
+border-radius: 15px;
+margin-bottom: 3rem;
+backdrop-filter: blur(5px);
+border: 1px solid rgba(76, 201, 240, 0.3);
+}
+
+.content-section h2 {
+color: #4cc9f0;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 2rem;
+font-size: 2.2rem;
+text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+text-align: center;
+}
+
+.content-section p {
+line-height: 1.8;
+margin-bottom: 1.5rem;
+color: #e0e0ff;
+font-size: 1.1rem;
+}
+
+.content-section ul {
+margin: 2rem 0;
+padding-left: 2rem;
+}
+
+.content-section li {
+line-height: 1.8;
+margin-bottom: 1rem;
+color: #e0e0ff;
+font-size: 1.1rem;
+}
+
+/* Vision Grid */
+.vision-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+margin: 3rem 0;
+}
+
+.vision-item {
+background: rgba(76, 201, 240, 0.1);
+padding: 2rem;
+border-radius: 10px;
+border: 1px solid rgba(76, 201, 240, 0.3);
+text-align: center;
+transition: transform 0.3s ease;
+}
+
+.vision-item:hover {
+transform: translateY(-5px);
+border-color: rgba(76, 201, 240, 0.6);
+}
+
+.vision-item h3 {
+color: #4cc9f0;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 1rem;
+font-size: 1.4rem;
+}
+
+.vision-item p {
+color: #e0e0ff;
+line-height: 1.6;
+}
+
+/* Personal Journey Section */
+.personal-journey {
+background: rgba(139, 69, 19, 0.1);
+border: 1px solid rgba(139, 69, 19, 0.3);
+}
+
+.personal-journey h2 {
+color: #d4af37;
+text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.journey-content {
+display: grid;
+grid-template-columns: 300px 1fr;
+gap: 3rem;
+align-items: start;
+}
+
+.old-photo-container {
+text-align: center;
+}
+
+.old-photo {
+width: 100%;
+border-radius: 10px;
+border: 3px solid #d4af37;
+box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+filter: sepia(0.3) contrast(1.1);
+}
+
+.photo-caption {
+margin-top: 1rem;
+font-style: italic;
+color: #d4af37;
+font-size: 0.9rem;
+}
+
+.journey-text p {
+margin-bottom: 1.5rem;
+line-height: 1.7;
+}
+
+.twilight-zone-letter {
+background: rgba(212, 175, 55, 0.1);
+border-left: 4px solid #d4af37;
+padding: 1.5rem;
+margin: 2rem 0;
+border-radius: 0 8px 8px 0;
+}
+
+.twilight-zone-letter h4 {
+color: #d4af37;
+margin-bottom: 1rem;
+font-family: 'Orbitron', sans-serif;
+}
+
+.letter-source {
+text-align: right;
+font-style: italic;
+color: #ff9553;
+margin-top: 1rem;
+}
+
+.journey-quote {
+font-size: 1.2rem;
+font-style: italic;
+text-align: center;
+color: #4cc9f0;
+border-top: 1px solid rgba(76, 201, 240, 0.3);
+padding-top: 1.5rem;
+margin-top: 2rem;
+}
+
+/* Enhanced Funding Section */
+.funding-section {
+background: rgba(255, 105, 180, 0.1);
+border: 1px solid rgba(255, 105, 180, 0.3);
+text-align: center;
+}
+
+.funding-section h2 {
+color: #ff69b4;
+text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+}
+
+.funding-options {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 2rem;
+margin: 3rem 0;
+}
+
+.funding-option {
+background: rgba(255, 105, 180, 0.05);
+padding: 2rem;
+border-radius: 10px;
+border: 1px solid rgba(255, 105, 180, 0.2);
+transition: transform 0.3s ease;
+}
+
+.funding-option:hover {
+transform: translateY(-3px);
+border-color: rgba(255, 105, 180, 0.4);
+}
+
+.funding-option h3 {
+color: #ff69b4;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 1rem;
+font-size: 1.3rem;
+}
+
+.funding-option p {
+color: #e0e0ff;
+margin-bottom: 1.5rem;
+line-height: 1.5;
+}
+
+.support-btn {
+background: rgba(255, 105, 180, 0.8);
+border: 2px solid #ff69b4;
+color: white;
+padding: 0.8rem 1.5rem;
+border-radius: 25px;
+text-decoration: none;
+font-family: 'Orbitron', sans-serif;
+transition: all 0.3s ease;
+cursor: pointer;
+display: inline-block;
+font-size: 0.9rem;
+}
+
+.support-btn:hover {
+background: rgba(255, 105, 180, 1);
+box-shadow: 0 0 15px rgba(255, 105, 180, 0.7);
+transform: scale(1.05);
+}
+
+.coffee-btn {
+background: rgba(212, 175, 55, 0.8);
+border: 2px solid #d4af37;
+}
+
+.coffee-btn:hover {
+background: rgba(212, 175, 55, 1);
+box-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
+}
+
+/* Universe Concept */
+.universe-concept {
+background: rgba(212, 175, 55, 0.1);
+border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.universe-concept h2 {
+color: #d4af37;
+text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.concept-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap: 2rem;
+margin: 3rem 0;
+}
+
+/* Enhanced Hover Effects for Counterpart Universe Cards */
+.concept-item {
+background: rgba(212, 175, 55, 0.05);
+padding: 1.5rem;
+border-radius: 8px;
+border: 1px solid rgba(212, 175, 55, 0.2);
+transition: all 0.4s ease;
+position: relative;
+overflow: hidden;
+cursor: pointer;
+}
+
+.concept-item::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.1),
+    transparent
+);
+transition: left 0.7s ease;
+}
+
+.concept-item:hover {
+transform: translateY(-10px) scale(1.02);
+border-color: rgba(212, 175, 55, 0.8);
+box-shadow: 
+    0 15px 30px rgba(0, 0, 0, 0.4),
+    0 0 25px rgba(212, 175, 55, 0.3);
+background: rgba(212, 175, 55, 0.08);
+}
+
+.concept-item:hover::before {
+left: 100%;
+}
+
+.concept-item h4 {
+color: #d4af37;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 1rem;
+font-size: 1.2rem;
+transition: all 0.3s ease;
+position: relative;
+z-index: 2;
+}
+
+.concept-item:hover h4 {
+color: #ffd700;
+text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+transform: translateX(5px);
+}
+
+.concept-item p {
+color: #e0e0ff;
+font-size: 1rem;
+line-height: 1.6;
+transition: all 0.3s ease;
+position: relative;
+z-index: 2;
+}
+
+.concept-item:hover p {
+color: #ffffff;
+transform: translateX(3px);
+}
+
+/* Add a subtle glow effect on hover */
+.concept-item::after {
+content: '';
+position: absolute;
+top: -2px;
+left: -2px;
+right: -2px;
+bottom: -2px;
+background: linear-gradient(
+    45deg,
+    rgba(212, 175, 55, 0),
+    rgba(212, 175, 55, 0.2),
+    rgba(212, 175, 55, 0)
+);
+border-radius: 10px;
+z-index: 1;
+opacity: 0;
+transition: opacity 0.4s ease;
+}
+
+.concept-item:hover::after {
+opacity: 1;
+}
+
+/* Enhanced Call to Action */
+.cta-section {
+text-align: center;
+padding: 4rem 2rem;
+background: rgba(76, 201, 240, 0.1);
+border-radius: 15px;
+border: 2px solid #4cc9f0;
+margin: 4rem 0 2rem 0;
+}
+
+.cta-section h2 {
+color: #4cc9f0;
+font-family: 'Orbitron', sans-serif;
+margin-bottom: 2rem;
+font-size: 2.5rem;
+}
+
+.cta-section p {
+color: #e0e0ff;
+margin-bottom: 2rem;
+font-size: 1.2rem;
+line-height: 1.6;
+max-width: 800px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.vision-statement {
+font-style: italic;
+color: #4cc9f0;
+font-size: 1.1rem;
+margin-top: 2rem;
+padding: 1rem;
+border-top: 1px solid rgba(76, 201, 240, 0.3);
+}
+
+.cta-buttons {
+display: flex;
+gap: 1.5rem;
+justify-content: center;
+flex-wrap: wrap;
+margin-top: 2rem;
+}
+
+.cta-btn {
+background: rgba(76, 201, 240, 0.8);
+border: 2px solid #4cc9f0;
+color: white;
+padding: 1rem 2rem;
+border-radius: 25px;
+text-decoration: none;
+font-family: 'Orbitron', sans-serif;
+font-size: 1.1rem;
+transition: all 0.3s ease;
+cursor: pointer;
+}
+
+.cta-btn.alt {
+background: rgba(255, 105, 180, 0.8);
+border-color: #ff69b4;
+}
+
+.cta-btn:hover {
+background: rgba(76, 201, 240, 1);
+box-shadow: 0 0 20px rgba(76, 201, 240, 0.7);
+transform: translateY(-2px);
+}
+
+.cta-btn.alt:hover {
+background: rgba(255, 105, 180, 1);
+box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+}
+
+/* PROPER FOOTER - Exactly as you specified */
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #ccc;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #ff9553;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+.site-title-overlay {
+top: 70px;
+left: 20px;
+}
+
+.site-title-overlay h1 {
+font-size: 1.4rem;
+}
+
+nav.top-menu {
+gap: 1rem;
+flex-wrap: wrap;
+}
+
+.page-header h1 {
+font-size: 2.5rem;
+}
+
+.content-section {
+padding: 2rem;
+}
+
+.vision-grid, .funding-options, .concept-grid {
+grid-template-columns: 1fr;
+}
+
+.journey-content {
+grid-template-columns: 1fr;
+gap: 2rem;
+}
+
+.old-photo {
+max-width: 250px;
+}
+
+.cta-buttons {
+flex-direction: column;
+align-items: center;
+}
+
+.cta-btn {
+width: 100%;
+max-width: 300px;
+text-align: center;
+}
+}
+</style>
+</head>
+
+<body>
+<!-- Video Background -->
+<video class="video-background" id="projectVideo" muted loop playsinline autoplay poster="images/project-background.jpg">
+<source src="videos/olympia-formerly-olympus-metro-2.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+<div class="overlay"></div>
+
+<!-- Site Title -->
+<div class="site-title-overlay">
+<h1>The Mars Abyss<sup>™</sup></h1>
+</div>
+
+<!-- Hide Content Button -->
+<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
+<!-- Audio Controls -->
+<div class="audio-controls">
+<button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
+</div>
+
+<!-- Top Menu -->
+<nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn active">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html" class="active">About the Project</a>
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-sleep-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+<a href="contact.html">Contact</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+<div class="page-header">
+<h1>ABOUT THE PROJECT</h1>
+<p>Discover the vision behind The Mars Abyss - an ambitious sci-fi universe blending anthology storytelling with serialized adventures</p>
+</div>
+
+<!-- Main Vision Section -->
+<div class="content-section">
+<h2>THE VISION</h2>
+<p>The Mars Abyss is more than a story—it's an immersive science fiction experience that transports you to a future where humanity has colonized Mars, but at a profound cost. Our mission is to create compelling narratives that explore the human condition through the lens of science fiction and fantasy.</p>
+<p>Imagine a universe where stories unfold like <strong>The Twilight Zone</strong> meets <strong>Black Mirror</strong>, where each episode can stand alone as a powerful commentary on technology, society, and human nature, while also contributing to a larger, interconnected narrative.</p>
+
+<div class="vision-grid">
+<div class="vision-item">
+<h3>Anthology Series</h3>
+<p>Weekly self-contained episodes with different characters and scenarios, each exploring unique philosophical and technological concepts</p>
+</div>
+<div class="vision-item">
+<h3>Serialized Adventure</h3>
+<p>Continuous story arcs following beloved characters through their journeys across Mars and alternative realities</p>
+</div>
+<div class="vision-item">
+<h3>Interactive Experience</h3>
+<p>Games, virtual experiences, and community engagement that bring the universe to life beyond traditional storytelling</p>
+</div>
+</div>
+</div>
+
+<!-- Personal Journey Section -->
+<div class="content-section personal-journey">
+<h2>THE JOURNEY: 64 YEARS IN THE MAKING</h2>
+<div class="journey-content">
+<div class="old-photo-container">
+<img src="images/first-typewriter.jpg" alt="Young writer in 1970s Puerto Rico" class="old-photo">
+<div class="photo-caption">1970s — 1980s: Writing love poems, and TV comedy sketches in a house full of imagination.</div>
+</div>
+<div class="journey-text">
+<p>This isn't a new dream - it's a lifetime in the making. Back in the 1970s, living in a humble house in the Puerto Rican countryside with curtains for doors and mosquito netting around my bed, I was already writing the stories that would eventually become The Mars Abyss.</p>
+<p>We had a barn door for a front door and a latrine out back, but what we lacked in material wealth, we made up for in imagination. Every mosquito buzzing outside that netting was a spaceship, every star visible through the cracks in the wooden walls was a distant planet waiting to be explored.</p>
+
+<p>I still miss those days, and that house!</p>
+<div class="twilight-zone-letter">
+<h4>📜 The Letter That Kept Me Going, which more or less, went like this:</h4>
+<p>"Although we cannot publish your three stories at this time, we were impressed by your imagination and strongly encourage you to continue writing. The world needs more storytellers with your vision. And we certainly got a kick out of the last one."</p>
+<p class="letter-source">- The Twilight Zone Magazine, 1980s</p>
+</div>
+<p>That rejection letter became my fuel. Now at 64, I'm still pursuing those same dreams, now more mature and with better stories - it seems now could at last be the right time, with a lifetime of experience and the technology to bring them to life.</p>
+<p class="journey-quote">"Your past doesn't define your limitations - it defines your resilience."</p>
+</div>
+</div>
+</div>
+
+<!-- Universe Concept Section -->
+<div class="content-section universe-concept">
+<h2>THE COUNTERPART UNIVERSE</h2>
+<p>At the heart of our narrative lies a fascinating premise: M.A.I. (Master Artificial Intelligence) has devised a counterpart universe where Puerto Rico, also known as 'El Nuevo Imperio del Reino Borincano', Spain, and The Oriental Hemisphere shepherd humanity toward an almost utopian future.</p>
+<p>By sending the robot XJ-9 back to Puerto Rico's colonial times, M.A.I. created a parallel dimension where certain events unfolded differently, resulting in a world distinct from our own—a world where cooperation and innovation led to unprecedented human advancement.</p>
+
+<div class="concept-grid">
+<div class="concept-item">
+<h4>Alternative History</h4>
+<p>Explore how small changes in the past create dramatically different futures across dimensions</p>
+</div>
+<div class="concept-item">
+<h4>Cultural Fusion</h4>
+<p>Puerto Rican, Spanish, and Oriental influences creating a unique societal blend in a parallel reality</p>
+</div>
+<div class="concept-item">
+<h4>Technological Utopia</h4>
+<p>Advanced AI guiding humanity toward prosperity while preserving cultural diversity across dimensions</p>
+</div>
+</div>
+</div>
+
+<!-- Enhanced Funding Section -->
+<div class="content-section funding-section">
+<h2>MAKING IT HAPPEN</h2>
+<p>Creating this ambitious universe requires resources. While the core website and initial stories are being developed independently, the full vision—including animated series, games, and interactive experiences—depends on community support.</p>
+
+<div class="funding-options">
+<div class="funding-option">
+<h3>☕ Buy Me a Coffee</h3>
+<p>Quick, one-time support to help fuel the creative process. Every coffee helps bring new stories to life!</p>
+<a href="#" class="support-btn coffee-btn">☕ Support Now</a>
+</div>
+<div class="funding-option">
+<h3>🎭 Patreon</h3>
+<p>Join our creative community with exclusive behind-the-scenes content, early access to stories, and direct input into the universe's development</p>
+<a href="#" class="support-btn">Support on Patreon</a>
+</div>
+<div class="funding-option">
+<h3>🚀 GoFundMe</h3>
+<p>Help fund specific projects like animated episodes, game development, or expanded universe content</p>
+<a href="#" class="support-btn">Contribute on GoFundMe</a>
+</div>
+</div>
+</div>
+
+<!-- Enhanced Call to Action -->
+<div class="cta-section">
+<h2>JOIN THE JOURNEY</h2>
+<p>This project represents a new approach to science fiction storytelling—blending traditional narrative with interactive elements, community involvement, and cross-platform experiences. Your support helps bring these innovative stories to life and shapes the future of science fiction entertainment.</p>
+<p>Whether you're a sci-fi enthusiast, a supporter of innovative storytelling, or someone who believes in the power of imagination to shape our future, there's a place for you in The Mars Abyss universe.</p>
+
+<p class="vision-statement">A visionary science fiction project in development</p>
+
+<div class="cta-buttons">
+<a href="story.html" class="cta-btn">Explore Current Stories</a>
+<a href="contact.html" class="cta-btn alt">Get Involved</a>
+</div>
+</div>
+</div>
+
+<!-- PROPER FOOTER - Exactly as specified -->
+<footer>
+<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Simple audio system
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true; // start muted to avoid autoplay issues
+let audioElements = [];
+
+function initAudio() {
+const sounds = [
+{ src: 'music/mozart-in-vienna.mp3', volume: 0.3 },
+{ src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+{ src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+];
+
+sounds.forEach(sound => {
+const audio = new Audio(sound.src);
+audio.volume = sound.volume;
+audio.loop = true;
+audio.muted = true; // Start muted
+audioElements.push(audio);
+});
+
+// Unmute and Play sounds first user interaction
+document.addEventListener('click', function unmuteAudio() {
+if (!isMuted) {
+audioElements.forEach(audio => {
+audio.muted = false;
+audio.play().catch(e => console.log('Audio play failed'));
+});
+isMuted = false;
+muteBtn.textContent = "🔊 Mute Sounds";
+}
+document.removeEventListener('click', unmuteAudio);
+}, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+isMuted = !isMuted;
+audioElements.forEach(audio => {
+audio.muted = isMuted;
+});
+muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// Initialize audio when page loads
+initAudio();
+
+// HIDE CONTENT FUNCTIONALITY - FIXED AND WORKING
+const hideContentBtn = document.getElementById('hideContentBtn');
+const mainContent = document.querySelector('.main-content');
+const pageFooter = document.querySelector('footer');
+const visionGrid = document.querySelector('.vision-grid');
+const personalJourney = document.querySelector('.personal-journey');
+const fundingSection = document.querySelector('.funding-section');
+const topMenu = document.querySelector('nav.top-menu');
+const siteTitle = document.querySelector('.site-title-overlay');
+const universeConcept = document.querySelector('.universe-concept');
+const ctaSection = document.querySelector('.cta-section');
+let contentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+contentHidden = !contentHidden;
+    
+// Toggle all sections
+const allSections = [
+mainContent,
+pageFooter,
+visionGrid,
+personalJourney,
+fundingSection,
+topMenu,
+siteTitle,
+universeConcept,
+ctaSection
+];
+    
+allSections.forEach(section => {
+if (section) {
+if (contentHidden) {
+section.classList.add('hidden');
+} else {
+section.classList.remove('hidden');
+}
+}
+});
+    
+hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+const marsVideo = document.getElementById('projectVideo');
+marsVideo.play().catch(e => {
+console.log('Background video autoplay failed');
+});
+});
+
+// Video background handling
+const videoBg = document.getElementById('projectVideo');
+videoBg.play().catch(e => console.log('Video autoplay prevented'));
+
+document.addEventListener('click', function() {
+if (videoBg.paused) {
+videoBg.play().catch(e => console.log('Video play failed'));
+}
+});
+</script>
+</body>
+</html>

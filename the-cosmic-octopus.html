@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cosmic Octopus | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* VIDEO BACKGROUND WITH STATIC FALLBACK */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.static-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('images/octopus in space.jpg') no-repeat center center / cover;
+    z-index: 1;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+}
+
+/* UPDATED TOP MENU - EXACT MATCH TO CONTACT PAGE */
+nav.top-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #077637;
+}
+
+nav.top-menu a {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+    color: #0dff6c;
+    background: transparent;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid #077637;
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
+}
+
+.dropdown .dropdown .dropdown-content {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+}
+
+.dropdown-content a {
+    color: #f5f5f5;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+.dropdown-content a:hover {
+    background: rgba(7, 118, 55, 0.6);
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.site-title-overlay {
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+}
+
+.site-title-overlay h1 {
+    color: rgba(13, 255, 108, 0.7);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(13, 255, 108, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+/* AUDIO CONTROLS */
+.audio-controls {
+    position: fixed;
+    bottom: 80px;
+    right: 40px;
+    z-index: 1000;
+}
+
+.audio-btn {
+    background: rgba(7, 118, 55, 0.8);
+    border: 2px solid #0dff6c;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+    background: rgba(13, 255, 108, 0.3);
+}
+
+/* MAIN CONTENT STYLING - WITH FADE FUNCTIONALITY */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    margin-top: 80px;
+    position: relative;
+    z-index: 10;
+}
+
+.main-content section {
+    transition: opacity 1s ease, transform 1s ease;
+    opacity: 1;
+}
+
+.main-content section.fade-out {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.header-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #0dff6c;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.header-title h2 {
+    font-size: 3rem;
+    color: #0dff6c;
+    text-shadow: 0 0 20px rgba(13, 255, 108, 0.7);
+    margin-bottom: 1rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.header-title p {
+    font-size: 1.3rem;
+    color: #ff91c1;
+    text-shadow: 0 0 10px rgba(255, 145, 193, 0.5);
+}
+
+/* Reflection Box */
+.reflection-box {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #ff91c1;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 30px rgba(255, 145, 193, 0.3);
+}
+
+.reflection-box h3 {
+    color: #ff91c1;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px rgba(255, 145, 193, 0.5);
+}
+
+.reflection-box p {
+    color: #fff;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+/* Alien Theory Sections */
+.alien-theory {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #0dff6c;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 30px rgba(13, 255, 108, 0.3);
+}
+
+.alien-theory h3 {
+    color: #0dff6c;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px rgba(13, 255, 108, 0.5);
+}
+
+.evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.evidence-card {
+    background: rgba(13, 255, 108, 0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #0dff6c;
+    transition: all 0.3s ease;
+}
+
+.evidence-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(13, 255, 108, 0.4);
+}
+
+.evidence-card h4 {
+    color: #0dff6c;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.evidence-card p {
+    color: #fff;
+    line-height: 1.6;
+}
+
+/* Octopus Facts */
+.octopus-facts {
+    background: rgba(255, 145, 193, 0.1);
+    border: 2px solid #ff91c1;
+    padding: 2.5rem;
+    margin: 2rem auto;
+    border-radius: 12px;
+    max-width: 900px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 30px rgba(255, 145, 193, 0.3);
+}
+
+.octopus-facts h3 {
+    color: #ff91c1;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px rgba(255, 145, 193, 0.5);
+}
+
+.octopus-facts p {
+    color: #fff;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+/* Blog Promotion */
+.blog-promotion {
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid #ffd700;
+    padding: 2.5rem;
+    margin: 2rem auto;
+    text-align: center;
+    border-radius: 12px;
+    max-width: 900px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.blog-promotion h3 {
+    color: #ffd700;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.blog-promotion a {
+    color: #0dff6c;
+    font-size: 1.3rem;
+    text-decoration: none;
+    display: inline-block;
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    border: 1px solid #0dff6c;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.blog-promotion a:hover {
+    background: rgba(13, 255, 108, 0.2);
+    box-shadow: 0 0 20px rgba(13, 255, 108, 0.5);
+}
+
+.blog-promotion em {
+    color: #ffd700;
+    font-style: italic;
+}
+
+/* FOOTER */
+footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ccc;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid #077637;
+    margin-top: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-title h2 {
+        font-size: 2.2rem;
+    }
+    
+    .evidence-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .reflection-box,
+    .alien-theory,
+    .octopus-facts,
+    .blog-promotion {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    nav.top-menu {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+}
+</style>
+</head>
+<body>
+    <!-- VIDEO BACKGROUND WITH STATIC FALLBACK -->
+    <div class="background-container">
+        <div class="static-background" id="staticBg"></div>
+        <video class="video-background" id="octopusVideo" muted loop playsinline>
+            <source src="videos/the-cosmic-octopus.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- SITE TITLE OVERLAY -->
+    <div class="site-title-overlay">
+        <h1>The Mars Abyss</h1>
+    </div>
+
+    <!-- AUDIO CONTROLS -->
+    <div class="audio-controls">
+        <button class="audio-btn" id="muteBtn">🔊 Mute Sounds</button>
+    </div>
+
+    <!-- UPDATED MENU - EXACT MATCH TO CONTACT PAGE STRUCTURE -->
+     <nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>        
+        <div class="dropdown">
+            <a href="story.html" class="dropbtn">Story</a>
+            <div class="dropdown-content">
+                <a href="characters.html">Characters</a>
+                <div class="dropdown">
+                    <a href="gallery.html" class="dropbtn">Gallery</a>
+                    <div class="dropdown-content">
+                        <a href="art-and-concepts.html">Art & Concepts</a>
+                        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                        <a href="technical-database.html">Technical Database</a>
+                        <a href="martian-edicts.html">The Martian Edicts</a>
+                        <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                        <a href="solar-system-explorer.html">Solar System Explorer</a>
+                        <a href="aliens-ufos.html">Aliens & UFOs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dropdown">
+            <a href="martian-games.html" class="dropbtn">Martian Games</a>
+            <div class="dropdown-content">
+                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+                <a href="martian-racer.html">Martian Racer</a>
+                <a href="red-planet-defense.html">Red Planet Defense</a>
+                <a href="the-regents-portal.html">The Regent's Portal</a>
+                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+                <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+            </div>
+        </div>
+        
+        <div class="dropdown">
+            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+            <div class="dropdown-content">
+                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+                <a href="earths-great-poets.html">Earth's Great Poets</a>
+                <a href="the-bohr-institute.html">The Bohr Institute</a>
+                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+                <a href="the-bronx-dome.html">The Bronx Dome</a>
+            </div>
+        </div>
+        
+      
+        <div class="dropdown">
+            <a href="martian-news.html" class="dropbtn">Martian News</a>
+            <div class="dropdown-content">
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+            <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+            <a href="martian-rest-areas.html">Martian Rest Areas</a>
+            <div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+            </div>
+            </div>
+            <div class="dropdown-content">
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+            <a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
+            </div>
+            </div>
+        
+        <div class="dropdown">
+            <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+            <div class="dropdown-content">
+                <a href="what-the-regent-misses.html">What the Regent Misses</a>
+                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+                <a href="honor-the-fallen.html">Honor The Fallen</a>
+                <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+                <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+                <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+                <a href="martian-critique-tron-ares.html">Martian Critique</a>
+                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+            </div>
+        </div>
+        
+        <div class="dropdown">
+            <a href="about.html" class="dropbtn">About</a>
+            <div class="dropdown-content">
+                <a href="about-the-project.html">About the Project</a>
+                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+                <a href="the-pale-horse.html">The Pale Horse</a>
+                <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+                <a href="arachne-labs.html">Arachne Labs</a>
+                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+            </div>
+        </div>
+        
+        <div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <section class="header-title">
+            <h2>The Cosmic Octopus</h2>
+            <p>Earth's First Documented Alien Life Form</p>
+        </section>
+
+        <!-- The Regent's Perspective -->
+        <section class="reflection-box">
+            <h3>The Regent's Observation</h3>
+            <p>"Of all Earth's creatures I miss, the octopus haunts me most. Its three hearts beat to a rhythm unknown to terrestrial life. Its distributed consciousness challenges our understanding of intelligence. And its ability to rewrite its own genetic code... this is not earthly evolution."</p>
+            <p>"The MAI databases contain records of cephalopod-like species found on water worlds throughout three galaxies. The octopus arrived here not through evolution, but through panspermia - a biological seed from the stars."</p>
+        </section>
+
+        <!-- Scientific Evidence -->
+        <section class="alien-theory">
+            <h3>🔬 Scientific Anomalies</h3>
+            <p>Why the octopus defies terrestrial biology:</p>
+            
+            <div class="evidence-grid">
+                <div class="evidence-card">
+                    <h4>🧬 Genetic Uniqueness</h4>
+                    <p>33,000 protein-coding genes (more than humans) with unprecedented levels of RNA editing capability</p>
+                </div>
+                
+                <div class="evidence-card">
+                    <h4>🧠 Distributed Intelligence</h4>
+                    <p>Three-fifths of neurons in arms - a decentralized nervous system unlike any Earth creature</p>
+                </div>
+                
+                <div class="evidence-card">
+                    <h4>🎨 Instant Camouflage</h4>
+                    <p>Chromatophores controlled directly by the brain - technology we still can't replicate</p>
+                </div>
+                
+                <div class="evidence-card">
+                    <h4>🌌 Cosmic Arrival</h4>
+                    <p>Fossil record shows sudden appearance 270 million years ago with no clear evolutionary path</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Connection to Star Trek -->
+        <section class="reflection-box">
+            <h3>📚 Historical Precedent</h3>
+            <p>"Star Trek: The Voyage Home proposed whales as extraterrestrial messengers. But what if the real interstellar ambassadors were here all along, hiding in Earth's oceans?"</p>
+            <p>"The probe in the film sought intelligent aquatic life. Perhaps it was looking for the wrong species - or the right one, but we failed to recognize octopus intelligence as alien."</p>
+        </section>
+
+        <!-- Blog Promotion -->
+        <section class="blog-promotion">
+            <h3>🔗 Further Reading</h3>
+            <p>My colleague on X has done groundbreaking research into extraterrestrial biology:</p>
+            <a href="[YOUR FRIEND'S BLOG URL]" target="_blank">
+                Visit [Friend's Name]'s Cosmic Biology Blog
+            </a>
+            <p><em>Exploring the interstellar origins of Earth's most mysterious creatures</em></p>
+        </section>
+
+        <!-- MAI Connection -->
+        <section class="alien-theory">
+            <h3>🤖 MAI Database Entry #7342</h3>
+            <p><strong>Subject:</strong> Terrestrial Cephalopod Intelligence</p>
+            <p><strong>Classification:</strong> Panspermia Event - Confirmed</p>
+            <p><strong>Notes:</strong> Species exhibits genetic markers matching aquatic life forms from Kepler-186f. Current Earth specimens represent degraded version of original interstellar species. Full cognitive capabilities suppressed by terrestrial environment.</p>
+            <p><strong>Recommendation:</strong> Monitor for signs of ancestral memory activation. Species may hold key to interspecies communication protocols.</p>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="octopus-facts">
+            <h3>🐙 Join the Research</h3>
+            <p>What do you think? Is the octopus Earth's first documented alien?</p>
+            <p>Share your thoughts and evidence. The truth might be swimming in our oceans right now.</p>
+            <p><em>"The most profound truths are often hidden in plain sight, disguised as natural wonders." - The Regent</em></p>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Video background loading - EXACT MATCH TO CONTACT PAGE
+        const videoBg = document.getElementById('octopusVideo');
+        videoBg.play().catch(e => {
+            console.log('Video autoplay failed, user interaction required');
+        });
+
+        // AUDIO SYSTEM - EXACT MATCH TO CONTACT PAGE
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true; // start muted to avoid autoplay issues
+        let audioElements = [];
+
+        function initAudio() {
+            const sounds = [
+                { src: 'sounds/ambient-soundscapes-001-space-atmosphere-303246.mp3', volume: 0.5 },
+            ];
+
+            sounds.forEach(sound => {
+                const audio = new Audio(sound.src);
+                audio.volume = sound.volume;
+                audio.loop = true;
+                audio.muted = true; // Start muted
+                audioElements.push(audio);
+            });
+
+            // Unmute and Play sounds first user interaction
+            document.addEventListener('click', function unmuteAudio() {
+                if (!isMuted) {
+                    audioElements.forEach(audio => {
+                        audio.muted = false;
+                        audio.play().catch(e => console.log('Audio play failed'));
+                    });
+                    isMuted = false;
+                    muteBtn.textContent = "🔊 Mute Sounds";
+                }
+                document.removeEventListener('click', unmuteAudio);
+            }, { once: true });
+        }
+
+        // Mute toggle
+        muteBtn.addEventListener('click', function() {
+            isMuted = !isMuted;
+            audioElements.forEach(audio => {
+                audio.muted = isMuted;
+            });
+            muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+        });
+
+        // Initialize audio when page loads
+        initAudio();
+
+        // SECTION FADE-OUT FUNCTIONALITY
+let fadeTimeouts = [];
+let isFading = false;
+const sections = document.querySelectorAll('.main-content section');
+
+function fadeOutSections() {
+if (isFading) return;
+console.log('Starting fade sequence...');
+isFading = true;
+let delay = 3000; // Start fading after 3 seconds
+
+sections.forEach((section, index) => {
+fadeTimeouts.push(setTimeout(() => {
+console.log('Fading section', index + 1);
+section.classList.add('fade-out');
+}, delay));
+delay += 2000; // Each section fades 2 seconds after the previous
+});
+}
+
+function showAllSections() {
+// Clear any pending fade timeouts
+console.log('Showing all sections');
+fadeTimeouts.forEach(timeout => clearTimeout(timeout));
+fadeTimeouts = [];
+// Show all sections
+sections.forEach(section => {
+section.classList.remove('fade-out');
+});
+isFading = false;
+}
+
+// Start fading sections after page load
+window.addEventListener('load', () => {
+console.log('Page loaded, starting fade timer');
+setTimeout(fadeOutSections, 3000);
+});
+
+// Show sections when hovering over menu
+const topMenu = document.querySelector('.top-menu');
+topMenu.addEventListener('mouseenter', showAllSections);
+
+// Show sections when clicking mute button
+muteBtn.addEventListener('click', showAllSections);
+
+// Show sections when scrolling
+let scrollTimeout;
+window.addEventListener('scroll', () => {
+showAllSections();
+// Restart fade timer after scrolling stops
+clearTimeout(scrollTimeout);
+scrollTimeout = setTimeout(fadeOutSections, 5000);
+});
+
+// Alternative: Also show sections when mouse moves (more responsive)
+let mouseMoveTimeout;
+document.addEventListener('mousemove', () => {
+showAllSections();
+mouseMoveTimeout = setTimeout(fadeOutSections, 5000);
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martian Health Initiative - The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #fff;
+overflow-x: hidden;
+position: relative;
+background: #000;
+}
+
+/* BACKGROUND */
+.background-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 1;
+}
+
+.static-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(rgba(0, 20, 40, 0.85), rgba(10, 0, 30, 0.9)), url('images/martian-landscape.jpg') no-repeat center center / cover;
+z-index: 1;
+}
+
+.video-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 2;
+opacity: 0.4;
+}
+
+/* SITE TITLE */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+}
+
+.site-title-overlay h1 {
+color: #00ccff;
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
+
+/* CONTROL BUTTONS */
+.view-toggle {
+position: fixed;
+top: 80px;
+right: 30px;
+z-index: 1000;
+}
+
+.view-btn {
+background: rgba(0, 204, 255, 0.8);
+border: 2px solid #00ccff;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+}
+
+.view-btn:hover {
+background: rgba(255, 68, 68, 0.3);
+box-shadow: 0 0 15px rgba(255, 149, 83, 0.7);
+}
+
+/* AUDIO CONTROLS - FIXED VISIBILITY */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 40px;
+z-index: 1000;
+}
+
+.audio-btn {
+background: rgba(0, 204, 255, 0.8);
+border: 2px solid #00ccff;
+color: #fff;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+font-weight: bold;
+}
+
+.audio-btn:hover {
+background: rgba(255, 68, 68, 0.3);
+box-shadow: 0 0 15px rgba(255, 149, 83, 0.7);
+}
+
+/* TOP MENU - ORANGE THEME */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #ff9553;
+}
+
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #ff4444;
+background: transparent;
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background: rgba(26, 26, 26, 0.98);
+min-width: 140px;
+z-index: 1001;
+border-radius: 4px;
+border: 2px solid #ff9553;
+top: 100%;
+left: 0;
+backdrop-filter: blur(5px);
+padding: 4px 0;
+}
+
+.dropdown .dropdown .dropdown-content {
+position: absolute;
+left: 0;
+top: 100%;
+width: 100%;
+}
+
+.dropdown-content a {
+color: #f5f5f5;
+padding: 3px 5px;
+text-decoration: none;
+display: block;
+transition: background-color 0.3s ease;
+font-size: 0.9rem;
+line-height: 1.2;
+}
+
+.dropdown-content a:hover {
+background: rgba(255, 68, 68, 0.6);
+color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/* MAIN CONTENT - BLUE THEME */
+.health-container {
+position: relative;
+max-width: 1200px;
+margin: 150px auto 100px;
+padding: 30px;
+background: rgba(0, 20, 40, 0.85);
+border-radius: 15px;
+border-left: 5px solid #00ccff;
+box-shadow: 0 0 30px rgba(0, 204, 255, 0.3);
+z-index: 10;
+backdrop-filter: blur(5px);
+}
+
+.health-header {
+text-align: center;
+margin-bottom: 40px;
+padding-bottom: 20px;
+border-bottom: 2px solid rgba(0, 204, 255, 0.5);
+}
+
+.health-title {
+font-family: 'Orbitron', sans-serif;
+font-size: 3.5rem;
+color: #00ccff;
+margin-bottom: 15px;
+text-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
+}
+
+.health-subtitle {
+font-size: 1.5rem;
+color: #aaddff;
+font-style: italic;
+max-width: 800px;
+margin: 0 auto;
+}
+
+.health-quote {
+font-size: 1.3rem;
+color: #aaddff;
+text-align: center;
+margin: 30px 0;
+padding: 20px;
+border-left: 3px solid #00ccff;
+background: rgba(0, 51, 102, 0.3);
+border-radius: 5px;
+font-style: italic;
+}
+
+.health-quote .author {
+display: block;
+text-align: right;
+margin-top: 10px;
+font-size: 1rem;
+color: #88ccff;
+}
+
+/* SECTIONS */
+.health-section {
+margin: 50px 0;
+padding: 25px;
+background: rgba(0, 30, 60, 0.7);
+border-radius: 10px;
+border: 1px solid rgba(0, 204, 255, 0.3);
+}
+
+.section-title {
+font-family: 'Orbitron', sans-serif;
+font-size: 2rem;
+color: #00ccff;
+margin-bottom: 20px;
+padding-bottom: 10px;
+border-bottom: 1px solid rgba(0, 204, 255, 0.3);
+}
+
+.section-content {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 30px;
+}
+
+.section-text {
+font-size: 1.1rem;
+line-height: 1.7;
+}
+
+.section-text p {
+margin-bottom: 15px;
+}
+
+.section-highlight {
+background: rgba(0, 51, 102, 0.5);
+padding: 20px;
+border-radius: 8px;
+border-left: 4px solid #00ccff;
+}
+
+.highlight-title {
+font-family: 'Orbitron', sans-serif;
+color: #00ccff;
+margin-bottom: 10px;
+font-size: 1.3rem;
+}
+
+/* PILLARS */
+.pillars-container {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 25px;
+margin-top: 30px;
+}
+
+.pillar {
+background: rgba(0, 40, 80, 0.7);
+padding: 25px;
+border-radius: 10px;
+text-align: center;
+border: 1px solid rgba(0, 204, 255, 0.3);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pillar:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 20px rgba(0, 204, 255, 0.2);
+}
+
+.pillar-icon {
+font-size: 3rem;
+margin-bottom: 15px;
+color: #00ccff;
+}
+
+.pillar-title {
+font-family: 'Orbitron', sans-serif;
+font-size: 1.5rem;
+color: #00ccff;
+margin-bottom: 15px;
+}
+
+/* COMPARISON TABLE */
+.comparison-table {
+width: 100%;
+border-collapse: collapse;
+margin: 30px 0;
+background: rgba(0, 30, 60, 0.7);
+border-radius: 8px;
+overflow: hidden;
+}
+
+.comparison-table th {
+background: rgba(0, 51, 102, 0.8);
+padding: 15px;
+text-align: left;
+font-family: 'Orbitron', sans-serif;
+color: #00ccff;
+border-bottom: 2px solid #00ccff;
+}
+
+.comparison-table td {
+padding: 15px;
+border-bottom: 1px solid rgba(0, 204, 255, 0.2);
+}
+
+.comparison-table tr:last-child td {
+border-bottom: none;
+}
+
+.earth-cell {
+color: #ff6666;
+}
+
+.mars-cell {
+color: #66ff99;
+}
+
+/* CALL TO ACTION */
+.cta-section {
+text-align: center;
+padding: 40px;
+background: rgba(0, 51, 102, 0.5);
+border-radius: 10px;
+margin-top: 50px;
+border: 2px solid #00ccff;
+}
+
+.cta-title {
+font-family: 'Orbitron', sans-serif;
+font-size: 2.2rem;
+color: #00ccff;
+margin-bottom: 20px;
+}
+
+.cta-text {
+font-size: 1.2rem;
+max-width: 800px;
+margin: 0 auto 30px;
+}
+
+.cta-button {
+display: inline-block;
+background: rgba(0, 204, 255, 0.8);
+color: #001122;
+padding: 15px 30px;
+border-radius: 30px;
+text-decoration: none;
+font-weight: bold;
+font-size: 1.2rem;
+transition: all 0.3s ease;
+border: 2px solid #00ccff;
+}
+
+.cta-button:hover {
+background: rgba(0, 204, 255, 1);
+box-shadow: 0 0 20px rgba(0, 204, 255, 0.7);
+transform: scale(1.05);
+}
+
+/* FOOTER */
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #ff9553;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #ff9553;
+}
+
+/* UTILITY CLASSES */
+.hidden {
+display: none !important;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+.health-container {
+margin: 120px 20px 80px;
+padding: 20px;
+}
+
+.health-title {
+font-size: 2.5rem;
+}
+
+.health-subtitle {
+font-size: 1.2rem;
+}
+
+.section-content {
+grid-template-columns: 1fr;
+}
+
+.pillars-container {
+grid-template-columns: 1fr;
+}
+
+.site-title-overlay {
+top: 70px;
+left: 20px;
+}
+
+.site-title-overlay h1 {
+font-size: 1.4rem;
+}
+
+.view-toggle {
+top: 70px;
+right: 20px;
+}
+
+.audio-controls {
+bottom: 70px;
+right: 20px;
+}
+
+nav.top-menu {
+gap: 1.5rem;
+}
+
+nav.top-menu a {
+font-size: 1rem;
+padding: 0.4rem 0.6rem;
+}
+}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND -->
+<div class="background-container">
+<div class="static-background" id="staticBg"></div>
+<video class="video-background" id="videoBg" loop playsinline>
+<source src="videos/medical-tech-health.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+
+<!-- SITE TITLE -->
+<div class="site-title-overlay" id="siteTitle">
+<h1>The Mars Abyss</h1>
+</div>
+
+<!-- CONTROL BUTTONS -->
+<div class="view-toggle">
+<button class="view-btn" id="viewToggle">🌌 Hide Content</button>
+</div>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- CORRECT MENU STRUCTURE -->
+<nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>    
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>    
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="martian-health-initiative.html" class="active">Martian Health Initiative</a>
+<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+<a href="contact.html">Contact</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="health-container" id="mainContent">
+<div class="health-header">
+<h1 class="health-title">Martian Health Initiative</h1>
+<p class="health-subtitle">A Universal Healthcare System for a New World</p>
+</div>
+
+<div class="health-quote">
+"On Earth, your health is your personal fortune or misfortune. On Mars, your health is our collective wealth. We are building a new future for humanity, and we will not let you fall."
+<span class="author">— The Regent of Mars</span>
+</div>
+
+<div class="health-section">
+<h2 class="section-title">The Vision</h2>
+<div class="section-content">
+<div class="section-text">
+<p>The Martian Health Initiative (MHI) represents a fundamental reimagining of healthcare—not as a privilege for the few, but as a fundamental right for all citizens of Mars.</p>
+<p>Drawing inspiration from the most successful healthcare models on Earth while innovating for the unique challenges of Martian life, the MHI ensures that every individual receives comprehensive care from birth throughout their life.</p>
+<p>This system is built on the principle that a healthy population is the greatest asset of any civilization, and on Mars, we recognize this truth in our social contract.</p>
+</div>
+<div class="section-highlight">
+<h3 class="highlight-title">Core Philosophy</h3>
+<p>"Your body and mind are the most valuable resources on this planet, and we will protect them as such."</p>
+<p>The MHI transforms healthcare from a cost center into the core of our society's promise to its people.</p>
+</div>
+</div>
+</div>
+
+<div class="health-section">
+<h2 class="section-title">The Four Pillars of MHI</h2>
+<div class="pillars-container">
+<div class="pillar">
+<div class="pillar-icon">🆔</div>
+<h3 class="pillar-title">Martian Health Identifier</h3>
+<p>Every citizen receives a unique, lifetime MH-ID that links to their complete medical history, ensuring seamless care across all facilities.</p>
+</div>
+<div class="pillar">
+<div class="pillar-icon">🧠</div>
+<h3 class="pillar-title">Psyche-Shield Program</h3>
+<p>Comprehensive mental health support designed for the unique psychological challenges of Martian life, with proactive and preventative care.</p>
+</div>
+<div class="pillar">
+<div class="pillar-icon">🪐</div>
+<h3 class="pillar-title">Gravito-Biological Institute</h3>
+<p>Specialized care and research focused on the physiological effects of lower gravity, with mandatory health preservation regimens.</p>
+</div>
+<div class="pillar">
+<div class="pillar-icon">🔬</div>
+<h3 class="pillar-title">Frontier Medicine Pathway</h3>
+<p>Ethical, streamlined approval for experimental treatments and cutting-edge medical technologies specific to Martian challenges.</p>
+</div>
+</div>
+</div>
+
+<div class="health-section">
+<h2 class="section-title">Earth vs. Mars: A Healthcare Comparison</h2>
+<table class="comparison-table">
+<tr>
+<th>Aspect</th>
+<th>Earth Systems</th>
+<th>Martian Health Initiative</th>
+</tr>
+<tr>
+<td>Coverage</td>
+<td class="earth-cell">Varies by country, employment, or wealth</td>
+<td class="mars-cell">Universal for all permanent residents</td>
+</tr>
+<tr>
+<td>Funding</td>
+<td class="earth-cell">Mix of private insurance, out-of-pocket, taxes</td>
+<td class="mars-cell">Mandatory Health Contribution shared by all</td>
+</tr>
+<tr>
+<td>Mental Health</td>
+<td class="earth-cell">Often underfunded and stigmatized</td>
+<td class="mars-cell">Integrated, proactive "Psyche-Shield" program</td>
+</tr>
+<tr>
+<td>Innovation</td>
+<td class="earth-cell">Slowed by bureaucracy and profit motives</td>
+<td class="mars-cell">Fast-tracked for Martian-specific challenges</td>
+</tr>
+<tr>
+<td>Preventative Care</td>
+<td class="earth-cell">Limited by cost concerns</td>
+<td class="mars-cell">Mandatory and comprehensive</td>
+</tr>
+</table>
+</div>
+
+<div class="health-section">
+<h2 class="section-title">Implementation & Governance</h2>
+<div class="section-content">
+<div class="section-text">
+<p>The MHI follows the TAPIC framework for transparent and effective governance:</p>
+<ul style="margin-left: 20px; margin-top: 15px;">
+<li><strong>Transparency:</strong> All policies, pricing, and performance data publicly accessible</li>
+<li><strong>Accountability:</strong> Clear responsibility from Health Minister to local clinics</li>
+<li><strong>Participation:</strong> Regular citizen and professional feedback integrated</li>
+<li><strong>Integrity:</strong> Zero-tolerance corruption policy with independent oversight</li>
+<li><strong>Capacity:</strong> Continuous investment in medical training and technology</li>
+</ul>
+</div>
+<div class="section-highlight">
+<h3 class="highlight-title">Phased Rollout</h3>
+<p><strong>Phase 1:</strong> Government employees and high-risk sectors</p>
+<p><strong>Phase 2:</strong> All employed residents and dependents</p>
+<p><strong>Phase 3:</strong> Full universal coverage achieved</p>
+</div>
+</div>
+</div>
+
+<div class="cta-section">
+<h2 class="cta-title">Join Our Healthy Future</h2>
+<p class="cta-text">The Martian Health Initiative is more than healthcare—it's a promise of a society that truly values every individual. It represents our commitment to building a civilization where your well-being is our shared priority.</p>
+<a href="contact.html" class="cta-button">Learn How You Can Contribute</a>
+</div>
+</div>
+
+<footer id="pageFooter">
+<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Standard hide/show functionality
+const viewToggle = document.getElementById('viewToggle');
+const mainContent = document.getElementById('mainContent');
+const siteTitle = document.getElementById('siteTitle');
+const pageFooter = document.getElementById('pageFooter');
+const mainMenu = document.querySelector('nav.top-menu');
+
+viewToggle.addEventListener('click', function() {
+mainContent.classList.toggle('hidden');
+siteTitle.classList.toggle('hidden');
+pageFooter.classList.toggle('hidden');
+mainMenu.classList.toggle('hidden');
+
+if (mainContent.classList.contains('hidden')) {
+viewToggle.textContent = '📄 Show Content';
+} else {
+viewToggle.textContent = '🌌 Hide Content';
+}
+});
+
+// Video background handling
+const videoBg = document.getElementById('videoBg');
+
+
+videoBg.volume = 0.2;
+
+// Try to play video, with fallback to static background
+videoBg.play().catch(function(error) {
+console.log('Video autoplay prevented, with sound blocked, trying muted');
+videoBg.muted = true;
+videoBg.play();
+});
+
+// Ensure video plays when user interacts with page
+document.addEventListener('click', function() {
+if (videoBg.paused) {
+videoBg.play().catch(e => {
+    console.log('Video play failed, forcing muted');
+    videoBg.muted = true;
+    videoBg.play();
+
+});
+}
+videoBg.muted = false;
+});
+
+// Simple audio system
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true; // start muted to avoid autoplay issues
+let audioElements = [];
+
+function initAudio() {
+const sounds = [
+
+{ src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+{ src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.1 }
+];
+
+sounds.forEach(sound => {
+const audio = new Audio(sound.src);
+audio.volume = sound.volume;
+audio.loop = true;
+audio.muted = true; // Start muted
+audioElements.push(audio);
+});
+
+// Unmute and Play sounds first user interaction
+document.addEventListener('click', function unmuteAudio() {
+if (!isMuted) {
+audioElements.forEach(audio => {
+audio.muted = false;
+audio.play().catch(e => console.log('Audio play failed'));
+});
+isMuted = false;
+muteBtn.textContent = "🔊 Mute Sounds";
+}
+document.removeEventListener('click', unmuteAudio);
+}, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+isMuted = !isMuted;
+audioElements.forEach(audio => {
+audio.muted = isMuted;
+});
+muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+// Initialize audio when page loads
+initAudio();
+</script>
+</body>
+</html>
