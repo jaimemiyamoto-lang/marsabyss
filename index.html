@@ -37,7 +37,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('images/mars-background-bg.jpg') no-repeat center center / cover;
+            background: url('mars-background-bg.jpg') no-repeat center center / cover;
             z-index: 1;
         }
 
@@ -422,7 +422,7 @@
     <div class="background-container">
         <div class="static-background" id="staticBg"></div>
         <video class="video-background" id="marsVideo" muted loop playsinline>
-            <source src="videos/martian-landscape.mp4" type="video/mp4">
+            <source src="martian-landscape.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="dust-overlay" id="dustOverlay"></div>
@@ -686,8 +686,8 @@
 
         function initAudio() {
             const sounds = [
-                { src: 'sounds/from-the-crypt-ext v2.mp3', volume: 0.5 },
-                { src: 'sounds/ambient-space.mp3', volume: 0.2 },
+                { src: 'from-the-crypt-ext v2.mp3', volume: 0.5 },
+                { src: 'ambient-space.mp3', volume: 0.2 },
                 // Add meteor impact sound
                 { src: 'sounds/meteor-impact.mp3', volume: 0.3 }
             ];
@@ -695,7 +695,7 @@
             sounds.forEach(sound => {
                 const audio = new Audio(sound.src);
                 audio.volume = sound.volume;
-                audio.loop = sound.src !== 'sounds/meteor-impact.mp3'; // Don't loop impact sound
+                audio.loop = sound.src !== 'meteor-impact.mp3'; // Don't loop impact sound
                 audio.muted = true;
                 audioElements.push(audio);
             });
