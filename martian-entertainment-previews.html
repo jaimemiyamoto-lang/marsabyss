@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martian Entertainment Previews - The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    background: #000;
+}
+
+/* SITE TITLE OVERLAY */
+.site-title-overlay {
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+}
+
+.site-title-overlay h1 {
+    color: rgba(216, 62, 243, 0.8);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(100, 12, 103, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+.site-title-overlay h1 sup {
+    font-size: 0.6em;
+    vertical-align: super;
+    color: rgba(255, 105, 180, 0.9);
+    text-shadow: 0 0 8px rgba(255, 105, 180, 0.7);
+    margin-left: 2px;
+}
+
+/* HIDE CONTENT BUTTON */
+.hide-content-btn {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    transition: all 0.3s ease;
+}
+
+.hide-content-btn:hover {
+    background: rgba(0, 204, 255, 0.6);
+    color: black;
+}
+
+/* Main Background - CORRECT Z-INDEX */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('images/new-silver.jpg') no-repeat center 20% / cover fixed;
+    z-index: 1; /* CORRECT: POSITIVE 1 */
+    filter: brightness(0.8);
+}
+
+/* === COMPLETE TOP MENU === */
+nav.top-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #ffd700;
+    
+}
+
+nav.top-menu.hidden {
+    opacity: 0;
+    pointer-events: none;
+    
+}
+
+nav.top-menu a {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid #ffd700;
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
+}
+
+.dropdown-content a {
+    color: #f5f5f5;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    white-space: nomal;
+    border-bottom: 2px solid rgba(255, 111, 229, 0.3);
+}
+
+.dropdown-content a:hover {
+    background: rgba(255, 215, 0, 0.3);
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+nav.top-menu a.active,
+nav.top-menu a:hover {
+    color: #ffd700;
+    background: transparent;
+}
+
+/* Cinematic Intro Overlay */
+.cinematic-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: vaporFadeOut 8s ease-in-out forwards;
+    opacity: 1;
+}
+
+@keyframes vaporFadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+    }
+    60% {
+        opacity: 0.8;
+        transform: translateY(-5px) scale(1.02);
+        filter: blur(0.5px);
+    }
+    80% {
+        opacity: 0.3;
+        transform: translateY(-10px) scale(1.05);
+        filter: blur(1px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-15px) scale(1.08);
+        filter: blur(2px);
+        display: none;
+    }
+}
+
+.intro-container {
+    max-width: 800px;
+    padding: 2rem;
+    text-align: center;
+    margin: 0;
+}
+
+.intro-text {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    margin-bottom: 1rem;
+}
+
+.intro-subtitle {
+    font-size: 1.1rem;
+    color: #ccc;
+    font-style: italic;
+}
+
+/* Main Content with Hide/Show functionality */
+.main-content {
+    position: relative;
+    padding: 2rem 5%;
+    min-height: 100vh;
+    margin-top: 70px;
+    padding-bottom: 100px;
+    transition: all 0.5s ease;
+    z-index: 10;
+}
+
+.main-content.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+}
+
+/* Title Boards */
+.title-board {
+    text-align: center;
+    margin: 8rem auto 4rem auto;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 2px solid #ff4d4d;
+    max-width: 800px;
+    transition: all 1.5s ease-in-out;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.title-board.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.title-board h1 {
+    font-size: 2.8rem;
+    color: #ffd700;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.title-board p {
+    font-size: 1.3rem;
+    color: #ffd700;
+    font-style: italic;
+}
+
+.subtitle-board {
+    text-align: center;
+    margin: 2rem auto 3rem auto;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1.5rem;
+    border-radius: 6px;
+    border: 2px solid #ffd700;
+    max-width: 700px;
+    transition: all 1.5s ease-in-out;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.subtitle-board.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.subtitle-board h2 {
+    font-size: 1.8rem;
+    color: #ffd700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.subtitle-board p {
+    font-size: 1.1rem;
+    color: #ccc;
+}
+
+/* Video Preview Section */
+.video-section {
+    text-align: center;
+    margin: 10rem auto 4rem auto;
+    opacity: 0;
+    transition: all 1s ease-in-out;
+}
+
+.video-section.visible {
+    opacity: 1;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.video-card {
+    background-color: rgba(20, 20, 40, 0.82);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    border: 2px solid #444;
+}
+
+.video-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(255, 0, 100, 0.25);
+}
+
+.video-player {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-bottom: 2px solid #ff4d4d;
+}
+
+.video-info {
+    padding: 1.8rem;
+    text-align: left;
+}
+
+.release-badge {
+    background: #ff4d4d;
+    color: white;
+    padding: 5px 14px;
+    border-radius: 18px;
+    font-size: 0.85rem;
+    display: inline-block;
+    margin-bottom: 14px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.video-info h3 {
+    color: #ff4d4d;
+    margin-bottom: 12px;
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.video-info p {
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 18px;
+    font-size: 1rem;
+}
+
+.video-info a {
+    color: #4da6ff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.video-info a:hover {
+    color: #80c1ff;
+    text-decoration: underline;
+}
+
+/* YouTube Embed */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Silver Saint Claire Story Section */
+.silver-story {
+    background: rgba(10, 10, 30, 0.85);
+    padding: 3rem 2rem;
+    margin: 3rem auto;
+    text-align: center;
+    border: 2px solid #c0c0c0;
+    border-radius: 12px;
+    max-width: 1000px;
+}
+
+.silver-story h2 {
+    color: #c0c0c0;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(192, 192, 192, 0.3);
+}
+
+.story-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.story-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #e0e0e0;
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+.story-highlight {
+    color: #ffd700;
+    font-weight: 500;
+    font-style: italic;
+}
+
+/* Inspiration Section with Custom Background */
+.inspiration-section {
+    padding: 3rem 2rem;
+    background: rgba(10, 10, 30, 0.85);
+    margin: 3rem auto;
+    text-align: center;
+    border: 2px solid #ff4d4d;
+    border-radius: 12px;
+    max-width: 1000px;
+    background-image: url('images/your-inspiration-background.jpg'); /* Add your custom background */
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+}
+
+.inspiration-section h2 {
+    color: #ff4d4d;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
+}
+
+.inspiration-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.inspiration-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #444;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+}
+
+.inspiration-item:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.inspiration-item h3 {
+    color: #ff4d4d;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.inspiration-item p {
+    color: #ccc;
+    line-height: 1.5;
+}
+
+/* Silver Modal Styles */
+.silver-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.silver-modal.active {
+    display: flex;
+}
+
+.frame-content {
+    width: 95%;
+    height: 95%;
+    border: 3px solid #c0c0c0;
+    border-radius: 15px;
+    position: relative;
+    box-shadow: 0 0 50px rgba(192, 192, 192, 0.5);
+    overflow: hidden;
+}
+
+.framed-background {
+    width: 100%;
+    height: 100%;
+    background: url('images/silver-saint-claire.jpg') no-repeat center center / cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 4rem;
+}
+
+.frame-title {
+    color: #ff4d4d;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px rgba(255, 77, 77, 0.7);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+}
+
+.frame-subtitle {
+    color: #ffd700;
+    font-size: 1.8rem;
+    font-style: italic;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.8rem 1.5rem;
+    border-radius: 1px;
+}
+
+.frame-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #000;
+    color: white;
+    border: 2px solid #ff4d4d;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    z-index: 2001;
+    transition: all 0.3s ease;
+}
+
+.frame-close-btn:hover {
+    background: #ff4d4d;
+    color: #000;
+}
+
+/* Card Section */
+.card-section {
+    position: relative;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 3rem 0;
+    margin-top: 3rem;
+    border-top: 2px solid #ff4d4d;
+    border-bottom: 2px solid #ff4d4d;
+}
+
+.card-section h2 {
+    text-align: center;
+    color: #ff4d4d;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
+}
+
+.card-container-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.card-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1.5rem;
+    padding: 1rem;
+    max-width: 1000px;
+    scrollbar-width: none;
+}
+
+.card-container::-webkit-scrollbar {
+    display: none;
+}
+
+.card {
+    flex: 0 0 auto;
+    width: 160px;
+    height: 240px;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(100%) contrast(150%);
+    transition: filter 0.4s ease, transform 0.4s ease;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.card:hover {
+    filter: grayscale(0%) contrast(100%);
+    transform: scale(1.08);
+    border-color: #ff4d4d;
+}
+
+.card-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.9);
+    color: #ff4d4d;
+    padding: 10px;
+    font-size: 0.85rem;
+    text-align: center;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+/* Updated card backgrounds */
+.card-star-trek { background-image: url('images/star-trek-bridge-characters.jpg'); }
+.card-expanse { background-image: url('images/the-expanse.jpg'); }
+.card-shogun { background-image: url('images/shogun.jpg'); }
+.card-tron-ares {
+    background-image: url('images/tron-ares.jpeg');
+    background-color: #00ffff;
+}
+.card-chief-of-war { background-image: url('images/chief-of-war.jpg');}
+.card-strange-new-worlds { background-image: url('images/strange-new-worlds.jpg'); }
+.card-babylon-five { background-image: url('images/babylon-5-jpg'); }
+.card-galaxy-quest { background-image: url('images/galaxy-quest.jpg'); }
+.card-for-all-mankind { background-image: url('images/for-all-mankind.jpg'); }
+
+/* Arrows */
+.arrow {
+    font-size: 2.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    transition: background 0.3s ease, transform 0.3s ease;
+    user-select: none;
+    color: #ff4d4d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+}
+
+.arrow:hover {
+    background: rgba(255, 77, 77, 0.6);
+    transform: scale(1.1);
+}
+
+/* External Links Warning */
+.external-links-warning {
+    text-align: center;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid #ffd700;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin: 1rem auto;
+    max-width: 600px;
+    color: #ffd700;
+    font-size: 0.9rem;
+}
+
+.external-links-warning p {
+    margin: 0;
+    font-style: italic;
+}
+
+/* AUDIO CONTROLS */
+.audio-controls {
+    position: fixed;
+    bottom: 80px;
+    right: 40px;
+    z-index: 1000;
+}
+
+.audio-btn {
+    background: rgba(177, 122, 4, 0.8);
+    border: 2px solid #fff70d;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+}
+
+.audio-btn:hover {
+    background: rgba(13, 255, 108, 0.3);
+}
+
+/* FOOTER */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ccc;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid #ffd700;
+    transition: all 0.5s ease;
+}
+
+footer.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Content spacer for footer */
+.content-spacer {
+    height: 100px;
+}
+
+/* Ensure proper scrolling */
+html {
+    overflow-y: scroll;
+}
+
+body {
+    overflow-y: auto;
+}
+</style>
+</head>
+
+<body>
+<!-- Main Background -->
+<div class="background"></div>
+
+<!-- SITE TITLE OVERLAY -->
+<div class="site-title-overlay">
+    <h1>The Mars Abyss<sup>™</sup></h1>
+</div>
+
+<!-- HIDE CONTENT BUTTON -->
+<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
+<!-- Cinematic Intro Overlay -->
+<div class="cinematic-overlay" id="cinematicIntro">
+    <div class="intro-container">
+        <div class="intro-text">
+            "The future of entertainment is written among the stars, where every story becomes part of our Martian legacy."
+        </div>
+        <div class="intro-subtitle">
+            - Martian Archives Directive M7 · Entertainment Division
+        </div>
+    </div>
+</div>
+
+<!-- Silver Modal -->
+<div class="silver-modal" id="silverModal">
+    <div class="frame-content">
+        <button class="frame-close-btn" onclick="closeSilverModal()">Close Background</button>
+        <div class="framed-background">
+            <h1 class="frame-title">Silver Saint Claire</h1>
+            <p class="frame-subtitle">The Robot With A Soul</p>
+        </div>
+    </div>
+</div>
+
+<!-- COMPLETE TOP MENU -->
+<nav class="top-menu" id="topMenu">
+    <div class="dropdown">
+        <a href="index.html" class="dropbtn">Home</a>
+        <div class="dropdown-content">
+            <a href="why-this-world-matters.html">Why This World Matters</a>
+            <a href="homage-to-courage.html">Homage to Courage</a>
+            <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+            <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+            <a href="my-mission.html">My Mission</a>
+            <a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="martian-entertainment-previews.html" class="active">Martian Entertainment Previews</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+        <div class="dropdown-content">
+            <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+            <a href="earths-great-poets.html">Earth's Great Poets</a>
+            <a href="the-bohr-institute.html">The Bohr Institute</a>
+            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+            <a href="the-bronx-dome.html">The Bronx Dome</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn">Martian News</a>
+        <div class="dropdown-content">
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+            <a href="martian-rest-areas.html">Martian Rest Areas</a>
+            <div class="dropdown">
+            <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+            <div class="dropdown-content">
+            <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+            <a href="marvin.html">M.A.R.V.I.N.</a>
+        </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+            <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+            <div class="dropdown-content">
+            <a href="regents-longing.html">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a>
+            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="support.html" class="dropbtn">Support</a>
+        <div class="dropdown-content">
+            <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+            <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+            <a href="mars-food-district.html">Mars Food District</a>
+            <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+            <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+            <a href="fund-martian-research.html">Fund Martian Research</a>           
+            <a href="martian-survival-manual.html">Martian Survival Manual</a>
+            <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+        </div>
+    </div>
+
+    <a href="contact.html">Contact</a>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+    <!-- Title Board -->
+    <section class="title-board" id="titleBoard">
+        <h1>Martian Entertainment Previews</h1>
+        <p>Featured previews of upcoming movies and series that inspire our Martian saga</p>
+    </section>
+
+    <!-- Subtitle Board -->
+    <section class="subtitle-board" id="subtitleBoard">
+        <h2>Explore the Future of Entertainment</h2>
+        <p>Discover the shows and films that shape our vision of Mars</p>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section" id="videoSection">
+        <div class="video-grid">
+            <!-- The Mars Abyss -->
+            <div class="video-card">
+                <video class="video-player" controls>
+                    <source src="videos/videomartian-preview.mp4" type="video/mp4">
+                    <source src="videos/beeship-one.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-info">
+                    <span class="release-badge">Our Martian Project</span>
+                    <h3>The Mars Abyss: Martian Chronicles</h3>
+                    <p>Preview of our own Martian settlement documentary series.</p>
+                    <a href="martian-news.html">Learn More</a>
+                </div>
+            </div>
+
+            <!-- The Mandalorian and Grogu -->
+            <div class="video-card">
+                <div class="video-container">
+                    <iframe src="https://www.starwars.com/video/the-mandalorian-and-grogu-official-trailer"
+                    frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <span class="release-badge">Coming 2026</span>
+                    <h3>The Mandalorian and Grogu</h3>
+                    <p>The next chapter in the Star Wars saga continues the adventures across the galaxy.</p>
+                    <a href="https://www.starwars.com" target="_blank">Official Site</a>
+                </div>
+            </div>
+
+            <!-- TRON: Ares -->
+            <div class="video-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/YShVEXb7-ic"
+                    frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <span class="release-badge">Now Playing</span>
+                    <h3>TRON: Ares</h3>
+                    <p>The next chapter in the TRON legacy. Ares journeys into the digital realm.</p>
+                    <a href="https://youtu.be/YShVEXb7-ic" target="_blank">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Silver Saint Claire Story -->
+    <section class="silver-story">
+        <h2>The Story of Silver Saint Claire</h2>
+        <div class="story-content">
+            <p class="story-text">
+                Created in the early 2000s, Silver Saint Claire is a sentient robot with a soul - a being of remarkable depth and personality. Her sleek silver form conceals a complex consciousness that values efficiency, morality, and surprisingly... frugality.
+            </p>
+            <p class="story-text">
+                Though equipped with a powerful rocket pack that allows her to fly, Silver <span class="story-highlight">prefers her jetbike</span> for everyday travel. "Why waste precious rocket fuel when you can enjoy the wind in your face?" she often quips. This practical, almost stingy nature hides a fierce protective instinct - she'll unleash her full rocket power without hesitation if her <span class="story-highlight">"boyfriend's" life is in immediate danger.</span>
+            </p>
+            <p class="story-text">
+                In our Martian saga, Silver serves as a voice of reason against corporate excess. When <span class="story-highlight">"The Over Stimulator"</span> - an Overseer of Earth obsessed with efficiency at all costs - arrives to replace 3,000 human employees with maintenance-free robots, Silver becomes the unexpected champion of humanity. Her opposition isn't just about saving jobs; it's about preserving the soul of the workplace.
+            </p>
+        </div>
+    </section>
+
+    <!-- Inspiration Section -->
+    <section class="inspiration-section" id="inspirationSection">
+        <h2>How These Inspire The Mars Abyss</h2>
+        <div class="inspiration-grid">
+            <div class="inspiration-item" onclick="openSilverModal()">
+                <h3>Silver Saint Claire</h3>
+                <p>Click to view background</p>
+            </div>
+            <div class="inspiration-item" onclick="window.location.href='world-building.html'">
+                <h3>World-Building</h3>
+                <p>See how shows influence our Martian settlement designs</p>
+            </div>
+            <div class="inspiration-item" onclick="window.location.href='technology.html'">
+                <h3>Technology</h3>
+                <p>Realistic spacecraft physics from sci-fi advancements</p>
+            </div>
+            <div class="inspiration-item" onclick="window.location.href='disney-mars.html'">
+                <h3>Disney on Mars</h3>
+                <p>Explore Disney content in our Martian universe</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Card Section -->
+    <section class="card-section">
+        <h2>More Entertainment Previews</h2>
+        <div class="external-links-warning">
+            <p>⚠️ Clicking cards opens official streaming sites in new tabs</p>
+        </div>
+        <div class="card-container-wrapper">
+            <div class="arrow arrow-left" onclick="scrollCards(-1)">‹</div>
+            <div class="card-container" id="cards">
+                <div class="card card-star-trek" onclick="openPreview('star-trek')">
+                    <div class="card-label">STAR TREK</div>
+                </div>
+                <div class="card card-expanse" onclick="openPreview('expanse')">
+                    <div class="card-label">THE EXPANSE</div>
+                </div>
+                <div class="card card-shogun" onclick="openPreview('shogun')">
+                    <div class="card-label">SHOGUN</div>
+                </div>
+                <div class="card card-tron-ares" onclick="openPreview('tron-ares')">
+                    <div class="card-label">TRON: ARES</div>
+                </div>
+                <div class="card card-chief-of-war" onclick="openPreview('chief-of-war')">
+                    <div class="card-label">CHIEF OF WAR</div>
+                </div>
+                <div class="card card-babylon-five" onclick="openPreview('babylon-five')">
+                    <div class="card-label">BABYLON 5</div>
+                </div>
+                <div class="card card-strange-new-worlds" onclick="openPreview('strange-new-worlds')">
+                    <div class="card-label">STRANGE NEW WORLDS</div>
+                </div>
+                <div class="card card-galaxy-quest" onclick="openPreview('galaxy-quest')">
+                    <div class="card-label">GALAXY QUEST</div>
+                </div>
+                <div class="card card-for-all-mankind" onclick="openPreview('for-all-mankind')">
+                    <div class="card-label">FOR ALL MANKIND</div>
+                </div>
+            </div>
+            <div class="arrow arrow-right" onclick="scrollCards(1)">›</div>
+        </div>
+    </section>
+
+</div>
+
+<!-- Content spacer for footer -->
+<div class="content-spacer"></div>
+
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+    <button class="audio-btn" id="muteBtn">🔊 Mute Sounds</button>
+</div>
+
+<!-- Footer -->
+<footer id="pageFooter">
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// HIDE CONTENT FUNCTIONALITY
+const hideContentBtn = document.getElementById('hideContentBtn');
+const mainContent = document.getElementById('mainContent');
+const pageFooter = document.getElementById('pageFooter');
+const topMenu = document.getElementById('topMenu');
+let contentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+    contentHidden = !contentHidden;
+
+    if (contentHidden) {
+        mainContent.classList.add('hidden');
+        pageFooter.classList.add('hidden');
+        topMenu.classList.add('hidden');
+        hideContentBtn.textContent = 'Show Content';
+    } else {
+        mainContent.classList.remove('hidden');
+        pageFooter.classList.remove('hidden');
+        topMenu.classList.remove('hidden');
+        hideContentBtn.textContent = 'Hide Content';
+    }
+});
+
+// Card scrolling functionality
+let isScrolling = false;
+const scrollDuration = 500;
+
+function scrollCards(direction) {
+    if (isScrolling) return;
+    const container = document.querySelector(".card-container");
+    const scrollAmount = 200;
+    isScrolling = true;
+    container.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+    });
+    setTimeout(() => {
+        isScrolling = false;
+    }, scrollDuration);
+}
+
+// Preview opening functionality
+function openPreview(show) {
+    const previews = {
+        'star-trek': 'https://www.startrek.com',
+        'expanse': 'https://www.syfy.com/the-expanse',
+        'shogun': 'https://www.fxnetworks.com/shows/shogun',
+        'tron-ares': 'https://m.imdb.com/title/tt6604188/',
+        'chief-of-war': 'https://tv.apple.com/us/show/chief-of-war/umc.cmc.6ag0zq020ielwv7m83v8r4dkw',
+        'babylon-five': 'https://www.warnerbros.com/tv/babylon-5',
+        'strange-new-worlds': 'https://www.startrek.com/series/star-trek-strange-new-worlds',
+        'galaxy-quest': 'https://www.youtube.com/watch?v=B34jbC43XzA',
+        'for-all-mankind': 'https://tv.apple.com/us/show/for-all-mankind/umc.cmc.6wsi780sz5tdbqcf11k76mkp7'
+    };
+    if (previews[show]) {
+        if (show === 'tron-ares') {
+            window.open(previews[show], '_self');
+        } else {
+            window.open(previews[show], '_blank');
+        }
+    }
+}
+
+// Silver Modal Functions
+function openSilverModal() {
+    const modal = document.getElementById('silverModal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeSilverModal() {
+    const modal = document.getElementById('silverModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Improved fade sequence with proper positioning
+document.addEventListener('DOMContentLoaded', function() {
+    // Cinematic intro fade
+    setTimeout(() => {
+        const cinematicIntro = document.getElementById('cinematicIntro');
+        cinematicIntro.style.opacity = '0';
+        setTimeout(() => {
+            cinematicIntro.style.display = 'none';
+            // Show title board (positioned lower)
+            const titleBoard = document.getElementById('titleBoard');
+            titleBoard.classList.add('visible');
+            // Show subtitle board after title
+            setTimeout(() => {
+                const subtitleBoard = document.getElementById('subtitleBoard');
+                subtitleBoard.classList.add('visible');
+                // Fade out title board
+                setTimeout(() => {
+                    titleBoard.style.opacity = '0';
+                    // Fade out subtitle board
+                    setTimeout(() => {
+                        subtitleBoard.style.opacity = '0';
+                        // Show video section (stays in normal flow, user scrolls)
+                        setTimeout(() => {
+                            const videoSection = document.getElementById('videoSection');
+                            videoSection.classList.add('visible');
+                            // Remove title boards from layout
+                            setTimeout(() => {
+                                titleBoard.style.display = 'none';
+                                subtitleBoard.style.display = 'none';
+                            }, 1500);
+                        }, 500);
+                    }, 5000); // Subtitle stays for 4 seconds
+                }, 3000); // Title stays for 3 seconds after subtitle appears
+            }, 1000); // Delay before subtitle appears
+        }, 8000); // Cinematic intro duration
+    }, 4000); // Initial delay
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeSilverModal();
+    }
+});
+
+// Close modal when clicking outside content
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('silverModal');
+    if (event.target === modal) {
+        closeSilverModal();
+    }
+});
+
+// Keyboard navigation for card scrolling
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'ArrowLeft') scrollCards(-1);
+    if (event.key === 'ArrowRight') scrollCards(1);
+});
+
+// Touch & Mouse Drag Scrolling
+let isDragging = false;
+let startX;
+let scrollLeft;
+
+const cardContainer = document.querySelector('.card-container');
+
+cardContainer.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    cardContainer.style.cursor = 'grabbing';
+    startX = e.pageX - cardContainer.offsetLeft;
+    scrollLeft = cardContainer.scrollLeft;
+});
+
+cardContainer.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startX = e.touches[0].pageX - cardContainer.offsetLeft;
+    scrollLeft = cardContainer.scrollLeft;
+});
+
+document.addEventListener('mouseup', () => {
+    isDragging = false;
+    cardContainer.style.cursor = 'grab';
+});
+
+document.addEventListener('touchend', () => {
+    isDragging = false;
+});
+
+cardContainer.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - cardContainer.offsetLeft;
+    const walk = (x - startX) * 2;
+    cardContainer.scrollLeft = scrollLeft - walk;
+});
+
+cardContainer.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const x = e.touches[0].pageX - cardContainer.offsetLeft;
+    const walk = (x - startX) * 2;
+    cardContainer.scrollLeft = scrollLeft - walk;
+});
+
+// Simple audio system
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true; // start muted to avoid autoplay issues
+let audioElements = [];
+
+function initAudio() {
+    const sounds = [
+        { src: 'music/libre-en-marte.mp3', volume: 0.5 },
+    ];
+
+    sounds.forEach(sound => {
+        const audio = new Audio(sound.src);
+        audio.volume = sound.volume;
+        audio.loop = true;
+        audio.muted = true; // Start muted
+        audioElements.push(audio);
+    });
+
+    // Unmute and Play sounds first user interaction
+    document.addEventListener('click', function unmuteAudio() {
+        if (!isMuted) {
+            audioElements.forEach(audio => {
+                audio.muted = false;
+                audio.play().catch(e => console.log('Audio play failed'));
+            });
+            isMuted = false;
+            muteBtn.textContent = "🔊 Mute Sounds";
+        }
+        document.removeEventListener('click', unmuteAudio);
+    }, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+    isMuted = !isMuted;
+    audioElements.forEach(audio => {
+        audio.muted = isMuted;
+    });
+    muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// Initialize audio when page loads
+initAudio();
+</script>
+</body>
+</html>
