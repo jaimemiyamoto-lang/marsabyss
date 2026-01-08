@@ -417,6 +417,141 @@ footer.hidden {
         font-size: 1.4rem;
     }
 }
+
+nav.top-menu {
+    flex-wrap: wrap; /* Change from nowrap to allow wrapping */
+    gap: 1.5rem; /* Slightly smaller default gap */
+    justify-content: space-around; /* Better distribution */
+}
+
+.dropdown-content {
+    display: none; /* Ensure JS controls visibility */
+    left: auto; /* Center under parent on small screens */
+    right: 0;
+}
+
+/* Remove hover for dropdowns (now JS-controlled) */
+.dropdown:hover .dropdown-content {
+    display: none; /* Override to prevent hover issues on touch */
+}
+
+@media (max-width: 1024px) { /* For tablets */
+    nav.top-menu {
+        gap: 1rem;
+        padding: 0.4rem 0;
+    }
+    nav.top-menu a {
+        font-size: 1rem;
+        padding: 0.4rem 0.6rem;
+    }
+}
+
+@media (max-width: 768px) {
+    nav.top-menu {
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    nav.top-menu a {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.5rem;
+    }
+    .dropdown-content {
+        min-width: 120px;
+        font-size: 0.7rem;
+    }
+}
+
+.news-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Reduce min to 300px for better fit */
+}
+
+.news-image, .news-video {
+    height: auto; /* Remove fixed height */
+    aspect-ratio: 16/9; /* Maintain ratio without distortion */
+    object-fit: cover;
+}
+
+@media (max-width: 1024px) {
+    .news-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    .news-card {
+        padding: 1rem;
+    }
+    .news-title {
+        font-size: clamp(1.2rem, 4vw, 1.4rem); /* Responsive font */
+    }
+}
+
+@media (max-width: 768px) {
+    .news-grid {
+        grid-template-columns: 1fr; /* As you have */
+    }
+}
+
+@media (max-width: 480px) { /* Extra for phones */
+    .main-content {
+        padding: 1rem;
+    }
+    .news-header h1 {
+        font-size: clamp(1.8rem, 8vw, 2.5rem);
+    }
+    .news-categories {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+.site-title-overlay {
+    top: 80px; /* Slightly lower to avoid nav overlap */
+    left: 15px;
+}
+
+.hide-content-btn {
+    top: 60px;
+    right: 15px;
+    font-size: clamp(0.6rem, 3vw, 0.8rem);
+}
+
+.audio-controls {
+    bottom: 60px; /* Avoid footer overlap */
+    right: 15px;
+}
+
+footer {
+    padding: 0.4rem 0;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .site-title-overlay {
+        top: 50px;
+        left: 10px;
+    }
+    .hide-content-btn {
+        top: 50px;
+        right: 10px;
+        padding: 6px 10px;
+    }
+    .audio-controls {
+        bottom: 50px;
+        right: 10px;
+    }
+    footer {
+        font-size: 0.7rem;
+    }
+}
+
+body {
+    touch-action: manipulation; /* Improve touch responsiveness */
+}
+
+.video-background {
+    will-change: transform; /* Optimize for mobile */
+}
+
 </style>
 </head>
 
@@ -615,7 +750,7 @@ footer.hidden {
 
         <!-- News Story 1 -->
         <div class="news-card">
-            <div class="news-date">Sol 890 • Secundus 14, 2098</div>
+            <div class="news-date">Sol 890 • Secundus 13, 2098</div>
             <h2 class="news-title">Breakthrough in Atmospheric Processing</h2>
             <img src="images/atmospheric-processor.jpg" alt="Atmospheric processor on Mars" class="news-image">
             <p class="news-excerpt">Scientists at Olympus Research Station have developed a new method to extract nitrogen directly from the Martian atmosphere, potentially solving the colony's fertilizer shortage.</p>
@@ -624,7 +759,7 @@ footer.hidden {
 
         <!-- News Story 2 -->
         <div class="news-card">
-            <div class="news-date">Sol 888 • Tertius 13, 2098</div>
+            <div class="news-date">Sol 888 • Tertius 11, 2098</div>
             <h2 class="news-title">New Entertainment Dome Opens in New Shanghai</h2>
             <img src="images/entertainment-dome.jpg" alt="Martian entertainment dome" class="news-image">
             <p class="news-excerpt">The Regent officially opened the Red Dust Arena, a state-of-the-art entertainment complex featuring zero-gravity sports, holographic theaters, and Martian martial arts demonstrations.</p>
@@ -671,6 +806,9 @@ footer.hidden {
         </div>
     </div>
 </div>
+
+<!-- CONTENT SPACER -->
+<div class="content-spacer"></div>
 
 <!-- Footer -->
 <footer id="pageFooter">
@@ -785,6 +923,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Touch-friendly dropdown toggle
+document.querySelectorAll('.dropdown .dropbtn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const content = this.nextElementSibling;
+        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    });
+});
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown-content').forEach(content => {
+            content.style.display = 'none';
+        });
+    }
+});
+
 </script>
 </body>
 </html>
