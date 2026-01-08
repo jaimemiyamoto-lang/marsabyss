@@ -758,200 +758,194 @@
     </footer>
 
     <script>
-        // ==================== ORIGINAL FUNCTIONALITY ====================
-        // Video handling
-        const videoBg = document.getElementById('labVideo');
-        const staticBg = document.getElementById('staticBg');
+    // ==================== ORIGINAL FUNCTIONALITY ====================
+    const videoBg = document.getElementById('labVideo');
+    const staticBg = document.getElementById('staticBg');
+    videoBg.addEventListener('loadeddata', () => console.log('Video loaded'));
+    videoBg.addEventListener('error', () => console.log('Video failed'));
 
-        videoBg.addEventListener('loadeddata', function() {
-            console.log('Arachne Labs video loaded successfully');
+    // Audio System
+    const muteBtn = document.getElementById('muteBtn');
+    let isMuted = true;
+    let audioElements = [];
+    function initAudio() {
+        const sounds = [{ src: 'music/we-are-going-home.mp3', volume: 0.5 }];
+        sounds.forEach(sound => {
+            const audio = new Audio(sound.src);
+            audio.volume = sound.volume;
+            audio.loop = true;
+            audio.muted = true;
+            audioElements.push(audio);
         });
+        document.addEventListener('click', function unmuteAudio() {
+            if (!isMuted) {
+                audioElements.forEach(audio => {
+                    audio.muted = false;
+                    audio.play().catch(e => console.log('Audio play failed'));
+                });
+                isMuted = false;
+                muteBtn.textContent = "🔊 Mute Sounds";
+            }
+            document.removeEventListener('click', unmuteAudio);
+        }, { once: true });
+    }
+    muteBtn.addEventListener('click', function() {
+        isMuted = !isMuted;
+        audioElements.forEach(audio => { audio.muted = isMuted; });
+        muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+    });
+    initAudio();
 
-        videoBg.addEventListener('error', function() {
-            console.log('Video failed to load, using static background only');
-        });
+    // ==================== CORE ELEMENTS ====================
+    const siteTitle = document.getElementById('siteTitle');
+    const topMenu = document.getElementById('topMenu');
+    const audioControls = document.getElementById('audioControls');
+    const regentsVisit = document.getElementById('regentsVisit');
+    const hamburger = document.querySelector('.hamburger');
 
-        // Audio System
-        const muteBtn = document.getElementById('muteBtn');
-        let isMuted = true;
-        let audioElements = [];
+    // ==================== SCROLL-BASED VISIBILITY (FIXED) ====================
+    let lastScrollTop = 0;
+    let hideTimeout;
 
-        function initAudio() {
-            const sounds = [
-                { src: 'music/we-are-going-home.mp3', volume: 0.5 }
-            ];
-            
-            sounds.forEach(sound => {
-                const audio = new Audio(sound.src);
-                audio.volume = sound.volume;
-                audio.loop = true;
-                audio.muted = true;
-                audioElements.push(audio);
-            });
-            
-            document.addEventListener('click', function unmuteAudio() {
-                if (!isMuted) {
-                    audioElements.forEach(audio => {
-                        audio.muted = false;
-                        audio.play().catch(e => console.log('Audio play failed'));
-                    });
-                    isMuted = false;
-                    muteBtn.textContent = "🔊 Mute Sounds";
-                }
-                document.removeEventListener('click', unmuteAudio);
-            }, { once: true });
+    // Function to show the HEADER BAR (Site Title, Menu Bar, Audio Controls)
+    function showHeaderBar() {
+        siteTitle.classList.remove('hidden');
+        topMenu.classList.remove('hidden'); // This shows the horizontal menu BAR
+        audioControls.classList.remove('hidden');
+        
+        // On MOBILE: Ensure the sidebar menu CONTENT stays closed unless hamburger was clicked
+        // We only show the top menu BAR, not the sidebar content
+        if (window.innerWidth <= 992) {
+            // Keep the mobile sidebar menu closed unless hamburger was clicked
+            // The 'active' class controls the sidebar slide-in, 'hidden' controls opacity
+            // We don't touch 'active' here, only 'hidden'
         }
+        
+        resetHideTimer(); // Restart the auto-hide timer
+    }
 
-        muteBtn.addEventListener('click', function() {
-            isMuted = !isMuted;
-            audioElements.forEach(audio => {
-                audio.muted = isMuted;
-            });
-            muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+    // Function to hide the HEADER BAR
+    function hideHeaderBar() {
+        siteTitle.classList.add('hidden');
+        topMenu.classList.add('hidden');
+        audioControls.classList.add('hidden');
+    }
+
+    // Timer for auto-hiding
+    function resetHideTimer() {
+        clearTimeout(hideTimeout);
+        hideTimeout = setTimeout(hideHeaderBar, 3000); // Hide after 3 seconds of inactivity
+    }
+
+    // Scroll event for BOTH desktop and mobile
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop) {
+            // Scrolling DOWN - let the timer handle hiding
+            // Timer is already running from last reset
+        } else {
+            // Scrolling UP - SHOW the header bar immediately
+            showHeaderBar();
+        }
+        lastScrollTop = scrollTop;
+    });
+
+    // Mouse movement shows header
+    document.addEventListener('mousemove', function(e) {
+        if (e.clientY < 150) { // If mouse is near top
+            showHeaderBar();
+        }
+    });
+
+    // ==================== MOBILE MENU (SIDEBAR) SYSTEM ====================
+    // This only controls the sidebar slide-in, separate from header bar visibility
+    hamburger.addEventListener('click', function() {
+        topMenu.classList.toggle('active'); // Toggle sidebar slide-in
+        hamburger.innerHTML = topMenu.classList.contains('active') ? '✕' : '☰';
+        
+        // When opening sidebar, also ensure header bar is visible
+        if (topMenu.classList.contains('active')) {
+            showHeaderBar();
+        }
+    });
+
+    // Close mobile sidebar when clicking outside
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 992 && 
+            !topMenu.contains(e.target) && 
+            !hamburger.contains(e.target) &&
+            topMenu.classList.contains('active')) {
+            
+            topMenu.classList.remove('active');
+            hamburger.innerHTML = '☰';
+        }
+    });
+
+    // Mobile dropdowns inside sidebar
+    document.querySelectorAll('.dropdown > a').forEach(dropdownToggle => {
+        dropdownToggle.addEventListener('click', function(e) {
+            if (window.innerWidth <= 992) {
+                e.preventDefault();
+                const dropdown = this.parentElement;
+                document.querySelectorAll('.dropdown.active').forEach(other => {
+                    if (other !== dropdown) other.classList.remove('active');
+                });
+                dropdown.classList.toggle('active');
+            }
         });
+    });
 
-        initAudio();
+    // Close sidebar when clicking a link
+    document.querySelectorAll('nav.top-menu a').forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth <= 992) {
+                topMenu.classList.remove('active');
+                hamburger.innerHTML = '☰';
+            }
+        });
+    });
 
-        // ==================== DESKTOP AUTO-HIDE SYSTEM ====================
-        const siteTitle = document.getElementById('siteTitle');
-        const topMenu = document.getElementById('topMenu');
-        const audioControls = document.getElementById('audioControls');
-        const regentsVisit = document.getElementById('regentsVisit');
-
-        let lastScrollTop = 0;
-        let hideTimeout;
-        let regentsVisitTimer;
-
-        function showHeaderElements() {
-            siteTitle.classList.remove('hidden');
-            topMenu.classList.remove('hidden');
-            audioControls.classList.remove('hidden');
+    // ==================== REGENT'S VISIT TIMER ====================
+    let regentsVisitTimer;
+    function startRegentsVisitTimer() {
+        if (!regentsVisit) return;
+        clearTimeout(regentsVisitTimer);
+        regentsVisitTimer = setTimeout(() => {
+            regentsVisit.classList.add('hidden');
+        }, 10000);
+    }
+    // Show Regent's Visit section when scrolling up
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTop < lastScrollTop) { // Scrolling up
             regentsVisit.classList.remove('hidden');
             startRegentsVisitTimer();
         }
+        lastScrollTop = scrollTop;
+    });
+    startRegentsVisitTimer();
 
-        function hideHeaderElements() {
-            siteTitle.classList.add('hidden');
-            topMenu.classList.add('hidden');
-            audioControls.classList.add('hidden');
+    // ==================== INITIAL SETUP ====================
+    // Show headers initially
+    showHeaderBar();
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 992) {
+            // On desktop: ensure mobile sidebar is closed
+            topMenu.classList.remove('active');
+            hamburger.innerHTML = '☰';
+            showHeaderBar(); // Ensure header is visible
         }
+    });
 
-        function startHeaderHideTimer() {
-            clearTimeout(hideTimeout);
-            hideTimeout = setTimeout(hideHeaderElements, 3000);
+    // Force video play on interaction
+    document.addEventListener('click', function() {
+        if (videoBg.paused) {
+            videoBg.play().catch(e => console.log('Video play requires interaction'));
         }
-
-        function startRegentsVisitTimer() {
-            clearTimeout(regentsVisitTimer);
-            regentsVisitTimer = setTimeout(() => {
-                regentsVisit.classList.add('hidden');
-            }, 10000);
-        }
-
-        function checkMousePosition(e) {
-            if (e.clientY < 150) {
-                showHeaderElements();
-                startHeaderHideTimer();
-            }
-        }
-
-        // Scroll handling
-        window.addEventListener('scroll', function() {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (scrollTop > lastScrollTop && scrollTop > 50) {
-                // Scrolling down - let timer handle hiding
-            } else {
-                // Scrolling up - show headers
-                showHeaderElements();
-                startHeaderHideTimer();
-            }
-            lastScrollTop = scrollTop;
-        });
-
-        // Mouse movement handling
-        document.addEventListener('mousemove', function(e) {
-            checkMousePosition(e);
-        });
-
-        // Show headers when hovering over menu area
-        topMenu.addEventListener('mouseenter', showHeaderElements);
-
-        // Start the initial timers
-        startHeaderHideTimer();
-        startRegentsVisitTimer();
-
-        // ==================== MOBILE MENU SYSTEM ====================
-        const hamburger = document.querySelector('.hamburger');
-
-        // Simple mobile menu toggle
-        hamburger.addEventListener('click', function() {
-            topMenu.classList.toggle('active');
-            hamburger.innerHTML = topMenu.classList.contains('active') ? '✕' : '☰';
-            
-            // On mobile, show headers when menu opens
-            if (topMenu.classList.contains('active')) {
-                siteTitle.classList.remove('hidden');
-                audioControls.classList.remove('hidden');
-            }
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (window.innerWidth <= 992 && 
-                !topMenu.contains(e.target) && 
-                !hamburger.contains(e.target)) {
-                topMenu.classList.remove('active');
-                hamburger.innerHTML = '☰';
-            }
-        });
-
-        // Mobile dropdown functionality
-        document.querySelectorAll('.dropdown > a').forEach(dropdownToggle => {
-            dropdownToggle.addEventListener('click', function(e) {
-                if (window.innerWidth <= 992) {
-                    e.preventDefault();
-                    const dropdown = this.parentElement;
-                    
-                    // Close other open dropdowns
-                    document.querySelectorAll('.dropdown.active').forEach(other => {
-                        if (other !== dropdown) other.classList.remove('active');
-                    });
-                    
-                    dropdown.classList.toggle('active');
-                }
-            });
-        });
-
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('nav.top-menu a').forEach(link => {
-            link.addEventListener('click', function() {
-                if (window.innerWidth <= 992) {
-                    topMenu.classList.remove('active');
-                    hamburger.innerHTML = '☰';
-                }
-            });
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 992) {
-                // On desktop: reset mobile menu state
-                topMenu.classList.remove('active');
-                hamburger.innerHTML = '☰';
-                
-                // Ensure desktop headers are visible
-                showHeaderElements();
-                startHeaderHideTimer();
-            }
-        });
-
-        // Force video play on user interaction
-        document.addEventListener('click', function() {
-            if (videoBg.paused) {
-                videoBg.play().catch(e => console.log('Video play requires user interaction'));
-            }
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
