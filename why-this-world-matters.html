@@ -58,8 +58,37 @@ border-radius: 4px;
 transition: all 0.3s ease;
 display: flex;
 align-items: center;
+white-space: nowrap;    
+}
+/* Update or add this tablet-specific rule */
+@media (max-width: 1024px) and (min-width: 769px) {
+    nav.top-menu {
+        flex-wrap: nowrap !important; /* Force single line */
+        overflow-x: auto; /* Allow horizontal scroll if needed */
+        overflow-y: hidden;
+        justify-content: flex-start; /* Align items to left */
+        padding-left: 15px;
+        padding-right: 15px;
+        gap: 1rem; /* Adjust as needed */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+    
+    /* Hide scrollbar but keep functionality */
+    nav.top-menu::-webkit-scrollbar {
+        height: 3px;
+    }
+    nav.top-menu::-webkit-scrollbar-thumb {
+        background: rgba(224, 198, 142, 0.3);
+        border-radius: 3px;
+    }
+    
+    nav.top-menu a {
+        font-size: 0.85rem; /* Slightly smaller for tablet */
+        flex-shrink: 0; /* Prevent items from shrinking */
+    }
 }
 
+    
 nav.top-menu a.active,
 nav.top-menu a:hover {
 color: #00ccff;
