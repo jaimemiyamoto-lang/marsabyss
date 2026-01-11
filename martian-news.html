@@ -97,9 +97,38 @@ border-radius: 4px;
 transition: all 0.3s ease;
 display: flex;
 align-items: center;
+white-space: nowrap; /* This prevents text from breaking to a new line */    
 font-size: clamp(0.7rem, 1.5vw, 1.1rem); /* Scale between 0.7rem and 1.1rem */
 }
 
+/* Update or add this tablet-specific rule */
+@media (max-width: 1024px) and (min-width: 769px) {
+    nav.top-menu {
+        flex-wrap: nowrap !important; /* Force single line */
+        overflow-x: auto; /* Allow horizontal scroll if needed */
+        overflow-y: hidden;
+        justify-content: flex-start; /* Align items to left */
+        padding-left: 15px;
+        padding-right: 15px;
+        gap: 1rem; /* Adjust as needed */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+    
+    /* Hide scrollbar but keep functionality */
+    nav.top-menu::-webkit-scrollbar {
+        height: 3px;
+    }
+    nav.top-menu::-webkit-scrollbar-thumb {
+        background: rgba(224, 198, 142, 0.3);
+        border-radius: 3px;
+    }
+    
+    nav.top-menu a {
+        font-size: 0.85rem; /* Slightly smaller for tablet */
+        flex-shrink: 0; /* Prevent items from shrinking */
+    }
+}
+    
 nav.top-menu a.active,
 nav.top-menu a:hover {
 color: #e0c68e;
@@ -938,6 +967,31 @@ meteor.remove();
 // Create a meteor every second
 setInterval(createMeteor, 1000);
 
+   function resizeMenuToFit() {
+    const menu = document.querySelector('nav.top-menu');
+    const menuItems = menu.querySelectorAll('a, .dropdown');
+    const containerWidth = menu.clientWidth;
+    let totalItemsWidth = 0;
+    
+    // Calculate total width of all menu items
+    menuItems.forEach(item => {
+        totalItemsWidth += item.offsetWidth;
+    });
+    
+    // If items are wider than container, scale them down
+    if (totalItemsWidth > containerWidth && window.innerWidth <= 1024) {
+        const scaleFactor = containerWidth / totalItemsWidth * 0.95;
+        menu.style.transform = `scaleX(${scaleFactor})`;
+        menu.style.transformOrigin = 'left center';
+    } else {
+        menu.style.transform = 'scaleX(1)';
+    }
+}
+
+// Run on load and resize
+window.addEventListener('load', resizeMenuToFit);
+window.addEventListener('resize', resizeMenuToFit); 
+    
 // Category filter functionality - goes to under construction page
 const categoryButtons = document.querySelectorAll('.category-btn');
 categoryButtons.forEach(button => {
