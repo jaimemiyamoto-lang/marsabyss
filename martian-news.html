@@ -571,6 +571,24 @@ body {
 .video-background {
     will-change: transform; /* Optimize for mobile */
 }
+/* For tablets (landscape and portrait) */
+@media (max-width: 1024px) {
+    nav.top-menu a {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.5rem;
+    }
+}
+
+/* For phones and small tablets */
+@media (max-width: 768px) {
+    nav.top-menu a {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.4rem;
+    }
+    nav.top-menu {
+        gap: 0.8rem;
+    }
+}    
 }
 
 </style>
@@ -951,6 +969,47 @@ document.querySelectorAll('.dropdown .dropbtn').forEach(btn => {
         content.style.display = content.style.display === 'block' ? 'none' : 'block';
     });
 });
+
+// --- TOUCH-FRIENDLY DROPDOWN TOGGLE ---
+document.addEventListener('DOMContentLoaded', function() {
+    // Select all dropdown buttons (the main menu links)
+    const dropdownButtons = document.querySelectorAll('.dropdown > .dropbtn');
+
+    dropdownButtons.forEach(button => {
+        // Add a click event to each
+        button.addEventListener('click', function(event) {
+            // Prevent it from immediately following the link
+            event.preventDefault();
+            event.stopPropagation();
+
+            // Find the dropdown content right after this button
+            const dropdownContent = this.nextElementSibling;
+
+            // Close any other open dropdowns
+            document.querySelectorAll('.dropdown-content').forEach(content => {
+                if (content !== dropdownContent) {
+                    content.style.display = 'none';
+                }
+            });
+
+            // Toggle the current dropdown
+            if (dropdownContent.style.display === 'block') {
+                dropdownContent.style.display = 'none';
+            } else {
+                dropdownContent.style.display = 'block';
+            }
+        });
+    });
+
+    // Close dropdowns if user clicks anywhere else on the page
+    document.addEventListener('click', function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            document.querySelectorAll('.dropdown-content').forEach(content => {
+                content.style.display = 'none';
+            });
+        }
+    });
+});    
 
 // Make all "Read More" buttons go to under construction page
 document.querySelectorAll('.read-more').forEach(link => {
