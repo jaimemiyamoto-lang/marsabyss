@@ -683,11 +683,6 @@ background: rgba(255, 68, 68, 0.3);
         z-index: 1001;
     }
 
-    /* CRITICAL: Disable hover effects on mobile */
-    .dropdown:hover .dropdown-content {
-        display: none !important;
-    }
-    
     /* Ensure dropdowns display properly when open */
     .dropdown.open .dropdown-content {
         display: block !important;
@@ -1388,6 +1383,39 @@ function initAudio() {
     document.addEventListener('click', startAudioOnInteraction, { once: true });
 }
 
+/* ===== MOBILE / TABLET DROPDOWN FIX ===== */
+document.querySelectorAll('.dropdown > a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        const parent = this.parentElement;
+
+        // Only intercept on touch-sized screens
+        if (window.innerWidth <= 1024) {
+
+            // If this dropdown isn't open yet → open it
+            if (!parent.classList.contains('open')) {
+                e.preventDefault(); // STOP navigation
+                closeAllDropdowns(parent);
+                parent.classList.add('open');
+            }
+            // If already open → allow normal navigation
+        }
+    });
+});
+
+function closeAllDropdowns(except = null) {
+    document.querySelectorAll('.dropdown.open').forEach(drop => {
+        if (drop !== except) drop.classList.remove('open');
+    });
+}
+
+// Close dropdowns when tapping outside nav
+document.addEventListener('click', function (e) {
+    const nav = document.getElementById('topMenu');
+    if (!nav.contains(e.target)) {
+        closeAllDropdowns();
+    }
+});
+    
 // ========== SIMPLE DROPDOWN FIX - ALL LINKS WORK ==========
 function initDropdowns() {
     const isMobile = window.innerWidth <= 1024;
