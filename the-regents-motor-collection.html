@@ -155,9 +155,9 @@ padding: 4px 0;
 
 .dropdown .dropdown .dropdown-content {
 position: absolute;
-left: 0;
-top: 100%;
-width: 100%;
+left: 100%;
+top: 0;
+margin-top: -4px;
 }
 
 .dropdown-content a {
@@ -175,14 +175,18 @@ background: rgba(255, 68, 68, 0.6);
 color: #fff;
 }
 
-/* Desktop hover behavior - ONLY on desktop */
+/* Desktop hover behavior */
 @media (min-width: 1025px) {
     .dropdown:hover .dropdown-content {
         display: block;
     }
+    
+    .dropdown .dropdown:hover .dropdown-content {
+        display: block;
+    }
 }
 
-/* Mobile active state */
+/* Mobile open state */
 .dropdown.open .dropdown-content {
 display: block;
 }
@@ -651,7 +655,7 @@ font-size: 0.9rem;
 background: rgba(255, 68, 68, 0.3);
 }
 
-/* ========== TABLET & MOBILE MENU FIXES (REPAIRED) ========== */
+/* ========== TABLET & MOBILE MENU FIXES ========== */
 
 /* Tablet + Mobile */
 @media (max-width: 1024px) {
@@ -679,37 +683,25 @@ background: rgba(255, 68, 68, 0.3);
         z-index: 1001;
     }
 
-    /* CRITICAL: Disable ALL hover effects on mobile */
+    /* CRITICAL: Disable hover effects on mobile */
     .dropdown:hover .dropdown-content {
         display: none !important;
     }
     
-    /* Dropdown styling for mobile */
-    .dropdown-content {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background: rgba(26, 26, 26, 0.98);
-        min-width: 180px;
-        max-height: 300px;
-        overflow-y: auto;
-        z-index: 5000;
-        border: 2px solid #ff9553;
-        border-radius: 4px;
-        display: none;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    }
-    
+    /* Ensure dropdowns display properly when open */
     .dropdown.open .dropdown-content {
-        display: block;
+        display: block !important;
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        z-index: 5000 !important;
     }
     
-    /* Nested dropdowns for mobile */
-    .dropdown .dropdown .dropdown-content {
-        position: absolute;
-        left: 100%;
-        top: 0;
-        margin-left: 2px;
+    /* Nested dropdown positioning */
+    .dropdown .dropdown.open .dropdown-content {
+        left: 100% !important;
+        top: 0 !important;
+        margin-top: -4px;
     }
 
     .main-content {
@@ -786,7 +778,6 @@ background: rgba(255, 68, 68, 0.3);
         padding: 0.3rem 0.5rem;
     }
     
-    /* Better dropdown spacing on small screens */
     .dropdown-content {
         min-width: 160px;
     }
@@ -1258,23 +1249,21 @@ hideContentBtn.textContent = 'Hide Content';
 }
 });
 
-// ========== FIXED VIDEO CONTROLS ==========
+// ========== VIDEO CONTROLS ==========
 const hovercraftVideo = document.getElementById('hovercraftVideo');
 const videoPlayPause = document.getElementById('videoPlayPause');
 const videoMute = document.getElementById('videoMute');
 const videoExpand = document.getElementById('videoExpand');
-let isVideoPlaying = false; // Video starts paused
+let isVideoPlaying = false;
 let isVideoAudioEnabled = false;
 
 // Initialize video controls
 function initVideo() {
-    // Video starts muted and paused
     hovercraftVideo.muted = true;
     hovercraftVideo.pause();
     videoPlayPause.textContent = '▶️ Play';
     videoMute.textContent = '🔇 Enable Audio';
     
-    // Show controls on hover
     const videoContainer = document.querySelector('.video-container');
     videoContainer.addEventListener('mouseenter', () => {
         document.querySelector('.video-controls').style.opacity = '1';
@@ -1292,7 +1281,6 @@ videoPlayPause.addEventListener('click', function() {
         hovercraftVideo.pause();
         videoPlayPause.textContent = '▶️ Play';
     } else {
-        // If audio hasn't been enabled yet, enable it on first play
         if (!isVideoAudioEnabled) {
             hovercraftVideo.muted = false;
             hovercraftVideo.volume = 0.7;
@@ -1317,13 +1305,11 @@ videoMute.addEventListener('click', function() {
         hovercraftVideo.muted = !hovercraftVideo.muted;
         videoMute.textContent = hovercraftVideo.muted ? '🔇 Enable Audio' : '🔊 Mute Audio';
     } else {
-        // First time clicking - enable audio
         hovercraftVideo.muted = false;
         hovercraftVideo.volume = 0.7;
         isVideoAudioEnabled = true;
         videoMute.textContent = '🔊 Mute Audio';
         
-        // If video is playing, restart to apply audio
         if (isVideoPlaying) {
             hovercraftVideo.currentTime = 0;
             hovercraftVideo.play();
@@ -1359,53 +1345,40 @@ hovercraftVideo.addEventListener('ended', function() {
     videoPlayPause.textContent = '▶️ Play';
 });
 
-// ========== FIXED AUDIO SYSTEM ==========
+// ========== AUDIO SYSTEM ==========
 const muteBtn = document.getElementById('muteBtn');
 let isBackgroundAudioMuted = true;
 let backgroundAudio = null;
 
 function initAudio() {
-    // Create audio element but don't start playing
     backgroundAudio = new Audio('music/hold-me-close.mp3');
     backgroundAudio.volume = 0.4;
     backgroundAudio.loop = true;
-    backgroundAudio.muted = true; // Start muted
+    backgroundAudio.muted = true;
     
-    // Set button text correctly
     muteBtn.textContent = "🔇 Unmute Sounds";
     
-    // When user clicks mute button, start audio
     muteBtn.addEventListener('click', function() {
         if (isBackgroundAudioMuted) {
-            // First unmute
             backgroundAudio.muted = false;
-            // Try to play
             backgroundAudio.play().then(() => {
-                console.log('Background audio started');
                 isBackgroundAudioMuted = false;
                 muteBtn.textContent = "🔊 Mute Sounds";
             }).catch(e => {
-                console.log('Audio play failed:', e);
-                // If play fails (usually due to autoplay policy), 
-                // at least unmute for next attempt
                 isBackgroundAudioMuted = false;
                 muteBtn.textContent = "🔊 Mute Sounds";
             });
         } else {
-            // Toggle mute
             backgroundAudio.muted = !backgroundAudio.muted;
             isBackgroundAudioMuted = backgroundAudio.muted;
             muteBtn.textContent = isBackgroundAudioMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
         }
     });
     
-    // Also allow any click on the page to start audio (common workaround)
     const startAudioOnInteraction = function() {
         if (isBackgroundAudioMuted) {
             backgroundAudio.muted = false;
-            backgroundAudio.play().catch(e => {
-                // Silently fail - user will use button
-            });
+            backgroundAudio.play().catch(e => {});
             isBackgroundAudioMuted = false;
             muteBtn.textContent = "🔊 Mute Sounds";
         }
@@ -1415,63 +1388,52 @@ function initAudio() {
     document.addEventListener('click', startAudioOnInteraction, { once: true });
 }
 
-// ========== SIMPLE, WORKING DROPDOWN FIX ==========
+// ========== SIMPLE DROPDOWN FIX - ALL LINKS WORK ==========
 function initDropdowns() {
-    // Check if we're on mobile
-    function isMobile() {
-        return window.innerWidth <= 1024;
-    }
+    const isMobile = window.innerWidth <= 1024;
     
-    // Handle clicks on ALL menu links
-    document.querySelectorAll('.top-menu a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            const parent = this.parentElement;
-            
-            // If this is a dropdown link on mobile AND it has dropdown content
-            if (isMobile() && parent.classList.contains('dropdown') && parent.querySelector('.dropdown-content')) {
-                // Prevent navigation for dropdown parents on mobile
-                e.preventDefault();
-                e.stopPropagation();
+    // Only add mobile-specific behavior if on mobile
+    if (isMobile) {
+        // Handle dropdown parent clicks on mobile
+        document.querySelectorAll('.dropdown > a').forEach(dropdownLink => {
+            dropdownLink.addEventListener('click', function(e) {
+                const dropdown = this.parentElement;
                 
-                // Close all other dropdowns
-                document.querySelectorAll('.dropdown.open').forEach(d => {
-                    if (d !== parent) d.classList.remove('open');
-                });
-                
-                // Toggle this dropdown
-                parent.classList.toggle('open');
-                
-                // If this is a nested dropdown, also open its parent
-                let parentDropdown = parent.parentElement.closest('.dropdown');
-                if (parentDropdown) {
-                    parentDropdown.classList.add('open');
+                // Only interfere if this is actually a dropdown with content
+                if (dropdown.querySelector('.dropdown-content')) {
+                    e.preventDefault();
+                    
+                    // Toggle this dropdown
+                    const isOpen = dropdown.classList.contains('open');
+                    
+                    // Close all other dropdowns
+                    document.querySelectorAll('.dropdown.open').forEach(other => {
+                        if (other !== dropdown) other.classList.remove('open');
+                    });
+                    
+                    // Open this one if it wasn't open
+                    if (!isOpen) {
+                        dropdown.classList.add('open');
+                    } else {
+                        dropdown.classList.remove('open');
+                    }
                 }
-            }
-            // For all other links (including dropdown children and Contact link), let them navigate normally
-            // For desktop, hover will handle dropdowns
+            });
         });
-    });
-    
-    // Close dropdowns when clicking outside - mobile only
-    document.addEventListener('click', function(e) {
-        if (isMobile() && !e.target.closest('.top-menu')) {
-            document.querySelectorAll('.dropdown.open').forEach(d => {
-                d.classList.remove('open');
-            });
-        }
-    });
-    
-    // Also close dropdowns on desktop when clicking outside a dropdown
-    document.addEventListener('click', function(e) {
-        if (!isMobile() && !e.target.closest('.dropdown')) {
-            document.querySelectorAll('.dropdown.open').forEach(d => {
-                d.classList.remove('open');
-            });
-        }
-    });
+        
+        // Close dropdowns when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.top-menu')) {
+                document.querySelectorAll('.dropdown.open').forEach(dropdown => {
+                    dropdown.classList.remove('open');
+                });
+            }
+        });
+    }
+    // On desktop, let CSS hover handle everything - no JavaScript interference
 }
 
-// ========== COMPLETE MODAL FUNCTIONALITY ==========
+// ========== MODAL FUNCTIONALITY ==========
 const modal = document.getElementById('modal');
 const modalImage = document.getElementById('modalImage');
 const modalTitle = document.getElementById('modalTitle');
