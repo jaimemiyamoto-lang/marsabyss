@@ -175,24 +175,14 @@ background: rgba(255, 68, 68, 0.6);
 color: #fff;
 }
 
-/* DESKTOP hover behavior */
+/* Desktop hover behavior - ONLY on desktop */
 @media (min-width: 1025px) {
     .dropdown:hover .dropdown-content {
         display: block;
     }
-    
-    .dropdown .dropdown:hover .dropdown-content {
-        display: block;
-        left: 100%;
-        top: 0;
-    }
-    
-    .dropdown > a {
-        pointer-events: auto;
-    }
 }
 
-/* Desktop active state - FIXED */
+/* Mobile active state */
 .dropdown.open .dropdown-content {
 display: block;
 }
@@ -1425,107 +1415,63 @@ function initAudio() {
     document.addEventListener('click', startAudioOnInteraction, { once: true });
 }
 
-// ========== FIXED DROPDOWN MENUS (MOBILE & DESKTOP) ==========
+// ========== SIMPLE, WORKING DROPDOWN FIX ==========
 function initDropdowns() {
-    // Close all dropdowns except the current one
-    function closeOtherDropdowns(currentDropdown) {
-        document.querySelectorAll('.dropdown.open').forEach(dropdown => {
-            if (dropdown !== currentDropdown) {
-                dropdown.classList.remove('open');
-            }
-        });
-    }
-    
-    // Close all dropdowns
-    function closeAllDropdowns() {
-        document.querySelectorAll('.dropdown.open').forEach(dropdown => {
-            dropdown.classList.remove('open');
-        });
-    }
-    
     // Check if we're on mobile
     function isMobile() {
         return window.innerWidth <= 1024;
     }
     
-    // Handle click on dropdown links
-    document.querySelectorAll('.dropdown > a').forEach(link => {
+    // Handle clicks on ALL menu links
+    document.querySelectorAll('.top-menu a').forEach(link => {
         link.addEventListener('click', function(e) {
             const parent = this.parentElement;
-            const hasSubmenu = parent.querySelector('.dropdown-content');
             
-            // On mobile: toggle dropdown
-            if (isMobile() && hasSubmenu) {
+            // If this is a dropdown link on mobile AND it has dropdown content
+            if (isMobile() && parent.classList.contains('dropdown') && parent.querySelector('.dropdown-content')) {
+                // Prevent navigation for dropdown parents on mobile
                 e.preventDefault();
                 e.stopPropagation();
                 
-                // Toggle current dropdown
-                const isOpen = parent.classList.contains('open');
-                closeOtherDropdowns(parent);
+                // Close all other dropdowns
+                document.querySelectorAll('.dropdown.open').forEach(d => {
+                    if (d !== parent) d.classList.remove('open');
+                });
+                
+                // Toggle this dropdown
                 parent.classList.toggle('open');
                 
                 // If this is a nested dropdown, also open its parent
-                let currentParent = parent.parentElement;
-                while (currentParent && currentParent.classList.contains('dropdown')) {
-                    currentParent.classList.add('open');
-                    currentParent = currentParent.parentElement;
+                let parentDropdown = parent.parentElement.closest('.dropdown');
+                if (parentDropdown) {
+                    parentDropdown.classList.add('open');
                 }
             }
-            // On desktop with submenu: let hover handle it, but still navigate on click if it's a link
-            else if (hasSubmenu && this.getAttribute('href') && this.getAttribute('href') !== '#') {
-                // Allow navigation to the link URL
-                // Hover will handle dropdown visibility
-            }
-            // If no submenu, link will navigate normally
+            // For all other links (including dropdown children and Contact link), let them navigate normally
+            // For desktop, hover will handle dropdowns
         });
     });
     
-    // Handle clicks on dropdown content links
-    document.querySelectorAll('.dropdown-content a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Allow these links to navigate normally
-            // Close dropdowns after click on mobile
-            if (isMobile()) {
-                closeAllDropdowns();
-            }
-            // Don't stop propagation - let the link work
-        });
-    });
-    
-    // Close dropdowns when clicking outside
+    // Close dropdowns when clicking outside - mobile only
     document.addEventListener('click', function(e) {
-        if (isMobile()) {
-            // Check if click is outside the menu
-            if (!e.target.closest('.top-menu')) {
-                closeAllDropdowns();
-            }
-        } else {
-            // On desktop, close dropdowns when clicking outside
-            if (!e.target.closest('.dropdown')) {
-                closeAllDropdowns();
-            }
+        if (isMobile() && !e.target.closest('.top-menu')) {
+            document.querySelectorAll('.dropdown.open').forEach(d => {
+                d.classList.remove('open');
+            });
         }
     });
     
-    // Handle escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeAllDropdowns();
+    // Also close dropdowns on desktop when clicking outside a dropdown
+    document.addEventListener('click', function(e) {
+        if (!isMobile() && !e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown.open').forEach(d => {
+                d.classList.remove('open');
+            });
         }
-    });
-    
-    // Handle window resize
-    let resizeTimer;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function() {
-            // Close dropdowns on resize to prevent layout issues
-            closeAllDropdowns();
-        }, 250);
     });
 }
 
-// MODAL FUNCTIONALITY
+// ========== COMPLETE MODAL FUNCTIONALITY ==========
 const modal = document.getElementById('modal');
 const modalImage = document.getElementById('modalImage');
 const modalTitle = document.getElementById('modalTitle');
@@ -1552,29 +1498,41 @@ title: 'Nebula Nomad',
 specs: '2128 Model • Holographic Interface • Self-Healing • Bio-Regenerative',
 description: 'A marvel of Martian material science, the Nebula Nomad features a bio-regenerative exterior that repairs minor damage automatically using nano-technology. The holographic interface projects vital information directly into the driver\'s field of vision, while the AI co-pilot learns driving preferences over time.'
 },
-'impala-hovercraft': {
+'impala-voiliner-hovercraft': {
 image: 'images/hovercraft/impala-hovercraft.jpg',
 title: 'Impala-class Hovercraft',
 specs: '2140 Model • Anti-Gravity • Atmospheric Containment • Crew: 4',
 description: 'The standard issue hovercraft for Martian exploration teams. Features advanced anti-gravity propulsion that allows smooth travel over any terrain. The atmospheric containment field ensures crew safety even in the thin Martian atmosphere. Equipped with scientific instruments for surface analysis.'
 },
-'valkyrie-hovercraft': {
+'monte-astra-hovercraft': {
 image: 'images/hovercraft/valkyrie-hovercraft.jpg',
-title: 'Valkyrie-class Hovercraft',
+title: 'Monte-Astra-class Hovercraft',
 specs: '2142 Model • Mach 2 • Quantum Stabilized • Stealth Capable',
-description: 'Designed for rapid response and reconnaissance, the Valkyrie-class can reach Mach 2 in Martian atmosphere. Quantum stabilization systems ensure smooth flight even at extreme speeds. Advanced stealth technology makes it nearly invisible to sensors when needed.'
+description: 'Designed for rapid response and reconnaissance, the Monte-Astra-class can reach Mach 2 in Martian atmosphere. Quantum stabilization systems ensure smooth flight even at extreme speeds. Advanced stealth technology makes it nearly invisible to sensors when needed.'
 },
-'goliath-hovercraft': {
+'charger-ion-rex-hovercraft': {
 image: 'images/hovercraft/goliath-hovercraft.jpg',
-title: 'Goliath-class Hovercraft',
+title: 'Charger-Ion-Rex-class Hovercraft',
 specs: '2138 Model • 50-Ton Capacity • Heavy Transport • Range: 5,000km',
 description: 'The workhorse of Martian colonization efforts. Capable of transporting 50 metric tons of equipment or personnel across vast distances. Used primarily for colony construction, resource transport, and large-scale scientific expeditions.'
 },
-'phantom-hovercraft': {
+'phantom-mustang-hovercraft': {
 image: 'images/hovercraft/phantom-hovercraft.jpg',
-title: 'Phantom-class Hovercraft',
+title: 'Phantom-Mustang-class Hovercraft',
 specs: '2145 Model • Stealth • Cloaking Technology • Silent Operation',
 description: 'The most advanced hovercraft in the Martian fleet. Features complete cloaking technology that renders it invisible to both visual and electronic detection. Used for sensitive scientific observations, security patrols, and diplomatic missions requiring discretion.'
+},
+'vintage-camaro-code-name-whisper-hovercraft': {
+image: 'images/vintage-camaro-code-name-whisper.jpg',
+title: 'Whisper-Camaro-class Hovercraft',
+specs: '2152 Model • Stealth • Cloaking Technology • Silent Operation',
+description: 'Top secret with advanced cloaking technology, favorite of Marvin. Used for sensitive espionage and security missions requiring absolute discretion and invisibility.'
+},
+'golden-retriever-charger-hovercraft': {
+image: 'images/golden-retriever.jpg',
+title: 'Golden-Charger-class Hovercraft',
+specs: '2153 Model • Deadly Stealth • Cloaking Technology • Silent Operation',
+description: 'Top secret with advanced cloaking technology, favorite of the Regent. Used for stealth romantic operations and sneaking spy couple missions requiring absolute discretion.'
 },
 'medical-center': {
 image: 'images/buildings/futuristic-medical-center.jpg',
