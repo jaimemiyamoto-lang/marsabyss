@@ -112,6 +112,13 @@ display: block;
 display: block;
 }
 
+@media (max-width: 1024px) {
+    .dropdown:hover .dropdown-content
+{
+        display: none;
+    }
+}
+    
 /* SITE TITLE OVERLAY - HIDES ON SCROLL */
 .site-title-overlay {
 position: fixed;
@@ -403,7 +410,7 @@ height: 100px;
         padding: 0.5rem 1rem;
         justify-content: flex-start;
         overflow-x: auto;
-        overflow-y: hidden;
+        overflow-y: visible;
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
