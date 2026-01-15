@@ -930,6 +930,8 @@ let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
+    console.log('Initializing audio...');
+    
     const sounds = [
         { src: 'sounds/waterfall-frog.mp3', volume: 0.3 },
         { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
@@ -942,30 +944,47 @@ function initAudio() {
         audio.loop = true;
         audio.muted = true;
         audioElements.push(audio);
+        console.log('Audio element created:', sound.src);
     });
 
     // First click anywhere on page unmutes audio
-    document.addEventListener('click', function unmuteAudio() {
+    document.addEventListener('click', function startAudio() {
+        console.log('Page clicked - attempting to start audio');
+        
         if (isMuted) {
-            audioElements.forEach(audio => {
+            audioElements.forEach(audio, index) => {
                 audio.muted = false;
-                audio.play().catch(e => console.log('Audio play failed'));
+                audio.play().then(() => {
+                    console.log('Audio playing:', sounds[index].src);
+            }).catch(error => {
+                console.log('Audio play failed:', error.message);
             });
+            });        
             isMuted = false;
             muteBtn.textContent = "🔊 Mute Sounds";
+            console.log('Audio started, button updated');
         }
-        document.removeEventListener('click', unmuteAudio);
+        // Remove this listener after first click
+        document.removeEventListener('click', startAudio);
     }, { once: true });
 
     // Mute/Unmute toggle for the button
     muteBtn.addEventListener('click', function() {
+        console.log('Mute button clicked, current state:', isMuted);
         isMuted = !isMuted;
+        
         audioElements.forEach(audio => {
             audio.muted = isMuted;
         });
+        
         muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+        console.log('New mute state:', isMuted);
     });
 }
+// Initialize when page loads
+document/addEventListener('DOMContentLoaded', function() {
+    initAudio();
+});    
 
 // ========== HIDE CONTENT FUNCTIONALITY ==========
 const hideContentBtn = document.getElementById('hideContentBtn');
