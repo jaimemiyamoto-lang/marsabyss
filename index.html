@@ -68,7 +68,7 @@ body, html {
 }
 
 .rumble-active {
-    animation: meteorRumble 0.8s ease-out;
+    animation: meteorRumble 0.8s ease-out !important;
 }
 
 /* DUST OVERLAY EFFECT */
@@ -383,7 +383,7 @@ footer {
 }
 
 .flash-active {
-    animation: meteorFlash 0.3s ease-out;
+    animation: meteorFlash 0.3s ease-out !important;
 }
 
 @keyframes meteorFlash {
@@ -755,61 +755,47 @@ footer {
 </footer>
 
 <script>
-// SYNCHRONIZED VIDEO BACKGROUND WITH METEOR EFFECTS
-const videoBg = document.getElementById('marsVideo');
-const staticBg = document.getElementById('staticBg');
-const dustOverlay = document.getElementById('dustOverlay');
-const meteorFlash = document.getElementById('meteorFlash');
-
-let videoReady = false;
+// Initialize meteor effects system FIRST - before anything else
+let meteorInterval;
 let effectsStarted = false;
 
-videoBg.addEventListener('loadeddata', function() {
-    videoReady = true;
-    videoBg.play().then(() => {
-        setTimeout(() => {
-            startMeteorEffects();
-            effectsStarted = true;
-        }, 1000);
-    }).catch(e => {
-        console.log('Video autoplay failed, starting effects anyway');
-        if (!effectsStarted) startMeteorEffects();
-    });
-});
-
-videoBg.addEventListener('error', function() {
-    console.log('Video failed to load, using static background with effects');
-    if (!effectsStarted) startMeteorEffects();
-});
-
-// Fallback - start effects if video isn't ready within 5 seconds
-setTimeout(() => {
-    if (!effectsStarted) {
-        console.log('Video timeout - starting effects anyway');
-        startMeteorEffects();
-    }
-}, 5000);
-
-// METEOR RUMBLE EFFECT SYSTEM
+// Function to start meteor effects
 function startMeteorEffects() {
+    console.log('Starting meteor effects...');
+    
     // Initial meteor strike - more intense
-    triggerMeteorStrike(2000);
+    setTimeout(() => {
+        triggerMeteorStrike(2000);
+    }, 1500);
 
     // Set up recurring meteor strikes with random intervals
-    setInterval(() => {
+    meteorInterval = setInterval(() => {
         const nextStrike = Math.random() * 15000 + 8000; // 8-23 seconds
         setTimeout(triggerMeteorStrike, nextStrike);
     }, 1000);
+    
+    effectsStarted = true;
 }
 
+// Trigger a meteor strike
 function triggerMeteorStrike(duration = 1800) {
+    console.log('Meteor strike triggered!');
+    
+    const videoBg = document.getElementById('marsVideo');
+    const staticBg = document.getElementById('staticBg');
+    const dustOverlay = document.getElementById('dustOverlay');
+    const meteorFlash = document.getElementById('meteorFlash');
+
     // Phase 1: Flash and initial rumble (0-300ms)
-    meteorFlash.classList.add('flash-active');
-    videoBg.classList.add('rumble-active');
+    if (meteorFlash) meteorFlash.classList.add('flash-active');
+    if (videoBg) videoBg.classList.add('rumble-active');
+    
+    // If video fails, rumble static background as fallback
+    if (!videoBg && staticBg) staticBg.classList.add('rumble-active');
 
     // Phase 2: Dust cloud appears (300ms onwards)
     setTimeout(() => {
-        dustOverlay.classList.add('dust-active');
+        if (dustOverlay) dustOverlay.classList.add('dust-active');
     }, 300);
 
     // Phase 3: Sound impact (500ms - allows for sound latency)
@@ -819,72 +805,107 @@ function triggerMeteorStrike(duration = 1800) {
 
     // Remove effects in sequence
     setTimeout(() => {
-        meteorFlash.classList.remove('flash-active');
+        if (meteorFlash) meteorFlash.classList.remove('flash-active');
     }, 800);
 
     setTimeout(() => {
-        videoBg.classList.remove('rumble-active');
+        if (videoBg) videoBg.classList.remove('rumble-active');
+        if (staticBg) staticBg.classList.remove('rumble-active');
     }, duration);
 
     // Dust settles slowly
     setTimeout(() => {
-        dustOverlay.classList.remove('dust-active');
+        if (dustOverlay) dustOverlay.classList.remove('dust-active');
     }, duration + 2000);
-}
-
-// ========== AUDIO SYSTEM ==========
-const muteBtn = document.getElementById('muteBtn');
-let isMuted = true;
-let audioElements = [];
-
-function initAudio() {
-    const sounds = [
-        { src: 'sounds/from-the-crypt-ext v2.mp3', volume: 0.5 },
-        { src: 'sounds/ambient-space.mp3', volume: 0.2 },
-        // Add meteor impact sound
-        { src: 'sounds/meteor-impact.mp3', volume: 0.3 }
-    ];
-
-    sounds.forEach(sound => {
-        const audio = new Audio(sound.src);
-        audio.volume = sound.volume;
-        audio.loop = sound.src !== 'sounds/meteor-impact.mp3'; // Don't loop impact sound
-        audio.muted = true;
-        audioElements.push(audio);
-    });
-
-    document.addEventListener('click', function unmuteAudio() {
-        if (!isMuted) {
-            audioElements.forEach(audio => {
-                audio.muted = false;
-                if (audio.loop) {
-                    audio.play().catch(e => console.log('Audio play failed'));
-                }
-            });
-            isMuted = false;
-            muteBtn.textContent = "🔊 Mute Sounds";
-        }
-        document.removeEventListener('click', unmuteAudio);
-    }, { once: true });
 }
 
 // Play meteor impact sound
 function playMeteorSound() {
-    const impactSound = audioElements.find(audio => !audio.loop);
-    if (impactSound && !isMuted) {
-        impactSound.currentTime = 0;
-        impactSound.play().catch(e => console.log('Meteor sound play failed'));
+    if (typeof window.meteorAudio !== 'undefined') {
+        window.meteorAudio.currentTime = 0;
+        window.meteorAudio.play().catch(e => console.log('Meteor sound play failed'));
     }
 }
 
-// Mute toggle
-muteBtn.addEventListener('click', function() {
-    isMuted = !isMuted;
-    audioElements.forEach(audio => {
-        audio.muted = isMuted;
-    });
-    muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+// ========== VIDEO BACKGROUND INITIALIZATION ==========
+document.addEventListener('DOMContentLoaded', function() {
+    const videoBg = document.getElementById('marsVideo');
+    const staticBg = document.getElementById('staticBg');
+    
+    // Try to autoplay video
+    if (videoBg) {
+        videoBg.play().then(() => {
+            console.log('Video playing successfully');
+            // Start meteor effects after video starts
+            if (!effectsStarted) startMeteorEffects();
+        }).catch(e => {
+            console.log('Video autoplay failed, using static background with effects');
+            // Start meteor effects anyway
+            if (!effectsStarted) startMeteorEffects();
+        });
+        
+        // Fallback - start effects if video isn't ready within 3 seconds
+        setTimeout(() => {
+            if (!effectsStarted) {
+                console.log('Video timeout - starting effects anyway');
+                startMeteorEffects();
+            }
+        }, 3000);
+    } else {
+        // No video element, just start effects
+        console.log('No video element found, starting effects on static background');
+        if (!effectsStarted) startMeteorEffects();
+    }
 });
+
+// ========== AUDIO SYSTEM ==========
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let backgroundAudio = null;
+
+function initAudio() {
+    // Main background audio
+    backgroundAudio = new Audio('sounds/from-the-crypt-ext v2.mp3');
+    backgroundAudio.volume = 0.5;
+    backgroundAudio.loop = true;
+    backgroundAudio.muted = true;
+    
+    // Meteor impact sound
+    window.meteorAudio = new Audio('sounds/meteor-impact.mp3');
+    window.meteorAudio.volume = 0.3;
+    window.meteorAudio.muted = true;
+
+    muteBtn.textContent = "🔇 Unmute Sounds";
+    
+    // Auto-unmute on first user interaction
+    const startAudioOnInteraction = function() {
+        if (isMuted) {
+            backgroundAudio.muted = false;
+            window.meteorAudio.muted = false;
+            backgroundAudio.play().then(() => {
+                isMuted = false;
+                muteBtn.textContent = "🔊 Mute Sounds";
+            }).catch(e => {
+                console.log('Audio autoplay failed');
+            });
+        }
+        document.removeEventListener('click', startAudioOnInteraction);
+    };
+    
+    document.addEventListener('click', startAudioOnInteraction, { once: true });
+}
+
+// Mute toggle
+if (muteBtn) {
+    muteBtn.addEventListener('click', function() {
+        if (backgroundAudio) {
+            backgroundAudio.muted = !backgroundAudio.muted;
+            if (window.meteorAudio) window.meteorAudio.muted = backgroundAudio.muted;
+            isMuted = backgroundAudio.muted;
+            muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+        }
+    });
+}
 
 // Initialize audio when page loads
 initAudio();
@@ -924,17 +945,30 @@ document.addEventListener('click', function (e) {
 
 // Card navigation functions
 function openPage(url) {
+    // Clear meteor interval before navigating
+    if (meteorInterval) {
+        clearInterval(meteorInterval);
+    }
     window.location.href = url;
 }
 
 function scrollCards(direction) {
     const container = document.querySelector(".card-container");
     const scrollAmount = 200;
-    container.scrollBy({
-        left: direction * scrollAmount,
-        behavior: "smooth"
-    });
+    if (container) {
+        container.scrollBy({
+            left: direction * scrollAmount,
+            behavior: "smooth"
+        });
+    }
 }
+
+// Clean up on page unload
+window.addEventListener('beforeunload', function() {
+    if (meteorInterval) {
+        clearInterval(meteorInterval);
+    }
+});
 </script>
 </body>
 </html>
