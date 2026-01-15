@@ -405,6 +405,249 @@ font-family: 'Segoe UI', sans-serif;
 z-index: 1000;
 border-top: 2px solid #ff0000;
 }
+/* ========== MOBILE ADJUSTMENTS ========== */
+/* Keep the menu scrollable on mobile */
+@media (max-width: 1024px) {
+    nav.top-menu {
+        gap: 0.8rem;
+        padding: 0.5rem 1rem;
+        justify-content: flex-start;
+        overflow-x: auto;
+        overflow-y: visible;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        flex-wrap: nowrap;
+    }
+
+    nav.top-menu::-webkit-scrollbar {
+        display: none;
+    }
+
+    nav.top-menu a {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.6rem;
+        flex-shrink: 0;
+    }
+
+    .site-title-overlay {
+        top: 70px;
+        left: 20px;
+    }
+
+    .site-title-overlay h1 {
+        font-size: 1.4rem;
+    }
+
+    /* Fix the overlapping elements on mobile */
+    .musashi-quotes-container {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 90%;
+        max-width: 400px;
+        margin: 120px auto 2rem auto;
+        opacity: 1 !important; /* Override fade effect for mobile */
+    }
+
+    .funding-cards {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        width: 90%;
+        max-width: 400px;
+        margin: 0 auto 2rem auto;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Hide decorative elements on mobile */
+    .card-pole, 
+    .right-frame,
+    .musashi-banner {
+        display: none;
+    }
+
+    /* Adjust audio controls */
+    .audio-controls {
+        bottom: 60px;
+        right: 20px;
+    }
+
+    .audio-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Tablet adjustments */
+@media (max-width: 768px) {
+    .musashi-quotes-container {
+        margin-top: 100px;
+        padding: 1.5rem;
+    }
+
+    .quote-text {
+        font-size: 16px;
+        min-height: 100px;
+    }
+
+    .quote-author {
+        font-size: 14px;
+    }
+
+    .funding-card {
+        padding: 1.2rem;
+    }
+
+    .funding-card h3 {
+        font-size: 1.1rem;
+    }
+
+    .funding-card p {
+        font-size: 0.9rem;
+    }
+
+    .funding-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    nav.top-menu {
+        gap: 0.5rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    nav.top-menu a {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.5rem;
+    }
+
+    .site-title-overlay {
+        top: 65px;
+        left: 15px;
+    }
+
+    .site-title-overlay h1 {
+        font-size: 1.2rem;
+    }
+
+    .musashi-quotes-container {
+        margin-top: 90px;
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .quote-text {
+        font-size: 14px;
+        min-height: 80px;
+    }
+
+    .funding-cards {
+        width: 95%;
+    }
+
+    .funding-card {
+        padding: 1rem;
+    }
+
+    .funding-card h3 {
+        font-size: 1rem;
+    }
+
+    .funding-card p {
+        font-size: 0.85rem;
+    }
+
+    .funding-button {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+
+    .audio-controls {
+        bottom: 50px;
+        right: 15px;
+    }
+
+    .audio-btn {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+
+    footer {
+        padding: 0.5rem 0;
+        font-size: 0.9rem;
+    }
+}
+
+/* Very small phones (landscape) */
+@media (max-width: 768px) and (orientation: landscape) {
+    .musashi-quotes-container {
+        margin-top: 80px;
+        width: 60%;
+        float: left;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .funding-cards {
+        width: 60%;
+        float: right;
+        margin-right: 5%;
+    }
+}
+
+/* Mobile open state for dropdowns - ADD THIS IN THE MAIN CSS SECTION (not inside media query) */
+.dropdown.open .dropdown-content {
+    display: block;
+}
+
+/* For better tap targets on mobile */
+@media (max-width: 768px) {
+    .dropdown > a {
+        padding: 0.5rem 0.8rem !important;
+    }
+    
+    .funding-button,
+    .audio-btn {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+    
+    /* Ensure content doesn't overflow on small screens */
+    body, html {
+        overflow-y: auto;
+    }
+}
+
+/* Fix for video background on mobile */
+@media (max-width: 768px) {
+    .video-background {
+        object-fit: cover;
+        height: 100%;
+    }
+    
+    .static-background {
+        display: block;
+        opacity: 0.5;
+    }
+}
+
+/* Clear floats for mobile layout */
+@media (max-width: 768px) {
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+}
+    
 </style>
 </head>
 
@@ -738,6 +981,69 @@ setInterval(rotateQuote, 8000);
 
 // Manual quote rotation via banner
 document.getElementById('musashiBanner').addEventListener('click', rotateQuote);
+// ===== MOBILE / TABLET DROPDOWN FIX =====
+document.querySelectorAll('.dropdown > a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        const parent = this.parentElement;
+
+        // Only intercept on touch-sized screens
+        if (window.innerWidth <= 1024) {
+
+            // If this dropdown isn't open yet → open it
+            if (!parent.classList.contains('open')) {
+                e.preventDefault(); // STOP navigation
+                closeAllDropdowns(parent);
+                parent.classList.add('open');
+            }
+            // If already open → allow normal navigation
+        }
+    });
+});
+
+function closeAllDropdowns(except = null) {
+    document.querySelectorAll('.dropdown.open').forEach(drop => {
+        if (drop !== except) drop.classList.remove('open');
+    });
+}
+
+// Close dropdowns when tapping outside nav
+document.addEventListener('click', function (e) {
+    const nav = document.querySelector('nav.top-menu');
+    if (!nav.contains(e.target)) {
+        closeAllDropdowns();
+    }
+});
+
+// Adjust Musashi quotes behavior for mobile
+if (window.innerWidth <= 1024) {
+    // On mobile, make the quotes clickable to rotate manually
+    const quotesContainer = document.getElementById('musashiQuotes');
+    if (quotesContainer) {
+        quotesContainer.style.cursor = 'pointer';
+        quotesContainer.addEventListener('click', rotateQuote);
+    }
+    
+    // Clear any existing interval for mobile (optional - you can keep it or remove)
+    // The quotes will now rotate only when clicked
+}
+
+// Optional: Add body class for mobile detection
+if (window.innerWidth <= 1024) {
+    document.body.classList.add('mobile-view');
+}
+
+// Fix for video loading on mobile
+if (window.innerWidth <= 768) {
+    const videoBg = document.getElementById('roninVideo');
+    const staticBg = document.getElementById('staticBg');
+    
+    // On mobile, prioritize static background and don't autoplay video
+    if (videoBg) {
+        videoBg.pause();
+        staticBg.style.opacity = '1';
+    }
+}
+    
 </script>
 </body>
 </html>
