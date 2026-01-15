@@ -49,7 +49,6 @@ body, html {
     height: 100%;
     object-fit: cover;
     z-index: 2;
-    transform: translateX(0) translateY(0);
 }
 
 /* RUMBLE ANIMATION */
@@ -789,9 +788,16 @@ function triggerMeteorStrike(duration = 1800) {
     // Phase 1: Flash and initial rumble (0-300ms)
     if (meteorFlash) meteorFlash.classList.add('flash-active');
     if (videoBg) videoBg.classList.add('rumble-active');
+       void videoBg.offsetWidth; // force reflow
+    videoBg.classList.add('rumble-active');
+}
     
     // If video fails, rumble static background as fallback
-    if (!videoBg && staticBg) staticBg.classList.add('rumble-active');
+    if (!videoBg && staticBg) staticBg.classList.remove('rumble-active');
+       void staticBg.offsetWidth;
+
+    staticBg.classList.add('rumble-active');
+    }
 
     // Phase 2: Dust cloud appears (300ms onwards)
     setTimeout(() => {
