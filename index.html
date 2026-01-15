@@ -406,6 +406,10 @@ footer {
         scrollbar-width: none; /* Hide scrollbar Firefox */
     }
 
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    
     /* Hide scrollbar for Chrome, Safari and Opera */
     nav.top-menu::-webkit-scrollbar {
         display: none;
@@ -925,17 +929,19 @@ document.addEventListener('DOMContentLoaded', function() {
 document.querySelectorAll('.dropdown > a').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         const parent = this.parentElement;
+        const submenu = parent.querySelector(':scope > .dropdown-content');
 
-        // Only intercept on touch-sized screens
+        // If no submenu → NEVER intercept (fixes audio & normal links)
+        if (!submenu) return;
+
         if (window.innerWidth <= 1024) {
-
-            // If this dropdown isn't open yet → open it
+            // First tap opens menu
             if (!parent.classList.contains('open')) {
-                e.preventDefault(); // STOP navigation
+                e.preventDefault();
                 closeAllDropdowns(parent);
                 parent.classList.add('open');
             }
-            // If already open → allow normal navigation
+            // Second tap navigates normally
         }
     });
 });
