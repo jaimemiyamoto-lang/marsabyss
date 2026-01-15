@@ -1003,60 +1003,61 @@ if (videoSelectBtn) {
 }
 
 // AUDIO SYSTEM
-const muteBtn = document.getElementById('muteBtn');
-let isMuted = true;
-let audioElements = [];
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true;
+        let audioElements = [];
 
-function initAudio() {
-    const sounds = [
-        { src: 'sounds/from-the-crypt-ext v2.mp3', volume: 0.5 },
-        { src: 'sounds/ambient-space.mp3', volume: 0.2 },
-        { src: 'sounds/meteor-impact.mp3', volume: 0.3 }
-    ];
-    
-    sounds.forEach(sound => {
-        const audio = new Audio(sound.src);
-        audio.volume = sound.volume;
-        audio.loop = sound.src !== 'sounds/meteor-impact.mp3';
-        audio.muted = true;
-        audioElements.push(audio);
-    });
-    
-    document.addEventListener('click', function unmuteAudio() {
-        if (isMuted) {
-            audioElements.forEach(audio => {
-                audio.muted = false;
-                if (audio.loop) {
-                    audio.play().catch(e => console.log('Audio play failed'));
-                }
+        function initAudio() {
+            const sounds = [
+                { src: 'sounds/from-the-crypt-ext v2.mp3', volume: 0.5 },
+                { src: 'sounds/ambient-space.mp3', volume: 0.2 },
+                // Add meteor impact sound
+                { src: 'sounds/meteor-impact.mp3', volume: 0.3 }
+            ];
+
+            sounds.forEach(sound => {
+                const audio = new Audio(sound.src);
+                audio.volume = sound.volume;
+                audio.loop = sound.src !== 'sounds/meteor-impact.mp3'; // Don't loop impact sound
+                audio.muted = true;
+                audioElements.push(audio);
             });
-            isMuted = false;
-            muteBtn.textContent = "🔊 Mute Sounds";
+
+            document.addEventListener('click', function unmuteAudio() {
+                if (!isMuted) {
+                    audioElements.forEach(audio => {
+                        audio.muted = false;
+                        if (audio.loop) {
+                            audio.play().catch(e => console.log('Audio play failed'));
+                        }
+                    });
+                    isMuted = false;
+                    muteBtn.textContent = "🔊 Mute Sounds";
+                }
+                document.removeEventListener('click', unmuteAudio);
+            }, { once: true });
         }
-        document.removeEventListener('click', unmuteAudio);
-    }, { once: true });
-}
 
-// Play meteor impact sound
-function playMeteorSound() {
-    const impactSound = audioElements.find(audio => !audio.loop);
-    if (impactSound && !isMuted) {
-        impactSound.currentTime = 0;
-        impactSound.play().catch(e => console.log('Meteor sound play failed'));
-    }
-}
+        // Play meteor impact sound
+        function playMeteorSound() {
+            const impactSound = audioElements.find(audio => !audio.loop);
+            if (impactSound && !isMuted) {
+                impactSound.currentTime = 0;
+                impactSound.play().catch(e => console.log('Meteor sound play failed'));
+            }
+        }
 
-// Mute toggle
-muteBtn.addEventListener('click', function() {
-    isMuted = !isMuted;
-    audioElements.forEach(audio => {
-        audio.muted = isMuted;
-    });
-    muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
-});
+        // Mute toggle
+        muteBtn.addEventListener('click', function() {
+            isMuted = !isMuted;
+            audioElements.forEach(audio => {
+                audio.muted = isMuted;
+            });
+            muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+        });
 
-// Initialize audio when page loads
-initAudio();
+        // Initialize audio when page loads
+        initAudio();
 
 // Card navigation functions
 function openPage(url) {
