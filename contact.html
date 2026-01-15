@@ -924,47 +924,47 @@ setTimeout(() => {
     }
 }, 3000);
 
-// ========== AUDIO SYSTEM (FIXED) ==========
+// ========== AUDIO SYSTEM ==========
 const muteBtn = document.getElementById('muteBtn');
-let isMuted = true;
-let audioElements = [];
+let isBackgroundAudioMuted = true;
+let backgroundAudio = null;
 
 function initAudio() {
-    const sounds = [
-        { src: 'sounds/waterfall-frog.mp3', volume: 0.3 },
-        { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
-        { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
-    ];
-
-    sounds.forEach(sound => {
-        const audio = new Audio(sound.src);
-        audio.volume = sound.volume;
-        audio.loop = true;
-        audio.muted = true;
-        audioElements.push(audio);
-    });
-
-    // First click anywhere on page unmutes audio
-    document.addEventListener('click', function unmuteAudio() {
-        if (isMuted) {
-            audioElements.forEach(audio => {
-                audio.muted = false;
-                audio.play().catch(e => console.log('Audio play failed'));
+    backgroundAudio = new Audio('music/hold-me-close.mp3');
+    backgroundAudio.volume = 0.4;
+    backgroundAudio.loop = true;
+    backgroundAudio.muted = true;
+    
+    muteBtn.textContent = "🔇 Unmute Sounds";
+    
+    muteBtn.addEventListener('click', function() {
+        if (isBackgroundAudioMuted) {
+            backgroundAudio.muted = false;
+            backgroundAudio.play().then(() => {
+                isBackgroundAudioMuted = false;
+                muteBtn.textContent = "🔊 Mute Sounds";
+            }).catch(e => {
+                isBackgroundAudioMuted = false;
+                muteBtn.textContent = "🔊 Mute Sounds";
             });
-            isMuted = false;
+        } else {
+            backgroundAudio.muted = !backgroundAudio.muted;
+            isBackgroundAudioMuted = backgroundAudio.muted;
+            muteBtn.textContent = isBackgroundAudioMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+        }
+    });
+    
+    const startAudioOnInteraction = function() {
+        if (isBackgroundAudioMuted) {
+            backgroundAudio.muted = false;
+            backgroundAudio.play().catch(e => {});
+            isBackgroundAudioMuted = false;
             muteBtn.textContent = "🔊 Mute Sounds";
         }
-        document.removeEventListener('click', unmuteAudio);
-    }, { once: true });
-
-    // Mute/Unmute toggle for the button
-    muteBtn.addEventListener('click', function() {
-        isMuted = !isMuted;
-        audioElements.forEach(audio => {
-            audio.muted = isMuted;
-        });
-        muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
-    });
+        document.removeEventListener('click', startAudioOnInteraction);
+    };
+    
+    document.addEventListener('click', startAudioOnInteraction, { once: true });
 }
 
 // ========== HIDE CONTENT FUNCTIONALITY ==========
