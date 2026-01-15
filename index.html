@@ -414,6 +414,133 @@
                 font-size: 1.4rem;
             }
         }
+        /* ========== Simple Mobile Adjustments ========== */
+        /* Keep the menu scrollable on mobile */
+        @media (max-width: 1024) {
+            nav.top-menu {
+                gap: 0.8rem;
+                padding: 0.5rem 1rem;
+                justify-content: flex-start;
+                overflow-y: visible;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                flex-wrap: nowrap;
+            }
+
+            nav.top-menu::-webkit-scrollbar {
+                display: none;
+            }
+
+            nav.top-menu a {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.6rem;
+                flex-shrink: 0;
+            }
+
+            /* Adjust hero and card section positioning */
+            .hero {
+                top: 40%;
+            }
+
+            .card-section {
+                bottom: 12%;
+            }
+
+            .site-title-overlay {
+                top: 70px;
+                left: 20px;
+            }
+
+            .site-title-overlay h1 {
+                font-size: 1.4rem;
+            }
+        }
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero {
+                top: 38%;
+            }
+
+            .card-section {
+                bottom: 15%;
+            }
+
+            .card-container {
+                max-width: 90%;
+                padding: 0.8rem;
+                gap: 1rem;
+            }
+
+            .card {
+                width: 120px;
+                height: 180px;
+            }
+
+            .arrow {
+                font-size: 2rem;
+                padding: 0.3rem;
+            }
+        }
+
+        /* Very small phones */
+        @media (max-width: 480px) {
+            nav.top-menu {
+                gap: 0.5rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            nav.top-menu a {
+                font-size: 0.8rem;
+                padding: 0.3rem 0.5rem;
+            }
+
+            .site-title-overlay {
+                top: 65px;
+                left: 15px;
+            }
+
+            .site-title-overlay h1 {
+                font-size: 1.2rem;
+            }
+
+            .hero {
+                top: 35%;
+            }
+
+            .card-section {
+                bottom: 18%;
+            }
+
+            .card-container {
+                max-width: 95%;
+                gap: 0.8rem;
+            }
+
+            .card {
+                width: 100px;
+                height: 150px;
+            }
+
+            .arrow {
+                font-size: 1.8rem;
+            }
+
+            .audio-controls {
+                bottom: 60px;
+                right: 20px;
+            }
+
+            .audio-btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+        }
+        /* Mobile open state for dropdowns - Add this in the main CSS section (not inside media query) */
+        .dropdown.open .dropdown-content {
+            display: block;
+        }
     </style>
 </head>
 
@@ -750,6 +877,39 @@
                 behavior: "smooth"
             });
         }
+        // ===== Mobile / Tablet Dropdown Fix =====
+        document.querySelectorAll('.dropdown > a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const parent = this.parentElement;
+
+                // Only intercept on touch-sized screens
+                if (window.innerWidth <= 1024) {
+
+                    // If this dropdown isn't open yet -> open it
+                    if (!parent.classList.contains('open')) {
+                        e.preventDefault(); // Stop navigation
+                        closeAllDropdowns(parent);
+                        parent.classList.add('open');
+                    }
+                    // If already open -> allow normal navigation
+
+                }
+            });
+        });
+
+        function closeAllDropdowns(except = null) {
+            document.querySelectorAll('.dropdown.open').forEach(drop => {
+                if (drop !== except) drop.classList.remove('open');
+            });
+        }
+
+        // Close dropdowns when tapping outside nav
+        document.addEventListener('click', function (e) {
+            const nav = document.querySelector('nav.top-menu');
+            if (!nav.contains(e.target)) {
+                closeAllDropdowns();
+            }
+        });    
     </script>
 </body>
 </html>
