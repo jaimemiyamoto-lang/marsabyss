@@ -561,7 +561,30 @@ max-width: 280px;
         transform: none;
     }
 }
+/* Mobile open state for dropdowns - ADD THIS IN THE MAIN CSS SECTION (not inside media query) */
+.dropdown.open .dropdown-content {
+    display: block;
+}
 
+/* For better tap targets on mobile */
+@media (max-width: 768px) {
+    .dropdown > a {
+        padding: 0.5rem 0.8rem !important;
+    }
+    
+    .video-item {
+        cursor: pointer;
+    }
+    
+    .contact-email, .contact-form-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+    
 /* Mobile */
 @media (max-width: 768px) {
     .robot-story-container {
@@ -675,32 +698,7 @@ max-width: 280px;
         padding: 0.5rem;
     }
 }
-
-/* Mobile open state for dropdowns - ADD THIS IN THE MAIN CSS SECTION (not inside media query) */
-.dropdown.open .dropdown-content {
-    display: block;
-}
-
-/* For better tap targets on mobile */
-@media (max-width: 768px) {
-    .dropdown > a {
-        padding: 0.5rem 0.8rem !important;
-    }
-    
-    .video-item {
-        cursor: pointer;
-    }
-    
-    .contact-email, .contact-form-link {
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-}
-
-    
+}   
 </style>
 </head>
 
