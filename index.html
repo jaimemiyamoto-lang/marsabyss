@@ -909,6 +909,19 @@ function triggerMeteorStrike(duration = 1800) {
         dustOverlay.classList.remove('dust-active');
     }, duration + 2000);
 }
+
+// SWITCH VIDEO FUNCTION
+function switchVideo() {
+    currentVideoIndex = (currentVideoIndex + 1) % videoSources.length;
+    const newSource = videoSources[currentVideoIndex];
+    
+    // Fade out current video
+    videoBg.style.opacity = '0';
+    
+    setTimeout(() => {
+        videoBg.src = newSource;
+        videoBg.load();
+        
         videoBg.play().then(() => {
             videoBg.style.opacity = '1';
             console.log('Switched to video: ' + newSource);
@@ -952,6 +965,11 @@ document.querySelectorAll('.dropdown > a').forEach(dropdownBtn => {
         }
     });
 });
+
+// VIDEO SELECTOR
+if (videoSelectBtn) {
+    videoSelectBtn.addEventListener('click', switchVideo);
+}
 
 // AUDIO SYSTEM
         const muteBtn = document.getElementById('muteBtn');
