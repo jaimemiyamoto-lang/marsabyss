@@ -245,18 +245,17 @@ nav.top-menu a:hover {
 /* HERO SECTION - IMPROVED FOR MOBILE */
 .hero {
     position: absolute;
-    top: 50%;
+    top: 44%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     pointer-events: none;
     z-index: 5;
     width: 100%;
-    padding: 0 20px;
 }
 
 .hero-title {
-    font-size: clamp(28px, 8vw, 110px);
+    font-size: clamp(24px, 5vw, 110px);
     font-weight: 800;
     letter-spacing: 0.04em;
     line-height: 1;
@@ -268,24 +267,23 @@ nav.top-menu a:hover {
         0 0 18px rgba(255, 90, 70, 0.65),
         0 0 40px rgba(255, 0, 0, 0.45);
     animation: titleFade 2.75s ease-out 0.5s forwards;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     word-break: break-word;
     overflow-wrap: break-word;
 }
 
 .hero-subtitle {
-    font-size: clamp(16px, 4vw, 35px);
+    font-size: clamp(14px, 2.5vw, 35px);
     font-weight: normal;
     font-style: italic;
     color: #f5f5dc;
     opacity: 0;
     animation: titleFade 2.75s ease-out 1s forwards;
-    margin-top: 10px;
+    margin-top: 4px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8),
                  0 0 10px rgba(255, 255, 255, 0.4);
     position: relative;
     z-index: 6;
-    line-height: 1.2;
 }
 
 @keyframes titleFade {
@@ -296,23 +294,22 @@ nav.top-menu a:hover {
 /* SCROLLABLE CARD STRIP - IMPROVED FOR MOBILE */
 .card-section {
     position: absolute;
-    bottom: 10%;
+    bottom: 8%;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.8rem;
     z-index: 10;
-    padding: 0 10px;
 }
 
 .card-container {
     display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
-    gap: 1rem;
+    gap: 1.5rem;
     padding: 1rem;
-    max-width: 90%;
+    max-width: 80%;
     box-shadow: 0 0 30px rgba(255, 149, 83, 0.3);
     border-radius: 12px;
     background: rgba(0, 0, 0, 0.3);
@@ -327,8 +324,8 @@ nav.top-menu a:hover {
 
 .card {
     flex: 0 0 auto;
-    width: 140px;
-    height: 200px;
+    width: 150px;
+    height: 220px;
     background: gray;
     background-size: cover;
     background-position: center;
