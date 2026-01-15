@@ -102,11 +102,12 @@ background: rgba(179, 0, 0, 0.6);
 color: #fff;
 }
 
+/* Desktop hover behavior */
 .dropdown:hover .dropdown-content {
 display: block;
 }
 
-/* Mobile open state - ONLY for touch screens */
+/* Mobile open state */
 .dropdown.open .dropdown-content {
 display: block;
 }
@@ -648,7 +649,7 @@ height: 100px;
 <body>
 
 <!-- TOP MENU - 9 TITLES EXACTLY LIKE CONTACT PAGE -->
-<nav class="top-menu">
+<nav class="top-menu" id="topMenu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn">Home</a>
 <div class="dropdown-content">
@@ -1173,13 +1174,14 @@ if (event.key === 'ArrowRight') scrollCards(1);
 });
 });
 
-// ===== MOBILE / TABLET DROPDOWN FIX =====
+/* ===== MOBILE / TABLET DROPDOWN FIX ===== */
 document.querySelectorAll('.dropdown > a').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         const parent = this.parentElement;
 
         // Only intercept on touch-sized screens
         if (window.innerWidth <= 1024) {
+
             // If this dropdown isn't open yet → open it
             if (!parent.classList.contains('open')) {
                 e.preventDefault(); // STOP navigation
@@ -1199,7 +1201,7 @@ function closeAllDropdowns(except = null) {
 
 // Close dropdowns when tapping outside nav
 document.addEventListener('click', function (e) {
-    const nav = document.querySelector('nav.top-menu');
+    const nav = document.getElementById('topMenu');
     if (!nav.contains(e.target)) {
         closeAllDropdowns();
     }
