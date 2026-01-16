@@ -442,7 +442,25 @@ footer {
         right: 30px;
     }
 }
+/* === Desktop & Tablet (over 768px) Dropdown Rules === */
+    .dropdown-content {
+        display: none;
+        position: absolute: /* This makes it drop down */
+        background: rgba(26, 26, 26, 0.98);
+        min-width: 140px;
+        z-index: 10010; /* Must be higher than video's z-index: 2 */
+        border-radius: 4px;
+        border: 2px solid #ff9553;
+        top: 100%; /* Positions it right below the parent menu item */
+        left: 0%;
+        backdrop-filter: blur(5px);
+        padding: 4px 0;
+    }
 
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    
 /* Mobile (under 768px) */
 @media (max-width: 768px) {
     /* Keep menu visible but make it scrollable */
@@ -469,24 +487,32 @@ footer {
     
     /* Fix dropdowns on mobile */
     .dropdown-content {
-        position: static;
+        position: static !important;
         display: none;
         background: rgba(0, 0, 0, 0.5);
         border: none;
         margin-left: 15px;
         margin-top: 5px;
         margin-bottom: 10px;
+        width: auto;
+        box-shadow: none;
     }
     
     .dropdown-content a {
         padding: 6px 15px;
         font-size: 0.9rem;
+        color: #f5f5f5;
+        border-bottom: 1px solid rgba(255, 149, 83, 0.2);
     }
     
     .dropdown.active .dropdown-content {
         display: block;
     }
-    
+    /* Make sure dropdowns are on top of the video on mobile */
+    .dropdown-content, .dropdown.active .dropdown-content {
+        z-index: 10010;
+    }
+}
     /* Fix hero positioning */
     .hero {
         top: 40%;
