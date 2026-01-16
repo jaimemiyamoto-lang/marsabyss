@@ -975,6 +975,7 @@ if (videoSelectBtn) {
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
+let audioInitialized = false; // Track if we've tried to start audio
 
 function initAudio() {
     const sounds = [
@@ -995,8 +996,9 @@ function initAudio() {
 
     // 1. TRY TO UNMUTE ON FIRST USER CLICK/TAP ANYWHERE
     const unlockAudio = () => {
-        if (audioElements.length === 0) return;
+        if (audioInitialized) return;
         
+        audioInitialized = true;
         isMuted = false;
         
         console.log('First user interaction - attempting to unmute audio...');
@@ -1038,7 +1040,7 @@ function initAudio() {
         this.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
     });
 
-    // 3. METEOR SOUND FUNCTION
+    // 3. METEOR SOUND FUNCTION (keep this as is)
     window.playMeteorSound = function() {
         const impactSound = audioElements.find(audio => !audio.loop);
         if (impactSound && !isMuted) {
