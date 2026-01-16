@@ -450,36 +450,29 @@ footer {
 /* Mobile */
 @media (max-width: 768px) {
     nav.top-menu {
-        padding: 0.4rem 0;
-        flex-wrap: wrap;
-        justify-content: center;
-        display: block;
-        flex-direction: row;
         position: fixed;
         top: 0;
-        left: 0%;
-        width: 100px;
-        height: auto;
+        left: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
         background: rgba(17, 17, 17, 0.98);
         justify-content: flex-start;
-        padding-top: 60px;
-        gap: 0.5rem 0;
-        transition: none;
+        padding: 0.5rem 0.5rem;
+        gap: 1rem;
         overflow-y: hidden;
         overflow-x: auto;
         white-space: nowrap;
-    }
-    
-    nav.top-menu.active {
-        left: 0;
+        z-index: 1000;
+        border-bottom: 2px solid #ff9553;
+        backdrop-filter: blur(10px);
     }
     
     nav.top-menu a {
-        padding: 0.8rem 1rem;
-        font-size: 1rem;
-        justify-content: center;
-        border-bottom: 1px solid rgba(255, 149, 83, 0.3);
+        padding: 0.4rem 0.6rem;
+        font-size: 0.9rem;
         white-space: nowrap;
+        flex-shrink: 0;
     }
     
     .dropdown-content {
@@ -623,8 +616,6 @@ footer {
     <div class="dust-overlay" id="dustOverlay"></div>
     <div class="meteor-flash" id="meteorFlash"></div>
 </div>
-
-<!-- MOBILE MENU TOGGLE -->
 
 <!-- SITE TITLE OVERLAY -->
 <div class="site-title-overlay">
@@ -814,7 +805,6 @@ const videoBg = document.getElementById('marsVideo');
 const staticBg = document.getElementById('staticBg');
 const dustOverlay = document.getElementById('dustOverlay');
 const meteorFlash = document.getElementById('meteorFlash');
-const mobileMenuToggle = document.getElementById('mobileMenuToggle');
 const topMenu = document.getElementById('topMenu');
 const videoSelectBtn = document.getElementById('videoSelectBtn');
 
@@ -919,39 +909,7 @@ function switchVideo() {
     }, 500);
 }
 
-// MOBILE MENU TOGGLE
-mobileMenuToggle.addEventListener('click', function() {
-    topMenu.classList.toggle('active');
-    this.textContent = topMenu.classList.contains('active') ? '✕' : '☰';
-});
 
-// Close menu when clicking outside on mobile
-document.addEventListener('click', function(event) {
-    if (window.innerWidth <= 768) {
-        if (!topMenu.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
-            topMenu.classList.remove('active');
-            mobileMenuToggle.textContent = '☰';
-        }
-    }
-});
-
-// Mobile dropdown toggle
-document.querySelectorAll('.dropdown > a').forEach(dropdownBtn => {
-    dropdownBtn.addEventListener('click', function(e) {
-        if (window.innerWidth <= 768) {
-            e.preventDefault();
-            const dropdown = this.parentElement;
-            dropdown.classList.toggle('active');
-            
-            // Close other dropdowns
-            document.querySelectorAll('.dropdown').forEach(otherDropdown => {
-                if (otherDropdown !== dropdown) {
-                    otherDropdown.classList.remove('active');
-                }
-            });
-        }
-    });
-});
 
 // VIDEO SELECTOR
 if (videoSelectBtn) {
@@ -1042,11 +1000,6 @@ window.addEventListener('DOMContentLoaded', initAudio);
 
 // Card navigation functions
 function openPage(url) {
-    // Close mobile menu if open
-    if (window.innerWidth <= 768) {
-        topMenu.classList.remove('active');
-        mobileMenuToggle.textContent = '☰';
-    }
     window.location.href = url;
 }
 
