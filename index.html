@@ -461,12 +461,6 @@ footer {
         right: 30px;
     }
 }
-
-/* Mobile */
-@media (max-width: 768px) {
-    .mobile-menu-toggle {
-        display: block;
-    }
     
     nav.top-menu {
         flex-direction: column;
@@ -635,9 +629,6 @@ footer {
     <div class="dust-overlay" id="dustOverlay"></div>
     <div class="meteor-flash" id="meteorFlash"></div>
 </div>
-
-<!-- MOBILE MENU TOGGLE -->
-<div class="mobile-menu-toggle" id="mobileMenuToggle">☰</div>
 
 <!-- SITE TITLE OVERLAY -->
 <div class="site-title-overlay">
@@ -932,22 +923,6 @@ function switchVideo() {
     }, 500);
 }
 
-// MOBILE MENU TOGGLE
-mobileMenuToggle.addEventListener('click', function() {
-    topMenu.classList.toggle('active');
-    this.textContent = topMenu.classList.contains('active') ? '✕' : '☰';
-});
-
-// Close menu when clicking outside on mobile
-document.addEventListener('click', function(event) {
-    if (window.innerWidth <= 768) {
-        if (!topMenu.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
-            topMenu.classList.remove('active');
-            mobileMenuToggle.textContent = '☰';
-        }
-    }
-});
-
 // Mobile dropdown toggle
 document.querySelectorAll('.dropdown > a').forEach(dropdownBtn => {
     dropdownBtn.addEventListener('click', function(e) {
@@ -1058,7 +1033,6 @@ function openPage(url) {
     // Close mobile menu if open
     if (window.innerWidth <= 768) {
         topMenu.classList.remove('active');
-        mobileMenuToggle.textContent = '☰';
     }
     window.location.href = url;
 }
