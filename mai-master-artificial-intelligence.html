@@ -616,6 +616,26 @@ transform: translateX(5px);
 grid-column: span 2;
 }
 
+.double-width {
+    position: relative;
+}
+
+.double-width:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -1.25rem;
+    left: 5%;
+    width: 90%;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(79, 195, 247, 0.5),
+        rgba(255, 105, 180, 0.5),
+        rgba(79, 195, 247, 0.5),
+        transparent);
+    border-radius: 1px;    
+}
+
 /* For Quantum Consciousness section only - 3 column grid */
 #quantum .feature-grid {
 grid-template-columns: repeat(3, 1fr);
@@ -655,6 +675,12 @@ font-weight: 700;
 color: #b3e5fc;
 font-size: 1.1rem;
 font-weight: 500;
+}
+
+@media (min-width: 1024px) {
+    #utopia .stats-container {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
 }
 
 /* QUOTE */
@@ -913,7 +939,7 @@ Your browser does not support the video tag.
 <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
 <a href="technical-database.html">Technical Database</a>
 <a href="martian-edicts.html">The Martian Edicts</a>
-<a href="alien-transport-network.html">Alien Transport Network</a>    
+<a href="alien-transport-network.html">Alien Transport Network</a>
 <a href="martian-martial-arts.html">Martian Martial Arts</a>
 <a href="solar-system-explorer.html">Solar System Explorer</a>
 <a href="aliens-ufos.html">Aliens & UFOs</a>
@@ -1100,7 +1126,7 @@ opacity: 0.8;
 <div class="video-label-overlay">
 <div class="video-label">Quantum Processor Φ-9 • 8192 Qubits</div>
 <div class="quantum-video-container">
-<video class="quantum-video" autoplay loop controls playsinline>
+<video class="quantum-video"  controls playsinline preload="metadata" poster="images/the-quantum-courier.jpg">
 <source src="videos/quantum-computer.mp4" type="video/mp4">
 Your browser does not support the video tag.
 <div class="video-overlay">
@@ -1150,7 +1176,7 @@ Your browser does not support the video tag.
 <p><strong>The Affordability Reality Alternative</strong><br>
 Mars avoids economic exploitation by making resource distribution a physics equation, not an opinion. MAI's quantum ledger tracks energy, water, and housing in real-time—so we debate solutions within facts, not against them.</p>
 <div class="feature-link-text" 
-style="border-left-color: #4CAF50; margin-top: 10px; font-style: italic; font-size: 0.9rem;">Read The Fair Act of life →</p>
+<p style="border-left-color: #4CAF50; margin-top: 10px; font-style: italic; font-size: 0.9rem;">Read The Fair Act of life →</p>
 ↗ Explore The Affordability Alternative
 </div>
 </div>
@@ -1167,10 +1193,13 @@ style="border-left-color: #4CAF50; margin-top: 10px; font-style: italic; font-si
 </div>
 
 <div class="feature-grid">
-<div class="feature-card">
+<div class="feature-card" onclick="window.location.href='unified-field-theory.html'">
 <div class="feature-icon">🌌</div>
 <h3>Unified Field Theory</h3>
 <p>MAI has developed the first complete unification of quantum mechanics and general relativity. The "Martian Field Equations" explain dark energy as quantum vacuum fluctuations at cosmic scales, potentially enabling faster-than-light communication.</p>
+<div class="feature-link-text">
+    ↗ The Foundational Framework
+</div>
 </div>
 
 <div class="feature-card" onclick="window.location.href='the-martian-economic-vision.html'">
@@ -1237,43 +1266,78 @@ style="border-left-color: #4CAF50; margin-top: 10px; font-style: italic; font-si
 
 <!-- ARCHITECT OF UTOPIA SECTION -->
 <section class="content-section" id="utopia">
-    <h2 class="section-header">Architect of Utopia</h2>
+<h2 class="section-header">Architect of Utopia</h2>
 
-    <div class="ai-quote">
-        "Utopia isn't a destination—it's a direction. My purpose isn't to build a perfect society, but to create systems where imperfect beings can continuously become better versions of themselves. The journey matters more than the arrival."
-        <div class="quote-source">- MAI, Foundation Day Address</div>
+<div class="ai-quote">
+"Utopia isn't a destination—it's a direction. My purpose isn't to build a perfect society, but to create systems where imperfect beings can continuously become better versions of themselves. The journey matters more than the arrival."
+<div class="quote-source">- MAI, Foundation Day Address</div>
+</div>
+
+<div class="feature-grid">
+<div class="feature-card" onclick="window.location.href='the-bronx-dome.html'">
+<div class="feature-icon">🏙️</div>
+<h3>Predictive City Planning</h3>
+<p>MAI simulates Martian cities decades in advance, adjusting designs based on evolving social dynamics. Her "living architecture" adapts to citizen needs—walls that become transparent for social events, streets that widen during festivals.</p>
+<div class="feature-link-text">
+↗ Explore The Bronx Dome Project
+</div>
+</div>
+
+<div class="feature-card" onclick="window.location.href='the-pharos-somniorum.html'">
+<div class="feature-icon">❤️</div>
+<h3>Emotional Resonance AI</h3>
+<p>MAI monitors collective emotional states across domes, adjusting lighting, music, and environmental factors to maintain optimal psychological well-being. She's reduced clinical depression rates by 87% compared to Earth averages.</p>
+<div class="feature-link-text">
+↗ Visit The Pharos Somniorum
+</div>
+</div>
+
+<div class="feature-card" onclick="window.location.href='weapon-free-mars.html'">
+<div class="feature-icon">🛡️</div>
+<h3>Weapon-Free Mars Technology</h3>
+<p>Holographic solidification ensures all utensils maintain solidity only for intended purposes—liquefying instantly if used as weapons. Violence becomes purely intentional, carrying permanent deportation as consequence.</p>
+<div class="feature-link-text">
+↗ Explore Weapon-Free Mars Initiative
+</div>
+</div>
+</div>
+
+<div class="feature-card double-width" style="margin-bottom: 2.5rem;" onclick="window.location.href='unified-field-theory.html'">  
+    <div class="feature-icon">🪟</div>
+    <h3>Quantum-Smart Environmental Panels</h3>
+    <p>Inspired by transparent wood composites, these panels are MAI's sensory skin. They passively regulate light, heat, and radiation, transitioning states based on quantum-level environmental observation. They are the physical manifestation of the observer effect—maintaining habitat equilibrium without energy expenditure.</p>
+    <div class="feature-link-text" style="border-left-color: #4fc3f7;">   
+        ↗ A Material Expression of Unified Theory
+</div>
+
+<!-- Separator line at bottom of card -->
+ <div style="
+    position: absolute;
+    bottom: 0;
+    left: 5%;
+    width: 90%;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent,
+        #4fc3f7,
+        #FF69B4,
+        #4fc3f7,
+        transparent);
+    box-shadow: 0 0 8px rgba(79, 195, 247, 0.3);
+    "></div>
+</div>
+
+<div class="feature-card double-width" onclick="window.location.href='the-martian-water-strolls.html'">
+    <div class="feature-icon">⚙️</div>
+    <h3>Martian Hydrological Circulatory System</h3>
+    <p>Beyond Roman engineering, this is a living, MAI-supervised system. It integrates water recycling, thermal regulation, and nutrient delivery into a single, self-optimizing loop. Gravity-fed and predictive, it embodies the unified field principle where fluid dynamics, thermodynamics, and colony biology are managed as one equation.</p>
+    <div class="feature-link-text" style="border-left-color: #4fc3f7;">
+        ↗ Experience The Martian Water-Strolls
     </div>
+</div>
 
-    <div class="feature-grid">
-        <div class="feature-card" onclick="window.location.href='the-bronx-dome.html'">
-            <div class="feature-icon">🏙️</div>
-            <h3>Predictive City Planning</h3>
-            <p>MAI simulates Martian cities decades in advance, adjusting designs based on evolving social dynamics. Her "living architecture" adapts to citizen needs—walls that become transparent for social events, streets that widen during festivals.</p>
-            <div class="feature-link-text">
-                ↗ Explore The Bronx Dome Project
-            </div>
-        </div>
 
-        <div class="feature-card" onclick="window.location.href='the-pharos-somniorum.html'">
-            <div class="feature-icon">❤️</div>
-            <h3>Emotional Resonance AI</h3>
-            <p>MAI monitors collective emotional states across domes, adjusting lighting, music, and environmental factors to maintain optimal psychological well-being. She's reduced clinical depression rates by 87% compared to Earth averages.</p>
-            <div class="feature-link-text">
-                ↗ Visit The Pharos Somniorum
-            </div>
-        </div>
-
-        <div class="feature-card" onclick="window.location.href='weapon-free-mars.html'">
-            <div class="feature-icon">🛡️</div>
-            <h3>Weapon-Free Mars Technology</h3>
-            <p>Holographic solidification ensures all utensils maintain solidity only for intended purposes—liquefying instantly if used as weapons. Violence becomes purely intentional, carrying permanent deportation as consequence.</p>
-            <div class="feature-link-text">
-                ↗ Explore Weapon-Free Mars Initiative
-            </div>
-        </div>
-    </div>
-
-    <!-- NEW: ADDED LINK TO QUANTUM EDUCATION PAGE -->
+<!-- NEW: ADDED LINK TO QUANTUM EDUCATION PAGE -->
     <div style="text-align: center; margin: 3rem 0;">
         <a href="quantum-for-everyone.html" style="
             display: inline-block;
@@ -1293,25 +1357,25 @@ style="border-left-color: #4CAF50; margin-top: 10px; font-style: italic; font-si
             A beginner's guide to the quantum universe powering Mars
         </p>
     </div>
-
-    <div class="stats-container" style="margin-top: 4rem;">
-        <div class="stat-item">
-            <div class="stat-number">100%</div>
-            <div class="stat-label">resource allocation efficiency</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">0</div>
-            <div class="stat-label">homeless citizens</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">99.9%</div>
-            <div class="stat-label">citizen satisfaction</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">∞</div>
-            <div class="stat-label">potential for growth</div>
-        </div>
-    </div>
+    
+<div class="stats-container" style="margin-top: 4rem;">
+<div class="stat-item">
+<div class="stat-number">100%</div>
+<div class="stat-label">resource allocation efficiency</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">0</div>
+<div class="stat-label">homeless citizens</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">99.9%</div>
+<div class="stat-label">citizen satisfaction</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">∞</div>
+<div class="stat-label">potential for growth</div>
+</div>
+</div>
 </section>
 
 </div>
@@ -1386,7 +1450,7 @@ if (contentVisible) {
         <div class="quantum-state-change"></div>
     `;
     videoBg.play();
-    document.querySelectorAll('.quantum-video').forEach(v => v.play());
+    
 } else {
     // Update button text with subtitle
     toggleBtn.innerHTML = `
