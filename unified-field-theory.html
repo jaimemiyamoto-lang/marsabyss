@@ -862,41 +862,45 @@ toggleBtn.addEventListener('click', function() {
     }
 });
 
-// Audio system
-const muteBtn = document.getElementById('muteBtn');
-let isMuted = true;
-let audioElements = [];
+// AUDIO SYSTEM
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true;
+        let audioElements = [];
 
-function initAudio() {
-    const audio = new Audio('music/bajo-la-luz-de-la-luna-based-on-poem.mp3');
-    audio.volume = 0.3;
-    audio.loop = true;
-    audio.muted = true;
-    audioElements.push(audio);
-    
-    document.addEventListener('click', function unmuteAudio() {
-        if (isMuted) {
-            audioElements.forEach(a => {
-                a.muted = false;
-                a.play().catch(e => console.log('Audio play failed'));
+        function initAudio() {
+            const sounds = [
+                { src: 'music/Unter meinem Herz.mp3', volume: 0.4},
+            ];
+
+            sounds.forEach(sound => {
+                const audio = new Audio(sound.src);
+                audio.volume = sound.volume;
+                audio.loop = true;
+                audio.muted = true;
+                audioElements.push(audio);
             });
-            isMuted = false;
-            muteBtn.textContent = "🔊 Mute Sounds";
         }
-        document.removeEventListener('click', unmuteAudio);
-    }, { once: true });
-}
 
-// Mute toggle
-muteBtn.addEventListener('click', function() {
-    isMuted = !isMuted;
-    audioElements.forEach(a => {
-        a.muted = isMuted;
-    });
-    muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
-});
+        muteBtn.addEventListener('click', function() {
+            if (isMuted) {
+                audioElements.forEach(audio => {
+                    audio.muted = false;
+                    audio.play().catch(e => {
+                        console.log('Audio play failed:', e);
+                    });
+                });
+                isMuted = false;
+                muteBtn.textContent = "🔊 Mute Sounds";
+            } else {
+                audioElements.forEach(audio => {
+                    audio.muted = true;
+                });
+                isMuted = true;
+                muteBtn.textContent = "🔈 Unmute Sounds";
+            }
+        });
 
-initAudio();
+        initAudio();
 
 // Site title hide on scroll
 let lastScrollTop = 0;
