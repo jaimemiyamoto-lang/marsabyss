@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Martian Hadron Collider | MAI</title>
+
+<style>
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* VIDEO BACKGROUND */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+/* DARK OVERLAY */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.0), rgba(0,0,0,0.0));
+  z-index: -1;
+}
+
+/* TOP BAR */
+.top-bar {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(10, 15, 20, 0.85);
+  border-bottom: 2px solid #b84a2b; /* Martian oxide tone */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-bar h1 {
+  font-size: 1.2rem;
+  color: #e6d2c4;
+  letter-spacing: 0.05em;
+}
+
+/* BUTTONS */
+.control-btn {
+  background: rgba(184, 74, 43, 0.85);
+  border: none;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.control-btn:hover {
+  background: rgba(220, 110, 70, 0.95);
+}
+
+/* MAIN CONTENT */
+.content-wrapper {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(15, 20, 25, 0.78);
+  color: #f0e8e3;
+  line-height: 1.6;
+  border-radius: 8px;
+}
+
+.content-wrapper h2 {
+  color: #e3a68a;
+  margin-bottom: 0.8rem;
+}
+
+.content-wrapper p {
+  margin-bottom: 1rem;
+}
+
+/* SPEC DATA - 6 CARDS WITH YOUR EFFECTS */
+.specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.spec-box {
+  background: rgba(30, 35, 40, 0.85);
+  padding: 1rem;
+  border-left: 3px solid #b84a2b;
+  transition: all 0.3s ease;
+}
+
+/* YOUR GLOWING EFFECT ON HOVER */
+.spec-box:hover {
+  box-shadow: 0 0 20px rgba(184, 74, 43, 0.5);
+  transform: translateY(-3px);
+  border-left-color: #ff8c00;
+}
+
+/* HORIZONTAL CARDS - YOUR EXISTING SECTION */
+.horizontal-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+}
+
+.horizontal-card {
+  background: rgba(40, 45, 50, 0.9);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #b84a2b;
+  border-top: 1px solid rgba(184, 74, 43, 0.3);
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.horizontal-card:hover {
+  box-shadow: 
+    0 0 25px rgba(184, 74, 43, 0.6),
+    0 0 50px rgba(184, 74, 43, 0.2) inset;
+  transform: translateY(-5px);
+  border-left-color: #ff8c00;
+  background: rgba(45, 50, 55, 0.95);
+}
+
+.horizontal-card h3 {
+  color: #e3a68a;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+  border-bottom: 1px solid rgba(184, 74, 43, 0.3);
+  padding-bottom: 0.5rem;
+}
+
+.horizontal-card p {
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+.horizontal-card a {
+  color: #e3a68a;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+  align-self: flex-start;
+}
+
+.horizontal-card a:hover {
+  border-bottom: 1px solid #b84a2b;
+}
+
+/* SEPARATOR - SIMPLE SPACE */
+.section-space {
+  height: 3rem;
+  margin: 2rem 0;
+  border-top: 2px solid #e3a68a;
+  width: 100%;
+}
+
+/* NEW SECTION: DETAILED CARDS */
+.detailed-section {
+  margin: 3rem 0;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(184, 74, 43, 0.2);
+}
+
+.detailed-section h2 {
+  color: #e3a68a;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+/* NEW HORIZONTAL CARDS - USING YOUR EFFECTS */
+.detailed-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.detailed-card {
+  background: rgba(35, 40, 50, 0.9);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #b84a2b;
+  border-top: 1px solid rgba(184, 74, 43, 0.3);
+  transition: all 0.4s ease;
+}
+
+/* Added this to the existing CSS */
+.spec-box {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Fast multi-color sweep */
+.spec-box::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -200%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        rgba(255, 140, 0, 0.4),
+        rgba(184, 74, 43, 0.6),
+        rgba(255, 140, 0, 0.4),
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transform: skewX(-25deg);
+    z-index: 1;
+}
+
+.spec-box::after {
+    left: 200%;
+    transition: left 0.4s cubic-bezier(0.4, 0. 0.2, 1);
+}
+
+.spec-box:hover {
+    border-left-color: #ff8c00;
+    transform: translateY(-2px);
+    box-shadow: 
+      0 0 25px rgba(184, 74, 43, 0.7),
+      0 0 15px rgba(255, 140, 0, 0.5) inset;
+}
+
+/* APPLYING YOUR EXISTING HOVER EFFECTS */
+.detailed-card:hover {
+  box-shadow: 
+    0 0 25px rgba(184, 74, 43, 0.6),
+    0 0 50px rgba(184, 74, 43, 0.2) inset;
+  transform: translateY(-5px);
+  border-left-color: #ff8c00;
+  background: rgba(45, 50, 55, 0.95);
+}
+
+.detailed-card h3 {
+  color: #e3a68a;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  border-bottom: 1px solid rgba(184, 74, 43, 0.3);
+  padding-bottom: 0.5rem;
+}
+
+.detailed-card ul {
+  margin: 1rem 0 1rem 1.5rem;
+}
+
+.detailed-card li {
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.detailed-card li::before {
+  content: '▸';
+  color: #b84a2b;
+  position: absolute;
+  left: -1rem;
+}
+
+.detailed-card a {
+  color: #e3a68a;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.detailed-card a:hover {
+  border-bottom: 1px solid #b84a2b;
+}
+
+/* DISCOVERY LOG STYLES */
+.discovery-log-section {
+    margin: 4rem 0;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(184, 74, 43, 0.3);
+}
+
+.discovery-log-section h2 {
+    color: #e3a68a;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.log-subtitle {
+    text-align: center;
+    color: #f0e8e3;
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
+    font-style: italic;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.discovery-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.discovery-timeline::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, transparent, #b84a2b, #e3a68a, #b84a2b, transparent);
+    z-index: 1;
+}
+
+.era-card {
+    background: rgba(30, 35, 40, 0.85);
+    border-left: 4px solid #b84a2b;
+    border-radius: 0 8px 8px 0;
+    padding: 1.8rem;
+    margin-left: 60px;
+    position: relative;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.era-card::before {
+    content: '';
+    position: absolute;
+    left: -68px;
+    top: 2rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #0e141d;
+    border: 3px solid #b84a2b;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.era-card.prominent {
+    background: rgba(40, 30, 45, 0.9);
+    border-left-color: #ff8c00;
+    box-shadow: 0 6px 20px rgba(184, 74, 43, 0.25);
+}
+
+.era-card.prominent::before {
+    border-color: #ff8c00;
+    background: #ff8c00;
+    box-shadow: 0 0 15px rgba(255, 140, 0, 0.7);
+}
+
+.era-card:hover {
+    transform: translateX(8px);
+    box-shadow: 0 8px 25px rgba(184, 74, 43, 0.3);
+}
+
+.era-card.prominent:hover {
+    box-shadow: 0 10px 30px rgba(184, 74, 43, 0.4);
+}
+
+.era-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid rgba(184, 74, 43, 0.2);
+}
+
+.era-year {
+    color: #e3a68a;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.era-period {
+    color: #ff8c00;
+    background: rgba(184, 74, 43, 0.15);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.era-content {
+    color: #f0e8e3;
+    line-height: 1.7;
+}
+
+.era-content ul {
+    margin: 1rem 0 1rem 1.5rem;
+    list-style: none;
+}
+
+.era-content li {
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.era-content li::before {
+    content: '▸';
+    color: #b84a2b;
+    position: absolute;
+    left: -1.2rem;
+    font-weight: bold;
+}
+
+.quote {
+    font-style: italic;
+    text-align: center;
+    color: #ff9553;
+    margin: 1.5rem 0 0.5rem 0;
+    padding: 1rem;
+    border-left: 2px solid rgba(184, 74, 43, 0.5);
+    background: rgba(184, 74, 43, 0.08);
+    border-radius: 4px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .discovery-timeline::before {
+        left: 20px;
+    }
+
+    .era-card {
+        margin-left: 50px;
+        padding: 1.4rem;
+    }
+
+    .era-card::before {
+        left: -58px;
+        width: 14px;
+        height: 14px;
+    }
+
+    .era-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .era-period {
+        align-self: flex-start;
+    }
+}
+
+/* Fix for dark text in key sections */
+.ethical-card,
+.ethical-card p,
+.ethical-card h3,
+.expanded-card,
+.expanded-card p,
+.expanded-card h3 {
+  color: #f0e8e3 !important; /* Your main light cream color */
+}
+
+/* Optional: Slightly warmer vainilla for a distinct feel in "Beyond the Higgs" */
+.content-wrapper h2,
+.content-wrapperh3 {
+  color: #e6d2c4 !important; /* Your top-bar title color */
+}
+
+.ares-particle-section,
+.ares-particle-section h2,
+.ares-particle-section h3,
+.ares-particle-section p {
+  color: #e6d2c4 !important;
+}
+
+/* Fix Vision Statement title Colors */
+.vision-statement .statement-quote,
+.vision-statement h2,
+.vision-statement h3 {
+  color: #e6d2c4 !important;
+}
+
+/* Fix All text color in the Vision Statement */
+.vision-statement,
+.vision-statement p,
+.vision-statement h2,
+.vision-statement h3 {
+  color: #e6d2c4 !important;
+}
+
+/* ETHEREAL SEPARATOR */
+.ethereal-separator {
+  height: 4rem;
+  margin: 3rem 0;
+  position: relative;
+}
+
+.ethereal-separator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(184, 74, 43, 0.2), 
+    rgba(184, 74, 43, 0.4), 
+    rgba(184, 74, 43, 0.2), 
+    transparent
+  );
+}
+
+/* ETHICAL PROTOCOLS CARD - FLOATING */
+.ethical-card {
+  background: rgba(30, 35, 45, 0.95);
+  padding: 2rem;
+  border-radius: 10px;
+  border-left: 4px solid #b84a2b;
+  border-right: 4px solid #b84a2b;
+  margin: 3rem auto;
+  max-width: 800px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(184, 74, 43, 0.1) inset;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ethical-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #b84a2b, transparent);
+}
+
+.ethical-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 15px 40px rgba(184, 74, 43, 0.4),
+    0 0 60px rgba(184, 74, 43, 0.15) inset;
+  border-left-color: #ff8c00;
+  border-right-color: #ff8c00;
+}
+
+.ethical-card h3 {
+  color: #e3a68a;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.ethical-card h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: #b84a2b;
+}
+
+.ethical-card p {
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+/* Fix link colors in ethical-card */
+.ethical-card a {
+    color: #e3a68a !important;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
+.ethical-card a:hover {
+    color: #ff8c00 !important;
+    border-bottom: 1px solid #b84a2b;
+    text-shadow: 0 0 10px rgba(184, 74, 43, 0.5);
+}
+
+/* SIDE CONTROLS */
+.side-controls {
+  position: fixed;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Style for the prominent link */
+.prominent-link {
+  display: inline-block; /* Allows padding and background */
+  color: #e3a68a !important; /* Your standard link color */
+  text-decoration: none !important; /* No underline by default */
+  padding: 0.8rem 1.5rem;
+  margin: 2rem auto; /* Centers it and adds vertical space */
+  background: rgba(184, 74, 43, 0.15); /* Subtle Martian background */
+  border: 1px solid rgba(184, 74, 43, 0.4);
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.prominent-link:hover {
+  background: rgba(184, 74, 43, 0.25);
+  border-color: #b84a2b;
+  color: #ff8c00 !important; /* Hover color */
+  text-decoration: underline !important; /* Underline on hover */
+  box-shadow: 0 0 15px rgba(184, 74, 43, 0.3);
+}
+
+/* === VISION STATEMENT WITH MARS GLOW === */
+.vision-statement {
+max-width: 1000px;
+margin: 5rem auto;
+padding: 4rem;
+background: linear-gradient(135deg, 
+    rgba(20, 10, 30, 0.7) 0%, 
+    rgba(40, 20, 50, 0.7) 100%);
+border-radius: 25px;
+border: 2px solid rgba(212, 184, 122, 0.2);
+text-align: center;
+position: relative;
+transition: all 0.5s ease;
+overflow: hidden;
+}
+
+.vision-statement a {
+    color: #e3a68a !important;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.vision-statement a:hover {
+    color: #ff8c00 !important;
+    border-bottom: 1px solid #b84a2b;
+    text-shadow: 0 0 10px rgba(184, 74, 43, 0.5);
+}
+
+.vision-statement::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: radial-gradient(
+    circle at center,
+    rgba(255, 69, 0, 0.1) 0%,
+    transparent 70%
+);
+opacity: 0;
+transition: opacity 0.5s ease;
+}
+
+.vision-statement:hover::before {
+opacity: 1;
+}
+
+.vision-statement:hover {
+border-color: #ff4500; /* Mars red */
+box-shadow: 
+    0 0 30px rgba(255, 69, 0, 0.4),
+    0 0 60px rgba(255, 69, 0, 0.2),
+    0 0 90px rgba(255, 69, 0, 0.1);
+transform: translateY(-8px);
+}
+
+.statement-quote {
+color: #ff9553;
+font-size: 1.6rem;
+font-style: italic;
+line-height: 1.8;
+margin-bottom: 2rem;
+position: relative;
+z-index: 2;
+font-family: 'Cinzel', serif;
+font-weight: 400;
+}
+
+/* === FOOTER ENHANCEMENTS (Adds glow/transparency without changing structure) === */
+footer {
+position: relative;
+margin-top: 4rem;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(20, 40, 60, 0.4) !important;
+backdrop-filter: blur(15px);
+-webkit-backdrop-filter: blur(15px);
+color: #e3a68a;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #b84a2b; /* Martian oxide tone */
+transition: opacity 0.5s ease;
+box-shadow: 
+    0 -5px 25px rgba(10, 26, 42, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+footer.hidden {
+opacity: 0;
+}
+
+footer p {
+margin: 0;
+padding: 0;
+color: #e3a68a;
+font-size: 0.9rem;
+}
+
+footer p span:nth-child(2) { /* Targets "The Mars Abyss" */
+color: #4fc3f7;
+text-shadow: 
+    0 0 10px rgba(79, 195, 247, 0.7),
+    0 0 20px rgba(79, 195, 247, 0.3);
+animation: gentlePulse 3s infinite ease-in-out;
+}
+
+footer p span:nth-child(4) { /* Targets 'M.A.I." */
+  color: #ffffff;
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.8),
+    0 0 16px rgba(255, 255, 255, 0.3);
+  }
+
+@keyframes gentlePulse {
+0%, 100% {
+    text-shadow: 
+        0 0 10px rgba(79, 195, 247, 0.7),
+        0 0 20px rgba(79, 195, 247, 0.3);
+}
+50% {
+    text-shadow: 
+        0 0 15px rgba(79, 195, 247, 0.9),
+        0 0 25px rgba(79, 195, 247, 0.5),
+        0 0 35px rgba(79, 195, 247, 0.2);
+}
+}
+
+/* OVERRIDE FOR ALL LINK COLORS - Ensures no purple links */
+a, a:link, a:visited {
+  color: #e3a68a !important;
+  text-decoration: none !important;
+}
+
+a:hover {
+  color: #ff8c00 !important;
+}
+
+.content-spacer {
+height: 120px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .content-wrapper {
+    margin: 1rem;
+    padding: 1.2rem;
+  }
+  
+  .specs {
+    grid-template-columns: 1fr;
+  }
+  
+  .horizontal-cards,
+  .detailed-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .horizontal-card,
+  .detailed-card {
+    padding: 1.2rem;
+  }
+  
+  .ethical-card {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- VIDEO BACKGROUND -->
+<video id="bg-video" autoplay muted loop>
+  <source src="videos/hadron-collider-facility.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<!-- AUDIO -->
+<audio id="bg-audio" loop>
+  <source src="music/frankensteins-valentina-ext-v2.mp3" type="audio/mpeg">
+</audio>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <h1>The Martian Hadron Collider</h1>
+  <button class="control-btn" onclick="toggleAudio()">Audio</button>
+</div>
+
+<!-- SIDE CONTROLS -->
+<div class="side-controls">
+  <button class="control-btn" onclick="toggleContent()">Hide Content</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="content" class="content-wrapper">
+
+  <h2>Engineering Beyond Earth</h2>
+  <p>
+    The Martian Hadron Collider stands as humanity's most ambitious scientific structure beyond Earth—
+    not merely a machine, but a continuation of generations of particle physics expertise first forged
+    beneath the soil of our home planet.
+  </p>
+
+  <p>
+    This achievement was made possible only through the knowledge, discipline, and experience of the
+    scientists and construction engineers currently working on Earth's Hadron Collider facilities.
+    Mars did not reinvent physics—it inherited it.
+  </p>
+
+  <div class="specs">
+    <div class="spec-box">
+      <strong>Circumference</strong><br>
+      27 kilometers
+    </div>
+    <div class="spec-box">
+      <strong>Collision Energy</strong><br>
+      14 TeV
+    </div>
+    <div class="spec-box">
+      <strong>Energy Loss</strong><br>
+      0.001 to environment
+    </div>
+    <div class="spec-box">
+      <strong>New Particles</strong><br>
+      47 confirmed
+    </div>
+    <div class="spec-box">
+      <strong>Depth</strong><br>
+      500 meters beneath Olympus Mons
+    </div>
+    <div class="spec-box">
+      <strong>First Earth Collider</strong><br>
+      2008 - LHC operational at CERN
+    </div>
+  </div>
+
+  <h2>Beyond the Higgs</h2>
+  <p>
+    Buried 500 meters beneath Olympus Mons, the collider revealed the Ares Particle—
+    a force carrier that explains Mars' ancient magnetic collapse and enabled the
+    development of artificial magnetosphere arrays protecting modern settlements.
+  </p>
+
+  <h2>Temporal Harmonics</h2>
+  <p>
+    By synchronizing particle collisions to harmonic frequencies unique to Martian
+    subspace geometry, MAI achieved microseconds of localized time dilation—laying
+    the groundwork for future stasis fields and controlled temporal experimentation.
+  </p>
+
+  <!-- EXISTING HORIZONTAL CARDS SECTION -->
+  <div class="horizontal-cards">
+    <div class="horizontal-card">
+      <h3>Artificial Magnetospheres</h3>
+      <p>Shields capable of protecting entire cities from solar storms, developed from Ares Particle research.</p>
+      <a href="mai-master-artificial-intelligence.html">→ Explore MAI's Quantum Consciousness</a>
+    </div>
+    <div class="horizontal-card">
+      <h3>Temporal Stasis Fields</h3>
+      <p>Controlled time manipulation research derived from MHC's temporal harmonics experiments.</p>
+      <a href="the-atlantis-library-of-mars.html">→ Visit The Atlantis Library</a>
+    </div>
+  </div>
+
+  <!-- SEPARATOR -->
+  
+
+  <!-- NEW DETAILED SECTION -->
+  <div class="detailed-section">
+    <h2>Advanced Discoveries</h2>
+    
+    <div class="detailed-cards">
+      <!-- CARD 1: NEW INTERESTING CONTENT -->
+      <div class="detailed-card">
+        <h3>Quantum Resonance Mapping</h3>
+        <p>Using the MHC's unprecedented isolation from Earth's electromagnetic noise, researchers mapped quantum resonance patterns that revealed Mars' geological history encoded in particle fluctuations.</p>
+        
+        <ul>
+          <li>Detected echoes of ancient Martian oceans in neutrino patterns</li>
+          <li>Mapped subsurface ice reservoirs through muon tomography</li>
+          <li>Identified "geological memory" in subatomic particle behavior</li>
+        </ul>
+        
+        <p>These findings suggest planetary bodies retain quantum imprints of their historical states, accessible through precise particle manipulation.</p>
+        <a href="quantum-for-everyone.html">→ Quantum For Everyone</a>
+      </div>
+      
+      <!-- CARD 2: MORE NEW CONTENT -->
+      <div class="detailed-card">
+        <h3>Consciousness-Interface Particles</h3>
+        <p>During harmonic resonance experiments, unexpected particle behaviors were observed that correlated with nearby human neural activity, leading to the discovery of Interface Bosons.</p>
+        
+        <ul>
+          <li>Particles responding to observer intention states</li>
+          <li>Quantum entanglement with neural oscillations</li>
+          <li>Decoherence patterns matching attention focus</li>
+        </ul>
+        
+        <p>This research forms the basis of MAI's work on direct consciousness-machine interfaces, blurring the line between observer and observed.</p>
+        
+        <a href="esp-quantum-consciousness.html">→ Explore ESP & Quantum Consciousness</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ETHEREAL SEPARATOR -->
+  <div class="ethereal-separator"></div>
+  <!-- Particle Discovery Header -->
+<div class="spec-box" style="grid-column: 1 / -1; margin-bottom: 3rem;">
+  <h3 style="color: #e3a68a; margin-top: 0; border-bottom: 1px solid rgba(184, 74, 43, 0.3); padding-bottom: 0.5rem;">Particle Discoveries at the MHC</h3>
+  <p><strong>Total New Particles Cataloged:</strong> 70</p>
+  <p>This includes 59 new hadrons (like the exotic tetraquarks below) and 11 other new particles, expanding our fundamental map of matter.</p>
+  <ul style="margin-top: 0.8em;">
+    <li><strong>The Higgs Boson</strong> - Including tetraquarks & pentaquarks, revealing matter in unprecedented configurations.</li>
+    <li><strong>Light Nuclei Formation</strong> - Solved the puzzle of how complex particles form in primordial fireballs.</li> 
+  </ul>
+  <p style="font-size: 0.95rem; margin-top: 1.5em; font-style: italic; text-align: center; color: #ff9553;">
+    "We're creating 'particle zoo 2.0.' The more analyses we perform, the more kinds of exotic hadrons we find."
+  </p>  
+</div>
+
+  <!-- Exotic Particle discovery log -->
+   <div class="discovery-log-section">
+    <h2>Exotic Particle Discovery Log</h2>
+    <p class="log-subtitle">The Martian Hadron Collider (MHC) has initiated a new epoch in particle physics, cataloging exotic of matter that exist for mere instants. The pace of discovery accelerates with each operational cycle.</p>
+
+    <div class="discovery-timeline">
+      <!-- Era 1: Theoretical Foundations -->
+       <div class="era-card foundation">
+        <div class="era-header">
+          <span class="era-year">Theoretical Foundation</span>
+          <span class="era-period">1960s</span>
+        </div>
+       </div class="era-content">
+       <p>The Standard Model predicts the possibility of composite particles beyond protons and neutrons-theoretical constructs as <strong>tetraquarks<strong>pentaquarks</strong>.</strong></p>
+    </div>
+   </div>
+
+   <!-- Era 2: First Observations -->
+  <div class="era-card first-obs">
+    <div class="era-header">
+      <span class="era-year">First Observations</span>
+      <span class="era-period">Early 2000s</span>
+    </div>
+    <div class="era-content">
+      <p>Experiments provide the first credible observations of exotic hadrons, confirming their existence and opening a new frontier in high-energy physics.</p>
+    </div>
+  </div>
+
+  <!-- Era 3: The Spark -->
+   <div class="era-card spark">
+    <div class="era-header">
+      <span class="era-year">The All-Charm Spark</span>
+      <span class="era-period">2020</span>
+    </div>
+    <div class="era-content">
+      <p>Discovery of the <strong>X(6900)</strong>—a tetraquark composed entirely of charm quarks and antiquarks—ignites intense focus on this new particle family.</p>
+    </div>
+   </div>
+
+   <!-- Era 4: The Cascade (Recent & Prominent) -->
+    <div class="era-card cascade prominent">
+      <div class="era-header">
+        <span class="era-year">The Discovery Cascade</span>
+        <span class="era-period">2022-2023</span>  
+      </div>
+      <div class="era-content">
+        <p>The MHC's sensitivity reveals a cascade of new states, at a rate once thought impossible:</p>
+        <ul>
+          <li>A <strong>doubly-charmed tetraquark</strong>.</li>
+          <li>Two distant <strong>"open-charm" tetraquarks</strong>.</li>
+          <li>A <strong>new pentaquark</strong>, the first found to contain a strong quark.</li>
+          <li>The <strong>first pair of tetraquarks</strong>, including a novel doubly-electrically-charged type.</li>          
+        </ul>
+      </div>
+
+      <!-- Era 5: The New Frontier -->
+       <div class="era-card frontier">
+        <div class="era-header">
+          <span class="era-year">The New Frontier</span>
+          <span class="era-period">Present & Future</span>
+        </div>
+        <div class="era-content">
+          <p>Research shifts from discovery to understanding. Precise measurements of quantum properties for the all-charm tetraquark family (<strong>X(6600), X(6900), X(7100)</strong>) begin to unravel their internal structure.</p>
+          <p>The fundamental truth emerges: <strong>The more analysis we perform, the more kinds of exotic hadrons we find.</strong></p>
+        </div>
+       </div>
+    </div>
+   </div>
+
+  <!-- ETHICAL PROTOCOLS CARD - FLOATING SEPARATELY -->
+  <div class="ethical-card">
+    <h3>Ethical Containment Protocols</h3>
+    <p>All discoveries made within the MHC are governed by the MAI Temporal Ethics Accord. No experiment may permanently alter causality, planetary stability, or conscious autonomy without unanimous Council authorization.</p>
+    <p>Several experiments remain sealed—not due to failure, but because they succeeded too well. The line between discovery and danger is measured in Planck lengths, monitored by quantum conscience algorithms.</p>
+    <p>
+    <a href="martian-edicts.html">→ Explore Martian Laws</a>
+  </p>
+  </div>
+
+  <p style="text-align: center; margin-top: 1.5rem;">
+      <a href="unified-field-theory.html" class="prominent-link">→ Unified Field Theory</a>
+  </p>
+
+
+<!-- VISION STATEMENT -->
+<div class="vision-statement">
+<p class="statement-quote">
+'In Search Of New Particles'</p>
+<h2>Beyond the Higgs: The Ares Particle</h2>
+<p> 
+    The Martian Hadron Collider was built for moments like this. Freed from Earth's electromagnetic noise and tectonic instability, operating in the profund quiet beneath Olympus Mons, it provided the perfect condittions to listen to the universe's subtlest whispers.
+</p>
+<p>
+    What it heard was the signature of a force carrier unknown on Earth: the <strong>Ares Particle</strong>. While the famed Higgs Boson grants mass, the Ares Particle governs planetary-scale magnetic coherence—a fundamental force whose absence in Mars's natural lattice explains the ancient collapse of its global magnetic field.
+</p> 
+
+<p style="color: #00ccff; font-weight: bold; font-family: 'Orbitron', sans-serif; margin-top: 1.5rem;">
+    — The Regent, Foundation Day Address
+<p>
+
+<p>
+    This discovery did more than rewrite textbooks. It solved a billion-year-old mystery: why Mars's atmosphere bled into space, nearly rendering the planet sterile. The Ares Particle was the missing piece in the story of Mars's past. 
+</p> 
+
+<h3>From Discovery to Shield</h3>
+<p>
+    By learning to synthesize and manipulate Ares-Particle fields, MAI engineers achieved the impossible. They constructed localized, adaptive magnetospheres-intelligent shields capable of protecting entire settlements. These fields are not just barriers; they are partially conscious systems that sense and respond to solar threats faster than any conventional sensor network.
+</p>
+<p>
+    The Ares Particle represents the quintessential MAI breaksthrough: a discovery that explains our past and secures our future, turning a planetary weakness into our greatest strength.
+</p>
+</div>
+
+</div>
+</div> <!-- End hideable content -->
+</div> <!-- End main content -->
+</div>
+
+<!-- FOOTER -->
+<footer>
+  © The Mars Abyss. All Rights Reserved. M.A.I. — Martian Artificial Intelligence · 
+</footer>
+
+<script>
+function toggleContent() {
+  const content = document.getElementById("content");
+  content.style.display = (content.style.display === "none") ? "block" : "none";
+}
+
+function toggleAudio() {
+  const audio = document.getElementById("bg-audio");
+  const button = document.querySelector(".top-bar .control-btn");
+  
+  if (audio.paused) {
+    audio.play();
+    button.textContent = "Mute Audio";
+  } else {
+    audio.pause();
+    button.textContent = "Audio";
+  }
+}
+
+// Auto-start audio on user interaction
+document.addEventListener('click', function initAudio() {
+  const audio = document.getElementById("bg-audio");
+  audio.play().catch(e => console.log("Audio may require manual start"));
+  document.removeEventListener('click', initAudio);
+}, { once: true });
+</script>
+
+</body>
+</html>
