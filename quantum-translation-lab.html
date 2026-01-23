@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Translation Lab | The Mars Abyss</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Exo+2:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* VIDEO & STATIC BACKGROUND */
+        .background-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+        .static-background {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #0a0a0f url('images/quantum-lab-static.jpg') no-repeat center center / cover;
+            z-index: 1; transition: opacity 2s ease;
+        }
+        .video-background {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; z-index: 2;
+            opacity: 0.7; filter: contrast(1.2) brightness(0.7);
+        }
+
+        /* === QUANTUM MOTHERBOARD THEME === */
+        :root {
+            /* Base Hardware Colors */
+            --mb-black: #0a0a0f;
+            --mb-dark: #1a1a24;
+            --mb-gray: #2a2a35;
+            --mb-light: #444455;
+
+            /* Dynamic RGB System */
+            --rgb-primary: 120, 220, 255; /* CYAN */
+            --rgb-secondary: 255, 100, 250; /* MAGENTA */
+            --rgb-accent: 100, 255, 150; /* GREEN */
+
+            --glow-primary: rgba(var(--rgb-primary), 0.7);
+            --glow-secondary: rgba(var(--rgb-secondary), 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--mb-black);
+            color: #e0e0f0;
+            font-family: 'Exo 2', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 100px;
+        }
+
+        /* === TOGGLE BUTTON === */
+        .content-toggle {
+            position: fixed; top: 90px; right: 25px; z-index: 1001;
+        }
+        .toggle-btn {
+            background: linear-gradient(135deg, var(--mb-gray), var(--mb-dark));
+            border: 2px solid rgba(var(--rgb-primary), 0.6);
+            color: white; padding: 12px 24px; border-radius: 25px;
+            cursor: pointer; font-family: 'Orbitron', sans-serif;
+            font-weight: 600; box-shadow: 0 0 20px rgba(var(--rgb-primary), 0.4);
+            transition: all 0.3s ease; min-width: 160px;
+            position: relative; overflow: hidden;
+        }
+        .quantum-state-change {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%); transition: transform 0s;
+        }
+        .toggle-btn.activating .quantum-state-change {
+            animation: quantumSlide 0.6s ease-out;
+        }
+        @keyframes quantumSlide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .toggle-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(var(--rgb-primary), 0.7);
+            border-color: rgba(var(--rgb-accent), 1);
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px var(--glow-primary); }
+            50% { box-shadow: 0 0 35px var(--glow-primary), 0 0 50px var(--glow-secondary); }
+        }
+        @keyframes colorCycle {
+            0% { --rgb-primary: 120, 220, 255; }
+            33% { --rgb-primary: 255, 100, 250; }
+            66% { --rgb-primary: 100, 255, 150; }
+            100% { --rgb-primary: 120, 220, 255; }
+        }
+        @keyframes rgbSlide {
+            0% { background-position: -100% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .color-cycle {
+            animation: colorCycle 15s infinite linear;
+        }
+
+        /* === HARDWARE-STYLED COMPONENTS === */
+        .mb-panel {
+            background: linear-gradient(145deg, var(--mb-dark), var(--mb-black));
+            border: 1px solid var(--mb-light);
+            border-radius: 4px;
+            padding: 25px;
+            margin: 25px auto;
+            max-width: 1200px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        .mb-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg,
+                rgba(var(--rgb-primary), 0.8),
+                rgba(var(--rgb-secondary), 0.8),
+                rgba(var(--rgb-accent), 0.8));
+            background-size: 200% 100%;
+            animation: rgbSlide 3s infinite linear;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+        }
+        h1 { color: rgba(var(--rgb-primary), 1); font-size: 2.5rem; }
+        h2 { color: rgba(var(--rgb-accent), 1); border-bottom: 1px solid var(--mb-light); padding-bottom: 10px; }
+
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(var(--rgb-accent), 0.1);
+            border: 1px solid rgba(var(--rgb-accent), 0.4);
+            border-radius: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            /* Added Glowing Hover Effect */
+            transition: all 0.3s ease;
+        }
+        .status:hover {
+            border-color: rgba(var(--rgb-accent), 0.8);
+            box-shadow: 0 0 15px rgba(var(--rgb-accent), 0.4);
+        }
+
+        /* === SPECIFIC VISUAL ELEMENTS === */
+        /* RGB Fan Visualization - NEW CENTERED LAYOUT */
+        .viz-container {
+            display: flex;
+            justify-content: space-between; /* Changed from 'center' */
+            align-items: center; /* Vertically center items */
+            flex-wrap: wrap;
+            gap: 40px;
+            margin: 30px 0;
+        }
+        .text-column {
+            flex: 1; /* Each text column takes equal space */
+            min-width: 250px; /* Minimum width before wrapping */
+        }
+        .text-column.left {
+            text-align: right; /* Align the left column text to the right */
+            padding-right: 20px;
+        }
+        .text-column.right {
+            text-align: left; /* Align the right column text to the left */
+            padding-left: 20px;
+        }
+        .center-wheel {
+            flex: 0 0 auto; /* Do not grow or shrink, stay at natural size */
+        }
+        .rgb-fan {
+            width: 180px; /* Slightly larger for center prominence */
+            height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg,
+                rgba(var(--rgb-primary), 0.9),
+                rgba(var(--rgb-secondary), 0.9),
+                rgba(var(--rgb-accent), 0.9),
+                rgba(var(--rgb-primary), 0.9));
+            position: relative;
+            animation: spin 4s infinite linear;
+            filter: blur(2px) brightness(1.2);
+        }
+        .rgb-fan::after {
+            content: 'CORE';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%; height: 60%;
+            border-radius: 50%;
+            background: var(--mb-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(var(--rgb-primary), 1);
+        }
+
+        /* Data Channel Grid */
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .channel {
+            aspect-ratio: 1;
+            background: rgba(var(--rgb-primary), 0.1);
+            border: 1px solid rgba(var(--rgb-primary), 0.3);
+            border-radius: 3px;
+            animation: blink 2s infinite;
+            animation-delay: calc(var(--i) * 0.1s);
+        }
+
+        /* Control Console */
+        .console {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--mb-gray);
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: rgba(var(--rgb-accent), 0.9);
+            min-height: 150px;
+            overflow-y: auto;
+            margin: 20px 0;
+            white-space: pre-wrap;
+        }
+        .log-entry::before { content: '> '; }
+
+        /* Buttons - ENHANCED GLOW EFFECT */
+        .mb-button {
+            background: linear-gradient(to bottom, var(--mb-gray), var(--mb-dark));
+            border: 2px solid rgba(var(--rgb-primary), 0.6); /* Thicker border like toggle */
+            color: #fff;
+            padding: 12px 25px;
+            font-family: 'Orbitron', sans-serif;
+            border-radius: 25px; /* More rounded like toggle */
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(var(--rgb-primary), 0.4); /* Initial glow like toggle */
+        }
+        .mb-button:hover {
+            border-color: rgba(var(--rgb-accent), 1);
+            box-shadow: 0 0 30px rgba(var(--rgb-accent), 0.7); /* Enhanced glow on hover */
+            transform: translateY(-2px) scale(1.05); /* Add slight scale like toggle */
+        }
+
+        /* Footer */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--mb-dark);
+            border-top: 1px solid var(--mb-light);
+            padding: 15px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            z-index: 100;
+        }
+        footer .pulse {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: rgba(var(--rgb-accent), 1);
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: blink 1.5s infinite;
+        }
+
+        /* Audio Controls */
+        .audio-controls {
+            position: fixed;
+            bottom: 90px;
+            right: 25px;
+            z-index: 1001;
+        }
+        .audio-btn {
+            background: linear-gradient(135deg, var(--mb-gray), var(--mb-dark));
+            border: 2px solid rgba(var(--rgb-primary), 0.6);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            box-shadow: 0 0 20px rgba(var(--rgb-primary), 0.4);
+            transition: all 0.3s ease;
+        }
+        /* Apply the same enhanced hover to audio button */
+        .audio-btn:hover {
+            border-color: rgba(var(--rgb-accent), 1);
+            box-shadow: 0 0 30px rgba(var(--rgb-accent), 0.7);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="color-cycle">
+
+    <!-- BACKGROUND SYSTEM -->
+    <div class="background-container">
+        <div class="static-background" id="staticBg"></div>
+        <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
+            <!-- REPLACE WITH YOUR VIDEO FILE -->
+            <source src="videos/galaxy-flight.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- TOGGLE & AUDIO CONTROLS -->
+    <div class="content-toggle">
+        <button class="toggle-btn" id="toggleContent">
+            <span id="toggleText">COLLAPSE LAB</span>
+            <div class="quantum-state-change"></div>
+        </button>
+    </div>
+
+    <div class="audio-controls">
+        <!-- REPLACE 'your-audio-file.mp3' WITH YOUR ACTUAL FILE -->
+        <button class="audio-btn" id="muteBtn">🔇 UNMUTE LAB</button>
+        <audio id="labAudio" loop>
+            <source src="music/depths-of-mystery.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <main style="max-width: 1200px; margin: 20px auto; padding: 20px;">
+
+        <!-- Header Panel -->
+        <section class="mb-panel" style="text-align: center;">
+            <h1>// QUANTUM TRANSLATION LAB</h1>
+            <p>Experimental Interface v1.0 | <span class="status">STATE COHERENCE: 97.4%</span></p>
+            <p style="margin-top: 15px; color: #aaa;">Direct observation and manipulation of the persistent quantum state matrix.<br>Substrate: Akashic Repository Core.</p>
+        </section>
+
+        <!-- Core Processor Panel - UPDATED LAYOUT -->
+        <section class="mb-panel">
+            <h2>▶ CORE PROCESSOR: QUANTUM STATE LOCK</h2>
+            <p>Visualizing the CeRu₄Sn₆-inspired topological matrix. The stable quantum "shape" is held here prior to translation.</p>
+
+            <div class="viz-container">
+                <!-- Left Text Column -->
+                <div class="text-column left">
+                    <p><strong>Topological Integrity:</strong> <span style="color: rgba(var(--rgb-accent), 1);">100%</span></p>
+                    <p><strong>Pattern Stability:</strong> Absolute</p>
+                    <p><strong>Substrate Independence:</strong> Confirmed</p>
+                </div>
+
+                <!-- Centered Spinning Wheel -->
+                <div class="center-wheel">
+                    <div class="rgb-fan"></div>
+                </div>
+
+                <!-- Right Text Column -->
+                <div class="text-column right">
+                    <p><strong>Entanglement Field:</strong> <span style="color: rgba(var(--rgb-primary), 1);">Active</span></p>
+                    <p><strong>Energy Signature:</strong> Non-classical</p>
+                    <p><strong>Coherence Time:</strong> ∞ (Theoretical)</p>
+                </div>
+            </div>
+            <p style="margin-top: 20px; text-align: center; font-style: italic;">The core maintains state coherence without particle substrate, validating the Translation Principle's foundation.</p>
+        </section>
+
+        <!-- Entanglement Matrix Panel -->
+        <section class="mb-panel">
+            <h2>⧖ ENTANGLEMENT CHANNEL MATRIX</h2>
+            <p>Active non-local links. Each channel represents a quantum-entangled pathway for state data. Channels 7, 14, 21 are primed for translation.</p>
+
+            <div class="channel-grid" id="channelGrid">
+                <!-- Channels are generated by JavaScript -->
+            </div>
+
+            <div style="text-align: center;">
+                <button class="mb-button" onclick="initiateScan()">INITIATE CHANNEL SCAN</button>
+                <button class="mb-button" onclick="primeChannels()">PRIME FOR TRANSLATION</button>
+            </div>
+        </section>
+
+        <!-- Translation Console Panel -->
+        <section class="mb-panel" style="animation: pulseGlow 5s infinite;">
+            <h2>⚡ TRANSLATION PROTOCOL — STANDBY</h2>
+            <p>Real-time feed of the topological state translation process. Pattern integrity is maintained; substrate is translated.</p>
+
+            <div class="console" id="mainConsole">
+> System initialized. Awaiting command.
+> Quantum State Lock: ENGAGED.
+> Entanglement Matrix: STABLE.
+> Translation Vector: CALIBRATING...
+            </div>
+
+            <div style="text-align: center;">
+                <button class="mb-button" onclick="simulateTranslation()">
+                    INITIATE TEST TRANSLATION
+                </button>
+            </div>
+            <p style="margin-top: 15px; font-size: 0.9rem; color: #aaa; text-align: center;"><strong>Note:</strong> This is a simulation interface. Actual matter translation requires Class-7 authorization.</p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p><span class="pulse"></span> <strong>SYSTEM:</strong> Akashic Repository — Translation Subsystem | <strong>POWER:</strong> Quantum Vacuum | <strong>STATUS:</strong> <span id="sysStatus" style="color: rgba(var(--rgb-accent), 1);">STANDBY</span></p>
+    </footer>
+
+    <script>
+        // === INITIALIZATION ===
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create animated channel grid
+            const grid = document.getElementById('channelGrid');
+            for (let i = 0; i < 48; i++) {
+                const channel = document.createElement('div');
+                channel.className = 'channel';
+                channel.style.setProperty('--i', i);
+                // Make some channels appear active
+                if (i % 7 === 0) {
+                    channel.style.backgroundColor = `rgba(var(--rgb-secondary), 0.4)`;
+                    channel.style.borderColor = `rgba(var(--rgb-secondary), 0.8)`;
+                }
+                grid.appendChild(channel);
+            }
+
+            // Initialize audio system
+            initAudio();
+
+            // Initialize background video
+            initBackground();
+        });
+
+        // === BACKGROUND VIDEO SYSTEM ===
+        function initBackground() {
+            const videoBg = document.getElementById('videoBg');
+            const staticBg = document.getElementById('staticBg');
+
+            videoBg.addEventListener('loadeddata', function() {
+                setTimeout(() => {
+                    staticBg.style.opacity = '0';
+                    setTimeout(() => {
+                        staticBg.style.pointerEvents = 'none';
+                    }, 1500);
+                }, 1000);
+
+                setTimeout(() => {
+                    videoBg.play().catch(e => {
+                        console.log('Video autoplay prevented, using static background');
+                        videoBg.style.display = 'none';
+                        staticBg.style.opacity = '1';
+                    });
+                }, 500);
+            });
+
+            videoBg.addEventListener('error', function() {
+                console.log('Video failed to load');
+                videoBg.style.display = 'none';
+                staticBg.style.opacity = '1';
+                staticBg.style.pointerEvents = 'auto';
+            });
+        }
+
+        // === TOGGLE FUNCTIONALITY ===
+        const toggleBtn = document.getElementById('toggleContent');
+        const mainContent = document.querySelector('main');
+        const pageFooter = document.querySelector('footer');
+        const toggleText = document.getElementById('toggleText');
+        const videoBg = document.getElementById('videoBg');
+
+        let contentVisible = true;
+
+        toggleBtn.addEventListener('click', function() {
+            contentVisible = !contentVisible;
+            mainContent.classList.toggle('hidden');
+            pageFooter.classList.toggle('hidden');
+            toggleBtn.classList.add('activating');
+            setTimeout(() => toggleBtn.classList.remove('activating'), 600);
+
+            if (contentVisible) {
+                toggleText.textContent = 'COLLAPSE LAB';
+                toggleBtn.style.borderColor = 'rgba(var(--rgb-primary), 0.6)';
+                videoBg.play();
+            } else {
+                toggleText.textContent = 'RESTORE LAB';
+                toggleBtn.style.borderColor = 'rgba(var(--rgb-accent), 1)';
+                
+            }
+        });
+
+        // Simple audio system
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true; // start muted to avoid autoplay issues
+let audioElements = [];
+
+function initAudio() {
+const sounds = [
+{ src: 'music/depths-of-mystery.mp3', volume: 0.3 },
+{ src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+{ src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+];
+
+sounds.forEach(sound => {
+const audio = new Audio(sound.src);
+audio.volume = sound.volume;
+audio.loop = true;
+audio.muted = true; // Start muted
+audioElements.push(audio);
+});
+
+// Unmute and Play sounds first user interaction
+document.addEventListener('click', function unmuteAudio() {
+if (!isMuted) {
+audioElements.forEach(audio => {
+audio.muted = false;
+audio.play().catch(e => console.log('Audio play failed'));
+});
+isMuted = false;
+muteBtn.textContent = "🔊 Mute Sounds";
+}
+document.removeEventListener('click', unmuteAudio);
+}, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+isMuted = !isMuted;
+audioElements.forEach(audio => {
+audio.muted = isMuted;
+});
+muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+// Initialize audio when page loads
+initAudio();
+
+        // === SIMULATION FUNCTIONS ===
+        const consoleEl = document.getElementById('mainConsole');
+        const sysStatus = document.getElementById('sysStatus');
+
+        function logToConsole(message) {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = '> ' + message;
+            consoleEl.appendChild(entry);
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        function initiateScan() {
+            logToConsole("Initiating full entanglement matrix scan...");
+            sysStatus.textContent = "SCANNING";
+            sysStatus.style.color = 'rgba(var(--rgb-primary), 1)';
+            setTimeout(() => {
+                logToConsole("Scan complete. 48/48 channels operational.");
+                logToConsole("Channels 7, 14, 21 show optimal coherence for translation.");
+                sysStatus.textContent = "STANDBY";
+                sysStatus.style.color = 'rgba(var(--rgb-accent), 1)';
+            }, 1500);
+        }
+
+        function primeChannels() {
+            const channels = document.querySelectorAll('.channel');
+            channels.forEach((ch, i) => {
+                if (i % 7 === 0) {
+                    ch.style.backgroundColor = `rgba(var(--rgb-accent), 0.6)`;
+                    ch.style.borderColor = `rgba(var(--rgb-accent), 1)`;
+                    ch.style.animationDuration = '0.5s';
+                }
+            });
+            logToConsole("Target channels primed. Translation vector locked.");
+        }
+
+        function simulateTranslation() {
+            logToConsole("=== TRANSLATION SEQUENCE INITIATED ===");
+            sysStatus.textContent = "TRANSLATING";
+            sysStatus.style.color = 'rgba(var(--rgb-secondary), 1)';
+
+            const steps = [
+                "Collapsing quantum state wave function...",
+                "Encoding topological data pattern...",
+                "Establishing non-local entanglement link...",
+                "Transferring coherent state matrix...",
+                "Re-integrating pattern at target coordinates...",
+                "Verifying pattern integrity: 100%.",
+                "Translation successful. No data loss detected."
+            ];
+
+            let delay = 0;
+            steps.forEach((step, i) => {
+                setTimeout(() => {
+                    logToConsole(step);
+                    if (i === steps.length - 1) {
+                        sysStatus.textContent = "COMPLETE";
+                        setTimeout(() => {
+                            sysStatus.textContent = "STANDBY";
+                            sysStatus.style.color = 'rgba(var(--rgb-accent), 1)';
+                        }, 2000);
+                    }
+                }, delay);
+                delay += 800;
+            });
+        }
+
+        // Add CSS for hidden state
+        const style = document.createElement('style');
+        style.textContent = `
+            .hidden {
+                opacity: 0;
+                pointer-events: none;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
