@@ -182,6 +182,39 @@
             padding-bottom: 8px;
         }
 
+        /* === CARD HEADER & ANIMATED HOVER LINE === */
+.card-header {
+  position: relative; /* Required for positioning the line */
+  margin-bottom: 20px;
+  padding-bottom: 10px; /* Creates space for the line */
+}
+
+/* Creates the decorative line element */
+.card-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px; /* Initial short length */
+  height: 2px;
+  background: var(--command-blue); /* Uses your theme's blue */
+  transition: width 0.3s ease; /* Animation property */
+}
+
+/* Expands the line to full width on card hover */
+.card:hover .card-header::after {
+  width: 100%;
+}
+
+/* Style for the subtitle text */
+.card-category {
+  display: block; /* Puts it on its own line */
+  font-size: 0.85rem;
+  color: var(--alert-gold); /* Uses your theme's gold */
+  letter-spacing: 1.5px;
+  margin-top: 5px;
+}
+
         /* === TOGGLE & AUDIO CONTROLS (IMPROVED) === */
         .content-toggle {
             position: fixed; top: 85px; right: 25px;
@@ -344,20 +377,34 @@
         </section>
 
         <!-- CARDS GRID -->
-        <div class="cards-grid">
-            <div class="card" onclick="window.location.href='quantum-topology.html'">
-                <h3>Quantum Topology</h3>
-                <p>Materials retaining topological properties without particle behavior or quantum criticality. Structure emerging from interaction alone.</p>
-            </div>
-            <div class="card" onclick="window.location.href='quantum-liquid-crystals.html'">
-                <h3>Quantum Liquid Crystals</h3>
-                <p>States exhibiting sharp conductivity drops under magnetic fields, revealing impossible synchronization at quantum scales.</p>
-            </div>
-            <div class="card" onclick="window.location.href='time-crystals.html'">
-                <h3>Time Crystals</h3>
-                <p>Systems in repetitive motion at lowest-energy states, challenging thermodynamic laws through external driving forces.</p>
-            </div>
-        </div>
+<div class="cards-grid">
+  <!-- Card 1: Quantum Topology -->
+  <div class="card" onclick="window.location.href='quantum-topology.html'">
+    <div class="card-header"> <!-- Added wrapper for line effect -->
+      <h3>Quantum Topology</h3>
+      <span class="card-category">MATERIAL SCIENCE</span> <!-- Added subtitle -->
+    </div>
+    <p>Materials retaining topological properties without particle behavior or quantum criticality. Structure emerging from interaction alone.</p>
+  </div>
+
+  <!-- Card 2: Quantum Liquid Crystals -->
+  <div class="card" onclick="window.location.href='quantum-liquid-crystals.html'">
+    <div class="card-header">
+      <h3>Quantum Liquid Crystals</h3>
+      <span class="card-category">PHASE TRANSITION</span> <!-- Added subtitle -->
+    </div>
+    <p>States exhibiting sharp conductivity drops under magnetic fields, revealing impossible synchronization at quantum scales.</p>
+  </div>
+
+  <!-- Card 3: Time Crystals -->
+  <div class="card" onclick="window.location.href='time-crystals.html'">
+    <div class="card-header">
+      <h3>Time Crystals</h3>
+      <span class="card-category">TEMPORAL PHYSICS</span> <!-- Added subtitle -->
+    </div>
+    <p>Systems in repetitive motion at lowest-energy states, challenging thermodynamic laws through external driving forces.</p>
+  </div>
+</div>
 
         <!-- OBSERVATIONAL PANEL -->
         <section class="panel">
@@ -481,36 +528,87 @@
             }
         });
 
-        // ===== AUDIO SYSTEM =====
-        const muteBtn = document.getElementById('muteBtn');
-        let isMuted = true;
-        let backgroundAudio;
-        
-        function initAudio() {
-            backgroundAudio = new Audio('music/quantum-lab-ambient.mp3');
-            backgroundAudio.volume = 0.25;
-            backgroundAudio.loop = true;
-            backgroundAudio.muted = true;
-            
-            document.addEventListener('click', function unmuteAudio() {
-                if (isMuted && backgroundAudio) {
-                    backgroundAudio.muted = false;
-                    backgroundAudio.play().catch(e => console.log('Audio play failed'));
-                    isMuted = false;
-                    muteBtn.textContent = "🔊 MUTE LAB";
-                }
-                document.removeEventListener('click', unmuteAudio);
-            }, { once: true });
+        // ===== AUDIO SYSTEM (FIXED FOR RELIABLE PLAYBACK) =====
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+    // Define your audio tracks
+    const sounds = [
+        { src: 'music/echoes-of-the-ancestors-memorial.mp3', volume: 0.5 },
+        { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+        { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+    ];
+
+    // Create and configure each audio element
+    sounds.forEach(sound => {
+        const audio = new Audio(sound.src);
+        audio.volume = sound.volume;
+        audio.loop = true;
+        audio.muted = true; // Start muted
+        audioElements.push(audio);
+    });
+
+    // UNMUTE LOGIC: Unmute on FIRST user interaction
+    const unmuteOnInteraction = function() {
+        if (isMuted) {
+            // Unmute all audio elements
+            audioElements.forEach(audio => {
+                audio.muted = false;
+                audio.play().catch(e => {
+                    console.log('Audio play attempt failed (user likely hasn\'t interacted yet):', e);
+                });
+            });
+            isMuted = false;
+            muteBtn.textContent = "🔊 MUTE LAB"; // Update button text
+            console.log('Audio unmuted on first interaction.');
         }
-        
-        muteBtn.addEventListener('click', function() {
-            if (!backgroundAudio) initAudio();
-            isMuted = !isMuted;
-            backgroundAudio.muted = isMuted;
-            muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
+        // Remove this listener after it fires once
+        document.removeEventListener('click', unmuteOnInteraction);
+        document.removeEventListener('keydown', unmuteOnInteraction);
+    };
+
+    // Set up listeners for the first user click or key press
+    document.addEventListener('click', unmuteOnInteraction);
+    document.addEventListener('keydown', unmuteOnInteraction);
+
+    // ATTEMPT AUTOPLAY: Try to start playback immediately (may be blocked by browser)
+    // This helps for users who have previously interacted with the site.
+    setTimeout(() => {
+        audioElements.forEach(audio => {
+            audio.play().then(() => {
+                console.log('Audio autoplay succeeded.');
+            }).catch(e => {
+                console.log('Audio autoplay blocked (will wait for user click).');
+            });
         });
-        
-        initAudio();
+    }, 1000); // Slight delay ensures page is ready
+}
+
+// Mute/Unmute Toggle Button Logic
+muteBtn.addEventListener('click', function() {
+    if (audioElements.length === 0) {
+        console.log("Audio not initialized yet.");
+        initAudio(); // Safety check
+        return;
+    }
+    isMuted = !isMuted;
+    audioElements.forEach(audio => {
+        audio.muted = isMuted;
+        // If unmuting, ensure playback resumes
+        if (!isMuted) {
+            audio.play().catch(e => console.log('Playback resume failed'));
+        }
+    });
+    // Update button text
+    muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
+    console.log('Audio muted:', isMuted);
+});
+
+// Initialize audio when the page loads
+window.addEventListener('DOMContentLoaded', initAudio);
+
 
         // ===== CARD INTERACTIVITY =====
         document.querySelectorAll('.card').forEach(card => {
