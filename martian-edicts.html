@@ -7,6 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 * {
+:root {
+    --greenland-green: #00664F;
+    --greenland-red: #C60C30;    
 margin: 0;
 padding: 0;
 box-sizing: border-box;
@@ -1056,6 +1059,31 @@ transform: scale(1.05);
 box-shadow: 0 8px 20px rgba(255,0,0,0.7);
 }
 
+/* === DEIMOS DILEMMA LINK BUTTON === */
+.deimos-link-container {
+    text-align: center;
+    margin: 3rem auto;
+    max-width: 800px;
+}
+.deimos-link {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--greenland-green), var(--denmark-red));
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 20px rgba(200, 16, 46, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+.deimos-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 204, 139, 0.6);
+}
+    
 footer {
 position: fixed !important; 
 bottom: 0 !important;
@@ -1646,7 +1674,13 @@ flex-direction: column;
     </div>
  </div>    
 <!-- Add similar modals for laws 4-14 -->
-
+<!-- Link to Deimos Dilemma -->
+<div class="deimos-link-container">
+    <a href="the-deimos-dilema.html" class="deimos-link">Explore the Deimos Dilemma →</a>
+    <p style="color: #b3e5fc; margin-top: 1rem; font-style: italic;">
+        A Martian parable on resource ethics for an Earth in crisis.
+    </p>
+</div>
 <footer>
     <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
