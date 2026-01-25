@@ -445,7 +445,15 @@ line-height: 1.6;
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0, 204, 139, 0.6);
 }
- 
+
+ /* === Fix for Deimos button in My Mission === */
+.deimos-link-container .deimos-link {
+    /* Force full opacity and bring to front */
+    opacity: 1 !important;
+    z-index: 20 !important;
+    position: relative; /* Neede for z-index to work */
+}
+            
 /* FOOTER */
 footer {
 position: fixed;
