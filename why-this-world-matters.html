@@ -384,7 +384,7 @@ margin: 0 auto 30px;
 
 /* FOOTER */
 footer {
-position: fixed;
+position: relative;;
 bottom: 0;
 left: 0;
 width: 100%;
@@ -396,6 +396,7 @@ font-family: 'Segoe UI', sans-serif;
 z-index: 1000;
 border-top: 2px solid #00ccff;
 transition: opacity 0.5s ease;
+margin-top: 40px;
 }
 
 footer.hidden {
@@ -403,6 +404,39 @@ opacity: 0;
 pointer-events: none;
 }
 
+/* ====================
+   MOBILE FIXES ONLY
+   ==================== */
+@media (max-width: 768px) {
+  
+  /* 1. Fix the main content container to ensure it extends past the footer */
+  .content-container {
+    padding-bottom: 120px !important; /* Adds breathing room above the fixed footer */
+    min-height: calc(100vh - 150px) !important; /* Ensures it fills the screen */
+  }
+
+  /* 2. Secure the footer's position at the very bottom */
+  footer {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 1000 !important;
+  }
+
+  /* 3. Adjust the 'Call to Action' section's bottom margin */
+  .cta-section {
+    margin-bottom: 100px !important; /* Pushes it up from the footer */
+  }
+
+  /* 4. Ensure video background scales correctly on all mobile devices */
+  .video-background {
+    object-position: center center !important;
+    height: 100vh !important;
+    width: 100vw !important;
+  }
+}
+    
 /* Responsive */
 @media (max-width: 768px) {
 .site-title-overlay {
