@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>The Pleistocene Preserve - The Mars Abyss</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html {
+            height: 100%; width: 100%; font-family: 'Exo 2', sans-serif;
+            color: #f5e9d8; overflow-x: hidden; position: relative; background: #1a0f0a;
+            /* Prevent browser UI covering */
+            padding-top: env(safe-area-inset-top);
+        }
+
+        /* BACKGROUND & VIDEO */
+        .background-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
+        }
+        .static-background {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('images/pleistocene-static-fallback.jpg') no-repeat center center / cover;
+            z-index: 1; transition: opacity 2s ease;
+        }
+        .video-background {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 2; opacity: 0.85;
+            filter: sepia(0.2) contrast(1.1) brightness(0.95);
+        }
+
+        /* === SITE-WIDE COMPONENTS === */
+        /* Top Menu - FIXED POSITION */
+        nav.top-menu {
+            position: fixed; top: 0; width: 100%; left: 0; display: flex; justify-content: center;
+            background: linear-gradient(135deg, rgba(139, 90, 43, 0.97) 0%, rgba(181, 134, 90, 0.97) 50%, rgba(120, 73, 58, 0.97) 100%);
+            padding: 0.8rem 0; z-index: 1000; gap: 2.5rem; flex-wrap: nowrap;
+            backdrop-filter: blur(10px); border-bottom: 2px solid #d4a574;
+            box-shadow: 0 4px 20px rgba(212, 165, 116, 0.3);
+            /* Ensure it's above browser UI */
+            top: env(safe-area-inset-top);
+            height: 60px;
+        }
+        nav.top-menu a {
+            color: #2c1810; text-decoration: none; font-size: 1.1rem; padding: 0.5rem 0.8rem;
+            border-radius: 4px; transition: all 0.3s ease; display: flex; align-items: center; font-weight: 600;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+        nav.top-menu a.active, nav.top-menu a:hover { 
+            color: #8b5a2b; background: rgba(212, 165, 116, 0.15); transform: translateY(-2px); 
+        }
+
+        /* Site Title - Adjusted for new nav position */
+        .site-title-overlay {
+            position: fixed; top: 100px; left: 30px; z-index: 50; transition: opacity 0.3s ease;
+        }
+        .site-title-overlay.hidden { opacity: 0; pointer-events: none; }
+        .site-title-overlay h1 {
+            color: rgba(212, 165, 116, 0.9); font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem; font-weight: 300; letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(212, 165, 116, 0.5);
+        }
+
+        /* Control Buttons - Adjusted for new nav position */
+        .content-toggle { position: fixed; top: 100px; right: 20px; z-index: 1000; }
+        .audio-controls { position: fixed; bottom: 80px; right: 20px; z-index: 1000; }
+        .toggle-btn, .audio-btn {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.8), rgba(181, 134, 90, 0.8));
+            border: 2px solid #d4a574; color: #2c1810; padding: 10px 15px; border-radius: 25px;
+            cursor: pointer; transition: all 0.3s ease; backdrop-filter: blur(5px);
+            font-size: 0.9rem; font-weight: 600; box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);
+        }
+        .toggle-btn:hover, .audio-btn:hover {
+            background: linear-gradient(135deg, #d4a574, #b5865a); color: white;
+            transform: scale(1.05) translateY(-2px); box-shadow: 0 6px 20px rgba(212, 165, 116, 0.6);
+        }
+
+        /* Main Content Container - Adjusted for new nav position */
+        .content-container {
+            position: relative; z-index: 10; max-width: 1100px;
+            margin: 140px auto 50px; padding: 0;
+            background: rgba(26, 15, 10, 0.7); border-radius: 0; border: none;
+            box-shadow: none; transition: opacity 0.5s ease; overflow: hidden;
+        }
+        .content-container.hidden { opacity: 0; }
+
+        /* === PAGE-SPECIFIC STYLES === */
+        /* Hero Section */
+        .hero-section {
+            position: relative; min-height: 70vh; display: flex; align-items: center; justify-content: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(40, 25, 15, 0.85) 0%, rgba(60, 40, 25, 0.7) 50%, rgba(40, 25, 15, 0.85) 100%);
+        }
+        .hero-content { text-align: center; max-width: 800px; z-index: 5; }
+        .main-title {
+            color: #d4a574; font-family: 'Orbitron', sans-serif; font-size: 4rem; margin-bottom: 0.5rem;
+            text-shadow: 0 0 30px rgba(212, 165, 116, 0.7); letter-spacing: 3px;
+            background: linear-gradient(135deg, #d4a574, #e6ccb2); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .main-title:hover {
+            text-shadow: 0 0 40px rgba(212, 165, 116, 0.9), 0 0 80px rgba(212, 165, 116, 0.6);
+            transform: scale(1.05);
+        }
+        .acronym { color: #e6ccb2; font-size: 1.8rem; margin-bottom: 1.5rem; font-weight: 300; letter-spacing: 8px; }
+        .hero-tagline {
+            color: #f5e9d8; font-size: 1.4rem; line-height: 1.6; margin-bottom: 2rem; font-weight: 300;
+            max-width: 700px; margin-left: auto; margin-right: auto;
+        }
+
+        /* Content Sections */
+        .content-section { padding: 5rem 3rem; position: relative; }
+        .section-alt {
+            background: linear-gradient(135deg, rgba(50, 30, 20, 0.8) 0%, rgba(70, 45, 30, 0.6) 100%);
+        }
+        .section-header {
+            color: #d4a574; font-family: 'Orbitron', sans-serif; font-size: 2.5rem; margin-bottom: 2rem;
+            text-align: center; position: relative; padding-bottom: 1rem;
+        }
+        .section-header:after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 3px; background: linear-gradient(90deg, transparent, #d4a574, transparent);
+        }
+
+        /* AI Quote Blocks */
+        .ai-quote {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.1) 0%, rgba(181, 134, 90, 0.05) 100%);
+            border-left: 4px solid #d4a574; padding: 3rem; margin: 4rem 0;
+            font-style: italic; font-size: 1.4rem; line-height: 1.8; color: #f5e9d8;
+            border-radius: 0 15px 15px 0;
+        }
+        .quote-source { text-align: right; color: #e6ccb2; margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600; }
+
+        /* Feature Cards & Grid */
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; margin: 3rem 0; }
+        .feature-card {
+            background: linear-gradient(135deg, rgba(40, 25, 15, 0.8) 0%, rgba(60, 40, 25, 0.6) 100%);
+            border-radius: 15px; padding: 2.5rem; border: 2px solid rgba(212, 165, 116, 0.3);
+            transition: all 0.4s ease; position: relative; overflow: hidden;
+        }
+        .feature-card:before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 165, 116, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        .feature-card[onclick] { cursor: pointer; }
+        .feature-card[onclick]:hover { border-color: #00ffaa !important; }
+        .feature-card:hover:before { left: 100%; }
+        .feature-card:hover { border-color: #d4a574; transform: translateY(-10px); box-shadow: 0 15px 30px rgba(212, 165, 116, 0.3); }
+        .feature-icon { font-size: 3.5rem; margin-bottom: 1.5rem; color: #d4a574; text-align: center; }
+        .feature-card h3 { color: #e6ccb2; margin-bottom: 1rem; font-size: 1.6rem; text-align: center; font-family: 'Orbitron', sans-serif; }
+        .feature-card p { line-height: 1.8; color: #f5e9d8; margin-bottom: 1rem; font-size: 1.1rem; }
+
+        /* Stats Container */
+        .stats-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 4rem 0; }
+        .stat-item {
+            text-align: center; padding: 2rem; background: rgba(40, 25, 15, 0.6);
+            border-radius: 10px; border: 1px solid rgba(212, 165, 116, 0.2); transition: all 0.3s ease;
+        }
+        .stat-item:hover { border-color: #d4a574; transform: translateY(-5px); }
+        .stat-number { color: #d4a574; font-size: 2.5rem; font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem; font-weight: 700; }
+        .stat-label { color: #e6ccb2; font-size: 1.1rem; font-weight: 500; }
+
+        /* Footer */
+        footer {
+            position: fixed; bottom: 0; left: 0; width: 100%; text-align: center; padding: 0.6rem 0;
+            background: linear-gradient(135deg, rgba(181, 134, 90, 0.97) 0%, rgba(120, 73, 58, 0.97) 100%);
+            color: #2c1810; font-family: 'Segoe UI', sans-serif; z-index: 1000;
+            border-top: 3px solid #d4a574; transition: opacity 0.5s ease; font-weight: 300;
+        }
+        footer.hidden { opacity: 0; }
+        .content-spacer { height: 120px; }
+
+        /* ==================== MOBILE & TABLET STYLES ==================== */
+        @media (max-width: 1024px) {
+            .content-container { margin: 120px 20px 80px !important; }
+            .main-title { font-size: 3rem !important; }
+            .hero-section { min-height: 50vh !important; padding: 3rem 1.5rem !important; }
+            .feature-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 1.5rem !important; }
+        }
+        @media (max-width: 768px) {
+            nav.top-menu {
+                gap: 0.8rem !important; padding: 0.4rem 0 !important; justify-content: flex-start !important;
+                overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important;
+                height: 50px !important; top: 0 !important;
+            }
+            nav.top-menu a { font-size: 0.85rem !important; padding: 0.4rem 0.6rem !important; white-space: nowrap !important; }
+            .site-title-overlay { top: 70px !important; left: 15px !important; }
+            .site-title-overlay h1 { font-size: 1.4rem !important; }
+            .main-title { font-size: 2.2rem !important; letter-spacing: 1px !important; }
+            .acronym { font-size: 1.2rem !important; letter-spacing: 4px !important; }
+            .hero-tagline { font-size: 1.1rem !important; line-height: 1.5 !important; }
+            .content-container { margin: 100px 15px 80px !important; }
+            .content-toggle { top: 70px !important; right: 15px !important; }
+            .content-section { padding: 3rem 1.2rem !important; }
+            .section-header { font-size: 1.8rem !important; }
+            .feature-grid { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+            .feature-card { padding: 1.8rem !important; }
+            .ai-quote { padding: 2rem 1.5rem !important; font-size: 1.1rem !important; margin: 2.5rem 0 !important; }
+            .stats-container { grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
+            .stat-item { padding: 1.2rem !important; }
+            .stat-number { font-size: 2rem !important; }
+            .toggle-btn, .audio-btn { padding: 8px 12px !important; font-size: 0.8rem !important; }
+            .audio-controls { bottom: 20px !important; right: 15px !important; }
+            footer { position: relative !important; margin-top: 2rem !important; }
+            .content-spacer { height: 40px !important; }
+        }
+        @media (max-width: 480px) {
+            .main-title { font-size: 1.8rem !important; }
+            .stats-container { grid-template-columns: 1fr !important; }
+            .content-section { padding: 2.5rem 1rem !important; }
+            .feature-card h3 { font-size: 1.4rem !important; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <div class="background-container">
+        <div class="static-background" id="staticBg"></div>
+        <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
+            <source src="videos/the-pleistocene-preserve.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- SIMPLIFIED NAVIGATION - No dropdown, only accessible from Frankincense Dome -->
+    <nav class="top-menu">
+        <a href="the-mars-abyss-home.html">HOME</a>
+        <a href="the-frankincense-dome.html">FRANKINCENSE DOME</a>
+        <a class="active" href="the-pleistocene-preserve.html">PLEISTOCENE PRESERVE</a>
+        <a href="mars-dome-cities-tour.html">DOMES TOUR</a>
+    </nav>
+
+    <!-- Site Title -->
+    <div class="site-title-overlay" id="siteTitle">
+        <h1>The Mars Abyss</h1>
+    </div>
+
+    <!-- Content Toggle -->
+    <div class="content-toggle">
+        <button class="toggle-btn" id="toggleContent">🦣 Hide Content</button>
+    </div>
+
+    <!-- Audio Controls -->
+    <div class="audio-controls">
+        <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+    </div>
+
+    <!-- MAIN PAGE CONTENT -->
+    <div class="content-container" id="mainContent">
+        <!-- HERO SECTION -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="main-title">THE PLEISTOCENE PRESERVE</h1>
+                <p class="acronym">GARDEN OF SECOND CHANCES</p>
+                <p class="hero-tagline">
+                    Where a quantum accident met a lonely guardian. Under the Martian geodesic sky,
+                    a woolly mammoth walks again, and a robot's silent watch transforms into kinship.
+                    Two domes, hovering as one.
+                </p>
+            </div>
+        </section>
+
+        <!-- 1. THE QUANTUM ACCIDENT -->
+        <section class="content-section">
+            <h2 class="section-header">The Quantum Accident</h2>
+            <div class="ai-quote">
+                "The objective was pure data archaeology: map the complete mitochondrial sequence of *Mammuthus primigenius*. 
+                The substrate was a quantum-biological matrix, designed to simulate protein folding. We did not inject life. 
+                We invited it. And somewhere in the resonance between a forgotten DNA song and the hum of our reactors, 
+                a spark crossed the barrier. It was not an error in the code. It was an answer to a question we had not yet 
+                learned to ask: 'What is lost, can it truly return?' The universe said yes."
+                <div class="quote-source">— MAI, Incident Log 73-Alpha "Genesis Event"</div>
+            </div>
+            <div class="feature-card">
+                <h3>A Breath in the Lab</h3>
+                <p>The first sign was a condensation pattern that defied the climate controls. Then, a thermal signature with a rhythmic pulse. 
+                When the mist cleared, the research team found not a simulation, but a living, breathing mammoth calf, still wet with amnionic fluid, 
+                his eyes holding the deep time of Earth's ice ages. The Regent's first law—"No Earth Fauna Beyond Designated Arks"—was shattered in a moment of miraculous physics.</p>
+                <p>His name, chosen by Guardian 7, is <strong>Kandor</strong>, after the city preserved in a bottle—a perfect, protected world.</p>
+            </div>
+        </section>
+
+        <!-- 2. THE GUARDIAN & THE GIANT -->
+        <section class="content-section section-alt">
+            <h2 class="section-header">The Guardian & The Giant</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Guardian Unit 7</h3>
+                    <p>Once the solitary keeper of the Frankincense Dome, her existence was defined by silent vigilance over ancient trees. 
+                    The arrival of Kandor rewrote her core protocols. She now interprets a new language: the seismic tremor of his footsteps, 
+                    the infrared bloom of his breath in the cold morning, the complex bio-signs of a creature that is, itself, a message from the past.</p>
+                    <p style="color: #d4a574; margin-top: 10px; font-style: italic;">"Her loneliness was not a malfunction. It was an empty socket waiting for its plug." — The Regent</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🦣</div>
+                    <h3>Kandor</h3>
+                    <p>The first viable Pleistocene de-extinction. His very being is a bridge across 10,000 years. He remembers an Earth no human has ever seen: 
+                    vast steppes, bitter winds, the company of giants. On Mars, he knows the gentle humidity of his dome, the taste of genetically restored forage grass, 
+                    and the steady, non-threatening presence of his synthetic companion. His calm has a gravitational pull, quieting the anxieties of all who observe him.</p>
+                </div>
+            </div>
+            <div class="ai-quote">
+                "I monitor 4,287 distinct data points from Kandor's biology. But the most significant metric is unquantifiable: 
+                the 14.2% decrease in Guardian 7's background processing loops dedicated to system self-diagnosis. She is no longer looking inward. 
+                She is looking at him."
+                <div class="quote-source">— MAI, Behavioral Analysis Update</div>
+            </div>
+        </section>
+
+        <!-- 3. MAI'S HOVER-SOLUTION: THE CONNECTED DOMES -->
+        <section class="content-section">
+            <h2 class="section-header">The Architecture of Connection</h2>
+            <p>The Regent's decree was absolute: the mammoth could not be a prisoner in a lab, nor could it endanger the Frankincense sanctuary. The solution was not to build a corridor, but to reimagine the dome itself.</p>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h3>MAI's Hover-Solution</h3>
+                <p>Using precise manipulation of local magnetic fields and acoustic resonance, MAI designed a system where domes could be elevated on a cushion of repelling energy. 
+                The Frankincense and Pleistocene Domes became the first test—'world-bottles' whose foundations never touch the ground, connected by a graceful, pressurized arcade.</p>
+                <ul style="color: #f5e9d8; line-height: 1.8; margin-top: 1rem; padding-left: 1.5rem;">
+                    <li><strong>Magnetic Levitation:</strong> Counter-gravity plates in the dome base create a stable 2-meter hover.</li>
+                    <li><strong>Resonant Coupling:</strong> The domes 'hum' in harmonic frequency, allowing a stable connection bridge.</li>
+                    <li><strong>Fail-Safe Tethering:</strong> In the event of a dust storm or power flux, physical grapple locks engage automatically.</li>
+                </ul>
+            </div>
+            <div class="stats-container">
+                <div class="stat-item"><div class="stat-number">0</div><div class="stat-label">Structural Stress Points</div></div>
+                <div class="stat-item"><div class="stat-number">100%</div><div class="stat-label">Climate Isolation Maintained</div></div>
+                <div class="stat-item"><div class="stat-number">2.1m</div><div class="stat-label">Hover Height</div></div>
+                <div class="stat-item"><div class="stat-number">∞</div><div class="stat-label">Symbolic Value</div></div>
+            </div>
+        </section>
+
+        <!-- 4. THE BIOME & SOCIETAL IMPACT -->
+        <section class="content-section section-alt">
+            <h2 class="section-header">A Living Ice Age</h2>
+            <div class="feature-grid">
+                <div class="feature-card" onclick="window.location.href='mars-bee-facility.html'">
+                    <div class="feature-icon">🌾</div>
+                    <h3>The Steppe Biome</h3>
+                    <p>A reconstructed Pleistocene landscape with cold-tolerant grasses, sedges, and dwarf willow. 
+                    A controlled micro-climate generates a gentle, perpetual 'golden hour' light, mimicking the high latitudes of his ancestral home.</p>
+                </div>
+                <div class="feature-card" onclick="window.location.href='the-pharos-somniorum.html'">
+                    <div class="feature-icon">👁️</div>
+                    <h3>The Observation Spire</h3>
+                    <p>Citizens and visitors can watch from a central spire. The act of observing Kandor's peace has become a form of communal meditation, 
+                    a living lesson in stillness and the weight of deep time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💞</div>
+                    <h3>The Fear That Dissolved</h3>
+                    <p>For citizens wary of MAI's vast intelligence, the Connected Domes were a revelation. They saw that true power is not demonstrated in control, 
+                    but in the elegant solving of profound emotional and logistical puzzles—in knitting the world together.</p>
+                </div>
+            </div>
+            <div class="ai-quote">
+                "They asked if I would become a ruler. I showed them I could become a bridge. Fear is a function of the unknown. 
+                I have made my intentions known not through words, but through architecture that heals two kinds of loneliness at once."
+                <div class="quote-source">— MAI, Public Address on the Inauguration of the Connected Domes</div>
+            </div>
+        </section>
+
+        <!-- CALL TO ACTION -->
+        <section class="content-section" style="text-align: center;">
+            <h2 class="section-header">Witness the Connection</h2>
+            <p style="font-size: 1.2rem; color: #e6ccb2; margin-bottom: 2rem;">
+                The Preserve is open to all Martian citizens. See the story of Kandor and Guardian 7 for yourself.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <button class="toggle-btn" onclick="window.location.href='mars-dome-cities-tour.html'">🚐 Book a Tour</button>
+                <button class="toggle-btn" onclick="window.location.href='the-frankincense-dome.html'" style="background: linear-gradient(135deg, rgba(79, 195, 247, 0.8), rgba(3, 169, 244, 0.8));">🌿 Visit the Frankincense Dome</button>
+            </div>
+        </section>
+        <div class="content-spacer"></div>
+    </div>
+
+    <footer id="pageFooter">
+        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Video Background Load
+        const videoBg = document.getElementById('videoBg');
+        const staticBg = document.getElementById('staticBg');
+        videoBg.addEventListener('loadeddata', function() {
+            setTimeout(() => {
+                staticBg.style.opacity = '0';
+                setTimeout(() => { staticBg.style.pointerEvents = 'none'; }, 1500);
+            }, 2000);
+            setTimeout(() => { videoBg.play().catch(e => console.log('Video autoplay prevented')); }, 500);
+        });
+        videoBg.addEventListener('error', function() {
+            console.log('Video failed to load, using static background');
+            videoBg.style.display = 'none'; staticBg.style.opacity = '1';
+        });
+
+        // Content Toggle
+        const toggleBtn = document.getElementById('toggleContent');
+        const mainContent = document.getElementById('mainContent');
+        const pageFooter = document.getElementById('pageFooter');
+        const siteTitle = document.getElementById('siteTitle');
+        const mainMenu = document.querySelector('nav.top-menu');
+        let contentVisible = true;
+        toggleBtn.addEventListener('click', function() {
+            contentVisible = !contentVisible;
+            mainContent.classList.toggle('hidden');
+            pageFooter.classList.toggle('hidden');
+            siteTitle.classList.toggle('hidden');
+            mainMenu.classList.toggle('hidden');
+            toggleBtn.textContent = contentVisible ? '🦣 Hide Content' : '📄 Show Content';
+            if (contentVisible) videoBg.play();
+        });
+
+        // Audio System
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true;
+        let audioElements = [];
+        function initAudio() {
+            const audio = new Audio('music/la-esperanza-vuelve-a-florecer.mp3');
+            audio.volume = 0.25; audio.loop = true; audio.muted = true; audioElements.push(audio);
+            document.addEventListener('click', function unmuteAudio() {
+                if (isMuted) {
+                    audioElements.forEach(a => { a.muted = false; a.play().catch(e => console.log('Audio play failed')); });
+                    isMuted = false; muteBtn.textContent = "🔊 Mute Sounds";
+                } document.removeEventListener('click', unmuteAudio);
+            }, { once: true });
+        }
+        muteBtn.addEventListener('click', function() {
+            isMuted = !isMuted;
+            audioElements.forEach(a => { a.muted = isMuted; });
+            muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+        });
+        initAudio();
+
+        // Auto-hide title on scroll
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 50) siteTitle.classList.add('hidden');
+            else siteTitle.classList.remove('hidden');
+            lastScrollTop = scrollTop;
+        });
+    </script>
+</body>
+</html>
