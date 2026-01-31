@@ -501,6 +501,161 @@
             opacity: 0;
         }
 
+        /* ================ MOBILE & TABLET FIXES ================ */
+@media (max-width: 1024px) {
+    /* Tablet fixes */
+    .content-container {
+        margin: 100px 20px 80px !important;
+    }
+    .main-title {
+        font-size: 3rem !important;
+    }
+    .hero-section {
+        min-height: 50vh !important;
+        padding: 3rem 1.5rem !important;
+    }
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile phone fixes */
+    nav.top-menu {
+        gap: 0.8rem !important;
+        padding: 0.4rem 0 !important;
+        justify-content: flex-start !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        white-space: nowrap !important;
+    }
+    
+    nav.top-menu a {
+        font-size: 0.85rem !important;
+        padding: 0.4rem 0.6rem !important;
+        white-space: nowrap !important;
+    }
+    
+    .dropdown-content {
+        position: fixed !important;
+        left: 5% !important;
+        right: 5% !important;
+        width: 90% !important;
+        max-height: 70vh !important;
+        overflow-y: auto !important;
+        z-index: 9999 !important;
+    }
+    
+    .site-title-overlay {
+        top: 60px !important;
+        left: 15px !important;
+    }
+    
+    .site-title-overlay h1 {
+        font-size: 1.4rem !important;
+    }
+    
+    .main-title {
+        font-size: 2.2rem !important;
+        letter-spacing: 1px !important;
+    }
+    
+    .acronym {
+        font-size: 1.2rem !important;
+        letter-spacing: 4px !important;
+    }
+    
+    .hero-tagline {
+        font-size: 1.1rem !important;
+        line-height: 1.5 !important;
+    }
+    
+    .content-container {
+        margin: 90px 15px 100px !important;
+    }
+    
+    .content-section {
+        padding: 3rem 1.2rem !important;
+    }
+    
+    .section-header {
+        font-size: 1.8rem !important;
+    }
+    
+    .feature-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+    
+    .feature-card {
+        padding: 1.8rem !important;
+    }
+    
+    .ai-quote {
+        padding: 2rem 1.5rem !important;
+        font-size: 1.1rem !important;
+        margin: 2.5rem 0 !important;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem !important;
+    }
+    
+    .stat-item {
+        padding: 1.2rem !important;
+    }
+    
+    .stat-number {
+        font-size: 2rem !important;
+    }
+    
+    .toggle-btn, .audio-btn {
+        padding: 8px 12px !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .content-toggle {
+        top: 60px !important;
+        right: 15px !important;
+    }
+    
+    .audio-controls {
+        bottom: 20px !important;
+        right: 15px !important;
+    }
+    
+    /* Fix footer positioning for mobile */
+    footer {
+        position: relative !important;
+        margin-top: 2rem !important;
+    }
+    
+    .content-spacer {
+        height: 40px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Small phone fixes */
+    .main-title {
+        font-size: 1.8rem !important;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .content-section {
+        padding: 2.5rem 1rem !important;
+    }
+    
+    .feature-card h3 {
+        font-size: 1.4rem !important;
+    }
+}
+        
         .scroll-progress {
             position: fixed;
             top: 0;
