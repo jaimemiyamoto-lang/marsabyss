@@ -2,518 +2,1850 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <title>Solar System Explorer - The Mars Abyss</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
 }
 body, html {
-  height: 100%;
-  width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #fff;
-  overflow-x: hidden;
-  background: #000;
-  position: relative;
+ height: 100%;
+ width: 100%;
+ font-family: 'Exo 2', sans-serif;
+ color: #fff;
+ overflow-x: hidden;
+ position: relative;
+ background: #000;
+ -webkit-tap-highlight-color: transparent;
+ -webkit-touch-callout: none;
 }
-.background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url(images/space-bg-deep.jpg) no-repeat center center / cover;
-  z-index: -2;
+
+/* ====== VIDEO BACKGROUND ====== */
+.background-container {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: 1;
+ overflow: hidden;
+ pointer-events: none;
 }
-.stars {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  z-index: -1;
+
+.static-background {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: url('images/space-bg-deep.jpg') no-repeat center center / cover;
+ z-index: 1;
+ transition: opacity 2s ease;
+}
+
+.video-background {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ z-index: 2;
+ opacity: 0.9;
+ filter: brightness(0.9) contrast(1.2);
 }
 
 /* ====== TOP MENU ====== */
 nav.top-menu {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background: rgba(17, 17, 17, 0.95);
-    padding: 0.6rem 0;
-    z-index: 1000;
-    gap: 2.5rem;
-    flex-wrap: nowrap;
-    backdrop-filter: blur(10px);
-    border-bottom: 2px solid #ff9553;
-    }
-    
-    nav.top-menu a {
-    color: #f5f5f5;
-    text-decoration: none;
-    font-size: 1.1rem;
-    padding: 0.5rem 0.8rem;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    }
+ position: fixed;
+ top: 0;
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ background: rgba(17, 17, 17, 0.95);
+ padding: 0.6rem 0;
+ z-index: 1000;
+ gap: 2.5rem;
+ flex-wrap: nowrap;
+ backdrop-filter: blur(10px);
+ border-bottom: 2px solid #4da6ff;
+}
+nav.top-menu.hidden {
+ opacity: 0;
+ pointer-events: none;
+}
+nav.top-menu a {
+ color: #f5f5f5;
+ text-decoration: none;
+ font-size: 1.1rem;
+ padding: 0.5rem 0.8rem;
+ border-radius: 4px;
+ transition: all 0.3s ease;
+ display: flex;
+ align-items: center;
+}
 nav.top-menu a.active,
 nav.top-menu a:hover {
-  color: #ff4b4b;
+ color: #4da6ff;
+ background: rgba(77, 166, 255, 0.15);
 }
 
 /* ====== DROPDOWN ====== */
 .dropdown {
-  position: relative;
-  display: inline-block;
+ position: relative;
+ display: inline-block;
 }
 .dropdown-content {
-  display: none;
-  position: absolute;
-  background: rgba(26, 26, 26, 0.98);
-  min-width: 140px;
-  z-index: 1001;
-  border-radius: 4px;
-  border: 2px solid #666;
-  top: 100%;
-  left: 0;
-  backdrop-filter: blur(5px);
-  padding: 4px 0; 
+ display: none;
+ position: absolute;
+ background: rgba(26, 26, 26, 0.98);
+ min-width: 140px;
+ z-index: 1001;
+ border-radius: 4px;
+ border: 2px solid #4da6ff;
+ top: 100%;
+ left: 0;
+ backdrop-filter: blur(5px);
+ padding: 4px 0; 
 }
 .dropdown-content a {
-  color: #f5f5f5;
-  padding: 3px 5px;
-  text-decoration: none;
-  display: block;
-  font-size: 0.6rem;
-  transition: background-color 0.3s ease;
-  line-height: 1;
+ color: #f5f5f5;
+ padding: 8px 12px;
+ text-decoration: none;
+ display: block;
+ font-size: 0.8rem;
+ transition: background-color 0.3s ease;
+ line-height: 1;
 }
 .dropdown-content a:hover {
-  background: rgba(255, 0, 0, 0.6);
+ background: rgba(77, 166, 255, 0.4);
 }
 .dropdown:hover .dropdown-content {
-  display: block;
+ display: block;
+}
+.dropdown > a, .dropdown {
+ display: flex;
+ align-items: center;
+ height: 100%;
 }
 
-.dropdown > a, .dropdown {
-    display: flex;
-    align-items: center;
-    height: 1000;
+/* ====== SITE TITLE ====== */
+.site-title-overlay {
+ position: fixed;
+ top: 80px;
+ left: 30px;
+ z-index: 50;
+ transition: opacity 0.3s ease;
+}
+.site-title-overlay h1 {
+ color: #4da6ff;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.8rem;
+ font-weight: 300;
+ letter-spacing: 2px;
+ text-shadow: 0 0 15px rgba(77, 166, 255, 0.5);
+}
+
+/* ====== CONTENT TOGGLE ====== */
+.content-toggle {
+ position: fixed;
+ top: 100px;
+ right: 40px;
+ z-index: 1000;
+}
+.toggle-btn {
+ background: rgba(77, 166, 255, 0.8);
+ border: 2px solid #4da6ff;
+ color: #fff;
+ padding: 10px 15px;
+ border-radius: 25px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ font-size: 0.9rem;
+ font-family: 'Orbitron', sans-serif;
+}
+.toggle-btn:hover {
+ background: rgba(77, 166, 255, 1);
+ transform: scale(1.05);
+}
+
+/* ====== AUDIO CONTROLS ====== */
+.audio-controls {
+ position: fixed;
+ bottom: 80px;
+ right: 40px;
+ z-index: 1000;
+}
+.audio-btn {
+ background: rgba(77, 166, 255, 0.8);
+ border: 2px solid #4da6ff;
+ color: #fff;
+ padding: 10px 15px;
+ border-radius: 25px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ font-size: 0.9rem;
+}
+.audio-btn:hover {
+ background: rgba(77, 166, 255, 1);
+ transform: scale(1.05);
 }
 
 /* ====== PAGE CONTENT ====== */
 .page-content {
-  padding: 100px 5% 50px;
-  max-width: 1400px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
+ padding: 120px 5% 50px;
+ max-width: 1400px;
+ margin: 0 auto;
+ position: relative;
+ z-index: 2;
+ transition: opacity 0.5s ease;
 }
+
+/* ====== HERO SECTION ====== */
 .solar-system-hero {
-  text-align: center;
-  margin-bottom: 3rem;
-  animation: fadeIn 2s ease-in;
+ text-align: center;
+ margin-bottom: 3rem;
+ animation: fadeIn 2s ease-in;
+ background: rgba(0, 0, 0, 0.7);
+ backdrop-filter: blur(10px);
+ padding: 2.5rem;
+ border-radius: 15px;
+ margin: 2rem auto 3rem;
+ max-width: 900px;
+ border: 1px solid rgba(77, 166, 255, 0.3);
 }
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+ from { opacity: 0; transform: translateY(30px); }
+ to { opacity: 1; transform: translateY(0); }
 }
 .solar-system-hero h1 {
-  font-size: 4rem;
-  color: #4da6ff;
-  text-shadow: 0 0 20px rgba(77, 166, 255, 0.5);
-  margin-bottom: 1rem;
+ font-size: 4rem;
+ color: #4da6ff;
+ text-shadow: 0 0 20px rgba(77, 166, 255, 0.5);
+ margin-bottom: 1rem;
+ font-family: 'Orbitron', sans-serif;
 }
 .solar-intro {
-  font-size: 1.3rem;
-  color: #ccc;
-  max-width: 800px;
-  margin: 0 auto;
-  line-height: 1.6;
+ font-size: 1.3rem;
+ color: #f0f0f0;
+ max-width: 800px;
+ margin: 0 auto;
+ line-height: 1.6;
+ text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 /* ====== NASA IFRAME ====== */
 .nasa-iframe-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 3rem auto;
-  width: 100%;
-  max-width: 1100px;
-  height: 600px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 30px rgba(0, 128, 255, 0.3);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ margin: 3rem auto;
+ width: 100%;
+ max-width: 1100px;
+ height: 600px;
+ border: 1px solid rgba(255, 255, 255, 0.15);
+ border-radius: 10px;
+ overflow: hidden;
+ box-shadow: 0 0 30px rgba(77, 166, 255, 0.3);
+ background: rgba(0, 0, 0, 0.3);
 }
 .nasa-iframe-container iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
+ width: 100%;
+ height: 100%;
+ border: none;
 }
 
-/* SITE TITLE OVERLAY */
-.site-title-overlay {
-position: fixed;
-top: 80px;
-left: 30px;
-z-index: 50;
-}
-
-.site-title-overlay h1 {
-color: #ff9553;
-font-family: 'Orbitron', sans-serif;
-font-size: 1.8rem;
-text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
-font-weight: 300;
-letter-spacing: 2px;
-}
-
-/* AUDIO CONTROLS */
-.audio-controls {
-position: fixed;
-bottom: 80px;
-right: 40px;
-z-index: 1000;
-}
-
-.audio-btn {
-background: rgba(255, 68, 68, 0.8);
-border: 2px solid #ff9553;
-color: #fff;
-padding: 10px 15px;
-border-radius: 25px;
-cursor: pointer;
-transition: all 0.3s ease;
-backdrop-filter: blur(5px);
-font-size: 0.9rem;
-}
-
-/* ====== PLANET CARDS ====== */
+/* ====== CARDS SECTION ====== */
 .card-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 3rem 0 5rem;
-  position: relative;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ margin: 5rem 0 6rem;
+ position: relative;
+}
+.card-section h2 {
+ position: absolute;
+ top: -70px;
+ left: 50%;
+ transform: translateX(-50%);
+ color: #4da6ff;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 2.2rem;
+ text-shadow: 0 0 20px rgba(77, 166, 255, 0.5);
+ white-space: nowrap;
+ background: rgba(0, 0, 0, 0.7);
+ padding: 10px 25px;
+ border-radius: 10px;
+ border: 1px solid rgba(77, 166, 255, 0.3);
+ z-index: 10;
 }
 .card-container {
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 1rem;
-  max-width: 90%;
+ display: flex;
+ gap: 1.5rem;
+ overflow-x: auto;
+ scroll-behavior: smooth;
+ padding: 1.5rem;
+ max-width: 95%;
+ scrollbar-width: thin;
+ scrollbar-color: #4da6ff rgba(0, 0, 0, 0.3);
+}
+.card-container::-webkit-scrollbar {
+ height: 8px;
+}
+.card-container::-webkit-scrollbar-track {
+ background: rgba(0, 0, 0, 0.3);
+ border-radius: 4px;
+}
+.card-container::-webkit-scrollbar-thumb {
+ background: #4da6ff;
+ border-radius: 4px;
 }
 .card {
-  flex: 0 0 160px;
-  height: 200px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+ flex: 0 0 200px;
+ height: 260px;
+ border-radius: 12px;
+ border: 2px solid rgba(77, 166, 255, 0.3);
+ cursor: pointer;
+ transition: all 0.4s ease;
+ position: relative;
+ overflow: hidden;
+ box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+ background-color: #000;
 }
 .card:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 20px rgba(77, 166, 255, 0.6);
+ transform: translateY(-10px) scale(1.05);
+ border-color: #4da6ff;
+ box-shadow: 0 15px 30px rgba(77, 166, 255, 0.5);
+}
+.card-bg {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background-size: cover;
+ background-position: center;
+ background-repeat: no-repeat;
+ opacity: 0.9;
+ transition: opacity 0.3s ease;
+}
+.card-video {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ opacity: 0;
+ transition: opacity 0.3s ease;
+}
+.card:hover .card-video {
+ opacity: 1;
+}
+.card:hover .card-bg {
+ opacity: 0.2;
+}
+.card-label {
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ right: 0;
+ background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
+ color: white;
+ padding: 15px 10px;
+ text-align: center;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.1rem;
+ font-weight: 600;
+ text-transform: uppercase;
+ letter-spacing: 1px;
+}
+.card-info {
+ position: absolute;
+ top: 10px;
+ left: 10px;
+ background: rgba(0, 0, 0, 0.7);
+ padding: 5px 10px;
+ border-radius: 4px;
+ font-size: 0.9rem;
+ color: #4da6ff;
 }
 .arrow {
-  color: #4da6ff;
-  font-size: 2rem;
-  cursor: pointer;
-  user-select: none;
-  padding: 0 1rem;
-  transition: color 0.3s ease;
+ color: #4da6ff;
+ font-size: 2.5rem;
+ cursor: pointer;
+ user-select: none;
+ padding: 1rem;
+ background: rgba(0, 0, 0, 0.7);
+ border-radius: 50%;
+ transition: all 0.3s ease;
+ min-width: 60px;
+ min-height: 60px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
 }
 .arrow:hover {
-  color: #ff4b4b;
+ background: rgba(77, 166, 255, 0.3);
+ transform: scale(1.1);
+}
+
+/* ====== MODAL STYLES ====== */
+.modal {
+ display: none;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(0, 0, 0, 0.95);
+ z-index: 2000;
+ backdrop-filter: blur(10px);
+}
+
+.modal-content {
+ position: relative;
+ background: rgba(0, 8, 25, 0.95);
+ margin: 50px auto;
+ padding: 30px;
+ width: 90%;
+ max-width: 900px;
+ border-radius: 15px;
+ border: 2px solid #4da6ff;
+ box-shadow: 0 0 50px rgba(77, 166, 255, 0.5);
+ max-height: 85vh;
+ overflow-y: auto;
+}
+
+.modal-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 25px;
+ padding-bottom: 15px;
+ border-bottom: 2px solid rgba(77, 166, 255, 0.3);
+}
+
+.modal-title {
+ color: #8ac6ff;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 2.5rem;
+ text-shadow: 0 0 15px rgba(77, 166, 255, 0.5);
+}
+
+.close-modal {
+ background: rgba(77, 166, 255, 0.8);
+ color: white;
+ border: 2px solid #4da6ff;
+ border-radius: 50%;
+ width: 40px;
+ height: 40px;
+ font-size: 1.5rem;
+ cursor: pointer;
+ transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+ background: rgba(77, 166, 255, 1);
+ transform: rotate(90deg);
+}
+
+.modal-body {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 30px;
+}
+
+.modal-media {
+ border-radius: 10px;
+ overflow: hidden;
+ border: 2px solid rgba(77, 166, 255, 0.3);
+}
+
+.modal-media img,
+.modal-media video {
+ width: 100%;
+ height: 300px;
+ object-fit: cover;
+ display: block;
+}
+
+.modal-info {
+ background: rgba(0, 15, 40, 0.7);
+ padding: 25px;
+ border-radius: 10px;
+ border: 1px solid rgba(77, 166, 255, 0.2);
+}
+
+.modal-info h3 {
+ color: #4da6ff;
+ margin-bottom: 15px;
+ font-size: 1.8rem;
+}
+
+.modal-info p {
+ color: #e8e8e8;
+ line-height: 1.7;
+ margin-bottom: 20px;
+ font-size: 1.1rem;
+}
+
+.modal-stats {
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: 15px;
+ margin-top: 20px;
+}
+
+.stat-item {
+ background: rgba(0, 20, 50, 0.6);
+ padding: 12px;
+ border-radius: 8px;
+ border-left: 3px solid #4da6ff;
+}
+
+.stat-label {
+ color: #8ac6ff;
+ font-size: 0.9rem;
+ font-weight: bold;
+}
+
+.stat-value {
+ color: #ffffff;
+ font-size: 1.1rem;
+ font-weight: 500;
+}
+
+@media (max-width: 768px) {
+ .modal-body {
+ grid-template-columns: 1fr;
+ }
+ 
+ .modal-content {
+ margin: 20px auto;
+ padding: 20px;
+ width: 95%;
+ }
+ 
+ .modal-title {
+ font-size: 1.8rem;
+ }
+}
+
+/* ====== VIDEO FEATURE SECTION ====== */
+.video-feature-section {
+ margin: 6rem auto;
+ max-width: 900px;
+ text-align: center;
+ padding: 3rem;
+ background: rgba(0, 5, 15, 0.85);
+ backdrop-filter: blur(15px);
+ border-radius: 15px;
+ border: 1px solid rgba(77, 166, 255, 0.3);
+ box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+}
+.video-feature-section h2 {
+ font-size: 2.5rem;
+ color: #8ac6ff;
+ margin-bottom: 1.5rem;
+ font-family: 'Orbitron', sans-serif;
+ text-shadow: 0 0 20px rgba(77, 166, 255, 0.6);
+}
+.video-feature-section p {
+ font-size: 1.2rem;
+ color: #f0f0f0;
+ line-height: 1.7;
+ margin-bottom: 2rem;
+ max-width: 700px;
+ margin-left: auto;
+ margin-right: auto;
+ text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+.video-container {
+ width: 100%;
+ max-width: 800px;
+ margin: 2rem auto;
+ border-radius: 15px;
+ overflow: hidden;
+ box-shadow: 0 0 40px rgba(77, 166, 255, 0.4);
+ border: 2px solid rgba(77, 166, 255, 0.3);
+}
+.video-container video {
+ width: 100%;
+ height: auto;
+ display: block;
+}
+.expansion-notice {
+ background: rgba(0, 8, 25, 0.95);
+ backdrop-filter: blur(10px);
+ border-left: 4px solid #4da6ff;
+ border: 1px solid rgba(77, 166, 255, 0.4);
+ padding: 2.5rem;
+ margin-top: 3rem;
+ border-radius: 10px;
+ box-shadow: 0 0 40px rgba(0, 20, 60, 0.8);
+ position: relative;
+}
+.expansion-notice::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ height: 4px;
+ background: linear-gradient(90deg, #4da6ff, #003366, #4da6ff);
+ border-radius: 10px 10px 0 0;
+}
+.expansion-notice h3 {
+ color: #8ac6ff;
+ margin-bottom: 1.2rem;
+ font-size: 1.6rem;
+ text-shadow: 0 0 10px rgba(77, 166, 255, 0.5);
+}
+.expansion-notice ul {
+ color: #e8e8e8;
+ line-height: 1.7;
+ margin: 1.2rem 0;
+ padding-left: 1.8rem;
+ text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+.expansion-notice li {
+ margin-bottom: 0.7rem;
+ padding-left: 0.5rem;
+}
+.expansion-notice p {
+ color: #e8e8e8;
+ text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
 }
 
 /* ====== FOOTER ====== */
 footer {
-position: fixed;
-bottom: 0;
-left: 0;
-width: 100%;
-text-align: center;
-padding: 0.6rem 0;
-background: rgba(0, 0, 0, 0.8);
-color: #ccc;
-font-family: 'Segoe UI', sans-serif;
-z-index: 1000;
-border-top: 2px solid #ff9553;
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ text-align: center;
+ padding: 0.6rem 0;
+ background: rgba(0, 0, 0, 0.95);
+ color: #ccc;
+ font-family: 'Segoe UI', sans-serif;
+ z-index: 1000;
+ border-top: 2px solid #4da6ff;
+ transition: opacity 0.5s ease;
 }
 
-/* ====== RESPONSIVE ====== */
+/* ========== MOBILE STYLES ========== */
+@media (max-width: 1024px) {
+ .page-content { padding: 100px 20px 40px !important; }
+ .solar-system-hero h1 { font-size: 3rem !important; }
+ .nasa-iframe-container { height: 400px !important; }
+ .card { flex: 0 0 170px !important; height: 220px !important; }
+ .card-section h2 { font-size: 1.8rem !important; top: -60px !important; }
+}
+
 @media (max-width: 768px) {
-  .solar-system-hero h1 {
-    font-size: 2.5rem;
-  }
-  .nasa-iframe-container {
-    height: 400px;
-  }
-  .card {
-    flex: 0 0 120px;
-    height: 150px;
-  }
+ nav.top-menu {
+ gap: 1rem !important;
+ padding: 0.5rem 0 !important;
+ justify-content: flex-start !important;
+ overflow-x: auto !important;
+ white-space: nowrap !important;
+ }
+ nav.top-menu a { font-size: 0.9rem !important; padding: 0.4rem 0.6rem !important; }
+ .site-title-overlay { top: 70px !important; left: 20px !important; }
+ .site-title-overlay h1 { font-size: 1.5rem !important; }
+ .solar-system-hero h1 { font-size: 2.2rem !important; }
+ .solar-intro { font-size: 1.1rem !important; padding: 0 10px; }
+ .content-toggle { top: 70px !important; right: 20px !important; }
+ .audio-controls { bottom: 70px !important; right: 20px !important; }
+ .card-section { margin: 4rem 0 3rem !important; }
+ .card-container {
+ max-width: 100% !important;
+ padding: 1rem !important;
+ gap: 1rem !important;
+ }
+ .card {
+ flex: 0 0 150px !important;
+ height: 200px !important;
+ }
+ .card-label { font-size: 1rem !important; padding: 12px 8px !important; }
+ .arrow { display: none; }
+ .nasa-iframe-container {
+ height: 300px !important;
+ margin: 2rem auto !important;
+ width: 95% !important;
+ }
+ .video-feature-section {
+ margin: 4rem auto !important;
+ padding: 2rem !important;
+ }
+ .video-feature-section h2 { font-size: 1.8rem !important; }
+ .video-feature-section p { font-size: 1rem !important; }
+ .card-section h2 { 
+  font-size: 1.5rem !important; 
+  top: -50px !important;
+  white-space: normal !important;
+  text-align: center !important;
+  width: 90% !important;
+  padding: 8px 15px !important;
+ }
+ footer {
+ position: relative !important;
+ margin-top: 3rem !important;
+ font-size: 0.9rem !important;
+ }
+}
+
+@media (max-width: 480px) {
+ .solar-system-hero h1 { font-size: 1.8rem !important; }
+ .solar-intro { font-size: 1rem !important; }
+ .card { flex: 0 0 130px !important; height: 180px !important; }
+ .nasa-iframe-container { height: 250px !important; }
+ .video-feature-section h2 { font-size: 1.5rem !important; }
+ .content-toggle, .audio-controls { display: none !important; }
+ .card-section h2 { font-size: 1.3rem !important; top: -40px !important; padding: 6px 12px !important; }
 }
 </style>
 </head>
 <body>
-<div class="background"></div>
-<div class="stars"></div>
+<!-- ====== VIDEO BACKGROUND ====== -->
+<div class="background-container">
+ <div class="static-background" id="staticBg"></div>
+ <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
+ <source src="videos/Enceladus.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+</div>
 
-<!-- SITE TITLE OVERLAY -->
+<!-- ====== SITE TITLE ====== -->
 <div class="site-title-overlay" id="siteTitle">
-    <h1>The Mars Abyss</h1>
+ <h1>The Mars Abyss</h1>
 </div>
 
-<!-- AUDIO CONTROLS -->
+<!-- ====== CONTENT TOGGLE ====== -->
+<div class="content-toggle">
+ <button class="toggle-btn" id="toggleContent">👀 Hide Content</button>
+</div>
+
+<!-- ====== AUDIO CONTROLS ====== -->
 <div class="audio-controls">
-    <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+ <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
 
+<!-- ====== MENU ====== -->
+<!-- INSERT YOUR NAVIGATION MENU HERE -->
+<nav class="top-menu" id="topMenu">
+ <div class="dropdown">
+  <a href="index.html" class="dropbtn">Home</a>
+  <div class="dropdown-content">
+   <a href="why-this-world-matters.html">Why This World Matters</a>
+   <a href="homage-to-courage.html">Homage to Courage</a>
+   <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+   <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+   <a href="my-mission.html">My Mission</a>
+   <a href="martian-reading-revival.html">Martian Reading Revival</a>
+   <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+   <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+   <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+  </div>
+ </div>
 
-<!-- CORRECT MENU STRUCTURE -->
- <nav class="top-menu">
-<div class="dropdown">
-<a href="index.html" class="dropbtn">Home</a>
-<div class="dropdown-content">
-<a href="why-this-world-matters.html">Why This World Matters</a>
-<a href="homage-to-courage.html">Homage to Courage</a>
-<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
-<a href="the-migrant-initiative.html">The Migrant Initiative</a>
-<a href="my-mission.html">My Mission</a>
-<a href="martian-reading-revival.html">Martian Reading Revival</a>
-<a href="why-mars-is-safer.html">Why Mars is Safer</a>
-<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
-<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="story.html" class="dropbtn">Story</a>
-
-<div class="dropdown-content">
-<a href="characters.html">Characters</a>
-<div class="dropdown">
-<a href="gallery.html" class="dropbtn">Gallery</a>
-<div class="dropdown-content">
-<a href="art-and-concepts.html">Art & Concepts</a>
-<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
-<a href="technical-database.html">Technical Database</a>
-<a href="martian-edicts.html">The Martian Edicts</a>
-<a href="alien-transport-network.html">Alien Transport Network</a> 
-<a href="martian-martial-arts.html">Martian Martial Arts</a>
-<a href="solar-system-explorer.html" class="active">Solar System Explorer</a>
-<a href="aliens-ufos.html">Aliens & UFOs</a>
-</div>
-</div>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="martian-games.html" class="dropbtn">Martian Games</a>
-<div class="dropdown-content">
-<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
-<a href="martian-racer.html">Martian Racer</a>
-<a href="red-planet-defense.html">Red Planet Defense</a>
-<a href="the-regents-portal.html">The Regent's Portal</a>
-<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
-<a href="the-knowledge-deck.html">The Knowledge Deck</a>
-<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
-<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
-<div class="dropdown-content">
-<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
-<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
-<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
-<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
-<a href="earths-great-poets.html">Earth's Great Poets</a>
-<a href="the-bohr-institute.html">The Bohr Institute</a>
-<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
-<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
-<a href="the-bronx-dome.html">The Bronx Dome</a>
-</div>
-</div>
-<div class="dropdown">
-    <a href="martian-news.html" class="dropbtn">Martian News</a>
+ <div class="dropdown">
+  <a href="story.html" class="dropbtn">Story</a>
+  <div class="dropdown-content">
+   <a href="characters.html">Characters</a>
+   <div class="dropdown">
+    <a href="gallery.html" class="dropbtn">Gallery</a>
     <div class="dropdown-content">
-    <a href="martian-actualities.html">Martian Actualities</a>
-    <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
-    <a href="mars-bee-facility.html">Mars Bee Facility</a>
-    <a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
-    <a href="house-of-health-secrets.html">The House of Health Secrets</a>
-    <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
-    <a href="martian-rest-areas.html">Martian Rest Areas</a>
-    <div class="dropdown">
-<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-<div class="dropdown-content">
-<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
-<a href="marvin.html">M.A.R.V.I.N.</a>
-</div>
-</div>
+     <a href="art-and-concepts.html">Art & Concepts</a>
+     <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+     <a href="technical-database.html">Technical Database</a>
+     <a href="martian-edicts.html">The Martian Edicts</a>
+     <a href="alien-transport-network.html">Alien Transport Network</a>
+     <a href="martian-martial-arts.html">Martian Martial Arts</a>
+     <a href="solar-system-explorer.html" class="active">Solar System Explorer</a>
+     <a href="aliens-ufos.html">Aliens & UFOs</a>
     </div>
-    </div>
+   </div>
+  </div>
+ </div>
+
+ <div class="dropdown">
+  <a href="martian-games.html" class="dropbtn">Martian Games</a>
+  <div class="dropdown-content">
+   <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+   <a href="martian-racer.html">Martian Racer</a>
+   <a href="red-planet-defense.html">Red Planet Defense</a>
+   <a href="the-regents-portal.html">The Regent's Portal</a>
+   <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+   <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+   <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+   <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+  </div>
+ </div>
+
+ <div class="dropdown">
+  <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+  <div class="dropdown-content">
+   <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+   <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+   <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+   <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+   <a href="earths-great-poets.html">Earth's Great Poets</a>
+   <a href="the-bohr-institute.html">The Bohr Institute</a>
+   <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+   <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+   <a href="the-bronx-dome.html">The Bronx Dome</a>
+  </div>
+ </div>
+ 
+ <div class="dropdown">
+  <a href="martian-news.html" class="dropbtn">Martian News</a>
+  <div class="dropdown-content">
+   <a href="martian-actualities.html">Martian Actualities</a>
+   <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+   <a href="mars-bee-facility.html">Mars Bee Facility</a>
+   <a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
+   <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+   <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+   <a href="martian-rest-areas.html">Martian Rest Areas</a>
+   <div class="dropdown">
+    <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
     <div class="dropdown-content">
-    <a href="martian-actualities.html">Martian Actualities</a>
-    <a href="mars-bee-facility.html">Mars Bee Facility</a>
-    <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-    <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+     <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+     <a href="marvin.html">M.A.R.V.I.N.</a>
     </div>
-    </div>
+   </div>
+  </div>
+ </div>
 
-<div class="dropdown">
-<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
-<div class="dropdown-content">
-<a href="what-the-regent-misses.html">What the Regent Misses</a>  
-<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
-<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
-<a href="honor-the-fallen.html">Honor The Fallen</a>
-<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
-<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
-<a href="salems-witching-hour.html">Salem's Witching Hour</a>
-<a href="martian-critique-tron-ares.html">Martian Critique</a>
-<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
-<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
-<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
-</div>
-</div>
+ <div class="dropdown">
+  <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+  <div class="dropdown-content">
+   <a href="what-the-regent-misses.html">What the Regent Misses</a> 
+   <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+   <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+   <a href="honor-the-fallen.html">Honor The Fallen</a>
+   <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+   <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+   <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+   <a href="martian-critique-tron-ares.html">Martian Critique</a>
+   <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+   <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+   <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+  </div>
+ </div>
 
-<div class="dropdown">
-<a href="about.html" class="dropbtn">About</a>
-<div class="dropdown-content">
-<a href="about-the-project.html">About the Project</a>  
-<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
-<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
-<a href="professor-squeaks-academy.html">Professor Squeaks' cademy</a>
-<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
-<a href="the-pale-horse.html">The Pale Horse</a>
-<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
-<a href="arachne-labs.html">Arachne Labs</a>
-<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
-<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
-</div>
-</div>
+ <div class="dropdown">
+  <a href="about.html" class="dropbtn">About</a>
+  <div class="dropdown-content">
+   <a href="about-the-project.html">About the Project</a> 
+   <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+   <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+   <a href="professor-squeaks-academy.html">Professor Squeaks' cademy</a>
+   <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+   <a href="the-pale-horse.html">The Pale Horse</a>
+   <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+   <a href="arachne-labs.html">Arachne Labs</a>
+   <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+   <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+  </div>
+ </div>
 
-<div class="dropdown">
-<a href="support.html" class="dropbtn">Support</a>
-<div class="dropdown-content">
-<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>   
-<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-<a href="mars-food-district.html">Mars Food District</a>
-<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
-<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-<a href="fund-martian-research.html">Fund Martian Research</a>
-<a href="martian-survival-manual.html">Martian Survival Manual</a>
-<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
-</div>
-</div>
-<a href="contact.html">Contact</a>
+ <div class="dropdown">
+  <a href="support.html" class="dropbtn">Support</a>
+  <div class="dropdown-content">
+   <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+   <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+   <a href="mars-food-district.html">Mars Food District</a>
+   <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+   <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+   <a href="fund-martian-research.html">Fund Martian Research</a>
+   <a href="martian-survival-manual.html">Martian Survival Manual</a>
+   <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+  </div>
+ </div>
+ <a href="contact.html">Contact</a>
 </nav>
 
 <!-- ====== PAGE CONTENT ====== -->
-<main class="page-content">
-  <div class="solar-system-hero">
-    <h1>Solar System Explorer</h1>
-    <p class="solar-intro">
-      Navigate our celestial neighborhood. Click on a planet below to explore its mysteries — or enter NASA's interactive “Eyes on the Solar System” view to experience it in motion.
-    </p>
-  </div>
+<main class="page-content" id="mainContent">
+ <!-- HERO SECTION -->
+ <section class="solar-system-hero">
+ <h1>Solar System Explorer</h1>
+ <p class="solar-intro">
+ Navigate our celestial neighborhood. Click on a planet below to explore its mysteries — or enter NASA's interactive "Eyes on the Solar System" view to experience it in motion.
+ </p>
+ </section>
 
-  <!-- ====== NASA IFRAME ====== -->
-  <div class="nasa-iframe-container">
-    <iframe src="https://eyes.nasa.gov/apps/solar-system/#/home" allowfullscreen></iframe>
-  </div>
+ <!-- NASA INTERACTIVE -->
+ <div class="nasa-iframe-container">
+ <iframe src="https://eyes.nasa.gov/apps/solar-system/#/home" allowfullscreen></iframe>
+ </div>
 
-  <!-- ====== PLANET CARDS ====== -->
-  <div class="card-section">
-    <div class="arrow" onclick="scrollCards(-1)">&#10094;</div>
-    <div class="card-container" id="cards">
-      <div class="card" style="background-image: url('images/the-sun.jpg');" title="The Sun"></div>
-      <div class="card" style="background-image: url('images/mercury.jpg');" title="Mercury"></div>
-      <div class="card" style="background-image: url('images/venus.jpg');" title="Venus"></div>
-      <div class="card" style="background-image: url('images/blue-marble.jpeg');" title="Earth"></div>
-      <div class="card" style="background-image: url('images/mars solo.jpg');" title="Mars"></div>
-      <div class="card" style="background-image: url('images/jupiter.jpg');" title="Jupiter"></div>
-      <div class="card" style="background-image: url('images/Saturn.jpg');" title="Saturn"></div>
-      <div class="card" style="background-image: url('images/Uranus-with-rings.jpg');" title="Uranus"></div>
-      <div class="card" style="background-image: url('images/neptune.jpg');" title="Neptune"></div>
-    </div>
-    <div class="arrow" onclick="scrollCards(1)">&#10095;</div>
-  </div>
+ <!-- PLANETS CARDS SECTION -->
+ <section class="card-section">
+ <h2>Planets of Our Solar System</h2>
+ <div class="arrow" onclick="scrollCards(-1)">◄</div>
+ <div class="card-container" id="cards">
+ <!-- Sun Card -->
+ <div class="card" onclick="openPlanetModal('sun')">
+ <div class="card-bg" style="background-image: url('images/the-sun.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/solar-flares.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">★</div>
+ <div class="card-label">THE SUN</div>
+ </div>
+ 
+ <!-- Mercury Card -->
+ <div class="card" onclick="openPlanetModal('mercury')">
+ <div class="card-bg" style="background-image: url('images/mercury.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/mercury-surface.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">☿</div>
+ <div class="card-label">MERCURY</div>
+ </div>
+ 
+ <!-- Venus Card -->
+ <div class="card" onclick="openPlanetModal('venus')">
+ <div class="card-bg" style="background-image: url('images/venus.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/venus-atmosphere.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">♀</div>
+ <div class="card-label">VENUS</div>
+ </div>
+ 
+ <!-- Earth Card -->
+ <div class="card" onclick="openPlanetModal('earth')">
+ <div class="card-bg" style="background-image: url('images/blue-marble.jpeg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/earth-rotation.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">♁</div>
+ <div class="card-label">EARTH</div>
+ </div>
+ 
+ <!-- Mars Card -->
+ <div class="card" onclick="openPlanetModal('mars')">
+ <div class="card-bg" style="background-image: url('images/mars solo.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/mars-aproach-2.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">♂</div>
+ <div class="card-label">MARS</div>
+ </div>
+ 
+ <!-- Jupiter Card -->
+ <div class="card" onclick="openPlanetModal('jupiter')">
+ <div class="card-bg" style="background-image: url('images/jupiter.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/jupiter-storm.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">♃</div>
+ <div class="card-label">JUPITER</div>
+ </div>
+ 
+ <!-- Saturn Card -->
+ <div class="card" onclick="openPlanetModal('saturn')">
+ <div class="card-bg" style="background-image: url('images/Saturn.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/saturn-rings.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">♄</div>
+ <div class="card-label">SATURN</div>
+ </div>
+ 
+ <!-- Uranus Card -->
+ <div class="card" onclick="openPlanetModal('uranus')">
+ <div class="card-bg" style="background-image: url('images/Uranus-with-rings.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/uranus-rotation.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">♅</div>
+ <div class="card-label">URANUS</div>
+ </div>
+ 
+ <!-- Neptune Card -->
+ <div class="card" onclick="openPlanetModal('neptune')">
+ <div class="card-bg" style="background-image: url('images/neptune.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/neptune-storms.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">♆</div>
+ <div class="card-label">NEPTUNE</div>
+ </div>
+ </div>
+ <div class="arrow" onclick="scrollCards(1)">►</div>
+ </section>
+
+ <!-- MOONS CARDS SECTION -->
+ <section class="card-section">
+ <h2>Notable Moons</h2>
+ <div class="arrow" onclick="scrollMoonsCards(-1)">◄</div>
+ <div class="card-container" id="moonCards">
+ <!-- Earth's Moon -->
+ <div class="card" onclick="openMoonModal('moon')">
+ <div class="card-bg" style="background-image: url('images/earth-moon.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/earth-moon.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">🌕</div>
+ <div class="card-label">EARTH'S MOON</div>
+ </div>
+ 
+ <!-- Europa -->
+ <div class="card" onclick="openMoonModal('europa')">
+ <div class="card-bg" style="background-image: url('images/europa.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/europa-surface.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">🪐</div>
+ <div class="card-label">EUROPA</div>
+ </div>
+ 
+ <!-- Titan -->
+ <div class="card" onclick="openMoonModal('titan')">
+ <div class="card-bg" style="background-image: url('images/titan.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/titan-atmosphere.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">🌑</div>
+ <div class="card-label">TITAN</div>
+ </div>
+ 
+ <!-- Ganymede -->
+ <div class="card" onclick="openMoonModal('ganymede')">
+ <div class="card-bg" style="background-image: url('images/ganymede.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/ganymede-surface.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">⭐</div>
+ <div class="card-label">GANYMEDE</div>
+ </div>
+ 
+ <!-- Io -->
+ <div class="card" onclick="openMoonModal('io')">
+ <div class="card-bg" style="background-image: url('images/io.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/io-volcanoes.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">🔥</div>
+ <div class="card-label">IO</div>
+ </div>
+ 
+ <!-- Enceladus -->
+ <div class="card" onclick="openMoonModal('enceladus')">
+ <div class="card-bg" style="background-image: url('images/enceladus.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/Enceladus.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">❄️</div>
+ <div class="card-label">ENCELADUS</div>
+ </div>
+ 
+ <!-- Phobos -->
+ <div class="card" onclick="openMoonModal('phobos')">
+ <div class="card-bg" style="background-image: url('images/phobos.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/phobos-orbit.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">♂</div>
+ <div class="card-label">PHOBOS</div>
+ </div>
+ 
+ <!-- Triton -->
+ <div class="card" onclick="openMoonModal('triton')">
+ <div class="card-bg" style="background-image: url('images/triton.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/triton-geysers.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">♆</div>
+ <div class="card-label">TRITON</div>
+ </div>
+ </div>
+ <div class="arrow" onclick="scrollMoonsCards(1)">►</div>
+ </section>
+
+ <!-- GALAXIES CARDS SECTION -->
+ <section class="card-section">
+ <h2>Galaxies & Deep Space</h2>
+ <div class="arrow" onclick="scrollGalaxyCards(-1)">◄</div>
+ <div class="card-container" id="galaxyCards">
+ <!-- Milky Way -->
+ <div class="card" onclick="openGalaxyModal('milkyway')">
+ <div class="card-bg" style="background-image: url('images/milky-way.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/milky-way.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">🌌</div>
+ <div class="card-label">MILKY WAY</div>
+ </div>
+ 
+ <!-- Andromeda -->
+ <div class="card" onclick="openGalaxyModal('andromeda')">
+ <div class="card-bg" style="background-image: url('images/andromeda.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/andromeda.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">🌀</div>
+ <div class="card-label">ANDROMEDA</div>
+ </div>
+ 
+ <!-- Orion Nebula -->
+ <div class="card" onclick="openGalaxyModal('orion')">
+ <div class="card-bg" style="background-image: url('images/orion-nebula.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/orion-nebula.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">✨</div>
+ <div class="card-label">ORION NEBULA</div>
+ </div>
+ 
+ <!-- Pillars of Creation -->
+ <div class="card" onclick="openGalaxyModal('pillars')">
+ <div class="card-bg" style="background-image: url('images/pillars-creation.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/pillars-creation.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">🏛️</div>
+ <div class="card-label">PILLARS OF CREATION</div>
+ </div>
+ 
+ <!-- Black Hole -->
+ <div class="card" onclick="openGalaxyModal('blackhole')">
+ <div class="card-bg" style="background-image: url('images/black-hole.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/black-hole.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">⚫</div>
+ <div class="card-label">BLACK HOLE</div>
+ </div>
+ 
+ <!-- Whirlpool Galaxy -->
+ <div class="card" onclick="openGalaxyModal('whirlpool')">
+ <div class="card-bg" style="background-image: url('images/whirlpool-galaxy.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/whirlpool-galaxy.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">🌪️</div>
+ <div class="card-label">WHIRLPOOL GALAXY</div>
+ </div>
+ 
+ <!-- Sombrero Galaxy -->
+ <div class="card" onclick="openGalaxyModal('sombrero')">
+ <div class="card-bg" style="background-image: url('images/sombrero-galaxy.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/sombrero-galaxy.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">👒</div>
+ <div class="card-label">SOMBRERO GALAXY</div>
+ </div>
+ 
+ <!-- Cartwheel Galaxy -->
+ <div class="card" onclick="openGalaxyModal('cartwheel')">
+ <div class="card-bg" style="background-image: url('images/cartwheel-galaxy.jpg')"></div>
+ <video class="card-video" muted loop playsinline>
+ <source src="videos/cartwheel-galaxy.mp4" type="video/mp4">
+ </video>
+ <div class="card-info">🎡</div>
+ <div class="card-label">CARTWHEEL GALAXY</div>
+ </div>
+ </div>
+ <div class="arrow" onclick="scrollGalaxyCards(1)">►</div>
+ </section>
+
+ <!-- FEATURED VIDEO -->
+ <section class="video-feature-section">
+ <h2>Martian Frontier: Enceladus Expedition</h2>
+ <p>
+ Witness the boundary where scientific discovery meets visionary exploration. This footage shows Saturn's icy moon Enceladus, where cryovolcanic plumes blast water ice into space—a prime example of how The Mars Abyss blends NASA's real discoveries with our fictional universe.
+ </p>
+ 
+ <div class="video-container">
+ <video controls poster="images/enceladus-poster.jpg">
+ <source src="videos/the-ghost-in-the-quantum-field.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ </div>
+ 
+ <div class="expansion-notice">
+ <h3>🚀 Expanding Our Solar System Knowledge</h3>
+ <p>This is more than a page—it's a growing educational platform. As NASA's budget limits their public outreach, The Mars Abyss Solar System Explorer steps in to provide:</p>
+ <ul>
+ <li>Real NASA data integrated with speculative science</li>
+ <li>High-quality videos of planets and moons</li>
+ <li>Historical mission footage (Pathfinder, Voyager, etc.)</li>
+ <li>Martian expedition reports and discoveries</li>
+ </ul>
+ <p style="margin-top: 1.5rem;"><strong>Coming Soon:</strong> Europa ocean analysis, Titan methane lakes expedition, and a complete Martian News section dedicated to real space science.</p>
+ </div>
+ </section>
 </main>
 
 <!-- ====== FOOTER ====== -->
-<footer class="visible">
-  <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+<footer id="pageFooter">
+ <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
 
+<!-- ====== MODAL ====== -->
+<div id="planetModal" class="modal">
+ <div class="modal-content">
+ <div class="modal-header">
+ <h2 class="modal-title" id="modalPlanetTitle">The Sun</h2>
+ <button class="close-modal" onclick="closeModal()">×</button>
+ </div>
+ <div class="modal-body">
+ <div class="modal-media">
+ <video id="modalVideo" controls autoplay muted loop>
+ <source src="" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ <img id="modalImage" src="" alt="" style="display: none;">
+ </div>
+ <div class="modal-info">
+ <h3 id="modalSubtitle">Star of Our Solar System</h3>
+ <p id="modalDescription">The Sun is the star at the center of the Solar System. It is a nearly perfect ball of hot plasma, heated to incandescence by nuclear fusion reactions in its core, radiating the energy mainly as light, ultraviolet, and infrared radiation.</p>
+ 
+ <div class="modal-stats">
+ <div class="stat-item">
+ <div class="stat-label">Type</div>
+ <div class="stat-value" id="statType">G-type main-sequence</div>
+ </div>
+ <div class="stat-item">
+ <div class="stat-label">Diameter</div>
+ <div class="stat-value" id="statDiameter">1,392,700 km</div>
+ </div>
+ <div class="stat-item">
+ <div class="stat-label">Mass</div>
+ <div class="stat-value" id="statMass">1.989 × 10³⁰ kg</div>
+ </div>
+ <div class="stat-item">
+ <div class="stat-label">Surface Temp</div>
+ <div class="stat-value" id="statTemp">5,500°C</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</div>
+
 <script>
+// ====== VIDEO BACKGROUND ======
+const videoBg = document.getElementById('videoBg');
+const staticBg = document.getElementById('staticBg');
+
+videoBg.addEventListener('loadeddata', function() {
+ setTimeout(() => {
+ staticBg.style.opacity = '0';
+ setTimeout(() => { staticBg.style.pointerEvents = 'none'; }, 1500);
+ }, 2000);
+ setTimeout(() => { 
+ videoBg.play().catch(e => console.log('Video autoplay prevented')); 
+ }, 500);
+});
+
+videoBg.addEventListener('error', function() {
+ console.log('Video failed to load, using static background');
+ videoBg.style.display = 'none';
+ staticBg.style.opacity = '1';
+});
+
+// ====== CARD SCROLLING ======
 function scrollCards(direction) {
-  const container = document.getElementById("cards");
-  const scrollAmount = 300;
-  container.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
+ const container = document.getElementById("cards");
+ const scrollAmount = window.innerWidth <= 768 ? 200 : 300;
+ container.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
 }
 
-// AUDIO SYSTEM
+function scrollMoonsCards(direction) {
+ const container = document.getElementById("moonCards");
+ const scrollAmount = window.innerWidth <= 768 ? 200 : 300;
+ container.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
+}
+
+function scrollGalaxyCards(direction) {
+ const container = document.getElementById("galaxyCards");
+ const scrollAmount = window.innerWidth <= 768 ? 200 : 300;
+ container.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
+}
+
+// ====== PLANET DATA ======
+const planetData = {
+ sun: {
+ title: "THE SUN",
+ subtitle: "Star of Our Solar System",
+ video: "videos/solar-flares.mp4",
+ image: "images/the-sun.jpg",
+ description: "The Sun is the star at the center of the Solar System. It is a nearly perfect ball of hot plasma, heated to incandescence by nuclear fusion reactions in its core, radiating the energy mainly as light, ultraviolet, and infrared radiation.",
+ type: "G-type main-sequence",
+ diameter: "1,392,700 km",
+ mass: "1.989 × 10³⁰ kg",
+ temperature: "5,500°C"
+ },
+ mercury: {
+ title: "MERCURY",
+ subtitle: "The Swift Planet",
+ video: "videos/mercury-surface.mp4",
+ image: "images/mercury.jpg",
+ description: "Mercury is the smallest and innermost planet in the Solar System. Its orbit around the Sun takes 87.97 Earth days, the shortest of all the planets. It is named after the Roman god Mercurius (Mercury), god of commerce, messenger of the gods.",
+ type: "Terrestrial planet",
+ diameter: "4,879 km",
+ mass: "3.301 × 10²³ kg",
+ temperature: "430°C (day), -180°C (night)"
+ },
+ venus: {
+ title: "VENUS",
+ subtitle: "Morning & Evening Star",
+ video: "videos/venus-atmosphere.mp4",
+ image: "images/venus.jpg",
+ description: "Venus is the second planet from the Sun and is Earth's closest planetary neighbor. It's one of the four inner, terrestrial planets, and it's often called Earth's twin because it's similar in size and density.",
+ type: "Terrestrial planet",
+ diameter: "12,104 km",
+ mass: "4.867 × 10²⁴ kg",
+ temperature: "462°C"
+ },
+ earth: {
+ title: "EARTH",
+ subtitle: "The Blue Planet",
+ video: "videos/earth-rotation.mp4",
+ image: "images/blue-marble.jpeg",
+ description: "Earth is the third planet from the Sun and the only astronomical object known to harbor life. About 29% of Earth's surface is land consisting of continents and islands. The remaining 71% is covered with water.",
+ type: "Terrestrial planet",
+ diameter: "12,756 km",
+ mass: "5.972 × 10²⁴ kg",
+ temperature: "14°C (average)"
+ },
+ mars: {
+ title: "MARS",
+ subtitle: "The Red Planet",
+ video: "videos/mars-aproach-2.mp4",
+ image: "images/mars solo.jpg",
+ description: "Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System. Mars is a terrestrial planet with a thin atmosphere, and has surface features reminiscent both of the impact craters of the Moon and the valleys, deserts, and polar ice caps of Earth.",
+ type: "Terrestrial planet",
+ diameter: "6,779 km",
+ mass: "6.417 × 10²³ kg",
+ temperature: "-63°C (average)"
+ },
+ jupiter: {
+ title: "JUPITER",
+ subtitle: "The Gas Giant",
+ video: "videos/jupiter-storm.mp4",
+ image: "images/jupiter.jpg",
+ description: "Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass one-thousandth that of the Sun, but two-and-a-half times that of all the other planets in the Solar System combined.",
+ type: "Gas giant",
+ diameter: "139,820 km",
+ mass: "1.898 × 10²⁷ kg",
+ temperature: "-108°C"
+ },
+ saturn: {
+ title: "SATURN",
+ subtitle: "The Ringed Planet",
+ video: "videos/saturn-rings.mp4",
+ image: "images/Saturn.jpg",
+ description: "Saturn is the sixth planet from the Sun and the second-largest in the Solar System, after Jupiter. It is a gas giant with an average radius of about nine times that of Earth. It has a prominent ring system.",
+ type: "Gas giant",
+ diameter: "116,460 km",
+ mass: "5.683 × 10²⁶ kg",
+ temperature: "-139°C"
+ },
+ uranus: {
+ title: "URANUS",
+ subtitle: "The Ice Giant",
+ video: "videos/uranus-rotation.mp4",
+ image: "images/Uranus-with-rings.jpg",
+ description: "Uranus is the seventh planet from the Sun. Its name is a reference to the Greek god of the sky, Uranus, who, according to Greek mythology, was the grandfather of Zeus (Jupiter) and father of Cronus (Saturn).",
+ type: "Ice giant",
+ diameter: "50,724 km",
+ mass: "8.681 × 10²⁵ kg",
+ temperature: "-197°C"
+ },
+ neptune: {
+ title: "NEPTUNE",
+ subtitle: "The Windy Planet",
+ video: "videos/neptune-storms.mp4",
+ image: "images/neptune.jpg",
+ description: "Neptune is the eighth and farthest known Solar planet from the Sun. In the Solar System, it is the fourth-largest planet by diameter, the third-most-massive planet, and the densest giant planet.",
+ type: "Ice giant",
+ diameter: "49,244 km",
+ mass: "1.024 × 10²⁶ kg",
+ temperature: "-201°C"
+ }
+};
+
+// ====== MOON DATA ======
+const moonData = {
+ moon: {
+ title: "EARTH'S MOON",
+ subtitle: "Our Natural Satellite",
+ video: "videos/earth-moon.mp4",
+ image: "images/earth-moon.jpg",
+ description: "The Moon is Earth's only natural satellite. It is the fifth largest satellite in the Solar System and the largest relative to its host planet. The Moon's gravitational influence produces Earth's ocean tides and slightly lengthens the day.",
+ type: "Terrestrial satellite",
+ diameter: "3,474 km",
+ mass: "7.342 × 10²² kg",
+ temperature: "127°C (day), -173°C (night)"
+ },
+ europa: {
+ title: "EUROPA",
+ subtitle: "Jupiter's Icy Moon",
+ video: "videos/europa-surface.mp4",
+ image: "images/europa.jpg",
+ description: "Europa is the smallest of the four Galilean moons orbiting Jupiter, and the sixth-closest to the planet. It is also the sixth-largest moon in the Solar System.",
+ type: "Icy moon",
+ diameter: "3,122 km",
+ mass: "4.8 × 10²² kg",
+ temperature: "-160°C"
+ },
+ titan: {
+ title: "TITAN",
+ subtitle: "Saturn's Largest Moon",
+ video: "videos/titan-atmosphere.mp4",
+ image: "images/titan.jpg",
+ description: "Titan is the largest moon of Saturn and the second-largest natural satellite in the Solar System. It is the only moon known to have a dense atmosphere, and the only known body in space, other than Earth, where clear evidence of stable bodies of surface liquid has been found.",
+ type: "Icy moon with atmosphere",
+ diameter: "5,150 km",
+ mass: "1.345 × 10²³ kg",
+ temperature: "-179°C"
+ },
+ ganymede: {
+ title: "GANYMEDE",
+ subtitle: "Largest Moon in Solar System",
+ video: "videos/ganymede-surface.mp4",
+ image: "images/ganymede.jpg",
+ description: "Ganymede is the largest and most massive moon of Jupiter and in the Solar System. It is the only moon known to have its own magnetic field, and the largest moon without a substantial atmosphere.",
+ type: "Icy moon",
+ diameter: "5,262 km",
+ mass: "1.482 × 10²³ kg",
+ temperature: "-163°C"
+ },
+ io: {
+ title: "IO",
+ subtitle: "Jupiter's Volcanic Moon",
+ video: "videos/io-volcanoes.mp4",
+ image: "images/io.jpg",
+ description: "Io is the innermost and third-largest of the four Galilean moons of Jupiter. It is the fourth-largest moon in the Solar System, has the highest density of all moons, and is the driest known object in the Solar System.",
+ type: "Volcanic moon",
+ diameter: "3,643 km",
+ mass: "8.932 × 10²² kg",
+ temperature: "-143°C"
+ },
+ enceladus: {
+ title: "ENCELADUS",
+ subtitle: "Saturn's Icy Moon",
+ video: "videos/Enceladus.mp4",
+ image: "images/enceladus.jpg",
+ description: "Enceladus is the sixth-largest moon of Saturn. It is about 500 kilometers in diameter and is covered in fresh, clean ice, making it one of the most reflective bodies of the Solar System.",
+ type: "Icy moon",
+ diameter: "504 km",
+ mass: "1.08 × 10²⁰ kg",
+ temperature: "-198°C"
+ },
+ phobos: {
+ title: "PHOBOS",
+ subtitle: "Mars' Larger Moon",
+ video: "videos/phobos-orbit.mp4",
+ image: "images/phobos.jpg",
+ description: "Phobos is the innermost and larger of the two natural satellites of Mars. It is a small, irregularly shaped object with a mean radius of 11 km. Phobos orbits 6,000 km from the Martian surface, closer to its primary than any other known planetary moon.",
+ type: "Captured asteroid",
+ diameter: "22 km",
+ mass: "1.065 × 10¹⁶ kg",
+ temperature: "-40°C"
+ },
+ triton: {
+ title: "TRITON",
+ subtitle: "Neptune's Largest Moon",
+ video: "videos/triton-geysers.mp4",
+ image: "images/triton.jpg",
+ description: "Triton is the largest natural satellite of the planet Neptune. It is the only large moon in the Solar System with a retrograde orbit, an orbit in the direction opposite to its planet's rotation.",
+ type: "Icy moon",
+ diameter: "2,707 km",
+ mass: "2.14 × 10²² kg",
+ temperature: "-235°C"
+ }
+};
+
+// ====== GALAXY DATA ======
+const galaxyData = {
+ milkyway: {
+ title: "MILKY WAY",
+ subtitle: "Our Home Galaxy",
+ video: "videos/milky-way.mp4",
+ image: "images/milky-way.jpg",
+ description: "The Milky Way is the galaxy that contains our Solar System. The descriptive 'milky' is derived from the appearance from Earth of the galaxy – a band of light seen in the night sky formed from stars.",
+ type: "Barred spiral galaxy",
+ diameter: "100,000–180,000 light-years",
+ mass: "Not applicable",
+ temperature: "Not applicable"
+ },
+ andromeda: {
+ title: "ANDROMEDA",
+ subtitle: "Our Neighbor Galaxy",
+ video: "videos/andromeda.mp4",
+ image: "images/andromeda.jpg",
+ description: "The Andromeda Galaxy is a barred spiral galaxy and is the nearest major galaxy to the Milky Way. It was originally named the Andromeda Nebula and is cataloged as Messier 31, M31, and NGC 224.",
+ type: "Barred spiral galaxy",
+ diameter: "220,000 light-years",
+ mass: "1.5 trillion solar masses",
+ temperature: "Not applicable"
+ }
+};
+
+// ====== MODAL FUNCTIONS ======
+function openPlanetModal(planetId) {
+ const data = planetData[planetId];
+ if (!data) {
+ console.error(`No data for planet: ${planetId}`);
+ return;
+ }
+ 
+ const modal = document.getElementById('planetModal');
+ const modalVideo = document.getElementById('modalVideo');
+ const modalImage = document.getElementById('modalImage');
+ 
+ // Set modal content
+ document.getElementById('modalPlanetTitle').textContent = data.title;
+ document.getElementById('modalSubtitle').textContent = data.subtitle;
+ document.getElementById('modalDescription').textContent = data.description;
+ document.getElementById('statType').textContent = data.type;
+ document.getElementById('statDiameter').textContent = data.diameter;
+ document.getElementById('statMass').textContent = data.mass;
+ document.getElementById('statTemp').textContent = data.temperature;
+ 
+ // Set media
+ if (data.video) {
+ modalVideo.src = data.video;
+ modalVideo.style.display = 'block';
+ modalImage.style.display = 'none';
+ modalVideo.play().catch(e => console.log('Video autoplay prevented'));
+ } else if (data.image) {
+ modalImage.src = data.image;
+ modalImage.alt = data.title;
+ modalImage.style.display = 'block';
+ modalVideo.style.display = 'none';
+ }
+ 
+ // Show modal
+ modal.style.display = 'block';
+ document.body.style.overflow = 'hidden';
+}
+
+function openMoonModal(moonId) {
+ const data = moonData[moonId];
+ if (!data) {
+ console.error(`No data for moon: ${moonId}`);
+ openPlanetModal(moonId); // Try planet data as fallback
+ return;
+ }
+ 
+ const modal = document.getElementById('planetModal');
+ const modalVideo = document.getElementById('modalVideo');
+ const modalImage = document.getElementById('modalImage');
+ 
+ // Set modal content
+ document.getElementById('modalPlanetTitle').textContent = data.title;
+ document.getElementById('modalSubtitle').textContent = data.subtitle;
+ document.getElementById('modalDescription').textContent = data.description;
+ document.getElementById('statType').textContent = data.type;
+ document.getElementById('statDiameter').textContent = data.diameter;
+ document.getElementById('statMass').textContent = data.mass;
+ document.getElementById('statTemp').textContent = data.temperature;
+ 
+ // Set media
+ if (data.video) {
+ modalVideo.src = data.video;
+ modalVideo.style.display = 'block';
+ modalImage.style.display = 'none';
+ modalVideo.play().catch(e => console.log('Video autoplay prevented'));
+ } else if (data.image) {
+ modalImage.src = data.image;
+ modalImage.alt = data.title;
+ modalImage.style.display = 'block';
+ modalVideo.style.display = 'none';
+ }
+ 
+ // Show modal
+ modal.style.display = 'block';
+ document.body.style.overflow = 'hidden';
+}
+
+function openGalaxyModal(galaxyId) {
+ const data = galaxyData[galaxyId];
+ if (!data) {
+ console.error(`No data for galaxy: ${galaxyId}`);
+ return;
+ }
+ 
+ const modal = document.getElementById('planetModal');
+ const modalVideo = document.getElementById('modalVideo');
+ const modalImage = document.getElementById('modalImage');
+ 
+ // Set modal content
+ document.getElementById('modalPlanetTitle').textContent = data.title;
+ document.getElementById('modalSubtitle').textContent = data.subtitle;
+ document.getElementById('modalDescription').textContent = data.description;
+ document.getElementById('statType').textContent = data.type;
+ document.getElementById('statDiameter').textContent = data.diameter;
+ document.getElementById('statMass').textContent = data.mass;
+ document.getElementById('statTemp').textContent = data.temperature;
+ 
+ // Set media
+ if (data.video) {
+ modalVideo.src = data.video;
+ modalVideo.style.display = 'block';
+ modalImage.style.display = 'none';
+ modalVideo.play().catch(e => console.log('Video autoplay prevented'));
+ } else if (data.image) {
+ modalImage.src = data.image;
+ modalImage.alt = data.title;
+ modalImage.style.display = 'block';
+ modalVideo.style.display = 'none';
+ }
+ 
+ // Show modal
+ modal.style.display = 'block';
+ document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+ const modal = document.getElementById('planetModal');
+ const modalVideo = document.getElementById('modalVideo');
+ 
+ modal.style.display = 'none';
+ document.body.style.overflow = 'auto';
+ modalVideo.pause();
+ modalVideo.currentTime = 0;
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+ const modal = document.getElementById('planetModal');
+ if (event.target == modal) {
+ closeModal();
+ }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+ if (event.key === 'Escape') {
+ closeModal();
+ }
+});
+
+// ====== IMAGE FALLBACK SYSTEM ======
+document.addEventListener('DOMContentLoaded', function() {
+ // Set up image fallbacks for all cards
+ const cards = document.querySelectorAll('.card');
+ 
+ cards.forEach(card => {
+ // Get the background image from the card-bg element
+ const bgDiv = card.querySelector('.card-bg');
+ if (bgDiv) {
+ const bgImage = bgDiv.style.backgroundImage;
+ if (bgImage && bgImage !== 'none') {
+ // Extract URL from background-image
+ const urlMatch = bgImage.match(/url\(['"]?(.*?)['"]?\)/);
+ if (urlMatch && urlMatch[1]) {
+ // Check if image loads
+ const img = new Image();
+ img.src = urlMatch[1];
+ img.onerror = function() {
+ // If image fails, show default space background
+ bgDiv.style.backgroundImage = "url('images/space-bg-deep.jpg')";
+ };
+ }
+ }
+ }
+ 
+ // Also set up video error handling
+ const video = card.querySelector('.card-video');
+ if (video) {
+ video.addEventListener('error', function() {
+ this.style.display = 'none';
+ // If video fails, ensure background image is visible
+ const bgDiv = card.querySelector('.card-bg');
+ if (bgDiv) {
+ bgDiv.style.opacity = '0.9';
+ }
+ });
+ 
+ // Try to load video
+ video.load();
+ }
+ });
+});
+
+// Touch swipe for mobile
+let touchStartX = 0;
+let touchEndX = 0;
+
+function setupSwipe(containerId, scrollFunction) {
+ const container = document.getElementById(containerId);
+ if (!container) return;
+ 
+ container.addEventListener('touchstart', e => {
+ touchStartX = e.changedTouches[0].screenX;
+ });
+ 
+ container.addEventListener('touchend', e => {
+ touchEndX = e.changedTouches[0].screenX;
+ const swipeThreshold = 50;
+ const diff = touchStartX - touchEndX;
+ if (Math.abs(diff) > swipeThreshold) {
+ if (diff > 0) {
+ scrollFunction(1);
+ } else {
+ scrollFunction(-1);
+ }
+ }
+ });
+}
+
+// Setup swipe for all card containers
+setupSwipe('cards', scrollCards);
+setupSwipe('moonCards', scrollMoonsCards);
+setupSwipe('galaxyCards', scrollGalaxyCards);
+
+// ====== HIDE CONTENT BUTTON ======
+const toggleBtn = document.getElementById('toggleContent');
+const mainContent = document.getElementById('mainContent');
+const pageFooter = document.getElementById('pageFooter');
+const siteTitle = document.getElementById('siteTitle');
+const topMenu = document.getElementById('topMenu');
+
+let contentVisible = true;
+
+toggleBtn.addEventListener('click', function() {
+ contentVisible = !contentVisible;
+ 
+ // Toggle content visibility
+ mainContent.style.opacity = contentVisible ? '1' : '0';
+ mainContent.style.pointerEvents = contentVisible ? 'auto' : 'none';
+ 
+ // Toggle footer
+ pageFooter.style.opacity = contentVisible ? '1' : '0';
+ 
+ // Toggle site title and menu
+ siteTitle.style.opacity = contentVisible ? '1' : '0';
+ topMenu.classList.toggle('hidden', !contentVisible);
+ 
+ // DO NOT change video brightness or filter - keep it normal
+ if (!contentVisible) {
+ toggleBtn.textContent = '📄 Show Content';
+ toggleBtn.style.background = 'rgba(77, 166, 255, 0.8)';
+ toggleBtn.style.borderColor = '#4da6ff';
+ } else {
+ toggleBtn.textContent = '👀 Hide Content';
+ toggleBtn.style.background = 'rgba(77, 166, 255, 0.8)';
+ toggleBtn.style.borderColor = '#4da6ff';
+ }
+});
+
+// Double-click background to toggle content
+document.querySelector('.background-container').addEventListener('dblclick', function() {
+ if (contentVisible) {
+ toggleBtn.click();
+ }
+});
+
+// ====== YOUR AUDIO SYSTEM ======
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-const sounds = [
-{ src: 'sounds/from-the- crypt-ext v2.mp3', volume: 0.5 },
-{ src: 'sounds/ambient-space.mp3', volume: 0.2 }
-];
+ // Define your audio tracks
+ const sounds = [
+ { src: 'music/echoes-of-the-ancestors-memorial.mp3', volume: 0.5 },
+ { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+ { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+ ];
 
-sounds.forEach(sound => {
-const audio = new Audio(sound.src);
-audio.volume = sound.volume;
-audio.loop = true;
-audio.muted = true;
-audioElements.push(audio);
-});
+ // Create and configure each audio element
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true; // Start muted
+ audioElements.push(audio);
+ });
 
-document.addEventListener('click', function unmuteAudio() {
-if (!isMuted) {
-audioElements.forEach(audio => {
-audio.muted = false;
-audio.play().catch(e => console.log('Audio play failed'));
-});
-isMuted = false;
-muteBtn.textContent = "🔊 Mute Sounds";
+ // UNMUTE LOGIC: Unmute on FIRST user interaction
+ const unmuteOnInteraction = function() {
+ if (isMuted) {
+ // Unmute all audio elements
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => {
+ console.log('Audio play attempt failed (user likely hasn\'t interacted yet):', e);
+ });
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 MUTE LAB"; // Update button text
+ console.log('Audio unmuted on first interaction.');
+ }
+ // Remove this listener after it fires once
+ document.removeEventListener('click', unmuteOnInteraction);
+ document.removeEventListener('keydown', unmuteOnInteraction);
+ };
+
+ // Set up listeners for the first user click or key press
+ document.addEventListener('click', unmuteOnInteraction);
+ document.addEventListener('keydown', unmuteOnInteraction);
+
+ // ATTEMPT AUTOPLAY: Try to start playback immediately (may be blocked by browser)
+ setTimeout(() => {
+ audioElements.forEach(audio => {
+ audio.play().then(() => {
+ console.log('Audio autoplay succeeded.');
+ }).catch(e => {
+ console.log('Audio autoplay blocked (will wait for user click).');
+ });
+ });
+ }, 1000);
 }
-document.removeEventListener('click', unmuteAudio);
-}, { once: true });
-}
 
-// Mute toggle
+// Mute/Unmute Toggle Button Logic
 muteBtn.addEventListener('click', function() {
-isMuted = !isMuted;
-audioElements.forEach(audio => {
-audio.muted = isMuted;
-});
-muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+ if (audioElements.length === 0) {
+ console.log("Audio not initialized yet.");
+ initAudio(); // Safety check
+ return;
+ }
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ // If unmuting, ensure playback resumes
+ if (!isMuted) {
+ audio.play().catch(e => console.log('Playback resume failed'));
+ }
+ });
+ // Update button text
+ muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
+ console.log('Audio muted:', isMuted);
 });
 
-// Initialize audio when page loads
-initAudio();
+// Initialize audio when the page loads
+window.addEventListener('DOMContentLoaded', initAudio);
+
+// ====== AUTO-HIDE ON SCROLL ======
+let lastScrollTop = 0;
+window.addEventListener('scroll', function() {
+ let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+ if (scrollTop > lastScrollTop && scrollTop > 50) {
+ siteTitle.style.opacity = '0.3';
+ } else {
+ siteTitle.style.opacity = '1';
+ }
+ lastScrollTop = scrollTop;
+});
 </script>
-<body>
-<html>
+</body>
+</html>
