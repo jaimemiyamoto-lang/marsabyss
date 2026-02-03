@@ -89,7 +89,7 @@ background: rgba(10, 10, 26, 0.4);
 z-index: 2;
 }
 
-/* === FIXED TOP MENU (ORIGINAL WORKING VERSION) === */
+/* === FIXED TOP MENU === */
 nav.top-menu {
 position: fixed;
 top: 0;
@@ -153,7 +153,6 @@ backdrop-filter: blur(5px);
 padding: 4px 0;
 }
 
-/* ORIGINAL WORKING VERSION - Vertical dropdowns */
 .dropdown .dropdown .dropdown-content {
 position: absolute;
 left: 0;
@@ -176,13 +175,13 @@ background: rgba(255, 68, 68, 0.6);
 color: #fff;
 }
 
-/* Desktop hover behavior - Keep this as is */
+/* Desktop hover behavior */
 .dropdown:hover .dropdown-content {
 display: block;
 }
 
-/* Mobile open state - Simple and clean */
-.dropdown.open .dropdown-content {
+/* Mobile active state - FIXED */
+.dropdown.active .dropdown-content {
 display: block;
 }
 
@@ -650,9 +649,11 @@ font-size: 0.9rem;
 background: rgba(255, 68, 68, 0.3);
 }
 
-/* ========== SIMPLE MOBILE ADJUSTMENTS ========== */
-/* Keep the menu scrollable on mobile */
+/* ========== TABLET & MOBILE MENU FIXES (REPAIRED) ========== */
+
+/* Tablet + Mobile */
 @media (max-width: 1024px) {
+
     nav.top-menu {
         gap: 0.8rem;
         padding: 0.5rem 1rem;
@@ -673,6 +674,21 @@ background: rgba(255, 68, 68, 0.3);
         font-size: 0.9rem;
         padding: 0.4rem 0.6rem;
         flex-shrink: 0;
+    }
+
+    /* 🔑 CRITICAL MOBILE FIX */
+    /* Disable hover entirely on touch */
+    .dropdown:hover .dropdown-content {
+        display: none;
+    }
+
+    /* Dropdown opens ONLY when tapped */
+    .dropdown > a {
+        pointer-events: auto;
+    }
+
+    .dropdown.active > .dropdown-content {
+        display: block;
     }
 
     .main-content {
@@ -703,7 +719,7 @@ background: rgba(255, 68, 68, 0.3);
     }
 
     .video-controls {
-        opacity: 1;
+        opacity: 1; /* Always show controls on tablet/mobile */
         padding: 0.8rem;
     }
 
@@ -777,6 +793,8 @@ background: rgba(255, 68, 68, 0.3);
         font-size: 0.7rem;
     }
 }
+/* ========== END TABLET/MOBILE FIXES ========== */
+
 </style>
 </head>
 
@@ -1214,21 +1232,23 @@ hideContentBtn.textContent = 'Hide Content';
 }
 });
 
-// ========== VIDEO CONTROLS ==========
+// ========== FIXED VIDEO CONTROLS ==========
 const hovercraftVideo = document.getElementById('hovercraftVideo');
 const videoPlayPause = document.getElementById('videoPlayPause');
 const videoMute = document.getElementById('videoMute');
 const videoExpand = document.getElementById('videoExpand');
-let isVideoPlaying = false;
+let isVideoPlaying = false; // Video starts paused
 let isVideoAudioEnabled = false;
 
 // Initialize video controls
 function initVideo() {
+    // Video starts muted and paused
     hovercraftVideo.muted = true;
     hovercraftVideo.pause();
     videoPlayPause.textContent = '▶️ Play';
     videoMute.textContent = '🔇 Enable Audio';
     
+    // Show controls on hover
     const videoContainer = document.querySelector('.video-container');
     videoContainer.addEventListener('mouseenter', () => {
         document.querySelector('.video-controls').style.opacity = '1';
@@ -1246,6 +1266,7 @@ videoPlayPause.addEventListener('click', function() {
         hovercraftVideo.pause();
         videoPlayPause.textContent = '▶️ Play';
     } else {
+        // If audio hasn't been enabled yet, enable it on first play
         if (!isVideoAudioEnabled) {
             hovercraftVideo.muted = false;
             hovercraftVideo.volume = 0.7;
@@ -1270,11 +1291,13 @@ videoMute.addEventListener('click', function() {
         hovercraftVideo.muted = !hovercraftVideo.muted;
         videoMute.textContent = hovercraftVideo.muted ? '🔇 Enable Audio' : '🔊 Mute Audio';
     } else {
+        // First time clicking - enable audio
         hovercraftVideo.muted = false;
         hovercraftVideo.volume = 0.7;
         isVideoAudioEnabled = true;
         videoMute.textContent = '🔊 Mute Audio';
         
+        // If video is playing, restart to apply audio
         if (isVideoPlaying) {
             hovercraftVideo.currentTime = 0;
             hovercraftVideo.play();
@@ -1310,40 +1333,53 @@ hovercraftVideo.addEventListener('ended', function() {
     videoPlayPause.textContent = '▶️ Play';
 });
 
-// ========== AUDIO SYSTEM ==========
+// ========== FIXED AUDIO SYSTEM ==========
 const muteBtn = document.getElementById('muteBtn');
 let isBackgroundAudioMuted = true;
 let backgroundAudio = null;
 
 function initAudio() {
+    // Create audio element but don't start playing
     backgroundAudio = new Audio('music/hold-me-close.mp3');
     backgroundAudio.volume = 0.4;
     backgroundAudio.loop = true;
-    backgroundAudio.muted = true;
+    backgroundAudio.muted = true; // Start muted
     
+    // Set button text correctly
     muteBtn.textContent = "🔇 Unmute Sounds";
     
+    // When user clicks mute button, start audio
     muteBtn.addEventListener('click', function() {
         if (isBackgroundAudioMuted) {
+            // First unmute
             backgroundAudio.muted = false;
+            // Try to play
             backgroundAudio.play().then(() => {
+                console.log('Background audio started');
                 isBackgroundAudioMuted = false;
                 muteBtn.textContent = "🔊 Mute Sounds";
             }).catch(e => {
+                console.log('Audio play failed:', e);
+                // If play fails (usually due to autoplay policy), 
+                // at least unmute for next attempt
                 isBackgroundAudioMuted = false;
                 muteBtn.textContent = "🔊 Mute Sounds";
             });
         } else {
+            // Toggle mute
             backgroundAudio.muted = !backgroundAudio.muted;
             isBackgroundAudioMuted = backgroundAudio.muted;
             muteBtn.textContent = isBackgroundAudioMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
         }
     });
     
+    // Also allow any click on the page to start audio (common workaround)
     const startAudioOnInteraction = function() {
         if (isBackgroundAudioMuted) {
             backgroundAudio.muted = false;
-            backgroundAudio.play().catch(e => {});
+            backgroundAudio.play().catch(e => {
+                // Silently fail - user will use button
+            });
             isBackgroundAudioMuted = false;
             muteBtn.textContent = "🔊 Mute Sounds";
         }
@@ -1353,40 +1389,63 @@ function initAudio() {
     document.addEventListener('click', startAudioOnInteraction, { once: true });
 }
 
-// ===== MOBILE / TABLET DROPDOWN FIX (Your ChatGPT script) =====
-document.querySelectorAll('.dropdown > a').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const parent = this.parentElement;
-
-        // Only intercept on touch-sized screens
-        if (window.innerWidth <= 1024) {
-
-            // If this dropdown isn't open yet → open it
-            if (!parent.classList.contains('open')) {
-                e.preventDefault(); // STOP navigation
-                closeAllDropdowns(parent);
-                parent.classList.add('open');
+// ========== FIXED DROPDOWN MENUS ==========
+// Only apply mobile dropdown behavior on mobile devices
+function initDropdowns() {
+    // Function to check if we're on mobile
+    function isMobile() {
+        return window.innerWidth <= 1024;
+    }
+    
+    // Handle dropdown clicks
+    document.querySelectorAll('.dropdown > a').forEach(link => {
+        link.addEventListener('click', function (e) {
+            // Only apply mobile behavior on mobile
+            if (isMobile()) {
+                const parent = this.parentElement;
+                
+                // If dropdown exists, toggle instead of navigating
+                if (parent.querySelector('.dropdown-content')) {
+                    e.preventDefault();
+                    
+                    // Close other dropdowns
+                    document.querySelectorAll('.dropdown.active')
+                        .forEach(d => d !== parent && d.classList.remove('active'));
+                    
+                    parent.classList.toggle('active');
+                }
             }
-            // If already open → allow normal navigation
+            // On desktop, let the link work normally - CSS hover will handle dropdowns
+        });
+    });
+    
+    // Close menus when tapping outside (mobile only)
+    document.addEventListener('click', function (e) {
+        if (isMobile()) {
+            if (!e.target.closest('.top-menu')) {
+                document.querySelectorAll('.dropdown.active')
+                    .forEach(d => d.classList.remove('active'));
+            }
         }
     });
-});
-
-function closeAllDropdowns(except = null) {
-    document.querySelectorAll('.dropdown.open').forEach(drop => {
-        if (drop !== except) drop.classList.remove('open');
+    
+    // Handle window resize - close dropdowns when switching from mobile to desktop
+    let lastWidth = window.innerWidth;
+    window.addEventListener('resize', function() {
+        const currentWidth = window.innerWidth;
+        
+        // If switching from mobile to desktop (width increased past 1024)
+        if (lastWidth <= 1024 && currentWidth > 1024) {
+            // Close all dropdowns when switching to desktop
+            document.querySelectorAll('.dropdown.active')
+                .forEach(d => d.classList.remove('active'));
+        }
+        
+        lastWidth = currentWidth;
     });
 }
 
-// Close dropdowns when tapping outside nav
-document.addEventListener('click', function (e) {
-    const nav = document.getElementById('topMenu');
-    if (!nav.contains(e.target)) {
-        closeAllDropdowns();
-    }
-});
-
-// ========== MODAL FUNCTIONALITY ==========
+// MODAL FUNCTIONALITY
 const modal = document.getElementById('modal');
 const modalImage = document.getElementById('modalImage');
 const modalTitle = document.getElementById('modalTitle');
@@ -1413,41 +1472,29 @@ title: 'Nebula Nomad',
 specs: '2128 Model • Holographic Interface • Self-Healing • Bio-Regenerative',
 description: 'A marvel of Martian material science, the Nebula Nomad features a bio-regenerative exterior that repairs minor damage automatically using nano-technology. The holographic interface projects vital information directly into the driver\'s field of vision, while the AI co-pilot learns driving preferences over time.'
 },
-'impala-voiliner-hovercraft': {
+'impala-hovercraft': {
 image: 'images/hovercraft/impala-hovercraft.jpg',
 title: 'Impala-class Hovercraft',
 specs: '2140 Model • Anti-Gravity • Atmospheric Containment • Crew: 4',
 description: 'The standard issue hovercraft for Martian exploration teams. Features advanced anti-gravity propulsion that allows smooth travel over any terrain. The atmospheric containment field ensures crew safety even in the thin Martian atmosphere. Equipped with scientific instruments for surface analysis.'
 },
-'monte-astra-hovercraft': {
+'valkyrie-hovercraft': {
 image: 'images/hovercraft/valkyrie-hovercraft.jpg',
-title: 'Monte-Astra-class Hovercraft',
+title: 'Valkyrie-class Hovercraft',
 specs: '2142 Model • Mach 2 • Quantum Stabilized • Stealth Capable',
-description: 'Designed for rapid response and reconnaissance, the Monte-Astra-class can reach Mach 2 in Martian atmosphere. Quantum stabilization systems ensure smooth flight even at extreme speeds. Advanced stealth technology makes it nearly invisible to sensors when needed.'
+description: 'Designed for rapid response and reconnaissance, the Valkyrie-class can reach Mach 2 in Martian atmosphere. Quantum stabilization systems ensure smooth flight even at extreme speeds. Advanced stealth technology makes it nearly invisible to sensors when needed.'
 },
-'charger-ion-rex-hovercraft': {
+'goliath-hovercraft': {
 image: 'images/hovercraft/goliath-hovercraft.jpg',
-title: 'Charger-Ion-Rex-class Hovercraft',
+title: 'Goliath-class Hovercraft',
 specs: '2138 Model • 50-Ton Capacity • Heavy Transport • Range: 5,000km',
 description: 'The workhorse of Martian colonization efforts. Capable of transporting 50 metric tons of equipment or personnel across vast distances. Used primarily for colony construction, resource transport, and large-scale scientific expeditions.'
 },
-'phantom-mustang-hovercraft': {
+'phantom-hovercraft': {
 image: 'images/hovercraft/phantom-hovercraft.jpg',
-title: 'Phantom-Mustang-class Hovercraft',
+title: 'Phantom-class Hovercraft',
 specs: '2145 Model • Stealth • Cloaking Technology • Silent Operation',
 description: 'The most advanced hovercraft in the Martian fleet. Features complete cloaking technology that renders it invisible to both visual and electronic detection. Used for sensitive scientific observations, security patrols, and diplomatic missions requiring discretion.'
-},
-'vintage-camaro-code-name-whisper-hovercraft': {
-image: 'images/vintage-camaro-code-name-whisper.jpg',
-title: 'Whisper-Camaro-class Hovercraft',
-specs: '2152 Model • Stealth • Cloaking Technology • Silent Operation',
-description: 'Top secret with advanced cloaking technology, favorite of Marvin. Used for sensitive espionage and security missions requiring absolute discretion and invisibility.'
-},
-'golden-retriever-charger-hovercraft': {
-image: 'images/golden-retriever.jpg',
-title: 'Golden-Charger-class Hovercraft',
-specs: '2153 Model • Deadly Stealth • Cloaking Technology • Silent Operation',
-description: 'Top secret with advanced cloaking technology, favorite of the Regent. Used for stealth romantic operations and sneaking spy couple missions requiring absolute discretion.'
 },
 'medical-center': {
 image: 'images/buildings/futuristic-medical-center.jpg',
@@ -1500,10 +1547,11 @@ closeModal();
 }
 });
 
-// ========== INITIALIZE EVERYTHING ==========
+// ========== INITIALIZE ==========
 document.addEventListener('DOMContentLoaded', function() {
     initAudio();
     initVideo();
+    initDropdowns();
     
     // Make sure video controls are always visible on mobile
     if (window.innerWidth <= 1024) {
