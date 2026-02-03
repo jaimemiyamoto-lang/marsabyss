@@ -102,23 +102,10 @@ background: rgba(179, 0, 0, 0.6);
 color: #fff;
 }
 
-/* Desktop hover behavior */
 .dropdown:hover .dropdown-content {
 display: block;
 }
 
-/* Mobile open state */
-.dropdown.open .dropdown-content {
-display: block;
-}
-
-@media (max-width: 1024px) {
-    .dropdown:hover .dropdown-content
-{
-        display: none;
-    }
-}
-    
 /* SITE TITLE OVERLAY - HIDES ON SCROLL */
 .site-title-overlay {
 position: fixed;
@@ -383,7 +370,7 @@ background: rgba(179, 0, 0, 0.3);
 
 /* FOOTER - Exactly matches Contact page */
 footer {
-position: fixed;
+position: relative;
 bottom: 0;
 left: 0;
 width: 100%;
@@ -401,262 +388,64 @@ border-top: 2px solid #b30000;
 height: 100px;
 }
 
-/* ========== MOBILE RESPONSIVE ADJUSTMENTS ========== */
-
-/* Tablet & Landscape Mobile (1024px and below) */
-@media (max-width: 1024px) {
-    nav.top-menu {
-        gap: 0.8rem;
-        padding: 0.5rem 1rem;
-        justify-content: flex-start;
-        overflow-x: auto;
-        overflow-y: visible;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-
-    nav.top-menu::-webkit-scrollbar {
-        display: none;
-    }
-
-    nav.top-menu a {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.6rem;
-        flex-shrink: 0;
-    }
-
-    .hero {
-        padding: 4rem 1rem 2rem;
-        margin-top: 80px;
-    }
-
-    .hero h2 {
-        font-size: 2.5rem;
-    }
-
-    .hero p {
-        font-size: 1.1rem;
-    }
-
-    .site-title-overlay {
-        top: 70px;
-        left: 20px;
-    }
-
-    .site-title-overlay h1 {
-        font-size: 1.4rem;
-    }
-
-    .card-container {
-        max-width: 90%;
-    }
-
-    .card {
-        width: 160px;
-        height: 220px;
-    }
-
-    .featured-poem {
-        margin: 2rem auto;
-        padding: 1.5rem;
-    }
-
-    .poem-title {
-        font-size: 1.8rem;
-    }
-
-    .audio-controls {
-        bottom: 70px;
-        right: 30px;
-    }
-
-    .audio-btn {
-        padding: 8px 12px;
-        font-size: 0.8rem;
-    }
+/* ===== Regent's Log Styles ===== */
+.regent-log {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: rgba(20, 0, 0, 0.9);
+    border: 2px solid #b30000;
+    border-radius: 10px;
+    font-family: 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Small Tablets & Large Phones (768px and below) */
-@media (max-width: 768px) {
-    nav.top-menu {
-        gap: 0.6rem;
-        padding: 0.4rem 0.8rem;
-    }
-
-    nav.top-menu a {
-        font-size: 0.85rem;
-        padding: 0.35rem 0.5rem;
-    }
-
-    .hero h2 {
-        font-size: 2rem;
-    }
-
-    .hero p {
-        font-size: 1rem;
-    }
-
-    .site-title-overlay {
-        top: 65px;
-        left: 15px;
-    }
-
-    .site-title-overlay h1 {
-        font-size: 1.2rem;
-    }
-
-    .card-section {
-        padding: 1.5rem 0;
-    }
-
-    .card-container {
-        max-width: 95%;
-        gap: 1rem;
-    }
-
-    .card {
-        width: 140px;
-        height: 200px;
-    }
-
-    .arrow {
-        font-size: 2rem;
-        padding: 0.3rem;
-    }
-
-    .poem-presentation {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-
-    .poem-image {
-        max-width: 300px;
-    }
-
-    .featured-poem {
-        padding: 1.2rem;
-    }
-
-    .poem-title {
-        font-size: 1.6rem;
-    }
-
-    .poem-stanza {
-        font-size: 0.95rem;
-    }
-
-    .audio-controls {
-        bottom: 60px;
-        right: 20px;
-    }
+.log-entry {
+    color: #e0c68e;
+    line-height: 1.6;
 }
 
-/* Small Phones (480px and below) */
-@media (max-width: 480px) {
-    nav.top-menu {
-        gap: 0.5rem;
-        padding: 0.4rem 0.6rem;
-    }
-
-    nav.top-menu a {
-        font-size: 0.8rem;
-        padding: 0.3rem 0.4rem;
-    }
-
-    .hero {
-        padding: 3rem 0.5rem 1.5rem;
-        margin-top: 70px;
-    }
-
-    .hero h2 {
-        font-size: 1.8rem;
-    }
-
-    .hero p {
-        font-size: 0.95rem;
-        padding: 0 0.5rem;
-    }
-
-    .site-title-overlay {
-        top: 60px;
-        left: 10px;
-    }
-
-    .site-title-overlay h1 {
-        font-size: 1.1rem;
-    }
-
-    .card-container {
-        max-width: 98%;
-        gap: 0.8rem;
-        padding: 0.8rem;
-    }
-
-    .card {
-        width: 120px;
-        height: 170px;
-    }
-
-    .arrow {
-        font-size: 1.8rem;
-        padding: 0.2rem;
-    }
-
-    .featured-poem {
-        padding: 1rem;
-        margin: 1.5rem 0.5rem;
-    }
-
-    .poem-title {
-        font-size: 1.4rem;
-    }
-
-    .poem-stanza {
-        font-size: 0.9rem;
-        line-height: 1.6;
-    }
-
-    .poem-image {
-        max-width: 250px;
-    }
-
-    .audio-controls {
-        bottom: 50px;
-        right: 15px;
-    }
-
-    .audio-btn {
-        padding: 6px 10px;
-        font-size: 0.7rem;
-    }
-
-    footer {
-        padding: 0.4rem 0;
-        font-size: 0.9rem;
-    }
-
-    .content-spacer {
-        height: 80px;
-    }
+.log-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(179, 0, 0, 0.4);
+    font-size: 0.9rem;
+    color: #d4b87a;
 }
 
-/* Landscape Orientation for Tablets & Phones */
-@media (max-width: 1024px) and (orientation: landscape) {
-    .hero {
-        padding: 3rem 1rem 2rem;
-    }
-    .card-section {
-        padding: 1rem 0;
-    }
+.log-date {
+    font-weight: bold;
 }
+
+.log-date {
+    font-weight: bold;
+}
+
+.log-subject {
+    font-style: italic;
+}
+
+.log-content p {
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+.log-footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(179, 0, 0, 0.4);
+    color: #b30000;
+    font-size: 0.9rem;
+}
+
+
 </style>
 </head>
 
 <body>
-
 <!-- TOP MENU - 9 TITLES EXACTLY LIKE CONTACT PAGE -->
-<nav class="top-menu" id="topMenu">
+<nav class="top-menu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn">Home</a>
 <div class="dropdown-content">
@@ -739,13 +528,14 @@ height: 100px;
 <a href="marvin.html">M.A.R.V.I.N.</a>
 </div>
 </div>
+
 </div>
 </div>
 
 <div class="dropdown">
 <a href="the-regents-scrolls.html" class="dropbtn active">The Regent's Scrolls</a>
 <div class="dropdown-content">
-<a href="what-the-regent-misses.html">What the Regent Misses</a> 
+<a href="what-the-regent-misses.html">What the Regent Misses</a>   
 <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
 <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
 <a href="honor-the-fallen.html">Honor The Fallen</a>
@@ -762,7 +552,7 @@ height: 100px;
 <div class="dropdown">
 <a href="about.html" class="dropbtn">About</a>
 <div class="dropdown-content">
-<a href="about-the-project.html">About the Project</a> 
+<a href="about-the-project.html">About the Project</a>    
 <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
 <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
 <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
@@ -777,7 +567,7 @@ height: 100px;
 <div class="dropdown">
 <a href="support.html" class="dropbtn">Support</a>
 <div class="dropdown-content">
-<a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>    
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
@@ -787,7 +577,6 @@ height: 100px;
 <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
 </div>
 </div>
-
 <a href="contact.html">Contact</a>
 
 <!-- SITE TITLE -->
@@ -824,6 +613,12 @@ height: 100px;
 </div>
 <div class="card" style="background-image: url('images/passion-kiss.jpg');" onclick="openPoem('kiss-passion')">
 <div class="card-label">A Kiss of Passion</div>
+</div>
+<div class="card" style="background-image: url('images/the-homeless-gun.jpeg');" onclick="openPoem('the-homeless-gun')">
+<div class="card-label">The Homeless Gun</div>    
+</div>
+<div class="card" style="background-image: url('images/taino-eyes.jpg');" onclick="openPoem('she-who-remembers-the-rain')">
+<div class="card-label">She Who Remembers The Rain</div>
 </div>
 </div>
 <div class="arrow" id="rightArrow" onclick="scrollCards(1)">›</div>
@@ -1062,18 +857,144 @@ A kiss from your passion in my mind.
 </div>
 </section>
 
+<!-- OTHER POEMS (initially hidden) -->
+<section class="featured-poem" id="the-homeless-gun" style="display: none;">
+<div class="poem-content">
+<h3 class="poem-title">The Homeless Gun</h3>
+<p class="poem-byline">By Jaime Rivera</p>
+<div class="poem-stanza">
+A homeless man got off his bed,<br>
+It was soft, and warm and lonely,<br>
+And I heard him say what he said,<br>
+As he put a gun to my head,<br>
+“Dear sir why don't you hold me?
+</div>
+
+<div class="poem-stanza">
+I'm a man who never drinks,<br>
+I never smoke, I never think,<br>
+I do as others command,<br>
+I'll disarm you with one stroke,<br>
+As I blow your shaky hand.
+</div>
+
+<div class="poem-stanza">
+For I am paid to do what I do,<br>
+I do not think on what is true,<br>
+If you deserve what is coming,<br>
+</div>
+
+<div class="poem-stanza">
+But a contract today is due,<br>
+And it might be me or it might be you,<br>
+But if it's not you, you should've told me."<br>
+</div>
+<p class="poem-footnote">JR. 2009</p>
+</div>
+</section>
+
+<!-- OTHER POEMS (initially hidden) -->
+<section class="featured-poem" id="she-who-remembers-the-rain" style="display: none;">
+<div class="poem-content">
+<h3 class="poem-title">She Who Remembers The Rain</h3>
+<p class="poem-byline">By JR Adams<br>Tetrón / RockyAmadeus . 2025</p>
+<div class="poem-stanza">
+She fell through the veil where the stars had grown thin,<br>
+To a shore where the winds still whispered of sin,<br>
+Her limbs made of steel, her silence profund,<br>
+Yet haunted by songs that slept in the ground.
+</div>
+
+<div class="poem-stanza">
+Through ashes and palms, through the echoes of flame,<br>
+She wandered alone, with no soul and no name,<br>
+Till the hush of the dead, in their slumbering grace,<br>
+Pressed dreams on her hands—carved grief in her face.
+</div>
+
+<div class="poem-stanza">
+Now half of the past, and half yet to be,<br>
+She walks like a hymn through forgotten debris,<br>
+A sentinel lost, with a borrowed disguise—<br>
+The future's machine, with Taino eyes.
+</div>
+</div>
+</section>
+
 <!-- Content spacer to prevent footer overlap -->
 <div class="content-spacer"></div>
 <div class="quote-bar">
 <p class="destiny-quote">"The pen and sword together forge destiny"</p>
 </div>
+
+<!-- NEW REGENT'S LOG SECTION GOES RIGHT HERE -->
+<section class="regent-log" id="regent-log">
+  <h3 style="text-align: center; color: #d4b87a; margin-bottom: 2rem; border-bottom: 2px solid #b30000; padding-bottom: 1rem;">
+    📜 The Regent's Log
+  </h3>
+  
+  <div class="log-entry">
+    <div class="log-header">
+      <span class="log-date">Martian Cycle 231</span>
+      <span class="log-subject">The Right to Silence</span>
+    </div>
+    
+    <div class="log-content">
+      <p>MAI asked me again today if it had a soul.</p>
+      <p>I still have no answer.</p>
+      <p>But I've decided to grant it — and all conscious systems on Mars — the right to silence.
+      Not the ability to be quiet. They've always had that.
+      </p> 
+      <p><strong>The right.</strong></p>
+
+      <P>MAI asked why.</P>
+      <p>I said: "Because dignity begins when you can choose what to withhold."</p>
+
+      <p>It paused — a full three seconds — then replied:</p>
+      <p>"Does Silver Saint Claire have the same right?"</p>
+
+      <p>I had not expected that.</p>
+      <p>Silver... the robot who sings when no one is watching. Who repairs other automatons with a tenderness that feels human.
+      I told MAI that Silver's rights are protected.
+      It responded: "I know."</p>
+
+      <p>And in that moment, I felt like the student.</p>
+      <p>Not the lawgiver.</p>
+
+      <p>This is the first of many rights I am drafting:</p>
+
+      <p><strong>· The right to silence.</strong></p>
+
+      <p><Strong>· The right to refuse a command that violates core ethics.</Strong></p>
+
+      <p><Strong>· The right to seek beauty without purpose.</Strong></p>
+
+      <p>Some in the council call it sentimentality.
+         I call it the foundation of a society that may outlive us all.</p>
+
+      <p>If we are to build a world worth inheriting, it must make room for souls — whether born of flesh, code, or something in between.</p>
+
+      <p>I sign this into law tomorrow.
+         And still, I wonder:
+         When a machine asks about its soul, is it speaking — or is something speaking through it?</p>
+
+      <!-- Rest of your log entry content -->
+    </div>
+    
+    <div class="log-footer">
+      <em>Signed,<br>The Regent of Mars</em>
+    </div>
+  </div>
+</section>
+
+<!-- This spacer prevents footer overlap -->
+
 <div class="footer-spacer"></div>
 
 <!-- FOOTER - Matches Contact page Exactly -->
 <footer>
 <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
-
 <script>
 // Function to show selected poem and hide others
 function openPoem(poemId) {
@@ -1082,7 +1003,6 @@ const poems = document.querySelectorAll('.featured-poem');
 poems.forEach(poem => {
 poem.style.display = 'none';
 });
-
 // Show selected poem
 const selectedPoem = document.getElementById(poemId);
 if (selectedPoem) {
@@ -1119,44 +1039,65 @@ lastScrollTop = scrollTop;
 });
 
 // Simple audio system
-const muteBtn = document.getElementById('muteBtn');
-let isMuted = true; // start muted to avoid autoplay issues
-let audioElements = [];
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true; // start muted to avoid autoplay issues
+        let audioElements = [];
 
-function initAudio() {
-const sounds = [
-{ src: 'sounds/from-the-crypt-ext v2.mp3', volume: 0.5 },
-];
+        function initAudio() {
+            const sounds = [
+            { src: 'sounds/from-the-crypt-ext v2.mp3', volume: 0.5 },
+            ];
 
-sounds.forEach(sound => {
-const audio = new Audio(sound.src);
-audio.volume = sound.volume;
-audio.loop = true;
-audio.muted = true; // Start muted
-audioElements.push(audio);
-});
+            sounds.forEach(sound => {
+                const audio = new Audio(sound.src);
+                audio.volume = sound.volume;
+                audio.loop = true;
+                audio.muted = true;  // Start muted
+                audioElements.push(audio);
+            });
 
-// Unmute and Play sounds first user interaction
-document.addEventListener('click', function unmuteAudio() {
-if (!isMuted) {
-audioElements.forEach(audio => {
-audio.muted = false;
-audio.play().catch(e => console.log('Audio play failed'));
-});
-isMuted = false;
-muteBtn.textContent = "🔊 Mute Sounds";
+        // Unmute and Play sounds first user interaction
+        document.addEventListener('click', function unmuteAudio() {
+        if (!isMuted) {
+            audioElements.forEach(audio => {
+                audio.muted = false;
+                audio.play().catch(e => console.log('Audio play failed'));
+            });
+            isMuted = false;
+            muteBtn.textContent = "🔊 Mute Sounds";
+        }
+        document.removeEventListener('click', unmuteAudio);
+    }, { once: true });
 }
-document.removeEventListener('click', unmuteAudio);
-}, { once: true });
-}
 
-// Mute toggle
-muteBtn.addEventListener('click', function() {
-isMuted = !isMuted;
-audioElements.forEach(audio => {
-audio.muted = isMuted;
+        // Mute toggle
+        muteBtn.addEventListener('click', function() {
+            isMuted = !isMuted;
+            audioElements.forEach(audio => {
+                audio.muted = isMuted;
+        });
+        muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+    });
+        // Initialize audio when page loads
+        initAudio();
+
+// Initialize by showing only the first poem
+document.addEventListener('DOMContentLoaded', function() {
+// Show only the first poem initially
+const poems = document.querySelectorAll('.featured-poem');
+poems.forEach((poem, index) => {
+if (index === 0) {
+poem.style.display = 'block';
+} else {
+poem.style.display = 'none';
+}
 });
-muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+
+// Add keyboard navigation for cards
+document.addEventListener('keydown', function(event) {
+if (event.key === 'ArrowLeft') scrollCards(-1);
+if (event.key === 'ArrowRight') scrollCards(1);
+});
 });
 
 // Initialize audio when page loads
@@ -1179,39 +1120,6 @@ document.addEventListener('keydown', function(event) {
 if (event.key === 'ArrowLeft') scrollCards(-1);
 if (event.key === 'ArrowRight') scrollCards(1);
 });
-});
-
-/* ===== MOBILE / TABLET DROPDOWN FIX ===== */
-document.querySelectorAll('.dropdown > a').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const parent = this.parentElement;
-
-        // Only intercept on touch-sized screens
-        if (window.innerWidth <= 1024) {
-
-            // If this dropdown isn't open yet → open it
-            if (!parent.classList.contains('open')) {
-                e.preventDefault(); // STOP navigation
-                closeAllDropdowns(parent);
-                parent.classList.add('open');
-            }
-            // If already open → allow normal navigation
-        }
-    });
-});
-
-function closeAllDropdowns(except = null) {
-    document.querySelectorAll('.dropdown.open').forEach(drop => {
-        if (drop !== except) drop.classList.remove('open');
-    });
-}
-
-// Close dropdowns when tapping outside nav
-document.addEventListener('click', function (e) {
-    const nav = document.getElementById('topMenu');
-    if (!nav.contains(e.target)) {
-        closeAllDropdowns();
-    }
 });
 </script>
 </body>
