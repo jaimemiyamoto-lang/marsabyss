@@ -307,7 +307,25 @@
             color: var(--alert-gold); font-family: 'Orbitron', sans-serif;
             text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
         }
+        
+        /* Link to Quantum Science Page */
+        .science-link-container { text-align: center; margin-top: 3rem; }
+        .science-link-btn {
+            display: inline-block; background: rgba(139, 115, 85, 0.85);
+            backdrop-filter: blur(10px); border: 2px solid #8b7355;
+            border-radius: 10px; padding: 15px 30px; text-decoration: none;
+            color: #f5f1e8; font-family: 'Orbitron', sans-serif;
+            font-weight: 600; letter-spacing: 1px; transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(139, 115, 85, 0.2);
+        }
+        .science-link-btn:hover {
+            background: #8b7355; transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(139, 115, 85, 0.3);
+        }
+        .science-link-label { font-size: 1.1rem; display: block; }
+        .science-link-sub { font-size: 0.85rem; opacity: 0.9; margin-top: 5px; font-family: 'Segoe UI', sans-serif; }
 
+        
         /* === HIDDEN STATE === */
         .hidden {
             opacity: 0; pointer-events: none;
@@ -445,11 +463,12 @@
     <p style="margin-top:20px;">
         This principle forms the theoretical bedrock for technologies imagined within The Mars Abyss, from quantum communication to consciousness archiving. It suggests that the future of travel and existence may not be about moving <em>parts</em>, but about affirming <em>patterns</em>.
     </p>
-    <!-- This link will be active when you create the new page -->
-    <a href="translation-principle.html" class="bridge-control" style="margin-top:25px; display:inline-block; text-decoration:none; pointer-events: none; opacity: 0.7;" id="translationLink">
-        <span class="control-label">DEEP DIVE: IN PROGRESS</span>
-        The Translation Principle • Full Theoretical Framework (Page Coming Soon)
-    </a>
+    <!-- Link to the Quantum Science Page -->
+            <div class="science-link-container">
+                <a href="quantum-translation-lab.html" class="science-link-btn">
+                    <span class="science-link-label">Explore the Quantum Science</span>
+                    <span class="science-link-sub">Quantum Translation Lab • Topology • Liquid Crystals</span>
+                </a>
     <script>
         // Simple script to notify when the link is clicked before the page is ready
         document.getElementById('translationLink').addEventListener('click', function(event) {
