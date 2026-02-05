@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Quantum Translation Lab | The Mars Abyss</title>
+ <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Exo+2:wght@300;400;500&display=swap" rel="stylesheet">
+ <style>
+ /* VIDEO & STATIC BACKGROUND */
+ .background-container {
+ position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+ z-index: -2; pointer-events: none;
+ }
+ .static-background {
+ position: absolute; top: 0; left: 0;
+ width: 100%; height: 100%;
+ background: #0a0a0f url('images/quantum-lab-static.jpg') no-repeat center center / cover;
+ z-index: 1; transition: opacity 2s ease;
+ }
+ .video-background {
+ position: absolute; top: 0; left: 0;
+ width: 100%; height: 100%;
+ object-fit: cover; z-index: 2;
+ opacity: 0.7; filter: contrast(1.2) brightness(0.7);
+ }
+
+ /* === NEW VIDEO CONTAINERS === */
+ .video-feed-container {
+ background: rgba(10, 10, 15, 0.95);
+ border: 1px solid var(--mb-light);
+ border-radius: 4px;
+ padding: 20px;
+ margin: 25px auto;
+ max-width: 1200px;
+ position: relative;
+ overflow: hidden;
+ }
+ .video-feed-container::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 3px;
+ background: linear-gradient(90deg,
+ rgba(var(--rgb-primary), 0.8),
+ rgba(var(--rgb-secondary), 0.8),
+ rgba(var(--rgb-accent), 0.8));
+ background-size: 200% 100%;
+ animation: rgbSlide 3s infinite linear;
+ }
+ .video-player-wrapper {
+ position: relative;
+ width: 100%;
+ margin-top: 15px;
+ border: 2px solid var(--mb-gray);
+ }
+ #expandableVideo {
+ width: 100%;
+ display: block;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ }
+ #expandableVideo:hover {
+ opacity: 0.9;
+ }
+ .video-controls {
+ text-align: center;
+ margin-top: 15px;
+ }
+ /* Container for the second, bright video */
+ .unfiltered-video-container {
+ background: rgba(0, 0, 0, 0.7);
+ border: 2px solid rgba(var(--rgb-accent), 0.5);
+ border-radius: 4px;
+ padding: 15px;
+ margin: 25px auto;
+ max-width: 1200px;
+ text-align: center;
+ }
+ #brightVideo {
+ width: 100%;
+ max-width: 800px;
+ display: block;
+ margin: 0 auto;
+ border: 1px solid rgba(var(--rgb-primary), 0.3);
+ /* NO FILTERS - This video will be bright */
+ filter: none;
+ opacity: 1;
+ }
+
+ /* === QUANTUM MOTHERBOARD THEME === */
+ :root {
+ --mb-black: #0a0a0f;
+ --mb-dark: #1a1a24;
+ --mb-gray: #2a2a35;
+ --mb-light: #444455;
+ --rgb-primary: 120, 220, 255;
+ --rgb-secondary: 255, 100, 250;
+ --rgb-accent: 100, 255, 150;
+ --glow-primary: rgba(var(--rgb-primary), 0.7);
+ --glow-secondary: rgba(var(--rgb-secondary), 0.7);
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+
+ body {
+ background-color: var(--mb-black);
+ color: #e0e0f0;
+ font-family: 'Exo 2', sans-serif;
+ min-height: 100vh;
+ overflow-x: hidden;
+ padding-bottom: 100px;
+ scroll-behavior: smooth;
+ }
+
+ /* === YELLOW/ORANGE TOP MENU === */
+ nav.top-menu {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ background: rgba(17, 17, 17, 0.95);
+ padding: 0.6rem 0;
+ z-index: 1000;
+ gap: 2.5rem;
+ flex-wrap: nowrap;
+ backdrop-filter: blur(10px);
+ border-bottom: 2px solid #FFD700;
+ }
+
+ nav.top-menu a {
+ color: #FFD700;
+ text-decoration: none;
+ font-size: 1.1rem;
+ padding: 0.5rem 0.8rem;
+ border-radius: 4px;
+ transition: all 0.3s ease;
+ display: flex;
+ align-items: center;
+ }
+
+ nav.top-menu a.active,
+ nav.top-menu a:hover {
+ color: #FFA500;
+ background: transparent;
+ }
+
+ .dropdown {
+ position: relative;
+ display: inline-block;
+ }
+
+ .dropdown-content {
+ display: none;
+ position: absolute;
+ background: rgba(26, 26, 26, 0.98);
+ min-width: 140px;
+ z-index: 1001;
+ border-radius: 4px;
+ border: 2px solid #FFD700;
+ top: 100%;
+ left: 0;
+ backdrop-filter: blur(5px);
+ padding: 4px 0;
+ }
+
+ .dropdown .dropdown .dropdown-content {
+ position: absolute;
+ left: 0;
+ top: 100%;
+ width: 100%;
+ }
+
+ .dropdown-content a {
+ color: #FFD700;
+ padding: 3px 5px;
+ text-decoration: none;
+ display: block;
+ transition: background-color 0.3s ease;
+ font-size: 0.8rem;
+ line-height: 1;
+ }
+
+ .dropdown-content a:hover {
+ background: rgba(255, 165, 0, 0.6);
+ color: #fff;
+ }
+
+ .dropdown:hover .dropdown-content {
+ display: block;
+ }
+
+ /* === HAMBURGER MENU FOR MOBILE === */
+ .mobile-nav {
+ display: none;
+ position: fixed;
+ top: 15px;
+ left: 15px;
+ z-index: 1002;
+ }
+
+ .hamburger-btn {
+ background: rgba(17, 17, 17, 0.9);
+ border: 2px solid #FFD700;
+ border-radius: 4px;
+ width: 50px;
+ height: 50px;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ }
+
+ .hamburger-btn span {
+ display: block;
+ width: 25px;
+ height: 2px;
+ background: #FFD700;
+ margin: 3px 0;
+ transition: all 0.3s ease;
+ }
+
+ .hamburger-btn:hover {
+ background: rgba(255, 165, 0, 0.9);
+ }
+
+ .hamburger-btn:hover span {
+ background: #000;
+ }
+
+ .mobile-menu {
+ position: fixed;
+ top: 0;
+ left: -100%;
+ width: 300px;
+ height: 100vh;
+ background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(17, 17, 17, 0.9));
+ border-right: 2px solid #FFD700;
+ padding: 20px;
+ transition: left 0.4s ease;
+ z-index: 1003;
+ overflow-y: auto;
+ backdrop-filter: blur(10px);
+ }
+
+ .mobile-menu.active {
+ left: 0;
+ }
+
+ .menu-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 20px;
+ padding-bottom: 15px;
+ border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+ }
+
+ .menu-header h3 {
+ color: #FFD700;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1rem;
+ margin: 0;
+ }
+
+ .close-menu {
+ background: transparent;
+ border: none;
+ color: #FFD700;
+ font-size: 1.5rem;
+ cursor: pointer;
+ width: 30px;
+ height: 30px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border-radius: 50%;
+ transition: all 0.3s ease;
+ }
+
+ .close-menu:hover {
+ background: rgba(255, 215, 0, 0.2);
+ }
+
+ .menu-content {
+ margin-bottom: 20px;
+ }
+
+ .menu-content .menu-item {
+ margin-bottom: 10px;
+ }
+
+ .menu-content .menu-item a {
+ display: block;
+ color: #fff;
+ text-decoration: none;
+ padding: 10px 15px;
+ border-radius: 5px;
+ border-left: 3px solid transparent;
+ transition: all 0.3s ease;
+ font-family: 'Segoe UI', sans-serif;
+ font-size: 0.95rem;
+ }
+
+ .menu-content .menu-item a:hover,
+ .menu-content .menu-item a.active {
+ border-left-color: #FFD700;
+ background: rgba(255, 215, 0, 0.1);
+ color: #FFD700;
+ }
+
+ .menu-footer {
+ margin-top: 20px;
+ padding-top: 15px;
+ border-top: 1px solid rgba(255, 215, 0, 0.3);
+ text-align: center;
+ color: #FFD700;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.8rem;
+ }
+
+ .pulse {
+ display: inline-block;
+ width: 8px;
+ height: 8px;
+ background-color: #FFD700;
+ border-radius: 50%;
+ margin-right: 8px;
+ animation: blink 1.5s infinite;
+ }
+
+ @keyframes blink {
+ 0%, 100% { opacity: 1; }
+ 50% { opacity: 0.3; }
+ }
+
+ /* === TOGGLE BUTTON === */
+ .content-toggle {
+ position: fixed; top: 195px; right: 25px; z-index: 1001;
+ }
+ .toggle-btn {
+ background: linear-gradient(135deg, var(--mb-gray), var(--mb-dark));
+ border: 2px solid rgba(var(--rgb-primary), 0.6);
+ color: white; padding: 12px 24px; border-radius: 25px;
+ cursor: pointer; font-family: 'Orbitron', sans-serif;
+ font-weight: 600; box-shadow: 0 0 20px rgba(var(--rgb-primary), 0.4);
+ transition: all 0.3s ease; min-width: 160px;
+ position: relative; overflow: hidden;
+ }
+ .quantum-state-change {
+ position: absolute; top: 0; left: 0;
+ width: 100%; height: 100%;
+ background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+ transform: translateX(-100%); transition: transform 0s;
+ }
+ .toggle-btn.activating .quantum-state-change {
+ animation: quantumSlide 0.6s ease-out;
+ }
+ @keyframes quantumSlide {
+ 0% { transform: translateX(-100%); }
+ 100% { transform: translateX(100%); }
+ }
+ .toggle-btn:hover {
+ transform: scale(1.05);
+ box-shadow: 0 0 30px rgba(var(--rgb-primary), 0.7);
+ border-color: rgba(var(--rgb-accent), 1);
+ }
+
+ /* === ANIMATIONS === */
+ @keyframes pulseGlow {
+ 0%, 100% { box-shadow: 0 0 15px var(--glow-primary); }
+ 50% { box-shadow: 0 0 35px var(--glow-primary), 0 0 50px var(--glow-secondary); }
+ }
+ @keyframes colorCycle {
+ 0% { --rgb-primary: 120, 220, 255; }
+ 33% { --rgb-primary: 255, 100, 250; }
+ 66% { --rgb-primary: 100, 255, 150; }
+ 100% { --rgb-primary: 120, 220, 255; }
+ }
+ @keyframes rgbSlide {
+ 0% { background-position: -100% 0; }
+ 100% { background-position: 200% 0; }
+ }
+ @keyframes spin {
+ 100% { transform: rotate(360deg); }
+ }
+ @keyframes blink {
+ 0%, 100% { opacity: 1; }
+ 50% { opacity: 0.3; }
+ }
+
+ .color-cycle {
+ animation: colorCycle 15s infinite linear;
+ }
+
+ /* === HARDWARE-STYLED COMPONENTS === */
+ .mb-panel {
+ background: linear-gradient(145deg, var(--mb-dark), var(--mb-black));
+ border: 1px solid var(--mb-light);
+ border-radius: 4px;
+ padding: 25px;
+ margin: 25px auto;
+ max-width: 1200px;
+ position: relative;
+ overflow: hidden;
+ box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+ }
+ .mb-panel::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 3px;
+ background: linear-gradient(90deg,
+ rgba(var(--rgb-primary), 0.8),
+ rgba(var(--rgb-secondary), 0.8),
+ rgba(var(--rgb-accent), 0.8));
+ background-size: 200% 100%;
+ animation: rgbSlide 3s infinite linear;
+ }
+
+ h1, h2, h3 {
+ font-family: 'Orbitron', sans-serif;
+ margin-bottom: 15px;
+ }
+ h1 { color: rgba(var(--rgb-primary), 1); font-size: 2.5rem; }
+ h2 { color: rgba(var(--rgb-accent), 1); border-bottom: 1px solid var(--mb-light); padding-bottom: 10px; }
+
+ .status {
+ display: inline-block;
+ padding: 5px 15px;
+ background: rgba(var(--rgb-accent), 0.1);
+ border: 1px solid rgba(var(--rgb-accent), 0.4);
+ border-radius: 12px;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.9rem;
+ transition: all 0.3s ease;
+ }
+ .status:hover {
+ border-color: rgba(var(--rgb-accent), 0.8);
+ box-shadow: 0 0 15px rgba(var(--rgb-accent), 0.4);
+ }
+
+ /* === SPECIFIC VISUAL ELEMENTS === */
+ .viz-container {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ flex-wrap: wrap;
+ gap: 40px;
+ margin: 30px 0;
+ }
+ .text-column {
+ flex: 1;
+ min-width: 250px;
+ }
+ .text-column.left {
+ text-align: right;
+ padding-right: 20px;
+ }
+ .text-column.right {
+ text-align: left;
+ padding-left: 20px;
+ }
+ .center-wheel {
+ flex: 0 0 auto;
+ }
+ .rgb-fan {
+ width: 180px;
+ height: 180px;
+ border-radius: 50%;
+ background: conic-gradient(from 0deg,
+ rgba(var(--rgb-primary), 0.9),
+ rgba(var(--rgb-secondary), 0.9),
+ rgba(var(--rgb-accent), 0.9),
+ rgba(var(--rgb-primary), 0.9));
+ position: relative;
+ animation: spin 4s infinite linear;
+ filter: blur(2px) brightness(1.2);
+ }
+ .rgb-fan::after {
+ content: 'CORE';
+ position: absolute;
+ top: 50%; left: 50%;
+ transform: translate(-50%, -50%);
+ width: 60%; height: 60%;
+ border-radius: 50%;
+ background: var(--mb-dark);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.9rem;
+ color: rgba(var(--rgb-primary), 1);
+ }
+
+ /* Data Channel Grid */
+ .channel-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+ gap: 15px;
+ margin: 25px 0;
+ }
+ .channel {
+ aspect-ratio: 1;
+ background: rgba(var(--rgb-primary), 0.1);
+ border: 1px solid rgba(var(--rgb-primary), 0.3);
+ border-radius: 3px;
+ animation: blink 2s infinite;
+ animation-delay: calc(var(--i) * 0.1s);
+ }
+
+ /* Control Console */
+ .console {
+ background: rgba(0, 0, 0, 0.6);
+ border: 1px solid var(--mb-gray);
+ border-radius: 4px;
+ padding: 15px;
+ font-family: 'Courier New', monospace;
+ font-size: 0.9rem;
+ color: rgba(var(--rgb-accent), 0.9);
+ min-height: 150px;
+ overflow-y: auto;
+ margin: 20px 0;
+ white-space: pre-wrap;
+ }
+ .log-entry::before { content: '> '; }
+
+ /* Buttons */
+ .mb-button {
+ background: linear-gradient(to bottom, var(--mb-gray), var(--mb-dark));
+ border: 2px solid rgba(var(--rgb-primary), 0.6);
+ color: #fff;
+ padding: 12px 25px;
+ font-family: 'Orbitron', sans-serif;
+ border-radius: 25px;
+ cursor: pointer;
+ margin: 10px 5px;
+ transition: all 0.3s ease;
+ box-shadow: 0 0 20px rgba(var(--rgb-primary), 0.4);
+ }
+ .mb-button:hover {
+ border-color: rgba(var(--rgb-accent), 1);
+ box-shadow: 0 0 30px rgba(var(--rgb-accent), 0.7);
+ transform: translateY(-2px) scale(1.05);
+ }
+
+ /* Footer */
+ footer {
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ background: var(--mb-dark);
+ border-top: 1px solid var(--mb-light);
+ padding: 15px;
+ text-align: center;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.8rem;
+ z-index: 100;
+ }
+ footer .pulse {
+ display: inline-block;
+ width: 10px;
+ height: 10px;
+ background-color: rgba(var(--rgb-accent), 1);
+ border-radius: 50%;
+ margin-right: 8px;
+ animation: blink 1.5s infinite;
+ }
+
+ /* Audio Controls */
+ .audio-controls {
+ position: fixed;
+ bottom: 90px;
+ right: 25px;
+ z-index: 1001;
+ }
+ .audio-btn {
+ background: linear-gradient(135deg, var(--mb-gray), var(--mb-dark));
+ border: 2px solid rgba(var(--rgb-primary), 0.6);
+ color: white;
+ padding: 10px 20px;
+ border-radius: 25px;
+ cursor: pointer;
+ font-family: 'Orbitron', sans-serif;
+ font-weight: 600;
+ box-shadow: 0 0 20px rgba(var(--rgb-primary), 0.4);
+ transition: all 0.3s ease;
+ }
+ .audio-btn:hover {
+ border-color: rgba(var(--rgb-accent), 1);
+ box-shadow: 0 0 30px rgba(var(--rgb-accent), 0.7);
+ transform: scale(1.05);
+ }
+
+ /* ==================== RESPONSIVE DESIGN ==================== */
+
+ /* Tablet Styles (768px - 1024px) */
+ @media (max-width: 1024px) {
+ .viz-container {
+ flex-direction: column;
+ text-align: center;
+ }
+ 
+ .text-column.left, .text-column.right {
+ text-align: center;
+ padding: 0;
+ }
+ 
+ .rgb-fan {
+ margin: 20px auto;
+ width: 150px;
+ height: 150px;
+ }
+ 
+ .channel-grid {
+ grid-template-columns: repeat(auto-fill, minmax(25px, 1fr));
+ gap: 10px;
+ }
+ 
+ .mb-panel {
+ margin: 20px 15px;
+ padding: 20px;
+ }
+ 
+ .content-toggle {
+ top: 15px;
+ right: 15px;
+ }
+ 
+ .audio-controls {
+ bottom: 100px;
+ right: 15px;
+ }
+ 
+ /* Video adjustments for tablet */
+ .video-feed-container, 
+ .unfiltered-video-container {
+ margin: 20px 15px;
+ padding: 15px;
+ }
+ 
+ #expandableVideo, 
+ #brightVideo {
+ max-width: 100%;
+ }
+ }
+
+ /* Mobile Styles (up to 767px) */
+ @media (max-width: 767px) {
+ /* Hide desktop menu, show hamburger */
+ nav.top-menu {
+ display: none;
+ }
+
+ .mobile-nav {
+ display: block;
+ }
+
+ h1 {
+ font-size: 1.8rem;
+ }
+ 
+ h2 {
+ font-size: 1.3rem;
+ }
+ 
+ .viz-container {
+ gap: 15px;
+ }
+ 
+ .rgb-fan {
+ width: 120px;
+ height: 120px;
+ }
+ 
+ .channel-grid {
+ grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+ gap: 8px;
+ }
+ 
+ .mb-panel {
+ margin: 15px 10px;
+ padding: 15px;
+ }
+ 
+ .mb-button {
+ padding: 10px 15px;
+ font-size: 0.85rem;
+ margin: 5px 3px;
+ width: 100%;
+ }
+ 
+ /* Stack buttons vertically on mobile */
+ .video-controls, 
+ .mb-panel > div:last-child {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ }
+ 
+ .toggle-btn, 
+ .audio-btn {
+ padding: 10px 15px;
+ font-size: 0.85rem;
+ min-width: 140px;
+ }
+ 
+ .content-toggle {
+ top: 10px;
+ right: 10px;
+ }
+ 
+ .audio-controls {
+ bottom: 90px;
+ right: 10px;
+ }
+ 
+ /* Adjust video containers */
+ .video-feed-container, 
+ .unfiltered-video-container {
+ margin: 15px 10px;
+ padding: 12px;
+ }
+ 
+ /* Make footer more compact */
+ footer {
+ padding: 10px;
+ font-size: 0.7rem;
+ flex-direction: column;
+ gap: 5px;
+ }
+ 
+ footer p {
+ text-align: center;
+ }
+ }
+
+ /* Small Mobile (up to 480px) */
+ @media (max-width: 480px) {
+ h1 {
+ font-size: 1.5rem;
+ }
+ 
+ h2 {
+ font-size: 1.1rem;
+ }
+ 
+ .status {
+ display: block;
+ margin-top: 10px;
+ width: 100%;
+ }
+ 
+ .rgb-fan {
+ width: 100px;
+ height: 100px;
+ }
+ 
+ .rgb-fan::after {
+ font-size: 0.7rem;
+ }
+ 
+ .console {
+ font-size: 0.8rem;
+ padding: 10px;
+ }
+ 
+ .toggle-btn, 
+ .audio-btn {
+ padding: 8px 12px;
+ font-size: 0.75rem;
+ min-width: 120px;
+ }
+ }
+
+ /* Desktop: hide mobile menu */
+ @media (min-width: 1025px) {
+ .mobile-nav {
+ display: none;
+ }
+
+ nav.top-menu {
+ display: flex;
+ }
+ }
+ </style>
+</head>
+<body class="color-cycle">
+
+ <!-- BACKGROUND SYSTEM -->
+ <div class="background-container">
+ <div class="static-background" id="staticBg"></div>
+ <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
+ <source src="videos/galaxy-flight.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ </div>
+
+ <!-- SITE TITLE -->
+ <div class="site-title-overlay" style="position: fixed; top: 80px; left: 30px; z-index: 50;">
+ <h1 style="color: rgba(13, 255, 108, 0.7); font-family: 'Orbitron', sans-serif; font-size: 1.8rem; text-shadow: 0 0 10px rgba(13, 255, 108, 0.5); font-weight: 300; letter-spacing: 2px;">The Mars Abyss</h1>
+ </div>
+
+ <!-- MOBILE HAMBURGER MENU -->
+ <div class="mobile-nav">
+ <button class="hamburger-btn" id="hamburgerBtn">
+ <span></span>
+ <span></span>
+ <span></span>
+ </button>
+ <nav class="mobile-menu" id="mobileMenu">
+ <div class="menu-header">
+ <h3>NAVIGATION PORTAL</h3>
+ <button class="close-menu" id="closeMenu">✕</button>
+ </div>
+ <div class="menu-content">
+ <!-- Menu items will be generated by JavaScript -->
+ </div>
+ <div class="menu-footer">
+ <span class="pulse"></span> QUANTUM LINK ACTIVE
+ </div>
+ </nav>
+ </div>
+
+ <!-- TOP MENU (Desktop) -->
+ <nav class="top-menu">
+ <div class="dropdown">
+ <a href="index.html" class="dropbtn">Home</a>
+ <div class="dropdown-content">
+ <a href="why-this-world-matters.html">Why This World Matters</a>
+ <a href="homage-to-courage.html">Homage to Courage</a>
+ <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+ <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+ <a href="my-mission.html">My Mission</a>
+ <a href="martian-reading-revival.html">Martian Reading Revival</a>
+ <a href="why-mars-is-saver.html">Why Mars is Safer</a>
+ <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+ <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="story.html" class="dropbtn">Story</a>
+ <div class="dropdown-content">
+ <a href="characters.html">Characters</a>
+ <div class="dropdown">
+ <a href="gallery.html" class="dropbtn">Gallery</a>
+ <div class="dropdown-content">
+ <a href="art-and-concepts.html">Art & Concepts</a>
+ <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+ <a href="technical-database.html">Technical Database</a>
+ <a href="martian-edicts.html">The Martian Edicts</a>
+ <a href="alien-transport-network.html">Alien Transport Network</a>
+ <a href="martian-martial-arts.html">Martian Martial Arts</a>
+ <a href="solar-system-explorer.html">Solar System Explorer</a>
+ <a href="aliens-ufos.html">Aliens & UFOs</a>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="martian-games.html" class="dropbtn">Martian Games</a>
+ <div class="dropdown-content">
+ <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+ <a href="martian-racer.html">Martian Racer</a>
+ <a href="red-planet-defense.html">Red Planet Defense</a>
+ <a href="the-regents-portal.html">The Regent's Portal</a>
+ <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+ <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+ <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+ <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+ <div class="dropdown-content">
+ <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+ <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+ <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+ <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+ <a href="earths-great-poets.html">Earth's Great Poets</a>
+ <a href="the-bohr-institute.html">The Bohr Institute</a>
+ <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+ <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+ <a href="the-bronx-dome.html">The Bronx Dome</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="martian-news.html" class="dropbtn">Martian News</a>
+ <div class="dropdown-content">
+ <a href="martian-actualities.html">Martian Actualities</a>
+ <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+ <a href="mars-bee-facility.html">Mars Bee Facility</a>
+ <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+ <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+ <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+ <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+ <a href="martian-rest-areas.html">Martian Rest Areas</a>
+ <div class="dropdown">
+ <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+ <div class="dropdown-content">
+ <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+ <a href="marvin.html">M.A.R.V.I.N.</a>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+ <div class="dropdown-content">
+ <a href="what-the-regent-misses.html">What the Regent Misses</a>
+ <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+ <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+ <a href="honor-the-fallen.html">Honor The Fallen</a>
+ <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+ <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+ <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+ <a href="martian-critique-tron-ares.html">Martian Critique</a>
+ <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+ <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+ <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="about.html" class="dropbtn">About</a>
+ <div class="dropdown-content">
+ <a href="about-the-project.html">About the Project</a>
+ <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+ <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+ <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+ <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+ <a href="the-pale-horse.html">The Pale Horse</a>
+ <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+ <a href="arachne-labs.html">Arachne Labs</a>
+ <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+ <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="support.html" class="dropbtn">Support</a>
+ <div class="dropdown-content">
+ <a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
+ <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+ <a href="mars-food-district.html">Mars Food District</a>
+ <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+ <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+ <a href="fund-martian-research.html">Fund Martian Research</a>
+ <a href="martian-survival-manual.html">Martian Survival Manual</a>
+ <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="contact.html" class="dropbtn active">Contact</a>
+ <div class="dropdown-content">
+ <a href="contact-form.html">Contact Form (Earth)</a>
+ <a href="quantum-translation-lab.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Lab (Cosmic)</a>
+ <div style="border-top: 1px solid rgba(255, 215, 0, 0.3); margin: 5px 0; padding-top: 5px;">
+ </div>
+ </div>
+ </div>
+ </nav>
+
+ <!-- TOGGLE & AUDIO CONTROLS -->
+ <div class="content-toggle">
+ <button class="toggle-btn" id="toggleContent">
+ <span id="toggleText">COLLAPSE LAB</span>
+ <div class="quantum-state-change"></div>
+ </button>
+ </div>
+
+ <div class="audio-controls">
+ <button class="audio-btn" id="muteBtn">🔇 UNMUTE LAB</button>
+ <audio id="labAudio" loop>
+ <source src="music/depths-of-mystery.mp3" type="audio/mpeg">
+ Your browser does not support the audio element.
+ </audio>
+ </div>
+
+ <main style="max-width: 1200px; margin: 120px auto 20px; padding: 20px;">
+
+ <!-- Header Panel -->
+ <section class="mb-panel" style="text-align: center;">
+ <h1>// QUANTUM TRANSLATION LAB</h1>
+ <p>Experimental Interface v1.0 | <span class="status">STATE COHERENCE: 97.4%</span></p>
+ <p style="margin-top: 15px; color: #aaa;">Direct observation and manipulation of the persistent quantum state matrix.<br>Substrate: Akashic Repository Core.</p>
+ </section>
+
+ <!-- Core Processor Panel -->
+ <section class="mb-panel" id="core-processor">
+ <h2>▶ CORE PROCESSOR: QUANTUM STATE LOCK</h2>
+ <p>Visualizing the CeRu₄Sn₆-inspired topological matrix. The stable quantum "shape" is held here prior to translation.</p>
+
+ <div class="viz-container">
+ <div class="text-column left">
+ <p><strong>Topological Integrity:</strong> <span style="color: rgba(var(--rgb-accent), 1);">100%</span></p>
+ <p><strong>Pattern Stability:</strong> Absolute</p>
+ <p><strong>Substrate Independence:</strong> Confirmed</p>
+ </div>
+
+ <div class="center-wheel">
+ <div class="rgb-fan"></div>
+ </div>
+
+ <div class="text-column right">
+ <p><strong>Entanglement Field:</strong> <span style="color: rgba(var(--rgb-primary), 1);">Active</span></p>
+ <p><strong>Energy Signature:</strong> Non-classical</p>
+ <p><strong>Coherence Time:</strong> ∞ (Theoretical)</p>
+ </div>
+ </div>
+ <p style="margin-top: 20px; text-align: center; font-style: italic;">The core maintains state coherence without particle substrate, validating the Translation Principle's foundation.</p>
+ </section>
+
+ <!-- Entanglement Matrix Panel -->
+ <section class="mb-panel" id="entanglement-matrix">
+ <h2>⧖ ENTANGLEMENT CHANNEL MATRIX</h2>
+ <p>Active non-local links. Each channel represents a quantum-entangled pathway for state data. Channels 7, 14, 21 are primed for translation.</p>
+
+ <div class="channel-grid" id="channelGrid">
+ <!-- Channels are generated by JavaScript -->
+ </div>
+
+ <div style="text-align: center;">
+ <button class="mb-button" onclick="initiateScan()">INITIATE CHANNEL SCAN</button>
+ <button class="mb-button" onclick="primeChannels()">PRIME FOR TRANSLATION</button>
+ </div>
+ </section>
+
+ <!-- NEW VISUAL FEED SECTION -->
+ <section class="video-feed-container" id="visual-feed">
+    <h2>📡 VISUAL FEED: ALIEN BRIDGE OBSERVATION</h2>
+    <p>Primary visual data stream from the collaborative observation post. This feed shows the bridge crew witnessing the galactic nebula.</p>
+    <div class="video-player-wrapper">
+        <video id="expandableVideo" controls playsinline>
+            <source src="videos/galaxy-flight-again.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="video-controls">
+        <button class="mb-button" onclick="toggleFullscreen('expandableVideo')">⎚ VIEW RAW FEED</button>
+    </div>
+ </section>
+
+ <!-- UPDATED UNFILTERED SPECTRUM SECTION -->
+<section class="unfiltered-video-container">
+    <h2>🌟 UNFILTERED SPECTRUM ANALYSIS</h2>
+    <p>Reference visual. This is the source nebula footage without operational filters. Play to experience the full luminous spectrum and ambient audio for calibration and contextual awe.</p>
+    
+    <div class="video-player-wrapper"> <!-- Reuses the same wrapper as the first video -->
+        <video id="brightVideo" controls playsinline>
+            <!-- REPLACE WITH YOUR BRIGHT NEBULA VIDEO FILE (can be same as background) -->
+            <source src="videos/galaxy-flight.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <div class="video-controls">
+        <!-- New Fullscreen Button for the Bright Video -->
+        <button class="mb-button" onclick="toggleFullscreen('brightVideo')">⎚ VIEW FULL SPECTRUM</button>
+        <button class="mb-button" onclick="adjustVolume('brightVideo', 0.1)">🔉 -</button>
+        <button class="mb-button" onclick="adjustVolume('brightVideo', -0.1)">🔊 +</button>
+    </div>
+    
+    <p style="margin-top: 15px; color: #aaa; font-style: italic;">Visual and audio calibration active. Direct sensory experience recommended.</p>
+</section>
+
+ <!-- Translation Console Panel -->
+ <section class="mb-panel" id="translation-protocol" style="animation: pulseGlow 5s infinite;">
+ <h2>⚡ TRANSLATION PROTOCOL — STANDBY</h2>
+ <p>Real-time feed of the topological state translation process. Pattern integrity is maintained; substrate is translated.</p>
+
+ <div class="console" id="mainConsole">
+> System initialized. Awaiting command.
+> Quantum State Lock: ENGAGED.
+> Entanglement Matrix: STABLE.
+> Translation Vector: CALIBRATING...
+ </div>
+
+ <div style="text-align: center;">
+ <button class="mb-button" onclick="simulateTranslation()">
+ INITIATE TEST TRANSLATION
+ </button>
+ </div>
+ <p style="margin-top: 15px; font-size: 0.9rem; color: #aaa; text-align: center;"><strong>Note:</strong> This is a simulation interface. Actual matter translation requires Class-7 authorization.</p>
+ </section>
+
+ </main>
+
+ <!-- Footer -->
+ <footer>
+ <p><span class="pulse"></span> <strong>SYSTEM:</strong> Akashic Repository — Translation Subsystem | <strong>POWER:</strong> Quantum Vacuum | <strong>STATUS:</strong> <span id="sysStatus" style="color: rgba(var(--rgb-accent), 1);">STANDBY</span></p>
+ </footer>
+
+ <script>
+ // === INITIALIZATION ===
+ document.addEventListener('DOMContentLoaded', function() {
+ // Create animated channel grid
+ const grid = document.getElementById('channelGrid');
+ for (let i = 0; i < 48; i++) {
+ const channel = document.createElement('div');
+ channel.className = 'channel';
+ channel.style.setProperty('--i', i);
+ if (i % 7 === 0) {
+ channel.style.backgroundColor = `rgba(var(--rgb-secondary), 0.4)`;
+ channel.style.borderColor = `rgba(var(--rgb-secondary), 0.8)`;
+ }
+ grid.appendChild(channel);
+ }
+
+ // Initialize audio system
+ initAudio();
+
+ // Initialize background video
+ initBackground();
+
+ // Auto-play the bright video
+ const brightVideo = document.getElementById('brightVideo');
+ if(brightVideo) {
+ brightVideo.play().catch(e => console.log("Bright video autoplay prevented:", e));
+ }
+
+ // Initialize mobile menu
+ createMobileMenu();
+ });
+
+ // === BACKGROUND VIDEO SYSTEM ===
+ function initBackground() {
+ const videoBg = document.getElementById('videoBg');
+ const staticBg = document.getElementById('staticBg');
+
+ videoBg.addEventListener('loadeddata', function() {
+ setTimeout(() => {
+ staticBg.style.opacity = '0';
+ setTimeout(() => {
+ staticBg.style.pointerEvents = 'none';
+ }, 1500);
+ }, 1000);
+
+ setTimeout(() => {
+ videoBg.play().catch(e => {
+ console.log('Video autoplay prevented, using static background');
+ videoBg.style.display = 'none';
+ staticBg.style.opacity = '1';
+ });
+ }, 500);
+ });
+
+ videoBg.addEventListener('error', function() {
+ console.log('Video failed to load');
+ videoBg.style.display = 'none';
+ staticBg.style.opacity = '1';
+ staticBg.style.pointerEvents = 'auto';
+ });
+ }
+
+ // === TOGGLE FUNCTIONALITY ===
+ const toggleBtn = document.getElementById('toggleContent');
+ const mainContent = document.querySelector('main');
+ const pageFooter = document.querySelector('footer');
+ const toggleText = document.getElementById('toggleText');
+ const videoBg = document.getElementById('videoBg');
+
+ let contentVisible = true;
+
+ toggleBtn.addEventListener('click', function() {
+ contentVisible = !contentVisible;
+ mainContent.classList.toggle('hidden');
+ pageFooter.classList.toggle('hidden');
+ toggleBtn.classList.add('activating');
+ setTimeout(() => toggleBtn.classList.remove('activating'), 600);
+
+ if (contentVisible) {
+ toggleText.textContent = 'COLLAPSE LAB';
+ toggleBtn.style.borderColor = 'rgba(var(--rgb-primary), 0.6)';
+ videoBg.play();
+ } else {
+ toggleText.textContent = 'RESTORE LAB';
+ toggleBtn.style.borderColor = 'rgba(var(--rgb-accent), 1)';
+ }
+ });
+
+ // Add CSS for hidden state
+ const style = document.createElement('style');
+ style.textContent = `
+ .hidden {
+ opacity: 0;
+ pointer-events: none;
+ }
+ `;
+ document.head.appendChild(style);
+
+ // === NEW FULLSCREEN FUNCTION FOR VIDEO ===
+ function toggleFullscreen(videoId) {
+ const videoElement = document.getElementById(videoId);
+ if (!videoElement) return;
+ if (!document.fullscreenElement) {
+ if (videoElement.requestFullscreen) {
+ videoElement.requestFullscreen();
+ } else if (videoElement.webkitRequestFullscreen) { /* Safari */
+ videoElement.webkitRequestFullscreen();
+ } else if (videoElement.msRequestFullscreen) { /* IE11 */
+ videoElement.msRequestFullscreen();
+ }
+ } else {
+ if (document.exitFullscreen) {
+ document.exitFullscreen();
+ } else if (document.webkitExitFullscreen) { /* Safari */
+ document.webkitExitFullscreen();
+ } else if (document.msExitFullscreen) { /* IE11 */
+ document.msExitFullscreen();
+ }
+ }
+ }
+
+ // Listen for fullscreen change to update button text
+ document.addEventListener('fullscreenchange', handleFullscreenChange);
+ document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+ document.addEventListener('msfullscreenchange', handleFullscreenChange);
+ function handleFullscreenChange() {
+ const fullscreenBtn = document.querySelector('[onclick*="toggleFullscreen"]');
+ if(fullscreenBtn) {
+ fullscreenBtn.textContent = document.fullscreenElement ? '⎚ EXIT RAW FEED' : '⎚ VIEW RAW FEED';
+ }
+ }
+
+// === NEW VOLUME ADJUSTMENT FUNCTION ===
+function adjustVolume(videoId, change) {
+    const videoElement = document.getElementById(videoId);
+    if (!videoElement) return;
+    
+    // Calculate new volume (clamped between 0 and 1)
+    let newVolume = videoElement.volume + change;
+    newVolume = Math.max(0, Math.min(1, newVolume)); // Clamp between 0-1
+    videoElement.volume = newVolume;
+    
+    // Optional: Provide subtle visual feedback in console
+    console.log(`Video "${videoId}" volume set to: ${(newVolume * 100).toFixed(0)}%`);
+}
+
+// === ENHANCED FULLSCREEN FUNCTION (UPDATED) ===
+function toggleFullscreen(videoId) {
+    const videoElement = document.getElementById(videoId);
+    if (!videoElement) return;
+    
+    // Check if *any* element is currently fullscreen
+    if (!document.fullscreenElement) {
+        // Request fullscreen on the video element itself
+        if (videoElement.requestFullscreen) {
+            videoElement.requestFullscreen();
+        } else if (videoElement.webkitRequestFullscreen) { /* Safari */
+            videoElement.webkitRequestFullscreen();
+        } else if (videoElement.msRequestFullscreen) { /* IE11 */
+            videoElement.msRequestFullscreen();
+        }
+    } else {
+        // If something is already fullscreen, exit
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+        }
+    }
+}
+
+ // ===== AUDIO SYSTEM =====
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+ const sounds = [
+ { src: 'music/depths-of-mystery.mp3', volume: 0.5 },
+ { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+ { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+ ];
+
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
+
+ const unmuteOnInteraction = function() {
+ if (isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => {
+ console.log('Audio play attempt failed:', e);
+ });
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 MUTE LAB";
+ }
+ document.removeEventListener('click', unmuteOnInteraction);
+ document.removeEventListener('keydown', unmuteOnInteraction);
+ };
+
+ document.addEventListener('click', unmuteOnInteraction);
+ document.addEventListener('keydown', unmuteOnInteraction);
+
+ setTimeout(() => {
+ audioElements.forEach(audio => {
+ audio.play().then(() => {
+ console.log('Audio autoplay succeeded.');
+ }).catch(e => {
+ console.log('Audio autoplay blocked.');
+ });
+ });
+ }, 1000);
+}
+
+muteBtn.addEventListener('click', function() {
+ if (audioElements.length === 0) {
+ initAudio();
+ return;
+ }
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ if (!isMuted) {
+ audio.play().catch(e => console.log('Playback resume failed'));
+ }
+ });
+ muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
+});
+
+ // === HAMBURGER MENU ===
+ const hamburgerBtn = document.getElementById('hamburgerBtn');
+ const closeMenu = document.getElementById('closeMenu');
+ const mobileMenu = document.getElementById('mobileMenu');
+ const menuContent = document.querySelector('.menu-content');
+
+ // Create simplified mobile menu
+ function createMobileMenu() {
+ // Clear existing menu
+ menuContent.innerHTML = '';
+   
+ // Create main menu items (simplified for mobile)
+ const menuItems = [
+ { text: 'Home', href: 'index.html' },
+ { text: 'Story & Gallery', href: 'story.html' },
+ { text: 'Martian Games', href: 'martian-games.html' },
+ { text: 'Earth Codex', href: 'earth-codex.html' },
+ { text: 'Martian News', href: 'martian-news.html' },
+ { text: "Regent's Scrolls", href: 'the-regents-scrolls.html' },
+ { text: 'About', href: 'about.html' },
+ { text: 'Support', href: 'support.html' },
+ { text: 'Contact', href: 'contact.html' },
+ { text: 'Quantum Translation Lab (Active)', href: 'quantum-translation-lab.html', active: true }
+ ];
+   
+ // Add items to menu
+ menuItems.forEach(item => {
+ const menuItem = document.createElement('div');
+ menuItem.className = 'menu-item';
+     
+ const link = document.createElement('a');
+ link.href = item.href;
+ link.textContent = item.text;
+     
+ if (item.active) {
+ link.classList.add('active');
+ }
+     
+ menuItem.appendChild(link);
+ menuContent.appendChild(menuItem);
+ });
+ }
+
+ // Toggle menu
+ hamburgerBtn.addEventListener('click', () => {
+ mobileMenu.classList.add('active');
+ document.body.style.overflow = 'hidden';
+ });
+
+ closeMenu.addEventListener('click', () => {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ });
+
+ // Close menu when clicking outside
+ document.addEventListener('click', (e) => {
+ if (mobileMenu.classList.contains('active') && 
+ !mobileMenu.contains(e.target) && 
+ !hamburgerBtn.contains(e.target)) {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ }
+ });
+
+ // Close menu when clicking a link
+ document.querySelectorAll('.mobile-menu a').forEach(link => {
+ link.addEventListener('click', () => {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ });
+ });
+
+ // Hide/show mobile menu based on screen size
+ function handleResize() {
+ if (window.innerWidth > 1024) {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ }
+ }
+
+ window.addEventListener('resize', handleResize);
+
+ // === SIMULATION FUNCTIONS ===
+ const consoleEl = document.getElementById('mainConsole');
+ const sysStatus = document.getElementById('sysStatus');
+
+ function logToConsole(message) {
+ const entry = document.createElement('div');
+ entry.className = 'log-entry';
+ entry.textContent = '> ' + message;
+ consoleEl.appendChild(entry);
+ consoleEl.scrollTop = consoleEl.scrollHeight;
+ }
+
+ function initiateScan() {
+ logToConsole("Initiating full entanglement matrix scan...");
+ sysStatus.textContent = "SCANNING";
+ sysStatus.style.color = 'rgba(var(--rgb-primary), 1)';
+ setTimeout(() => {
+ logToConsole("Scan complete. 48/48 channels operational.");
+ logToConsole("Channels 7, 14, 21 show optimal coherence for translation.");
+ sysStatus.textContent = "STANDBY";
+ sysStatus.style.color = 'rgba(var(--rgb-accent), 1)';
+ }, 1500);
+ }
+
+ function primeChannels() {
+ const channels = document.querySelectorAll('.channel');
+ channels.forEach((ch, i) => {
+ if (i % 7 === 0) {
+ ch.style.backgroundColor = `rgba(var(--rgb-accent), 0.6)`;
+ ch.style.borderColor = `rgba(var(--rgb-accent), 1)`;
+ ch.style.animationDuration = '0.5s';
+ }
+ });
+ logToConsole("Target channels primed. Translation vector locked.");
+ }
+
+ function simulateTranslation() {
+ logToConsole("=== TRANSLATION SEQUENCE INITIATED ===");
+ sysStatus.textContent = "TRANSLATING";
+ sysStatus.style.color = 'rgba(var(--rgb-secondary), 1)';
+
+ const steps = [
+ "Collapsing quantum state wave function...",
+ "Encoding topological data pattern...",
+ "Establishing non-local entanglement link...",
+ "Transferring coherent state matrix...",
+ "Re-integrating pattern at target coordinates...",
+ "Verifying pattern integrity: 100%.",
+ "Translation successful. No data loss detected."
+ ];
+
+ let delay = 0;
+ steps.forEach((step, i) => {
+ setTimeout(() => {
+ logToConsole(step);
+ if (i === steps.length - 1) {
+ sysStatus.textContent = "COMPLETE";
+ setTimeout(() => {
+ sysStatus.textContent = "STANDBY";
+ sysStatus.style.color = 'rgba(var(--rgb-accent), 1)';
+ }, 2000);
+ }
+ }, delay);
+ delay += 800;
+ });
+ }
+ </script>
+</body>
+</html>
