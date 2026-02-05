@@ -7,368 +7,589 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
 }
 
 body, html {
-    height: 100%;
-    width: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #fff;
-    overflow-x: hidden;
-    position: relative;
-    background: #000;
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #fff;
+overflow-x: hidden;
+position: relative;
+background: #000;
 }
 
 /* VIDEO BACKGROUND */
 .video-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    opacity: 0.8;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 1;
+opacity: 0.8;
 }
 
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.1);
-    z-index: 2;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.1);
+z-index: 2;
 }
 
 /* SITE TITLE */
 .site-title-overlay {
-    position: fixed;
-    top: 80px;
-    left: 30px;
-    z-index: 50;
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
 }
 
 .site-title-overlay h1 {
-    color: rgba(13, 255, 108, 0.7);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
-    text-shadow: 0 0 10px rgba(13, 255, 108, 0.5);
-    font-weight: 300;
-    letter-spacing: 2px;
+color: rgba(13, 255, 108, 0.7);
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(13, 255, 108, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
 }
 
 .site-title-overlay h1 sup {
-    font-size: 0.6em;
-    vertical-align: super;
-    color: rgba(13, 255, 108, 0.9);
+font-size: 0.6em;
+vertical-align: super;
+color: rgba(13, 255, 108, 0.9);
 }
 
 /* HIDE CONTENT BUTTON */
 .hide-content-btn {
-    position: fixed;
-    top: 80px;
-    right: 30px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #0dff6c;
-    border: 2px solid #0dff6c;
-    padding: 8px 12px;
-    border-radius: 15px;
-    cursor: pointer;
-    z-index: 1001;
-    font-size: clamp(0.7rem, 2vw, 0.8rem);
-    transition: all 0.3s ease;
+position: fixed;
+top: 80px;
+right: 30px;
+background: rgba(0, 0, 0, 0.7);
+color: #0dff6c;
+border: 2px solid #0dff6c;
+padding: 8px 12px;
+border-radius: 15px;
+cursor: pointer;
+z-index: 1001;
+font-size: clamp(0.7rem, 2vw, 0.8rem);
+transition: all 0.3s ease;
 }
 
 .hide-content-btn:hover {
-    background: rgba(13, 255, 108, 0.6);
-    color: black;
+background: rgba(13, 255, 108, 0.6);
+color: black;
 }
 
 /* AUDIO CONTROLS */
 .audio-controls {
-    position: fixed;
-    bottom: 80px;
-    right: 40px;
-    z-index: 1000;
+position: fixed;
+bottom: 80px;
+right: 40px;
+z-index: 1000;
 }
 
 .audio-btn {
-    background: rgba(13, 255, 108, 0.8);
-    border: 2px solid #0dff6c;
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-    font-size: 0.9rem;
+background: rgba(0, 0, 0, 0.7);
+border: 2px solid #0dff6c;
+color: #0dff6c;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
 }
 
 .audio-btn:hover {
-    background: rgba(13, 255, 108, 0.6);
-    box-shadow: 0 0 15px rgba(13, 255, 108, 0.7);
+background: rgba(13, 255, 108, 0.6);
+color: black;
+box-shadow: 0 0 15px rgba(13, 255, 108, 0.7);
 }
 
-/* TOP MENU */
+/* ==================== HAMBURGER MENU (MOBILE) ==================== */
+.mobile-nav {
+display: none;
+position: fixed;
+top: 15px;
+left: 15px;
+z-index: 1002;
+}
+
+.hamburger-btn {
+background: rgba(7, 118, 55, 0.9);
+border: 2px solid #0dff6c;
+border-radius: 4px;
+width: 50px;
+height: 50px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+}
+
+.hamburger-btn span {
+display: block;
+width: 25px;
+height: 2px;
+background: #0dff6c;
+margin: 3px 0;
+transition: all 0.3s ease;
+}
+
+.hamburger-btn:hover {
+background: rgba(13, 255, 108, 0.9);
+}
+
+.hamburger-btn:hover span {
+background: #000;
+}
+
+.mobile-menu {
+position: fixed;
+top: 0;
+left: -100%;
+width: 300px;
+height: 100vh;
+background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(7, 118, 55, 0.9));
+border-right: 2px solid #0dff6c;
+padding: 20px;
+transition: left 0.4s ease;
+z-index: 1003;
+overflow-y: auto;
+backdrop-filter: blur(10px);
+}
+
+.mobile-menu.active {
+left: 0;
+}
+
+.menu-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 20px;
+padding-bottom: 15px;
+border-bottom: 1px solid rgba(13, 255, 108, 0.3);
+}
+
+.menu-header h3 {
+color: #0dff6c;
+font-family: 'Orbitron', sans-serif;
+font-size: 1rem;
+margin: 0;
+}
+
+.close-menu {
+background: transparent;
+border: none;
+color: #0dff6c;
+font-size: 1.5rem;
+cursor: pointer;
+width: 30px;
+height: 30px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%;
+transition: all 0.3s ease;
+}
+
+.close-menu:hover {
+background: rgba(13, 255, 108, 0.2);
+}
+
+.menu-content {
+margin-bottom: 20px;
+}
+
+.menu-content .menu-item {
+margin-bottom: 10px;
+}
+
+.menu-content .menu-item a {
+display: block;
+color: #fff;
+text-decoration: none;
+padding: 10px 15px;
+border-radius: 5px;
+border-left: 3px solid transparent;
+transition: all 0.3s ease;
+font-family: 'Segoe UI', sans-serif;
+font-size: 0.95rem;
+}
+
+.menu-content .menu-item a:hover,
+.menu-content .menu-item a.active {
+border-left-color: #0dff6c;
+background: rgba(13, 255, 108, 0.1);
+color: #0dff6c;
+}
+
+.menu-footer {
+margin-top: 20px;
+padding-top: 15px;
+border-top: 1px solid rgba(13, 255, 108, 0.3);
+text-align: center;
+color: #0dff6c;
+font-family: 'Orbitron', sans-serif;
+font-size: 0.8rem;
+}
+
+.pulse {
+display: inline-block;
+width: 8px;
+height: 8px;
+background-color: #0dff6c;
+border-radius: 50%;
+margin-right: 8px;
+animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.3; }
+}
+
+/* TOP MENU (DESKTOP) WITH ENERGY FLOW EFFECT */
 nav.top-menu {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background: rgba(17, 17, 17, 0.95);
-    padding: 0.6rem 0;
-    z-index: 1000;
-    gap: 2.5rem;
-    flex-wrap: nowrap;
-    backdrop-filter: blur(10px);
-    border-bottom: 2px solid #0dff6c;
-    transition: all 0.5s ease;
+position: fixed;
+top: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background: linear-gradient(90deg, 
+    rgba(17, 17, 17, 0.95) 0%,
+    rgba(7, 118, 55, 0.3) 30%,
+    rgba(13, 255, 108, 0.4) 50%,
+    rgba(7, 118, 55, 0.3) 70%,
+    rgba(17, 17, 17, 0.95) 100%);
+background-size: 200% 100%;
+padding: 0.6rem 0;
+z-index: 1000;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #0dff6c;
+overflow: hidden;
+animation: energyFlow 3s linear infinite;
+}
+
+@keyframes energyFlow {
+0% {
+    background-position: 200% 0;
+}
+100% {
+    background-position: -200% 0;
+}
+}
+
+nav.top-menu::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, 
+    transparent, 
+    rgba(13, 255, 108, 0.2), 
+    rgba(13, 255, 108, 0.4), 
+    rgba(13, 255, 108, 0.2), 
+    transparent);
+animation: electricPulse 4s ease-in-out infinite;
+}
+
+@keyframes electricPulse {
+0%, 100% {
+    left: -100%;
+    opacity: 0;
+}
+50% {
+    opacity: 0.8;
+}
+100% {
+    left: 100%;
+    opacity: 0;
+}
 }
 
 nav.top-menu a {
-    color: #f5f5f5;
-    text-decoration: none;
-    font-size: 1.1rem;
-    padding: 0.5rem 0.8rem;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.2rem;
+padding: 0.5rem 2rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+position: relative;
+z-index: 2;
+font-family: 'Orbitron', sans-serif;
+font-weight: 500;
 }
 
-nav.top-menu a.active,
 nav.top-menu a:hover {
-    color: #0dff6c;
-    background: transparent;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background: rgba(26, 26, 26, 0.98);
-    min-width: 140px;
-    z-index: 1001;
-    border-radius: 4px;
-    border: 2px solid #0dff6c;
-    top: 100%;
-    left: 0;
-    backdrop-filter: blur(5px);
-    padding: 4px 0;
-}
-
-.dropdown .dropdown .dropdown-content {
-    position: absolute;
-    left: 100%;
-    top: 0;
-    width: 100%;
-}
-
-.dropdown-content a {
-    color: #f5f5f5;
-    padding: 3px 5px;
-    text-decoration: none;
-    display: block;
-    transition: background-color 0.3s ease;
-    font-size: 0.9rem;
-    line-height: 1.2;
-}
-
-.dropdown-content a:hover {
-    background: rgba(13, 255, 108, 0.6);
-    color: #fff;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
+color: #0dff6c;
+background: transparent;
+text-shadow: 0 0 10px rgba(13, 255, 108, 0.7);
+transform: scale(1.05);
 }
 
 /* MAIN CONTENT */
 .main-content {
-    position: relative;
-    z-index: 10;
-    min-height: 100vh;
-    padding: 120px 2rem 2rem 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: all 0.5s ease;
+position: relative;
+z-index: 10;
+min-height: 100vh;
+padding: 120px 2rem 100px 2rem; /* Added bottom padding for footer */
+max-width: 800px;
+margin: 0 auto;
+display: flex;
+flex-direction: column;
+align-items: center;
+transition: all 0.5s ease;
+margin-bottom: 30px; /* Added as you mentioned */
 }
 
 /* HIDE CONTENT FUNCTIONALITY */
 .main-content.hidden,
 footer.hidden,
 nav.top-menu.hidden {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(20px);
+opacity: 0;
+pointer-events: none;
+transform: translateY(20px);
 }
 
 .page-header {
-    text-align: center;
-    margin-bottom: 3rem;
-    width: 100%;
+text-align: center;
+margin-bottom: 3rem;
+width: 100%;
 }
 
 .page-header h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2.5rem;
-    color: #0dff6c;
-    text-shadow: 0 0 15px rgba(13, 255, 108, 0.7);
-    margin-bottom: 1rem;
+font-family: 'Orbitron', sans-serif;
+font-size: 2.5rem;
+color: #0dff6c;
+text-shadow: 0 0 15px rgba(13, 255, 108, 0.7);
+margin-bottom: 1rem;
 }
 
 .page-header p {
-    font-size: 1.1rem;
-    color: #e0e0ff;
-    line-height: 1.6;
+font-size: 1.1rem;
+color: #e0e0ff;
+line-height: 1.6;
 }
 
 /* CONTACT FORM */
 .contact-form-container {
-    background: rgba(7, 118, 55, 0.2);
-    border: 2px solid #0dff6c;
-    border-radius: 15px;
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 600px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 30px rgba(13, 255, 108, 0.3);
+background: rgba(7, 118, 55, 0.2);
+border: 2px solid #0dff6c;
+border-radius: 15px;
+padding: 2.5rem;
+width: 100%;
+max-width: 600px;
+backdrop-filter: blur(10px);
+box-shadow: 0 0 30px rgba(13, 255, 108, 0.3);
+margin-bottom: 30px; /* Ensures it doesn't go under footer */
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+margin-bottom: 1.5rem;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #0dff6c;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.9rem;
+display: block;
+margin-bottom: 0.5rem;
+color: #0dff6c;
+font-family: 'Orbitron', sans-serif;
+font-size: 0.9rem;
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
-    width: 100%;
-    padding: 0.8rem;
-    background: rgba(0, 0, 0, 0.7);
-    border: 1px solid #077637;
-    border-radius: 6px;
-    color: #fff;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+width: 100%;
+padding: 0.8rem;
+background: rgba(0, 0, 0, 0.7);
+border: 1px solid #077637;
+border-radius: 6px;
+color: #fff;
+font-size: 1rem;
+transition: all 0.3s ease;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
-    outline: none;
-    border-color: #0dff6c;
-    box-shadow: 0 0 10px rgba(13, 255, 108, 0.3);
+outline: none;
+border-color: #0dff6c;
+box-shadow: 0 0 10px rgba(13, 255, 108, 0.3);
 }
 
 .form-group textarea {
-    height: 120px;
-    resize: vertical;
+height: 120px;
+resize: vertical;
 }
 
 .submit-btn {
-    background: rgba(7, 118, 55, 0.8);
-    border: 2px solid #0dff6c;
-    color: #fff;
-    padding: 0.8rem 2rem;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1rem;
-    width: 100%;
+background: rgba(0, 0, 0, 0.7);
+border: 2px solid #0dff6c;
+color: #0dff6c;
+padding: 0.8rem 2rem;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+font-family: 'Orbitron', sans-serif;
+font-size: 1rem;
+width: 100%;
 }
 
 .submit-btn:hover {
-    background: rgba(13, 255, 108, 0.3);
-    box-shadow: 0 0 15px rgba(13, 255, 108, 0.5);
+background: rgba(13, 255, 108, 0.3);
+box-shadow: 0 0 15px rgba(13, 255, 108, 0.5);
 }
 
 /* FOOTER */
 footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding: 0.6rem 0;
-    background: rgba(0, 0, 0, 0.8);
-    color: #ccc;
-    font-family: 'Segoe UI', sans-serif;
-    z-index: 1000;
-    border-top: 2px solid #0dff6c;
-    transition: opacity 0.5s ease;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #ccc;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #0dff6c;
+transition: opacity 0.5s ease;
 }
 
 footer.hidden {
-    opacity: 0;
-    pointer-events: none;
+opacity: 0;
+pointer-events: none;
 }
 
-/* Responsive */
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Tablet & Mobile: Hide desktop menu, show hamburger */
+@media (max-width: 1024px) {
+nav.top-menu {
+    display: none;
+}
+.mobile-nav {
+    display: block;
+}
+}
+
+/* Mobile & Tablet Layout Adjustments */
 @media (max-width: 768px) {
-    .site-title-overlay {
-        top: 70px;
-        left: 20px;
-    }
-    .site-title-overlay h1 {
-        font-size: 1.4rem;
-    }
-    nav.top-menu {
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
-    .main-content {
-        padding: 100px 1rem 1rem 1rem;
-    }
-    .contact-form-container {
-        padding: 1.5rem;
-    }
-    .page-header h1 {
-        font-size: 2rem;
-    }
-    .audio-controls {
-        bottom: 70px;
-        right: 20px;
-    }
-    .hide-content-btn {
-        top: 70px;
-        right: 20px;
-    }
+.site-title-overlay {
+    top: 70px;
+    left: 20px;
+}
+.site-title-overlay h1 {
+    font-size: 1.4rem;
+}
+.main-content {
+    padding: 100px 1rem 80px 1rem; /* Adjusted for mobile */
+}
+.contact-form-container {
+    padding: 1.5rem;
+}
+.page-header h1 {
+    font-size: 2rem;
+}
+.audio-controls {
+    bottom: 70px;
+    right: 20px;
+}
+.hide-content-btn {
+    top: 70px;
+    right: 20px;
+}
+
+/* Enhanced Touch Targets for Mobile */
+.submit-btn, .audio-btn, .hide-content-btn {
+    min-height: 44px;
+    padding: 12px 20px;
+}
+.form-group input, .form-group textarea, .form-group select {
+    font-size: 16px; /* Prevents iOS zoom */
+    padding: 1rem;
+}
+}
+
+/* Small Mobile Further Optimizations */
+@media (max-width: 480px) {
+.hide-content-btn {
+    top: 20px;
+    right: 20px;
+    font-size: 0.8rem;
+}
+.audio-controls {
+    bottom: 20px;
+    right: 20px;
+}
+.site-title-overlay {
+    top: 20px;
+    left: 20px;
+}
+.site-title-overlay h1 {
+    font-size: 1.2rem;
+}
+.menu-content .menu-item a {
+    padding: 12px 15px;
+}
+nav.top-menu a {
+    font-size: 1.1rem;
+    padding: 0.5rem 1.5rem;
+}
 }
 </style>
 </head>
-
 <body>
 
-<!-- VIDEO BACKGROUND - Add a surprising video here -->
+<!-- VIDEO BACKGROUND -->
 <video class="video-background" id="formVideo" muted loop playsinline autoplay poster="images/futuristic-interface.jpg">
-    <source src="videos/jetbike-ryder..mp4" type="video/mp4">
+<source src="videos/jetbike-ryder..mp4" type="video/mp4">
 </video>
 <div class="overlay"></div>
 
 <!-- SITE TITLE -->
 <div class="site-title-overlay">
-    <h1>The Mars Abyss<sup>™</sup></h1>
+<h1>The Mars Abyss<sup>™</sup></h1>
+</div>
+
+<!-- MOBILE HAMBURGER MENU -->
+<div class="mobile-nav">
+<button class="hamburger-btn" id="hamburgerBtn">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<nav class="mobile-menu" id="mobileMenu">
+<div class="menu-header">
+<h3>CONTACT PORTAL</h3>
+<button class="close-menu" id="closeMenu">✕</button>
+</div>
+<div class="menu-content">
+<div class="menu-item"><a href="contact.html">Contact Home</a></div>
+<div class="menu-item"><a href="mailto:yourname@themarsabyss.com">📧 Email Us</a></div>
+<div class="menu-item"><a href="contact-form.html" class="active">📝 Contact Form</a></div>
+</div>
+<div class="menu-footer">
+<span class="pulse"></span> TRANSMISSION ACTIVE
+</div>
+</nav>
 </div>
 
 <!-- HIDE CONTENT BUTTON -->
@@ -376,66 +597,59 @@ footer.hidden {
 
 <!-- AUDIO CONTROLS -->
 <div class="audio-controls">
-    <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
 
-<!-- TOP MENU -->
+<!-- TOP MENU (DESKTOP) - SIMPLIFIED -->
 <nav class="top-menu">
-    <!-- Your existing menu items -->
-    <div class="dropdown">
-        <a href="contact.html" class="dropbtn">Contact</a>
-        <div class="dropdown-content">
-            <a href="mailto:yourname@themarsabyss.com">📧 Email Us</a>
-            <a href="contact-form.html" class="active">📝 Contact Form</a>
-            <a href="social-media.html">📱 Social Media</a>
-        </div>
-    </div>
+<a href="contact.html">CONTACT</a>
 </nav>
 
 <!-- MAIN CONTENT -->
 <div class="main-content" id="contentContainer">
-    <div class="page-header">
-        <h1>QUANTUM MESSAGE TRANSMISSION</h1>
-        <p>Send your message across the void. We'll receive it through our Martian communication array.</p>
-    </div>
+<div class="page-header">
+<h1>QUANTUM MESSAGE TRANSMISSION</h1>
+<p>Send your message across the void. We'll receive it through our Martian communication array.</p>
+</div>
 
-    <div class="contact-form-container">
-        <form id="contactForm">
-            <div class="form-group">
-                <label for="name">YOUR DESIGNATION</label>
-                <input type="text" id="name" name="name" required placeholder="Enter your name or Martian designation">
-            </div>
+<div class="contact-form-container">
+<!-- FORMSPREE FORM -->
+<form id="contactForm" action="https://formspree.io/f/mnjbabyk" method="POST">
+<div class="form-group">
+<label for="name">YOUR DESIGNATION</label>
+<input type="text" id="name" name="name" required placeholder="Enter your name or Martian designation">
+</div>
 
-            <div class="form-group">
-                <label for="email">QUANTUM FREQUENCY</label>
-                <input type="email" id="email" name="email" required placeholder="your@frequency.domain">
-            </div>
+<div class="form-group">
+<label for="email">QUANTUM FREQUENCY</label>
+<input type="email" id="email" name="email" required placeholder="your@frequency.domain">
+</div>
 
-            <div class="form-group">
-                <label for="subject">MESSAGE PROTOCOL</label>
-                <select id="subject" name="subject" required>
-                    <option value="">Select message type</option>
-                    <option value="general">General Inquiry</option>
-                    <option value="support">Technical Support</option>
-                    <option value="collaboration">Collaboration</option>
-                    <option value="story">Story Contribution</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
+<div class="form-group">
+<label for="subject">MESSAGE PROTOCOL</label>
+<select id="subject" name="subject" required>
+<option value="">Select message type</option>
+<option value="general">General Inquiry</option>
+<option value="support">Technical Support</option>
+<option value="collaboration">Collaboration</option>
+<option value="story">Story Contribution</option>
+<option value="other">Other</option>
+</select>
+</div>
 
-            <div class="form-group">
-                <label for="message">MESSAGE CONTENT</label>
-                <textarea id="message" name="message" required placeholder="Transmit your message through the quantum network..."></textarea>
-            </div>
+<div class="form-group">
+<label for="message">MESSAGE CONTENT</label>
+<textarea id="message" name="message" required placeholder="Transmit your message through the quantum network..."></textarea>
+</div>
 
-            <button type="submit" class="submit-btn">TRANSMIT MESSAGE</button>
-        </form>
-    </div>
+<button type="submit" class="submit-btn">TRANSMIT MESSAGE</button>
+</form>
+</div>
 </div>
 
 <!-- FOOTER -->
 <footer id="pageFooter">
-    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
 
 <script>
@@ -443,7 +657,29 @@ footer.hidden {
 const videoBg = document.getElementById('formVideo');
 videoBg.play().catch(e => console.log('Video autoplay prevented'));
 
-// Hide content functionality
+// ==================== MOBILE HAMBURGER MENU ====================
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+
+hamburgerBtn.addEventListener('click', () => {
+mobileMenu.classList.add('active');
+document.body.style.overflow = 'hidden';
+});
+
+closeMenu.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+
+document.addEventListener('click', (e) => {
+if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+});
+
+// ==================== HIDE CONTENT FUNCTIONALITY ====================
 const hideContentBtn = document.getElementById('hideContentBtn');
 const contentContainer = document.getElementById('contentContainer');
 const pageFooter = document.getElementById('pageFooter');
@@ -451,86 +687,144 @@ const topMenu = document.querySelector('nav.top-menu');
 let contentHidden = false;
 
 hideContentBtn.addEventListener('click', function() {
-    contentHidden = !contentHidden;
-    
-    if (contentHidden) {
-        contentContainer.classList.add('hidden');
-        pageFooter.classList.add('hidden');
-        topMenu.classList.add('hidden');
-        hideContentBtn.textContent = 'Show Content';
-    } else {
-        contentContainer.classList.remove('hidden');
-        pageFooter.classList.remove('hidden');
-        topMenu.classList.remove('hidden');
-        hideContentBtn.textContent = 'Hide Content';
-    }
+contentHidden = !contentHidden;
+if (contentHidden) {
+contentContainer.classList.add('hidden');
+pageFooter.classList.add('hidden');
+topMenu.classList.add('hidden');
+hideContentBtn.textContent = 'Show Content';
+} else {
+contentContainer.classList.remove('hidden');
+pageFooter.classList.remove('hidden');
+topMenu.classList.remove('hidden');
+hideContentBtn.textContent = 'Hide Content';
+}
 });
 
-// Audio system
+// ==================== AUDIO SYSTEM - FIXED ====================
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
+let audioInitialized = false;
 
 function initAudio() {
-    const sounds = [
-        { src: 'music/echoes-in-the-skyways.mp3', volume: 0.3 },
-        { src: 'sounds/quantum-transmission.mp3', volume: 0.2 }
-    ];
+if (audioInitialized) return;
+    
+const sounds = [
+{ src: 'music/echoes-in-the-skyways.mp3', volume: 0.4, loop: true },
+{ src: 'sounds/quantum-transmission.mp3', volume: 0.2, loop: true }
+];
 
-    sounds.forEach(sound => {
-        const audio = new Audio(sound.src);
-        audio.volume = sound.volume;
-        audio.loop = true;
-        audio.muted = true;
-        audioElements.push(audio);
-    });
+sounds.forEach(sound => {
+const audio = new Audio(sound.src);
+audio.volume = sound.volume;
+audio.loop = sound.loop;
+audio.muted = true;
+audio.preload = 'auto';
+audioElements.push(audio);
+});
 
-    document.addEventListener('click', function unmuteAudio() {
-        if (!isMuted) {
-            audioElements.forEach(audio => {
-                audio.muted = false;
-                audio.play().catch(e => console.log('Audio play failed'));
-            });
-            isMuted = false;
-            muteBtn.textContent = "🔊 Mute Sounds";
-        }
-        document.removeEventListener('click', unmuteAudio);
-    }, { once: true });
+audioInitialized = true;
+console.log('Audio system initialized');
 }
 
-// Mute toggle
-muteBtn.addEventListener('click', function() {
-    isMuted = !isMuted;
-    audioElements.forEach(audio => {
-        audio.muted = isMuted;
-    });
-    muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
-});
-
-// Form handling
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(this);
-    const email = formData.get('email');
-    const subject = formData.get('subject');
-    const message = formData.get('message');
-    const name = formData.get('name');
-    
-    const mailtoLink = `mailto:yourname@themarsabyss.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\n\nMessage: ${message}`)}`;
-    
-    alert('Message prepared for transmission! Opening your quantum mail client...');
-    window.location.href = mailtoLink;
-});
-
-// Initialize audio when page loads
+// Initialize audio immediately when page loads
 initAudio();
 
-// Play video on click if it's paused
+// Fix: Set up a one-time click event to start audio
+function startAudioOnFirstInteraction() {
+if (isMuted) {
+audioElements.forEach(audio => {
+audio.muted = false;
+audio.play().catch(e => console.log('Audio play failed:', e));
+});
+isMuted = false;
+muteBtn.textContent = "🔊 Mute Sounds";
+}
+// Remove this event listener after first click
+document.removeEventListener('click', startAudioOnFirstInteraction);
+}
+
+// Add click event to start audio on first user interaction
+document.addEventListener('click', startAudioOnFirstInteraction);
+
+muteBtn.addEventListener('click', function(e) {
+e.stopPropagation(); // Prevent triggering the document click
+initAudio(); // Ensure audio is initialized
+isMuted = !isMuted;
+audioElements.forEach(audio => { 
+audio.muted = isMuted;
+if (!isMuted && audio.paused) {
+audio.play().catch(e => console.log('Audio play failed:', e));
+}
+});
+muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+// ==================== FORM HANDLING WITH FORMSPREE - FIXED ====================
+const contactForm = document.getElementById('contactForm');
+const submitBtn = document.querySelector('.submit-btn');
+
+contactForm.addEventListener('submit', function(e) {
+e.preventDefault();
+    
+// Save original button text and disable it during submission
+const originalBtnText = submitBtn.textContent;
+submitBtn.disabled = true;
+submitBtn.textContent = 'TRANSMITTING...';
+    
+const formData = new FormData(contactForm);
+    
+fetch('https://formspree.io/f/mnjbabyk', {
+method: "POST",
+body: formData,
+headers: {
+'Accept': 'application/json'
+}
+}).then(response => {
+if (response.ok) {
+// Success - change button to success state
+submitBtn.textContent = '✓ MESSAGE TRANSMITTED!';
+submitBtn.style.backgroundColor = 'rgba(13, 255, 108, 0.3)';
+submitBtn.style.boxShadow = '0 0 15px rgba(13, 255, 108, 0.5)';
+submitBtn.style.cursor = 'default';
+submitBtn.disabled = true; // Keep disabled in success state
+            
+// Reset the form
+contactForm.reset();
+            
+// Re-enable and revert button after 5 seconds
+setTimeout(() => {
+submitBtn.disabled = false;
+submitBtn.textContent = originalBtnText;
+submitBtn.style.backgroundColor = '';
+submitBtn.style.boxShadow = '';
+submitBtn.style.cursor = 'pointer';
+}, 5000);
+} else {
+// Server error
+alert('Transmission failed. Please try again.');
+submitBtn.disabled = false;
+submitBtn.textContent = originalBtnText;
+}
+}).catch(error => {
+console.error('Form submission error:', error);
+alert('Transmission failed. Please check your network.');
+submitBtn.disabled = false;
+submitBtn.textContent = originalBtnText;
+});
+});
+
+// Play video on click if paused
 document.addEventListener('click', function() {
-    if (videoBg.paused) {
-        videoBg.play().catch(e => console.log('Video play failed'));
-    }
+if (videoBg.paused) {
+videoBg.play().catch(e => console.log('Video play failed'));
+}
+});
+
+// Initialize audio on page load (additional safety)
+window.addEventListener('load', function() {
+initAudio();
 });
 </script>
 </body>
