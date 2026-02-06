@@ -111,7 +111,7 @@
             transform: scale(1.05);
         }
 
-/* COMPLETE TOP MENU */
+        /* === DESKTOP TOP MENU === */
         nav.top-menu {
             position: fixed;
             top: 0;
@@ -125,7 +125,13 @@
             flex-wrap: nowrap;
             backdrop-filter: blur(10px);
             border-bottom: 2px solid #4A6796;
-            transition: opacity 0.5s ease;
+            transition: all 0.5s ease;
+        }
+
+        nav.top-menu.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-20px);
         }
 
         nav.top-menu a {
@@ -169,6 +175,7 @@
             left: 0;
             top: 100%;
             width: 100%;
+            z-index: 1002;
         }
 
         .dropdown-content a {
@@ -194,6 +201,153 @@
         nav.top-menu a:hover {
             color: #4A6796;
             background: transparent;
+        }
+
+        /* === HAMBURGER MENU FOR MOBILE === */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1002;
+        }
+
+        .hamburger-btn {
+            background: rgba(17, 17, 17, 0.9);
+            border: 2px solid #4A6796;
+            border-radius: 4px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .hamburger-btn span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: #4A6796;
+            margin: 3px 0;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-btn:hover {
+            background: rgba(74, 103, 150, 0.9);
+        }
+
+        .hamburger-btn:hover span {
+            background: #000;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 300px;
+            height: 100vh;
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(17, 17, 17, 0.9));
+            border-right: 2px solid #4A6796;
+            padding: 20px;
+            transition: left 0.4s ease;
+            z-index: 1003;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .mobile-menu.active {
+            left: 0;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(74, 103, 150, 0.3);
+        }
+
+        .menu-header h3 {
+            color: #4A6796;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .close-menu {
+            background: transparent;
+            border: none;
+            color: #4A6796;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-menu:hover {
+            background: rgba(74, 103, 150, 0.2);
+        }
+
+        .menu-content {
+            margin-bottom: 20px;
+        }
+
+        .menu-content .menu-item {
+            margin-bottom: 10px;
+        }
+
+        .menu-content .menu-item a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .menu-content .menu-item a:hover,
+        .menu-content .menu-item a.active {
+            border-left-color: #4A6796;
+            background: rgba(74, 103, 150, 0.1);
+            color: #4A6796;
+        }
+
+        .menu-footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(74, 103, 150, 0.3);
+            text-align: center;
+            color: #4A6796;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+        }
+
+        .pulse {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #4A6796;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         /* MIGRANT INITIATIVE CONTENT */
@@ -281,12 +435,107 @@
             height: 100px;
         }
 
-        @media (max-width: 768px) {
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        /* Tablet Styles (768px - 1024px) */
+        @media (max-width: 1024px) {
             .initiative-title {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
+            }
+            .initiative-subtitle {
+                font-size: 1.2rem;
+            }
+            .principle-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        /* Mobile & Tablet: Hide desktop menu, show hamburger */
+        @media (max-width: 1024px) {
+            nav.top-menu {
+                display: none;
+            }
+
+            .mobile-nav {
+                display: block;
+            }
+
+            .site-title-overlay {
+                top: 70px;
+                left: 20px;
+            }
+            .site-title-overlay h1 {
+                font-size: 1.4rem;
+            }
+            .view-toggle {
+                top: 70px;
+                right: 20px;
+            }
+            .audio-controls {
+                bottom: 70px;
+                right: 20px;
+            }
+        }
+
+        /* Mobile adjustments (up to 767px) */
+        @media (max-width: 767px) {
+            .initiative-hero {
+                padding: 3rem 1rem;
+                margin-top: 60px;
+            }
+            .initiative-title {
+                font-size: 2.2rem;
+            }
+            .initiative-subtitle {
+                font-size: 1.1rem;
+            }
+            .manifesto-section {
+                margin: 2rem 1rem;
+                padding: 1.5rem;
             }
             .principle-grid {
                 grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .principle-card {
+                padding: 1.5rem;
+            }
+            .view-toggle {
+                top: 15px;
+                right: 15px;
+            }
+            .audio-controls {
+                bottom: 80px;
+                right: 15px;
+            }
+            .audio-btn, .view-btn {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+                min-width: 110px;
+            }
+            .mobile-menu {
+                width: 280px;
+            }
+        }
+
+        /* Small Mobile (up to 480px) */
+        @media (max-width: 480px) {
+            .initiative-title {
+                font-size: 1.9rem;
+            }
+            .menu-content .menu-item a {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Desktop: hide mobile menu */
+        @media (min-width: 1025px) {
+            .mobile-nav {
+                display: none;
+            }
+            nav.top-menu {
+                display: flex;
             }
         }
     </style>
@@ -301,35 +550,58 @@
         <div class="video-overlay"></div>
     </div>
 
+    <!-- MOBILE HAMBURGER MENU -->
+    <div class="mobile-nav">
+        <button class="hamburger-btn" id="hamburgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="mobile-menu" id="mobileMenu">
+            <div class="menu-header">
+                <h3>MIGRANT INITIATIVE</h3>
+                <button class="close-menu" id="closeMenu">✕</button>
+            </div>
+            <div class="menu-content">
+                <!-- Menu items will be generated by JavaScript -->
+            </div>
+            <div class="menu-footer">
+                <span class="pulse"></span> TRANSMISSION ACTIVE
+            </div>
+        </nav>
+    </div>
+
+    <!-- HIDE CONTENT BUTTON -->
+    <div class="view-toggle">
+        <button class="view-btn" id="viewToggle">🌌 Hide Content</button>
+    </div>
+
     <!-- SITE TITLE -->
     <div class="site-title-overlay" id="siteTitle">
         <h1>The Mars Abyss</h1>
     </div>
 
-    <!-- CONTROL BUTTONS -->
-    <div class="view-toggle">
-        <button class="view-btn" id="viewToggle">🌌 Hide Content</button>
-    </div>
-
+    <!-- AUDIO CONTROLS -->
     <div class="audio-controls">
         <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
     </div>
 
-<nav class="top-menu">
-<div class="dropdown">
-<a href="index.html" class="dropbtn">Home</a>
-<div class="dropdown-content">
-<a href="why-this-world-matters.html">Why This World Matters</a>
-<a href="homage-to-courage.html">Homage to Courage</a>
-<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
-<a href="the-migrant-initiative.html"  class="active">The Migrant Initiative</a>
-<a href="my-mission.html">My Mission</a>
-<a href="martian-reading-revival.html">Martian Reading Revival</a>
-<a href="why-mars-is-safer.html">Why Mars is Safer</a>
-<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
-<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
-</div>
-</div>
+    <!-- DESKTOP TOP MENU -->
+    <nav class="top-menu" id="mainMenu">
+        <div class="dropdown">
+            <a href="index.html" class="dropbtn">Home</a>
+            <div class="dropdown-content">
+                <a href="why-this-world-matters.html">Why This World Matters</a>
+                <a href="homage-to-courage.html">Homage to Courage</a>
+                <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+                <a href="the-migrant-initiative.html" class="active">The Migrant Initiative</a>
+                <a href="my-mission.html">My Mission</a>
+                <a href="martian-reading-revival.html">Martian Reading Revival</a>
+                <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+                <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+                <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+            </div>
+        </div>
         <div class="dropdown">
             <a href="story.html" class="dropbtn">Story</a>
             <div class="dropdown-content">
@@ -349,7 +621,6 @@
                 </div>
             </div>
         </div>
-
         <div class="dropdown">
             <a href="martian-games.html" class="dropbtn">Martian Games</a>
             <div class="dropdown-content">
@@ -363,7 +634,6 @@
                 <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
             </div>
         </div>
-
         <div class="dropdown">
             <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
             <div class="dropdown-content">
@@ -378,7 +648,6 @@
                 <a href="the-bronx-dome.html">The Bronx Dome</a>
             </div>
         </div>
-
         <div class="dropdown">
             <a href="martian-news.html" class="dropbtn">Martian News</a>
             <div class="dropdown-content">
@@ -390,17 +659,16 @@
                 <a href="house-of-health-secrets.html">The House of Health Secrets</a>
                 <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
                 <a href="martian-rest-areas.html">Martian Rest Areas</a>
-
                 <div class="dropdown">
-<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-<div class="dropdown-content">
-<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
-<a href="marvin.html">M.A.R.V.I.N.</a>
-</div>
-</div>
-</div>
-</div>
-<div class="dropdown">
+                    <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                    <div class="dropdown-content">
+                        <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                        <a href="marvin.html">M.A.R.V.I.N.</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
             <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
             <div class="dropdown-content">
                 <a href="what-the-regent-misses.html">What the Regent Misses</a>
@@ -416,7 +684,6 @@
                 <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
             </div>
         </div>
-
         <div class="dropdown">
             <a href="about.html" class="dropbtn">About</a>
             <div class="dropdown-content">
@@ -432,21 +699,19 @@
                 <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
             </div>
         </div>
-
         <div class="dropdown">
-<a href="support.html" class="dropbtn">Support</a>
-<div class="dropdown-content">
-<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
-<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-<a href="mars-food-district.html">Mars Food District</a>
-<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
-<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-<a href="fund-martian-research.html">Fund Martian Research</a>
-<a href="martian-survival-manual.html">Martian Survival Manual</a>
-<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
-</div>
-</div>
-
+            <a href="support.html" class="dropbtn">Support</a>
+            <div class="dropdown-content">
+                <a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
+                <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+                <a href="mars-food-district.html">Mars Food District</a>
+                <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+                <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+                <a href="fund-martian-research.html">Fund Martian Research</a>
+                <a href="martian-survival-manual.html">Martian Survival Manual</a>
+                <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+            </div>
+        </div>
         <a href="contact.html">Contact</a>
     </nav>
 
@@ -505,12 +770,92 @@
             });
         });
 
-        // HIDE/SHOW CONTENT FUNCTIONALITY - FIXED
+        // ==================== MOBILE HAMBURGER MENU ====================
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuContent = document.querySelector('.menu-content');
+
+        // Create simplified mobile menu
+        function createMobileMenu() {
+            menuContent.innerHTML = '';
+            const menuItems = [
+                { text: 'Home', href: 'index.html' },
+                { text: 'Story & Characters', href: 'story.html' },
+                { text: 'Gallery & Art', href: 'gallery.html' },
+                { text: 'Martian Games', href: 'martian-games.html' },
+                { text: 'Earth Codex', href: 'earth-codex.html' },
+                { text: 'Martian News', href: 'martian-news.html' },
+                { text: "Regent's Scrolls", href: 'the-regents-scrolls.html' },
+                { text: 'About the Project', href: 'about.html' },
+                { text: 'Support', href: 'support.html' },
+                { text: 'Contact', href: 'contact.html' },
+                { text: 'Quantum Translation Lab', href: 'quantum-translation-labs.html' },
+                { text: 'The Migrant Initiative (Active)', href: 'the-migrant-initiative.html', active: true }
+            ];
+
+            menuItems.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                const link = document.createElement('a');
+                link.href = item.href;
+                link.textContent = item.text;
+                if (item.active) {
+                    link.classList.add('active');
+                }
+                menuItem.appendChild(link);
+                menuContent.appendChild(menuItem);
+            });
+        }
+
+        // Initialize mobile menu
+        createMobileMenu();
+
+        // Toggle menu
+        hamburgerBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(e.target) && 
+                !hamburgerBtn.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Hide/show mobile menu based on screen size
+        function handleResize() {
+            if (window.innerWidth > 1024) {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        window.addEventListener('resize', handleResize);
+
+        // ==================== DESKTOP HIDE/SHOW CONTENT FUNCTIONALITY ====================
+        // (Original logic - unchanged for desktop)
         const viewToggle = document.getElementById('viewToggle');
         const mainContent = document.getElementById('mainContent');
         const siteTitle = document.getElementById('siteTitle');
         const pageFooter = document.getElementById('pageFooter');
-        const mainMenu = document.getElementById('mainMenu');
+        const mainMenu = document.querySelector('nav.top-menu'); // Changed to querySelector
 
         viewToggle.addEventListener('click', function() {
             // Toggle hidden class on all elements
@@ -527,7 +872,7 @@
             }
         });
 
-        // AUDIO SYSTEM - FIXED
+        // ==================== AUDIO SYSTEM ====================
         const muteBtn = document.getElementById('muteBtn');
         let isMuted = true;
         let backgroundAudio = null;
