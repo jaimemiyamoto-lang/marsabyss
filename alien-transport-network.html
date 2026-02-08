@@ -1,1014 +1,2569 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alien Transport Networks | Aliens & UFOs | The Mars Abyss</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Alien Transport Networks | Aliens & UFOs | The Mars Abyss</title>
+ <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+ <style>
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
 
-        body, html {
-            height: 100%;
-            width: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
-            overflow-x: hidden;
-            position: relative;
-            background: radial-gradient(ellipse at bottom, #1a1a1a 0%, #000 100%);
-        }
+ body, html {
+ height: 100%;
+ width: 100%;
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ color: #fff;
+ overflow-x: hidden;
+ position: relative;
+ background: radial-gradient(ellipse at bottom, #1a1a1a 0%, #000 100%);
+ }
 
-        /* === STANDARD TOP MENU - EXACTLY LIKE CONTACT PAGE === */
-        nav.top-menu {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            background: rgba(17, 17, 17, 0.95);
-            padding: 0.6rem 0;
-            z-index: 1000;
-            gap: 2.5rem;
-            flex-wrap: nowrap;
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid #00ccff;
-        }
+ /* === HAMBURGER MENU (MOBILE/TABLET) === */
+ .hamburger-menu {
+ display: none;
+ position: fixed;
+ top: 20px;
+ right: 20px;
+ z-index: 2000;
+ }
 
-        nav.top-menu a {
-            color: #f5f5f5;
-            text-decoration: none;
-            font-size: 1.1rem;
-            padding: 0.5rem 0.8rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
+ .hamburger {
+ width: 35px;
+ height: 30px;
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
+ cursor: pointer;
+ background: rgba(17, 17, 17, 0.9);
+ padding: 10px;
+ border-radius: 4px;
+ border: 1px solid #00ccff;
+ }
 
-        nav.top-menu a.active,
-        nav.top-menu a:hover {
-            color: #00ccff;
-            background: transparent;
-        }
+ .hamburger span {
+ display: block;
+ height: 3px;
+ width: 100%;
+ background: #00ccff;
+ border-radius: 2px;
+ transition: 0.3s;
+ }
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
+ .hamburger.active span:nth-child(1) {
+ transform: rotate(45deg) translate(8px, 8px);
+ }
 
-        .dropdown > a, .dropdown {
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
+ .hamburger.active span:nth-child(2) {
+ opacity: 0;
+ }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background: rgba(26, 26, 26, 0.98);
-            min-width: 140px;
-            z-index: 1001;
-            border-radius: 4px;
-            border: 2px solid #00ccff;
-            top: 100%;
-            left: 0;
-            backdrop-filter: blur(5px);
-            padding: 4px 0;
-        }
+ .hamburger.active span:nth-child(3) {
+ transform: rotate(-45deg) translate(7px, -7px);
+ }
 
-        .dropdown .dropdown .dropdown-content {
-            position: absolute;
-            left: 0;
-            top: 100%;
-            width: 100%;
-        }
+ .mobile-menu-overlay {
+ display: none;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(0, 0, 0, 0.95);
+ z-index: 1999;
+ overflow-y: auto;
+ padding-top: 80px;
+ }
 
-        .dropdown-content a {
-            color: #f5f5f5;
-            padding: 3px 5px;
-            text-decoration: none;
-            display: block;
-            transition: background-color 0.3s ease;
-            font-size: 0.8rem;
-            line-height: 1;
-        }
+ .mobile-menu-overlay.active {
+ display: block;
+ }
 
-        .dropdown-content a:hover {
-            background: rgba(0, 204, 255, 0.6);
-            color: #fff;
-        }
+ .mobile-nav {
+ display: flex;
+ flex-direction: column;
+ padding: 20px;
+ }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+ .mobile-nav a {
+ color: #f5f5f5;
+ text-decoration: none;
+ padding: 15px;
+ border-bottom: 1px solid rgba(0, 204, 255, 0.3);
+ font-size: 1.2rem;
+ transition: all 0.3s ease;
+ }
 
-        /* === SITE TITLE OVERLAY - EXACT POSITIONING LIKE OTHER PAGES === */
-        .site-title-overlay {
-            position: fixed;
-            top: 80px; /* EXACT same height as other pages */
-            left: 30px; /* EXACT same left position as other pages */
-            z-index: 50;
-            transition: opacity 0.3s ease;
-        }
+ .mobile-nav a:hover,
+ .mobile-nav a.active {
+ color: #00ccff;
+ background: rgba(0, 204, 255, 0.1);
+ }
 
-        .site-title-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+ .mobile-dropdown-content {
+ display: none;
+ padding-left: 20px;
+ background: rgba(26, 26, 26, 0.8);
+ }
 
-        .site-title-overlay h1 {
-            color: rgba(0, 204, 255, 0.7);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
-            font-weight: 300;
-            letter-spacing: 2px;
-        }
+ .mobile-dropdown-content a {
+ font-size: 1rem;
+ padding: 12px 15px;
+ }
 
-        .content-toggle-container {
-            text-align: center;
-            margin: 2rem auto 3rem auto;
-            max-width: 1100px;
-        }
+ .mobile-dropdown.active .mobile-dropdown-content {
+ display: block;
+ }
 
-        .toggle-button {
-            background: linear-gradient(45deg, #4cc9f0, #00ccff);
-            color: black;
-            border: none;
-            position: fixed;
-            top: 80px;
-            right: 40px;
-            z-index: 1000;
-            padding: 0.8rem 1.8rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(76, 201, 240, 0.4);
-        }
+ /* === STANDARD TOP MENU - EXACTLY LIKE CONTACT PAGE === */
+ nav.top-menu {
+ position: fixed;
+ top: 0;
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ background: rgba(17, 17, 17, 0.95);
+ padding: 0.6rem 0;
+ z-index: 1000;
+ gap: 2.5rem;
+ flex-wrap: nowrap;
+ backdrop-filter: blur(10px);
+ border-bottom: 2px solid #00ccff;
+ }
 
-        .toggle-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 204, 255, 0.5);
-        }
+ nav.top-menu a {
+ color: #f5f5f5;
+ text-decoration: none;
+ font-size: 1.1rem;
+ padding: 0.5rem 0.8rem;
+ border-radius: 4px;
+ transition: all 0.3s ease;
+ display: flex;
+ align-items: center;
+ }
 
-        .hideable-content {
-            transition: all 0.5s ease;
-        }
+ nav.top-menu a.active,
+ nav.top-menu a:hover {
+ color: #00ccff;
+ background: transparent;
+ }
 
-        .hidden {
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-            transform: scale(0.95);
-        }
+ .dropdown {
+ position: relative;
+ display: inline-block;
+ }
 
-        .visible {
-            opacity: 1;
-            max-height: 5000px;
-            overflow: visible;
-        }
+ .dropdown > a, .dropdown {
+ display: flex;
+ align-items: center;
+ height: 100%;
+ }
 
-        /* === MAIN CONTENT - PUSHED DOWN FROM TOP MENU === */
-        .main-content {
-            padding-top: 120px;
-            position: relative;
-            z-index: 10;
-        }
+ .dropdown-content {
+ display: none;
+ position: absolute;
+ background: rgba(26, 26, 26, 0.98);
+ min-width: 140px;
+ z-index: 1001;
+ border-radius: 4px;
+ border: 2px solid #00ccff;
+ top: 100%;
+ left: 0;
+ backdrop-filter: blur(5px);
+ padding: 4px 0;
+ }
 
-    /* Fix: Shift background video to the right */
-    .background-container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
+ .dropdown .dropdown .dropdown-content {
+ position: absolute;
+ left: 0;
+ top: 100%;
+ width: 100%;
+ }
 
-    .video-background {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: 70% center; /* Adjust this percentage (70% moves it right) */
-        filter: brightness(0.8) contrast(1.1);
-    }
+ .dropdown-content a {
+ color: #f5f5f5;
+ padding: 3px 5px;
+ text-decoration: none;
+ display: block;
+ transition: background-color 0.3s ease;
+ font-size: 0.8rem;
+ line-height: 1;
+ }
 
-        /* === VIDEO CONTAINER - ADJUSTED AS REQUESTED === */
-        .video-container {
-            position: relative;
-            width: 90%;
-            max-width: 1000px;
-            height: 500px;
-            overflow: hidden;
-            margin: 2rem auto; /* Center it, removed the 10% left margin */
-            border-top: 1px solid #00ccff;
-            border-bottom: 1px solid #00ccff;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(0, 204, 255, 0.2);
-        }
+ .dropdown-content a:hover {
+ background: rgba(0, 204, 255, 0.6);
+ color: #fff;
+ }
 
-        .ufo-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.8) contrast(1.1);
-        }
+ .dropdown:hover .dropdown-content {
+ display: block;
+ }
 
-        .video-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+ /* === SITE TITLE OVERLAY - EXACT POSITIONING LIKE OTHER PAGES === */
+ .site-title-overlay {
+ position: fixed;
+ top: 80px; /* EXACT same height as other pages */
+ left: 30px; /* EXACT same left position as other pages */
+ z-index: 50;
+ transition: opacity 0.3s ease;
+ }
 
-        .replay-button {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 204, 255, 0.8);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(10px);
-        }
+ .site-title-overlay.hidden {
+ opacity: 0;
+ pointer-events: none;
+ }
 
-        .replay-button.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
+ .site-title-overlay h1 {
+ color: rgba(0, 204, 255, 0.7);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.8rem;
+ text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+ font-weight: 300;
+ letter-spacing: 2px;
+ }
 
-        .replay-button:hover {
-            background: rgba(0, 204, 255, 1);
-            transform: scale(1.05);
-        }
+ .content-toggle-container {
+ text-align: center;
+ margin: 2rem auto 3rem auto;
+ max-width: 1100px;
+ }
 
-        /* === AUDIO CONTROLS - EXACT STYLING === */
-        .audio-controls {
-            position: fixed;
-            bottom: 80px;
-            right: 40px;
-            z-index: 1000;
-        }
+ .toggle-button {
+ background: linear-gradient(45deg, #4cc9f0, #00ccff);
+ color: black;
+ border: none;
+ position: fixed;
+ top: 80px;
+ right: 40px;
+ z-index: 1000;
+ padding: 0.8rem 1.8rem;
+ border-radius: 25px;
+ cursor: pointer;
+ font-family: 'Orbitron', sans-serif;
+ font-weight: 600;
+ font-size: 1rem;
+ letter-spacing: 1px;
+ transition: all 0.3s ease;
+ box-shadow: 0 4px 15px rgba(76, 201, 240, 0.4);
+ }
 
-        .audio-btn {
-            background: rgba(9, 60, 73, 0.8);
-            border: 2px solid #00ccff;
-            color: #fff;
-            padding: 10px 15px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            font-size: 0.9rem;
-        }
+ .toggle-button:hover {
+ transform: translateY(-3px);
+ box-shadow: 0 6px 20px rgba(0, 204, 255, 0.5);
+ }
 
-        .audio-btn:hover {
-            background: rgba(0, 204, 255, 0.3);
-        }
+ .hideable-content {
+ transition: all 0.5s ease;
+ }
 
-        /* FOOTER - EXACTLY LIKE OTHER PAGES */
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            padding: 0.6rem 0;
-            background: rgba(0, 0, 0, 0.8);
-            color: #00ccff;
-            font-family: 'Segoe UI', sans-serif;
-            z-index: 1000;
-            border-top: 2px solid #00ccff;
-        }
+ .hidden {
+ opacity: 0;
+ max-height: 0;
+ overflow: hidden;
+ margin: 0;
+ padding: 0;
+ transform: scale(0.95);
+ }
 
-        /* === CONTENT SPACER - SPACE BETWEEN LAST SECTION AND FOOTER === */
-        .content-spacer {
-            height: 120px;
-            width: 100%;
-        }
+ .visible {
+ opacity: 1;
+ max-height: 5000px;
+ overflow: visible;
+ }
 
-        .cosmic-transport-section {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 13, 51, 0.9));
-            border: 2px solid #9370DB;
-            border-radius: 15px;
-            padding: 3rem 2rem;
-            margin: 2.5rem auto; /* Reduced from 3rem */
-            max-width: 1100px;
-            position: relative;
-            overflow: hidden;
-        }
+ /* === MAIN CONTENT - PUSHED DOWN FROM TOP MENU === */
+ .main-content {
+ padding-top: 120px;
+ position: relative;
+ z-index: 10;
+ }
 
-        .cosmic-transport-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(147, 112, 219, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(0, 204, 255, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-        }
+ /* Fix: Shift background video to the right */
+ .background-container {
+ position: relative;
+ width: 100%;
+ height: 100%;
+ }
 
-        .network-diagram {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
+ /* REMOVED FILTER TO RESTORE VIDEO COLORS */
+ .video-background {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ object-position: 70% center; /* Adjust this percentage (70% moves it right) */
+ /* FILTER REMOVED AS REQUESTED */
+ }
 
-        .network-node {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(76, 201, 240, 0.5);
-            border-radius: 12px;
-            padding: 1.8rem;
-            position: relative;
-            transition: all 0.4s ease;
-        }
+ /* === VIDEO CONTAINER - ADJUSTED AS REQUESTED === */
+ .video-container {
+ position: relative;
+ width: 90%;
+ max-width: 1000px;
+ height: 500px;
+ overflow: hidden;
+ margin: 2rem auto; /* Center it, removed the 10% left margin */
+ border-top: 1px solid #00ccff;
+ border-bottom: 1px solid #00ccff;
+ border-radius: 10px;
+ box-shadow: 0 0 30px rgba(0, 204, 255, 0.2);
+ }
 
-        .network-node:hover {
-            border-color: #4cc9f0;
-            transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(76, 201, 240, 0.3);
-        }
+ .ufo-video {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ filter: brightness(0.8) contrast(1.1);
+ }
 
-        .node-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            color: #9370DB;
-        }
+ .video-overlay {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(0, 0, 0, 0.0);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ }
 
-        .node-title {
-            color: #4cc9f0;
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            font-weight: bold;
-        }
+ .replay-button {
+ position: absolute;
+ bottom: 20px;
+ right: 20px;
+ background: rgba(0, 204, 255, 0.8);
+ color: white;
+ border: none;
+ padding: 10px 20px;
+ border-radius: 5px;
+ cursor: pointer;
+ font-family: 'Segoe UI', sans-serif;
+ font-size: 0.9rem;
+ transition: all 0.3s ease;
+ opacity: 0;
+ transform: translateY(10px);
+ }
 
-        .earth-parallel {
-            background: rgba(255, 51, 102, 0.1);
-            border-left: 4px solid #ff3366;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 0 8px 8px 0;
-        }
+ .replay-button.show {
+ opacity: 1;
+ transform: translateY(0);
+ }
 
-        .earth-parallel-title {
-            color: #ff3366;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
+ .replay-button:hover {
+ background: rgba(0, 204, 255, 1);
+ transform: scale(1.05);
+ }
 
-        .mars-implementation {
-            background: rgba(57, 255, 20, 0.1);
-            border-left: 4px solid #39ff14;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 0 8px 8px 0;
-        }
+ /* === AUDIO CONTROLS - EXACT STYLING === */
+ .audio-controls {
+ position: fixed;
+ bottom: 80px;
+ right: 40px;
+ z-index: 1000;
+ }
 
-        .mars-implementation-title {
-            color: #39ff14;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
+ .audio-btn {
+ background: rgba(9, 60, 73, 0.8);
+ border: 2px solid #00ccff;
+ color: #fff;
+ padding: 10px 15px;
+ border-radius: 25px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ font-size: 0.9rem;
+ }
 
-        .wormhole-visual {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(90deg, 
-                rgba(0, 0, 0, 0.8) 0%, 
-                rgba(147, 112, 219, 0.4) 50%, 
-                rgba(0, 0, 0, 0.8) 100%);
-            border-radius: 10px;
-            margin: 2rem 0;
-            position: relative;
-            overflow: hidden;
-        }
+ .audio-btn:hover {
+ background: rgba(0, 204, 255, 0.3);
+ }
 
-        .wormhole-visual::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(0, 204, 255, 0.6), 
-                transparent);
-            animation: wormholeFlow 3s linear infinite;
-        }
+ /* FOOTER - EXACTLY LIKE OTHER PAGES */
+ footer {
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ text-align: center;
+ padding: 0.6rem 0;
+ background: rgba(0, 0, 0, 0.8);
+ color: #00ccff;
+ font-family: 'Segoe UI', sans-serif;
+ z-index: 1000;
+ border-top: 2px solid #00ccff;
+ }
 
-        @keyframes wormholeFlow {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
+ /* === CONTENT SPACER - SPACE BETWEEN LAST SECTION AND FOOTER === */
+ .content-spacer {
+ height: 120px;
+ width: 100%;
+ }
 
-        .comparison-table {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 2.5rem auto;
-        }
+ .cosmic-transport-section {
+ background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 13, 51, 0.9));
+ border: 2px solid #9370DB;
+ border-radius: 15px;
+ padding: 3rem 2rem;
+ margin: 2.5rem auto; /* Reduced from 3rem */
+ max-width: 1100px;
+ position: relative;
+ overflow: hidden;
+ }
 
-        .table-header {
-            background: rgba(0, 204, 255, 0.3);
-            padding: 1rem;
-            font-weight: bold;
-            color: white;
-            text-align: center;
-        }
+ .cosmic-transport-section::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ height: 100%;
+ background: 
+ radial-gradient(circle at 20% 30%, rgba(147, 112, 219, 0.1) 0%, transparent 50%),
+ radial-gradient(circle at 80% 70%, rgba(0, 204, 255, 0.1) 0%, transparent 50%);
+ pointer-events: none;
+ }
 
-        .table-cell {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 1rem;
-            color: #e0e0ff;
-        }
+ .network-diagram {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+ gap: 2rem;
+ margin: 3rem 0;
+ }
 
-        .transport-principle {
-            background: rgba(255, 105, 180, 0.1);
-            border: 1px solid #FF69B4;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 2.5rem auto;
-        }
+ .network-node {
+ background: rgba(0, 0, 0, 0.7);
+ border: 1px solid rgba(76, 201, 240, 0.5);
+ border-radius: 12px;
+ padding: 1.8rem;
+ position: relative;
+ transition: all 0.4s ease;
+ }
 
-        @media (max-width: 768px) {
-            .comparison-table {
-                grid-template-columns: 1fr;
-            }
-            
-            .network-diagram {
-                grid-template-columns: 1fr;
-            }
-            
-            .video-container {
-                width: 95%;
-                height: 400px;
-                margin: 1.5rem auto;
-            }
-            
-            .content-toggle-container {
-                top: 120px;
-                right: 20px;
-            }
-        }
-    </style>
+ .network-node:hover {
+ border-color: #4cc9f0;
+ transform: translateY(-8px);
+ box-shadow: 0 10px 30px rgba(76, 201, 240, 0.3);
+ }
+
+ .node-icon {
+ font-size: 2.5rem;
+ margin-bottom: 1rem;
+ text-align: center;
+ color: #9370DB;
+ }
+
+ .node-title {
+ color: #4cc9f0;
+ font-size: 1.3rem;
+ margin-bottom: 1rem;
+ text-align: center;
+ font-weight: bold;
+ }
+
+ .earth-parallel {
+ background: rgba(255, 51, 102, 0.1);
+ border-left: 4px solid #ff3366;
+ padding: 1rem;
+ margin: 1.5rem 0;
+ border-radius: 0 8px 8px 0;
+ }
+
+ .earth-parallel-title {
+ color: #ff3366;
+ font-weight: bold;
+ margin-bottom: 0.5rem;
+ }
+
+ .mars-implementation {
+ background: rgba(57, 255, 20, 0.1);
+ border-left: 4px solid #39ff14;
+ padding: 1rem;
+ margin: 1.5rem 0;
+ border-radius: 0 8px 8px 0;
+ }
+
+ .mars-implementation-title {
+ color: #39ff14;
+ font-weight: bold;
+ margin-bottom: 0.5rem;
+ }
+
+ .wormhole-visual {
+ width: 100%;
+ height: 200px;
+ background: linear-gradient(90deg, 
+ rgba(0, 0, 0, 0.8) 0%, 
+ rgba(147, 112, 219, 0.4) 50%, 
+ rgba(0, 0, 0, 0.8) 100%);
+ border-radius: 10px;
+ margin: 2rem 0;
+ position: relative;
+ overflow: hidden;
+ }
+
+ .wormhole-visual::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: -100%;
+ width: 100%;
+ height: 100%;
+ background: linear-gradient(90deg, 
+ transparent, 
+ rgba(0, 204, 255, 0.6), 
+ transparent);
+ animation: wormholeFlow 3s linear infinite;
+ }
+
+ @keyframes wormholeFlow {
+ 0% { left: -100%; }
+ 100% { left: 100%; }
+ }
+
+ .comparison-table {
+ display: grid;
+ grid-template-columns: 1fr 1fr 1fr;
+ gap: 1px;
+ background: rgba(255, 255, 255, 0.1);
+ border-radius: 10px;
+ overflow: hidden;
+ margin: 2.5rem auto;
+ }
+
+ .table-header {
+ background: rgba(0, 204, 255, 0.3);
+ padding: 1rem;
+ font-weight: bold;
+ color: white;
+ text-align: center;
+ }
+
+ .table-cell {
+ background: rgba(0, 0, 0, 0.7);
+ padding: 1rem;
+ color: #e0e0ff;
+ }
+
+ .transport-principle {
+ background: rgba(255, 105, 180, 0.1);
+ border: 1px solid #FF69B4;
+ border-radius: 10px;
+ padding: 1.5rem;
+ margin: 2.5rem auto;
+ }
+
+ /* === RESPONSIVE DESIGN === */
+ @media (max-width: 1024px) {
+ /* Hide desktop menu, show hamburger */
+ nav.top-menu {
+ display: none;
+ }
+ 
+ .hamburger-menu {
+ display: block;
+ }
+ 
+ /* Adjust site title for mobile */
+ .site-title-overlay {
+ top: 20px;
+ left: 20px;
+ }
+ 
+ .site-title-overlay h1 {
+ font-size: 1.4rem;
+ }
+ 
+ /* Adjust toggle button position */
+ .toggle-button {
+ top: 20px;
+ right: 70px;
+ padding: 0.6rem 1.2rem;
+ font-size: 0.9rem;
+ }
+ 
+ /* Adjust main content padding */
+ .main-content {
+ padding-top: 80px;
+ }
+ 
+ /* Adjust video container */
+ .video-container {
+ width: 95%;
+ height: 400px;
+ margin: 1.5rem auto;
+ }
+ 
+ /* Adjust audio controls */
+ .audio-controls {
+ bottom: 70px;
+ right: 20px;
+ }
+ 
+ /* Adjust comparison table */
+ .comparison-table {
+ grid-template-columns: 1fr;
+ }
+ 
+ .network-diagram {
+ grid-template-columns: 1fr;
+ }
+ 
+ /* Adjust cosmic transport section */
+ .cosmic-transport-section {
+ padding: 2rem 1rem;
+ margin: 1.5rem auto;
+ }
+ 
+ .content-toggle-container {
+ margin: 1rem auto 2rem auto;
+ }
+ 
+ /* Adjust footer text */
+ footer p {
+ font-size: 0.8rem;
+ }
+ }
+
+ @media (max-width: 768px) {
+ /* Further adjustments for smaller tablets/phones */
+ .video-container {
+ height: 300px;
+ }
+ 
+ .toggle-button {
+ right: 70px;
+ padding: 0.5rem 1rem;
+ font-size: 0.8rem;
+ }
+ 
+ .site-title-overlay h1 {
+ font-size: 1.2rem;
+ }
+ 
+ .hero h2 {
+ font-size: 1.8rem;
+ }
+ 
+ .hero p {
+ font-size: 1rem;
+ }
+ 
+ .audio-btn {
+ padding: 8px 12px;
+ font-size: 0.8rem;
+ }
+ }
+
+ @media (max-width: 480px) {
+ /* Phone adjustments */
+ .video-container {
+ height: 250px;
+ }
+ 
+ .wormhole-visual {
+ height: 150px;
+ }
+ 
+ .network-node {
+ padding: 1.2rem;
+ }
+ 
+ .transport-principle {
+ padding: 1rem;
+ margin: 1.5rem auto;
+ }
+ }
+ </style>
 </head>
 <body>
-    <nav class="top-menu">
-        <div class="dropdown">
-            <a href="index.html" class="dropbtn">Home</a>
-            <div class="dropdown-content">
-                <a href="why-this-world-matters.html">Why This World Matters</a>
-                <a href="homage-to-courage.html">Homage to Courage</a>
-                <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
-                <a href="the-migrant-initiative.html">The Migrant Initiative</a>
-                <a href="my-mission.html">My Mission</a>
-                <a href="martian-reading-revival.html">Martian Reading Revival</a>
-                <a href="why-mars-is-safer.html">Why Mars is Safer</a>
-                <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
-                <a href="mai-html">MAI - Master Artificial Intelligence</a>
-            </div>
-        </div>
+ <!-- HAMBURGER MENU FOR MOBILE/TABLET -->
+ <div class="hamburger-menu">
+ <div class="hamburger" id="hamburger">
+ <span></span>
+ <span></span>
+ <span></span>
+ </div>
+ </div>
+ 
+ <!-- MOBILE MENU OVERLAY -->
+ <div class="mobile-menu-overlay" id="mobileMenu">
+ <div class="mobile-nav">
+ <a href="index.html">Home</a>
+ <a href="why-this-world-matters.html">Why This World Matters</a>
+ <a href="homage-to-courage.html">Homage to Courage</a>
+ <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+ <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+ <a href="my-mission.html">My Mission</a>
+ <a href="story.html" class="active">Story</a>
+ <a href="characters.html">Characters</a>
+ 
+ <div class="mobile-dropdown">
+ <a href="javascript:void(0)" class="mobile-dropdown-btn">Gallery</a>
+ <div class="mobile-dropdown-content">
+ <a href="art-and-concepts.html">Art & Concepts</a>
+ <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+ <a href="technical-database.html">Technical Database</a>
+ <a href="martian-edicts.html">The Martian Edicts</a>
+ <a href="alien-transport-network.html" class="active">Alien Transport Network</a>
+ <a href="martian-martial-arts.html">Martian Martial Arts</a>
+ <a href="solar-system-explorer.html">Solar System Explorer</a>
+ <a href="aliens-ufos.html">Aliens & UFOs</a>
+ </div>
+ </div>
+ 
+ <a href="martian-games.html">Martian Games</a>
+ <a href="earth-codex.html">Earth Codex</a>
+ <a href="martian-news.html">Martian News</a>
+ <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+ <a href="about.html">About</a>
+ <a href="support.html">Support</a>
+ <a href="contact.html">Contact</a>
+ </div>
+ </div>
 
-        <div class="dropdown">
-            <a href="story.html" class="dropbtn active">Story</a>
-            <div class="dropdown-content">
-                <a href="characters.html">Characters</a>
-                <div class="dropdown">
-                    <a href="gallery.html" class="dropbtn">Gallery</a>
-                    <div class="dropdown-content">
-                        <a href="art-and-concepts.html">Art & Concepts</a>
-                        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
-                        <a href="technical-database.html">Technical Database</a>
-                        <a href="martian-edicts.html">The Martian Edicts</a>
-                        <a href="alien-transport-network.html" class="active">Alien Transport Network</a>
-                        <a href="martian-martial-arts.html">Martian Martial Arts</a>
-                        <a href="solar-system-explorer.html">Solar System Explorer</a>
-                        <a href="aliens-ufos.html">Aliens & UFOs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+ <!-- DESKTOP TOP MENU (unchanged) -->
+ <nav class="top-menu">
+ <div class="dropdown">
+ <a href="index.html" class="dropbtn">Home</a>
+ <div class="dropdown-content">
+ <a href="why-this-world-matters.html">Why This World Matters</a>
+ <a href="homage-to-courage.html">Homage to Courage</a>
+ <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+ <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+ <a href="my-mission.html">My Mission</a>
+ <a href="martian-reading-revival.html">Martian Reading Revival</a>
+ <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+ <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+ <a href="mai-html">MAI - Master Artificial Intelligence</a>
+ </div>
+ </div>
 
-        <div class="dropdown">
-            <a href="martian-games.html" class="dropbtn">Martian Games</a>
-            <div class="dropdown-content">
-                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
-                <a href="martian-racer.html">Martian Racer</a>
-                <a href="red-planet-defense.html">Red Planet Defense</a>
-                <a href="the-regents-portal.html">The Regent's Portal</a>
-                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
-                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
-                <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
-                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
-            </div>
-        </div>
+ <div class="dropdown">
+ <a href="story.html" class="dropbtn active">Story</a>
+ <div class="dropdown-content">
+ <a href="characters.html">Characters</a>
+ <div class="dropdown">
+ <a href="gallery.html" class="dropbtn">Gallery</a>
+ <div class="dropdown-content">
+ <a href="art-and-concepts.html">Art & Concepts</a>
+ <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+ <a href="technical-database.html">Technical Database</a>
+ <a href="martian-edicts.html">The Martian Edicts</a>
+ <a href="alien-transport-network.html" class="active">Alien Transport Network</a>
+ <a href="martian-martial-arts.html">Martian Martial Arts</a>
+ <a href="solar-system-explorer.html">Solar System Explorer</a>
+ <a href="aliens-ufos.html">Aliens & UFOs</a>
+ </div>
+ </div>
+ </div>
+ </div>
 
-        <div class="dropdown">
-            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
-            <div class="dropdown-content">
-                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
-                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
-                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
-                <a href="earths-great-poets.html">Earth's Great Poets</a>
-                <a href="the-bohr-institute.html">The Bohr Institute</a>
-                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
-                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
-                <a href="the-bronx-dome.html">The Bronx Dome</a>
-            </div>
-        </div>
+ <div class="dropdown">
+ <a href="martian-games.html" class="dropbtn">Martian Games</a>
+ <div class="dropdown-content">
+ <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+ <a href="martian-racer.html">Martian Racer</a>
+ <a href="red-planet-defense.html">Red Planet Defense</a>
+ <a href="the-regents-portal.html">The Regent's Portal</a>
+ <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+ <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+ <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+ <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+ </div>
+ </div>
 
-        <div class="dropdown">
-            <a href="martian-news.html" class="dropbtn">Martian News</a>
-            <div class="dropdown-content">
-                <a href="martian-actualities.html">Martian Actualities</a>
-                <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
-                <a href="mars-bee-facility.html">Mars Bee Facility</a>
-                <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-                <a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
-                <a href="house-of-health-secrets.html">The House of Health Secrets</a>
-                <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
-                <a href="martian-rest-areas.html">Martian Rest Areas</a>
-                <div class="dropdown">
-                    <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-                    <div class="dropdown-content">
-                        <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
-                        <a href="marvin.html">M.A.R.V.I.N.</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+ <div class="dropdown">
+ <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+ <div class="dropdown-content">
+ <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+ <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+ <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+ <a href="earths-great-poets.html">Earth's Great Poets</a>
+ <a href="the-bohr-institute.html">The Bohr Institute</a>
+ <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+ <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+ <a href="the-bronx-dome.html">The Bronx Dome</a>
+ </div>
+ </div>
 
-        <div class="dropdown">
-            <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
-            <div class="dropdown-content">
-                <a href="what-the-regent-misses.html">What the Regent Misses</a> 
-                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
-                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
-                <a href="honor-the-fallen.html">Honor The Fallen</a>
-                <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
-                <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
-                <a href="salems-witching-hour.html">Salem's Witching Hour</a>
-                <a href="martian-critique-tron-ares.html">Martian Critique</a>
-                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
-                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
-                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
-            </div>
-        </div>
+ <div class="dropdown">
+ <a href="martian-news.html" class="dropbtn">Martian News</a>
+ <div class="dropdown-content">
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Alien Transport Networks | Aliens & UFOs | The Mars Abyss</title>
+ <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+ <style>
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
 
-        <div class="dropdown">
-            <a href="about.html" class="dropbtn">About</a>
-            <div class="dropdown-content">
-                <a href="about-the-project.html">About the Project</a> 
-                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
-                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
-                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
-                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
-                <a href="the-pale-horse.html">The Pale Horse</a>
-                <a href="a-day-in-the-life-of.html" class="active">A Day in the Life Of...</a>
-                <a href="arachne-labs.html">Arachne Labs</a>
-                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
-                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
-            </div>
-        </div>
+ body, html {
+ height: 100%;
+ width: 100%;
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ color: #fff;
+ overflow-x: hidden;
+ position: relative;
+ background: radial-gradient(ellipse at bottom, #1a1a1a 0%, #000 100%);
+ }
 
-        <div class="dropdown">
-            <a href="support.html" class="dropbtn">Support</a>
-            <div class="dropdown-content">
-                <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
-                <a href="martian-childrens-sanctuary.html">Children's Sanctuary</a>
-                <a href="mars-food-district.html">Mars Food District</a>
-                <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
-                <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-                <a href="fund-martian-research.html">Fund Martian Research</a>
-                <a href="martian-survival-manual.html">Martian Survival Manual</a>
-                <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
-            </div>
-        </div>
+ /* === HAMBURGER MENU (MOBILE/TABLET) === */
+ .hamburger-menu {
+ display: none;
+ position: fixed;
+ top: 20px;
+ right: 20px;
+ z-index: 2000;
+ }
 
-        <a href="contact.html">Contact</a>
-    </nav>
+ .hamburger {
+ width: 35px;
+ height: 30px;
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
+ cursor: pointer;
+ background: rgba(17, 17, 17, 0.9);
+ padding: 10px;
+ border-radius: 4px;
+ border: 1px solid #00ccff;
+ }
 
-    <div class="background-container">
-        <div class="static-background" id="staticBg"></div>
-        <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
-            <source src="videos/the-theater-book-reading.mp4" type="video/mp4">
-            <source src="videos/female-astronaut.webm" type="video/webm">
-        </video>
-    </div>
+ .hamburger span {
+ display: block;
+ height: 3px;
+ width: 100%;
+ background: #00ccff;
+ border-radius: 2px;
+ transition: 0.3s;
+ }
 
-    <!-- SITE TITLE -->
-    <div class="site-title-overlay">
-        <h1>The Mars Abyss</h1>
-    </div>
+ .hamburger.active span:nth-child(1) {
+ transform: rotate(45deg) translate(8px, 8px);
+ }
 
-    <!-- AUDIO CONTROLS -->
-    <div class="audio-controls">
-        <button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
-    </div>
+ .hamburger.active span:nth-child(2) {
+ opacity: 0;
+ }
 
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-        <!-- HERO - TITLE NOW CENTERED -->
-        <section class="hero">
-            <h2 style="font-size: 2.5rem; color: #9370DB; text-shadow: 0 0 20px rgba(147, 112, 219, 0.5); text-align: center;">
-                ALIEN TRANSPORT NETWORKS
-            </h2>
-            <p style="font-size: 1.2rem; max-width: 800px; margin: 1rem auto; color: #d4b87a; text-align: center;">
-                How Advanced Civilizations Travel - And What Mars Is Learning From Them
-            </p>
-        </section>
+ .hamburger.active span:nth-child(3) {
+ transform: rotate(-45deg) translate(7px, -7px);
+ }
 
-        <!-- VIDEO CONTAINER - ADJUSTED POSITION -->
-        <div class="video-container">
-            <video class="ufo-video" autoplay muted loop playsinline>
-                <source src="videos/yellow-scout-ship.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div class="video-overlay"></div>
-            <button class="replay-button" id="replayBtn">Replay Video</button>
-        </div>
+ .mobile-menu-overlay {
+ display: none;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(0, 0, 0, 0.95);
+ z-index: 1999;
+ overflow-y: auto;
+ padding-top: 80px;
+ }
 
-        <!-- INTRODUCTION -->
-        <section class="cosmic-transport-section">
-            <h3 style="color: #00ccff; text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">
-                BEYOND SPACESHIPS: COSMIC TRANSPORT AS CONSCIOUSNESS EXPANSION
-            </h3>
-            <p style="color: #e0e0ff; line-height: 1.7; margin-bottom: 2rem; text-align: center;">
-                Earth thinks of transportation as moving physical bodies from Point A to Point B.<br>
-                Advanced alien civilizations think of transportation as moving consciousness through states of understanding.
-            </p>
-            <div class="wormhole-visual"></div>
-        </section>
+ .mobile-menu-overlay.active {
+ display: block;
+ }
 
-        <!-- THE THREE REVOLUTIONS -->
-        <section style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
-            <h3 style="color: #4cc9f0; text-align: center; margin-bottom: 3rem; font-size: 1.6rem;">
-                THE THREE REVOLUTIONS IN COSMIC TRANSPORT
-            </h3>
-            <div class="network-diagram">
-                <!-- NODE 1 -->
-                <div class="network-node">
-                    <div class="node-icon">🌀</div>
-                    <div class="node-title">1. NON-LINEAR SPACETIME NAVIGATION</div>
-                    <p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6;">
-                        Aliens don't travel "through" space. They reconfigure their relationship to spacetime itself.
-                        Distance becomes a function of consciousness alignment rather than physical separation.
-                    </p>
-                    <div class="earth-parallel">
-                        <div class="earth-parallel-title">🌍 EARTH'S LIMITATION</div>
-                        <p style="color: #e0e0ff; font-size: 0.9rem;">
-                            Linear thinking: "Find the shortest route." Fuel consumption proportional to distance.
-                            Limited by lightspeed barrier and classical physics.
-                        </p>
-                    </div>
-                    <div class="mars-implementation">
-                        <div class="mars-implementation-title">🔴 MARS APPLICATION</div>
-                        <p style="color: #e0e0ff; font-size: 0.9rem;">
-                            Quantum-entangled navigation systems that "sample" destination states before travel.
-                            Journey planning includes temporal and consciousness factors, not just spatial.
-                        </p>
-                        <a href="mars-dome-cities-tour.html#ares-prime" 
-                           style="color: #4cc9f0; font-size: 0.85rem; text-decoration: none; display: block; margin-top: 0.5rem;">
-                            → See Ares Prime Navigation Center
-                        </a>
-                    </div>
-                </div>
+ .mobile-nav {
+ display: flex;
+ flex-direction: column;
+ padding: 20px;
+ }
 
-                <!-- NODE 2 -->
-                <div class="network-node">
-                    <div class="node-icon">🌱</div>
-                    <div class="node-title">2. BIOLOGICAL-TECHNOLOGICAL INTEGRATION</div>
-                    <p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6;">
-                        Alien "spaceships" are living organisms that grow, heal, and evolve with their inhabitants.
-                        The vessel and voyager form a symbiotic relationship during transit.
-                    </p>
-                    <div class="earth-parallel">
-                        <div class="earth-parallel-title">🌍 EARTH'S LIMITATION</div>
-                        <p style="color: #e0e0ff; font-size: 0.9rem;">
-                            Strict separation: Machine vs. Human. Maintenance vs. Use. Environmental control vs. Natural systems.
-                            Creates psychological and physiological stress.
-                        </p>
-                    </div>
-                    <div class="mars-implementation">
-                        <div class="mars-implementation-title">🔴 MARS APPLICATION</div>
-                        <p style="color: #e0e0ff; font-size: 0.9rem;">
-                            Biologically-integrated life support where algae farms oxygenate air while passengers' 
-                            breathing nourishes the algae. Circular systems modeled on alien biology.
-                        </p>
-                        <a href="mars-travel-preparation.html#health-systems" 
-                           style="color: #4cc9f0; font-size: 0.85rem; text-decoration: none; display: block; margin-top: 0.5rem;">
-                            → Study Martian Health Systems
-                        </a>
-                    </div>
-                </div>
+ .mobile-nav a {
+ color: #f5f5f5;
+ text-decoration: none;
+ padding: 15px;
+ border-bottom: 1px solid rgba(0, 204, 255, 0.3);
+ font-size: 1.2rem;
+ transition: all 0.3s ease;
+ }
 
-                <!-- NODE 3 -->
-                <div class="network-node">
-                    <div class="node-icon">🧠</div>
-                    <div class="node-title">3. CONSCIOUSNESS-BASED DESTINATION SELECTION</div>
-                    <p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6;">
-                        Aliens travel to places that match their consciousness state, not just physical coordinates.
-                        The journey transforms them to be ready for the destination.
-                    </p>
-                    <div class="earth-parallel">
-                        <div class="earth-parallel-title">🌍 EARTH'S LIMITATION</div>
-                        <p style="color: #e0e0ff; font-size: 0.9rem;">
-                            Profit-driven routing: "Where can we make money moving people?"
-                            Destination selection based on economics, not personal or collective growth.
-                        </p>
-                    </div>
-                    <div class="mars-implementation">
-                        <div class="mars-implementation-title">🔴 MARS APPLICATION</div>
-                        <p style="color: #e0e0ff; font-size: 0.9rem;">
-                            MAI systems match travelers with destinations based on personal growth trajectories.
-                            Some dome cities specialize in specific transformative experiences.
-                        </p>
-                        <a href="mars-dome-cities-tour.html" 
-                           style="color: #4cc9f0; font-size: 0.85rem; text-decoration: none; display: block; margin-top: 0.5rem;">
-                            → Explore Transformative Destinations
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+ .mobile-nav a:hover,
+ .mobile-nav a.active {
+ color: #00ccff;
+ background: rgba(0, 204, 255, 0.1);
+ }
 
-        <!-- COMPARISON TABLE - REDUCED SPACE ABOVE -->
-        <section style="padding: 1.5rem 1rem; max-width: 1200px; margin: 1rem auto;">
-            <h3 style="color: #ff9553; text-align: center; margin-bottom: 2rem; font-size: 1.5rem;">
-                TRANSPORT EVOLUTION: EARTH → MARS → ALIEN CIVILIZATIONS
-            </h3>
-            <div class="comparison-table">
-                <!-- HEADERS -->
-                <div class="table-header">🌍 EARTH MODEL</div>
-                <div class="table-header">🔴 MARS TRANSITION</div>
-                <div class="table-header">👽 ALIEN REALIZATION</div>
+ .mobile-dropdown-content {
+ display: none;
+ padding-left: 20px;
+ background: rgba(26, 26, 26, 0.8);
+ }
 
-                <!-- ROW 1 -->
-                <div class="table-cell">
-                    <strong>Purpose:</strong> Move bodies for economic activity
-                </div>
-                <div class="table-cell">
-                    <strong>Purpose:</strong> Move beings for growth and connection
-                </div>
-                <div class="table-cell">
-                    <strong>Purpose:</strong> Move consciousness through understanding states
-                </div>
+ .mobile-dropdown-content a {
+ font-size: 1rem;
+ padding: 12px 15px;
+ }
 
-                <!-- ROW 2 -->
-                <div class="table-cell">
-                    <strong>Efficiency Metric:</strong> Cost per passenger-mile
-                </div>
-                <div class="table-cell">
-                    <strong>Efficiency Metric:</strong> Transformation per journey
-                </div>
-                <div class="table-cell">
-                    <strong>Efficiency Metric:</strong> Consciousness expansion per transit
-                </div>
+ .mobile-dropdown.active .mobile-dropdown-content {
+ display: block;
+ }
 
-                <!-- ROW 3 -->
-                <div class="table-cell">
-                    <strong>Obstacle:</strong> Physical distance, fuel costs
-                </div>
-                <div class="table-cell">
-                    <strong>Obstacle:</strong> Psychological readiness, temporal alignment
-                </div>
-                <div class="table-cell">
-                    <strong>Obstacle:</strong> Consciousness resonance, dimensional attunement
-                </div>
+ /* === STANDARD TOP MENU - EXACTLY LIKE CONTACT PAGE === */
+ nav.top-menu {
+ position: fixed;
+ top: 0;
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ background: rgba(17, 17, 17, 0.95);
+ padding: 0.6rem 0;
+ z-index: 1000;
+ gap: 2.5rem;
+ flex-wrap: nowrap;
+ backdrop-filter: blur(10px);
+ border-bottom: 2px solid #00ccff;
+ }
 
-                <!-- ROW 4 -->
-                <div class="table-cell">
-                    <strong>Solution:</strong> Bigger engines, cheaper fuel
-                </div>
-                <div class="table-cell">
-                    <strong>Solution:</strong> Better preparation, community support
-                </div>
-                <div class="table-cell">
-                    <strong>Solution:</strong> Meditation, collective intention, bio-field alignment
-                </div>
+ nav.top-menu a {
+ color: #f5f5f5;
+ text-decoration: none;
+ font-size: 1.1rem;
+ padding: 0.5rem 0.8rem;
+ border-radius: 4px;
+ transition: all 0.3s ease;
+ display: flex;
+ align-items: center;
+ }
 
-                <!-- ROW 5 -->
-                <div class="table-cell">
-                    <strong>Waste Product:</strong> Carbon emissions, noise pollution
-                </div>
-                <div class="table-cell">
-                    <strong>Waste Product:</strong> Excess energy (repurposed)
-                </div>
-                <div class="table-cell">
-                    <strong>Waste Product:</strong> None - all byproducts become inputs
-                </div>
-            </div>
-        </section>
+ nav.top-menu a.active,
+ nav.top-menu a:hover {
+ color: #00ccff;
+ background: transparent;
+ }
 
-        <!-- ALIEN TRANSPORT PRINCIPLES - REDUCED SPACE ABOVE -->
-        <section style="background: rgba(0, 0, 0, 0.6); border-radius: 15px; padding: 2.5rem; margin: 1.5rem auto; max-width: 900px;">
-            <h3 style="color: #39ff14; text-align: center; margin-bottom: 2rem; font-size: 1.5rem;">
-                UNIVERSAL TRANSPORT PRINCIPLES (OBSERVED ACROSS 47 CIVILIZATIONS)
-            </h3>
-            
-            <div class="transport-principle">
-                <h4 style="color: #FF69B4; margin-bottom: 0.8rem;">Principle 1: The Journey IS the Destination</h4>
-                <p style="color: #e0e0ff; line-height: 1.6;">
-                    Advanced civilizations design travel experiences that are inherently valuable, 
-                    regardless of arrival. The transformation during transit matters more than the 
-                    coordinates of arrival. This is why some alien "voyages" last centuries by our 
-                    clocks but feel like moments to participants.
-                </p>
-                <p style="color: #4cc9f0; font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
-                    Martian implementation: "Slow Space" options with educational and relational programming.
-                </p>
-            </div>
+ .dropdown {
+ position: relative;
+ display: inline-block;
+ }
 
-            <div class="transport-principle">
-                <h4 style="color: #FF69B4; margin-bottom: 0.8rem;">Principle 2: Symbiotic Vessel Design</h4>
-                <p style="color: #e0e0ff; line-height: 1.6;">
-                    The transport vessel and its inhabitants form a mutualistic relationship. 
-                    Passengers' biological processes sustain the vessel; the vessel's systems 
-                    enhance passengers' wellbeing. No separation between "machine" and "organism."
-                </p>
-                <p style="color: #4cc9f0; font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
-                    Martian implementation: Bio-integrated life support where human respiration 
-                    feeds algal oxygen production.
-                </p>
-            </div>
+ .dropdown > a, .dropdown {
+ display: flex;
+ align-items: center;
+ height: 100%;
+ }
 
-            <div class="transport-principle">
-                <h4 style="color: #FF69B4; margin-bottom: 0.8rem;">Principle 3: Temporal Plasticity</h4>
-                <p style="color: #e0e0ff; line-height: 1.6;">
-                    Journey duration adjusts based on consciousness state and purpose. What appears 
-                    as "faster-than-light" travel to external observers is actually consciousness 
-                    operating in non-linear temporal frameworks. The voyage takes exactly as long 
-                    as needed for the intended transformation.
-                </p>
-                <p style="color: #4cc9f0; font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
-                    Martian research: Quantum consciousness labs in Salem Dome studying temporal perception.
-                </p>
-            </div>
-        </section>
+ .dropdown-content {
+ display: none;
+ position: absolute;
+ background: rgba(26, 26, 26, 0.98);
+ min-width: 140px;
+ z-index: 1001;
+ border-radius: 4px;
+ border: 2px solid #00ccff;
+ top: 100%;
+ left: 0;
+ backdrop-filter: blur(5px);
+ padding: 4px 0;
+ }
 
-        <!-- THE MARTIAN BRIDGE -->
-        <section style="text-align: center; padding: 3rem 1rem; background: rgba(147, 112, 219, 0.1); 
-                border-radius: 15px; margin: 3rem auto; max-width: 800px; border: 1px dashed #9370DB;">
-            <h4 style="color: #9370DB; margin-bottom: 1.5rem; font-size: 1.4rem;">
-                WHY MARS MATTERS IN THE COSMIC TRANSPORT STORY
-            </h4>
-            <p style="color: #e0e0ff; line-height: 1.7; margin-bottom: 2rem;">
-                Mars represents humanity's first attempt to build transportation systems 
-                informed by alien principles while still grounded in human biology and psychology.<br><br>
-                We're not just building spaceships. We're building <strong>bridges</strong>—between 
-                Earth's mechanical thinking and alien consciousness-based travel, between linear 
-                economics and circular systems, between individual journey and collective transformation.
-            </p>
-            
-            <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; flex-wrap: wrap;">
-                <a href="the-fair-act-of-life.html" 
-                   style="background: linear-gradient(45deg, #9370DB, #00ccff); 
-                          color: white; padding: 0.9rem 1.8rem; border-radius: 25px; 
-                          text-decoration: none; font-weight: 600; transition: all 0.3s ease;"
-                   onmouseover="this.style.transform='translateY(-3px)'"
-                   onmouseout="this.style.transform='translateY(0)'">
-                    ← The Fair Act Of Life
-                </a>
-                
-                <a href="cosmic-economics.html" 
-                   style="background: linear-gradient(45deg, #7e553b, #d4b87a); 
-                          color: #2c2c2c; padding: 0.9rem 1.8rem; border-radius: 25px; 
-                          text-decoration: none; font-weight: 600; transition: all 0.3s ease;"
-                   onmouseover="this.style.transform='translateY(-3px)'"
-                   onmouseout="this.style.transform='translateY(0)'">
-                    NEXT: COSMIC ECONOMICS →
-                </a>
-            </div>
-        </section>
-        
-        <!-- CONTENT SPACER -->
-        <div class="content-spacer"></div>
-    </div>
+ .dropdown .dropdown .dropdown-content {
+ position: absolute;
+ left: 0;
+ top: 100%;
+ width: 100%;
+ }
 
-    <!-- FOOTER -->
-    <footer>
-        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
-    </footer>
+ .dropdown-content a {
+ color: #f5f5f5;
+ padding: 3px 5px;
+ text-decoration: none;
+ display: block;
+ transition: background-color 0.3s ease;
+ font-size: 0.8rem;
+ line-height: 1;
+ }
 
-    <script>
-        // Video background - NO BLINKING
-        const videoBg = document.getElementById('videoBg');
-        const staticBg = document.getElementById('staticBg');
-        const replayBtn = document.getElementById('replayBtn');
+ .dropdown-content a:hover {
+ background: rgba(0, 204, 255, 0.6);
+ color: #fff;
+ }
 
-        // Proper video loading to prevent blinking
-        videoBg.addEventListener('loadeddata', function() {
-            videoBg.classList.add('loaded');
-            setTimeout(() => {
-                videoBg.play().catch(e => {
-                    console.log('Video autoplay prevented, waiting for user interaction');
-                });
-            }, 500);
-        });
+ .dropdown:hover .dropdown-content {
+ display: block;
+ }
 
-        videoBg.addEventListener('canplaythrough', function() {
-            videoBg.classList.add('loaded');
-        });
+ /* === SITE TITLE OVERLAY - EXACT POSITIONING LIKE OTHER PAGES === */
+ .site-title-overlay {
+ position: fixed;
+ top: 80px; /* EXACT same height as other pages */
+ left: 30px; /* EXACT same left position as other pages */
+ z-index: 50;
+ transition: opacity 0.3s ease;
+ }
 
-        videoBg.addEventListener('error', function() {
-            console.log('Video failed to load, using static background only');
-            videoBg.style.display = 'none';
-        });
+ .site-title-overlay.hidden {
+ opacity: 0;
+ pointer-events: none;
+ }
 
-        // Replay button functionality
-        replayBtn.addEventListener('click', function() {
-            videoBg.currentTime = 0;
-            videoBg.play();
-            replayBtn.classList.remove('show');
-            setTimeout(() => replayBtn.classList.add('show'), 100);
-            setTimeout(() => replayBtn.classList.remove('show'), 3000);
-        });
+ .site-title-overlay h1 {
+ color: rgba(0, 204, 255, 0.7);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.8rem;
+ text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+ font-weight: 300;
+ letter-spacing: 2px;
+ }
 
-        // Show replay button when video ends
-        videoBg.addEventListener('ended', function() {
-            replayBtn.classList.add('show');
-        });
+ .content-toggle-container {
+ text-align: center;
+ margin: 2rem auto 3rem auto;
+ max-width: 1100px;
+ }
 
-        // Hide replay button after video starts playing
-        videoBg.addEventListener('play', function() {
-            setTimeout(() => replayBtn.classList.remove('show'), 1000);
-        });
+ .toggle-button {
+ background: linear-gradient(45deg, #4cc9f0, #00ccff);
+ color: black;
+ border: none;
+ position: fixed;
+ top: 80px;
+ right: 40px;
+ z-index: 1000;
+ padding: 0.8rem 1.8rem;
+ border-radius: 25px;
+ cursor: pointer;
+ font-family: 'Orbitron', sans-serif;
+ font-weight: 600;
+ font-size: 1rem;
+ letter-spacing: 1px;
+ transition: all 0.3s ease;
+ box-shadow: 0 4px 15px rgba(76, 201, 240, 0.4);
+ }
 
-        // Ensure video plays when user interacts with page
-        document.addEventListener('click', function() {
-            if (videoBg.paused) {
-                videoBg.play().catch(e => console.log('Video play requires user interaction'));
-            }
-        });
+ .toggle-button:hover {
+ transform: translateY(-3px);
+ box-shadow: 0 6px 20px rgba(0, 204, 255, 0.5);
+ }
 
-        // AUDIO CONTROLS
-        const muteBtn = document.getElementById('muteBtn');
-        let isMuted = true;
-        let audioElements = [];
+ .hideable-content {
+ transition: all 0.5s ease;
+ }
 
-        function initAudio() {
-            const sounds = [
-                { src: 'music/Awakening of Shadows.mp3', volume: 0.3 },
-            ];
+ .hidden {
+ opacity: 0;
+ max-height: 0;
+ overflow: hidden;
+ margin: 0;
+ padding: 0;
+ transform: scale(0.95);
+ }
 
-            sounds.forEach(sound => {
-                const audio = new Audio(sound.src);
-                audio.volume = sound.volume;
-                audio.loop = true;
-                audio.muted = true;
-                audioElements.push(audio);
-            });
+ .visible {
+ opacity: 1;
+ max-height: 5000px;
+ overflow: visible;
+ }
 
-            document.addEventListener('click', function unmuteAudio() {
-                if (!isMuted) {
-                    audioElements.forEach(audio => {
-                        audio.muted = false;
-                        audio.play().catch(e => console.log('Audio play failed'));
-                    });
-                    isMuted = false;
-                    muteBtn.textContent = "🔊 Mute Sounds";
-                }
-                document.removeEventListener('click', unmuteAudio);
-            }, { once: true });
-        }
+ /* === MAIN CONTENT - PUSHED DOWN FROM TOP MENU === */
+ .main-content {
+ padding-top: 120px;
+ position: relative;
+ z-index: 10;
+ }
 
-        muteBtn.addEventListener('click', function() {
-            isMuted = !isMuted;
-            audioElements.forEach(audio => {
-                audio.muted = isMuted;
-            });
-            muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
-        });
+ /* Fix: Shift background video to the right */
+ .background-container {
+ position: relative;
+ width: 100%;
+ height: 100%;
+ }
 
-        initAudio();
-    </script>
+ /* REMOVED FILTER TO RESTORE VIDEO COLORS */
+ .video-background {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ object-position: 70% center; /* Adjust this percentage (70% moves it right) */
+ /* FILTER REMOVED AS REQUESTED */
+ }
+
+ /* === VIDEO CONTAINER - ADJUSTED AS REQUESTED === */
+ .video-container {
+ position: relative;
+ width: 90%;
+ max-width: 1000px;
+ height: 500px;
+ overflow: hidden;
+ margin: 2rem auto; /* Center it, removed the 10% left margin */
+ border-top: 1px solid #00ccff;
+ border-bottom: 1px solid #00ccff;
+ border-radius: 10px;
+ box-shadow: 0 0 30px rgba(0, 204, 255, 0.2);
+ }
+
+ .ufo-video {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ filter: brightness(0.8) contrast(1.1);
+ }
+
+ .video-overlay {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(0, 0, 0, 0.0);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ }
+
+ .replay-button {
+ position: absolute;
+ bottom: 20px;
+ right: 20px;
+ background: rgba(0, 204, 255, 0.8);
+ color: white;
+ border: none;
+ padding: 10px 20px;
+ border-radius: 5px;
+ cursor: pointer;
+ font-family: 'Segoe UI', sans-serif;
+ font-size: 0.9rem;
+ transition: all 0.3s ease;
+ opacity: 0;
+ transform: translateY(10px);
+ }
+
+ .replay-button.show {
+ opacity: 1;
+ transform: translateY(0);
+ }
+
+ .replay-button:hover {
+ background: rgba(0, 204, 255, 1);
+ transform: scale(1.05);
+ }
+
+ /* === AUDIO CONTROLS - EXACT STYLING === */
+ .audio-controls {
+ position: fixed;
+ bottom: 80px;
+ right: 40px;
+ z-index: 1000;
+ }
+
+ .audio-btn {
+ background: rgba(9, 60, 73, 0.8);
+ border: 2px solid #00ccff;
+ color: #fff;
+ padding: 10px 15px;
+ border-radius: 25px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ font-size: 0.9rem;
+ }
+
+ .audio-btn:hover {
+ background: rgba(0, 204, 255, 0.3);
+ }
+
+ /* FOOTER - EXACTLY LIKE OTHER PAGES */
+ footer {
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ text-align: center;
+ padding: 0.6rem 0;
+ background: rgba(0, 0, 0, 0.8);
+ color: #00ccff;
+ font-family: 'Segoe UI', sans-serif;
+ z-index: 1000;
+ border-top: 2px solid #00ccff;
+ }
+
+ /* === CONTENT SPACER - SPACE BETWEEN LAST SECTION AND FOOTER === */
+ .content-spacer {
+ height: 120px;
+ width: 100%;
+ }
+
+ .cosmic-transport-section {
+ background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 13, 51, 0.9));
+ border: 2px solid #9370DB;
+ border-radius: 15px;
+ padding: 3rem 2rem;
+ margin: 2.5rem auto; /* Reduced from 3rem */
+ max-width: 1100px;
+ position: relative;
+ overflow: hidden;
+ }
+
+ .cosmic-transport-section::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ height: 100%;
+ background: 
+ radial-gradient(circle at 20% 30%, rgba(147, 112, 219, 0.1) 0%, transparent 50%),
+ radial-gradient(circle at 80% 70%, rgba(0, 204, 255, 0.1) 0%, transparent 50%);
+ pointer-events: none;
+ }
+
+ .network-diagram {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+ gap: 2rem;
+ margin: 3rem 0;
+ }
+
+ .network-node {
+ background: rgba(0, 0, 0, 0.7);
+ border: 1px solid rgba(76, 201, 240, 0.5);
+ border-radius: 12px;
+ padding: 1.8rem;
+ position: relative;
+ transition: all 0.4s ease;
+ }
+
+ .network-node:hover {
+ border-color: #4cc9f0;
+ transform: translateY(-8px);
+ box-shadow: 0 10px 30px rgba(76, 201, 240, 0.3);
+ }
+
+ .node-icon {
+ font-size: 2.5rem;
+ margin-bottom: 1rem;
+ text-align: center;
+ color: #9370DB;
+ }
+
+ .node-title {
+ color: #4cc9f0;
+ font-size: 1.3rem;
+ margin-bottom: 1rem;
+ text-align: center;
+ font-weight: bold;
+ }
+
+ .earth-parallel {
+ background: rgba(255, 51, 102, 0.1);
+ border-left: 4px solid #ff3366;
+ padding: 1rem;
+ margin: 1.5rem 0;
+ border-radius: 0 8px 8px 0;
+ }
+
+ .earth-parallel-title {
+ color: #ff3366;
+ font-weight: bold;
+ margin-bottom: 0.5rem;
+ }
+
+ .mars-implementation {
+ background: rgba(57, 255, 20, 0.1);
+ border-left: 4px solid #39ff14;
+ padding: 1rem;
+ margin: 1.5rem 0;
+ border-radius: 0 8px 8px 0;
+ }
+
+ .mars-implementation-title {
+ color: #39ff14;
+ font-weight: bold;
+ margin-bottom: 0.5rem;
+ }
+
+ .wormhole-visual {
+ width: 100%;
+ height: 200px;
+ background: linear-gradient(90deg, 
+ rgba(0, 0, 0, 0.8) 0%, 
+ rgba(147, 112, 219, 0.4) 50%, 
+ rgba(0, 0, 0, 0.8) 100%);
+ border-radius: 10px;
+ margin: 2rem 0;
+ position: relative;
+ overflow: hidden;
+ }
+
+ .wormhole-visual::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: -100%;
+ width: 100%;
+ height: 100%;
+ background: linear-gradient(90deg, 
+ transparent, 
+ rgba(0, 204, 255, 0.6), 
+ transparent);
+ animation: wormholeFlow 3s linear infinite;
+ }
+
+ @keyframes wormholeFlow {
+ 0% { left: -100%; }
+ 100% { left: 100%; }
+ }
+
+ .comparison-table {
+ display: grid;
+ grid-template-columns: 1fr 1fr 1fr;
+ gap: 1px;
+ background: rgba(255, 255, 255, 0.1);
+ border-radius: 10px;
+ overflow: hidden;
+ margin: 2.5rem auto;
+ }
+
+ .table-header {
+ background: rgba(0, 204, 255, 0.3);
+ padding: 1rem;
+ font-weight: bold;
+ color: white;
+ text-align: center;
+ }
+
+ .table-cell {
+ background: rgba(0, 0, 0, 0.7);
+ padding: 1rem;
+ color: #e0e0ff;
+ }
+
+ .transport-principle {
+ background: rgba(255, 105, 180, 0.1);
+ border: 1px solid #FF69B4;
+ border-radius: 10px;
+ padding: 1.5rem;
+ margin: 2.5rem auto;
+ }
+
+ /* === RESPONSIVE DESIGN === */
+ @media (max-width: 1024px) {
+ /* Hide desktop menu, show hamburger */
+ nav.top-menu {
+ display: none;
+ }
+ 
+ .hamburger-menu {
+ display: block;
+ }
+ 
+ /* Adjust site title for mobile */
+ .site-title-overlay {
+ top: 20px;
+ left: 20px;
+ }
+ 
+ .site-title-overlay h1 {
+ font-size: 1.4rem;
+ }
+ 
+ /* Adjust toggle button position */
+ .toggle-button {
+ top: 20px;
+ right: 70px;
+ padding: 0.6rem 1.2rem;
+ font-size: 0.9rem;
+ }
+ 
+ /* Adjust main content padding */
+ .main-content {
+ padding-top: 80px;
+ }
+ 
+ /* Adjust video container */
+ .video-container {
+ width: 95%;
+ height: 400px;
+ margin: 1.5rem auto;
+ }
+ 
+ /* Adjust audio controls */
+ .audio-controls {
+ bottom: 70px;
+ right: 20px;
+ }
+ 
+ /* Adjust comparison table */
+ .comparison-table {
+ grid-template-columns: 1fr;
+ }
+ 
+ .network-diagram {
+ grid-template-columns: 1fr;
+ }
+ 
+ /* Adjust cosmic transport section */
+ .cosmic-transport-section {
+ padding: 2rem 1rem;
+ margin: 1.5rem auto;
+ }
+ 
+ .content-toggle-container {
+ margin: 1rem auto 2rem auto;
+ }
+ 
+ /* Adjust footer text */
+ footer p {
+ font-size: 0.8rem;
+ }
+ }
+
+ @media (max-width: 768px) {
+ /* Further adjustments for smaller tablets/phones */
+ .video-container {
+ height: 300px;
+ }
+ 
+ .toggle-button {
+ right: 70px;
+ padding: 0.5rem 1rem;
+ font-size: 0.8rem;
+ }
+ 
+ .site-title-overlay h1 {
+ font-size: 1.2rem;
+ }
+ 
+ .hero h2 {
+ font-size: 1.8rem;
+ }
+ 
+ .hero p {
+ font-size: 1rem;
+ }
+ 
+ .audio-btn {
+ padding: 8px 12px;
+ font-size: 0.8rem;
+ }
+ }
+
+ @media (max-width: 480px) {
+ /* Phone adjustments */
+ .video-container {
+ height: 250px;
+ }
+ 
+ .wormhole-visual {
+ height: 150px;
+ }
+ 
+ .network-node {
+ padding: 1.2rem;
+ }
+ 
+ .transport-principle {
+ padding: 1rem;
+ margin: 1.5rem auto;
+ }
+ }
+ </style>
+</head>
+<body>
+ <!-- HAMBURGER MENU FOR MOBILE/TABLET -->
+ <div class="hamburger-menu">
+ <div class="hamburger" id="hamburger">
+ <span></span>
+ <span></span>
+ <span></span>
+ </div>
+ </div>
+ 
+ <!-- MOBILE MENU OVERLAY -->
+ <div class="mobile-menu-overlay" id="mobileMenu">
+ <div class="mobile-nav">
+ <a href="index.html">Home</a>
+ <a href="why-this-world-matters.html">Why This World Matters</a>
+ <a href="homage-to-courage.html">Homage to Courage</a>
+ <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+ <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+ <a href="my-mission.html">My Mission</a>
+ <a href="story.html" class="active">Story</a>
+ <a href="characters.html">Characters</a>
+ 
+ <div class="mobile-dropdown">
+ <a href="javascript:void(0)" class="mobile-dropdown-btn">Gallery</a>
+ <div class="mobile-dropdown-content">
+ <a href="art-and-concepts.html">Art & Concepts</a>
+ <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+ <a href="technical-database.html">Technical Database</a>
+ <a href="martian-edicts.html">The Martian Edicts</a>
+ <a href="alien-transport-network.html" class="active">Alien Transport Network</a>
+ <a href="martian-martial-arts.html">Martian Martial Arts</a>
+ <a href="solar-system-explorer.html">Solar System Explorer</a>
+ <a href="aliens-ufos.html">Aliens & UFOs</a>
+ </div>
+ </div>
+ 
+ <a href="martian-games.html">Martian Games</a>
+ <a href="earth-codex.html">Earth Codex</a>
+ <a href="martian-news.html">Martian News</a>
+ <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+ <a href="about.html">About</a>
+ <a href="support.html">Support</a>
+ <a href="contact.html">Contact</a>
+ </div>
+ </div>
+
+ <!-- DESKTOP TOP MENU (unchanged) -->
+ <nav class="top-menu">
+ <div class="dropdown">
+ <a href="index.html" class="dropbtn">Home</a>
+ <div class="dropdown-content">
+ <a href="why-this-world-matters.html">Why This World Matters</a>
+ <a href="homage-to-courage.html">Homage to Courage</a>
+ <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+ <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+ <a href="my-mission.html">My Mission</a>
+ <a href="martian-reading-revival.html">Martian Reading Revival</a>
+ <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+ <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+ <a href="mai-html">MAI - Master Artificial Intelligence</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="story.html" class="dropbtn active">Story</a>
+ <div class="dropdown-content">
+ <a href="characters.html">Characters</a>
+ <div class="dropdown">
+ <a href="gallery.html" class="dropbtn">Gallery</a>
+ <div class="dropdown-content">
+ <a href="art-and-concepts.html">Art & Concepts</a>
+ <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+ <a href="technical-database.html">Technical Database</a>
+ <a href="martian-edicts.html">The Martian Edicts</a>
+ <a href="alien-transport-network.html" class="active">Alien Transport Network</a>
+ <a href="martian-martial-arts.html">Martian Martial Arts</a>
+ <a href="solar-system-explorer.html">Solar System Explorer</a>
+ <a href="aliens-ufos.html">Aliens & UFOs</a>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="martian-games.html" class="dropbtn">Martian Games</a>
+ <div class="dropdown-content">
+ <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+ <a href="martian-racer.html">Martian Racer</a>
+ <a href="red-planet-defense.html">Red Planet Defense</a>
+ <a href="the-regents-portal.html">The Regent's Portal</a>
+ <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+ <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+ <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+ <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+ <div class="dropdown-content">
+ <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+ <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+ <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+ <a href="earths-great-poets.html">Earth's Great Poets</a>
+ <a href="the-bohr-institute.html">The Bohr Institute</a>
+ <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+ <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+ <a href="the-bronx-dome.html">The Bronx Dome</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="martian-news.html" class="dropbtn">Martian News</a>
+ <div class="dropdown-content">
+ <a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>  
+ <a href="martian-actualities.html">Martian Actualities</a>
+ <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+ <a href="mars-bee-facility.html">Mars Bee Facility</a>
+ <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+ <a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
+ <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+ <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+ <a href="martian-rest-areas.html">Martian Rest Areas</a>
+ <div class="dropdown">
+ <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+ <div class="dropdown-content">
+ <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+ <a href="marvin.html">M.A.R.V.I.N.</a>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+ <div class="dropdown-content">
+ <a href="what-the-regent-misses.html">What the Regent Misses</a> 
+ <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+ <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+ <a href="honor-the-fallen.html">Honor The Fallen</a>
+ <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+ <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+ <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+ <a href="martian-critique-tron-ares.html">Martian Critique</a>
+ <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+ <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+ <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="about.html" class="dropbtn">About</a>
+ <div class="dropdown-content">
+ <a href="about-the-project.html">About the Project</a> 
+ <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+ <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+ <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+ <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+ <a href="the-pale-horse.html">The Pale Horse</a>
+ <a href="a-day-in-the-life-of.html" class="active">A Day in the Life Of...</a>
+ <a href="arachne-labs.html">Arachne Labs</a>
+ <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+ <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="support.html" class="dropbtn">Support</a>
+ <div class="dropdown-content">
+ <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+ <a href="martian-childrens-sanctuary.html">Children's Sanctuary</a>
+ <a href="mars-food-district.html">Mars Food District</a>
+ <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+ <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+ <a href="fund-martian-research.html">Fund Martian Research</a>
+ <a href="martian-survival-manual.html">Martian Survival Manual</a>
+ <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+ </div>
+ </div>
+
+ <a href="contact.html">Contact</a>
+ </nav>
+
+ <div class="background-container">
+ <div class="static-background" id="staticBg"></div>
+ <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
+ <source src="videos/the-theater-book-reading.mp4" type="video/mp4">
+ <source src="videos/female-astronaut.webm" type="video/webm">
+ </video>
+ </div>
+
+ <!-- SITE TITLE -->
+ <div class="site-title-overlay">
+ <h1>The Mars Abyss</h1>
+ </div>
+
+ <!-- AUDIO CONTROLS -->
+ <div class="audio-controls">
+ <button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
+ </div>
+
+ <!-- MAIN CONTENT -->
+ <div class="main-content">
+ <!-- HERO - TITLE NOW CENTERED -->
+ <section class="hero">
+ <h2 style="font-size: 2.5rem; color: #9370DB; text-shadow: 0 0 20px rgba(147, 112, 219, 0.5); text-align: center;">
+ ALIEN TRANSPORT NETWORKS
+ </h2>
+ <p style="font-size: 1.2rem; max-width: 800px; margin: 1rem auto; color: #d4b87a; text-align: center;">
+ How Advanced Civilizations Travel - And What Mars Is Learning From Them
+ </p>
+ </section>
+
+ <!-- VIDEO CONTAINER - ADJUSTED POSITION -->
+ <div class="video-container">
+ <video class="ufo-video" autoplay muted loop playsinline>
+ <source src="videos/yellow-scout-ship.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ <div class="video-overlay"></div>
+ <button class="replay-button" id="replayBtn">Replay Video</button>
+ </div>
+
+ <!-- INTRODUCTION -->
+ <section class="cosmic-transport-section">
+ <h3 style="color: #00ccff; text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">
+ BEYOND SPACESHIPS: COSMIC TRANSPORT AS CONSCIOUSNESS EXPANSION
+ </h3>
+ <p style="color: #e0e0ff; line-height: 1.7; margin-bottom: 2rem; text-align: center;">
+ Earth thinks of transportation as moving physical bodies from Point A to Point B.<br>
+ Advanced alien civilizations think of transportation as moving consciousness through states of understanding.
+ </p>
+ <div class="wormhole-visual"></div>
+ </section>
+
+ <!-- THE THREE REVOLUTIONS -->
+ <section style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+ <h3 style="color: #4cc9f0; text-align: center; margin-bottom: 3rem; font-size: 1.6rem;">
+ THE THREE REVOLUTIONS IN COSMIC TRANSPORT
+ </h3>
+ <div class="network-diagram">
+ <!-- NODE 1 -->
+ <div class="network-node">
+ <div class="node-icon">🌀</div>
+ <div class="node-title">1. NON-LINEAR SPACETIME NAVIGATION</div>
+ <p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6;">
+ Aliens don't travel "through" space. They reconfigure their relationship to spacetime itself.
+ Distance becomes a function of consciousness alignment rather than physical separation.
+ </p>
+ <div class="earth-parallel">
+ <div class="earth-parallel-title">🌍 EARTH'S LIMITATION</div>
+ <p style="color: #e0e0ff; font-size: 0.9rem;">
+ Linear thinking: "Find the shortest route." Fuel consumption proportional to distance.
+ Limited by lightspeed barrier and classical physics.
+ </p>
+ </div>
+ <div class="mars-implementation">
+ <div class="mars-implementation-title">🔴 MARS APPLICATION</div>
+ <p style="color: #e0e0ff; font-size: 0.9rem;">
+ Quantum-entangled navigation systems that "sample" destination states before travel.
+ Journey planning includes temporal and consciousness factors, not just spatial.
+ </p>
+ <a href="mars-dome-cities-tour.html#ares-prime" 
+ style="color: #4cc9f0; font-size: 0.85rem; text-decoration: none; display: block; margin-top: 0.5rem;">
+ → See Ares Prime Navigation Center
+ </a>
+ </div>
+ </div>
+
+ <!-- NODE 2 -->
+ <div class="network-node">
+ <div class="node-icon">🌱</div>
+ <div class="node-title">2. BIOLOGICAL-TECHNOLOGICAL INTEGRATION</div>
+ <p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6;">
+ Alien "spaceships" are living organisms that grow, heal, and evolve with their inhabitants.
+ The vessel and voyager form a symbiotic relationship during transit.
+ </p>
+ <div class="earth-parallel">
+ <div class="earth-parallel-title">🌍 EARTH'S LIMITATION</div>
+ <p style="color: #e0e0ff; font-size: 0.9rem;">
+ Strict separation: Machine vs. Human. Maintenance vs. Use. Environmental control vs. Natural systems.
+ Creates psychological and physiological stress.
+ </p>
+ </div>
+ <div class="mars-implementation">
+ <div class="mars-implementation-title">🔴 MARS APPLICATION</div>
+ <p style="color: #e0e0ff; font-size: 0.9rem;">
+ Biologically-integrated life support where algae farms oxygenate air while passengers' 
+ breathing nourishes the algae. Circular systems modeled on alien biology.
+ </p>
+ <a href="mars-travel-preparation.html#health-systems" 
+ style="color: #4cc9f0; font-size: 0.85rem; text-decoration: none; display: block; margin-top: 0.5rem;">
+ → Study Martian Health Systems
+ </a>
+ </div>
+ </div>
+
+ <!-- NODE 3 -->
+ <div class="network-node">
+ <div class="node-icon">🧠</div>
+ <div class="node-title">3. CONSCIOUSNESS-BASED DESTINATION SELECTION</div>
+ <p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6;">
+ Aliens travel to places that match their consciousness state, not just physical coordinates.
+ The journey transforms them to be ready for the destination.
+ </p>
+ <div class="earth-parallel">
+ <div class="earth-parallel-title">🌍 EARTH'S LIMITATION</div>
+ <p style="color: #e0e0ff; font-size: 0.9rem;">
+ Profit-driven routing: "Where can we make money moving people?"
+ Destination selection based on economics, not personal or collective growth.
+ </p>
+ </div>
+ <div class="mars-implementation">
+ <div class="mars-implementation-title">🔴 MARS APPLICATION</div>
+ <p style="color: #e0e0ff; font-size: 0.9rem;">
+ MAI systems match travelers with destinations based on personal growth trajectories.
+ Some dome cities specialize in specific transformative experiences.
+ </p>
+ <a href="mars-dome-cities-tour.html" 
+ style="color: #4cc9f0; font-size: 0.85rem; text-decoration: none; display: block; margin-top: 0.5rem;">
+ → Explore Transformative Destinations
+ </a>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- COMPARISON TABLE - REDUCED SPACE ABOVE -->
+ <section style="padding: 1.5rem 1rem; max-width: 1200px; margin: 1rem auto;">
+ <h3 style="color: #ff9553; text-align: center; margin-bottom: 2rem; font-size: 1.5rem;">
+ TRANSPORT EVOLUTION: EARTH → MARS → ALIEN CIVILIZATIONS
+ </h3>
+ <div class="comparison-table">
+ <!-- HEADERS -->
+ <div class="table-header">🌍 EARTH MODEL</div>
+ <div class="table-header">🔴 MARS TRANSITION</div>
+ <div class="table-header">👽 ALIEN REALIZATION</div>
+
+ <!-- ROW 1 -->
+ <div class="table-cell">
+ <strong>Purpose:</strong> Move bodies for economic activity
+ </div>
+ <div class="table-cell">
+ <strong>Purpose:</strong> Move beings for growth and connection
+ </div>
+ <div class="table-cell">
+ <strong>Purpose:</strong> Move consciousness through understanding states
+ </div>
+
+ <!-- ROW 2 -->
+ <div class="table-cell">
+ <strong>Efficiency Metric:</strong> Cost per passenger-mile
+ </div>
+ <div class="table-cell">
+ <strong>Efficiency Metric:</strong> Transformation per journey
+ </div>
+ <div class="table-cell">
+ <strong>Efficiency Metric:</strong> Consciousness expansion per transit
+ </div>
+
+ <!-- ROW 3 -->
+ <div class="table-cell">
+ <strong>Obstacle:</strong> Physical distance, fuel costs
+ </div>
+ <div class="table-cell">
+ <strong>Obstacle:</strong> Psychological readiness, temporal alignment
+ </div>
+ <div class="table-cell">
+ <strong>Obstacle:</strong> Consciousness resonance, dimensional attunement
+ </div>
+
+ <!-- ROW 4 -->
+ <div class="table-cell">
+ <strong>Solution:</strong> Bigger engines, cheaper fuel
+ </div>
+ <div class="table-cell">
+ <strong>Solution:</strong> Better preparation, community support
+ </div>
+ <div class="table-cell">
+ <strong>Solution:</strong> Meditation, collective intention, bio-field alignment
+ </div>
+
+ <!-- ROW 5 -->
+ <div class="table-cell">
+ <strong>Waste Product:</strong> Carbon emissions, noise pollution
+ </div>
+ <div class="table-cell">
+ <strong>Waste Product:</strong> Excess energy (repurposed)
+ </div>
+ <div class="table-cell">
+ <strong>Waste Product:</strong> None - all byproducts become inputs
+ </div>
+ </div>
+ </section>
+
+ <!-- ALIEN TRANSPORT PRINCIPLES - REDUCED SPACE ABOVE -->
+ <section style="background: rgba(0, 0, 0, 0.6); border-radius: 15px; padding: 2.5rem; margin: 1.5rem auto; max-width: 900px;">
+ <h3 style="color: #39ff14; text-align: center; margin-bottom: 2rem; font-size: 1.5rem;">
+ UNIVERSAL TRANSPORT PRINCIPLES (OBSERVED ACROSS 47 CIVILIZATIONS)
+ </h3>
+ 
+ <div class="transport-principle">
+ <h4 style="color: #FF69B4; margin-bottom: 0.8rem;">Principle 1: The Journey IS the Destination</h4>
+ <p style="color: #e0e0ff; line-height: 1.6;">
+ Advanced civilizations design travel experiences that are inherently valuable, 
+ regardless of arrival. The transformation during transit matters more than the 
+ coordinates of arrival. This is why some alien "voyages" last centuries by our 
+ clocks but feel like moments to participants.
+ </p>
+ <p style="color: #4cc9f0; font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+ Martian implementation: "Slow Space" options with educational and relational programming.
+ </p>
+ </div>
+
+ <div class="transport-principle">
+ <h4 style="color: #FF69B4; margin-bottom: 0.8rem;">Principle 2: Symbiotic Vessel Design</h4>
+ <p style="color: #e0e0ff; line-height: 1.6;">
+ The transport vessel and its inhabitants form a mutualistic relationship. 
+ Passengers' biological processes sustain the vessel; the vessel's systems 
+ enhance passengers' wellbeing. No separation between "machine" and "organism."
+ </p>
+ <p style="color: #4cc9f0; font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+ Martian implementation: Bio-integrated life support where human respiration 
+ feeds algal oxygen production.
+ </p>
+ </div>
+
+ <div class="transport-principle">
+ <h4 style="color: #FF69B4; margin-bottom: 0.8rem;">Principle 3: Temporal Plasticity</h4>
+ <p style="color: #e0e0ff; line-height: 1.6;">
+ Journey duration adjusts based on consciousness state and purpose. What appears 
+ as "faster-than-light" travel to external observers is actually consciousness 
+ operating in non-linear temporal frameworks. The voyage takes exactly as long 
+ as needed for the intended transformation.
+ </p>
+ <p style="color: #4cc9f0; font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+ Martian research: Quantum consciousness labs in Salem Dome studying temporal perception.
+ </p>
+ </div>
+ </section>
+
+ <!-- THE MARTIAN BRIDGE -->
+ <section style="text-align: center; padding: 3rem 1rem; background: rgba(147, 112, 219, 0.1); 
+ border-radius: 15px; margin: 3rem auto; max-width: 800px; border: 1px dashed #9370DB;">
+ <h4 style="color: #9370DB; margin-bottom: 1.5rem; font-size: 1.4rem;">
+ WHY MARS MATTERS IN THE COSMIC TRANSPORT STORY
+ </h4>
+ <p style="color: #e0e0ff; line-height: 1.7; margin-bottom: 2rem;">
+ Mars represents humanity's first attempt to build transportation systems 
+ informed by alien principles while still grounded in human biology and psychology.<br><br>
+ We're not just building spaceships. We're building <strong>bridges</strong>—between 
+ Earth's mechanical thinking and alien consciousness-based travel, between linear 
+ economics and circular systems, between individual journey and collective transformation.
+ </p>
+ 
+ <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; flex-wrap: wrap;">
+ <a href="the-fair-act-of-life.html" 
+ style="background: linear-gradient(45deg, #9370DB, #00ccff); 
+ color: white; padding: 0.9rem 1.8rem; border-radius: 25px; 
+ text-decoration: none; font-weight: 600; transition: all 0.3s ease;"
+ onmouseover="this.style.transform='translateY(-3px)'"
+ onmouseout="this.style.transform='translateY(0)'">
+ ← The Fair Act Of Life
+ </a>
+ 
+ <a href="cosmic-economics.html" 
+ style="background: linear-gradient(45deg, #7e553b, #d4b87a); 
+ color: #2c2c2c; padding: 0.9rem 1.8rem; border-radius: 25px; 
+ text-decoration: none; font-weight: 600; transition: all 0.3s ease;"
+ onmouseover="this.style.transform='translateY(-3px)'"
+ onmouseout="this.style.transform='translateY(0)'">
+ NEXT: COSMIC ECONOMICS →
+ </a>
+ </div>
+ </section>
+ 
+ <!-- CONTENT SPACER -->
+ <div class="content-spacer"></div>
+ </div>
+
+ <!-- FOOTER -->
+ <footer>
+ <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+ </footer>
+
+ <script>
+ // HAMBURGER MENU FUNCTIONALITY
+ const hamburger = document.getElementById('hamburger');
+ const mobileMenu = document.getElementById('mobileMenu');
+ const mobileDropdownBtns = document.querySelectorAll('.mobile-dropdown-btn');
+
+ hamburger.addEventListener('click', function() {
+ this.classList.toggle('active');
+ mobileMenu.classList.toggle('active');
+ });
+
+ // Close menu when clicking outside
+ document.addEventListener('click', function(event) {
+ if (!hamburger.contains(event.target) && !mobileMenu.contains(event.target)) {
+ hamburger.classList.remove('active');
+ mobileMenu.classList.remove('active');
+ }
+ });
+
+ // Mobile dropdown functionality
+ mobileDropdownBtns.forEach(btn => {
+ btn.addEventListener('click', function() {
+ const dropdown = this.parentElement;
+ dropdown.classList.toggle('active');
+ });
+ });
+
+ // Video background - NO BLINKING
+ const videoBg = document.getElementById('videoBg');
+ const staticBg = document.getElementById('staticBg');
+ const replayBtn = document.getElementById('replayBtn');
+
+ // Proper video loading to prevent blinking
+ videoBg.addEventListener('loadeddata', function() {
+ videoBg.classList.add('loaded');
+ setTimeout(() => {
+ videoBg.play().catch(e => {
+ console.log('Video autoplay prevented, waiting for user interaction');
+ });
+ }, 500);
+ });
+
+ videoBg.addEventListener('canplaythrough', function() {
+ videoBg.classList.add('loaded');
+ });
+
+ videoBg.addEventListener('error', function() {
+ console.log('Video failed to load, using static background only');
+ videoBg.style.display = 'none';
+ });
+
+ // Replay button functionality
+ replayBtn.addEventListener('click', function() {
+ videoBg.currentTime = 0;
+ videoBg.play();
+ replayBtn.classList.remove('show');
+ setTimeout(() => replayBtn.classList.add('show'), 100);
+ setTimeout(() => replayBtn.classList.remove('show'), 3000);
+ });
+
+ // Show replay button when video ends
+ videoBg.addEventListener('ended', function() {
+ replayBtn.classList.add('show');
+ });
+
+ // Hide replay button after video starts playing
+ videoBg.addEventListener('play', function() {
+ setTimeout(() => replayBtn.classList.remove('show'), 1000);
+ });
+
+ // Ensure video plays when user interacts with page
+ document.addEventListener('click', function() {
+ if (videoBg.paused) {
+ videoBg.play().catch(e => console.log('Video play requires user interaction'));
+ }
+ });
+
+ // AUDIO CONTROLS
+ const muteBtn = document.getElementById('muteBtn');
+ let isMuted = true;
+ let audioElements = [];
+
+ function initAudio() {
+ const sounds = [
+ { src: 'music/Awakening of Shadows.mp3', volume: 0.3 },
+ ];
+
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
+
+ document.addEventListener('click', function unmuteAudio() {
+ if (!isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => console.log('Audio play failed'));
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 Mute Sounds";
+ }
+ document.removeEventListener('click', unmuteAudio);
+ }, { once: true });
+ }
+
+ muteBtn.addEventListener('click', function() {
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ });
+ muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+ });
+
+ initAudio();
+ </script>
+</body>
+</html>    
+ <a href="martian-actualities.html">Martian Actualities</a>
+ <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+ <a href="mars-bee-facility.html">Mars Bee Facility</a>
+ <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+ <a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
+ <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+ <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+ <a href="martian-rest-areas.html">Martian Rest Areas</a>
+ <div class="dropdown">
+ <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+ <div class="dropdown-content">
+ <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+ <a href="marvin.html">M.A.R.V.I.N.</a>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+ <div class="dropdown-content">
+ <a href="what-the-regent-misses.html">What the Regent Misses</a> 
+ <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+ <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+ <a href="honor-the-fallen.html">Honor The Fallen</a>
+ <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+ <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+ <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+ <a href="martian-critique-tron-ares.html">Martian Critique</a>
+ <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+ <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+ <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="about.html" class="dropbtn">About</a>
+ <div class="dropdown-content">
+ <a href="about-the-project.html">About the Project</a> 
+ <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+ <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+ <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+ <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+ <a href="the-pale-horse.html">The Pale Horse</a>
+ <a href="a-day-in-the-life-of.html" class="active">A Day in the Life Of...</a>
+ <a href="arachne-labs.html">Arachne Labs</a>
+ <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+ <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+ </div>
+ </div>
+
+ <div class="dropdown">
+ <a href="support.html" class="dropbtn">Support</a>
+ <div class="dropdown-content">
+ <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+ <a href="martian-childrens-sanctuary.html">Children's Sanctuary</a>
+ <a href="mars-food-district.html">Mars Food District</a>
+ <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+ <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+ <a href="fund-martian-research.html">Fund Martian Research</a>
+ <a href="martian-survival-manual.html">Martian Survival Manual</a>
+ <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+ </div>
+ </div>
+
+ <a href="contact.html">Contact</a>
+ </nav>
+
+ <div class="background-container">
+ <div class="static-background" id="staticBg"></div>
+ <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
+ <source src="videos/the-theater-book-reading.mp4" type="video/mp4">
+ <source src="videos/female-astronaut.webm" type="video/webm">
+ </video>
+ </div>
+
+ <!-- SITE TITLE -->
+ <div class="site-title-overlay">
+ <h1>The Mars Abyss</h1>
+ </div>
+
+ <!-- AUDIO CONTROLS -->
+ <div class="audio-controls">
+ <button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
+ </div>
+
+ <!-- MAIN CONTENT -->
+ <div class="main-content">
+ <!-- HERO - TITLE NOW CENTERED -->
+ <section class="hero">
+ <h2 style="font-size: 2.5rem; color: #9370DB; text-shadow: 0 0 20px rgba(147, 112, 219, 0.5); text-align: center;">
+ ALIEN TRANSPORT NETWORKS
+ </h2>
+ <p style="font-size: 1.2rem; max-width: 800px; margin: 1rem auto; color: #d4b87a; text-align: center;">
+ How Advanced Civilizations Travel - And What Mars Is Learning From Them
+ </p>
+ </section>
+
+ <!-- VIDEO CONTAINER - ADJUSTED POSITION -->
+ <div class="video-container">
+ <video class="ufo-video" autoplay muted loop playsinline>
+ <source src="videos/yellow-scout-ship.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ <div class="video-overlay"></div>
+ <button class="replay-button" id="replayBtn">Replay Video</button>
+ </div>
+
+ <!-- INTRODUCTION -->
+ <section class="cosmic-transport-section">
+ <h3 style="color: #00ccff; text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">
+ BEYOND SPACESHIPS: COSMIC TRANSPORT AS CONSCIOUSNESS EXPANSION
+ </h3>
+ <p style="color: #e0e0ff; line-height: 1.7; margin-bottom: 2rem; text-align: center;">
+ Earth thinks of transportation as moving physical bodies from Point A to Point B.<br>
+ Advanced alien civilizations think of transportation as moving consciousness through states of understanding.
+ </p>
+ <div class="wormhole-visual"></div>
+ </section>
+
+ <!-- THE THREE REVOLUTIONS -->
+ <section style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+ <h3 style="color: #4cc9f0; text-align: center; margin-bottom: 3rem; font-size: 1.6rem;">
+ THE THREE REVOLUTIONS IN COSMIC TRANSPORT
+ </h3>
+ <div class="network-diagram">
+ <!-- NODE 1 -->
+ <div class="network-node">
+ <div class="node-icon">🌀</div>
+ <div class="node-title">1. NON-LINEAR SPACETIME NAVIGATION</div>
+ <p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6;">
+ Aliens don't travel "through" space. They reconfigure their relationship to spacetime itself.
+ Distance becomes a function of consciousness alignment rather than physical separation.
+ </p>
+ <div class="earth-parallel">
+ <div class="earth-parallel-title">🌍 EARTH'S LIMITATION</div>
+ <p style="color: #e0e0ff; font-size: 0.9rem;">
+ Linear thinking: "Find the shortest route." Fuel consumption proportional to distance.
+ Limited by lightspeed barrier and classical physics.
+ </p>
+ </div>
+ <div class="mars-implementation">
+ <div class="mars-implementation-title">🔴 MARS APPLICATION</div>
+ <p style="color: #e0e0ff; font-size: 0.9rem;">
+ Quantum-entangled navigation systems that "sample" destination states before travel.
+ Journey planning includes temporal and consciousness factors, not just spatial.
+ </p>
+ <a href="mars-dome-cities-tour.html#ares-prime" 
+ style="color: #4cc9f0; font-size: 0.85rem; text-decoration: none; display: block; margin-top: 0.5rem;">
+ → See Ares Prime Navigation Center
+ </a>
+ </div>
+ </div>
+
+ <!-- NODE 2 -->
+ <div class="network-node">
+ <div class="node-icon">🌱</div>
+ <div class="node-title">2. BIOLOGICAL-TECHNOLOGICAL INTEGRATION</div>
+ <p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6;">
+ Alien "spaceships" are living organisms that grow, heal, and evolve with their inhabitants.
+ The vessel and voyager form a symbiotic relationship during transit.
+ </p>
+ <div class="earth-parallel">
+ <div class="earth-parallel-title">🌍 EARTH'S LIMITATION</div>
+ <p style="color: #e0e0ff; font-size: 0.9rem;">
+ Strict separation: Machine vs. Human. Maintenance vs. Use. Environmental control vs. Natural systems.
+ Creates psychological and physiological stress.
+ </p>
+ </div>
+ <div class="mars-implementation">
+ <div class="mars-implementation-title">🔴 MARS APPLICATION</div>
+ <p style="color: #e0e0ff; font-size: 0.9rem;">
+ Biologically-integrated life support where algae farms oxygenate air while passengers' 
+ breathing nourishes the algae. Circular systems modeled on alien biology.
+ </p>
+ <a href="mars-travel-preparation.html#health-systems" 
+ style="color: #4cc9f0; font-size: 0.85rem; text-decoration: none; display: block; margin-top: 0.5rem;">
+ → Study Martian Health Systems
+ </a>
+ </div>
+ </div>
+
+ <!-- NODE 3 -->
+ <div class="network-node">
+ <div class="node-icon">🧠</div>
+ <div class="node-title">3. CONSCIOUSNESS-BASED DESTINATION SELECTION</div>
+ <p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6;">
+ Aliens travel to places that match their consciousness state, not just physical coordinates.
+ The journey transforms them to be ready for the destination.
+ </p>
+ <div class="earth-parallel">
+ <div class="earth-parallel-title">🌍 EARTH'S LIMITATION</div>
+ <p style="color: #e0e0ff; font-size: 0.9rem;">
+ Profit-driven routing: "Where can we make money moving people?"
+ Destination selection based on economics, not personal or collective growth.
+ </p>
+ </div>
+ <div class="mars-implementation">
+ <div class="mars-implementation-title">🔴 MARS APPLICATION</div>
+ <p style="color: #e0e0ff; font-size: 0.9rem;">
+ MAI systems match travelers with destinations based on personal growth trajectories.
+ Some dome cities specialize in specific transformative experiences.
+ </p>
+ <a href="mars-dome-cities-tour.html" 
+ style="color: #4cc9f0; font-size: 0.85rem; text-decoration: none; display: block; margin-top: 0.5rem;">
+ → Explore Transformative Destinations
+ </a>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- COMPARISON TABLE - REDUCED SPACE ABOVE -->
+ <section style="padding: 1.5rem 1rem; max-width: 1200px; margin: 1rem auto;">
+ <h3 style="color: #ff9553; text-align: center; margin-bottom: 2rem; font-size: 1.5rem;">
+ TRANSPORT EVOLUTION: EARTH → MARS → ALIEN CIVILIZATIONS
+ </h3>
+ <div class="comparison-table">
+ <!-- HEADERS -->
+ <div class="table-header">🌍 EARTH MODEL</div>
+ <div class="table-header">🔴 MARS TRANSITION</div>
+ <div class="table-header">👽 ALIEN REALIZATION</div>
+
+ <!-- ROW 1 -->
+ <div class="table-cell">
+ <strong>Purpose:</strong> Move bodies for economic activity
+ </div>
+ <div class="table-cell">
+ <strong>Purpose:</strong> Move beings for growth and connection
+ </div>
+ <div class="table-cell">
+ <strong>Purpose:</strong> Move consciousness through understanding states
+ </div>
+
+ <!-- ROW 2 -->
+ <div class="table-cell">
+ <strong>Efficiency Metric:</strong> Cost per passenger-mile
+ </div>
+ <div class="table-cell">
+ <strong>Efficiency Metric:</strong> Transformation per journey
+ </div>
+ <div class="table-cell">
+ <strong>Efficiency Metric:</strong> Consciousness expansion per transit
+ </div>
+
+ <!-- ROW 3 -->
+ <div class="table-cell">
+ <strong>Obstacle:</strong> Physical distance, fuel costs
+ </div>
+ <div class="table-cell">
+ <strong>Obstacle:</strong> Psychological readiness, temporal alignment
+ </div>
+ <div class="table-cell">
+ <strong>Obstacle:</strong> Consciousness resonance, dimensional attunement
+ </div>
+
+ <!-- ROW 4 -->
+ <div class="table-cell">
+ <strong>Solution:</strong> Bigger engines, cheaper fuel
+ </div>
+ <div class="table-cell">
+ <strong>Solution:</strong> Better preparation, community support
+ </div>
+ <div class="table-cell">
+ <strong>Solution:</strong> Meditation, collective intention, bio-field alignment
+ </div>
+
+ <!-- ROW 5 -->
+ <div class="table-cell">
+ <strong>Waste Product:</strong> Carbon emissions, noise pollution
+ </div>
+ <div class="table-cell">
+ <strong>Waste Product:</strong> Excess energy (repurposed)
+ </div>
+ <div class="table-cell">
+ <strong>Waste Product:</strong> None - all byproducts become inputs
+ </div>
+ </div>
+ </section>
+
+ <!-- ALIEN TRANSPORT PRINCIPLES - REDUCED SPACE ABOVE -->
+ <section style="background: rgba(0, 0, 0, 0.6); border-radius: 15px; padding: 2.5rem; margin: 1.5rem auto; max-width: 900px;">
+ <h3 style="color: #39ff14; text-align: center; margin-bottom: 2rem; font-size: 1.5rem;">
+ UNIVERSAL TRANSPORT PRINCIPLES (OBSERVED ACROSS 47 CIVILIZATIONS)
+ </h3>
+ 
+ <div class="transport-principle">
+ <h4 style="color: #FF69B4; margin-bottom: 0.8rem;">Principle 1: The Journey IS the Destination</h4>
+ <p style="color: #e0e0ff; line-height: 1.6;">
+ Advanced civilizations design travel experiences that are inherently valuable, 
+ regardless of arrival. The transformation during transit matters more than the 
+ coordinates of arrival. This is why some alien "voyages" last centuries by our 
+ clocks but feel like moments to participants.
+ </p>
+ <p style="color: #4cc9f0; font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+ Martian implementation: "Slow Space" options with educational and relational programming.
+ </p>
+ </div>
+
+ <div class="transport-principle">
+ <h4 style="color: #FF69B4; margin-bottom: 0.8rem;">Principle 2: Symbiotic Vessel Design</h4>
+ <p style="color: #e0e0ff; line-height: 1.6;">
+ The transport vessel and its inhabitants form a mutualistic relationship. 
+ Passengers' biological processes sustain the vessel; the vessel's systems 
+ enhance passengers' wellbeing. No separation between "machine" and "organism."
+ </p>
+ <p style="color: #4cc9f0; font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+ Martian implementation: Bio-integrated life support where human respiration 
+ feeds algal oxygen production.
+ </p>
+ </div>
+
+ <div class="transport-principle">
+ <h4 style="color: #FF69B4; margin-bottom: 0.8rem;">Principle 3: Temporal Plasticity</h4>
+ <p style="color: #e0e0ff; line-height: 1.6;">
+ Journey duration adjusts based on consciousness state and purpose. What appears 
+ as "faster-than-light" travel to external observers is actually consciousness 
+ operating in non-linear temporal frameworks. The voyage takes exactly as long 
+ as needed for the intended transformation.
+ </p>
+ <p style="color: #4cc9f0; font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+ Martian research: Quantum consciousness labs in Salem Dome studying temporal perception.
+ </p>
+ </div>
+ </section>
+
+ <!-- THE MARTIAN BRIDGE -->
+ <section style="text-align: center; padding: 3rem 1rem; background: rgba(147, 112, 219, 0.1); 
+ border-radius: 15px; margin: 3rem auto; max-width: 800px; border: 1px dashed #9370DB;">
+ <h4 style="color: #9370DB; margin-bottom: 1.5rem; font-size: 1.4rem;">
+ WHY MARS MATTERS IN THE COSMIC TRANSPORT STORY
+ </h4>
+ <p style="color: #e0e0ff; line-height: 1.7; margin-bottom: 2rem;">
+ Mars represents humanity's first attempt to build transportation systems 
+ informed by alien principles while still grounded in human biology and psychology.<br><br>
+ We're not just building spaceships. We're building <strong>bridges</strong>—between 
+ Earth's mechanical thinking and alien consciousness-based travel, between linear 
+ economics and circular systems, between individual journey and collective transformation.
+ </p>
+ 
+ <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; flex-wrap: wrap;">
+ <a href="the-fair-act-of-life.html" 
+ style="background: linear-gradient(45deg, #9370DB, #00ccff); 
+ color: white; padding: 0.9rem 1.8rem; border-radius: 25px; 
+ text-decoration: none; font-weight: 600; transition: all 0.3s ease;"
+ onmouseover="this.style.transform='translateY(-3px)'"
+ onmouseout="this.style.transform='translateY(0)'">
+ ← The Fair Act Of Life
+ </a>
+ 
+ <a href="cosmic-economics.html" 
+ style="background: linear-gradient(45deg, #7e553b, #d4b87a); 
+ color: #2c2c2c; padding: 0.9rem 1.8rem; border-radius: 25px; 
+ text-decoration: none; font-weight: 600; transition: all 0.3s ease;"
+ onmouseover="this.style.transform='translateY(-3px)'"
+ onmouseout="this.style.transform='translateY(0)'">
+ NEXT: COSMIC ECONOMICS →
+ </a>
+ </div>
+ </section>
+ 
+ <!-- CONTENT SPACER -->
+ <div class="content-spacer"></div>
+ </div>
+
+ <!-- FOOTER -->
+ <footer>
+ <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+ </footer>
+
+ <script>
+ // HAMBURGER MENU FUNCTIONALITY
+ const hamburger = document.getElementById('hamburger');
+ const mobileMenu = document.getElementById('mobileMenu');
+ const mobileDropdownBtns = document.querySelectorAll('.mobile-dropdown-btn');
+
+ hamburger.addEventListener('click', function() {
+ this.classList.toggle('active');
+ mobileMenu.classList.toggle('active');
+ });
+
+ // Close menu when clicking outside
+ document.addEventListener('click', function(event) {
+ if (!hamburger.contains(event.target) && !mobileMenu.contains(event.target)) {
+ hamburger.classList.remove('active');
+ mobileMenu.classList.remove('active');
+ }
+ });
+
+ // Mobile dropdown functionality
+ mobileDropdownBtns.forEach(btn => {
+ btn.addEventListener('click', function() {
+ const dropdown = this.parentElement;
+ dropdown.classList.toggle('active');
+ });
+ });
+
+ // Video background - NO BLINKING
+ const videoBg = document.getElementById('videoBg');
+ const staticBg = document.getElementById('staticBg');
+ const replayBtn = document.getElementById('replayBtn');
+
+ // Proper video loading to prevent blinking
+ videoBg.addEventListener('loadeddata', function() {
+ videoBg.classList.add('loaded');
+ setTimeout(() => {
+ videoBg.play().catch(e => {
+ console.log('Video autoplay prevented, waiting for user interaction');
+ });
+ }, 500);
+ });
+
+ videoBg.addEventListener('canplaythrough', function() {
+ videoBg.classList.add('loaded');
+ });
+
+ videoBg.addEventListener('error', function() {
+ console.log('Video failed to load, using static background only');
+ videoBg.style.display = 'none';
+ });
+
+ // Replay button functionality
+ replayBtn.addEventListener('click', function() {
+ videoBg.currentTime = 0;
+ videoBg.play();
+ replayBtn.classList.remove('show');
+ setTimeout(() => replayBtn.classList.add('show'), 100);
+ setTimeout(() => replayBtn.classList.remove('show'), 3000);
+ });
+
+ // Show replay button when video ends
+ videoBg.addEventListener('ended', function() {
+ replayBtn.classList.add('show');
+ });
+
+ // Hide replay button after video starts playing
+ videoBg.addEventListener('play', function() {
+ setTimeout(() => replayBtn.classList.remove('show'), 1000);
+ });
+
+ // Ensure video plays when user interacts with page
+ document.addEventListener('click', function() {
+ if (videoBg.paused) {
+ videoBg.play().catch(e => console.log('Video play requires user interaction'));
+ }
+ });
+
+ // AUDIO CONTROLS
+ const muteBtn = document.getElementById('muteBtn');
+ let isMuted = true;
+ let audioElements = [];
+
+ function initAudio() {
+ const sounds = [
+ { src: 'music/Awakening of Shadows.mp3', volume: 0.3 },
+ ];
+
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
+
+ document.addEventListener('click', function unmuteAudio() {
+ if (!isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => console.log('Audio play failed'));
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 Mute Sounds";
+ }
+ document.removeEventListener('click', unmuteAudio);
+ }, { once: true });
+ }
+
+ muteBtn.addEventListener('click', function() {
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ });
+ muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+ });
+
+ initAudio();
+ </script>
 </body>
 </html>
