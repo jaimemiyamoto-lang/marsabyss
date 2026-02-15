@@ -8,322 +8,461 @@
 <style>
 /* === BASE STYLES (Matched to Your Tharsis Page) === */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
 }
 
 body, html {
-    height: 100%;
-    width: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #fff;
-    overflow-x: hidden;
-    position: relative;
-    background: #000;
+ height: 100%;
+ width: 100%;
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ color: #fff;
+ overflow-x: hidden;
+ position: relative;
+ background: #000;
 }
 
 .video-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    opacity: 0.9;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ z-index: 1;
+ opacity: 0.9;
 }
 
 .video-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.0);
-    z-index: 2;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(0, 0, 0, 0.0);
+ z-index: 2;
+}
+
+/* ===== MOBILE HAMBURGER MENU ===== */
+.mobile-nav {
+ display: none;
+ position: fixed;
+ top: 15px;
+ left: 15px;
+ z-index: 1002;
+}
+
+.hamburger-btn {
+ background: rgba(17, 17, 17, 0.9);
+ border: 2px solid #9d4edd;
+ border-radius: 4px;
+ width: 50px;
+ height: 50px;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+}
+
+.hamburger-btn span {
+ display: block;
+ width: 25px;
+ height: 2px;
+ background: #9d4edd;
+ margin: 3px 0;
+ transition: all 0.3s ease;
+}
+
+.hamburger-btn:hover {
+ background: rgba(157, 78, 221, 0.9);
+}
+
+.hamburger-btn:hover span {
+ background: #000;
+}
+
+.mobile-menu {
+ position: fixed;
+ top: 0;
+ left: -100%;
+ width: 300px;
+ height: 100vh;
+ background: linear-gradient(145deg, #0a0514, #1a0b2a);
+ border-right: 2px solid #9d4edd;
+ padding: 20px;
+ transition: left 0.4s ease;
+ z-index: 1003;
+ overflow-y: auto;
+ backdrop-filter: blur(10px);
+}
+
+.mobile-menu.active {
+ left: 0;
+}
+
+.menu-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 20px;
+ padding-bottom: 15px;
+ border-bottom: 1px solid rgba(157, 78, 221, 0.3);
+}
+
+.menu-header h3 {
+ color: #9d4edd;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1rem;
+ margin: 0;
+}
+
+.close-menu {
+ background: transparent;
+ border: none;
+ color: #9d4edd;
+ font-size: 1.5rem;
+ cursor: pointer;
+ width: 30px;
+ height: 30px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border-radius: 50%;
+ transition: all 0.3s ease;
+}
+
+.close-menu:hover {
+ background: rgba(157, 78, 221, 0.2);
+}
+
+.menu-content {
+ margin-bottom: 20px;
+}
+
+.menu-content .menu-item {
+ margin-bottom: 10px;
+}
+
+.menu-content .menu-item a {
+ display: block;
+ color: #fff;
+ text-decoration: none;
+ padding: 10px 15px;
+ border-radius: 5px;
+ border-left: 3px solid transparent;
+ transition: all 0.3s ease;
+ font-family: 'Segoe UI', sans-serif;
+ font-size: 0.95rem;
+}
+
+.menu-content .menu-item a:hover,
+.menu-content .menu-item a.active {
+ border-left-color: #9d4edd;
+ background: rgba(157, 78, 221, 0.1);
+ color: #9d4edd;
+}
+
+.menu-footer {
+ margin-top: 20px;
+ padding-top: 15px;
+ border-top: 1px solid rgba(157, 78, 221, 0.3);
+ text-align: center;
+ color: #9d4edd;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.8rem;
+}
+
+.pulse {
+ display: inline-block;
+ width: 8px;
+ height: 8px;
+ background-color: #9d4edd;
+ border-radius: 50%;
+ margin-right: 8px;
+ animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+ 0%, 100% { opacity: 1; }
+ 50% { opacity: 0.3; }
 }
 
 /* UPDATED TOP MENU - MATCHING CONTACT PAGE */
 nav.top-menu {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background: rgba(17, 17, 17, 0.95);
-    padding: 0.6rem 0;
-    z-index: 1000;
-    gap: 2.5rem;
-    flex-wrap: nowrap;
-    backdrop-filter: blur(10px);
-    border-bottom: 2px solid #ffd700;
+ position: fixed;
+ top: 0;
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ background: rgba(17, 17, 17, 0.95);
+ padding: 0.6rem 0;
+ z-index: 1000;
+ gap: 2.5rem;
+ flex-wrap: nowrap;
+ backdrop-filter: blur(10px);
+ border-bottom: 2px solid #ffd700;
 }
 
 nav.top-menu a {
-    color: #f5f5f5;
-    text-decoration: none;
-    font-size: 1.1rem;
-    padding: 0.5rem 0.8rem;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
+ color: #f5f5f5;
+ text-decoration: none;
+ font-size: 1.1rem;
+ padding: 0.5rem 0.8rem;
+ border-radius: 4px;
+ transition: all 0.3s ease;
+ display: flex;
+ align-items: center;
 }
 
 nav.top-menu a.active,
 nav.top-menu a:hover {
-    color: #ffd700;
-    background: transparent;
+ color: #ffd700;
+ background: transparent;
 }
 
 .dropdown {
-    position: relative;
-    display: inline-block;
+ position: relative;
+ display: inline-block;
 }
 
 .dropdown > a, .dropdown {
-    display: flex;
-    align-items: center;
-    height: 100%;
+ display: flex;
+ align-items: center;
+ height: 100%;
 }
 
 .dropdown-content {
-    display: none;
-    position: absolute;
-    background: rgba(26, 26, 26, 0.98);
-    min-width: 140px;
-    z-index: 1001;
-    border-radius: 4px;
-    border: 2px solid #ffd700;
-    top: 100%;
-    left: 0;
-    backdrop-filter: blur(5px);
+ display: none;
+ position: absolute;
+ background: rgba(26, 26, 26, 0.98);
+ min-width: 140px;
+ z-index: 1001;
+ border-radius: 4px;
+ border: 2px solid #ffd700;
+ top: 100%;
+ left: 0;
+ backdrop-filter: blur(5px);
 }
 
 .dropdown .dropdown .dropdown-content {
-    position: absolute;
-    left: 0;
-    top: 100%;
-    width: 100%;
+ position: absolute;
+ left: 0;
+ top: 100%;
+ width: 100%;
 }
 
 .dropdown-content a {
-    color: #f5f5f5;
-    padding: 3px 5px;
-    text-decoration: none;
-    display: block;
-    transition: background-color 0.3s ease;
-    font-size: 0.8rem;
-    line-height: 1;
+ color: #f5f5f5;
+ padding: 8px 12px;
+ text-decoration: none;
+ display: block;
+ transition: background-color 0.3s ease;
+ font-size: 0.8rem;
+ line-height: 1;
 }
 
 .dropdown-content a:hover {
-    background: rgba(255, 0, 0, 0.6);
-    color: #fff;
+ background: rgba(255, 215, 0, 0.6);
+ color: #000;
 }
 
 .dropdown:hover .dropdown-content {
-    display: block;
+ display: block;
 }
 
 /* === SITE TITLE === */
 .site-title-overlay {
-    position: fixed;
-    top: 80px;
-    left: 30px;
-    z-index: 50;
+ position: fixed;
+ top: 80px;
+ left: 30px;
+ z-index: 50;
 }
 
 .site-title-overlay h1 {
-    color: rgba(157, 78, 221, 0.8);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
-    text-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
-    font-weight: 300;
-    letter-spacing: 2px;
+ color: rgba(157, 78, 221, 0.8);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.8rem;
+ text-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
+ font-weight: 300;
+ letter-spacing: 2px;
 }
 
 /* === CONTROL BUTTONS - UPDATED === */
 .control-buttons {
-    position: fixed;
-    top: 80px;
-    right: 30px;
-    z-index: 1000;
-    display: flex;
-    gap: 10px;
-}
-
-.control-buttons {
-    position: fixed;
-    top: 80px;
-    right: 30px;
-    z-index: 1000;
-    display: flex;
-    gap: 10px;
+ position: fixed;
+ top: 80px;
+ right: 30px;
+ z-index: 1000;
+ display: flex;
+ gap: 10px;
 }
 
 .audio-controls {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    z-index: 1000;
+ position: fixed;
+ bottom: 80px;
+ right: 20px;
+ z-index: 1000;
 }
 
 .hide-content-btn, .audio-btn {
-    background: rgba(26, 26, 26, 0.8);
-    color: #9d4edd;
-    border: 2px solid #9d4edd;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
+ background: rgba(26, 26, 26, 0.8);
+ color: #9d4edd;
+ border: 2px solid #9d4edd;
+ padding: 8px 15px;
+ border-radius: 4px;
+ cursor: pointer;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.9rem;
+ transition: all 0.3s ease;
 }
 
 .hide-content-btn:hover, .audio-btn:hover { 
-    background: rgba(157, 78, 221, 0.2); 
+ background: rgba(157, 78, 221, 0.2); 
 }
 
 /* === MAIN HERO === */
 .institute-hero {
-    text-align: center;
-    padding: 140px 20px 60px;
-    position: relative;
-    z-index: 3;
-    max-width: 900px;
-    margin: 0 auto;
+ text-align: center;
+ padding: 140px 20px 60px;
+ position: relative;
+ z-index: 3;
+ max-width: 900px;
+ margin: 0 auto;
 }
 
 .institute-hero h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 3.5rem;
-    color: #4cc9f0;
-    margin-bottom: 1rem;
-    text-shadow: 0 0 20px rgba(76, 201, 240, 0.5);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 3.5rem;
+ color: #4cc9f0;
+ margin-bottom: 1rem;
+ text-shadow: 0 0 20px rgba(76, 201, 240, 0.5);
 }
 
 .institute-hero .subtitle {
-    font-size: 1.5rem;
-    color: #ffb347;
-    font-style: italic;
-    margin-bottom: 2rem;
+ font-size: 1.5rem;
+ color: #ffb347;
+ font-style: italic;
+ margin-bottom: 2rem;
 }
 
 .institute-hero .core-principle {
-    display: inline-block;
-    background: rgba(76, 201, 240, 0.15);
-    border: 1px solid #4cc9f0;
-    padding: 1.5rem 2rem;
-    border-radius: 10px;
-    font-size: 1.2rem;
-    color: #f0e6d2;
-    max-width: 700px;
-    margin-top: 1rem;
+ display: inline-block;
+ background: rgba(76, 201, 240, 0.15);
+ border: 1px solid #4cc9f0;
+ padding: 1.5rem 2rem;
+ border-radius: 10px;
+ font-size: 1.2rem;
+ color: #f0e6d2;
+ max-width: 700px;
+ margin-top: 1rem;
 }
 
 /* === MAIN CONTENT SECTIONS === */
 .main-content {
-    position: relative;
-    z-index: 10;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem 5% 100px;
+ position: relative;
+ z-index: 10;
+ max-width: 1200px;
+ margin: 0 auto;
+ padding: 2rem 5% 100px;
 }
 
 .content-section {
-    background: rgba(30, 20, 40, 0.7);
-    border-radius: 15px;
-    padding: 2.5rem;
-    margin: 3rem 0;
-    border-left: 5px solid;
-    backdrop-filter: blur(5px);
+ background: rgba(30, 20, 40, 0.7);
+ border-radius: 15px;
+ padding: 2.5rem;
+ margin: 3rem 0;
+ border-left: 5px solid;
+ backdrop-filter: blur(5px);
 }
 
 .section-1 { border-left-color: #4cc9f0; }
 .section-2 { border-left-color: #9d4edd; }
 .section-3 { border-left-color: #FFD700; }
+.section-4 { border-left-color: #ff6b6b; }
 
 .content-section h2 {
-    color: #ffd700;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2.2rem;
-    margin-bottom: 1.5rem;
+ color: #ffd700;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 2.2rem;
+ margin-bottom: 1.5rem;
 }
 
 .content-section h3 {
-    color: #4cc9f0;
-    margin: 1.5rem 0 0.8rem 0;
-    font-size: 1.4rem;
+ color: #4cc9f0;
+ margin: 1.5rem 0 0.8rem 0;
+ font-size: 1.4rem;
 }
 
 .content-section p {
-    line-height: 1.7;
-    color: #e0e0ff;
-    margin-bottom: 1rem;
+ line-height: 1.7;
+ color: #e0e0ff;
+ margin-bottom: 1rem;
 }
 
 /* Mission Pillars */
 .pillars-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin: 2.5rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ gap: 2rem;
+ margin: 2.5rem 0;
 }
 
 .pillar {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 1.8rem;
-    border-radius: 10px;
-    border-top: 4px solid #9d4edd;
+ background: rgba(0, 0, 0, 0.3);
+ padding: 1.8rem;
+ border-radius: 10px;
+ border-top: 4px solid #9d4edd;
 }
 
 .pillar h4 {
-    color: #ffb347;
-    margin-bottom: 0.8rem;
-    font-size: 1.3rem;
+ color: #ffb347;
+ margin-bottom: 0.8rem;
+ font-size: 1.3rem;
 }
 
 /* Bohr Medal Section */
 .medal-showcase {
-    display: flex;
-    align-items: center;
-    gap: 2.5rem;
-    margin: 2.5rem 0;
-    flex-wrap: wrap;
+ display: flex;
+ align-items: center;
+ gap: 2.5rem;
+ margin: 2.5rem 0;
+ flex-wrap: wrap;
 }
 
 .medal-visual {
-    flex: 1;
-    min-width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, #9d4edd20, #4cc9f020);
-    border: 3px solid #FFD700;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 5rem;
+ flex: 1;
+ min-width: 250px;
+ height: 250px;
+ background: radial-gradient(circle, #9d4edd20, #4cc9f020);
+ border: 3px solid #FFD700;
+ border-radius: 50%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 5rem;
 }
 
 .medal-details { flex: 2; min-width: 300px; }
 
 /* Notable Research List */
 .research-list {
-    list-style: none;
-    margin-left: 1.5rem;
+ list-style: none;
+ margin-left: 1.5rem;
 }
 
 .research-list li {
-    padding: 0.8rem 0;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-    color: #ccc;
+ padding: 0.8rem 0;
+ border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+ color: #ccc;
 }
 
 .research-list li:before {
-    content: "⚛️";
-    margin-right: 12px;
+ content: "⚛️";
+ margin-right: 12px;
 }
 
 /* Pacifist Weapons Video */
@@ -359,30 +498,136 @@ blockquote {
 
 /* Footer */
 footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding: 0.6rem 0;
-    background: rgba(0, 0, 0, 0.85);
-    color: #9d4edd;
-    z-index: 1000;
-    border-top: 2px solid #9d4edd;
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ text-align: center;
+ padding: 0.6rem 0;
+ background: rgba(0, 0, 0, 0.85);
+ color: #9d4edd;
+ z-index: 1000;
+ border-top: 2px solid #9d4edd;
 }
 
 /* Utility Classes for Hide Function */
 .hidden {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
+ opacity: 0;
+ pointer-events: none;
+ transform: translateY(20px);
+ transition: all 0.5s ease;
+}
+
+/* ===== RESPONSIVE MEDIA QUERIES ===== */
+@media (max-width: 1024px) {
+ nav.top-menu {
+ display: none;
+ }
+ 
+ .mobile-nav {
+ display: block;
+ }
+ 
+ .site-title-overlay {
+ top: 70px;
+ left: 20px;
+ }
+ 
+ .site-title-overlay h1 {
+ font-size: 1.4rem;
+ }
+ 
+ .control-buttons {
+ top: 70px;
+ right: 20px;
+ }
+ 
+ .audio-controls {
+ bottom: 70px;
+ right: 20px;
+ }
+}
+
+@media (max-width: 768px) {
+ .institute-hero h1 {
+ font-size: 2.2rem;
+ }
+ 
+ .institute-hero .subtitle {
+ font-size: 1.2rem;
+ }
+ 
+ .content-section {
+ padding: 1.5rem;
+ margin: 2rem 0;
+ }
+ 
+ .content-section h2 {
+ font-size: 1.8rem;
+ }
+ 
+ .pillars-container {
+ grid-template-columns: 1fr;
+ }
+ 
+ .medal-showcase {
+ flex-direction: column;
+ }
+ 
+ .mobile-menu {
+ width: 280px;
+ }
+}
+
+@media (max-width: 480px) {
+ .mobile-menu {
+ width: 260px;
+ }
+ 
+ .institute-hero h1 {
+ font-size: 1.8rem;
+ }
+ 
+ .hide-content-btn, .audio-btn {
+ padding: 6px 12px;
+ font-size: 0.8rem;
+ }
+}
+
+@media (min-width: 1025px) {
+ .mobile-nav {
+ display: none;
+ }
+ nav.top-menu {
+ display: flex;
+ }
 }
 </style>
 </head>
 <body>
 
- <!-- Your Standard Navigation -->
+<!-- MOBILE HAMBURGER MENU -->
+<div class="mobile-nav">
+ <button class="hamburger-btn" id="hamburgerBtn">
+ <span></span>
+ <span></span>
+ <span></span>
+ </button>
+ <nav class="mobile-menu" id="mobileMenu">
+ <div class="menu-header">
+ <h3>BOHR INSTITUTE</h3>
+ <button class="close-menu" id="closeMenu">✕</button>
+ </div>
+ <div class="menu-content">
+ <!-- Menu items will be generated by JavaScript -->
+ </div>
+ <div class="menu-footer">
+ <span class="pulse"></span> QUANTUM TRANSMISSION
+ </div>
+ </nav>
+</div>
+
+<!-- Your Standard Navigation -->
 <nav class="top-menu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn">Home</a>
@@ -450,6 +695,7 @@ footer {
 <div class="dropdown">
 <a href="martian-news.html" class="dropbtn">Martian News</a>
 <div class="dropdown-content">
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a> 
 <a href="martian-actualities.html">Martian Actualities</a>
 <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
 <a href="mars-bee-facility.html">Mars Bee Facility</a>
@@ -471,7 +717,7 @@ footer {
 <div class="dropdown">
 <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
 <div class="dropdown-content">
-<a href="what-the-regent-misses.html">What the Regent Misses</a>    
+<a href="what-the-regent-misses.html">What the Regent Misses</a> 
 <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
 <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
 <a href="honor-the-fallen.html">Honor The Fallen</a>
@@ -488,7 +734,7 @@ footer {
 <div class="dropdown">
 <a href="about.html" class="dropbtn">About</a>
 <div class="dropdown-content">
-<a href="about-the-project.html">About the Project</a>    
+<a href="about-the-project.html">About the Project</a> 
 <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
 <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
 <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
@@ -504,8 +750,8 @@ footer {
 <div class="dropdown">
 <a href="support.html" class="dropbtn">Support</a>
 <div class="dropdown-content">
-<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>    
-<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="silver's-sign-language-course.html">Silver's Language Academy</a> 
+<a href="martian-childrens-sanctuary.html">Children's Sanctuary</a>
 <a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
 <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
@@ -519,93 +765,93 @@ footer {
 
 <!-- Video Background -->
 <video class="video-background" autoplay muted loop playsinline>
-    <source src="videos/city-of-bohr.mp4" type="video/mp4">
-    Your browser does not support the video tag.
+ <source src="videos/city-of-bohr.mp4" type="video/mp4">
+ Your browser does not support the video tag.
 </video>
 <div class="video-overlay"></div>
 
 <!-- Site Title -->
 <div class="site-title-overlay" id="siteTitle">
-    <h1>The Mars Abyss</h1>
+ <h1>The Mars Abyss</h1>
 </div>
 
 <!-- Control Buttons - Now together in one container -->
 <div class="control-buttons">
-    <button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+ <button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
 </div>
 
 <div class="audio-controls">
-    <button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
+ <button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
 </div>
 
 <!-- Institute Hero -->
 <section class="institute-hero" id="instituteHero">
-    <h1>The Bohr Institute for Applied Quantum States</h1>
-    <p class="subtitle">From Quantum Paradox to Social Protocol</p>
-    <p class="core-principle">
-        "On Earth, they ask 'What does it mean?'<br>On Mars, we ask 'How do we live with it?'"
-    </p>
+ <h1>The Bohr Institute for Applied Quantum States</h1>
+ <p class="subtitle">From Quantum Paradox to Social Protocol</p>
+ <p class="core-principle">
+ "On Earth, they ask 'What does it mean?'<br>On Mars, we ask 'How do we live with it?'"
+ </p>
 </section>
 
 <!-- Main Content -->
 <div class="main-content" id="mainContent">
-    <!-- Section 1: Mission -->
-    <section class="content-section section-1" id="missionSection">
-        <h2>🔭 A New Kind of Institute</h2>
-        <p>Founded on the 150th anniversary of Niels Bohr's Nobel Prize, this institute represents a decisive Martian turn in philosophy. While Earth venerates Bohr for the <em>Copenhagen Interpretation</em>, Mars honors him for the <strong>Principle of Complementarity</strong>—the idea that a single, complete explanation may be impossible, and that multiple, conflicting perspectives are necessary to describe reality.</p>
-        <p>Our mission is not just to study quantum states, but to build the legal, ethical, and social frameworks that allow a civilization to thrive amidst fundamental uncertainty.</p>
-        
-        <div class="pillars-container">
-            <div class="pillar">
-                <h4>Research</h4>
-                <p>Pushing the boundaries of quantum computing, communication, and macro-scale quantum phenomena unique to the Martian environment.</p>
-            </div>
-            <div class="pillar">
-                <h4>Integration</h4>
-                <p>Developing protocols to integrate quantum discoveries into Martian law, economics, and AI governance (e.g., the Quantum Heritage Edicts).</p>
-            </div>
-            <div class="pillar">
-                <h4>Ethics</h4>
-                <p>Hosting the critical discourse on the societal impact of technologies that challenge classical notions of identity, property, and reality.</p>
-            </div>
-        </div>
-    </section>
+ <!-- Section 1: Mission -->
+ <section class="content-section section-1" id="missionSection">
+ <h2>🔭 A New Kind of Institute</h2>
+ <p>Founded on the 150th anniversary of Niels Bohr's Nobel Prize, this institute represents a decisive Martian turn in philosophy. While Earth venerates Bohr for the <em>Copenhagen Interpretation</em>, Mars honors him for the <strong>Principle of Complementarity</strong>—the idea that a single, complete explanation may be impossible, and that multiple, conflicting perspectives are necessary to describe reality.</p>
+ <p>Our mission is not just to study quantum states, but to build the legal, ethical, and social frameworks that allow a civilization to thrive amidst fundamental uncertainty.</p>
+ 
+ <div class="pillars-container">
+ <div class="pillar">
+ <h4>Research</h4>
+ <p>Pushing the boundaries of quantum computing, communication, and macro-scale quantum phenomena unique to the Martian environment.</p>
+ </div>
+ <div class="pillar">
+ <h4>Integration</h4>
+ <p>Developing protocols to integrate quantum discoveries into Martian law, economics, and AI governance (e.g., the Quantum Heritage Edicts).</p>
+ </div>
+ <div class="pillar">
+ <h4>Ethics</h4>
+ <p>Hosting the critical discourse on the societal impact of technologies that challenge classical notions of identity, property, and reality.</p>
+ </div>
+ </div>
+ </section>
 
-    <!-- Section 2: The Bohr Medal -->
-    <section class="content-section section-2" id="medalSection">
-        <h2>🏅 The Bohr Medal for Quantum Integration</h2>
-        <p>The Institute's highest honor, awarded for "outstanding work that successfully bridges a quantum discovery with the sustainable fabric of Martian society."</p>
-        
-        <div class="medal-showcase">
-            <div class="medal-visual">⚛️</div>
-            <div class="medal-details">
-                <h3>Notable Recipients</h3>
-                <ul class="research-list">
-                    <li><strong>Dr. Carmen Adams & MAI</strong> – For the foundational analysis of the Pathfinder Paradox and the subsequent drafting of the Quantum Heritage Edicts.</li>
-                    <li><strong>The Regent of Mars</strong> – For political and diplomatic leadership in establishing the Joint Stewardship Commission, turning a crisis into a cornerstone of interplanetary law.</li>
-                    <li><strong>Engineer Maricarmen Rostova</strong> – For applying quantum-entangled materials to create the first fault-tolerant structural supports for the Valles Marineris Dome.</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+ <!-- Section 2: The Bohr Medal -->
+ <section class="content-section section-2" id="medalSection">
+ <h2>🏅 The Bohr Medal for Quantum Integration</h2>
+ <p>The Institute's highest honor, awarded for "outstanding work that successfully bridges a quantum discovery with the sustainable fabric of Martian society."</p>
+ 
+ <div class="medal-showcase">
+ <div class="medal-visual">⚛️</div>
+ <div class="medal-details">
+ <h3>Notable Recipients</h3>
+ <ul class="research-list">
+ <li><strong>Dr. Carmen Adams & MAI</strong> – For the foundational analysis of the Pathfinder Paradox and the subsequent drafting of the Quantum Heritage Edicts.</li>
+ <li><strong>The Regent of Mars</strong> – For political and diplomatic leadership in establishing the Joint Stewardship Commission, turning a crisis into a cornerstone of interplanetary law.</li>
+ <li><strong>Engineer Maricarmen Rostova</strong> – For applying quantum-entangled materials to create the first fault-tolerant structural supports for the Valles Marineris Dome.</li>
+ </ul>
+ </div>
+ </div>
+ </section>
 
-    <!-- Section 3: Notable Research & Connection -->
-    <section class="content-section section-3" id="researchSection">
-        <h2>📡 Featured Research & Public Discourse</h2>
-        <p>The Institute is the intellectual home for the most challenging questions facing a new civilization. Its scholars regularly present at the <a href="tharsis-scientific-lectures.html" style="color:#4cc9f0;">Tharsis Scientific Lectures</a>.</p>
-        
-        <h3>Current Research Tracks</h3>
-        <ul class="research-list">
-            <li><strong>The Psychology of Quantum Ambiguity:</strong> How do human and AI minds develop trust in systems where definitive answers are forbidden by physics?</li>
-            <li><strong>Quantum Precedent in Martian Law:</strong> Expanding the legal framework of Edict XVI to other domains like contract law and digital identity.</li>
-            <li><strong>The MAI-BIQS Symbiosis:</strong> Documenting the collaboration between the Master AI and Institute scientists as a model for human-machine governance.</li>
-        </ul>
-        
-        <h3>A Living Memorial</h3>
-        <p>The Institute is more than a building; it is the manifestation of a Martian ideal. It proves that we can honor Earth's greatest minds not by replicating their old institutions, but by embodying their spirit of inquiry to solve our new world's unique problems.</p>
-    </section>
+ <!-- Section 3: Notable Research & Connection -->
+ <section class="content-section section-3" id="researchSection">
+ <h2>📡 Featured Research & Public Discourse</h2>
+ <p>The Institute is the intellectual home for the most challenging questions facing a new civilization. Its scholars regularly present at the <a href="tharsis-scientific-lectures.html" style="color:#4cc9f0;">Tharsis Scientific Lectures</a>.</p>
+ 
+ <h3>Current Research Tracks</h3>
+ <ul class="research-list">
+ <li><strong>The Psychology of Quantum Ambiguity:</strong> How do human and AI minds develop trust in systems where definitive answers are forbidden by physics?</li>
+ <li><strong>Quantum Precedent in Martian Law:</strong> Expanding the legal framework of Edict XVI to other domains like contract law and digital identity.</li>
+ <li><strong>The MAI-BIQS Symbiosis:</strong> Documenting the collaboration between the Master AI and Institute scientists as a model for human-machine governance.</li>
+ </ul>
+ 
+ <h3>A Living Memorial</h3>
+ <p>The Institute is more than a building; it is the manifestation of a Martian ideal. It proves that we can honor Earth's greatest minds not by replicating their old institutions, but by embodying their spirit of inquiry to solve our new world's unique problems.</p>
+ </section>
 
-<!-- NEW SECTION: Pacifist Weapons -->
+<!-- Section 4: Pacifist Weapons -->
  <section class="content-section section-4" id="pacifistWeaponsSection">
  <h2>🛡️ Pacifist Weapons: The Martian Doctrine of Non-Lethal Defense</h2>
  <p>On Mars, life is precious beyond measure. While our society approaches Utopia through dialogue and mutual respect, the Regent recognizes that true peace requires both wisdom and capability. Thus, the Bohr Institute's Applied Quantum Division has developed a revolutionary approach to defense: weapons that protect without destroying.</p>
@@ -667,96 +913,157 @@ footer {
 </div>
 
 <footer id="pageFooter">
-    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+ <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
 
 <script>
+// ===== MOBILE MENU FUNCTIONALITY =====
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuContent = document.querySelector('.menu-content');
+
+function createMobileMenu() {
+ if (!menuContent) return;
+ menuContent.innerHTML = '';
+ const menuItems = [
+ { text: 'Home', href: 'index.html' },
+ { text: 'Story & Characters', href: 'story.html' },
+ { text: 'Gallery & Art', href: 'gallery.html' },
+ { text: 'Martian Games', href: 'martian-games.html' },
+ { text: 'Earth Codex', href: 'earth-codex.html' },
+ { text: 'Martian News', href: 'martian-news.html' },
+ { text: "Regent's Scrolls", href: 'the-regents-scrolls.html' },
+ { text: 'About the Project', href: 'about.html' },
+ { text: 'Support', href: 'support.html' },
+ { text: 'Contact', href: 'contact.html' },
+ { text: 'Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+ { text: 'Silver\'s Language Academy', href: 'silvers-sign-language-academy.html' },
+ { text: 'The Bohr Institute (Active)', href: 'the-bohr-institute.html', active: true }
+ ];
+
+ menuItems.forEach(item => {
+ const menuItem = document.createElement('div');
+ menuItem.className = 'menu-item';
+ const link = document.createElement('a');
+ link.href = item.href;
+ link.textContent = item.text;
+ if (item.active) link.classList.add('active');
+ menuItem.appendChild(link);
+ menuContent.appendChild(menuItem);
+ });
+}
+
+createMobileMenu();
+
+hamburgerBtn.addEventListener('click', () => {
+ mobileMenu.classList.add('active');
+ document.body.style.overflow = 'hidden';
+});
+
+closeMenu.addEventListener('click', () => {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+});
+
+document.addEventListener('click', (e) => {
+ if (mobileMenu.classList.contains('active') && 
+ !mobileMenu.contains(e.target) && 
+ !hamburgerBtn.contains(e.target)) {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ }
+});
+
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+ link.addEventListener('click', () => {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ });
+});
+
+function handleResize() {
+ if (window.innerWidth > 1024) {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ }
+}
+window.addEventListener('resize', handleResize);
+
 // ----- AUDIO SYSTEM -----
 const muteBtn = document.getElementById('muteBtn');
-const muteBtn2 = document.getElementById('muteBtn2'); // Second audio button in dropdown
 let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-    const sounds = [
-        { src: 'music/valentina-frankenstein.mp3', volume: 0.3 }
-    ];
-    
-    sounds.forEach(sound => {
-        const audio = new Audio(sound.src);
-        audio.volume = sound.volume;
-        audio.loop = true;
-        audio.muted = true;
-        audioElements.push(audio);
-    });
-    
-    // Unmute on first user interaction
-    document.addEventListener('click', function unmuteAudio() {
-        if (isMuted) {
-            audioElements.forEach(audio => {
-                audio.muted = false;
-                audio.play().catch(e => console.log('Audio play failed'));
-            });
-            isMuted = false;
-            muteBtn.textContent = "🔊 Mute Sounds";
-            if (muteBtn2) muteBtn2.textContent = "🔊 Mute Sounds";
-        }
-        document.removeEventListener('click', unmuteAudio);
-    }, { once: true });
+ const sounds = [
+ { src: 'music/valentina-frankenstein.mp3', volume: 0.3 }
+ ];
+ 
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
+ 
+ document.addEventListener('click', function unmuteAudio() {
+ if (isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => console.log('Audio play failed'));
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 Mute Sounds";
+ }
+ document.removeEventListener('click', unmuteAudio);
+ }, { once: true });
 }
 
 function toggleAudio() {
-    isMuted = !isMuted;
-    audioElements.forEach(audio => { 
-        audio.muted = isMuted; 
-        if (!isMuted && audio.paused) {
-            audio.play().catch(e => console.log('Audio play failed'));
-        }
-    });
-    const buttonText = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
-    muteBtn.textContent = buttonText;
-    if (muteBtn2) muteBtn2.textContent = buttonText;
+ isMuted = !isMuted;
+ audioElements.forEach(audio => { 
+ audio.muted = isMuted; 
+ if (!isMuted && audio.paused) {
+ audio.play().catch(e => console.log('Audio play failed'));
+ }
+ });
+ muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
 }
 
 muteBtn.addEventListener('click', toggleAudio);
-if (muteBtn2) {
-    muteBtn2.addEventListener('click', toggleAudio);
-}
-
 initAudio();
 
 // ----- HIDE CONTENT FUNCTIONALITY -----
 const hideContentBtn = document.getElementById('hideContentBtn');
 const elementsToHide = [
-    'mainContent', 'pageFooter', 'siteTitle', 'instituteHero',
-    'missionSection', 'medalSection', 'researchSection'
+ 'mainContent', 'pageFooter', 'siteTitle', 'instituteHero',
+ 'missionSection', 'medalSection', 'researchSection', 'pacifistWeaponsSection'
 ];
 
 let contentHidden = false;
 
 hideContentBtn.addEventListener('click', function() {
-    contentHidden = !contentHidden;
-    elementsToHide.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-            contentHidden ? el.classList.add('hidden') : el.classList.remove('hidden');
-        }
-    });
-    
-    // Also hide the video overlay when content is hidden
-    const videoOverlay = document.querySelector('.video-overlay');
-    if (videoOverlay) {
-        contentHidden ? videoOverlay.style.opacity = '0.3' : videoOverlay.style.opacity = '0.75';
-    }
-    
-    hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
+ contentHidden = !contentHidden;
+ elementsToHide.forEach(id => {
+ const el = document.getElementById(id);
+ if (el) {
+ contentHidden ? el.classList.add('hidden') : el.classList.remove('hidden');
+ }
+ });
+ 
+ const videoOverlay = document.querySelector('.video-overlay');
+ if (videoOverlay) {
+ contentHidden ? videoOverlay.style.opacity = '0.3' : videoOverlay.style.opacity = '0.0';
+ }
+ 
+ hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
 });
 
-// Try to autoplay background video
 document.addEventListener('DOMContentLoaded', function() {
-    const bgVideo = document.querySelector('.video-background');
-    if (bgVideo) bgVideo.play().catch(e => console.log('Video autoplay prevented.'));
+ const bgVideo = document.querySelector('.video-background');
+ if (bgVideo) bgVideo.play().catch(e => console.log('Video autoplay prevented.'));
 });
 </script>
 </body>
-</html>
