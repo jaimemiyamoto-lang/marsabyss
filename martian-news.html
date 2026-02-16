@@ -7,649 +7,657 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
 }
 
-body, html {
-height: 100%;
-width: 100%;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-color: #fff;
-overflow-x: hidden;
-position: relative;
-background: #000;
+ body, html {
+ height: 100%;
+ width: 100%;
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ color: #fff;
+ overflow-x: hidden;
+ position: relative;
+ background: #000;
 }
 
-/* FIXED BACKGROUND - NO BLINKING */
-.background-container {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-z-index: 1;
-}
-
-.static-background {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: url('images/martian-news-bg.jpg');
-background: linear-gradient(to bottom, #1a1a2e, #16213e, #0f3460);
-z-index: 2;
-opacity: 0;
-}
-
+/* Video Background */
 .video-background {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-object-fit: cover;
-z-index: 1;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ z-index: 2;
 }
 
-/* Overlay to make content more readable */
 .video-overlay {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(10, 10, 26, 0.4);
-z-index: 2;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(10, 10, 26, 0.4);
+ z-index: 3;
 }
 
-/* === ENHANCED TOP MENU === */
+/* === TOP MENU WITH WORKING DROPDOWNS === */
 nav.top-menu {
-position: fixed;
-top: 0;
-width: 100%;
-display: flex;
-justify-content: center;
-background: rgba(17, 17, 17, 0.95);
-padding: 0.6rem 0;
-z-index: 1000;
-gap: 2.5rem;
-flex-wrap: nowrap;
-backdrop-filter: blur(10px);
-border-bottom: 2px solid #e0c68e;
-transition: all 0.5s ease;
+ position: fixed;
+ top: 0;
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ background: rgba(17, 17, 17, 0.95);
+ padding: 0.6rem 0;
+ z-index: 1000;
+ gap: 2.5rem;
+ flex-wrap: nowrap;
+ backdrop-filter: blur(10px);
+ border-bottom: 2px solid #e0c68e;
+ transition: all 0.5s ease;
 }
 
 nav.top-menu.hidden {
-opacity: 0;
-pointer-events: none;
-transform: translateY(-20px);
+ opacity: 0;
+ pointer-events: none;
+ transform: translateY(-20px);
 }
 
 nav.top-menu a {
-color: #f5f5f5;
-text-decoration: none;
-font-size: 1.1rem;
-padding: 0.5rem 0.8rem;
-border-radius: 4px;
-transition: all 0.3s ease;
-display: flex;
-align-items: center;
-white-space: nowrap; /* This prevents text from breaking to a new line */    
-font-size: clamp(0.7rem, 1.5vw, 1.1rem); /* Scale between 0.7rem and 1.1rem */
+ color: #f5f5f5;
+ text-decoration: none;
+ font-size: 1.1rem;
+ padding: 0.5rem 0.8rem;
+ border-radius: 4px;
+ transition: all 0.3s ease;
+ display: flex;
+ align-items: center;
 }
 
-/* Update or add this tablet-specific rule */
-@media (max-width: 1024px) and (min-width: 769px) {
-    nav.top-menu {
-        flex-wrap: nowrap !important; /* Force single line */
-        overflow-x: auto; /* Allow horizontal scroll if needed */
-        overflow-y: hidden;
-        justify-content: flex-start; /* Align items to left */
-        padding-left: 15px;
-        padding-right: 15px;
-        gap: 1rem; /* Adjust as needed */
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    }
-    
-    /* Hide scrollbar but keep functionality */
-    nav.top-menu::-webkit-scrollbar {
-        height: 3px;
-    }
-    nav.top-menu::-webkit-scrollbar-thumb {
-        background: rgba(224, 198, 142, 0.3);
-        border-radius: 3px;
-    }
-    
-    nav.top-menu a {
-        font-size: 0.85rem; /* Slightly smaller for tablet */
-        flex-shrink: 0; /* Prevent items from shrinking */
-    }
-}
-    
 nav.top-menu a.active,
 nav.top-menu a:hover {
-color: #e0c68e;
-background: transparent;
+ color: #e0c68e;
+ background: transparent;
 }
 
 .dropdown {
-position: relative;
-display: inline-block;
+ position: relative;
+ display: inline-block;
 }
 
 .dropdown-content {
-display: none;
-position: absolute;
-background: rgba(26, 26, 26, 0.98);
-min-width: 140px;
-z-index: 1001;
-border-radius: 4px;
-border: 2px solid #ffd700;
-top: 100%;
-left: 0%;
-backdrop-filter: blur(5px);
-padding: 4px 0;
+ display: none;
+ position: absolute;
+ background: rgba(26, 26, 26, 0.98);
+ min-width: 140px;
+ z-index: 2000; /* HIGH Z-INDEX - VISIBLE ABOVE VIDEO */
+ border-radius: 4px;
+ border: 2px solid #e0c68e;
+ top: 100%;
+ left: 0;
+ backdrop-filter: blur(5px);
+ padding: 4px 0;
+ box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.dropdown .dropdown .dropdown-content {
+ position: absolute;
+ left: 0;
+ top: 100%;
+ width: 100%;
 }
 
 .dropdown-content a {
-color: #ff91c1;
-padding: 3px 5px;
-text-decoration: none;
-display: block;
-transition: background-color 0.3s ease;
-font-size: 0.8rem;
-line-height: 1;
+ color: #f5f5f5;
+ padding: 3px 5px;
+ text-decoration: none;
+ display: block;
+ transition: background-color 0.3s ease;
+ font-size: 0.8rem;
+ line-height: 1;
 }
 
 .dropdown-content a:hover {
-background: rgba(255, 215, 0, 0.3);
-color: #ffd700;
+ background: rgba(224, 198, 142, 0.6);
+ color: #fff;
 }
 
 .dropdown:hover .dropdown-content {
-display: block;
+ display: block;
 }
 
 /* SITE TITLE OVERLAY */
 .site-title-overlay {
-position: fixed;
-top: 80px;
-left: 30px;
-z-index: 50;
+ position: fixed;
+ top: 80px;
+ left: 30px;
+ z-index: 50;
 }
 
 .site-title-overlay h1 {
-color: #00ccff;
-font-family: 'Orbitron', sans-serif;
-font-size: 1.8rem;
-text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
-font-weight: 300;
-letter-spacing: 2px;
+ color: #00ccff;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.8rem;
+ text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+ font-weight: 300;
+ letter-spacing: 2px;
 }
 
 /* HIDE CONTENT BUTTON */
 .hide-content-btn {
-position: fixed;
-top: 80px;
-right: 30px;
-background: rgba(0, 0, 0, 0.7);
-color: #00ccff;
-border: 2px solid #00ccff;
-padding: 8px 12px;
-border-radius: 15px;
-cursor: pointer;
-z-index: 1001;
-font-size: clamp(0.7rem, 2vw, 0.8rem);
-transition: all 0.3s ease;
+ position: fixed;
+ top: 80px;
+ right: 30px;
+ background: rgba(0, 0, 0, 0.7);
+ color: #00ccff;
+ border: 2px solid #00ccff;
+ padding: 8px 12px;
+ border-radius: 15px;
+ cursor: pointer;
+ z-index: 1001;
+ font-size: clamp(0.7rem, 2vw, 0.8rem);
+ transition: all 0.3s ease;
 }
 
 .hide-content-btn:hover {
-background: rgba(0, 204, 255, 0.6);
-color: black;
+ background: rgba(0, 204, 255, 0.6);
+ color: black;
 }
 
-/* AUDIO CONTROLS - POSITION FIXED */
+/* AUDIO CONTROLS */
 .audio-controls {
-position: fixed;
-bottom: 80px;
-right: 41px;
-z-index: 1000;
+ position: fixed;
+ bottom: 80px;
+ right: 41px;
+ z-index: 1000;
 }
 
 .audio-btn {
-background: rgba(0, 204, 255, 0.6);
-border: 2px solid #00ccff;
-color: #fff;
-padding: 10px 15px;
-border-radius: 25px;
-cursor: pointer;
-transition: all 0.3s ease;
-backdrop-filter: blur(5px);
-font-size: 0.9rem;
+ background: rgba(0, 0, 0, 0.7);
+ color: #00ccff;
+ border: 2px solid #00ccff;
+ padding: 10px 15px;
+ border-radius: 25px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ font-size: 0.9rem;
 }
 
 .audio-btn:hover {
-background: rgba(0, 204, 255, 0.6);
-color: black;
-box-shadow: 0 0 15px rgba(17, 17, 17, 0.7);
+ background: rgba(0, 204, 255, 0.6);
+ color: black;
 }
 
 /* Main Content Area */
 .main-content {
-margin-top: 80px;
-padding: 2rem;
-max-width: 1200px;
-margin-left: auto;
-margin-right: auto;
-transition: all 0.5s ease;
-position: relative;
-z-index: 10;
+ margin-top: 80px;
+ padding: 2rem;
+ max-width: 1200px;
+ margin-left: auto;
+ margin-right: auto;
+ transition: all 0.5s ease;
+ position: relative;
+ z-index: 10;
 }
 
 .main-content.hidden {
-opacity: 0;
-pointer-events: none;
-transform: translateY(20px);
+ opacity: 0;
+ pointer-events: none;
+ transform: translateY(20px);
+}
+
+/* === SCROLLING TICKER === */
+.breaking-ticker {
+ background: rgba(255, 75, 75, 0.9);
+ color: #fff;
+ padding: 1rem 0;
+ margin-bottom: 2rem;
+ border-radius: 8px;
+ overflow: hidden;
+ border: 1px solid #ff4b4b;
+ box-shadow: 0 0 15px rgba(255, 75, 75, 0.5);
+ cursor: pointer;
+ position: relative;
+ width: 100%;
+}
+
+.ticker-content {
+ white-space: nowrap;
+ display: inline-block;
+ padding-left: 100%;
+ animation: ticker-scroll 65s linear infinite;
+ font-weight: bold;
+ font-size: 1rem;
+}
+
+.breaking-ticker:hover .ticker-content {
+ animation-play-state: paused;
+}
+
+@keyframes ticker-scroll {
+ 0% { transform: translateX(0); }
+ 100% { transform: translateX(-100%); }
+}
+
+.ticker-item {
+ display: inline-block;
+ padding: 0 2rem;
+}
+
+.ticker-item:before {
+ content: "🔴";
+ margin-right: 8px;
+ font-size: 0.8rem;
 }
 
 /* News Header */
 .news-header {
-text-align: center;
-margin-bottom: 3rem;
-padding: 2rem;
-background: rgba(0, 0, 0, 0.7);
-border-radius: 12px;
-border: 2px solid #ff4b4b;
-box-shadow: 0 0 20px rgba(255, 75, 75, 0.3);
+ text-align: center;
+ margin-bottom: 3rem;
+ padding: 2rem;
+ background: rgba(0, 0, 0, 0.7);
+ border-radius: 12px;
+ border: 2px solid #ff4b4b;
+ box-shadow: 0 0 20px rgba(255, 75, 75, 0.3);
 }
 
 .news-header h1 {
-font-size: 3rem;
-color: #ff4b4b;
-margin-bottom: 1rem;
-text-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
-font-family: 'Orbitron', sans-serif;
+ font-size: 3rem;
+ color: #ff4b4b;
+ margin-bottom: 1rem;
+ text-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
+ font-family: 'Orbitron', sans-serif;
 }
 
 .news-header p {
-font-size: 1.2rem;
-color: #ffd700;
-font-style: italic;
-}
-
-/* News Grid */
-.news-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-gap: 2rem;
-margin: 2rem 0;
-}
-
-.news-card {
-background: rgba(0, 0, 0, 0.8);
-border: 2px solid #4cc9f0;
-border-radius: 12px;
-padding: 1.5rem;
-transition: all 0.3s ease;
-backdrop-filter: blur(5px);
-}
-
-.news-card:hover {
-transform: translateY(-5px);
-border-color: #ffd700;
-box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
-}
-
-.news-card.featured {
-grid-column: 1 / -1;
-border-color: #ff4b4b;
-background: rgba(20, 0, 0, 0.8);
-}
-
-.news-card.featured:hover {
-border-color: #ffd700;
-}
-
-.news-image {
-width: 100%;
-height: 200px;
-object-fit: cover;
-border-radius: 8px;
-margin-bottom: 1rem;
-border: 1px solid #4cc9f0;
-}
-
-.news-video {
-width: 100%;
-height: 200px;
-object-fit: cover;
-border-radius: 8px;
-margin-bottom: 1rem;
-border: 1px solid #4cc9f0;
-}
-
-.news-date {
-color: #4cc9f0;
-font-size: 0.9rem;
-margin-bottom: 0.5rem;
-}
-
-.news-title {
-color: #ffd700;
-font-size: 1.4rem;
-margin-bottom: 1rem;
-font-family: 'Orbitron', sans-serif;
-}
-
-.news-excerpt {
-color: #f0e6d2;
-line-height: 1.6;
-margin-bottom: 1rem;
-}
-
-.read-more {
-color: #ff91c1;
-text-decoration: none;
-font-weight: bold;
-transition: color 0.3s ease;
-}
-
-.read-more:hover {
-color: #ffd700;
-}
-
-/* Breaking News Banner */
-.breaking-news {
-background: rgba(255, 75, 75, 0.9);
-color: #fff;
-padding: 1rem;
-text-align: center;
-margin-bottom: 2rem;
-border-radius: 8px;
-animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-0% { background: rgba(255, 75, 75, 0.9); }
-50% { background: rgba(255, 75, 75, 0.7); }
-100% { background: rgba(255, 75, 75, 0.9); }
+ font-size: 1.2rem;
+ color: #ffd700;
+ font-style: italic;
 }
 
 /* News Categories */
 .news-categories {
-display: flex;
-justify-content: center;
-gap: 1rem;
-margin: 2rem 0;
-flex-wrap: wrap;
+ display: flex;
+ justify-content: center;
+ gap: 1rem;
+ margin: 2rem 0;
+ flex-wrap: wrap;
 }
 
 .category-btn {
-background: rgba(0, 0, 0, 0.7);
-color: #ff91c1;
-border: 1px solid #ff91c1;
-padding: 0.5rem 1rem;
-border-radius: 20px;
-cursor: pointer;
-transition: all 0.3s ease;
+ background: rgba(0, 0, 0, 0.7);
+ color: #ff91c1;
+ border: 1px solid #ff91c1;
+ padding: 0.5rem 1rem;
+ border-radius: 20px;
+ cursor: pointer;
+ transition: all 0.3s ease;
 }
 
 .category-btn:hover, .category-btn.active {
-background: #ff91c1;
-color: #000;
+ background: #ff91c1;
+ color: #000;
+}
+
+/* News Grid */
+.news-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+ gap: 2rem;
+ margin: 2rem 0;
+}
+
+.news-card {
+ background: rgba(0, 0, 0, 0.8);
+ border: 2px solid #4cc9f0;
+ border-radius: 12px;
+ padding: 1.5rem;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+}
+
+.news-card:hover {
+ transform: translateY(-5px);
+ border-color: #ffd700;
+ box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+}
+
+.news-card.featured {
+ grid-column: 1 / -1;
+ border-color: #ff4b4b;
+ background: rgba(20, 0, 0, 0.8);
+}
+
+.news-card.featured:hover {
+ border-color: #ffd700;
+}
+
+.news-image {
+ width: 100%;
+ height: 200px;
+ object-fit: cover;
+ border-radius: 8px;
+ margin-bottom: 1rem;
+ border: 1px solid #4cc9f0;
+}
+
+.news-video {
+ width: 100%;
+ height: 200px;
+ object-fit: cover;
+ border-radius: 8px;
+ margin-bottom: 1rem;
+ border: 1px solid #4cc9f0;
+}
+
+.news-date {
+ color: #4cc9f0;
+ font-size: 0.9rem;
+ margin-bottom: 0.5rem;
+}
+
+.news-title {
+ color: #ffd700;
+ font-size: 1.4rem;
+ margin-bottom: 1rem;
+ font-family: 'Orbitron', sans-serif;
+}
+
+.news-excerpt {
+ color: #f0e6d2;
+ line-height: 1.6;
+ margin-bottom: 1rem;
+}
+
+.read-more {
+ color: #ff91c1;
+ text-decoration: none;
+ font-weight: bold;
+ transition: color 0.3s ease;
+}
+
+.read-more:hover {
+ color: #ffd700;
 }
 
 /* FOOTER */
 footer {
-position: fixed;
-bottom: 0;
-left: 0;
-width: 100%;
-text-align: center;
-padding: 0.6rem 0;
-background: rgba(0, 0, 0, 0.8);
-color: #00ccff;
-font-family: 'Segoe UI', sans-serif;
-z-index: 1000;
-border-top: 2px solid #00ccff;
-transition: opacity 0.5s ease;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #00ccff;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid #00ccff;
+    transition: opacity 0.5s ease;
 }
 
 footer.hidden {
-opacity: 0;
-pointer-events: none;
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Meteor Animation */
 .meteor {
-position: fixed;
-width: 2px;
-height: 2px;
-background: #fff;
-border-radius: 50%;
-box-shadow: 0 0 10px 2px #fff;
-z-index: -1;
-opacity: 0;
+ position: fixed;
+ width: 2px;
+ height: 2px;
+ background: #fff;
+ border-radius: 50%;
+ box-shadow: 0 0 10px 2px #fff;
+ z-index: 4;
+ opacity: 0;
 }
 
 @keyframes meteor {
-0% {
-opacity: 1;
-transform: translateX(0) translateY(0);
-}
-100% {
-opacity: 0;
-transform: translateX(500px) translateY(500px);
-}
+ 0% {
+ opacity: 1;
+ transform: translateX(0) translateY(0);
+ }
+ 100% {
+ opacity: 0;
+ transform: translateX(500px) translateY(500px);
+ }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-.news-grid {
-grid-template-columns: 1fr;
+ .news-grid {
+ grid-template-columns: 1fr;
+ }
+ .news-header h1 {
+ font-size: 2rem;
+ }
+ nav.top-menu {
+ gap: 1rem;
+ }
+ nav.top-menu a {
+ font-size: 0.9rem;
+ padding: 0.3rem 0.5rem;
+ }
+ .site-title-overlay {
+ top: 70px;
+ left: 20px;
+ }
+ .site-title-overlay h1 {
+ font-size: 1.4rem;
+ }
 }
-.news-header h1 {
-font-size: 2rem;
-}
+
 nav.top-menu {
-gap: 1rem;
-}
-nav.top-menu a {
-font-size: 0.9rem;
-padding: 0.3rem 0.5rem;
-}
-.site-title-overlay {
-top: 70px;
-left: 20px;
-}
-.site-title-overlay h1 {
-font-size: 1.4rem;
-}
-nav.top-menu {
-    flex-wrap: wrap; /* Change from nowrap to allow wrapping */
-    gap: 1.5rem; /* Slightly smaller default gap */
-    justify-content: space-around; /* Better distribution */
+ flex-wrap: wrap;
+ gap: 1.5rem;
+ justify-content: space-around;
 }
 
-.dropdown-content {
-    display: none; /* Ensure JS controls visibility */
-    left: auto; /* Center under parent on small screens */
-    right: 0;
-}
-
-/* Remove hover for dropdowns (now JS-controlled) */
-.dropdown:hover .dropdown-content {
-    display: none; /* Override to prevent hover issues on touch */
-}
-
-@media (max-width: 1024px) { /* For tablets */
-    nav.top-menu {
-        gap: 1rem;
-        padding: 0.4rem 0;
-    }
-    nav.top-menu a {
-        font-size: 1rem;
-        padding: 0.4rem 0.6rem;
-    }
+@media (max-width: 1024px) {
+ nav.top-menu {
+ gap: 1rem;
+ padding: 0.4rem 0;
+ }
+ nav.top-menu a {
+ font-size: 1rem;
+ padding: 0.4rem 0.6rem;
+ }
 }
 
 @media (max-width: 768px) {
-    nav.top-menu {
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    nav.top-menu a {
-        font-size: 0.8rem;
-        padding: 0.3rem 0.5rem;
-    }
-    .dropdown-content {
-        min-width: 120px;
-        font-size: 0.7rem;
-    }
+ nav.top-menu {
+ gap: 0.5rem;
+ flex-wrap: wrap;
+ justify-content: center;
+ }
+ nav.top-menu a {
+ font-size: 0.8rem;
+ padding: 0.3rem 0.5rem;
+ }
+ .dropdown-content {
+ min-width: 120px;
+ font-size: 0.7rem;
+ }
 }
 
 .news-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Reduce min to 300px for better fit */
+ grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .news-image, .news-video {
-    height: auto; /* Remove fixed height */
-    aspect-ratio: 16/9; /* Maintain ratio without distortion */
-    object-fit: cover;
+ height: auto;
+ aspect-ratio: 16/9;
+ object-fit: cover;
 }
 
 @media (max-width: 1024px) {
-    .news-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
-    }
-    .news-card {
-        padding: 1rem;
-    }
-    .news-title {
-        font-size: clamp(1.2rem, 4vw, 1.4rem); /* Responsive font */
-    }
+ .news-grid {
+ grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+ gap: 1.5rem;
+ }
+ .news-card {
+ padding: 1rem;
+ }
+ .news-title {
+ font-size: clamp(1.2rem, 4vw, 1.4rem);
+ }
 }
 
-@media (max-width: 768px) {
-    .news-grid {
-        grid-template-columns: 1fr; /* As you have */
-    }
-}
-
-@media (max-width: 480px) { /* Extra for phones */
-    .main-content {
-        padding: 1rem;
-    }
-    .news-header h1 {
-        font-size: clamp(1.8rem, 8vw, 2.5rem);
-    }
-    .news-categories {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
+@media (max-width: 480px) {
+ .main-content {
+ padding: 1rem;
+ }
+ .news-header h1 {
+ font-size: clamp(1.8rem, 8vw, 2.5rem);
+ }
+ .news-categories {
+ flex-direction: column;
+ gap: 0.5rem;
+ }
 }
 
 .site-title-overlay {
-    top: 80px; /* Slightly lower to avoid nav overlap */
-    left: 15px;
+ top: 80px;
+ left: 15px;
 }
 
 .hide-content-btn {
-    top: 60px;
-    right: 15px;
-    font-size: clamp(0.6rem, 3vw, 0.8rem);
+ top: 60px;
+ right: 15px;
+ font-size: clamp(0.6rem, 3vw, 0.8rem);
 }
 
 .audio-controls {
-    bottom: 60px; /* Avoid footer overlap */
-    right: 15px;
+ bottom: 60px;
+ right: 15px;
 }
 
-footer {
-    padding: 0.4rem 0;
-    font-size: 0.8rem;
-}
+
 
 @media (max-width: 768px) {
-    .site-title-overlay {
-        top: 50px;
-        left: 10px;
-    }
-    .hide-content-btn {
-        top: 50px;
-        right: 10px;
-        padding: 6px 10px;
-    }
-    .audio-controls {
-        bottom: 50px;
-        right: 10px;
-    }
-    footer {
-        font-size: 0.7rem;
-    }
+ .site-title-overlay {
+ top: 50px;
+ left: 10px;
+ }
+ .hide-content-btn {
+ top: 50px;
+ right: 10px;
+ padding: 6px 10px;
+ }
+ .audio-controls {
+ bottom: 50px;
+ right: 10px;
+ }
+ footer {
+ padding: 0.4rem 0;   
+ font-size: 0.8rem;
+ }
 }
 
 body {
-    touch-action: manipulation; /* Improve touch responsiveness */
+ touch-action: manipulation;
 }
 
 .video-background {
-    will-change: transform; /* Optimize for mobile */
-}
-/* For tablets (landscape and portrait) */
-@media (max-width: 1024px) {
-    nav.top-menu a {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.5rem;
-    }
+ will-change: transform;
 }
 
-/* For phones and small tablets */
-@media (max-width: 768px) {
-    nav.top-menu a {
-        font-size: 0.8rem;
-        padding: 0.3rem 0.4rem;
-    }
-    nav.top-menu {
-        gap: 0.8rem;
-    }
-}    
+/* Mobile menu */
+.mobile-menu-btn {
+ display: none;
+ position: fixed;
+ top: 15px;
+ right: 15px;
+ z-index: 1001;
+ background: linear-gradient(135deg, rgba(0, 204, 255, 0.9), rgba(0, 153, 204, 0.9));
+ border: 2px solid #00ccff;
+ color: white;
+ padding: 12px 14px;
+ border-radius: 5px;
+ cursor: pointer;
+ font-size: 1.5rem;
 }
 
+.mobile-nav-panel {
+ position: fixed;
+ top: 0;
+ left: -100%;
+ width: 85%;
+ height: 100vh;
+ background: linear-gradient(135deg, rgba(10, 10, 30, 0.98), rgba(20, 20, 50, 0.98));
+ padding-top: 80px;
+ transition: left 0.3s ease;
+ overflow-y: auto;
+ z-index: 1000;
+ border-right: 3px solid #00ccff;
+}
+
+.mobile-nav-panel.active {
+ left: 0;
+}
+
+.mobile-nav-panel a {
+ display: block;
+ color: #f5f5f5;
+ padding: 16px 20px;
+ text-decoration: none;
+ font-size: 1.1rem;
+ border-bottom: 1px solid rgba(0, 204, 255, 0.2);
+}
+
+@media (max-width: 992px) {
+ nav.top-menu {
+ display: none;
+ }
+ .mobile-menu-btn {
+ display: block;
+ }
+}
 </style>
 </head>
 
 <body>
+
+<!-- MOBILE MENU -->
+<button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+<nav class="mobile-nav-panel" id="mobileNavPanel">
+ <a href="index.html">Home</a>
+ <a href="story.html">Story</a>
+ <a href="martian-games.html">Martian Games</a> 
+ <a href="earth-codex.html">Earth Codex</a>
+ <a href="martian-news.html" class="active">Martian News</a>
+ <a href="the-regents-scrolls.html">Regent's Scrolls</a>
+ <a href="about.html">About</a>
+ <a href="support.html">Support</a>
+ <a href="contact.html">Contact</a> 
+</nav>
+
 <!-- Video Background -->
-<video class="video-background" id="newsVideo" autoplay muted loop>
-<source src="videos/mars-news.mp4" type="video/mp4">
-<!-- Fallback if video doesn't load -->
-<div style="background: url('images/mars-rotation-fallback.jpg') center/cover; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;"></div>
+<video class="video-background" id="newsVideo" autoplay muted loop poster="images/mars-rotation-fallback.jpg">
+ <source src="videos/mars-news.mp4" type="video/mp4">
 </video>
 <div class="video-overlay"></div>
 
-<!-- SITE TITLE OVERLAY -->
+<!-- SITE TITLE -->
 <div class="site-title-overlay">
-<h1>The Mars Abyss</h1>
+ <h1>The Mars Abyss</h1>
 </div>
 
-<!-- HIDE CONTENT BUTTON -->
+<!-- CONTROL BUTTONS -->
 <button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
-
-<!-- AUDIO CONTROLS -->
 <div class="audio-controls">
-<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+ <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
 
-<!-- ENHANCED TOP MENU -->
+<!-- DESKTOP MENU (paste your full navigation here) -->
 <nav class="top-menu">
 <div class="dropdown">
-<a href="index.html">Home</a>
+<a href="index.html" class="dropbtn">Home</a>
 <div class="dropdown-content">
 <a href="why-this-world-matters.html">Why This World Matters</a>
 <a href="homage-to-courage.html">Homage to Courage</a>
@@ -663,7 +671,7 @@ body {
 </div>
 </div>
 <div class="dropdown">
-<a href="story.html">Story</a>
+<a href="story.html" class="dropbtn">Story</a>
 <div class="dropdown-content">
 <a href="characters.html">Characters</a>
 <div class="dropdown">
@@ -711,7 +719,7 @@ body {
 <div class="dropdown">
 <a href="martian-news.html" class="dropbtn active">Martian News</a>
 <div class="dropdown-content">
- <a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs (Cosmic First Contact)</a>   
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>    
 <a href="martian-actualities.html">Martian Actualities</a>
 <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
 <a href="mars-bee-facility.html">Mars Bee Facility</a>
@@ -763,7 +771,7 @@ body {
 <div class="dropdown">
 <a href="support.html">Support</a>
 <div class="dropdown-content">
-<a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+<a href="silver's-sign-language-course.html">Silver's Language Academy</a>
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
@@ -776,31 +784,43 @@ body {
 <a href="contact.html">Contact</a>
 </nav>
 
-<!-- Main Content -->
+<!-- MAIN CONTENT -->
 <div class="main-content" id="mainContent">
-<!-- Breaking News Banner -->
-<div class="breaking-news">
-<strong>BREAKING:</strong> New water discovery in Valles Marineris could support permanent colony expansion
-</div>
 
-<!-- News Header -->
-<section class="news-header">
-<h1>MARTIAN NEWS NETWORK</h1>
-<p>Latest Updates from the Red Planet and Beyond</p>
-</section>
+ <!-- SCROLLING TICKER -->
+ <div class="breaking-ticker" id="breakingTicker">
+ <div class="ticker-content" id="tickerContent">
+ <span class="ticker-item">🔭 Europa Crisis: NASA discovers 18-mile thick ice trapping Martian tanker</span>
+ <span class="ticker-item">📰 Regent authorizes rescue mission for trapped Delta-7 crew</span>
+ <span class="ticker-item">🔬 Water discovery in Valles Marineris could support colony expansion</span>
+ <span class="ticker-item">🎉 First Martian-born generation reaches adulthood</span>
+ <span class="ticker-item">🌌 New entertainment dome opens in New Shanghai</span>
+ <span class="ticker-item">🤝 Earth delegation arrives for trade talks</span>
+ <span class="ticker-item">⚡ AI weather system prevents dust storm disaster</span>
+ <span class="ticker-item">🍷 Martian wine harvest exceeds expectations</span>
+ <span class="ticker-item">🐋 Whale sanctuary becomes top tourist attraction</span>
+ </div>
+ </div>
 
-<!-- News Categories -->
-<div class="news-categories">
-<button class="category-btn active">All News</button>
-<button class="category-btn">Colony Updates</button>
-<button class="category-btn">Scientific Discoveries</button>
-<button class="category-btn">Technology</button>
-<button class="category-btn">Entertainment</button>
-<button class="category-btn">Earth Relations</button>
-</div>
+ <!-- NEWS HEADER -->
+ <section class="news-header">
+ <h1>MARTIAN NEWS NETWORK</h1>
+ <p>Latest Updates from the Red Planet and Beyond</p>
+ </section>
 
-<!-- News Grid -->
-<div class="news-grid">
+ <!-- NEWS CATEGORIES -->
+ <div class="news-categories">
+ <button class="category-btn active">All News</button>
+ <button class="category-btn">Colony Updates</button>
+ <button class="category-btn">Scientific Discoveries</button>
+ <button class="category-btn">Technology</button>
+ <button class="category-btn">Entertainment</button>
+ <button class="category-btn">Earth Relations</button>
+ </div>
+
+<!-- YOUR NEWS GRID HERE -->
+ <div class="news-grid">
+
 <!-- Featured Story -->
 <div class="news-card featured">
 <div class="news-date">Sol 892 • Primus 15, 2098</div>
@@ -854,31 +874,122 @@ body {
 <p class="news-excerpt">The first harvest from the Olympus Vineyards has yielded surprising results, with genetically modified grapes thriving in the controlled Martian environment.</p>
 <a href="under-construction.html" class="read-more">Read More →</a>
 </div>
-        
-<!-- NEW STORY: Whale Sanctuary with Video -->
+
+<!-- Whale Sanctuary with Video -->
 <div class="news-card">
 <div class="news-date">Sol 878 • Septimus 1, 2098</div>
 <h2 class="news-title">Regent Saves Smuggled Whales, Creates Gloucester Martian Sanctuary</h2>
 <video class="news-video" autoplay muted loop poster="images/martian-whale-sanctuary.jpg">
 <source src="videos/the-martian-whales.mp4" type="video/mp4">
-     Your browser does not support the video tag.
+Your browser does not support the video tag.
 </video>
 <p class="news-excerpt">Two humpback whales abandoned by smugglers in the asteroid belt have been rescued by the Regent, who created a massive aquatic dome to house them. The whales have become an unexpected tourist attraction at Cape Ann, with Martians flocking to see the majestic creatures.</p>
 <a href="under-construction.html" class="read-more">Read More →</a>
 </div>
+
 </div>
 </div>
 
-<!-- CONTENT SPACER -->
-<div class="content-spacer"></div>
+</div>
 
-<!-- Footer -->
+<!-- FOOTER -->
 <footer id="pageFooter">
-<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+ <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
 
 <script>
-// HIDE CONTENT FUNCTIONALITY
+// ===== TICKER =====
+const ticker = document.getElementById('breakingTicker');
+const tickerContent = document.getElementById('tickerContent');
+const newsItems = Array.from(tickerContent.children).map(span => span.textContent);
+
+tickerContent.innerHTML = newsItems.concat(newsItems).map(text => 
+ `<span class="ticker-item">${text}</span>`
+).join('');
+
+ticker.addEventListener('click', function() {
+ const modal = document.createElement('div');
+ modal.style.cssText = `
+ position: fixed;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ width: 80%;
+ max-width: 500px;
+ background: rgba(20, 20, 30, 0.98);
+ border: 3px solid #ff4b4b;
+ border-radius: 10px;
+ padding: 20px;
+ z-index: 10000;
+ color: white;
+ font-family: 'Orbitron', sans-serif;
+ box-shadow: 0 0 50px rgba(255, 75, 75, 0.5);
+ backdrop-filter: blur(10px);
+ `;
+ 
+ modal.innerHTML = `
+ <h3 style="color: #ff4b4b; margin-bottom: 15px;">📰 BREAKING NEWS</h3>
+ <ul style="list-style: none; max-height: 300px; overflow-y: auto; padding-right: 10px;">
+ ${newsItems.map((item, i) => `<li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);" onclick="alert('Story ${i+1} would open here')">${item}</li>`).join('')}
+ </ul>
+ <button style="margin-top: 15px; padding: 8px 15px; background: #ff4b4b; border: none; color: white; border-radius: 5px; cursor: pointer; width: 100%;" onclick="this.parentElement.remove()">CLOSE</button>
+ `;
+ 
+ document.body.appendChild(modal);
+});
+
+// ===== AUDIO =====
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+ const sounds = [
+ { src: 'music/echoes-of-the-abyss-news.mp3', volume: 0.4 },
+ { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+ { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+ ];
+
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
+}
+
+function unmuteAudio() {
+ if (isMuted && audioElements.length > 0) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => console.log('Audio play error'));
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 Mute Sounds";
+ }
+}
+
+document.addEventListener('click', function unmuteOnce() {
+ unmuteAudio();
+ document.removeEventListener('click', unmuteOnce);
+}, { once: true });
+
+muteBtn.addEventListener('click', function(e) {
+ e.stopPropagation();
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ if (!isMuted && audio.paused) {
+ audio.play().catch(e => console.log('Audio play failed'));
+ }
+ });
+ muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+
+initAudio();
+
+// ===== HIDE CONTENT =====
 const hideContentBtn = document.getElementById('hideContentBtn');
 const mainContent = document.getElementById('mainContent');
 const pageFooter = document.getElementById('pageFooter');
@@ -886,199 +997,69 @@ const topMenu = document.querySelector('nav.top-menu');
 let contentHidden = false;
 
 hideContentBtn.addEventListener('click', function() {
-contentHidden = !contentHidden;
-
-if (contentHidden) {
-mainContent.classList.add('hidden');
-pageFooter.classList.add('hidden');
-topMenu.classList.add('hidden');
-hideContentBtn.textContent = 'Show Content';
-} else {
-mainContent.classList.remove('hidden');
-pageFooter.classList.remove('hidden');
-topMenu.classList.remove('hidden');
-hideContentBtn.textContent = 'Hide Content';
-}
+ contentHidden = !contentHidden;
+ 
+ if (contentHidden) {
+ mainContent.classList.add('hidden');
+ pageFooter.classList.add('hidden');
+ topMenu.classList.add('hidden');
+ hideContentBtn.textContent = 'Show Content';
+ } else {
+ mainContent.classList.remove('hidden');
+ pageFooter.classList.remove('hidden');
+ topMenu.classList.remove('hidden');
+ hideContentBtn.textContent = 'Hide Content';
+ }
 });
 
-// Simple audio system
-const muteBtn = document.getElementById('muteBtn');
-let isMuted = true; // start muted to avoid autoplay issues
-let audioElements = [];
+// ===== MOBILE MENU =====
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileNavPanel = document.getElementById('mobileNavPanel');
 
-function initAudio() {
-const sounds = [
-{ src: 'music/echoes-of-the-abyss-news.mp3', volume: 0.3 },
-{ src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
-{ src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
-];
+if (mobileMenuBtn && mobileNavPanel) {
+ mobileMenuBtn.addEventListener('click', function() {
+ mobileNavPanel.classList.toggle('active');
+ this.textContent = mobileNavPanel.classList.contains('active') ? 'X' : '☰';
+ });
 
-sounds.forEach(sound => {
-const audio = new Audio(sound.src);
-audio.volume = sound.volume;
-audio.loop = true;
-audio.muted = true; // Start muted
-audioElements.push(audio);
-});
-
-// Unmute and Play sounds first user interaction
-document.addEventListener('click', function unmuteAudio() {
-if (!isMuted) {
-audioElements.forEach(audio => {
-audio.muted = false;
-audio.play().catch(e => console.log('Audio play failed'));
-});
-isMuted = false;
-muteBtn.textContent = "🔊 Mute Sounds";
-}
-document.removeEventListener('click', unmuteAudio);
-}, { once: true });
+ mobileNavPanel.querySelectorAll('a').forEach(link => {
+ link.addEventListener('click', function() {
+ mobileNavPanel.classList.remove('active');
+ mobileMenuBtn.textContent = '☰';
+ });
+ });
 }
 
-// Mute toggle
-muteBtn.addEventListener('click', function() {
-isMuted = !isMuted;
-audioElements.forEach(audio => {
-audio.muted = isMuted;
-});
-muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
-});
-// Initialize audio when page loads
-initAudio();
-
-document.addEventListener('DOMContentLoaded', function() {
-// Create meteor animation
+// ===== METEORS =====
 function createMeteor() {
-const meteor = document.createElement('div');
-meteor.className = 'meteor';
-// Random starting position
-const startX = Math.random() * window.innerWidth / 2;
-const startY = Math.random() * window.innerHeight / 2;
-meteor.style.left = startX + 'px';
-meteor.style.top = startY + 'px';
-document.body.appendChild(meteor);
-// Animate meteor
-meteor.style.animation = 'meteor 2s linear forwards';
-// Remove meteor after animation
-setTimeout(() => {
-meteor.remove();
-}, 2000);
+ const meteor = document.createElement('div');
+ meteor.className = 'meteor';
+ const startX = Math.random() * window.innerWidth / 2;
+ const startY = Math.random() * window.innerHeight / 2;
+ meteor.style.left = startX + 'px';
+ meteor.style.top = startY + 'px';
+ document.body.appendChild(meteor);
+ meteor.style.animation = 'meteor 2s linear forwards';
+ setTimeout(() => meteor.remove(), 2000);
 }
-
-// Create a meteor every second
 setInterval(createMeteor, 1000);
 
-   function resizeMenuToFit() {
-    const menu = document.querySelector('nav.top-menu');
-    const menuItems = menu.querySelectorAll('a, .dropdown');
-    const containerWidth = menu.clientWidth;
-    let totalItemsWidth = 0;
-    
-    // Calculate total width of all menu items
-    menuItems.forEach(item => {
-        totalItemsWidth += item.offsetWidth;
-    });
-    
-    // If items are wider than container, scale them down
-    if (totalItemsWidth > containerWidth && window.innerWidth <= 1024) {
-        const scaleFactor = containerWidth / totalItemsWidth * 0.95;
-        menu.style.transform = `scaleX(${scaleFactor})`;
-        menu.style.transformOrigin = 'left center';
-    } else {
-        menu.style.transform = 'scaleX(1)';
-    }
-}
-
-// Run on load and resize
-window.addEventListener('load', resizeMenuToFit);
-window.addEventListener('resize', resizeMenuToFit); 
-    
-// Category filter functionality - goes to under construction page
-const categoryButtons = document.querySelectorAll('.category-btn');
-categoryButtons.forEach(button => {
-button.addEventListener('click', function() {
-window.location.href = 'under-construction.html';
-});
+// ===== CATEGORY BUTTONS =====
+document.querySelectorAll('.category-btn').forEach(button => {
+ button.addEventListener('click', function() {
+ window.location.href = 'under-construction.html';
+ });
 });
 
-// Video fallback if video fails to load
-const video = document.getElementById('newsVideo');
-video.addEventListener('error', function() {
-console.log('Video failed to load, using fallback background');
-// The fallback background is already in the HTML as a div
-});
-
-// Close dropdowns when clicking outside
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.dropdown')) {
-        document.querySelectorAll('.dropdown-content').forEach(content => {
-            content.style.display = 'none';
-        });
-    }
-});
-
-// Touch-friendly dropdown toggle
-document.querySelectorAll('.dropdown .dropbtn').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const content = this.nextElementSibling;
-        content.style.display = content.style.display === 'block' ? 'none' : 'block';
-    });
-});
-
-// --- TOUCH-FRIENDLY DROPDOWN TOGGLE ---
-document.addEventListener('DOMContentLoaded', function() {
-    // Select all dropdown buttons (the main menu links)
-    const dropdownButtons = document.querySelectorAll('.dropdown > .dropbtn');
-
-    dropdownButtons.forEach(button => {
-        // Add a click event to each
-        button.addEventListener('click', function(event) {
-            // Prevent it from immediately following the link
-            event.preventDefault();
-            event.stopPropagation();
-
-            // Find the dropdown content right after this button
-            const dropdownContent = this.nextElementSibling;
-
-            // Close any other open dropdowns
-            document.querySelectorAll('.dropdown-content').forEach(content => {
-                if (content !== dropdownContent) {
-                    content.style.display = 'none';
-                }
-            });
-
-            // Toggle the current dropdown
-            if (dropdownContent.style.display === 'block') {
-                dropdownContent.style.display = 'none';
-            } else {
-                dropdownContent.style.display = 'block';
-            }
-        });
-    });
-
-    // Close dropdowns if user clicks anywhere else on the page
-    document.addEventListener('click', function(event) {
-        if (!event.target.matches('.dropbtn')) {
-            document.querySelectorAll('.dropdown-content').forEach(content => {
-                content.style.display = 'none';
-            });
-        }
-    });
-});    
-
-// Make all "Read More" buttons go to under construction page
 document.querySelectorAll('.read-more').forEach(link => {
-link.addEventListener('click', function(e) {
-e.preventDefault();
-window.location.href = 'under-construction.html';
+ link.addEventListener('click', function(e) {
+ e.preventDefault();
+ window.location.href = this.getAttribute('href');
+ });
 });
-});
-});
-</script>
-</body>
-</html>
 
+// ===== VIDEO =====
+document.getElementById('newsVideo').play().catch(e => console.log('Video autoplay prevented'));
 </script>
 </body>
 </html>
