@@ -955,30 +955,36 @@ function initAudio() {
  audio.volume = sound.volume;
  audio.loop = true;
  audio.muted = true;
- audio.load(); // Preload
  audioElements.push(audio);
  });
 }
 
-// Unmute ONLY when mute button is clicked
-muteBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-
- if (isMuted) {
-    // Unmute all and play
+function unmuteAudio() {
+ if (isMuted && audioElements.length > 0) {
  audioElements.forEach(audio => {
  audio.muted = false;
- audio.play().catch(e => console.log('Audio play error:', e));
+ audio.play().catch(e => console.log('Audio play error'));
  });
  isMuted = false;
  muteBtn.textContent = "🔊 Mute Sounds";
- } else {
-    // Mute all
+ }
+}
+
+document.addEventListener('click', function unmuteOnce() {
+ unmuteAudio();
+ document.removeEventListener('click', unmuteOnce);
+}, { once: true });
+
+muteBtn.addEventListener('click', function(e) {
+ e.stopPropagation();
+ isMuted = !isMuted;
  audioElements.forEach(audio => {
- audio.muted = true;
+ audio.muted = isMuted;
+ if (!isMuted && audio.paused) {
+ audio.play().catch(e => console.log('Audio play failed'));
+ }
  });
  muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
-}
 });
 
 initAudio();
