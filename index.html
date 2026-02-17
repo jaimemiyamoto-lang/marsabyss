@@ -12,15 +12,6 @@
  box-sizing: border-box;
 }
 
-/* FIX TOUCH DELAYS & DOUBLE-TAP ZOOM */
-nav.top-menu,
-nav.top-menu a,
-nav.top-menu .dropdown,
-.dropdown-content {
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
 body, html {
  height: 100%;
  width: 100%;
@@ -30,7 +21,7 @@ body, html {
  position: relative;
 }
 
-/* MARTIAN BACKGROUND WITH RUMBLE EFFECT */
+/* CLEAN BACKGROUND - NO EFFECTS */
 .background-container {
  position: fixed;
  top: 0;
@@ -58,47 +49,9 @@ body, html {
  height: 100%;
  object-fit: cover;
  z-index: 2;
- transform: translateX(0) translateY(0);
 }
 
-/* RUMBLE ANIMATION */
-@keyframes meteorRumble {
- 0% { transform: translateX(0) translateY(0); }
- 10% { transform: translateX(-2px) translateY(1px); }
- 20% { transform: translateX(1px) translateY(-1px); }
- 30% { transform: translateX(-1px) translateY(2px); }
- 40% { transform: translateX(2px) translateY(-2px); }
- 50% { transform: translateX(-3px) translateY(1px); }
- 60% { transform: translateX(1px) translateY(-3px); }
- 70% { transform: translateX(-2px) translateY(2px); }
- 80% { transform: translateX(3px) translateY(-1px); }
- 90% { transform: translateX(-1px) translateY(3px); }
- 100% { transform: translateX(0) translateY(0); }
-}
-
-.rumble-active {
- animation: meteorRumble 0.8s ease-out;
-}
-
-/* DUST OVERLAY EFFECT */
-.dust-overlay {
- position: absolute;
- top: 0;
- left: 0;
- width: 100%;
- height: 100%;
- background: rgba(139, 69, 19, 0.1);
- z-index: 3;
- opacity: 0;
- pointer-events: none;
- transition: opacity 1.5s ease;
-}
-
-.dust-active {
- opacity: 0.4;
-}
-
-/* === TOP MENU === */
+/* === TOP MENU (DESKTOP) === */
 nav.top-menu {
  position: fixed;
  top: 0;
@@ -146,15 +99,14 @@ nav.top-menu a:hover {
  display: none;
  position: absolute;
  background: rgba(26, 26, 26, 0.98);
- min-width: 160px; /* Prevents collapse to thin line */
- z-index: 10001;
+ min-width: 140px;
+ z-index: 1001;
  border-radius: 4px;
  border: 2px solid #ff9553;
  top: 100%;
  left: 0;
  backdrop-filter: blur(5px);
  padding: 4px 0;
- box-sizing: border-box;
 }
 
 .dropdown .dropdown .dropdown-content {
@@ -170,7 +122,7 @@ nav.top-menu a:hover {
  text-decoration: none;
  display: block;
  transition: background-color 0.3s ease;
- font-size: 0.7rem;
+ font-size: 0.8rem;
  line-height: 1;
 }
 
@@ -179,11 +131,8 @@ nav.top-menu a:hover {
  color: #fff;
 }
 
-/* Hover only on devices that can hover properly */
-@media (hover: hover) and (pointer: fine) {
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
+.dropdown:hover .dropdown-content {
+ display: block;
 }
 
 /* SITE TITLE OVERLAY */
@@ -216,9 +165,9 @@ nav.top-menu a:hover {
  position: fixed;
  top: 80px;
  right: 30px;
- background: rgba(255, 68, 68, 0.8);
+ background: rgba(0, 0, 0, 0.7);
+ color: #ff4444;
  border: 2px solid #ff9553;
- color: #fff;
  padding: 8px 12px;
  border-radius: 15px;
  cursor: pointer;
@@ -256,51 +205,16 @@ nav.top-menu a:hover {
  background: rgba(255, 68, 68, 0.3);
 }
 
-/* HERO SECTION */
-.hero {
- position: absolute;
- top: 44%;
- left: 50%;
- transform: translate(-50%, -50%);
- text-align: center;
+/* HIDE FUNCTIONALITY */
+.main-content.hidden,
+footer.hidden,
+nav.top-menu.hidden,
+.site-title-overlay.hidden,
+.card-section.hidden {
+ opacity: 0;
  pointer-events: none;
- z-index: 5;
- width: 100%;
-}
-
-.hero-title {
- font-size: clamp(24px, 5vw, 110px);
- font-weight: 800;
- letter-spacing: 0.04em;
- line-height: 1;
- opacity: 0;
- text-transform: uppercase;
- text-shadow: 
- 2px 2px 4px rgba(0, 0, 0, 0.7),
- 0 0 8px rgba(255, 235, 205, 0.85),
- 0 0 18px rgba(255, 90, 70, 0.65),
- 0 0 40px rgba(255, 0, 0, 0.45);
- animation: titleFade 2.75s ease-out 0.5s forwards;
- margin-bottom: 5px;
-}
-
-.hero-subtitle {
- font-size: clamp(14px, 2.5vw, 35px);
- font-weight: normal;
- font-style: italic;
- color: #f5f5dc;
- opacity: 0;
- animation: titleFade 2.75s ease-out 1s forwards;
- margin-top: 4px;
- text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8),
- 0 0 10px rgba(255, 255, 255, 0.4);
- position: relative;
- z-index: 6;
-}
-
-@keyframes titleFade {
- from { opacity: 0; }
- to { opacity: 1; }
+ transform: translateY(20px);
+ transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 /* SCROLLABLE CARD STRIP */
@@ -362,14 +276,12 @@ nav.top-menu a:hover {
  transition: background 0.3s ease;
  user-select: none;
  z-index: 11;
- color: #ff9553;
 }
 
 .arrow:hover {
  background: rgba(255, 0, 0, 0.6);
 }
 
-/* CARD BACKGROUNDS */
 .card-story { background-image: url('images/story-bg.jpg');}
 .card-characters { background-image: url('images/warlock.jpg');}
 .card-gallery { background-image: url('images/gallery-bg.jpg');}
@@ -398,35 +310,9 @@ footer {
  border-top: 2px solid #ff9553;
 }
 
-/* METEOR FLASH EFFECT */
-.meteor-flash {
- position: fixed;
- top: 0;
- left: 0;
- width: 100%;
- height: 100%;
- background: rgba(255, 100, 0, 0.3);
- z-index: 4;
- opacity: 0;
- pointer-events: none;
-}
-
-.flash-active {
- animation: meteorFlash 0.3s ease-out;
-}
-
-@keyframes meteorFlash {
- 0% { opacity: 0; }
- 50% { opacity: 0.6; }
- 100% { opacity: 0; }
-}
-
-/* ===== MOBILE STYLES ===== */
+/* ===== MOBILE MENU (CLEAN, FROM CONTACT PAGE) ===== */
 @media (max-width: 992px) {
  nav.top-menu {
- backdrop-filter: none !important;
- -webkit-backdrop-filter: none !important;
- background: rgba(17, 17, 17, 0.98);   
  overflow-x: auto;
  overflow-y: hidden;
  white-space: nowrap;
@@ -450,67 +336,61 @@ footer {
  flex-shrink: 0;
  }
 
+ .dropdown {
+ display: inline-block;
+ }
+
  .dropdown:hover .dropdown-content {
-  display: none !important;
+ display: none;
  }
 
- .dropdown-content {
-  display: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  background: rgba(26, 26, 26, 0.98);
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 160px;
- }
-
- .dropdown.tapped > .dropdown-content {
-  display: block !important;
- }
-
- .dropdown.tapped > a.dropbtn {
-  background: rgba(255, 68, 68, 0.25);
- }
+ 
 
  .site-title-overlay {
-  top: 70px;
-  left: 15px;
+ top: 70px;
+ left: 15px;
  }
 
  .site-title-overlay h1 {
-  font-size: 1.4rem;
+ font-size: 1.4rem;
  }
 
  .hide-content-btn {
-  top: 70px;
-  right: 15px;
+ top: 70px;
+ right: 15px;
  }
 
  .audio-controls {
-  bottom: 70px;
-  right: 20px;
+ bottom: 70px;
+ right: 20px;
  }
-}
 
-@media (max-width: 768px) {
+ .hero {
+ top: 40%;
+ }
+
  .hero-title {
  font-size: clamp(20px, 8vw, 60px);
  }
- 
+
  .hero-subtitle {
  font-size: clamp(13px, 4vw, 20px);
  }
- 
- .card-container {
- max-width: 92%;
+
+ .card-section {
+ bottom: 10%;
  }
- 
+
+ .card-container {
+ max-width: 85%;
+ padding: 0.8rem;
+ }
+
  .card {
  width: 110px;
  height: 160px;
  }
- 
+
  .arrow {
  font-size: 1.8rem;
  padding: 0.5rem;
@@ -522,30 +402,22 @@ footer {
  font-size: 0.8rem;
  padding: 0.3rem 0.4rem;
  }
- 
+
  .card {
  width: 95px;
  height: 140px;
  }
- 
- .hero-title {
- font-size: clamp(18px, 9vw, 45px);
- }
- 
- .hero-subtitle {
- font-size: clamp(12px, 4vw, 18px);
- }
- 
+
  .arrow {
  font-size: 1.5rem;
  padding: 0.4rem;
  }
- 
+
  .audio-controls {
  bottom: 55px;
  right: 15px;
  }
- 
+
  .audio-btn {
  padding: 6px 10px;
  font-size: 0.75rem;
@@ -555,15 +427,13 @@ footer {
 </head>
 
 <body>
-<!-- MARTIAN BACKGROUND WITH RUMBLE EFFECTS -->
+<!-- CLEAN BACKGROUND - NO EFFECTS -->
 <div class="background-container">
  <div class="static-background" id="staticBg"></div>
  <video class="video-background" id="marsVideo" muted loop playsinline autoplay>
- <source src="videos/martian-landscape.mp4" type="video/mp4">
+ <source src="videos/the-theater-book-reading.mp4" type="video/mp4">
  Your browser does not support the video tag.
  </video>
- <div class="dust-overlay" id="dustOverlay"></div>
- <div class="meteor-flash" id="meteorFlash"></div>
 </div>
 
 <!-- SITE TITLE OVERLAY -->
@@ -576,10 +446,10 @@ footer {
 
 <!-- AUDIO CONTROLS -->
 <div class="audio-controls">
- <button class="audio-btn" id="muteBtn"> Unmute Sounds</button>
+ <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
 
-<!-- NAVIGATION STARTS HERE -->
+<!-- TOP MENU (YOUR EXACT NAVIGATION) -->
 <nav class="top-menu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn active">Home</a>
@@ -716,16 +586,9 @@ footer {
 
 <a href="contact.html">Contact</a>
 </nav>
-<!-- NAVIGATION ENDS HERE -->
-
-<!-- HERO SECTION -->
-<div class="hero">
- <h1 class="hero-title">THE MARS ABYSS</h1>
- <h2 class="hero-subtitle">A Martian Saga</h2>
-</div>
 
 <!-- SCROLLABLE CARDS -->
-<div class="card-section">
+<div class="card-section" id="cardSection">
  <div class="arrow" onclick="scrollCards(-1)">🖖</div>
  <div class="card-container" id="cards">
  <div class="card card-story" onclick="openPage('story.html')"></div>
@@ -749,213 +612,166 @@ footer {
 </footer>
 
 <script>
-// (your existing video + meteor + audio code remains unchanged)
-// SYNCHRONIZED VIDEO BACKGROUND WITH METEOR EFFECTS
-const videoBg = document.getElementById('marsVideo');
-const staticBg = document.getElementById('staticBg');
-const dustOverlay = document.getElementById('dustOverlay');
-const meteorFlash = document.getElementById('meteorFlash');
-
-let videoReady = false;
-let effectsStarted = false;
-
-videoBg.addEventListener('loadeddata', function() {
-videoReady = true;
-videoBg.play().then(() => {
-setTimeout(() => {
-startMeteorEffects();
-effectsStarted = true;
-}, 1000);
-}).catch(e => {
-console.log('Video autoplay failed, starting effects anyway');
-if (!effectsStarted) startMeteorEffects();
-});
-});
-
-videoBg.addEventListener('error', function() {
-console.log('Video failed to load, using static background with effects');
-if (!effectsStarted) startMeteorEffects();
-});
-
-// Fallback - start effects if video isn't ready within 5 seconds
-setTimeout(() => {
-if (!effectsStarted) {
-console.log('Video timeout - starting effects anyway');
-startMeteorEffects();
-}
-}, 5000);
-
-// METEOR RUMBLE EFFECT SYSTEM
-function startMeteorEffects() {
-// Initial meteor strike - more intense
-triggerMeteorStrike(2000);
-// Set up recurring meteor strikes with random intervals
-setInterval(() => {
-const nextStrike = Math.random() * 15000 + 8000; // 8-23 seconds
-setTimeout(triggerMeteorStrike, nextStrike);
-}, 1000);
-}
-
-function triggerMeteorStrike(duration = 1800) {
-// Phase 1: Flash and initial rumble (0-300ms)
-meteorFlash.classList.add('flash-active');
-videoBg.classList.add('rumble-active');
-// Phase 2: Dust cloud appears (300ms onwards)
-setTimeout(() => {
-dustOverlay.classList.add('dust-active');
-}, 300);
-// Phase 3: Sound impact (500ms - allows for sound latency)
-setTimeout(() => {
-playMeteorSound();
-}, 500);
-// Remove effects in sequence
-setTimeout(() => {
-meteorFlash.classList.remove('flash-active');
-}, 800);
-setTimeout(() => {
-videoBg.classList.remove('rumble-active');
-}, duration);
-// Dust settles slowly
-setTimeout(() => {
-dustOverlay.classList.remove('dust-active');
-}, duration + 2000);
-}
-
 // AUDIO SYSTEM
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-const sounds = [
-{ src: 'sounds/from-the-crypt-ext v2.mp3', volume: 0.5 },
-{ src: 'sounds/ambient-space.mp3', volume: 0.2 },
-// Add meteor impact sound
-{ src: 'sounds/meteor-impact.mp3', volume: 0.3 }
-];
-
-sounds.forEach(sound => {
-const audio = new Audio(sound.src);
-audio.volume = sound.volume;
-audio.loop = sound.src !== 'sounds/meteor-impact.mp3'; // Don't loop impact sound
-audio.muted = true;
-audioElements.push(audio);
-});
-
-document.addEventListener('click', function unmuteAudio() {
-if (!isMuted) {
-audioElements.forEach(audio => {
-audio.muted = false;
-if (audio.loop) {
-audio.play().catch(e => console.log('Audio play failed'));
-}
-});
-isMuted = false;
-muteBtn.textContent = "🔊 Mute Sounds";
-}
-document.removeEventListener('click', unmuteAudio);
-}, { once: true });
-}
-
-// Play meteor impact sound
-function playMeteorSound() {
-const impactSound = audioElements.find(audio => !audio.loop);
-if (impactSound && !isMuted) {
-impactSound.currentTime = 0;
-impactSound.play().catch(e => console.log('Meteor sound play failed'));
-}
+ const sounds = [
+ { src: 'sounds/from-the-crypt-ext v2.mp3', volume: 0.5, loop: true },
+ { src: 'sounds/ambient-space.mp3', volume: 0.2, loop: true }
+ ];
+ 
+ sounds.forEach(sound => {
+ const audio = new Audio();
+ audio.src = sound.src;
+ audio.volume = sound.volume;
+ audio.loop = sound.loop;
+ audio.muted = true;
+ audio.preload = 'auto';
+ audio.load();
+ audioElements.push(audio);
+ });
+ 
+ document.addEventListener('click', function unmuteOnFirstClick() {
+ if (isMuted) {
+ isMuted = false;
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ if (audio.loop && audio.paused) {
+ audio.play().catch(e => console.log('Audio play failed'));
+ }
+ });
+ muteBtn.textContent = "🔊 Mute Sounds";
+ }
+ document.removeEventListener('click', unmuteOnFirstClick);
+ }, { once: true });
 }
 
-// Mute toggle
 muteBtn.addEventListener('click', function() {
-isMuted = !isMuted;
-audioElements.forEach(audio => {
-audio.muted = isMuted;
-});
-muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ });
+ muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+ 
+ if (!isMuted) {
+ audioElements.forEach(audio => {
+ if (audio.loop && audio.paused) {
+ audio.play().catch(e => console.log('Audio play failed'));
+ }
+ });
+ }
 });
 
-// Initialize audio when page loads
 initAudio();
 
-// Card navigation functions
+// Video background
+const marsVideo = document.getElementById('marsVideo');
+marsVideo.play().catch(e => console.log('Video autoplay prevented'));
+
+// Card navigation
 function openPage(url) {
-window.location.href = url;
+ window.location.href = url;
 }
 
 function scrollCards(direction) {
-const container = document.querySelector(".card-container");
-const scrollAmount = 200;
-container.scrollBy({
-left: direction * scrollAmount,
-behavior: "smooth"
+ const container = document.querySelector(".card-container");
+ const scrollAmount = window.innerWidth <= 480 ? 150 : 200;
+ container.scrollBy({
+ left: direction * scrollAmount,
+ behavior: "smooth"
+ });
+}
+
+// Touch cards
+document.querySelectorAll('.card').forEach(card => {
+ card.addEventListener('touchstart', function(e) {
+ e.preventDefault();
+ this.style.transform = 'scale(1.02)';
+ this.style.filter = 'grayscale(0%)';
+ });
+ 
+ card.addEventListener('touchend', function(e) {
+ this.style.transform = '';
+ this.style.filter = '';
+ 
+ const onclickAttr = this.getAttribute('onclick');
+ if (onclickAttr && onclickAttr.includes("openPage('")) {
+ const url = onclickAttr.match(/openPage\('([^']+)'\)/)[1];
+ if (url) {
+ window.location.href = url;
+ }
+ }
+ });
 });
-}
 
-// Replace your old mobile dropdown script block with this:
-const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-if (isTouch || window.innerWidth <= 992) {
-  document.querySelectorAll('.dropdown > .dropbtn').forEach(btn => {
-    btn.addEventListener('touchend', function(e) {
-      const parent = this.closest('.dropdown');
-      const hasSub = parent.querySelector('.dropdown-content');
-
-      if (hasSub) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        document.querySelectorAll('.dropdown.tapped').forEach(d => {
-          if (d !== parent) d.classList.remove('tapped');
-        });
-
-        parent.classList.toggle('tapped');
-      }
-    }, { passive: false });
-  });
-
-  document.addEventListener('touchend', function(e) {
-    if (!e.target.closest('.dropdown')) {
-      document.querySelectorAll('.dropdown.tapped').forEach(d => d.classList.remove('tapped'));
-    }
-  }, { passive: true });
-}
-// Hide content functionality
+// HIDE CONTENT BUTTON (now includes cards)
 const hideContentBtn = document.getElementById('hideContentBtn');
-const cardSection = document.querySelector('.card-section');
-const footer = document.querySelector('footer');
+const pageFooter = document.querySelector('footer');
 const topMenu = document.querySelector('nav.top-menu');
 const siteTitle = document.querySelector('.site-title-overlay');
+const cardSection = document.getElementById('cardSection');
 let contentHidden = false;
 
-if (hideContentBtn) {
- hideContentBtn.addEventListener('click', function() {
+hideContentBtn.addEventListener('click', function() {
  contentHidden = !contentHidden;
  
- const elements = [cardSection, footer, topMenu, siteTitle];
+ const elements = [pageFooter, topMenu, siteTitle, cardSection];
  elements.forEach(el => {
  if (el) {
- el.classList.toggle('hidden', contentHidden);
+ contentHidden ? el.classList.add('hidden') : el.classList.remove('hidden');
  }
  });
  
  hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
+});
+
+// MOBILE DROPDOWN HANDLER (from Contact page)
+if (window.innerWidth <= 992) {
+ document.querySelectorAll('.dropdown .dropbtn').forEach(btn => {
+ btn.addEventListener('click', function(e) {
+ e.preventDefault();
+ 
+ document.querySelectorAll('.dropdown').forEach(d => {
+ if (d !== this.closest('.dropdown')) {
+ d.classList.remove('tapped');
+ const content = d.querySelector('.dropdown-content');
+ if (content) content.style.display = 'none';
+ }
+ });
+ 
+ const dropdown = this.closest('.dropdown');
+ dropdown.classList.toggle('tapped');
+ 
+ const content = dropdown.querySelector('.dropdown-content');
+ if (content) {
+ content.style.display = content.style.display === 'block' ? 'none' : 'block';
+ }
+ });
+ });
+ 
+ document.addEventListener('click', function(e) {
+ if (!e.target.closest('.dropdown')) {
+ document.querySelectorAll('.dropdown-content').forEach(content => {
+ content.style.display = 'none';
+ });
+ document.querySelectorAll('.dropdown').forEach(d => {
+ d.classList.remove('tapped');
+ });
+ }
+ });
+ 
+ document.querySelectorAll('.dropdown-content a').forEach(link => {
+ link.addEventListener('click', function(e) {
+ e.preventDefault();
+ window.location.href = this.getAttribute('href');
+ });
  });
 }
 
-// Add hidden class style
-const style = document.createElement('style');
-style.textContent = `
- .hidden {
- opacity: 0;
- pointer-events: none;
- transform: translateY(20px);
- transition: opacity 0.5s ease, transform 0.5s ease;
- }
-`;
-document.head.appendChild(style);
-
-// Touch swipe for cards
+// Swipe for cards
 let touchStartX = 0;
 let touchEndX = 0;
 const cardContainer = document.querySelector('.card-container');
@@ -966,22 +782,11 @@ cardContainer.addEventListener('touchstart', e => {
 
 cardContainer.addEventListener('touchend', e => {
  touchEndX = e.changedTouches[0].screenX;
- handleSwipe();
-});
-
-function handleSwipe() {
- const swipeThreshold = 50;
  const diff = touchStartX - touchEndX;
- 
- if (Math.abs(diff) > swipeThreshold) {
- if (diff > 0) {
- scrollCards(1);
- } else {
- scrollCards(-1);
+ if (Math.abs(diff) > 50) {
+ scrollCards(diff > 0 ? 1 : -1);
  }
- }
-}
-// (keep your card touch handlers, scrollCards, hide content, swipe, etc. unchanged)
+});
 </script>
 </body>
 </html>
