@@ -332,6 +332,105 @@ transition: opacity 0.5s ease;
 height: 100px;
 }
 
+/* ============================= */
+/* BASE – Mobile First Default */
+/* ============================= */
+
+nav.top-menu {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+nav.top-menu > * {
+  flex: 0 0 auto;
+}
+
+nav.top-menu a {
+  display: inline-block;
+  width: auto;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+
+/* ============================= */
+/* SMALL PHONES ≤480px */
+/* ============================= */
+
+@media (max-width: 480px) {
+
+  nav.top-menu {
+    gap: 0.75rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  nav.top-menu a {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+}
+
+
+/* ============================= */
+/* PHONES / SMALL TABLETS ≤768px */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+  nav.top-menu {
+    gap: 1rem;
+  }
+
+  nav.top-menu a {
+    font-size: 0.9rem;
+  }
+
+}
+
+
+/* ============================= */
+/* TABLETS ≤1024px */
+/* ============================= */
+
+@media (max-width: 1024px) {
+
+  nav.top-menu {
+    gap: 1.25rem;
+  }
+
+  nav.top-menu a {
+    font-size: 1rem;
+  }
+
+}
+
+
+/* ============================= */
+/* DESKTOP ≥1025px */
+/* ============================= */
+
+@media (min-width: 1025px) {
+
+  nav.top-menu {
+    justify-content: center;
+    overflow: visible;
+  }
+
+}
+    
 @media (max-width: 768px) {
 .tribute-container {
 margin: 100px 20px 30px;
