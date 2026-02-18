@@ -309,15 +309,16 @@ border-top: 2px solid #ff9553;
 
 @media (max-width: 768px) {
     nav.top-menu {
-        display: flex;
-        flex-direction: row;
+        display: flex !important;
+        flex-direction: row !important;
         overflow-x: auto;
         overflow-y: hidden;
-        white-space: nowrap;
-        flex-wrap: nowrap;
+        white-space: nowrap !important;
+        flex-wrap: nowrap !important;
         justify-content: flex-start;
         padding: 0.5rem 1rem;
         gap: 1rem;
+        width: 100%;
         -webkit-overflow-scrolling: touch;
     }
 
@@ -327,8 +328,8 @@ border-top: 2px solid #ff9553;
 
     nav.top-menu a {
         font-size: 0.9rem;
-        flex: 0 0 auto;
-        white-space: nowrap;
+        flex: 0 0 auto !important;
+        white-space: nowrap !important;
     }
 
     .site-title-overlay {
