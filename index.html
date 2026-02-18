@@ -307,6 +307,44 @@ z-index: 1000;
 border-top: 2px solid #ff9553;
 }
 
+@media (max-width: 768px) {
+    nav.top-menu {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        padding: 0.5rem 1rem;
+        gap: 1rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    nav.top-menu::-webkit-scrollbar {
+        display: none;
+    }
+
+    nav.top-menu a {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.6rem;
+        flex-shrink: 0;
+        white-space: nowrap;
+        display: inline-block;
+    }
+
+    .site-title-overlay {
+        top: 100px;
+        left: 15px;
+    }
+
+    .hide-content-btn {
+        top: 100px;
+        right: 15px;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+}
+    
 @media (max-width: 1024px) {
     nav.top-menu {
         gap: 0.8rem;
