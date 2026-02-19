@@ -407,168 +407,198 @@ animation: meteorFlash 0.3s ease-out;
 100% { opacity: 0; }
 }
 
-/* ===== MOBILE FIX – CLEAN & STABLE ===== */
+/* ===== HAMBURGER MENU (from Quantum Lab, adapted to red/orange) ===== */
+.mobile-nav {
+display: none;
+position: fixed;
+top: 15px;
+left: 15px;
+z-index: 1002;
+}
 
-@media (max-width: 768px) {
+.hamburger-btn {
+background: rgba(17, 17, 17, 0.9);
+border: 2px solid #ff9553; /* changed to red/orange */
+border-radius: 4px;
+width: 50px;
+height: 50px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+}
 
-  /* FORCE single-line scroll menu */
-  nav.top-menu {
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    flex-wrap: nowrap !important;
-    justify-content: flex-start;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    gap: 1rem;
-    padding: 0.5rem 1rem;
-    width: 100%;
-  }
+.hamburger-btn span {
+display: block;
+width: 25px;
+height: 2px;
+background: #ff9553; /* changed */
+margin: 3px 0;
+transition: all 0.3s ease;
+}
 
-  nav.top-menu::-webkit-scrollbar {
-    display: none;
-  }
+.hamburger-btn:hover {
+background: rgba(255, 68, 68, 0.9); /* red hover */
+}
 
-  nav.top-menu > a,
-  nav.top-menu > .dropdown {
-    flex: 0 0 auto;
-  }
+.hamburger-btn:hover span {
+background: #000;
+}
 
-  nav.top-menu a {
-    font-size: 0.9rem;
-    padding: 0.4rem 0.6rem;
-    flex-shrink: 0;
-    white-space: nowrap;
-    display: inline-block !important;
-    width: auto !important;
-  }
+.mobile-menu {
+position: fixed;
+top: 0;
+left: -100%;
+width: 300px;
+height: 100vh;
+background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(17, 17, 17, 0.9));
+border-right: 2px solid #ff9553;
+padding: 20px;
+transition: left 0.4s ease;
+z-index: 1003;
+overflow-y: auto;
+backdrop-filter: blur(10px);
+}
 
-  /* Disable desktop hover on mobile */
-  .dropdown:hover .dropdown-content {
-    display: none !important;
-  }
+.mobile-menu.active {
+left: 0;
+}
 
-  /* Dropdown base */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    min-width: 160px;
-    background: rgba(26, 26, 26, 0.98);
-    border: 2px solid #ff9553;
-    border-radius: 4px;
-    z-index: 10000;
-    padding: 4px 0;
-    backdrop-filter: blur(5px);
-  }
+.menu-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 20px;
+padding-bottom: 15px;
+border-bottom: 1px solid rgba(255, 149, 83, 0.3); /* adjusted */
+}
 
-  /* STACK DROPDOWN LINKS VERTICALLY */
-  .dropdown-content a {
-    display: block;
-    width: 100%;
-    white-space: normal;
-  }
+.menu-header h3 {
+color: #ff9553;
+font-family: 'Orbitron', sans-serif;
+font-size: 1rem;
+margin: 0;
+}
 
-  /* JS controlled open */
-  .dropdown.open > .dropdown-content {
-    display: block !important;
-  }
+.close-menu {
+background: transparent;
+border: none;
+color: #ff9553;
+font-size: 1.5rem;
+cursor: pointer;
+width: 30px;
+height: 30px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%;
+transition: all 0.3s ease;
+}
 
-  /* Position adjustments */
-  .site-title-overlay {
-    top: 70px;
-    left: 15px;
-  }
+.close-menu:hover {
+background: rgba(255, 149, 83, 0.2);
+}
 
-  .site-title-overlay h1 {
-    font-size: 1.4rem;
-  }
+.menu-content {
+margin-bottom: 20px;
+}
 
-  .hide-content-btn {
-    top: 70px;
-    right: 15px;
-    font-size: 0.8rem;
-    padding: 6px 10px;
-  }
+.menu-content .menu-item {
+margin-bottom: 10px;
+}
 
-  .audio-controls {
-    bottom: 70px;
-    right: 20px;
-  }
+.menu-content .menu-item a {
+display: block;
+color: #fff;
+text-decoration: none;
+padding: 10px 15px;
+border-radius: 5px;
+border-left: 3px solid transparent;
+transition: all 0.3s ease;
+font-family: 'Segoe UI', sans-serif;
+font-size: 0.95rem;
+}
 
-  .card-container {
-    max-width: 90%;
-  }
+.menu-content .menu-item a:hover,
+.menu-content .menu-item a.active {
+border-left-color: #ff9553;
+background: rgba(255, 149, 83, 0.1);
+color: #ff9553;
+}
 
-  .card {
-    width: 120px;
-    height: 180px;
-  }
+.menu-footer {
+margin-top: 20px;
+padding-top: 15px;
+border-top: 1px solid rgba(255, 149, 83, 0.3);
+text-align: center;
+color: #ff9553;
+font-family: 'Orbitron', sans-serif;
+font-size: 0.8rem;
+}
 
-  .hero-title {
-    font-size: clamp(20px, 8vw, 80px);
-  }
+.pulse {
+display: inline-block;
+width: 8px;
+height: 8px;
+background-color: #ff9553;
+border-radius: 50%;
+margin-right: 8px;
+animation: blink 1.5s infinite;
+}
 
-  .hero-subtitle {
-    font-size: clamp(12px, 4vw, 25px);
-  }
+@keyframes blink {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.3; }
+}
+
+/* ===== MOBILE MEDIA QUERY (show hamburger, hide desktop menu) ===== */
+@media (max-width: 992px) {
+nav.top-menu {
+display: none;
+}
+.mobile-nav {
+display: block;
+}
+/* adjust site title and buttons for mobile */
+.site-title-overlay {
+top: 70px;
+left: 15px;
+}
+.site-title-overlay h1 {
+font-size: 1.4rem;
+}
+.hide-content-btn {
+top: 70px;
+right: 15px;
+}
+.audio-controls {
+bottom: 70px;
+right: 20px;
+}
+.card-section {
+bottom: 10%;
+}
+.card-container {
+max-width: 90%;
+}
+.card {
+width: 110px;
+height: 160px;
+}
 }
 
 @media (max-width: 480px) {
-
-  nav.top-menu a {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.4rem;
-  }
-
-  .card {
-    width: 95px;
-    height: 140px;
-  }
-
-  .arrow {
-    font-size: 1.5rem;
-    padding: 0.4rem;
-  }
-
-  .audio-controls {
-    bottom: 60px;
-    right: 15px;
-  }
-
-  .audio-btn {
-    padding: 6px 10px;
-    font-size: 0.75rem;
-  }
+.card {
+width: 95px;
+height: 140px;
 }
-
-
-@media (max-width: 480px) {
-  nav.top-menu a {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.4rem;
-  }
-
-  .card {
-    width: 95px;
-    height: 140px;
-  }
-
-  .arrow {
-    font-size: 1.5rem;
-    padding: 0.4rem;
-  }
-
-  .audio-controls {
-    bottom: 60px;
-    right: 15px;
-  }
-
-  .audio-btn {
-    padding: 6px 10px;
-    font-size: 0.75rem;
-  }
+.arrow {
+font-size: 1.5rem;
+padding: 0.4rem;
+}
 }
 </style>
 </head>
@@ -597,7 +627,28 @@ Your browser does not support the video tag.
 <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
 
-<!-- ===== PASTE YOUR FULL NAVIGATION BELOW ===== -->
+<!-- MOBILE HAMBURGER MENU -->
+<div class="mobile-nav">
+<button class="hamburger-btn" id="hamburgerBtn">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<nav class="mobile-menu" id="mobileMenu">
+<div class="menu-header">
+<h3>THE MARS ABYSS</h3>
+<button class="close-menu" id="closeMenu">✕</button>
+</div>
+<div class="menu-content">
+<!-- Menu items will be generated by JavaScript -->
+</div>
+<div class="menu-footer">
+<span class="pulse"></span> MARTIAN SAGA
+</div>
+</nav>
+</div>
+
+<!-- DESKTOP TOP MENU (unchanged, will be hidden on mobile) -->
 <nav class="top-menu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn active">Home</a>
@@ -609,7 +660,7 @@ Your browser does not support the video tag.
 <a href="my-mission.html">My Mission</a>
 <a href="martian-reading-revival.html">Martian Reading Revival</a>
 <a href="why-mars-is-safer.html">Why Mars is Safer</a>
-<a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
+<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
 <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
 </div>
 </div>
@@ -721,7 +772,7 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="support.html" class="dropbtn">Support</a>
 <div class="dropdown-content">
-<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+<a href="silver's-sign-language-course.html">Silver's Language Academy</a> 
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
@@ -734,7 +785,6 @@ Your browser does not support the video tag.
 
 <a href="contact.html">Contact</a>
 </nav>
-<!-- ===== END NAVIGATION ===== -->
 
 <!-- HERO SECTION -->
 <div class="hero">
@@ -829,50 +879,69 @@ dustOverlay.classList.remove('dust-active');
 }, duration + 2000);
 }
 
-// Simple audio system
+// ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
-let isMuted = true; // start muted to avoid autoplay issues
+let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-const sounds = [
-{ src: 'sounds/from-the-crypt-ext v2.mp3', volume: 0.3 },
-{ src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
-{ src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
-];
+ const sounds = [
+ { src: 'music/depths-of-mystery.mp3', volume: 0.5 },
+ { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+ { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+ ];
 
-sounds.forEach(sound => {
-const audio = new Audio(sound.src);
-audio.volume = sound.volume;
-audio.loop = true;
-audio.muted = true; // Start muted
-audioElements.push(audio);
-});
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
 
-// Unmute and Play sounds first user interaction
-document.addEventListener('click', function unmuteAudio() {
-if (!isMuted) {
-audioElements.forEach(audio => {
-audio.muted = false;
-audio.play().catch(e => console.log('Audio play failed'));
-});
-isMuted = false;
-muteBtn.textContent = "🔊 Mute Sounds";
+ const unmuteOnInteraction = function() {
+ if (isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => {
+ console.log('Audio play attempt failed:', e);
+ });
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 MUTE LAB";
+ }
+ document.removeEventListener('click', unmuteOnInteraction);
+ document.removeEventListener('keydown', unmuteOnInteraction);
+ };
+
+ document.addEventListener('click', unmuteOnInteraction);
+ document.addEventListener('keydown', unmuteOnInteraction);
+
+ setTimeout(() => {
+ audioElements.forEach(audio => {
+ audio.play().then(() => {
+ console.log('Audio autoplay succeeded.');
+ }).catch(e => {
+ console.log('Audio autoplay blocked.');
+ });
+ });
+ }, 1000);
 }
-document.removeEventListener('click', unmuteAudio);
-}, { once: true });
-}
 
-// Mute toggle
 muteBtn.addEventListener('click', function() {
-isMuted = !isMuted;
-audioElements.forEach(audio => {
-audio.muted = isMuted;
+ if (audioElements.length === 0) {
+ initAudio();
+ return;
+ }
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ if (!isMuted) {
+ audio.play().catch(e => console.log('Playback resume failed'));
+ }
+ });
+ muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
 });
-muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
-});
-// Initialize audio when page loads
-initAudio();
 
 // Card navigation functions
 function openPage(url) {
@@ -927,79 +996,198 @@ scrollCards(diff > 0 ? 1 : -1);
 }
 });
 
-// ===== MOBILE DROPDOWN HANDLER =====
-document.addEventListener("DOMContentLoaded", function () {
-  const dropdowns = document.querySelectorAll(".dropdown");
-
-  dropdowns.forEach(drop => {
-    const link = drop.querySelector(":scope > a");
-    if (link) {
-      link.addEventListener("click", function (e) {
-        if (window.innerWidth <= 768) {
-          e.preventDefault();
-          e.stopPropagation();
-          dropdowns.forEach(d => {
-            if (d !== drop) d.classList.remove("open");
-          });
-          drop.classList.toggle("open");
-        }
-      });
-    }
-  });
-
-  document.addEventListener("click", function (e) {
-    if (window.innerWidth <= 768) {
-      dropdowns.forEach(drop => {
-        if (!drop.contains(e.target)) {
-          drop.classList.remove("open");
-        }
-      });
-    }
-  });
-
-  document.querySelectorAll('.dropdown-content a').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.stopPropagation();
-      window.location.href = this.getAttribute('href');
-    });
-  });
-});
-
-// Hide content functionality
+// HIDE CONTENT BUTTON
 const hideContentBtn = document.getElementById('hideContentBtn');
 const pageFooter = document.querySelector('footer');
 const topMenu = document.querySelector('nav.top-menu');
 const siteTitle = document.querySelector('.site-title-overlay');
 const cardSection = document.querySelector('.card-section');
+const mobileNav = document.querySelector('.mobile-nav'); // also hide mobile button when content hidden
 let contentHidden = false;
 
 if (hideContentBtn) {
-  hideContentBtn.addEventListener('click', function() {
-    contentHidden = !contentHidden;
-    const elements = [pageFooter, topMenu, siteTitle, cardSection];
-    elements.forEach(el => {
-      if (el) {
-        el.classList.toggle('hidden', contentHidden);
-      }
-    });
-    hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
-  });
+hideContentBtn.addEventListener('click', function() {
+contentHidden = !contentHidden;
+const elements = [pageFooter, topMenu, siteTitle, cardSection, mobileNav];
+elements.forEach(el => {
+if (el) {
+el.classList.toggle('hidden', contentHidden);
+}
+});
+hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
+});
 }
 
-// Add hidden class style if not already present
+// Add hidden class style
 if (!document.querySelector('style[data-hidden]')) {
-  const hiddenStyle = document.createElement('style');
-  hiddenStyle.setAttribute('data-hidden', '');
-  hiddenStyle.textContent = `
-    .hidden {
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-  `;
-  document.head.appendChild(hiddenStyle);
+const hiddenStyle = document.createElement('style');
+hiddenStyle.setAttribute('data-hidden', '');
+hiddenStyle.textContent = `
+.hidden {
+opacity: 0;
+pointer-events: none;
+transform: translateY(20px);
+transition: opacity 0.5s ease, transform 0.5s ease;
 }
+`;
+document.head.appendChild(hiddenStyle);
+}
+
+// ===== MOBILE HAMBURGER MENU (expanded with all pages) =====
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuContent = document.querySelector('.menu-content');
+
+function createMobileMenu() {
+if (!menuContent) return;
+menuContent.innerHTML = '';
+
+// Complete list of all pages (with indentation for grouping)
+const menuItems = [
+{ text: '🏠 Home', href: 'index.html', active: true },
+{ text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+{ text: ' Homage to Courage', href: 'homage-to-courage.html' },
+{ text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+{ text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+{ text: ' My Mission', href: 'my-mission.html' },
+{ text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+{ text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+{ text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+{ text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+
+{ text: '📖 Story', href: 'story.html' },
+{ text: ' Characters', href: 'characters.html' },
+{ text: ' Gallery', href: 'gallery.html' },
+{ text: ' Art & Concepts', href: 'art-and-concepts.html' },
+{ text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+{ text: ' Technical Database', href: 'technical-database.html' },
+{ text: ' The Martian Edicts', href: 'martian-edicts.html' },
+{ text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+{ text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+{ text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+{ text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+
+{ text: '🎮 Martian Games', href: 'martian-games.html' },
+{ text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+{ text: ' Martian Racer', href: 'martian-racer.html' },
+{ text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+{ text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+{ text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+{ text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+{ text: ' Music Player', href: 'music-app.html' },
+{ text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+
+{ text: '🌍 Earth Codex', href: 'earth-codex.html' },
+{ text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+{ text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+{ text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+{ text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+{ text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+{ text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+{ text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+{ text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+{ text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+
+{ text: '📰 Martian News', href: 'martian-news.html' },
+{ text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+{ text: ' Martian Actualities', href: 'martian-actualities.html' },
+{ text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+{ text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+{ text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+{ text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+{ text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+{ text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+{ text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+{ text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+{ text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+{ text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+
+{ text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+{ text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+{ text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+{ text: ' Earthlings Beware', href: 'earthings-beware.html' },
+{ text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+{ text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+{ text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+{ text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+{ text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+{ text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+{ text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+{ text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+
+{ text: 'ℹ️ About', href: 'about.html' },
+{ text: ' About the Project', href: 'about-the-project.html' },
+{ text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+{ text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+{ text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+{ text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+{ text: ' The Pale Horse', href: 'the-pale-horse.html' },
+{ text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+{ text: ' Arachne Labs', href: 'arachne-labs.html' },
+{ text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+{ text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+
+{ text: '🤝 Support', href: 'support.html' },
+{ text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+{ text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+{ text: ' Mars Food District', href: 'mars-food-district.html' },
+{ text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+{ text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+{ text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+{ text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+{ text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+
+{ text: '📧 Contact', href: 'contact.html' }
+];
+
+menuItems.forEach(item => {
+const menuItem = document.createElement('div');
+menuItem.className = 'menu-item';
+const link = document.createElement('a');
+link.href = item.href;
+link.textContent = item.text;
+if (item.active) link.classList.add('active');
+menuItem.appendChild(link);
+menuContent.appendChild(menuItem);
+});
+}
+
+createMobileMenu();
+
+hamburgerBtn.addEventListener('click', () => {
+mobileMenu.classList.add('active');
+document.body.style.overflow = 'hidden';
+});
+
+closeMenu.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+
+document.addEventListener('click', (e) => {
+if (mobileMenu.classList.contains('active') && 
+!mobileMenu.contains(e.target) && 
+!hamburgerBtn.contains(e.target)) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+});
+
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+link.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+});
+
+function handleResize() {
+if (window.innerWidth > 992) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+}
+window.addEventListener('resize', handleResize);
 </script>
 </body>
 </html>
