@@ -407,14 +407,16 @@ animation: meteorFlash 0.3s ease-out;
 100% { opacity: 0; }
 }
 
-/* ===== MOBILE STYLES – HORIZONTAL SCROLL MENU ===== */
+/* ===== MOBILE FIX – CLEAN & STABLE ===== */
+
 @media (max-width: 768px) {
-  /* Top menu: single line, horizontally scrollable */
+
+  /* FORCE single-line scroll menu */
   nav.top-menu {
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
-    flex-wrap: nowrap;
+    flex-wrap: nowrap !important;
     justify-content: flex-start;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -427,18 +429,28 @@ animation: meteorFlash 0.3s ease-out;
     display: none;
   }
 
-  /* Keep menu items on one line */
+  nav.top-menu > a,
+  nav.top-menu > .dropdown {
+    flex: 0 0 auto;
+  }
+
   nav.top-menu a {
     font-size: 0.9rem;
     padding: 0.4rem 0.6rem;
     flex-shrink: 0;
     white-space: nowrap;
-    display: inline-block;
+    display: inline-block !important;
+    width: auto !important;
   }
 
-  /* Dropdown styling – hidden by default, shown when .open */
-  .dropdown-content {
+  /* Disable desktop hover on mobile */
+  .dropdown:hover .dropdown-content {
     display: none !important;
+  }
+
+  /* Dropdown base */
+  .dropdown-content {
+    display: none;
     position: absolute;
     top: 100%;
     left: 0;
@@ -451,11 +463,19 @@ animation: meteorFlash 0.3s ease-out;
     backdrop-filter: blur(5px);
   }
 
+  /* STACK DROPDOWN LINKS VERTICALLY */
+  .dropdown-content a {
+    display: block;
+    width: 100%;
+    white-space: normal;
+  }
+
+  /* JS controlled open */
   .dropdown.open > .dropdown-content {
     display: block !important;
   }
 
-  /* Site title moves below menu */
+  /* Position adjustments */
   .site-title-overlay {
     top: 70px;
     left: 15px;
@@ -465,7 +485,6 @@ animation: meteorFlash 0.3s ease-out;
     font-size: 1.4rem;
   }
 
-  /* Hide content button */
   .hide-content-btn {
     top: 70px;
     right: 15px;
@@ -473,13 +492,11 @@ animation: meteorFlash 0.3s ease-out;
     padding: 6px 10px;
   }
 
-  /* Audio controls */
   .audio-controls {
     bottom: 70px;
     right: 20px;
   }
 
-  /* Cards adjustments */
   .card-container {
     max-width: 90%;
   }
@@ -489,7 +506,6 @@ animation: meteorFlash 0.3s ease-out;
     height: 180px;
   }
 
-  /* Hero text adjustments */
   .hero-title {
     font-size: clamp(20px, 8vw, 80px);
   }
@@ -498,6 +514,35 @@ animation: meteorFlash 0.3s ease-out;
     font-size: clamp(12px, 4vw, 25px);
   }
 }
+
+@media (max-width: 480px) {
+
+  nav.top-menu a {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.4rem;
+  }
+
+  .card {
+    width: 95px;
+    height: 140px;
+  }
+
+  .arrow {
+    font-size: 1.5rem;
+    padding: 0.4rem;
+  }
+
+  .audio-controls {
+    bottom: 60px;
+    right: 15px;
+  }
+
+  .audio-btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+}
+
 
 @media (max-width: 480px) {
   nav.top-menu a {
