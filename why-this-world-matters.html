@@ -931,47 +931,37 @@ document.removeEventListener('click', playVideo);
 });
 }
 
-// AUDIO SYSTEM
+// ===== SIMPLE, RELIABLE AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
-let audioElements = [];
+let audio = null;
 
 function initAudio() {
-const sounds = [
-{ src: 'music/bailando-en-el-caribe.mp3', volume: 0.3 },
-{ src: 'sounds/gentle-ambient.mp3', volume: 0.1 }
-];
-
-sounds.forEach(sound => {
-const audio = new Audio(sound.src);
-audio.volume = sound.volume;
-audio.loop = true;
-audio.muted = true;
-audioElements.push(audio);
-});
-
-// Unmute and Play sounds first user interaction
-document.addEventListener('click', function unmuteAudio() {
-if (!isMuted) {
-audioElements.forEach(audio => {
-audio.muted = false;
-audio.play().catch(e => console.log('Audio play failed'));
-});
-isMuted = false;
-muteBtn.textContent = "🔊 Mute Sounds";
-}
-document.removeEventListener('click', unmuteAudio);
-}, { once: true });
+  // Create a single audio element (prevents multiple streams)
+  audio = new Audio('music/your-background-music.mp3'); // use your actual file
+  audio.loop = true;
+  audio.volume = 0.4;
+  audio.muted = true; // start muted to allow autoplay
+  audio.play().catch(e => console.log('Autoplay prevented')); // will play muted
 }
 
-// Mute toggle
+// Mute button toggles sound
 muteBtn.addEventListener('click', function() {
-isMuted = !isMuted;
-audioElements.forEach(audio => {
-audio.muted = isMuted;
+  if (!audio) initAudio(); // ensure audio exists
+  
+  isMuted = !isMuted;
+  audio.muted = isMuted;
+  
+  // If unmuting and audio is paused, play it
+  if (!isMuted && audio.paused) {
+    audio.play().catch(e => console.log('Play failed'));
+  }
+  
+  muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
 });
-muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
-});
+
+// Initialize on page load
+initAudio();
 
 // HIDE CONTENT FUNCTIONALITY
 const hideContentBtn = document.getElementById('hideContentBtn');
