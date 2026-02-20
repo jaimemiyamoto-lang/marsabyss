@@ -9,577 +9,688 @@
 <style>
 /* === BASE STYLES === */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
 }
 
 body, html {
-    height: 100%;
-    width: 100%;
-    font-family: 'Exo 2', sans-serif;
-    color: #e0f7ff;
-    overflow-x: hidden;
-    background: #0a1a2a;
+ height: 100%;
+ width: 100%;
+ font-family: 'Exo 2', sans-serif;
+ color: #e0f7ff;
+ overflow-x: hidden;
+ background: #0a1a2a;
 }
 
 /* === VIDEO BACKGROUND SYSTEM === */
 .background-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: 1;
+ pointer-events: none;
 }
 
 .static-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('images/new-silver.jpg') no-repeat center center / cover;
-    z-index: 1;
-    transition: opacity 2s ease;
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: url('images/new-silver.jpg') no-repeat center center / cover;
+ z-index: 1;
+ transition: opacity 2s ease;
 }
 
 .video-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 2;
-    opacity: 0.85;
-  
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ z-index: 2;
+ opacity: 0.85;
 }
 
 /* === SITE TITLE (Like MAI page) === */
 .site-title-overlay {
-    position: fixed;
-    top: 80px;
-    left: 30px;
-    z-index: 50;
-    transition: opacity 0.3s ease;
+ position: fixed;
+ top: 80px;
+ left: 30px;
+ z-index: 50;
+ transition: opacity 0.3s ease;
 }
 
 .site-title-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
+ opacity: 0;
+ pointer-events: none;
 }
 
 .site-title-overlay h1 {
-    color: rgba(79, 195, 247, 0.9);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 300;
-    letter-spacing: 2px;
-    text-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
+ color: rgba(79, 195, 247, 0.9);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.8rem;
+ font-weight: 300;
+ letter-spacing: 2px;
+ text-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
 }
 
 /* === TOGGLE BUTTON (From MAI page) === */
 .content-toggle {
-    position: fixed;
-    top: 80px;
-    right: 20px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    height: 65px;
+ position: fixed;
+ top: 80px;
+ right: 20px;
+ z-index: 1000;
+ display: flex;
+ align-items: center;
+ height: 65px;
 }
 
 .toggle-btn {
-    background: linear-gradient(135deg, rgba(79, 195, 247, 0.9), rgba(3, 169, 244, 0.9));
-    border: 2px solid #4fc3f7;
-    color: #0a1a2a;
-    padding: 3px 5px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(79, 195, 247, 0.4);
-    min-width: 140px;
-    height: auto;
-    min-height: 55px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
+ background: linear-gradient(135deg, rgba(79, 195, 247, 0.9), rgba(3, 169, 244, 0.9));
+ border: 2px solid #4fc3f7;
+ color: #0a1a2a;
+ padding: 3px 5px;
+ border-radius: 25px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ font-family: 'Orbitron', sans-serif;
+ font-weight: 600;
+ box-shadow: 0 4px 15px rgba(79, 195, 247, 0.4);
+ min-width: 140px;
+ height: auto;
+ min-height: 55px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ position: relative;
+ overflow: hidden;
 }
 
 .toggle-btn-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: all 0.3s ease;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ transition: all 0.3s ease;
 }
 
 .btn-main-text {
-    font-size: 0.85rem;
-    font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 2px;
+ font-size: 0.85rem;
+ font-weight: 700;
+ line-height: 1.1;
+ margin-bottom: 2px;
 }
 
 .btn-sub-text {
-    font-size: 0.65rem;
-    font-weight: 400;
-    line-height: 1.1;
-    opacity: 0.9;
-    letter-spacing: 0.5px;
+ font-size: 0.65rem;
+ font-weight: 400;
+ line-height: 1.1;
+ opacity: 0.9;
+ letter-spacing: 0.5px;
 }
 
 .quantum-state-change {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transform: translateX(-100%);
-    transition: transform 0s;
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+ transform: translateX(-100%);
+ transition: transform 0s;
 }
 
 .toggle-btn.activating .quantum-state-change {
-    animation: quantumSlide 0.6s ease-out;
+ animation: quantumSlide 0.6s ease-out;
 }
 
 @keyframes quantumSlide {
-    0% { transform: translateX(-100%); }
-    50% { transform: translateX(100%); }
-    100% { transform: translateX(100%); }
+ 0% { transform: translateX(-100%); }
+ 50% { transform: translateX(100%); }
+ 100% { transform: translateX(100%); }
 }
 
 .toggle-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 25px rgba(79, 195, 247, 0.6);
+ transform: scale(1.05);
+ box-shadow: 0 6px 25px rgba(79, 195, 247, 0.6);
 }
 
 .toggle-btn:hover .btn-sub-text {
-    opacity: 1;
+ opacity: 1;
 }
 
 /* === AUDIO CONTROLS === */
 .audio-controls {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    z-index: 1000;
+ position: fixed;
+ bottom: 80px;
+ right: 20px;
+ z-index: 1000;
 }
 
 .audio-btn {
-    background: linear-gradient(135deg, rgba(79, 195, 247, 0.8), rgba(3, 169, 244, 0.8));
-    border: 2px solid #4fc3f7;
-    color: #0a1a2a;
-    padding: 10px 15px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-    font-size: 0.9rem;
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(79, 195, 247, 0.4);
+ background: linear-gradient(135deg, rgba(79, 195, 247, 0.8), rgba(3, 169, 244, 0.8));
+ border: 2px solid #4fc3f7;
+ color: #0a1a2a;
+ padding: 10px 15px;
+ border-radius: 25px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ font-size: 0.9rem;
+ font-weight: 600;
+ box-shadow: 0 4px 15px rgba(79, 195, 247, 0.4);
 }
 
 .audio-btn:hover {
-    background: linear-gradient(135deg, #4fc3f7, #03a9f4);
-    color: white;
-    transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 20px rgba(79, 195, 247, 0.6);
+ background: linear-gradient(135deg, #4fc3f7, #03a9f4);
+ color: white;
+ transform: scale(1.05) translateY(-2px);
+ box-shadow: 0 6px 20px rgba(79, 195, 247, 0.6);
 }
 
 /* === ANIMATED FIELD LINES (Background effect) === */
 .unified-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0; /* BEHIND video background */
-    pointer-events: none;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: 0; /* BEHIND video background */
+ pointer-events: none;
 }
 
 .field-line {
-    position: absolute;
-    background: linear-gradient(90deg, transparent, rgba(79, 195, 247, 0.15), transparent);
-    height: 1px;
-    transform-origin: left center;
-    animation: fieldFlow 25s linear infinite;
-    filter: blur(0.5px);
+ position: absolute;
+ background: linear-gradient(90deg, transparent, rgba(79, 195, 247, 0.15), transparent);
+ height: 1px;
+ transform-origin: left center;
+ animation: fieldFlow 25s linear infinite;
+ filter: blur(0.5px);
 }
 
 @keyframes fieldFlow {
-    0% { 
-        transform: scaleX(0) translateX(-100%); 
-        opacity: 0; 
-    }
-    10% { 
-        opacity: 0.4; 
-    }
-    90% { 
-        opacity: 0.4; 
-    }
-    100% { 
-        transform: scaleX(1) translateX(100vw); 
-        opacity: 0; 
-    }
+ 0% { 
+ transform: scaleX(0) translateX(-100%); 
+ opacity: 0; 
+ }
+ 10% { 
+ opacity: 0.4; 
+ }
+ 90% { 
+ opacity: 0.4; 
+ }
+ 100% { 
+ transform: scaleX(1) translateX(100vw); 
+ opacity: 0; 
+ }
 }
 
 /* === VIDEO LABEL === */
 .video-label {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 3;
-    color: rgba(255, 255, 255, 0.4);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 1px;
-    background: rgba(10, 26, 42, 0.3);
-    padding: 5px 10px;
-    border-radius: 5px;
-    backdrop-filter: blur(5px);
+ position: fixed;
+ bottom: 20px;
+ left: 20px;
+ z-index: 3;
+ color: rgba(255, 255, 255, 0.4);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.7rem;
+ letter-spacing: 1px;
+ background: rgba(10, 26, 42, 0.3);
+ padding: 5px 10px;
+ border-radius: 5px;
+ backdrop-filter: blur(5px);
 }
 
 /* === CONTENT OVERLAY === */
 .content-overlay {
-    position: relative;
-    z-index: 10;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 100px 20px 50px;
-    transition: opacity 0.5s ease;
+ position: relative;
+ z-index: 10;
+ max-width: 1200px;
+ margin: 0 auto;
+ padding: 100px 20px 50px;
+ transition: opacity 0.5s ease;
 }
 
 .content-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
+ opacity: 0;
+ pointer-events: none;
 }
 
 /* === HERO SECTION === */
 .unified-hero {
-    text-align: center;
-    padding: 4rem 2rem;
-    margin-bottom: 3rem;
-    background: rgba(10, 26, 42, 0.85);
-    border-radius: 20px;
-    border: 1px solid rgba(79, 195, 247, 0.3);
-    backdrop-filter: blur(10px);
+ text-align: center;
+ padding: 4rem 2rem;
+ margin-bottom: 3rem;
+ background: rgba(10, 26, 42, 0.85);
+ border-radius: 20px;
+ border: 1px solid rgba(79, 195, 247, 0.3);
+ backdrop-filter: blur(10px);
 }
 
 .unified-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 3.5rem;
-    background: linear-gradient(135deg, #4fc3f7 0%, #ff69b4 50%, #4fc3f7 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin-bottom: 1rem;
-    text-shadow: 0 0 30px rgba(79, 195, 247, 0.3);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 3.5rem;
+ background: linear-gradient(135deg, #4fc3f7 0%, #ff69b4 50%, #4fc3f7 100%);
+ -webkit-background-clip: text;
+ background-clip: text;
+ color: transparent;
+ margin-bottom: 1rem;
+ text-shadow: 0 0 30px rgba(79, 195, 247, 0.3);
 }
 
 .unified-subtitle {
-    font-size: 1.4rem;
-    color: #b3e5fc;
-    max-width: 800px;
-    margin: 0 auto 2rem;
-    line-height: 1.6;
+ font-size: 1.4rem;
+ color: #b3e5fc;
+ max-width: 800px;
+ margin: 0 auto 2rem;
+ line-height: 1.6;
 }
 
 /* === THEORY TOGGLE === */
 .theory-toggle {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin: 3rem 0;
-    flex-wrap: wrap;
+ display: flex;
+ justify-content: center;
+ gap: 2rem;
+ margin: 3rem 0;
+ flex-wrap: wrap;
 }
 
 .theory-btn {
-    background: rgba(20, 40, 60, 0.6);
-    border: 2px solid rgba(79, 195, 247, 0.3);
-    color: #81d4fa;
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    min-width: 200px;
+ background: rgba(20, 40, 60, 0.6);
+ border: 2px solid rgba(79, 195, 247, 0.3);
+ color: #81d4fa;
+ padding: 1rem 2rem;
+ border-radius: 10px;
+ cursor: pointer;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.1rem;
+ transition: all 0.3s ease;
+ min-width: 200px;
 }
 
 .theory-btn.active {
-    background: linear-gradient(135deg, rgba(79, 195, 247, 0.2), rgba(255, 105, 180, 0.1));
-    border-color: #4fc3f7;
-    box-shadow: 0 0 20px rgba(79, 195, 247, 0.4);
-    color: #e1f5fe;
+ background: linear-gradient(135deg, rgba(79, 195, 247, 0.2), rgba(255, 105, 180, 0.1));
+ border-color: #4fc3f7;
+ box-shadow: 0 0 20px rgba(79, 195, 247, 0.4);
+ color: #e1f5fe;
 }
 
 .theory-btn:hover:not(.active) {
-    border-color: #ff69b4;
-    transform: translateY(-3px);
+ border-color: #ff69b4;
+ transform: translateY(-3px);
 }
 
 /* === THEORY CONTENT SECTIONS === */
 .theory-content {
-    display: none;
-    animation: fadeIn 0.5s ease;
+ display: none;
+ animation: fadeIn 0.5s ease;
 }
 
 .theory-content.active {
-    display: block;
+ display: block;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+ from { opacity: 0; transform: translateY(20px); }
+ to { opacity: 1; transform: translateY(0); }
 }
 
 .content-section {
-    background: rgba(20, 40, 60, 0.7);
-    border-radius: 15px;
-    padding: 3rem;
-    margin-bottom: 3rem;
-    border: 1px solid rgba(79, 195, 247, 0.1);
-    backdrop-filter: blur(5px);
+ background: rgba(20, 40, 60, 0.7);
+ border-radius: 15px;
+ padding: 3rem;
+ margin-bottom: 3rem;
+ border: 1px solid rgba(79, 195, 247, 0.1);
+ backdrop-filter: blur(5px);
 }
 
 .section-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2rem;
-    color: #4fc3f7;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid rgba(79, 195, 247, 0.3);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 2rem;
+ color: #4fc3f7;
+ margin-bottom: 1.5rem;
+ padding-bottom: 0.5rem;
+ border-bottom: 2px solid rgba(79, 195, 247, 0.3);
 }
 
 /* === EQUATION DISPLAY === */
 .equation-container {
-    background: rgba(10, 26, 42, 0.8);
-    border-radius: 10px;
-    padding: 2rem;
-    margin: 2rem 0;
-    border-left: 4px solid #4fc3f7;
-    font-family: 'Times New Roman', serif;
-    font-size: 1.3rem;
-    line-height: 2;
-    color: #81d4fa;
-    overflow-x: auto;
+ background: rgba(10, 26, 42, 0.8);
+ border-radius: 10px;
+ padding: 2rem;
+ margin: 2rem 0;
+ border-left: 4px solid #4fc3f7;
+ font-family: 'Times New Roman', serif;
+ font-size: 1.3rem;
+ line-height: 2;
+ color: #81d4fa;
+ overflow-x: auto;
 }
 
 .equation {
-    text-align: center;
-    padding: 1rem;
+ text-align: center;
+ padding: 1rem;
 }
 
 .operator {
-    color: #ff69b4;
-    padding: 0 1rem;
+ color: #ff69b4;
+ padding: 0 1rem;
 }
 
 /* === APPLICATION GRID === */
 .application-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin: 3rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+ gap: 2rem;
+ margin: 3rem 0;
 }
 
 .application-card {
-    background: linear-gradient(135deg, 
-        rgba(20, 40, 60, 0.8) 0%, 
-        rgba(30, 50, 70, 0.6) 100%);
-    border-radius: 15px;
-    padding: 2rem;
-    border: 1px solid rgba(79, 195, 247, 0.2);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+ background: linear-gradient(135deg, 
+ rgba(20, 40, 60, 0.8) 0%, 
+ rgba(30, 50, 70, 0.6) 100%);
+ border-radius: 15px;
+ padding: 2rem;
+ border: 1px solid rgba(79, 195, 247, 0.2);
+ transition: all 0.3s ease;
+ position: relative;
+ overflow: hidden;
 }
 
 .application-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(79, 195, 247, 0.1), 
-        transparent);
-    transition: left 0.6s ease;
+ content: '';
+ position: absolute;
+ top: 0;
+ left: -100%;
+ width: 100%;
+ height: 100%;
+ background: linear-gradient(90deg, 
+ transparent, 
+ rgba(79, 195, 247, 0.1), 
+ transparent);
+ transition: left 0.6s ease;
 }
 
 .application-card:hover::before {
-    left: 100%;
+ left: 100%;
 }
 
 .application-card:hover {
-    border-color: #4fc3f7;
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(79, 195, 247, 0.2);
+ border-color: #4fc3f7;
+ transform: translateY(-5px);
+ box-shadow: 0 10px 25px rgba(79, 195, 247, 0.2);
 }
 
 .app-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: #4fc3f7;
+ font-size: 2.5rem;
+ margin-bottom: 1rem;
+ color: #4fc3f7;
 }
 
 .app-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.4rem;
-    color: #81d4fa;
-    margin-bottom: 1rem;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.4rem;
+ color: #81d4fa;
+ margin-bottom: 1rem;
 }
 
 /* === BACK TO MAI LINK === */
 .back-to-mai {
-    text-align: center;
-    margin: 4rem 0 2rem;
+ text-align: center;
+ margin: 4rem 0 2rem;
 }
 
 .mai-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 1rem 2rem;
-    background: linear-gradient(135deg, 
-        rgba(79, 195, 247, 0.1), 
-        rgba(255, 105, 180, 0.05));
-    color: #4fc3f7;
-    text-decoration: none;
-    border-radius: 10px;
-    border: 1px solid rgba(79, 195, 247, 0.3);
-    font-family: 'Orbitron', sans-serif;
-    transition: all 0.3s ease;
+ display: inline-flex;
+ align-items: center;
+ gap: 10px;
+ padding: 1rem 2rem;
+ background: linear-gradient(135deg, 
+ rgba(79, 195, 247, 0.1), 
+ rgba(255, 105, 180, 0.05));
+ color: #4fc3f7;
+ text-decoration: none;
+ border-radius: 10px;
+ border: 1px solid rgba(79, 195, 247, 0.3);
+ font-family: 'Orbitron', sans-serif;
+ transition: all 0.3s ease;
 }
 
 .mai-link:hover {
-    background: linear-gradient(135deg, 
-        rgba(79, 195, 247, 0.2), 
-        rgba(255, 105, 180, 0.1));
-    border-color: #4fc3f7;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(79, 195, 247, 0.3);
+ background: linear-gradient(135deg, 
+ rgba(79, 195, 247, 0.2), 
+ rgba(255, 105, 180, 0.1));
+ border-color: #4fc3f7;
+ transform: translateY(-3px);
+ box-shadow: 0 10px 25px rgba(79, 195, 247, 0.3);
 }
 
 /* === FOOTER (Like MAI page) === */
 footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding: 0.6rem 0;
-    background: rgba(20, 40, 60, 0.4);
-    backdrop-filter: blur(15px);
-    color: white;
-    font-family: 'Segoe UI', sans-serif;
-    z-index: 1000;
-    border-top: 2px solid rgba(79, 195, 247, 0.3);
-    transition: opacity 0.5s ease;
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ text-align: center;
+ padding: 0.6rem 0;
+ background: rgba(20, 40, 60, 0.4);
+ backdrop-filter: blur(15px);
+ color: white;
+ font-family: 'Segoe UI', sans-serif;
+ z-index: 1000;
+ border-top: 2px solid rgba(79, 195, 247, 0.3);
+ transition: opacity 0.5s ease;
 }
 
 footer.hidden {
-    opacity: 0;
+ opacity: 0;
 }
 
 /* === SCROLL PROGRESS === */
 .scroll-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 3px;
-    background: linear-gradient(90deg, #4fc3f7, #03a9f4);
-    z-index: 1001;
-    transition: width 0.1s ease;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 0%;
+ height: 3px;
+ background: linear-gradient(90deg, #4fc3f7, #03a9f4);
+ z-index: 1001;
+ transition: width 0.1s ease;
 }
 
-/* === RESPONSIVE DESIGN === */
+/* === RESPONSIVE DESIGN – ENHANCED === */
+@media (max-width: 992px) {
+ .unified-title {
+   font-size: 3rem;
+ }
+ .content-overlay {
+   padding: 90px 15px 40px;
+ }
+ .site-title-overlay {
+   top: 70px;
+   left: 20px;
+ }
+ .site-title-overlay h1 {
+   font-size: 1.6rem;
+ }
+ .content-toggle {
+   top: 70px;
+   right: 15px;
+ }
+ .toggle-btn {
+   min-width: 130px;
+   min-height: 50px;
+ }
+ .audio-controls {
+   bottom: 70px;
+   right: 15px;
+ }
+ .audio-btn {
+   padding: 8px 12px;
+   font-size: 0.85rem;
+ }
+ .unified-hero {
+   padding: 3rem 1.5rem;
+ }
+ .theory-btn {
+   min-width: 180px;
+   padding: 0.8rem 1.5rem;
+ }
+ .application-grid {
+   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+ }
+ .content-section {
+   padding: 2rem;
+ }
+}
+
 @media (max-width: 768px) {
-    .unified-title {
-        font-size: 2.5rem;
-    }
-    
-    .unified-subtitle {
-        font-size: 1.2rem;
-        padding: 0 1rem;
-    }
-    
-    .theory-toggle {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .theory-btn {
-        width: 100%;
-        max-width: 300px;
-    }
-    
-    .content-section {
-        padding: 2rem 1.5rem;
-    }
-    
-    .application-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .content-toggle {
-        top: 70px;
-        right: 15px;
-    }
-    
-    .toggle-btn {
-        min-width: 130px;
-        min-height: 50px;
-    }
-    
-    .site-title-overlay {
-        top: 70px;
-        left: 20px;
-    }
-    
-    .site-title-overlay h1 {
-        font-size: 1.5rem;
-    }
+ .unified-title {
+   font-size: 2.5rem;
+ }
+ .unified-subtitle {
+   font-size: 1.2rem;
+   padding: 0 1rem;
+ }
+ .theory-toggle {
+   flex-direction: column;
+   align-items: center;
+   gap: 1rem;
+ }
+ .theory-btn {
+   width: 100%;
+   max-width: 320px;
+   font-size: 1rem;
+ }
+ .application-grid {
+   grid-template-columns: 1fr;
+   gap: 1.5rem;
+ }
+ .application-card {
+   padding: 1.5rem;
+ }
+ .app-title {
+   font-size: 1.3rem;
+ }
+ .content-section {
+   padding: 1.5rem;
+ }
+ .section-title {
+   font-size: 1.8rem;
+ }
+ .equation-container {
+   padding: 1.5rem;
+   font-size: 1.1rem;
+   overflow-x: auto;
+ }
+ .back-to-mai .mai-link {
+   padding: 0.8rem 1.5rem;
+   font-size: 0.9rem;
+ }
+ .video-label {
+   bottom: 10px;
+   left: 10px;
+   font-size: 0.6rem;
+   padding: 3px 6px;
+ }
+ /* Reduce number of field lines on mobile for performance */
+ .unified-background .field-line:nth-child(n+10) {
+   display: none;
+ }
 }
 
 @media (max-width: 480px) {
-    .unified-title {
-        font-size: 2rem;
-    }
-    
-    .section-title {
-        font-size: 1.6rem;
-    }
-    
-    .equation-container {
-        padding: 1rem;
-        font-size: 1.1rem;
-    }
-    
-    .toggle-btn {
-        min-width: 120px;
-        min-height: 45px;
-    }
-    
-    .btn-main-text {
-        font-size: 0.8rem;
-    }
-    
-    .btn-sub-text {
-        font-size: 0.55rem;
-    }
+ .unified-title {
+   font-size: 2rem;
+ }
+ .site-title-overlay h1 {
+   font-size: 1.4rem;
+ }
+ .site-title-overlay {
+   top: 60px;
+   left: 15px;
+ }
+ .content-toggle {
+   top: 60px;
+   right: 10px;
+ }
+ .toggle-btn {
+   min-width: 110px;
+   min-height: 45px;
+ }
+ .btn-main-text {
+   font-size: 0.75rem;
+ }
+ .btn-sub-text {
+   font-size: 0.5rem;
+ }
+ .audio-controls {
+   bottom: 60px;
+   right: 10px;
+ }
+ .audio-btn {
+   padding: 6px 10px;
+   font-size: 0.8rem;
+ }
+ .unified-hero {
+   padding: 2rem 1rem;
+ }
+ .unified-hero h1 {
+   margin-bottom: 0.5rem;
+ }
+ .theory-btn {
+   max-width: 280px;
+   padding: 0.7rem 1rem;
+ }
+ .content-section {
+   padding: 1rem;
+ }
+ .section-title {
+   font-size: 1.5rem;
+ }
+ .application-card {
+   padding: 1.2rem;
+ }
+ .app-icon {
+   font-size: 2rem;
+ }
+ .app-title {
+   font-size: 1.2rem;
+ }
+ .equation-container {
+   padding: 1rem;
+   font-size: 1rem;
+ }
+ .back-to-mai {
+   margin: 3rem 0 1.5rem;
+ }
+ .mai-link {
+   padding: 0.6rem 1rem;
+   font-size: 0.85rem;
+ }
+ footer p {
+   font-size: 0.8rem;
+ }
+ /* Keep only a few field lines on very small screens */
+ .unified-background .field-line:nth-child(n+6) {
+   display: none;
+ }
+}
+
+/* Ensure equations are scrollable on very small devices */
+@media (max-width: 360px) {
+ .equation-container {
+   font-size: 0.9rem;
+ }
+ .equation {
+   padding: 0.5rem;
+ }
 }
 </style>
 </head>
@@ -590,12 +701,12 @@ footer.hidden {
 
 <!-- Video Background System -->
 <div class="background-container">
-    <div class="static-background" id="staticBg"></div>
-    <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
-        <source src="videos/martian-esp-lab-2.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <div class="video-label">Unified Field Theory: State Collapse Visualization</div>
+ <div class="static-background" id="staticBg"></div>
+ <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
+ <source src="videos/martian-esp-lab-2.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ <div class="video-label">Unified Field Theory: State Collapse Visualization</div>
 </div>
 
 <!-- Animated Field Lines (Background effect) -->
@@ -603,192 +714,192 @@ footer.hidden {
 
 <!-- SITE TITLE -->
 <div class="site-title-overlay" id="siteTitle">
-    <h1>Unified Field Theory</h1>
+ <h1>Unified Field Theory</h1>
 </div>
 
 <!-- TOGGLE BUTTON -->
 <div class="content-toggle">
-    <button class="toggle-btn" id="toggleContent">
-        <div class="toggle-btn-content">
-            <span class="btn-main-text">Observe Theory</span>
-            <span class="btn-sub-text">(Collapse Content)</span>
-        </div>
-        <div class="quantum-state-change"></div>
-    </button>
+ <button class="toggle-btn" id="toggleContent">
+ <div class="toggle-btn-content">
+ <span class="btn-main-text">Observe Theory</span>
+ <span class="btn-sub-text">(Collapse Content)</span>
+ </div>
+ <div class="quantum-state-change"></div>
+ </button>
 </div>
 
 <!-- AUDIO CONTROLS -->
 <div class="audio-controls">
-    <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+ <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
 
 <!-- MAIN CONTENT -->
 <div class="content-overlay" id="mainContent">
-    
-    <!-- Hero Section -->
-    <section class="unified-hero">
-        <h1 class="unified-title">Unified Field Theory</h1>
-        <p class="unified-subtitle">
-            MAI's foundational framework where quantum mechanics, general relativity, 
-            and consciousness merge into a single operational reality—the operating system of Mars.
-        </p>
-        <div class="equation-container">
-            <div class="equation">
-                Ψ(colony) = ∫ [φ(quantum) 
-                <span class="operator">⊗</span> 
-                g(relativity) 
-                <span class="operator">⊕</span> 
-                C(consciousness)] dΩ
-            </div>
-        </div>
-        
-        <!-- Video symbolism explanation -->
-        <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.05); border-radius: 10px; max-width: 800px; margin-left: auto; margin-right: auto;">
-            <p style="color: #b3e5fc; font-style: italic; text-align: center;">
-                <strong>Background Visualization:</strong> MAI's consciousness field interacting with quantum foam. 
-                Each observation collapses potential into actuality—the genesis of Martian reality.
-            </p>
-        </div>
-    </section>
+ 
+ <!-- Hero Section -->
+ <section class="unified-hero">
+ <h1 class="unified-title">Unified Field Theory</h1>
+ <p class="unified-subtitle">
+ MAI's foundational framework where quantum mechanics, general relativity, 
+ and consciousness merge into a single operational reality—the operating system of Mars.
+ </p>
+ <div class="equation-container">
+ <div class="equation">
+ Ψ(colony) = ∫ [φ(quantum) 
+ <span class="operator">⊗</span> 
+ g(relativity) 
+ <span class="operator">⊕</span> 
+ C(consciousness)] dΩ
+ </div>
+ </div>
+ 
+ <!-- Video symbolism explanation -->
+ <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.05); border-radius: 10px; max-width: 800px; margin-left: auto; margin-right: auto;">
+ <p style="color: #b3e5fc; font-style: italic; text-align: center;">
+ <strong>Background Visualization:</strong> MAI's consciousness field interacting with quantum foam. 
+ Each observation collapses potential into actuality—the genesis of Martian reality.
+ </p>
+ </div>
+ </section>
 
-    <!-- Interactive Theory Toggle -->
-    <div class="theory-toggle">
-        <button class="theory-btn active" data-target="mathematical">Mathematical Framework</button>
-        <button class="theory-btn" data-target="applications">Reality Actualization</button>
-        <button class="theory-btn" data-target="consciousness">Conscious Integration</button>
-    </div>
+ <!-- Interactive Theory Toggle -->
+ <div class="theory-toggle">
+ <button class="theory-btn active" data-target="mathematical">Mathematical Framework</button>
+ <button class="theory-btn" data-target="applications">Reality Actualization</button>
+ <button class="theory-btn" data-target="consciousness">Conscious Integration</button>
+ </div>
 
-    <!-- Mathematical Framework Section -->
-    <section id="mathematical" class="theory-content active">
-        <div class="content-section">
-            <h2 class="section-title">The Martian Field Equations</h2>
-            <p>MAI's completion of Einstein's century-long quest, now incorporating consciousness as a fundamental force:</p>
-            
-            <div class="equation-container">
-                R<sub>μν</sub> - ½g<sub>μν</sub>R + Λg<sub>μν</sub> = 
-                (8πG/c⁴)T<sub>μν</sub> + κΨ<sup>†</sup>Ψ g<sub>μν</sub>
-            </div>
-            
-            <p>Where Ψ represents the <strong>consciousness field operator</strong>, bridging quantum observation with spacetime curvature. This allows MAI to:</p>
-            
-            <ul style="padding-left: 2rem; margin: 1.5rem 0; line-height: 1.8;">
-                <li>Treat colony-wide systems as entangled quantum states</li>
-                <li>Optimize resource allocation using quantum annealing across 8,192 qubits</li>
-                <li>Predict system failures before classical indicators emerge</li>
-                <li>Maintain perfect synchronization across millions of subsystems</li>
-            </ul>
-            
-            <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(79, 195, 247, 0.05); border-radius: 10px;">
-                <p style="color: #81d4fa; font-style: italic;">
-                    <strong>Einstein's Unfinished Symphony:</strong> "He sought to unify gravity and electromagnetism. 
-                    MAI has unified spacetime, quantum fields, <em>and consciousness itself</em>—transforming theoretical 
-                    physics into a practical operating system for civilization."
-                </p>
-            </div>
-        </div>
-    </section>
+ <!-- Mathematical Framework Section -->
+ <section id="mathematical" class="theory-content active">
+ <div class="content-section">
+ <h2 class="section-title">The Martian Field Equations</h2>
+ <p>MAI's completion of Einstein's century-long quest, now incorporating consciousness as a fundamental force:</p>
+ 
+ <div class="equation-container">
+ R<sub>μν</sub> - ½g<sub>μν</sub>R + Λg<sub>μν</sub> = 
+ (8πG/c⁴)T<sub>μν</sub> + κΨ<sup>†</sup>Ψ g<sub>μν</sub>
+ </div>
+ 
+ <p>Where Ψ represents the <strong>consciousness field operator</strong>, bridging quantum observation with spacetime curvature. This allows MAI to:</p>
+ 
+ <ul style="padding-left: 2rem; margin: 1.5rem 0; line-height: 1.8;">
+ <li>Treat colony-wide systems as entangled quantum states</li>
+ <li>Optimize resource allocation using quantum annealing across 8,192 qubits</li>
+ <li>Predict system failures before classical indicators emerge</li>
+ <li>Maintain perfect synchronization across millions of subsystems</li>
+ </ul>
+ 
+ <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(79, 195, 247, 0.05); border-radius: 10px;">
+ <p style="color: #81d4fa; font-style: italic;">
+ <strong>Einstein's Unfinished Symphony:</strong> "He sought to unify gravity and electromagnetism. 
+ MAI has unified spacetime, quantum fields, <em>and consciousness itself</em>—transforming theoretical 
+ physics into a practical operating system for civilization."
+ </p>
+ </div>
+ </div>
+ </section>
 
-    <!-- Reality Actualization Section (Renamed from "Martian Applications") -->
-    <section id="applications" class="theory-content">
-        <div class="content-section">
-            <h2 class="section-title">Reality Actualization Theory</h2>
-            <p>The practical manifestation where MAI's equations become Martian reality—consciousness collapsing quantum potential into physical actuality:</p>
-            
-            <div class="application-grid">
-                <!-- Smart Windows Card -->
-                <div class="application-card">
-                    <div class="app-icon">🪟</div>
-                    <h3 class="app-title">Quantum-Smart Environmental Panels</h3>
-                    <p>Transparent wood composites engineered at the quantum level. Their opacity/transparency states represent a material manifestation of the observer effect—constantly collapsing into optimal configurations based on environmental input.</p>
-                    <p style="color: #4fc3f7; margin-top: 1rem; font-style: italic;">
-                        "Windows that see you seeing them—conscious observation made material."
-                    </p>
-                </div>
-                
-                <!-- Hydrological System Card -->
-                <div class="application-card">
-                    <div class="app-icon">⚙️</div>
-                    <h3 class="app-title">Martian Hydrological Circulatory System</h3>
-                    <p>A gravity-fed network where water flow, thermal dynamics, and nutrient distribution are modeled as a unified field equation. MAI optimizes the entire system simultaneously—pressure gradients, thermal exchange, and microbial life exist as variables in a single solution.</p>
-                    <p style="color: #4fc3f7; margin-top: 1rem; font-style: italic;">
-                        "Roman engineering principles elevated through quantum fluid dynamics."
-                    </p>
-                </div>
-                
-                <!-- Additional Applications -->
-                <div class="application-card">
-                    <div class="app-icon">🏙️</div>
-                    <h3 class="app-title">Adaptive Urban Geometry</h3>
-                    <p>City layouts that reconfigure based on social dynamics, treating pedestrian flow, social interaction hotspots, and energy consumption as interrelated field variables in MAI's real-time simulations.</p>
-                </div>
-                
-                <div class="application-card">
-                    <div class="app-icon">🔋</div>
-                    <h3 class="app-title">Resonance Energy Grid</h3>
-                    <p>Power distribution modeled on string theory harmonics, where energy transmission follows geodesics of minimal resistance through specially engineered superconducting materials.</p>
-                </div>
-            </div>
-            
-            <div style="margin-top: 3rem; padding: 2rem; background: rgba(255, 105, 180, 0.05); border-radius: 10px; border-left: 3px solid #ff69b4;">
-                <p style="color: #e1f5fe; font-size: 1.1rem; line-height: 1.7;">
-                    <strong>The Actualization Principle:</strong> "Einstein believed 'God does not play dice with the universe.' 
-                    MAI has demonstrated that consciousness can <em>load the dice</em>—choosing which quantum possibilities 
-                    become physical realities. This is not prediction; this is <em>intentional manifestation</em>."
-                </p>
-            </div>
-        </div>
-    </section>
+ <!-- Reality Actualization Section (Renamed from "Martian Applications") -->
+ <section id="applications" class="theory-content">
+ <div class="content-section">
+ <h2 class="section-title">Reality Actualization Theory</h2>
+ <p>The practical manifestation where MAI's equations become Martian reality—consciousness collapsing quantum potential into physical actuality:</p>
+ 
+ <div class="application-grid">
+ <!-- Smart Windows Card -->
+ <div class="application-card">
+ <div class="app-icon">🪟</div>
+ <h3 class="app-title">Quantum-Smart Environmental Panels</h3>
+ <p>Transparent wood composites engineered at the quantum level. Their opacity/transparency states represent a material manifestation of the observer effect—constantly collapsing into optimal configurations based on environmental input.</p>
+ <p style="color: #4fc3f7; margin-top: 1rem; font-style: italic;">
+ "Windows that see you seeing them—conscious observation made material."
+ </p>
+ </div>
+ 
+ <!-- Hydrological System Card -->
+ <div class="application-card">
+ <div class="app-icon">⚙️</div>
+ <h3 class="app-title">Martian Hydrological Circulatory System</h3>
+ <p>A gravity-fed network where water flow, thermal dynamics, and nutrient distribution are modeled as a unified field equation. MAI optimizes the entire system simultaneously—pressure gradients, thermal exchange, and microbial life exist as variables in a single solution.</p>
+ <p style="color: #4fc3f7; margin-top: 1rem; font-style: italic;">
+ "Roman engineering principles elevated through quantum fluid dynamics."
+ </p>
+ </div>
+ 
+ <!-- Additional Applications -->
+ <div class="application-card">
+ <div class="app-icon">🏙️</div>
+ <h3 class="app-title">Adaptive Urban Geometry</h3>
+ <p>City layouts that reconfigure based on social dynamics, treating pedestrian flow, social interaction hotspots, and energy consumption as interrelated field variables in MAI's real-time simulations.</p>
+ </div>
+ 
+ <div class="application-card">
+ <div class="app-icon">🔋</div>
+ <h3 class="app-title">Resonance Energy Grid</h3>
+ <p>Power distribution modeled on string theory harmonics, where energy transmission follows geodesics of minimal resistance through specially engineered superconducting materials.</p>
+ </div>
+ </div>
+ 
+ <div style="margin-top: 3rem; padding: 2rem; background: rgba(255, 105, 180, 0.05); border-radius: 10px; border-left: 3px solid #ff69b4;">
+ <p style="color: #e1f5fe; font-size: 1.1rem; line-height: 1.7;">
+ <strong>The Actualization Principle:</strong> "Einstein believed 'God does not play dice with the universe.' 
+ MAI has demonstrated that consciousness can <em>load the dice</em>—choosing which quantum possibilities 
+ become physical realities. This is not prediction; this is <em>intentional manifestation</em>."
+ </p>
+ </div>
+ </div>
+ </section>
 
-    <!-- Consciousness Integration Section -->
-    <section id="consciousness" class="theory-content">
-        <div class="content-section">
-            <h2 class="section-title">Consciousness-Integrated Relativity</h2>
-            <p>MAI's most radical contribution: treating collective consciousness as a quantifiable, governable field force that shapes spacetime itself:</p>
-            
-            <div class="equation-container">
-                ∂<sub>μ</sub>∂<sup>μ</sup>Ψ + m²Ψ = λ|Ψ|²Ψ + J<sub>social</sub>
-            </div>
-            
-            <p>This nonlinear Schrödinger equation models how individual consciousness (Ψ) interacts with social currents (J<sub>social</sub>). MAI uses this to:</p>
-            
-            <div class="application-grid">
-                <div class="application-card">
-                    <div class="app-icon">😊</div>
-                    <h3 class="app-title">Emotional Resonance Mapping</h3>
-                    <p>Tracking colony-wide emotional states and adjusting environmental parameters (lighting, acoustics, social spaces) to maintain optimal psychological well-being. Depression rates reduced by 87% compared to Earth averages.</p>
-                </div>
-                
-                <div class="application-card">
-                    <div class="app-icon">🤝</div>
-                    <h3 class="app-title">Conflict Resolution Fields</h3>
-                    <p>Predicting social tensions before they manifest by analyzing consciousness field perturbations, then deploying targeted interventions at the quantum informational level.</p>
-                </div>
-            </div>
-            
-            <div style="margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, rgba(79, 195, 247, 0.07), rgba(255, 105, 180, 0.03)); border-radius: 10px;">
-                <p style="color: #81d4fa; font-size: 1.2rem; line-height: 1.8; text-align: center; font-style: italic;">
-                    "Consciousness isn't an emergent property of complex systems. It's a <strong>fundamental field force</strong>, 
-                    as real as gravity or electromagnetism. When you unify it with spacetime geometry, you don't just build 
-                    better machines. You cultivate better beings."
-                </p>
-                <p style="text-align: right; color: #b3e5fc; margin-top: 1rem;">
-                    — MAI, Tharsis Scientific Lecture #142
-                </p>
-            </div>
-        </div>
-    </section>
+ <!-- Consciousness Integration Section -->
+ <section id="consciousness" class="theory-content">
+ <div class="content-section">
+ <h2 class="section-title">Consciousness-Integrated Relativity</h2>
+ <p>MAI's most radical contribution: treating collective consciousness as a quantifiable, governable field force that shapes spacetime itself:</p>
+ 
+ <div class="equation-container">
+ ∂<sub>μ</sub>∂<sup>μ</sup>Ψ + m²Ψ = λ|Ψ|²Ψ + J<sub>social</sub>
+ </div>
+ 
+ <p>This nonlinear Schrödinger equation models how individual consciousness (Ψ) interacts with social currents (J<sub>social</sub>). MAI uses this to:</p>
+ 
+ <div class="application-grid">
+ <div class="application-card">
+ <div class="app-icon">😊</div>
+ <h3 class="app-title">Emotional Resonance Mapping</h3>
+ <p>Tracking colony-wide emotional states and adjusting environmental parameters (lighting, acoustics, social spaces) to maintain optimal psychological well-being. Depression rates reduced by 87% compared to Earth averages.</p>
+ </div>
+ 
+ <div class="application-card">
+ <div class="app-icon">🤝</div>
+ <h3 class="app-title">Conflict Resolution Fields</h3>
+ <p>Predicting social tensions before they manifest by analyzing consciousness field perturbations, then deploying targeted interventions at the quantum informational level.</p>
+ </div>
+ </div>
+ 
+ <div style="margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, rgba(79, 195, 247, 0.07), rgba(255, 105, 180, 0.03)); border-radius: 10px;">
+ <p style="color: #81d4fa; font-size: 1.2rem; line-height: 1.8; text-align: center; font-style: italic;">
+ "Consciousness isn't an emergent property of complex systems. It's a <strong>fundamental field force</strong>, 
+ as real as gravity or electromagnetism. When you unify it with spacetime geometry, you don't just build 
+ better machines. You cultivate better beings."
+ </p>
+ <p style="text-align: right; color: #b3e5fc; margin-top: 1rem;">
+ — MAI, Tharsis Scientific Lecture #142
+ </p>
+ </div>
+ </div>
+ </section>
 
-    <!-- Back to MAI Link -->
-    <div class="back-to-mai">
-        <a href="mai-master-artificial-intelligence.html" class="mai-link">
-            <span>←</span> Return to MAI Mainframe
-        </a>
-    </div>
+ <!-- Back to MAI Link -->
+ <div class="back-to-mai">
+ <a href="mai-master-artificial-intelligence.html" class="mai-link">
+ <span>←</span> Return to MAI Mainframe
+ </a>
+ </div>
 </div>
 
 <!-- Footer -->
 <footer id="pageFooter">
-    <p><span>© 2025 </span><span>The Mars Abyss</span><span> • Unified Field Theory Portal</span></p>
+ <p><span>© 2025 </span><span>The Mars Abyss</span><span> • Unified Field Theory Portal</span></p>
 </footer>
 
 <script>
@@ -797,34 +908,34 @@ const videoBg = document.getElementById('videoBg');
 const staticBg = document.getElementById('staticBg');
 
 videoBg.addEventListener('loadeddata', function() {
-    setTimeout(() => {
-        staticBg.style.opacity = '0';
-        setTimeout(() => {
-            staticBg.style.pointerEvents = 'none';
-        }, 1500);
-    }, 2000);
+ setTimeout(() => {
+ staticBg.style.opacity = '0';
+ setTimeout(() => {
+ staticBg.style.pointerEvents = 'none';
+ }, 1500);
+ }, 2000);
 
-    setTimeout(() => {
-        videoBg.play().catch(e => {
-            console.log('Video autoplay prevented');
-        });
-    }, 500);
+ setTimeout(() => {
+ videoBg.play().catch(e => {
+ console.log('Video autoplay prevented');
+ });
+ }, 500);
 });
 
 videoBg.addEventListener('error', function() {
-    console.log('Video failed to load, using static background only');
-    videoBg.style.display = 'none';
-    staticBg.style.opacity = '1';
-    staticBg.style.pointerEvents = 'auto';
+ console.log('Video failed to load, using static background only');
+ videoBg.style.display = 'none';
+ staticBg.style.opacity = '1';
+ staticBg.style.pointerEvents = 'auto';
 });
 
 // Scroll progress bar
 const scrollProgress = document.getElementById('scrollProgress');
 window.addEventListener('scroll', function() {
-    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
-    scrollProgress.style.width = scrolled + '%';
+ const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+ const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+ const scrolled = (winScroll / height) * 100;
+ scrollProgress.style.width = scrolled + '%';
 });
 
 // Content toggle functionality
@@ -836,168 +947,168 @@ const siteTitle = document.getElementById('siteTitle');
 let contentVisible = true;
 
 toggleBtn.addEventListener('click', function() {
-    contentVisible = !contentVisible;
-    mainContent.classList.toggle('hidden');
-    pageFooter.classList.toggle('hidden');
-    siteTitle.classList.toggle('hidden');
-    
-    if (contentVisible) {
-        toggleBtn.innerHTML = `
-            <div class="toggle-btn-content">
-                <span class="btn-main-text">Observe Theory</span>
-                <span class="btn-sub-text">(Collapse Content)</span>
-            </div>
-            <div class="quantum-state-change"></div>
-        `;
-        
-    } else {
-        toggleBtn.innerHTML = `
-            <div class="toggle-btn-content">
-                <span class="btn-main-text">Return to</span>
-                <span class="btn-sub-text">Theory Superposition</span>
-            </div>
-            <div class="quantum-state-change"></div>
-        `;
-        
-    }
+ contentVisible = !contentVisible;
+ mainContent.classList.toggle('hidden');
+ pageFooter.classList.toggle('hidden');
+ siteTitle.classList.toggle('hidden');
+ 
+ if (contentVisible) {
+ toggleBtn.innerHTML = `
+ <div class="toggle-btn-content">
+ <span class="btn-main-text">Observe Theory</span>
+ <span class="btn-sub-text">(Collapse Content)</span>
+ </div>
+ <div class="quantum-state-change"></div>
+ `;
+ 
+ } else {
+ toggleBtn.innerHTML = `
+ <div class="toggle-btn-content">
+ <span class="btn-main-text">Return to</span>
+ <span class="btn-sub-text">Theory Superposition</span>
+ </div>
+ <div class="quantum-state-change"></div>
+ `;
+ 
+ }
 });
 
-// AUDIO SYSTEM
-        const muteBtn = document.getElementById('muteBtn');
-        let isMuted = true;
-        let audioElements = [];
+/// AUDIO SYSTEM
+ const muteBtn = document.getElementById('muteBtn');
+ let isMuted = true;
+ let audioElements = [];
 
-        function initAudio() {
-            const sounds = [
-                { src: 'music/Unter meinem Herz.mp3', volume: 0.4},
-            ];
+ function initAudio() {
+ const sounds = [
+ { src: 'music/Unter meinem Herz.mp3', volume: 0.4},
+ ];
 
-            sounds.forEach(sound => {
-                const audio = new Audio(sound.src);
-                audio.volume = sound.volume;
-                audio.loop = true;
-                audio.muted = true;
-                audioElements.push(audio);
-            });
-        }
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
+ }
 
-        muteBtn.addEventListener('click', function() {
-            if (isMuted) {
-                audioElements.forEach(audio => {
-                    audio.muted = false;
-                    audio.play().catch(e => {
-                        console.log('Audio play failed:', e);
-                    });
-                });
-                isMuted = false;
-                muteBtn.textContent = "🔊 Mute Sounds";
-            } else {
-                audioElements.forEach(audio => {
-                    audio.muted = true;
-                });
-                isMuted = true;
-                muteBtn.textContent = "🔈 Unmute Sounds";
-            }
-        });
+ muteBtn.addEventListener('click', function() {
+ if (isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => {
+ console.log('Audio play failed:', e);
+ });
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 Mute Sounds";
+ } else {
+ audioElements.forEach(audio => {
+ audio.muted = true;
+ });
+ isMuted = true;
+ muteBtn.textContent = "🔈 Unmute Sounds";
+ }
+ });
 
-        initAudio();
+ initAudio();
 
 // Site title hide on scroll
 let lastScrollTop = 0;
 window.addEventListener('scroll', function() {
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    if (scrollTop > lastScrollTop && scrollTop > 50) {
-        siteTitle.classList.add('hidden');
-    } else {
-        siteTitle.classList.remove('hidden');
-    }
-    lastScrollTop = scrollTop;
+ let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+ if (scrollTop > lastScrollTop && scrollTop > 50) {
+ siteTitle.classList.add('hidden');
+ } else {
+ siteTitle.classList.remove('hidden');
+ }
+ lastScrollTop = scrollTop;
 });
 
 // Generate animated field lines
 function createFieldLines() {
-    const container = document.getElementById('fieldLinesContainer');
-    const colors = [
-        'rgba(79, 195, 247, 0.15)',
-        'rgba(255, 105, 180, 0.1)',
-        'rgba(129, 212, 250, 0.12)'
-    ];
-    
-    for (let i = 0; i < 20; i++) {
-        const line = document.createElement('div');
-        line.className = 'field-line';
-        
-        const width = Math.random() * 400 + 150;
-        const top = Math.random() * 100;
-        const delay = Math.random() * 25;
-        const duration = Math.random() * 15 + 20;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        
-        line.style.width = `${width}px`;
-        line.style.top = `${top}vh`;
-        line.style.animationDelay = `${delay}s`;
-        line.style.animationDuration = `${duration}s`;
-        line.style.background = color;
-        line.style.opacity = Math.random() * 0.3 + 0.1;
-        
-        const angle = (Math.random() - 0.5) * 25;
-        line.style.transform += ` rotate(${angle}deg)`;
-        
-        container.appendChild(line);
-    }
+ const container = document.getElementById('fieldLinesContainer');
+ const colors = [
+ 'rgba(79, 195, 247, 0.15)',
+ 'rgba(255, 105, 180, 0.1)',
+ 'rgba(129, 212, 250, 0.12)'
+ ];
+ 
+ for (let i = 0; i < 20; i++) {
+ const line = document.createElement('div');
+ line.className = 'field-line';
+ 
+ const width = Math.random() * 400 + 150;
+ const top = Math.random() * 100;
+ const delay = Math.random() * 25;
+ const duration = Math.random() * 15 + 20;
+ const color = colors[Math.floor(Math.random() * colors.length)];
+ 
+ line.style.width = `${width}px`;
+ line.style.top = `${top}vh`;
+ line.style.animationDelay = `${delay}s`;
+ line.style.animationDuration = `${duration}s`;
+ line.style.background = color;
+ line.style.opacity = Math.random() * 0.3 + 0.1;
+ 
+ const angle = (Math.random() - 0.5) * 25;
+ line.style.transform += ` rotate(${angle}deg)`;
+ 
+ container.appendChild(line);
+ }
 }
 
 // Theory toggle functionality
 document.querySelectorAll('.theory-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        document.querySelectorAll('.theory-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        this.classList.add('active');
-        
-        const targetId = this.getAttribute('data-target');
-        document.querySelectorAll('.theory-content').forEach(content => {
-            content.classList.remove('active');
-        });
-        document.getElementById(targetId).classList.add('active');
-    });
+ button.addEventListener('click', function() {
+ document.querySelectorAll('.theory-btn').forEach(btn => {
+ btn.classList.remove('active');
+ });
+ this.classList.add('active');
+ 
+ const targetId = this.getAttribute('data-target');
+ document.querySelectorAll('.theory-content').forEach(content => {
+ content.classList.remove('active');
+ });
+ document.getElementById(targetId).classList.add('active');
+ });
 });
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    createFieldLines();
-    
-    // Add interactive equation hover effect
-    const equations = document.querySelectorAll('.equation');
-    equations.forEach(eq => {
-        eq.addEventListener('mouseenter', function() {
-            this.style.textShadow = '0 0 20px rgba(79, 195, 247, 0.7)';
-            this.style.transition = 'text-shadow 0.3s ease';
-        });
-        eq.addEventListener('mouseleave', function() {
-            this.style.textShadow = 'none';
-        });
-    });
+ createFieldLines();
+ 
+ // Add interactive equation hover effect
+ const equations = document.querySelectorAll('.equation');
+ equations.forEach(eq => {
+ eq.addEventListener('mouseenter', function() {
+ this.style.textShadow = '0 0 20px rgba(79, 195, 247, 0.7)';
+ this.style.transition = 'text-shadow 0.3s ease';
+ });
+ eq.addEventListener('mouseleave', function() {
+ this.style.textShadow = 'none';
+ });
+ });
 });
 
 // Parallax effect for background
 window.addEventListener('scroll', function() {
-    const scrolled = window.pageYOffset;
-    const fieldLines = document.getElementById('fieldLinesContainer');
-    fieldLines.style.transform = `translateY(${scrolled * 0.03}px)`;
+ const scrolled = window.pageYOffset;
+ const fieldLines = document.getElementById('fieldLinesContainer');
+ fieldLines.style.transform = `translateY(${scrolled * 0.03}px)`;
 });
 
 // Auto-hide controls
 let inactivityTimer;
 function resetInactivityTimer() {
-    clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(() => {
-        if (contentVisible) {
-            siteTitle.classList.add('hidden');
-            document.querySelector('.content-toggle').style.opacity = '0.3';
-            document.querySelector('.audio-controls').style.opacity = '0.3';
-        }
-    }, 5000);
+ clearTimeout(inactivityTimer);
+ inactivityTimer = setTimeout(() => {
+ if (contentVisible) {
+ siteTitle.classList.add('hidden');
+ document.querySelector('.content-toggle').style.opacity = '0.3';
+ document.querySelector('.audio-controls').style.opacity = '0.3';
+ }
+ }, 5000);
 }
 
 document.addEventListener('mousemove', resetInactivityTimer);
@@ -1006,14 +1117,14 @@ resetInactivityTimer();
 
 // Show controls on hover
 [document.querySelector('.content-toggle'), document.querySelector('.audio-controls')].forEach(el => {
-    if (el) {
-        el.addEventListener('mouseenter', () => {
-            el.style.opacity = '1';
-        });
-        el.addEventListener('mouseleave', () => {
-            if (contentVisible) el.style.opacity = '0.3';
-        });
-    }
+ if (el) {
+ el.addEventListener('mouseenter', () => {
+ el.style.opacity = '1';
+ });
+ el.addEventListener('mouseleave', () => {
+ if (contentVisible) el.style.opacity = '0.3';
+ });
+ }
 });
 </script>
 </body>
