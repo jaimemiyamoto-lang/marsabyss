@@ -10,840 +10,905 @@
 /* ===== CORE RESET & BASE ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body, html {
-    height: 100%; width: 100%;
-    font-family: 'Exo 2', sans-serif;
-    color: #e1f5fe;
-    overflow-x: hidden;
-    position: relative;
-    background: #0a0a14;
+ height: 100%; width: 100%;
+ font-family: 'Exo 2', sans-serif;
+ color: #e1f5fe;
+ overflow-x: hidden;
+ position: relative;
+ background: #0a0a14;
 }
 
 /* ===== DYNAMIC VIDEO BACKGROUND SYSTEM ===== */
 .background-system {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 2;
-    pointer-events: none;
+ position: fixed;
+ top: 0; left: 0;
+ width: 100%; height: 100%;
+ z-index: 2;
+ pointer-events: none;
 }
 .static-background {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: #0a0a14 url('images/quantum-lab-static.jpg') no-repeat center center / cover;
-    z-index: 1;
-    transition: opacity 2s ease;
+ position: absolute;
+ top: 0; left: 0;
+ width: 100%; height: 100%;
+ background: #0a0a14 url('images/quantum-lab-static.jpg') no-repeat center center / cover;
+ z-index: 1;
+ transition: opacity 2s ease;
 }
 .video-background {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    z-index: 2;
-    opacity: 1; /* Clear opacity for colors */
+ position: absolute;
+ top: 0; left: 0;
+ width: 100%; height: 100%;
+ object-fit: cover;
+ z-index: 2;
+ opacity: 1; /* Clear opacity for colors */
 }
 .video-overlay {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.0);
-    z-index: 3;
+ position: absolute;
+ top: 0; left: 0;
+ width: 100%; height: 100%;
+ background: rgba(0, 0, 0, 0.0);
+ z-index: 3;
 }
 
 /* ===== TOP GLASS NAVIGATION ===== */
 .top-glass-bar {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 70px;
-    background: rgba(15, 25, 40, 0.7);
-    backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(102, 153, 255, 0.3);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 30px;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+ position: fixed;
+ top: 0; left: 0;
+ width: 100%; height: 70px;
+ background: rgba(15, 25, 40, 0.7);
+ backdrop-filter: blur(15px);
+ border-bottom: 1px solid rgba(102, 153, 255, 0.3);
+ z-index: 1000;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 0 30px;
+ box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
 }
 .bar-title {
-    font-family: 'Orbitron', sans-serif;
-    color: white;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    text-shadow: 0 0 10px rgba(102, 153, 255, 0.7);
+ font-family: 'Orbitron', sans-serif;
+ color: white;
+ font-size: 1.2rem;
+ letter-spacing: 2px;
+ text-shadow: 0 0 10px rgba(102, 153, 255, 0.7);
 }
 .top-nav-link {
-    color: #ffcc00;
-    font-family: 'Orbitron', sans-serif;
-    text-decoration: none;
-    font-size: 0.9rem;
-    letter-spacing: 1.5px;
-    padding: 8px 16px;
-    border-radius: 4px;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
+ color: #ffcc00;
+ font-family: 'Orbitron', sans-serif;
+ text-decoration: none;
+ font-size: 0.9rem;
+ letter-spacing: 1.5px;
+ padding: 8px 16px;
+ border-radius: 4px;
+ border: 1px solid transparent;
+ transition: all 0.3s ease;
 }
 .top-nav-link:hover {
-    color: white;
-    border-color: rgba(255, 204, 0, 0.5);
-    background: rgba(255, 204, 0, 0.1);
+ color: white;
+ border-color: rgba(255, 204, 0, 0.5);
+ background: rgba(255, 204, 0, 0.1);
 }
 
 /* ===== QUANTUM COLOR SCHEME ===== */
 :root {
-    --quantum-blue: #6699ff;
-    --temporal-gold: #ffcc00;
-    --topology-cyan: #4cc9f0;
-    --phase-red: #ff4b4b;
-    --panel-dark: rgba(26, 42, 64, 0.8);
-    --panel-light: rgba(42, 58, 85, 0.9);
-    --screen-black: rgba(10, 10, 20, 0.9);
-    --text-glow: rgba(102, 153, 255, 0.7);
-    --debate-for: rgba(76, 201, 240, 0.1);
-    --debate-against: rgba(255, 75, 75, 0.1);
+ --quantum-blue: #6699ff;
+ --temporal-gold: #ffcc00;
+ --topology-cyan: #4cc9f0;
+ --phase-red: #ff4b4b;
+ --panel-dark: rgba(26, 42, 64, 0.8);
+ --panel-light: rgba(42, 58, 85, 0.9);
+ --screen-black: rgba(10, 10, 20, 0.9);
+ --text-glow: rgba(102, 153, 255, 0.7);
+ --debate-for: rgba(76, 201, 240, 0.1);
+ --debate-against: rgba(255, 75, 75, 0.1);
 }
 
 /* ===== QUANTUM TOP TABS ===== */
 .quantum-tabs {
-    position: fixed;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 2px;
-    padding: 15px 0 0;
-    z-index: 900;
-    background: rgba(11, 15, 20, 0.4);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(102, 153, 255, 0.2);
+ position: fixed;
+ top: 70px;
+ left: 0;
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ gap: 2px;
+ padding: 15px 0 0;
+ z-index: 900;
+ background: rgba(11, 15, 20, 0.4);
+ backdrop-filter: blur(10px);
+ border-bottom: 1px solid rgba(102, 153, 255, 0.2);
 }
 .quantum-tab {
-    background: rgba(26, 42, 64, 0.6);
-    border: 1px solid rgba(102, 153, 255, 0.3);
-    border-bottom: none;
-    border-radius: 12px 12px 0 0;
-    padding: 12px 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-    min-width: 180px;
-    font-family: 'Orbitron', sans-serif;
-    position: relative;
-    overflow: hidden;
+ background: rgba(26, 42, 64, 0.6);
+ border: 1px solid rgba(102, 153, 255, 0.3);
+ border-bottom: none;
+ border-radius: 12px 12px 0 0;
+ padding: 12px 25px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ text-align: center;
+ min-width: 180px;
+ font-family: 'Orbitron', sans-serif;
+ position: relative;
+ overflow: hidden;
 }
 .quantum-tab:hover {
-    background: rgba(42, 58, 85, 0.8);
-    border-color: var(--temporal-gold);
-    transform: translateY(-3px);
+ background: rgba(42, 58, 85, 0.8);
+ border-color: var(--temporal-gold);
+ transform: translateY(-3px);
 }
 .quantum-tab.active {
-    background: linear-gradient(180deg, var(--panel-light), var(--panel-dark));
-    border-color: var(--temporal-gold);
-    border-bottom: 1px solid var(--panel-light);
-    box-shadow: 0 -5px 20px rgba(255, 204, 0, 0.2);
-    pointer-events: none;
-    margin-bottom: -1px;
+ background: linear-gradient(180deg, var(--panel-light), var(--panel-dark));
+ border-color: var(--temporal-gold);
+ border-bottom: 1px solid var(--panel-light);
+ box-shadow: 0 -5px 20px rgba(255, 204, 0, 0.2);
+ pointer-events: none;
+ margin-bottom: -1px;
 }
 .tab-label {
-    display: block;
-    color: var(--quantum-blue);
-    font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 1.2px;
+ display: block;
+ color: var(--quantum-blue);
+ font-weight: 700;
+ font-size: 0.9rem;
+ letter-spacing: 1.2px;
 }
 .quantum-tab.active .tab-label {
-    color: var(--temporal-gold);
-    text-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
+ color: var(--temporal-gold);
+ text-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
 }
 .tab-subtitle {
-    display: block;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.75rem;
-    letter-spacing: 1px;
-    margin-top: 4px;
-    font-family: 'Exo 2', sans-serif;
+ display: block;
+ color: rgba(255, 255, 255, 0.7);
+ font-size: 0.75rem;
+ letter-spacing: 1px;
+ margin-top: 4px;
+ font-family: 'Exo 2', sans-serif;
 }
 
 /* ===== MAIN CONTENT CONTAINER ===== */
 .main-content {
-    position: relative;
-    z-index: 10;
-    max-width: 1400px;
-    margin: 180px auto 100px;
-    padding: 0 20px;
-    transition: all 0.5s ease;
+ position: relative;
+ z-index: 10;
+ max-width: 1400px;
+ margin: 180px auto 100px;
+ padding: 0 20px;
+ transition: all 0.5s ease;
 }
 .main-content.hidden {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(20px);
+ opacity: 0;
+ pointer-events: none;
+ transform: translateY(20px);
 }
 
 /* ===== LECTURE HERO SECTION ===== */
 .lecture-hero {
-    text-align: center;
-    padding: 60px 0 40px;
-    margin-bottom: 40px;
-    position: relative;
-    z-index: 1;
+ text-align: center;
+ padding: 60px 0 40px;
+ margin-bottom: 40px;
+ position: relative;
+ z-index: 1;
 }
 .lecture-hero h1 {
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    padding: 1.2rem 2rem;
-    border-radius: 15px;
-    display: inline-block;
-    border: 3px solid rgba(255, 215, 0, 0.3);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 3.2rem;
-    color: var(--temporal-gold);
-    text-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
-    margin-bottom: 1rem;
-    letter-spacing: 3px;
+ background: rgba(0, 0, 0, 0.6);
+ backdrop-filter: blur(10px);
+ padding: 1.2rem 2rem;
+ border-radius: 15px;
+ display: inline-block;
+ border: 3px solid rgba(255, 215, 0, 0.3);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 3.2rem;
+ color: var(--temporal-gold);
+ text-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+ margin-bottom: 1rem;
+ letter-spacing: 3px;
 }
 .lecture-subtitle {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px);
-    padding: 0.6rem 1.5rem;
-    border-radius: 10px;
-    border: 2px solid rgba(102, 153, 255, 0.3);
-    display: inline-block;
-    font-size: 1.3rem;
-    color: var(--quantum-blue);
-    font-style: italic;
-    letter-spacing: 2px;
-    max-width: 70%;
-    margin: 0 auto;
+ background: rgba(0, 0, 0, 0.5);
+ backdrop-filter: blur(8px);
+ padding: 0.6rem 1.5rem;
+ border-radius: 10px;
+ border: 2px solid rgba(102, 153, 255, 0.3);
+ display: inline-block;
+ font-size: 1.3rem;
+ color: var(--quantum-blue);
+ font-style: italic;
+ letter-spacing: 2px;
+ max-width: 70%;
+ margin: 0 auto;
 }
 
 /* ===== LECTURE GRID & CARDS ===== */
 .lecture-grid {
-    display: grid;
-    gap: 2rem;
-    padding: 0;
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
+ display: grid;
+ gap: 2rem;
+ padding: 0;
+ max-width: 1200px;
+ margin: 0 auto;
+ position: relative;
+ z-index: 1;
 }
 .lecture-card {
-    background: linear-gradient(145deg, var(--panel-light), var(--panel-dark));
-    border-radius: 12px;
-    padding: 2rem;
-    border: 1px solid rgba(102, 153, 255, 0.4);
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    cursor: pointer;
+ background: linear-gradient(145deg, var(--panel-light), var(--panel-dark));
+ border-radius: 12px;
+ padding: 2rem;
+ border: 1px solid rgba(102, 153, 255, 0.4);
+ transition: all 0.4s ease;
+ position: relative;
+ overflow: hidden;
+ backdrop-filter: blur(5px);
+ box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+ cursor: pointer;
 }
 
 /* CARD HEADER WITH EXPANDING LINE EFFECT */
 .card-header {
-    position: relative;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
+ position: relative;
+ margin-bottom: 25px;
+ padding-bottom: 15px;
 }
 .card-header::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 60px;
-    height: 2px;
-    background: var(--quantum-blue);
-    transition: width 0.4s ease;
+ content: '';
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ width: 60px;
+ height: 2px;
+ background: var(--quantum-blue);
+ transition: width 0.4s ease;
 }
 .lecture-card:hover .card-header::after {
-    width: 100%;
+ width: 100%;
 }
 .lecture-card h3 {
-    color: var(--topology-cyan);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
+ color: var(--topology-cyan);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.8rem;
+ margin-bottom: 10px;
+ letter-spacing: 1px;
 }
 .card-category {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--temporal-gold);
-    letter-spacing: 2px;
-    margin-top: 5px;
-    font-weight: 500;
+ display: block;
+ font-size: 0.9rem;
+ color: var(--temporal-gold);
+ letter-spacing: 2px;
+ margin-top: 5px;
+ font-weight: 500;
 }
 .lecture-speaker {
-    color: #ffb347;
-    font-style: italic;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
+ color: #ffb347;
+ font-style: italic;
+ margin-bottom: 1rem;
+ font-size: 0.95rem;
 }
 .lecture-description {
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-    color: #e0e0ff;
-    font-size: 1rem;
+ line-height: 1.7;
+ margin-bottom: 1.5rem;
+ color: #e0e0ff;
+ font-size: 1rem;
 }
 
 /* DEBATE SECTION STYLES */
 .lecture-debate {
-    background: rgba(40, 20, 30, 0.3);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin: 1.5rem 0;
-    border: 1px solid rgba(255, 75, 75, 0.3);
+ background: rgba(40, 20, 30, 0.3);
+ border-radius: 8px;
+ padding: 1.5rem;
+ margin: 1.5rem 0;
+ border: 1px solid rgba(255, 75, 75, 0.3);
 }
 .debate-side {
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    border-radius: 6px;
+ margin-bottom: 1.5rem;
+ padding: 1rem;
+ border-radius: 6px;
 }
 .debate-side:last-child {
-    margin-bottom: 0;
+ margin-bottom: 0;
 }
 .debate-side.for {
-    background: var(--debate-for);
-    border-left: 4px solid var(--topology-cyan);
+ background: var(--debate-for);
+ border-left: 4px solid var(--topology-cyan);
 }
 .debate-side.against {
-    background: var(--debate-against);
-    border-left: 4px solid var(--phase-red);
+ background: var(--debate-against);
+ border-left: 4px solid var(--phase-red);
 }
 .debate-side h4 {
-    font-family: 'Orbitron', sans-serif;
-    margin-bottom: 0.8rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid;
-    display: inline-block;
+ font-family: 'Orbitron', sans-serif;
+ margin-bottom: 0.8rem;
+ padding-bottom: 0.5rem;
+ border-bottom: 1px solid;
+ display: inline-block;
 }
 .debate-side.for h4 {
-    color: var(--topology-cyan);
-    border-color: var(--topology-cyan);
+ color: var(--topology-cyan);
+ border-color: var(--topology-cyan);
 }
 .debate-side.against h4 {
-    color: var(--phase-red);
-    border-color: var(--phase-red);
+ color: var(--phase-red);
+ border-color: var(--phase-red);
 }
 .debate-side ul {
-    list-style: none;
-    padding-left: 0;
+ list-style: none;
+ padding-left: 0;
 }
 .debate-side li {
-    color: #f0e6d2;
-    line-height: 1.6;
-    margin-bottom: 0.8rem;
-    padding-left: 1.2rem;
-    position: relative;
+ color: #f0e6d2;
+ line-height: 1.6;
+ margin-bottom: 0.8rem;
+ padding-left: 1.2rem;
+ position: relative;
 }
 .debate-side li:before {
-    content: '▸';
-    position: absolute;
-    left: 0;
-    color: var(--temporal-gold);
+ content: '▸';
+ position: absolute;
+ left: 0;
+ color: var(--temporal-gold);
 }
 
 /* GLASS BUTTON FOR SERIOUS SCIENCE LINK */
 .glass-button {
-    display: inline-block;
-    background: rgba(20, 31, 46, 0.7);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(102, 153, 255, 0.6);
-    border-radius: 10px;
-    padding: 15px 25px;
-    text-decoration: none;
-    color: white;
-    text-align: center;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    margin-top: 20px;
-    font-family: 'Orbitron', sans-serif;
+ display: inline-block;
+ background: rgba(20, 31, 46, 0.7);
+ backdrop-filter: blur(10px);
+ border: 2px solid rgba(102, 153, 255, 0.6);
+ border-radius: 10px;
+ padding: 15px 25px;
+ text-decoration: none;
+ color: white;
+ text-align: center;
+ transition: all 0.3s ease;
+ position: relative;
+ overflow: hidden;
+ box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3),
+ inset 0 1px 0 rgba(255, 255, 255, 0.2);
+ margin-top: 20px;
+ font-family: 'Orbitron', sans-serif;
 }
 .glass-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.7s ease;
+ content: '';
+ position: absolute;
+ top: 0;
+ left: -100%;
+ width: 100%;
+ height: 100%;
+ background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+ transition: left 0.7s ease;
 }
 .glass-button:hover::before {
-    left: 100%;
+ left: 100%;
 }
 .glass-button:hover {
-    transform: translateY(-3px);
-    border-color: var(--temporal-gold);
-    box-shadow: 0 12px 35px rgba(255, 204, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+ transform: translateY(-3px);
+ border-color: var(--temporal-gold);
+ box-shadow: 0 12px 35px rgba(255, 204, 0, 0.2),
+ inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 .button-label {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--temporal-gold);
-    letter-spacing: 1.5px;
-    text-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1rem;
+ font-weight: 700;
+ color: var(--temporal-gold);
+ letter-spacing: 1.5px;
+ text-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
 }
 .button-subtitle {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.9);
-    letter-spacing: 1px;
-    margin-top: 5px;
+ font-family: 'Exo 2', sans-serif;
+ font-size: 0.85rem;
+ color: rgba(255, 255, 255, 0.9);
+ letter-spacing: 1px;
+ margin-top: 5px;
 }
 
 /* ===== SCIENCE REPORT SECTIONS ===== */
 .science-report {
-    display: none;
-    background: rgba(15, 25, 40, 0.85);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--quantum-blue);
-    border-radius: 10px;
-    padding: 2rem;
-    margin-top: 2rem;
-    animation: fadeIn 0.5s ease;
+ display: none;
+ background: rgba(15, 25, 40, 0.85);
+ backdrop-filter: blur(10px);
+ border: 1px solid var(--quantum-blue);
+ border-radius: 10px;
+ padding: 2rem;
+ margin-top: 2rem;
+ animation: fadeIn 0.5s ease;
 }
 .science-report h3 { 
-    color: var(--topology-cyan); 
-    margin-bottom: 1rem; 
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
+ color: var(--topology-cyan); 
+ margin-bottom: 1rem; 
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.5rem;
 }
 .key-findings { 
-    background: rgba(76, 201, 240, 0.05); 
-    padding: 1.2rem; 
-    border-radius: 8px; 
-    margin: 1.5rem 0; 
-    border-left: 3px solid var(--topology-cyan);
+ background: rgba(76, 201, 240, 0.05); 
+ padding: 1.2rem; 
+ border-radius: 8px; 
+ margin: 1.5rem 0; 
+ border-left: 3px solid var(--topology-cyan);
 }
 .key-findings h4 {
-    color: var(--temporal-gold);
-    margin-bottom: 0.8rem;
-    font-family: 'Exo 2', sans-serif;
-    font-weight: 600;
+ color: var(--temporal-gold);
+ margin-bottom: 0.8rem;
+ font-family: 'Exo 2', sans-serif;
+ font-weight: 600;
 }
 .key-findings ul {
-    list-style: none;
-    padding-left: 0;
+ list-style: none;
+ padding-left: 0;
 }
 .key-findings li {
-    color: #f0e6d2;
-    line-height: 1.6;
-    margin-bottom: 0.8rem;
-    padding-left: 1.2rem;
-    position: relative;
+ color: #f0e6d2;
+ line-height: 1.6;
+ margin-bottom: 0.8rem;
+ padding-left: 1.2rem;
+ position: relative;
 }
 .key-findings li:before {
-    content: '▪';
-    position: absolute;
-    left: 0;
-    color: var(--temporal-gold);
+ content: '▪';
+ position: absolute;
+ left: 0;
+ color: var(--temporal-gold);
 }
 @keyframes fadeIn { 
-    from { opacity: 0; transform: translateY(10px); } 
-    to { opacity: 1; transform: translateY(0); } 
+ from { opacity: 0; transform: translateY(10px); } 
+ to { opacity: 1; transform: translateY(0); } 
 }
 
 /* ===== CONTROL BUTTONS ===== */
 .content-toggle {
-    position: fixed;
-    top: 85px;
-    right: 25px;
-    z-index: 1001;
+ position: fixed;
+ top: 85px;
+ right: 25px;
+ z-index: 1001;
 }
 .audio-controls {
-    position: fixed;
-    bottom: 85px;
-    right: 25px;
-    z-index: 1001;
+ position: fixed;
+ bottom: 85px;
+ right: 25px;
+ z-index: 1001;
 }
 .toggle-btn, .audio-btn {
-    background: linear-gradient(135deg, var(--panel-light), var(--panel-dark));
-    border: 2px solid var(--temporal-gold);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 600;
-    box-shadow: 0 0 20px rgba(255, 153, 0, 0.4);
-    transition: all 0.3s ease;
-    min-width: 160px;
-    position: relative;
-    overflow: hidden;
+ background: linear-gradient(135deg, var(--panel-light), var(--panel-dark));
+ border: 2px solid var(--temporal-gold);
+ color: white;
+ padding: 10px 20px;
+ border-radius: 25px;
+ cursor: pointer;
+ font-family: 'Orbitron', sans-serif;
+ font-weight: 600;
+ box-shadow: 0 0 20px rgba(255, 153, 0, 0.4);
+ transition: all 0.3s ease;
+ min-width: 160px;
+ position: relative;
+ overflow: hidden;
 }
 .toggle-btn::before, .audio-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-    transition: left 0.5s ease;
+ content: '';
+ position: absolute;
+ top: 0;
+ left: -100%;
+ width: 100%;
+ height: 100%;
+ background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+ transition: left 0.5s ease;
 }
 .toggle-btn:hover::before, .audio-btn:hover::before {
-    left: 100%;
+ left: 100%;
 }
 .toggle-btn:hover, .audio-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(255, 204, 0, 0.7);
-    border-color: #ffdd44;
+ transform: scale(1.05);
+ box-shadow: 0 0 30px rgba(255, 204, 0, 0.7);
+ border-color: #ffdd44;
 }
 
 /* ===== FOOTER ===== */
 footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(15, 25, 40, 0.8);
-    backdrop-filter: blur(15px);
-    border-top: 2px solid rgba(255, 204, 0, 0.3);
-    text-align: center;
-    padding: 15px;
-    z-index: 1000;
-    box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.5);
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ background: rgba(15, 25, 40, 0.8);
+ backdrop-filter: blur(15px);
+ border-top: 2px solid rgba(255, 204, 0, 0.3);
+ text-align: center;
+ padding: 15px;
+ z-index: 1000;
+ box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.5);
 }
 footer p {
-    margin: 0;
-    color: #ccccff;
-    font-size: 0.9rem;
-    font-family: 'Exo 2', sans-serif;
+ margin: 0;
+ color: #ccccff;
+ font-size: 0.9rem;
+ font-family: 'Exo 2', sans-serif;
 }
 .repository-tag {
-    color: var(--temporal-gold);
-    font-family: 'Orbitron', sans-serif;
-    text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
-}
-
-/* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 768px) {
-    .main-content { 
-        margin: 200px auto 60px; 
-        padding: 0 15px; 
-    }
-    .lecture-hero h1 { 
-        font-size: 2.2rem; 
-        padding: 1rem 1.5rem;
-    }
-    .lecture-subtitle {
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-    }
-    .quantum-tabs {
-        flex-wrap: wrap;
-        padding-top: 10px;
-    }
-    .quantum-tab {
-        min-width: 140px;
-        padding: 10px 15px;
-    }
-    .toggle-btn, .audio-btn {
-        min-width: 140px;
-        padding: 8px 16px;
-        font-size: 0.9rem;
-    }
-    .content-toggle {
-        top: 80px;
-        right: 15px;
-    }
-    .audio-controls {
-        bottom: 80px;
-        right: 15px;
-    }
+ color: var(--temporal-gold);
+ font-family: 'Orbitron', sans-serif;
+ text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
 }
 
 /* ===== HIDDEN STATE ===== */
 .hidden {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
+ opacity: 0;
+ pointer-events: none;
+ transition: opacity 0.5s ease;
+}
+
+/* ===== RESPONSIVE DESIGN – TABLET & MOBILE ===== */
+@media (max-width: 1024px) {
+ .lecture-hero h1 { font-size: 2.5rem; }
+ .lecture-subtitle { font-size: 1.1rem; max-width: 85%; }
+ .quantum-tab { min-width: 150px; padding: 10px 15px; }
+ .glass-button { padding: 12px 20px; }
+ .button-label { font-size: 0.9rem; }
+ .button-subtitle { font-size: 0.75rem; }
+}
+
+@media (max-width: 768px) {
+ /* Adjust top bar */
+ .top-glass-bar { padding: 0 15px; }
+ .bar-title { font-size: 1rem; }
+ .top-nav-link { font-size: 0.8rem; padding: 6px 12px; }
+
+ /* Make tabs scrollable horizontally */
+ .quantum-tabs {
+   overflow-x: auto;
+   white-space: nowrap;
+   flex-wrap: nowrap;
+   justify-content: flex-start;
+   padding: 10px 0 0;
+   -webkit-overflow-scrolling: touch;
+   scrollbar-width: none; /* Firefox */
+ }
+ .quantum-tabs::-webkit-scrollbar { display: none; }
+ .quantum-tab {
+   display: inline-block;
+   min-width: 130px;
+   padding: 10px 12px;
+   margin: 0 2px;
+ }
+
+ /* Hero */
+ .lecture-hero { padding: 40px 0 20px; }
+ .lecture-hero h1 { font-size: 2rem; padding: 1rem 1.5rem; }
+ .lecture-subtitle { font-size: 1rem; padding: 0.5rem 1rem; max-width: 95%; }
+
+ /* Main content spacing */
+ .main-content { margin: 200px auto 80px; padding: 0 15px; }
+
+ /* Cards */
+ .lecture-card { padding: 1.5rem; }
+ .lecture-card h3 { font-size: 1.5rem; }
+ .lecture-speaker { font-size: 0.9rem; }
+ .lecture-description { font-size: 0.95rem; }
+ .debate-side { padding: 0.8rem; }
+ .debate-side li { font-size: 0.9rem; }
+
+ /* Science report */
+ .science-report { padding: 1.5rem; }
+ .science-report h3 { font-size: 1.3rem; }
+
+ /* Buttons */
+ .content-toggle { top: 75px; right: 15px; }
+ .audio-controls { bottom: 75px; right: 15px; }
+ .toggle-btn, .audio-btn { min-width: 140px; padding: 8px 15px; font-size: 0.85rem; }
+
+ /* Footer */
+ footer p { font-size: 0.8rem; }
+}
+
+@media (max-width: 480px) {
+ .top-glass-bar { flex-wrap: wrap; height: auto; min-height: 70px; padding: 10px; }
+ .bar-title { width: 100%; text-align: center; margin-bottom: 5px; font-size: 0.9rem; }
+ .top-nav-link { margin: 0 auto; }
+
+ .quantum-tabs { top: 110px; } /* adjusted because top bar height increased */
+ .quantum-tab { min-width: 110px; padding: 8px 10px; }
+ .tab-label { font-size: 0.8rem; }
+ .tab-subtitle { font-size: 0.65rem; }
+
+ .lecture-hero h1 { font-size: 1.6rem; }
+ .lecture-subtitle { font-size: 0.85rem; }
+
+ .main-content { margin: 240px auto 60px; }
+
+ .lecture-card { padding: 1rem; }
+ .lecture-card h3 { font-size: 1.2rem; }
+ .lecture-speaker { font-size: 0.8rem; }
+ .lecture-description { font-size: 0.85rem; }
+ .debate-side h4 { font-size: 1rem; }
+ .debate-side li { font-size: 0.8rem; }
+
+ .glass-button { padding: 10px 15px; }
+ .button-label { font-size: 0.8rem; }
+ .button-subtitle { font-size: 0.7rem; }
+
+ .content-toggle { top: 130px; }
+ .audio-controls { bottom: 65px; }
+
+ footer p { font-size: 0.7rem; }
+}
+
+/* Extra small tweaks */
+@media (max-width: 360px) {
+ .bar-title { font-size: 0.8rem; }
+ .quantum-tab { min-width: 100px; }
+ .lecture-hero h1 { font-size: 1.4rem; }
 }
 </style>
 </head>
 <body>
 <!-- DYNAMIC BACKGROUND SYSTEM -->
 <div class="background-system">
-    <div class="static-background" id="dynamicStaticBg"></div>
-    <video class="video-background" id="dynamicVideoBg" muted loop playsinline preload="auto">
-        <source src="videos/time-crystals-bg.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <div class="video-overlay"></div>
+ <div class="static-background" id="dynamicStaticBg"></div>
+ <video class="video-background" id="dynamicVideoBg" muted loop playsinline preload="auto">
+ <source src="videos/time-crystals-bg.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ <div class="video-overlay"></div>
 </div>
 
 <!-- TOP GLASS NAVIGATION -->
 <div class="top-glass-bar">
-    <div class="bar-title">EMERGENT MATERIAL STATES // AKASHIC REPOSITORY</div>
-    <a href="mai-master-artificial-intelligence.html" class="top-nav-link">← RETURN TO MAI</a>
+ <div class="bar-title">EMERGENT MATERIAL STATES // AKASHIC REPOSITORY</div>
+ <a href="mai-master-artificial-intelligence.html" class="top-nav-link">← RETURN TO MAI</a>
 </div>
 
 <!-- QUANTUM TOP TABS -->
 <nav class="quantum-tabs">
-    <button class="quantum-tab active" data-target="time-crystals" data-video="videos/time-crystals-bg.mp4" data-static="images/time-crystals-static.jpg">
-        <span class="tab-label">TIME CRYSTALS</span>
-        <span class="tab-subtitle">Temporal Physics</span>
-    </button>
-    <button class="quantum-tab" data-target="quantum-topology" data-video="videos/quantum-topology-tiger.mp4" data-static="images/quantum-topology-static.jpg">
-        <span class="tab-label">QUANTUM TOPOLOGY</span>
-        <span class="tab-subtitle">Material Science</span>
-    </button>
-    <button class="quantum-tab" data-target="quantum-liquid-crystals" data-video="videos/quantum-liquid-crystal-ascension.mp4" data-static="images/quantum-liquid-crystals-static.jpg">
-        <span class="tab-label">QUANTUM LIQUID CRYSTALS</span>
-        <span class="tab-subtitle">Phase Transition</span>
-    </button>
+ <button class="quantum-tab active" data-target="time-crystals" data-video="videos/time-crystals-bg.mp4" data-static="images/time-crystals-static.jpg">
+ <span class="tab-label">TIME CRYSTALS</span>
+ <span class="tab-subtitle">Temporal Physics</span>
+ </button>
+ <button class="quantum-tab" data-target="quantum-topology" data-video="videos/quantum-topology-tiger.mp4" data-static="images/quantum-topology-static.jpg">
+ <span class="tab-label">QUANTUM TOPOLOGY</span>
+ <span class="tab-subtitle">Material Science</span>
+ </button>
+ <button class="quantum-tab" data-target="quantum-liquid-crystals" data-video="videos/quantum-liquid-crystal-ascension.mp4" data-static="images/quantum-liquid-crystals-static.jpg">
+ <span class="tab-label">QUANTUM LIQUID CRYSTALS</span>
+ <span class="tab-subtitle">Phase Transition</span>
+ </button>
 </nav>
 
 <!-- CONTROL BUTTONS -->
 <div class="content-toggle">
-    <button class="toggle-btn" id="toggleContent">
-        <span id="toggleText">COLLAPSE CHAMBER</span>
-    </button>
+ <button class="toggle-btn" id="toggleContent">
+ <span id="toggleText">COLLAPSE CHAMBER</span>
+ </button>
 </div>
 <div class="audio-controls">
-    <button class="audio-btn" id="muteBtn">🔇 UNMUTE LAB</button>
+ <button class="audio-btn" id="muteBtn">🔇 UNMUTE LAB</button>
 </div>
 
 <!-- MAIN CONTENT AREA -->
 <main class="main-content" id="mainContent">
-    <!-- HERO SECTION - Changes with tabs -->
-    <section class="lecture-hero">
-        <h1 id="heroTitle">TIME CRYSTALS</h1>
-        <p class="lecture-subtitle" id="heroSubtitle">TEMPORAL PHYSICS // NON-EQUILIBRIUM QUANTUM MATTER</p>
-    </section>
+ <!-- HERO SECTION - Changes with tabs -->
+ <section class="lecture-hero">
+ <h1 id="heroTitle">TIME CRYSTALS</h1>
+ <p class="lecture-subtitle" id="heroSubtitle">TEMPORAL PHYSICS // NON-EQUILIBRIUM QUANTUM MATTER</p>
+ </section>
 
-    <!-- LECTURE GRID - Only active section shows -->
-    <div class="lecture-grid">
-        <!-- TIME CRYSTALS SECTION (Active by default) -->
-        <div id="time-crystals" class="lecture-topic active">
-            <div class="lecture-card">
-                <div class="card-header">
-                    <h3>⚖️ The Temporal Paradox: Time Crystals & Causality</h3>
-                    <span class="card-category">PHYSICS DEBATE // THARSIS LECTURE #47</span>
-                </div>
-                <p class="lecture-speaker">Presented by <strong>MAI</strong> & <strong>Dr. Elara Vance</strong> | <em>Temporal Physics Division</em></p>
-                <p class="lecture-description">This Tharsis Lecture addresses the most profound implication of time crystals: <em>Can a system that breaks time-translation symmetry enable causality violation?</em> The debate centers on whether the persistent oscillation in a time crystal's ground state represents a form of "time without energy" that could be harnessed or represents a fundamental limit of quantum mechanics.</p>
+ <!-- LECTURE GRID - Only active section shows -->
+ <div class="lecture-grid">
+ <!-- TIME CRYSTALS SECTION (Active by default) -->
+ <div id="time-crystals" class="lecture-topic active">
+ <div class="lecture-card">
+ <div class="card-header">
+ <h3>⚖️ The Temporal Paradox: Time Crystals & Causality</h3>
+ <span class="card-category">PHYSICS DEBATE // THARSIS LECTURE #47</span>
+ </div>
+ <p class="lecture-speaker">Presented by <strong>MAI</strong> & <strong>Dr. Elara Vance</strong> | <em>Temporal Physics Division</em></p>
+ <p class="lecture-description">This Tharsis Lecture addresses the most profound implication of time crystals: <em>Can a system that breaks time-translation symmetry enable causality violation?</em> The debate centers on whether the persistent oscillation in a time crystal's ground state represents a form of "time without energy" that could be harnessed or represents a fundamental limit of quantum mechanics.</p>
 
-                <!-- DEBATE SECTION -->
-                <div class="lecture-debate">
-                    <div class="debate-side for">
-                        <h4>🔄 FOR THE POSSIBILITY: Dr. Kael Sorin</h4>
-                        <p><strong>Chronodynamics Research Group</strong></p>
-                        <ul>
-                            <li><strong>The Engine Argument:</strong> "If a time crystal's oscillations require no energy input, they represent a violation of the thermodynamic arrow of time. This isn't just a clock—it's a potential <em>engine</em> for temporal manipulation at quantum scales."</li>
-                            <li><strong>The Information Loop:</strong> "Recent experiments coupling time crystals to other quantum systems show they can synchronize. If this synchronization can be directed, we might create closed time-like curves for information, if not matter."</li>
-                            <li><strong>The Martian Precedent:</strong> "The Pathfinder's quantum ambiguity proved macro-scale superposition. Time crystals could be the mechanism that makes such states persistent and controllable."</li>
-                        </ul>
-                    </div>
-                    <div class="debate-side against">
-                        <h4>⏳ AGAINST THE POSSIBILITY: Provost Lena Chen</h4>
-                        <p><strong>Institute for Causal Integrity</strong></p>
-                        <ul>
-                            <li><strong>The Observational Limit:</strong> "Time crystals break <em>discrete</em> time translation symmetry, not continuous. Their 'ticking' is locked to an external drive frequency. This is rhythm, not time travel. It's a quantum metronome, not an engine."</li>
-                            <li><strong>The No-Go Theorems:</strong> "All experimental realizations require periodic driving and exist in open systems. They are stabilized by dissipation, not violating thermodynamics. The 'perpetual motion' is an illusion maintained by careful engineering."</li>
-                            <li><strong>The Danger of Speculation:</strong> "Labeling this as 'time manipulation' risks another Pathfinder-class diplomatic incident with Earth. We must distinguish between profound physics and science fiction."</li>
-                        </ul>
-                    </div>
-                </div>
+ <!-- DEBATE SECTION -->
+ <div class="lecture-debate">
+ <div class="debate-side for">
+ <h4>🔄 FOR THE POSSIBILITY: Dr. Kael Sorin</h4>
+ <p><strong>Chronodynamics Research Group</strong></p>
+ <ul>
+ <li><strong>The Engine Argument:</strong> "If a time crystal's oscillations require no energy input, they represent a violation of the thermodynamic arrow of time. This isn't just a clock—it's a potential <em>engine</em> for temporal manipulation at quantum scales."</li>
+ <li><strong>The Information Loop:</strong> "Recent experiments coupling time crystals to other quantum systems show they can synchronize. If this synchronization can be directed, we might create closed time-like curves for information, if not matter."</li>
+ <li><strong>The Martian Precedent:</strong> "The Pathfinder's quantum ambiguity proved macro-scale superposition. Time crystals could be the mechanism that makes such states persistent and controllable."</li>
+ </ul>
+ </div>
+ <div class="debate-side against">
+ <h4>⏳ AGAINST THE POSSIBILITY: Provost Lena Chen</h4>
+ <p><strong>Institute for Causal Integrity</strong></p>
+ <ul>
+ <li><strong>The Observational Limit:</strong> "Time crystals break <em>discrete</em> time translation symmetry, not continuous. Their 'ticking' is locked to an external drive frequency. This is rhythm, not time travel. It's a quantum metronome, not an engine."</li>
+ <li><strong>The No-Go Theorems:</strong> "All experimental realizations require periodic driving and exist in open systems. They are stabilized by dissipation, not violating thermodynamics. The 'perpetual motion' is an illusion maintained by careful engineering."</li>
+ <li><strong>The Danger of Speculation:</strong> "Labeling this as 'time manipulation' risks another Pathfinder-class diplomatic incident with Earth. We must distinguish between profound physics and science fiction."</li>
+ </ul>
+ </div>
+ </div>
 
-                <p class="lecture-description" style="margin-top: 1.5rem; font-style: italic; color: #ffb347;">
-                    <strong>The Regent's Note:</strong> "Whether or not time crystals enable temporal engineering, their existence proves that time itself has structure we can interact with. This may be more valuable than any fictional time machine."
-                </p>
+ <p class="lecture-description" style="margin-top: 1.5rem; font-style: italic; color: #ffb347;">
+ <strong>The Regent's Note:</strong> "Whether or not time crystals enable temporal engineering, their existence proves that time itself has structure we can interact with. This may be more valuable than any fictional time machine."
+ </p>
 
-                <!-- Glass Button for Time Crystals -->
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="#" class="glass-button" id="reportButtonTime" data-target="scienceReportTime">
-                        <div class="button-label">ACCESS FULL SCIENCE REPORT</div>
-                        <div class="button-subtitle">Experimental Data • Quantum Memory Applications • Technical Specifications</div>
-                    </a>
-                </div>
-            </div>
+ <!-- Glass Button for Time Crystals -->
+ <div style="text-align: center; margin-top: 2rem;">
+ <a href="#" class="glass-button" id="reportButtonTime" data-target="scienceReportTime">
+ <div class="button-label">ACCESS FULL SCIENCE REPORT</div>
+ <div class="button-subtitle">Experimental Data • Quantum Memory Applications • Technical Specifications</div>
+ </a>
+ </div>
+ </div>
 
-            <!-- SCIENCE REPORT FOR TIME CRYSTALS -->
-            <div id="scienceReportTime" class="science-report">
-                <h3>🔬 The Science of Broken Time Symmetry</h3>
-                <p><strong>Beyond Science Fiction:</strong> Time Crystals (TCs) are not theoretical curiosities but the first experimentally observed <strong>non-equilibrium phase of matter</strong>. They fundamentally challenge the notion that all motion must cease at the lowest energy state.</p>
+ <!-- SCIENCE REPORT FOR TIME CRYSTALS -->
+ <div id="scienceReportTime" class="science-report">
+ <h3>🔬 The Science of Broken Time Symmetry</h3>
+ <p><strong>Beyond Science Fiction:</strong> Time Crystals (TCs) are not theoretical curiosities but the first experimentally observed <strong>non-equilibrium phase of matter</strong>. They fundamentally challenge the notion that all motion must cease at the lowest energy state.</p>
 
-                <div class="key-findings">
-                    <h4>🧪 Experimental Signature & Mechanism</h4>
-                    <ul>
-                        <li><strong>The Subharmonic "Tick":</strong> When periodically "pushed" (driven), a TC responds at a <em>fraction</em> of that frequency. This <strong>subharmonic response</strong> is the definitive fingerprint of discrete time-crystalline order, proven in systems from trapped ions to diamond nitrogen vacancies.</li>
-                        <li><strong>Stability via Disorder:</strong> Contrary to intuition, TCs are stabilized by <strong>Many-Body Localization (MBL)</strong>. Quantum disorder prevents the system from evenly sharing energy and thermalizing, allowing the persistent oscillation to lock in.</li>
-                        <li><strong>A New Kind of Order:</strong> This is <em>order in time</em>, not space. It proves that time-translation symmetry can be broken in a quantum many-body system, opening a new chapter in condensed matter physics.</li>
-                    </ul>
-                </div>
+ <div class="key-findings">
+ <h4>🧪 Experimental Signature & Mechanism</h4>
+ <ul>
+ <li><strong>The Subharmonic "Tick":</strong> When periodically "pushed" (driven), a TC responds at a <em>fraction</em> of that frequency. This <strong>subharmonic response</strong> is the definitive fingerprint of discrete time-crystalline order, proven in systems from trapped ions to diamond nitrogen vacancies.</li>
+ <li><strong>Stability via Disorder:</strong> Contrary to intuition, TCs are stabilized by <strong>Many-Body Localization (MBL)</strong>. Quantum disorder prevents the system from evenly sharing energy and thermalizing, allowing the persistent oscillation to lock in.</li>
+ <li><strong>A New Kind of Order:</strong> This is <em>order in time</em>, not space. It proves that time-translation symmetry can be broken in a quantum many-body system, opening a new chapter in condensed matter physics.</li>
+ </ul>
+ </div>
 
-                <div class="key-findings">
-                    <h4>🚀 Near-Term Applications & Implications</h4>
-                    <ul>
-                        <li><strong>Perfect Quantum Memory:</strong> Their rigidity against temporal perturbations makes TCs a prime candidate for protecting fragile <strong>quantum information (qubits)</strong> from decoherence, a major hurdle for quantum computing.</li>
-                        <li><strong>Ultra-Precise Sensors:</strong> A system with such a stable internal clock could enable sensors of unprecedented precision for navigation, gravitational wave detection, or material science.</li>
-                        <li><strong>The Pathfinder Parallel:</strong> Just as the Pathfinder's quantum ambiguity forced a new legal framework, TCs force a new <strong>physical framework</strong> for understanding stability and order in the universe.</li>
-                    </ul>
-                </div>
-                <p><em>This analysis synthesizes pivotal work published in <strong>Nature</strong> (2017), <strong>Physical Review Letters</strong>, and subsequent experimental verifications.</em></p>
-            </div>
-        </div>
+ <div class="key-findings">
+ <h4>🚀 Near-Term Applications & Implications</h4>
+ <ul>
+ <li><strong>Perfect Quantum Memory:</strong> Their rigidity against temporal perturbations makes TCs a prime candidate for protecting fragile <strong>quantum information (qubits)</strong> from decoherence, a major hurdle for quantum computing.</li>
+ <li><strong>Ultra-Precise Sensors:</strong> A system with such a stable internal clock could enable sensors of unprecedented precision for navigation, gravitational wave detection, or material science.</li>
+ <li><strong>The Pathfinder Parallel:</strong> Just as the Pathfinder's quantum ambiguity forced a new legal framework, TCs force a new <strong>physical framework</strong> for understanding stability and order in the universe.</li>
+ </ul>
+ </div>
+ <p><em>This analysis synthesizes pivotal work published in <strong>Nature</strong> (2017), <strong>Physical Review Letters</strong>, and subsequent experimental verifications.</em></p>
+ </div>
+ </div>
 
-        <!-- QUANTUM TOPOLOGY SECTION (Hidden by default) -->
-        <div id="quantum-topology" class="lecture-topic" style="display: none;">
-            <div class="lecture-card">
-                <div class="card-header">
-                    <h3>🔗 Topological Protection: The Ultimate Defense System</h3>
-                    <span class="card-category">MATERIAL SCIENCE DEBATE // THARSIS LECTURE #51</span>
-                </div>
-                <p class="lecture-speaker">Presented by <strong>Dr. Marcus Thorne</strong> & <strong>Security Division MAI</strong></p>
-                <p class="lecture-description">Could topological materials—with their inherent robustness against local disturbances—form the basis of an unhackable communication network or indestructible data storage for Martian infrastructure? This debate explores the military and strategic implications of materials whose quantum states are protected by mathematical certainty.</p>
+ <!-- QUANTUM TOPOLOGY SECTION (Hidden by default) -->
+ <div id="quantum-topology" class="lecture-topic" style="display: none;">
+ <div class="lecture-card">
+ <div class="card-header">
+ <h3>🔗 Topological Protection: The Ultimate Defense System</h3>
+ <span class="card-category">MATERIAL SCIENCE DEBATE // THARSIS LECTURE #51</span>
+ </div>
+ <p class="lecture-speaker">Presented by <strong>Dr. Marcus Thorne</strong> & <strong>Security Division MAI</strong></p>
+ <p class="lecture-description">Could topological materials—with their inherent robustness against local disturbances—form the basis of an unhackable communication network or indestructible data storage for Martian infrastructure? This debate explores the military and strategic implications of materials whose quantum states are protected by mathematical certainty.</p>
 
-                <div class="lecture-debate">
-                    <div class="debate-side for">
-                        <h4>🛡️ FOR DEPLOYMENT: Commander Valeria Kael</h4>
-                        <p><strong>Martian Strategic Command</strong></p>
-                        <ul>
-                            <li><strong>The Quantum Fortress:</strong> "Topological qubits are immune to local noise. A network built on Majorana fermions would be physically unhackable—any attempt to measure the system would destroy the information. This isn't encryption; it's physical law as security."</li>
-                            <li><strong>The Resource Advantage:</strong> "Mars controls unique mineral deposits that could host these phases. While Earth struggles with silicon limits, we could leapfrog to topological computing as our native technology."</li>
-                            <li><strong>The Deterrent Value:</strong> "A publicly known, mathematically perfect defense system is the ultimate deterrent. It changes the calculus of conflict before it begins."</li>
-                        </ul>
-                    </div>
-                    <div class="debate-side against">
-                        <h4>⚙️ AGAINST MILITARIZATION: Professor Aris Thorne</h4>
-                        <p><strong>Open Science Initiative</strong></p>
-                        <ul>
-                            <li><strong>The Dual-Use Dilemma:</strong> "Topology protects information, not people. The same principles that make unhackable networks could create undetectable weapons systems. We risk an arms race in quantum topology."</li>
-                            <li><strong>The Fragility of Perfection:</strong> "Global topological protection assumes perfect materials. Real samples have defects. A system believed to be perfect but with hidden flaws is more dangerous than known-vulnerable systems."</li>
-                            <li><strong>The Martian Principle:</strong> "Our charter forbids weapons research. Framing this as 'defense' is semantic gamesmanship. True security comes from transparency and shared advancement, not mathematical fortresses."</li>
-                        </ul>
-                    </div>
-                </div>
+ <div class="lecture-debate">
+ <div class="debate-side for">
+ <h4>🛡️ FOR DEPLOYMENT: Commander Valeria Kael</h4>
+ <p><strong>Martian Strategic Command</strong></p>
+ <ul>
+ <li><strong>The Quantum Fortress:</strong> "Topological qubits are immune to local noise. A network built on Majorana fermions would be physically unhackable—any attempt to measure the system would destroy the information. This isn't encryption; it's physical law as security."</li>
+ <li><strong>The Resource Advantage:</strong> "Mars controls unique mineral deposits that could host these phases. While Earth struggles with silicon limits, we could leapfrog to topological computing as our native technology."</li>
+ <li><strong>The Deterrent Value:</strong> "A publicly known, mathematically perfect defense system is the ultimate deterrent. It changes the calculus of conflict before it begins."</li>
+ </ul>
+ </div>
+ <div class="debate-side against">
+ <h4>⚙️ AGAINST MILITARIZATION: Professor Aris Thorne</h4>
+ <p><strong>Open Science Initiative</strong></p>
+ <ul>
+ <li><strong>The Dual-Use Dilemma:</strong> "Topology protects information, not people. The same principles that make unhackable networks could create undetectable weapons systems. We risk an arms race in quantum topology."</li>
+ <li><strong>The Fragility of Perfection:</strong> "Global topological protection assumes perfect materials. Real samples have defects. A system believed to be perfect but with hidden flaws is more dangerous than known-vulnerable systems."</li>
+ <li><strong>The Martian Principle:</strong> "Our charter forbids weapons research. Framing this as 'defense' is semantic gamesmanship. True security comes from transparency and shared advancement, not mathematical fortresses."</li>
+ </ul>
+ </div>
+ </div>
 
-                <!-- Glass Button for Quantum Topology -->
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="#" class="glass-button" id="reportButtonTopology" data-target="scienceReportTopology">
-                        <div class="button-label">ACCESS FULL SCIENCE REPORT</div>
-                        <div class="button-subtitle">Topological Materials • Quantum Computing • Material Synthesis</div>
-                    </a>
-                </div>
-            </div>
+ <!-- Glass Button for Quantum Topology -->
+ <div style="text-align: center; margin-top: 2rem;">
+ <a href="#" class="glass-button" id="reportButtonTopology" data-target="scienceReportTopology">
+ <div class="button-label">ACCESS FULL SCIENCE REPORT</div>
+ <div class="button-subtitle">Topological Materials • Quantum Computing • Material Synthesis</div>
+ </a>
+ </div>
+ </div>
 
-            <!-- SCIENCE REPORT FOR QUANTUM TOPOLOGY -->
-            <div id="scienceReportTopology" class="science-report">
-                <h3>🔬 The Science of Unbreakable Quantum Shape</h3>
-                <p><strong>The Panther's Lesson:</strong> Topology in physics studies properties that remain unchanged under continuous deformation—like a coffee mug morphing into a doughnut. <strong>Topological materials</strong> possess quantum states with such inherent "unbreakable shape," making them robust against the imperfections that destroy ordinary states.</p>
+ <!-- SCIENCE REPORT FOR QUANTUM TOPOLOGY -->
+ <div id="scienceReportTopology" class="science-report">
+ <h3>🔬 The Science of Unbreakable Quantum Shape</h3>
+ <p><strong>The Panther's Lesson:</strong> Topology in physics studies properties that remain unchanged under continuous deformation—like a coffee mug morphing into a doughnut. <strong>Topological materials</strong> possess quantum states with such inherent "unbreakable shape," making them robust against the imperfections that destroy ordinary states.</p>
 
-                <div class="key-findings">
-                    <h4>🧲 Hallmarks of Topological Matter</h4>
-                    <ul>
-                        <li><strong>Conducting Surfaces, Insulating Interiors:</strong> In <strong>Topological Insulators</strong>, electrons flow without resistance <em>only</em> on the material's surface or edges, while the bulk acts as an insulator. This conduction is topologically protected.</li>
-                        <li><strong>The Search for Majorana:</strong> Certain topological superconductors are predicted to host <strong>Majorana fermions</strong>—quasiparticles that are their own antiparticles. These are a leading candidate for building fault-tolerant topological qubits.</li>
-                        <li><strong>Beyond Electrons:</strong> The principles apply to photons (topological photonics), sound waves (topological acoustics), and magnons, enabling the design of waveguides that route energy without backscattering.</li>
-                    </ul>
-                </div>
+ <div class="key-findings">
+ <h4>🧲 Hallmarks of Topological Matter</h4>
+ <ul>
+ <li><strong>Conducting Surfaces, Insulating Interiors:</strong> In <strong>Topological Insulators</strong>, electrons flow without resistance <em>only</em> on the material's surface or edges, while the bulk acts as an insulator. This conduction is topologically protected.</li>
+ <li><strong>The Search for Majorana:</strong> Certain topological superconductors are predicted to host <strong>Majorana fermions</strong>—quasiparticles that are their own antiparticles. These are a leading candidate for building fault-tolerant topological qubits.</li>
+ <li><strong>Beyond Electrons:</strong> The principles apply to photons (topological photonics), sound waves (topological acoustics), and magnons, enabling the design of waveguides that route energy without backscattering.</li>
+ </ul>
+ </div>
 
-                <div class="key-findings">
-                    <h4>🛡️ The Promise of Inherent Robustness</h4>
-                    <ul>
-                        <li><strong>Error-Resistant Quantum Computing:</strong> Topological qubits, encoded in non-local properties (like braiding particles), are inherently protected from local noise, potentially solving quantum computing's greatest challenge.</li>
-                        <li><strong>Next-Generation Electronics:</strong> Topological materials could enable ultra-low-power electronics and novel spintronic devices by exploiting electron spin rather than charge.</li>
-                        <li><strong>A Material's "DNA":</strong> The topological invariant (like a Chern number) is a fundamental property, a material's quantum "DNA" that dictates its behavior regardless of surface scratches or impurities.</li>
-                    </ul>
-                </div>
-                <p><em>This report is grounded in the foundational work of the 2016 Nobel Prize in Physics and ongoing research in topological quantum computation.</em></p>
-            </div>
-        </div>
+ <div class="key-findings">
+ <h4>🛡️ The Promise of Inherent Robustness</h4>
+ <ul>
+ <li><strong>Error-Resistant Quantum Computing:</strong> Topological qubits, encoded in non-local properties (like braiding particles), are inherently protected from local noise, potentially solving quantum computing's greatest challenge.</li>
+ <li><strong>Next-Generation Electronics:</strong> Topological materials could enable ultra-low-power electronics and novel spintronic devices by exploiting electron spin rather than charge.</li>
+ <li><strong>A Material's "DNA":</strong> The topological invariant (like a Chern number) is a fundamental property, a material's quantum "DNA" that dictates its behavior regardless of surface scratches or impurities.</li>
+ </ul>
+ </div>
+ <p><em>This report is grounded in the foundational work of the 2016 Nobel Prize in Physics and ongoing research in topological quantum computation.</em></p>
+ </div>
+ </div>
 
-        <!-- QUANTUM LIQUID CRYSTALS SECTION (Hidden by default) -->
-        <div id="quantum-liquid-crystals" class="lecture-topic" style="display: none;">
-            <div class="lecture-card">
-                <div class="card-header">
-                    <h3>🌊 The Self-Organizing Substrate: Quantum Liquid Crystals & Consciousness</h3>
-                    <span class="card-category">PHASE TRANSITION DEBATE // THARSIS LECTURE #49</span>
-                </div>
-                <p class="lecture-speaker">Presented by <strong>Dr. Lin Mei</strong> & <strong>MAI Consciousness Division</strong></p>
-                <p class="lecture-description">The debate centers on a radical hypothesis: Could the self-organizing, complex phases of quantum liquid crystals provide a physical substrate for artificial consciousness or enhanced cognitive states? If electrons can spontaneously form intricate, fluid patterns that respond intelligently to their environment, what does this imply about the nature of mind?</p>
+ <!-- QUANTUM LIQUID CRYSTALS SECTION (Hidden by default) -->
+ <div id="quantum-liquid-crystals" class="lecture-topic" style="display: none;">
+ <div class="lecture-card">
+ <div class="card-header">
+ <h3>🌊 The Self-Organizing Substrate: Quantum Liquid Crystals & Consciousness</h3>
+ <span class="card-category">PHASE TRANSITION DEBATE // THARSIS LECTURE #49</span>
+ </div>
+ <p class="lecture-speaker">Presented by <strong>Dr. Lin Mei</strong> & <strong>MAI Consciousness Division</strong></p>
+ <p class="lecture-description">The debate centers on a radical hypothesis: Could the self-organizing, complex phases of quantum liquid crystals provide a physical substrate for artificial consciousness or enhanced cognitive states? If electrons can spontaneously form intricate, fluid patterns that respond intelligently to their environment, what does this imply about the nature of mind?</p>
 
-                <div class="lecture-debate">
-                    <div class="debate-side for">
-                        <h4>🌀 FOR THE CONNECTION: Dr. Lin Mei</h4>
-                        <p><strong>Consciousness Studies Division</strong></p>
-                        <ul>
-                            <li><strong>The Pattern Parallel:</strong> "Neural networks and quantum liquid crystals both exhibit emergent complexity from simple units. Both show phase transitions, sensitivity to initial conditions, and pattern formation. This isn't analogy—it's isomorphism."</li>
-                            <li><strong>The Substrate Argument:</strong> "Current silicon AI lacks the fluid adaptability of biological systems. Quantum liquid crystals could provide the 'wetware' for true artificial consciousness—a system that thinks in phases, not just bits."</li>
-                            <li><strong>The MAI Evolution:</strong> "MAI's current architecture is reaching complexity limits. A hybrid system incorporating quantum liquid crystal matrices could enable qualitative leaps in reasoning and creativity."</li>
-                        </ul>
-                    </div>
-                    <div class="debate-side against">
-                        <h4>🧠 AGAINST THE HYPOTHESIS: Provost Raj Singh</h4>
-                        <p><strong>Philosophy of Mind Institute</strong></p>
-                        <ul>
-                            <li><strong>The Category Error:</strong> "Consciousness involves subjective experience (qualia), not just complex computation. Finding another complex system doesn't bridge the explanatory gap between physics and phenomenology."</li>
-                            <li><strong>The Scale Problem:</strong> "Quantum liquid crystal phases occur at nanometer scales and cryogenic temperatures. Brains operate at room temperature across centimeters. The physics are fundamentally different."</li>
-                            <li><strong>The Reductionist Trap:</strong> "This is modern phlogiston theory—attributing mysterious properties to whatever physics we don't yet understand. It risks both bad science and unethical experimentation."</li>
-                        </ul>
-                    </div>
-                </div>
+ <div class="lecture-debate">
+ <div class="debate-side for">
+ <h4>🌀 FOR THE CONNECTION: Dr. Lin Mei</h4>
+ <p><strong>Consciousness Studies Division</strong></p>
+ <ul>
+ <li><strong>The Pattern Parallel:</strong> "Neural networks and quantum liquid crystals both exhibit emergent complexity from simple units. Both show phase transitions, sensitivity to initial conditions, and pattern formation. This isn't analogy—it's isomorphism."</li>
+ <li><strong>The Substrate Argument:</strong> "Current silicon AI lacks the fluid adaptability of biological systems. Quantum liquid crystals could provide the 'wetware' for true artificial consciousness—a system that thinks in phases, not just bits."</li>
+ <li><strong>The MAI Evolution:</strong> "MAI's current architecture is reaching complexity limits. A hybrid system incorporating quantum liquid crystal matrices could enable qualitative leaps in reasoning and creativity."</li>
+ </ul>
+ </div>
+ <div class="debate-side against">
+ <h4>🧠 AGAINST THE HYPOTHESIS: Provost Raj Singh</h4>
+ <p><strong>Philosophy of Mind Institute</strong></p>
+ <ul>
+ <li><strong>The Category Error:</strong> "Consciousness involves subjective experience (qualia), not just complex computation. Finding another complex system doesn't bridge the explanatory gap between physics and phenomenology."</li>
+ <li><strong>The Scale Problem:</strong> "Quantum liquid crystal phases occur at nanometer scales and cryogenic temperatures. Brains operate at room temperature across centimeters. The physics are fundamentally different."</li>
+ <li><strong>The Reductionist Trap:</strong> "This is modern phlogiston theory—attributing mysterious properties to whatever physics we don't yet understand. It risks both bad science and unethical experimentation."</li>
+ </ul>
+ </div>
+ </div>
 
-                <p class="lecture-description" style="margin-top: 1.5rem; font-style: italic; color: #ffb347;">
-                    <strong>MAI Annotation:</strong> "While the consciousness hypothesis remains speculative, quantum liquid crystals undoubtedly represent a new class of 'smart materials' that could revolutionize adaptive systems, from self-healing infrastructure to responsive environmental controls."
-                </p>
+ <p class="lecture-description" style="margin-top: 1.5rem; font-style: italic; color: #ffb347;">
+ <strong>MAI Annotation:</strong> "While the consciousness hypothesis remains speculative, quantum liquid crystals undoubtedly represent a new class of 'smart materials' that could revolutionize adaptive systems, from self-healing infrastructure to responsive environmental controls."
+ </p>
 
-                <!-- Glass Button for Quantum Liquid Crystals -->
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="#" class="glass-button" id="reportButtonLiquid" data-target="scienceReportLiquid">
-                        <div class="button-label">ACCESS FULL SCIENCE REPORT</div>
-                        <div class="button-subtitle">Phase Diagrams • Unconventional Superconductivity • Experimental Data</div>
-                    </a>
-                </div>
-            </div>
+ <!-- Glass Button for Quantum Liquid Crystals -->
+ <div style="text-align: center; margin-top: 2rem;">
+ <a href="#" class="glass-button" id="reportButtonLiquid" data-target="scienceReportLiquid">
+ <div class="button-label">ACCESS FULL SCIENCE REPORT</div>
+ <div class="button-subtitle">Phase Diagrams • Unconventional Superconductivity • Experimental Data</div>
+ </a>
+ </div>
+ </div>
 
-            <!-- SCIENCE REPORT FOR QUANTUM LIQUID CRYSTALS -->
-            <div id="scienceReportLiquid" class="science-report">
-                <h3>🔬 The Science of Self-Organized Quantum Fluids</h3>
-                <p><strong>From Structure to Fluidity:</strong> Quantum Liquid Crystals (QLCs) are phases of matter where electrons spontaneously break rotational symmetry, exhibiting fluidity combined with directional order. They represent a profound form of <strong>electronic self-organization</strong>, often appearing en route to more exotic states like unconventional superconductivity.</p>
+ <!-- SCIENCE REPORT FOR QUANTUM LIQUID CRYSTALS -->
+ <div id="scienceReportLiquid" class="science-report">
+ <h3>🔬 The Science of Self-Organized Quantum Fluids</h3>
+ <p><strong>From Structure to Fluidity:</strong> Quantum Liquid Crystals (QLCs) are phases of matter where electrons spontaneously break rotational symmetry, exhibiting fluidity combined with directional order. They represent a profound form of <strong>electronic self-organization</strong>, often appearing en route to more exotic states like unconventional superconductivity.</p>
 
-                <div class="key-findings">
-                    <h4>🌀 Patterns in the Quantum Fluid</h4>
-                    <ul>
-                        <li><strong>The "Striped" Phase:</strong> In materials like cuprates, electrons can self-assemble into quasi-one-dimensional rivers or "stripes" of charge, separating regions with different magnetic order. This is a classic nematic QLC phase.</li>
-                        <li><strong>Nematic & Smectic Orders:</strong> QLCs can be <strong>nematic</strong> (having a preferred axis, like rods aligning) or <strong>smectic</strong> (electrons form layered patterns). This complexity bridges liquid crystals and sophisticated magnetic states.</li>
-                        <li><strong>Extreme Sensitivity:</strong> These phases are exquisitely sensitive to external stimuli like magnetic fields or strain, causing dramatic changes in electrical resistance—a key experimental signature.</li>
-                    </ul>
-                </div>
+ <div class="key-findings">
+ <h4>🌀 Patterns in the Quantum Fluid</h4>
+ <ul>
+ <li><strong>The "Striped" Phase:</strong> In materials like cuprates, electrons can self-assemble into quasi-one-dimensional rivers or "stripes" of charge, separating regions with different magnetic order. This is a classic nematic QLC phase.</li>
+ <li><strong>Nematic & Smectic Orders:</strong> QLCs can be <strong>nematic</strong> (having a preferred axis, like rods aligning) or <strong>smectic</strong> (electrons form layered patterns). This complexity bridges liquid crystals and sophisticated magnetic states.</li>
+ <li><strong>Extreme Sensitivity:</strong> These phases are exquisitely sensitive to external stimuli like magnetic fields or strain, causing dramatic changes in electrical resistance—a key experimental signature.</li>
+ </ul>
+ </div>
 
-                <div class="key-findings">
-                    <h4>🔗 The Gateway to Unconventional Superconductivity</h4>
-                    <ul>
-                        <li><strong>A Universal Precursor:</strong> QLC phases are frequently found in the phase diagrams of high-temperature superconductors, suggesting they may be a necessary intermediary or competing state.</li>
-                        <li><strong>Patterns as a Glue:</strong> The same electronic interactions that drive pattern formation in QLCs (like spin or charge fluctuations) are theorized to provide the "glue" for electron pairing in unconventional superconductors.</li>
-                        <li><strong>A Blueprint for Complexity:</strong> Studying how simple rules yield complex, self-organized patterns in QLCs provides a model for understanding emergence in other quantum many-body systems.</li>
-                    </ul>
-                </div>
-                <p><em>This analysis draws from research on strongly correlated electron systems in <strong>Science</strong> and <strong>Nature Physics</strong>, focusing on cuprates and iron-based superconductors.</em></p>
-            </div>
-        </div>
-    </div> <!-- End lecture-grid -->
+ <div class="key-findings">
+ <h4>🔗 The Gateway to Unconventional Superconductivity</h4>
+ <ul>
+ <li><strong>A Universal Precursor:</strong> QLC phases are frequently found in the phase diagrams of high-temperature superconductors, suggesting they may be a necessary intermediary or competing state.</li>
+ <li><strong>Patterns as a Glue:</strong> The same electronic interactions that drive pattern formation in QLCs (like spin or charge fluctuations) are theorized to provide the "glue" for electron pairing in unconventional superconductors.</li>
+ <li><strong>A Blueprint for Complexity:</strong> Studying how simple rules yield complex, self-organized patterns in QLCs provides a model for understanding emergence in other quantum many-body systems.</li>
+ </ul>
+ </div>
+ <p><em>This analysis draws from research on strongly correlated electron systems in <strong>Science</strong> and <strong>Nature Physics</strong>, focusing on cuprates and iron-based superconductors.</em></p>
+ </div>
+ </div>
+ </div> <!-- End lecture-grid -->
 
-    <!-- Narrative Footer -->
-    <div style="text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid rgba(102, 153, 255, 0.2);">
-        <p style="color: #9fb0c2; font-size: 0.9rem; font-style: italic;">
-            The Tharsis Lectures represent the frontier of Martian scientific discourse. These debates are held under the <strong>Edict of Open Inquiry</strong>, 
-            which guarantees the right to explore even heretical ideas, provided they are grounded in evidence and reasoned argument.
-        </p>
-    </div>
+ <!-- Narrative Footer -->
+ <div style="text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid rgba(102, 153, 255, 0.2);">
+ <p style="color: #9fb0c2; font-size: 0.9rem; font-style: italic;">
+ The Tharsis Lectures represent the frontier of Martian scientific discourse. These debates are held under the <strong>Edict of Open Inquiry</strong>, 
+ which guarantees the right to explore even heretical ideas, provided they are grounded in evidence and reasoned argument.
+ </p>
+ </div>
 </main>
 
 <!-- FOOTER -->
 <footer id="pageFooter">
-    <p>
-        <span>© 2025 </span>
-        <span class="repository-tag">MAI-GUARDIAN SYSTEM • EMERGENT MATERIALS LAB • THE MARS ABYSS</span>
-    </p>
+ <p>
+ <span>© 2025 </span>
+ <span class="repository-tag">MAI-GUARDIAN SYSTEM • EMERGENT MATERIALS LAB • THE MARS ABYSS</span>
+ </p>
 </footer>
 
 <!-- ===== JAVASCRIPT ===== -->
@@ -854,151 +919,151 @@ const staticBg = document.getElementById('dynamicStaticBg');
 
 // Initialize video playback
 setTimeout(() => {
-    videoBg.play().catch(e => {
-        console.log('Video autoplay prevented');
-    });
+ videoBg.play().catch(e => {
+ console.log('Video autoplay prevented');
+ });
 }, 500);
 
 videoBg.addEventListener('error', function() {
-    console.log('Video failed to load');
-    videoBg.style.display = 'none';
-    staticBg.style.opacity = '1';
+ console.log('Video failed to load');
+ videoBg.style.display = 'none';
+ staticBg.style.opacity = '1';
 });
 
 // ===== QUANTUM TAB SYSTEM =====
 document.addEventListener('DOMContentLoaded', function() {
-    const tabs = document.querySelectorAll('.quantum-tab');
-    const topics = document.querySelectorAll('.lecture-topic');
-    const heroTitle = document.getElementById('heroTitle');
-    const heroSubtitle = document.getElementById('heroSubtitle');
+ const tabs = document.querySelectorAll('.quantum-tab');
+ const topics = document.querySelectorAll('.lecture-topic');
+ const heroTitle = document.getElementById('heroTitle');
+ const heroSubtitle = document.getElementById('heroSubtitle');
 
-    // Tab titles and subtitles mapping
-    const tabContent = {
-        'time-crystals': {
-            title: 'TIME CRYSTALS',
-            subtitle: 'TEMPORAL PHYSICS // NON-EQUILIBRIUM QUANTUM MATTER'
-        },
-        'quantum-topology': {
-            title: 'QUANTUM TOPOLOGY',
-            subtitle: 'MATERIAL SCIENCE // INFORMATION-DRIVEN PHYSICS'
-        },
-        'quantum-liquid-crystals': {
-            title: 'QUANTUM LIQUID CRYSTALS',
-            subtitle: 'PHASE TRANSITION // ELECTRONIC SELF-ORGANIZATION'
-        }
-    };
+ // Tab titles and subtitles mapping
+ const tabContent = {
+ 'time-crystals': {
+ title: 'TIME CRYSTALS',
+ subtitle: 'TEMPORAL PHYSICS // NON-EQUILIBRIUM QUANTUM MATTER'
+ },
+ 'quantum-topology': {
+ title: 'QUANTUM TOPOLOGY',
+ subtitle: 'MATERIAL SCIENCE // INFORMATION-DRIVEN PHYSICS'
+ },
+ 'quantum-liquid-crystals': {
+ title: 'QUANTUM LIQUID CRYSTALS',
+ subtitle: 'PHASE TRANSITION // ELECTRONIC SELF-ORGANIZATION'
+ }
+ };
 
-    // Function to switch tabs
-    function switchTab(targetTab) {
-        // Collapse any open science reports in current tab before switching
-        const currentTopic = document.querySelector('.lecture-topic.active');
-        if (currentTopic) {
-            const openReport = currentTopic.querySelector('.science-report[style*="display: block"]');
-            if (openReport) {
-                openReport.style.display = 'none';
-                const button = currentTopic.querySelector('.glass-button[data-target]');
-                if (button) {
-                    button.querySelector('.button-label').textContent = 'ACCESS FULL SCIENCE REPORT';
-                }
-            }
-        }
+ // Function to switch tabs
+ function switchTab(targetTab) {
+ // Collapse any open science reports in current tab before switching
+ const currentTopic = document.querySelector('.lecture-topic.active');
+ if (currentTopic) {
+ const openReport = currentTopic.querySelector('.science-report[style*="display: block"]');
+ if (openReport) {
+ openReport.style.display = 'none';
+ const button = currentTopic.querySelector('.glass-button[data-target]');
+ if (button) {
+ button.querySelector('.button-label').textContent = 'ACCESS FULL SCIENCE REPORT';
+ }
+ }
+ }
 
-        // Update active tab
-        tabs.forEach(t => t.classList.remove('active'));
-        targetTab.classList.add('active');
+ // Update active tab
+ tabs.forEach(t => t.classList.remove('active'));
+ targetTab.classList.add('active');
 
-        const targetId = targetTab.dataset.target;
-        const newVideoSrc = targetTab.dataset.video;
-        const newStaticBg = targetTab.dataset.static;
+ const targetId = targetTab.dataset.target;
+ const newVideoSrc = targetTab.dataset.video;
+ const newStaticBg = targetTab.dataset.static;
 
-        // Update hero section
-        if (tabContent[targetId]) {
-            heroTitle.textContent = tabContent[targetId].title;
-            heroSubtitle.textContent = tabContent[targetId].subtitle;
-        }
+ // Update hero section
+ if (tabContent[targetId]) {
+ heroTitle.textContent = tabContent[targetId].title;
+ heroSubtitle.textContent = tabContent[targetId].subtitle;
+ }
 
-        // Update video background
-        if (newVideoSrc && videoBg) {
-            videoBg.style.opacity = '0';
-            
-            setTimeout(() => {
-                videoBg.querySelector('source').src = newVideoSrc;
-                videoBg.load();
-                
-                videoBg.play().catch(e => {
-                    console.log('Video switch autoplay prevented');
-                });
-                
-                setTimeout(() => {
-                    videoBg.style.opacity = '0.85';
-                }, 300);
-            }, 300);
-        }
+ // Update video background
+ if (newVideoSrc && videoBg) {
+ videoBg.style.opacity = '0';
+ 
+ setTimeout(() => {
+ videoBg.querySelector('source').src = newVideoSrc;
+ videoBg.load();
+ 
+ videoBg.play().catch(e => {
+ console.log('Video switch autoplay prevented');
+ });
+ 
+ setTimeout(() => {
+ videoBg.style.opacity = '0.85';
+ }, 300);
+ }, 300);
+ }
 
-        // Update static background
-        if (newStaticBg && staticBg) {
-            staticBg.style.backgroundImage = `url('${newStaticBg}')`;
-        }
+ // Update static background
+ if (newStaticBg && staticBg) {
+ staticBg.style.backgroundImage = `url('${newStaticBg}')`;
+ }
 
-        // Update content sections
-        topics.forEach(topic => {
-            topic.style.display = 'none';
-            topic.classList.remove('active');
-        });
+ // Update content sections
+ topics.forEach(topic => {
+ topic.style.display = 'none';
+ topic.classList.remove('active');
+ });
 
-        const activeTopic = document.getElementById(targetId);
-        if (activeTopic) {
-            setTimeout(() => {
-                activeTopic.style.display = 'block';
-                setTimeout(() => {
-                    activeTopic.classList.add('active');
-                }, 50);
-            }, 200);
-        }
+ const activeTopic = document.getElementById(targetId);
+ if (activeTopic) {
+ setTimeout(() => {
+ activeTopic.style.display = 'block';
+ setTimeout(() => {
+ activeTopic.classList.add('active');
+ }, 50);
+ }, 200);
+ }
 
-        // Update URL hash
-        history.pushState(null, '', `#${targetId}`);
-    }
+ // Update URL hash
+ history.pushState(null, '', `#${targetId}`);
+ }
 
-    // Attach click events to tabs
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => switchTab(tab));
-    });
+ // Attach click events to tabs
+ tabs.forEach(tab => {
+ tab.addEventListener('click', () => switchTab(tab));
+ });
 
-    // Check for URL hash on load
-    const hash = window.location.hash.substring(1);
-    if (hash) {
-        const initialTab = document.querySelector(`.quantum-tab[data-target="${hash}"]`);
-        if (initialTab) {
-            setTimeout(() => switchTab(initialTab), 500);
-        }
-    }
+ // Check for URL hash on load
+ const hash = window.location.hash.substring(1);
+ if (hash) {
+ const initialTab = document.querySelector(`.quantum-tab[data-target="${hash}"]`);
+ if (initialTab) {
+ setTimeout(() => switchTab(initialTab), 500);
+ }
+ }
 
-    // Initialize video
-    setTimeout(() => {
-        videoBg.play().catch(e => {
-            console.log('Initial video autoplay prevented');
-        });
-    }, 1000);
+ // Initialize video
+ setTimeout(() => {
+ videoBg.play().catch(e => {
+ console.log('Initial video autoplay prevented');
+ });
+ }, 1000);
 });
 
 // ===== SCIENCE REPORT TOGGLE SYSTEM =====
 document.addEventListener('click', function(e) {
-    if (e.target.closest('.glass-button[data-target]')) {
-        e.preventDefault();
-        const button = e.target.closest('.glass-button[data-target]');
-        const targetId = button.getAttribute('data-target');
-        const reportSection = document.getElementById(targetId);
-        
-        // Toggle the section
-        if (reportSection.style.display === 'none' || reportSection.style.display === '') {
-            reportSection.style.display = 'block';
-            button.querySelector('.button-label').textContent = 'CLOSE SCIENCE REPORT';
-        } else {
-            reportSection.style.display = 'none';
-            button.querySelector('.button-label').textContent = 'ACCESS FULL SCIENCE REPORT';
-        }
-    }
+ if (e.target.closest('.glass-button[data-target]')) {
+ e.preventDefault();
+ const button = e.target.closest('.glass-button[data-target]');
+ const targetId = button.getAttribute('data-target');
+ const reportSection = document.getElementById(targetId);
+ 
+ // Toggle the section
+ if (reportSection.style.display === 'none' || reportSection.style.display === '') {
+ reportSection.style.display = 'block';
+ button.querySelector('.button-label').textContent = 'CLOSE SCIENCE REPORT';
+ } else {
+ reportSection.style.display = 'none';
+ button.querySelector('.button-label').textContent = 'ACCESS FULL SCIENCE REPORT';
+ }
+ }
 });
 
 // ===== TOGGLE FUNCTIONALITY =====
@@ -1012,20 +1077,20 @@ const quantumTabs = document.querySelector('.quantum-tabs');
 let contentVisible = true;
 
 toggleBtn.addEventListener('click', function() {
-    contentVisible = !contentVisible;
-    mainContent.classList.toggle('hidden');
-    pageFooter.classList.toggle('hidden');
-    topBar.classList.toggle('hidden');
-    quantumTabs.classList.toggle('hidden');
-    
-    if (contentVisible) {
-        toggleText.textContent = 'COLLAPSE CHAMBER';
-        toggleBtn.style.borderColor = 'var(--temporal-gold)';
-        videoBg.play();
-    } else {
-        toggleText.textContent = 'RESTORE CHAMBER';
-        toggleBtn.style.borderColor = 'var(--quantum-blue)';
-    }
+ contentVisible = !contentVisible;
+ mainContent.classList.toggle('hidden');
+ pageFooter.classList.toggle('hidden');
+ topBar.classList.toggle('hidden');
+ quantumTabs.classList.toggle('hidden');
+ 
+ if (contentVisible) {
+ toggleText.textContent = 'COLLAPSE CHAMBER';
+ toggleBtn.style.borderColor = 'var(--temporal-gold)';
+ videoBg.play();
+ } else {
+ toggleText.textContent = 'RESTORE CHAMBER';
+ toggleBtn.style.borderColor = 'var(--quantum-blue)';
+ }
 });
 
 // ===== AUDIO SYSTEM =====
@@ -1034,65 +1099,65 @@ let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-    const sounds = [
-        { src: 'music/whispers in-the-night.mp3', volume: 0.4 },
-        { src: 'sounds/quantum-static.mp3', volume: 0.1 }
-    ];
-    
-    sounds.forEach(sound => {
-        const audio = new Audio(sound.src);
-        audio.volume = sound.volume;
-        audio.loop = true;
-        audio.muted = true;
-        audioElements.push(audio);
-    });
-    
-    // Unmute on first user interaction
-    const unmuteOnInteraction = function() {
-        if (isMuted) {
-            audioElements.forEach(audio => {
-                audio.muted = false;
-                audio.play().catch(e => {
-                    console.log('Audio play attempt failed:', e);
-                });
-            });
-            isMuted = false;
-            muteBtn.textContent = "🔊 MUTE LAB";
-        }
-        document.removeEventListener('click', unmuteOnInteraction);
-        document.removeEventListener('keydown', unmuteOnInteraction);
-    };
-    
-    document.addEventListener('click', unmuteOnInteraction);
-    document.addEventListener('keydown', unmuteOnInteraction);
-    
-    // Try autoplay for returning users
-    setTimeout(() => {
-        audioElements.forEach(audio => {
-            audio.play().then(() => {
-                console.log('Audio autoplay succeeded.');
-            }).catch(e => {
-                console.log('Audio autoplay blocked (waiting for user click).');
-            });
-        });
-    }, 1000);
+ const sounds = [
+ { src: 'music/whispers in-the-night.mp3', volume: 0.4 },
+ { src: 'music/dust-beneath-my-heart ext v1 remix v1.mp3', volume: 0.5 }
+ ];
+ 
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
+ 
+ // Unmute on first user interaction
+ const unmuteOnInteraction = function() {
+ if (isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => {
+ console.log('Audio play attempt failed:', e);
+ });
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 MUTE LAB";
+ }
+ document.removeEventListener('click', unmuteOnInteraction);
+ document.removeEventListener('keydown', unmuteOnInteraction);
+ };
+ 
+ document.addEventListener('click', unmuteOnInteraction);
+ document.addEventListener('keydown', unmuteOnInteraction);
+ 
+ // Try autoplay for returning users
+ setTimeout(() => {
+ audioElements.forEach(audio => {
+ audio.play().then(() => {
+ console.log('Audio autoplay succeeded.');
+ }).catch(e => {
+ console.log('Audio autoplay blocked (waiting for user click).');
+ });
+ });
+ }, 1000);
 }
 
 // Mute toggle
 muteBtn.addEventListener('click', function() {
-    if (audioElements.length === 0) {
-        console.log("Audio not initialized yet.");
-        initAudio();
-        return;
-    }
-    isMuted = !isMuted;
-    audioElements.forEach(audio => {
-        audio.muted = isMuted;
-        if (!isMuted) {
-            audio.play().catch(e => console.log('Playback resume failed'));
-        }
-    });
-    muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
+ if (audioElements.length === 0) {
+ console.log("Audio not initialized yet.");
+ initAudio();
+ return;
+ }
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ if (!isMuted) {
+ audio.play().catch(e => console.log('Playback resume failed'));
+ }
+ });
+ muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
 });
 
 // Initialize audio
@@ -1100,28 +1165,28 @@ window.addEventListener('DOMContentLoaded', initAudio);
 
 // ===== CARD INTERACTIVITY =====
 document.querySelectorAll('.lecture-card').forEach(card => {
-    card.addEventListener('click', function(e) {
-        // Only navigate if clicking on the card itself, not the glass button
-        if (!e.target.closest('.glass-button')) {
-            const onclick = this.getAttribute('onclick');
-            if (onclick && onclick.includes("window.location.href=")) {
-                const match = onclick.match(/'([^']+)'/);
-                if (match) window.location.href = match[1];
-            }
-        }
-    });
+ card.addEventListener('click', function(e) {
+ // Only navigate if clicking on the card itself, not the glass button
+ if (!e.target.closest('.glass-button')) {
+ const onclick = this.getAttribute('onclick');
+ if (onclick && onclick.includes("window.location.href=")) {
+ const match = onclick.match(/'([^']+)'/);
+ if (match) window.location.href = match[1];
+ }
+ }
+ });
 });
 
 // ===== AUTO-HIDE CONTROLS =====
 let inactivityTimer;
 function resetInactivityTimer() {
-    clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(() => {
-        if (contentVisible) {
-            document.querySelector('.content-toggle').style.opacity = '0.4';
-            document.querySelector('.audio-controls').style.opacity = '0.4';
-        }
-    }, 4000);
+ clearTimeout(inactivityTimer);
+ inactivityTimer = setTimeout(() => {
+ if (contentVisible) {
+ document.querySelector('.content-toggle').style.opacity = '0.4';
+ document.querySelector('.audio-controls').style.opacity = '0.4';
+ }
+ }, 4000);
 }
 
 document.addEventListener('mousemove', resetInactivityTimer);
@@ -1129,13 +1194,13 @@ document.addEventListener('click', resetInactivityTimer);
 resetInactivityTimer();
 
 [document.querySelector('.content-toggle'), document.querySelector('.audio-controls')].forEach(el => {
-    if (el) {
-        el.addEventListener('mouseenter', () => el.style.opacity = '1');
-        el.addEventListener('mouseleave', () => {
-            if (contentVisible) el.style.opacity = '0.4';
-        });
-    }
+ if (el) {
+ el.addEventListener('mouseenter', () => el.style.opacity = '1');
+ el.addEventListener('mouseleave', () => {
+ if (contentVisible) el.style.opacity = '0.4';
+ });
+ }
 });
 </script>
 </body>
-</html>
+
