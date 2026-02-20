@@ -931,49 +931,69 @@ document.removeEventListener('click', playVideo);
 });
 }
 
-// USE YOUR WORKING AUDIO CODE FROM CONTACT PAGE HERE
+// ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-const sounds = [
-{ src: 'music/bailando-en-el-caribe.mp3', volume: 0.3 },
-{ src: 'sounds/gentle-ambient.mp3', volume: 0.1 }
-];
+ const sounds = [
+ { src: 'music/bailando-en-el-caribe.mp3', volume: 0.5 },
+ { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+ { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+ ];
 
-sounds.forEach(sound => {
-const audio = new Audio(sound.src);
-audio.volume = sound.volume;
-audio.loop = true;
-audio.muted = true;
-audioElements.push(audio);
-});
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
 
-// Unmute and Play sounds first user interaction
-document.addEventListener('click', function unmuteAudio() {
-if (!isMuted) {
-audioElements.forEach(audio => {
-audio.muted = false;
-audio.play().catch(e => console.log('Audio play failed'));
-});
-isMuted = false;
-muteBtn.textContent = "🔊 Mute Sounds";
+ const unmuteOnInteraction = function() {
+ if (isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => {
+ console.log('Audio play attempt failed:', e);
+ });
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 MUTE LAB";
+ }
+ document.removeEventListener('click', unmuteOnInteraction);
+ document.removeEventListener('keydown', unmuteOnInteraction);
+ };
+
+ document.addEventListener('click', unmuteOnInteraction);
+ document.addEventListener('keydown', unmuteOnInteraction);
+
+ setTimeout(() => {
+ audioElements.forEach(audio => {
+ audio.play().then(() => {
+ console.log('Audio autoplay succeeded.');
+ }).catch(e => {
+ console.log('Audio autoplay blocked.');
+ });
+ });
+ }, 1000);
 }
-document.removeEventListener('click', unmuteAudio);
-}, { once: true });
-}
 
-// Mute toggle
 muteBtn.addEventListener('click', function() {
-isMuted = !isMuted;
-audioElements.forEach(audio => {
-audio.muted = isMuted;
+ if (audioElements.length === 0) {
+ initAudio();
+ return;
+ }
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ if (!isMuted) {
+ audio.play().catch(e => console.log('Playback resume failed'));
+ }
+ });
+ muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
 });
-muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
-});
-// Initialize audio when page loads
-initAudio();
 
 // HIDE CONTENT FUNCTIONALITY
 const hideContentBtn = document.getElementById('hideContentBtn');
