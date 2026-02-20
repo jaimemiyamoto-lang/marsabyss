@@ -931,36 +931,48 @@ document.removeEventListener('click', playVideo);
 });
 }
 
-// ===== SIMPLE, RELIABLE AUDIO SYSTEM =====
+// USE YOUR WORKING AUDIO CODE FROM CONTACT PAGE HERE
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
-let audio = null;
+let audioElements = [];
 
 function initAudio() {
-  // Create a single audio element (prevents multiple streams)
-  audio = new Audio('music/your-background-music.mp3'); // use your actual file
-  audio.loop = true;
-  audio.volume = 0.4;
-  audio.muted = true; // start muted to allow autoplay
-  audio.play().catch(e => console.log('Autoplay prevented')); // will play muted
-}
+const sounds = [
+{ src: 'music/bailando-en-el-caribe.mp3', volume: 0.3 },
+{ src: 'sounds/gentle-ambient.mp3', volume: 0.1 }
+];
 
-// Mute button toggles sound
-muteBtn.addEventListener('click', function() {
-  if (!audio) initAudio(); // ensure audio exists
-  
-  isMuted = !isMuted;
-  audio.muted = isMuted;
-  
-  // If unmuting and audio is paused, play it
-  if (!isMuted && audio.paused) {
-    audio.play().catch(e => console.log('Play failed'));
-  }
-  
-  muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+sounds.forEach(sound => {
+const audio = new Audio(sound.src);
+audio.volume = sound.volume;
+audio.loop = true;
+audio.muted = true;
+audioElements.push(audio);
 });
 
-// Initialize on page load
+// Unmute and Play sounds first user interaction
+document.addEventListener('click', function unmuteAudio() {
+if (!isMuted) {
+audioElements.forEach(audio => {
+audio.muted = false;
+audio.play().catch(e => console.log('Audio play failed'));
+});
+isMuted = false;
+muteBtn.textContent = "🔊 Mute Sounds";
+}
+document.removeEventListener('click', unmuteAudio);
+}, { once: true });
+}
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+isMuted = !isMuted;
+audioElements.forEach(audio => {
+audio.muted = isMuted;
+});
+muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+});
+// Initialize audio when page loads
 initAudio();
 
 // HIDE CONTENT FUNCTIONALITY
