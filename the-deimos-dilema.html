@@ -1,481 +1,548 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Deimos Dilemma - A Martian Ethic for Earth</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        /* === BASE & VIVID COLORS (Greenland & Denmark Theme) === */
-        :root {
-            --greenland-green: #00664F; 
-            --greenland-white: #FFFFFF;
-            --greenland-red: #D7282F; /* VIVID Red */
-            --denmark-red: #C60C30;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html {
-            height: 100%; width: 100%;
-            font-family: 'Exo 2', sans-serif;
-            color: var(--greenland-white);
-            overflow-x: hidden;
-            background: #0a0a1a;
-        }
-        /* === VIDEO BACKGROUND === */
-        .background-container {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 1; /* Keeps video as true background */
-            pointer-events: none;
-        }
-        .static-bg {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(45deg, #00110c 0%, #0a1a2a 100%);
-            z-index: 1;
-        }
-        .video-background {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            opacity: 0.9;
-            z-index: 2;
-        }
-        /* === SIMPLIFIED TOP MENU & FOOTER === */
-        nav.top-menu-simple, footer.page-footer-simple {
-            position: fixed;
-            left: 0; width: 100%;
-            background: rgba(0, 40, 30, 0.92) !important; /* Dark green */
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            padding: 0.8rem;
-            border: none;
-            transition: opacity 0.5s ease;
-        }
-        nav.top-menu-simple {
-            top: 0;
-            border-bottom: 3px solid var(--greenland-white);
-            box-shadow: 0 0 25px rgba(0, 204, 139, 0.5);
-        }
-        footer.page-footer-simple {
-            bottom: 0;
-            border-top: 3px solid var(--greenland-red);
-            box-shadow: 0 0 25px rgba(200, 16, 46, 0.3);
-        }
-        .top-menu-simple a, .footer-text {
-            color: var(--greenland-white);
-            text-decoration: none;
-            font-weight: 600;
-            margin: 0 1.5rem;
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-            flex-shrink: 0; /* Prevents squishing in mobile scroll */
-        }
-        .top-menu-simple a:hover { color: #8BFFE0; transform: translateY(-2px); }
-        .footer-text { font-size: 0.9rem; font-weight: 400; }
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>The Deimos Dilemma - A Martian Ethic for Earth</title>
+ <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+ <style>
+ /* === BASE & VIVID COLORS (Greenland & Denmark Theme) === */
+ :root {
+ --greenland-green: #00664F; 
+ --greenland-white: #FFFFFF;
+ --greenland-red: #D7282F; /* VIVID Red */
+ --denmark-red: #C60C30;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body, html {
+ height: 100%; width: 100%;
+ font-family: 'Exo 2', sans-serif;
+ color: var(--greenland-white);
+ overflow-x: hidden;
+ background: #0a0a1a;
+ }
+ /* === VIDEO BACKGROUND === */
+ .background-container {
+ position: fixed; top: 0; left: 0;
+ width: 100%; height: 100%;
+ z-index: 1; /* Keeps video as true background */
+ pointer-events: none;
+ }
+ .static-bg {
+ position: absolute; top: 0; left: 0;
+ width: 100%; height: 100%;
+ background: linear-gradient(45deg, #00110c 0%, #0a1a2a 100%);
+ z-index: 1;
+ }
+ .video-background {
+ position: absolute; top: 0; left: 0;
+ width: 100%; height: 100%;
+ object-fit: cover;
+ opacity: 0.9;
+ z-index: 2;
+ }
+ /* === SIMPLIFIED TOP MENU & FOOTER === */
+ nav.top-menu-simple, footer.page-footer-simple {
+ position: fixed;
+ left: 0; width: 100%;
+ background: rgba(0, 40, 30, 0.92) !important; /* Dark green */
+ backdrop-filter: blur(10px);
+ z-index: 1000;
+ display: flex;
+ justify-content: center;
+ padding: 0.8rem;
+ border: none;
+ transition: opacity 0.5s ease;
+ }
+ nav.top-menu-simple {
+ top: 0;
+ border-bottom: 3px solid var(--greenland-white);
+ box-shadow: 0 0 25px rgba(0, 204, 139, 0.5);
+ }
+ footer.page-footer-simple {
+ bottom: 0;
+ border-top: 3px solid var(--greenland-red);
+ box-shadow: 0 0 25px rgba(200, 16, 46, 0.3);
+ }
+ .top-menu-simple a, .footer-text {
+ color: var(--greenland-white);
+ text-decoration: none;
+ font-weight: 600;
+ margin: 0 1.5rem;
+ transition: all 0.3s ease;
+ font-family: 'Orbitron', sans-serif;
+ letter-spacing: 1px;
+ flex-shrink: 0; /* Prevents squishing in mobile scroll */
+ }
+ .top-menu-simple a:hover { color: #8BFFE0; transform: translateY(-2px); }
+ .footer-text { font-size: 0.9rem; font-weight: 400; }
 
-        /* === CONTROL BUTTONS === */
-        .content-toggle {
-            position: fixed;
-            top: 80px;
-            right: 30px;
-            z-index: 1001;
-            transition: opacity 0.3s ease;
-        }
-        .audio-controls {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            z-index: 1001;
-            transition: opacity 0.3s ease;
-        }
-        .control-btn {
-            background: rgba(139, 255, 224, 0.3);
-            border: 2px solid var(--greenland-white);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            font-size: 0.95rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 204, 139, 0.4);
-        }
-        .control-btn:hover {
-            background: rgba(139, 255, 224, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 204, 139, 0.6);
-        }
+ /* === CONTROL BUTTONS === */
+ .content-toggle {
+ position: fixed;
+ top: 80px;
+ right: 30px;
+ z-index: 1001;
+ transition: opacity 0.3s ease;
+ }
+ .audio-controls {
+ position: fixed;
+ bottom: 80px;
+ right: 20px;
+ z-index: 1001;
+ transition: opacity 0.3s ease;
+ }
+ .control-btn {
+ background: rgba(139, 255, 224, 0.3);
+ border: 2px solid var(--greenland-white);
+ color: white;
+ padding: 10px 20px;
+ border-radius: 50px;
+ cursor: pointer;
+ font-family: 'Orbitron', sans-serif;
+ font-weight: 600;
+ font-size: 0.95rem;
+ backdrop-filter: blur(10px);
+ transition: all 0.3s ease;
+ box-shadow: 0 4px 15px rgba(0, 204, 139, 0.4);
+ }
+ .control-btn:hover {
+ background: rgba(139, 255, 224, 0.3);
+ transform: translateY(-2px);
+ box-shadow: 0 6px 20px rgba(0, 204, 139, 0.6);
+ }
 
-        /* === MAIN CONTENT CONTAINER === */
-        .content-wrapper {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 120px 5% 100px;
-            text-align: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            transition: opacity 0.5s ease;
+ /* === MAIN CONTENT CONTAINER === */
+ .content-wrapper {
+ position: relative;
+ z-index: 10;
+ min-height: 100vh;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ padding: 120px 5% 100px;
+ text-align: center;
+ max-width: 1200px;
+ margin: 0 auto;
+ transition: opacity 0.5s ease;
+ }
+ /* === HERO SECTION === */
+ .page-hero h1 {
+ font-family: 'Orbitron', sans-serif;
+ font-size: clamp(2.5rem, 5vw, 4.5rem);
+ margin-bottom: 0.5rem;
+ background: linear-gradient(90deg, var(--greenland-white), var(--greenland-green), var(--greenland-white));
+ -webkit-background-clip: text;
+ background-clip: text; /* Standard property */
+ -webkit-text-fill-color: transparent;
+ color: transparent; /* Fallback */
+ text-shadow: 0 0 30px rgba(0, 204, 139, 0.3);
+ }
+ .page-hero .subtitle {
+ font-size: 1.5rem;
+ color: #b3e5fc;
+ margin-bottom: 3rem;
+ max-width: 800px;
+ }
+ /* === CENTRAL VIDEO CONTAINER === */
+ .dilemma-video-container {
+ width: 100%;
+ max-width: 900px;
+ height: clamp(350px, 50vh, 500px);
+ margin: 2rem auto 4rem;
+ border-radius: 20px;
+ overflow: hidden;
+ border: 4px solid var(--greenland-white);
+ box-shadow:
+ 0 0 60px rgba(0, 204, 139, 0.7),
+ 0 0 100px rgba(200, 16, 46, 0.3) inset;
+ position: relative;
+ }
+ .dilemma-video {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ display: block;
+ }
+ .video-overlay-label {
+ position: absolute;
+ bottom: 60px; left: 50%; width: auto; transform: translateX(-50%);
+ max-width: 90%;
+ text-align: center;
+ color: var(--greenland-white);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.2rem;
+ background: rgba(0, 40, 30, 0.85);
+ padding: 10px 20px;
+ backdrop-filter: blur(5px);
+ white-space: nowrap;
+ box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+ z-index: 10;
+ }
+ @media (max-width: 768px) {
+    .video-overlay-label {
+        font-size: 1rem;
+        bottom: 70px;
+        padding: 8px 16px;
+        white-space: normal;
         }
-        /* === HERO SECTION === */
-        .page-hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            margin-bottom: 0.5rem;
-            background: linear-gradient(90deg, var(--greenland-white), var(--greenland-green), var(--greenland-white));
-            -webkit-background-clip: text;
-            background-clip: text; /* Standard property */
-            -webkit-text-fill-color: transparent;
-            color: transparent; /* Fallback */
-            text-shadow: 0 0 30px rgba(0, 204, 139, 0.3);
+    }
+
+    @media (max-width: 480px) {
+    .video-overlay-label {
+        font-size: 0.9rem;
+        bottom: 65px;
+        padding: 6px 12px;
         }
-        .page-hero .subtitle {
-            font-size: 1.5rem;
-            color: #b3e5fc;
-            margin-bottom: 3rem;
-            max-width: 800px;
-        }
-        /* === CENTRAL VIDEO CONTAINER === */
-        .dilemma-video-container {
-            width: 100%;
-            max-width: 900px;
-            height: clamp(350px, 50vh, 500px);
-            margin: 2rem auto 4rem;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 4px solid var(--greenland-white);
-            box-shadow:
-                0 0 60px rgba(0, 204, 139, 0.7),
-                0 0 100px rgba(200, 16, 46, 0.3) inset;
-            position: relative;
-        }
-        .dilemma-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .video-overlay-label {
-            position: absolute;
-            bottom: 20px; left: 0; width: 100%;
-            text-align: center;
-            color: var(--greenland-white);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            background: rgba(0, 40, 30, 0.75);
-            padding: 10px;
-            backdrop-filter: blur(5px);
-        }
-        /* === ETHICAL FRAMEWORK SECTIONS === */
-        .ethic-section {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2.5rem;
-            margin: 2.5rem 0;
-            border-left: 5px solid;
-            text-align: left;
-            max-width: 900px;
-        }
-        .ethic-martian { border-left-color: var(--greenland-green); }
-        .ethic-earth { border-left-color: var(--greenland-red); }
-        .section-title {
-            color: #8BFFE0;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .section-title.earth-title { color: #FF9EAA; }
-        .section-title::before {
-            font-size: 2.5rem;
-        }
-        .ethic-martian .section-title::before { content: '🪐'; }
-        .ethic-earth .section-title::before { content: '💚'; }
-        .ethic-principle {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .principle-card {
-            background: rgba(0, 20, 15, 0.5);
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-top: 3px solid;
-        }
-        .card-1 { border-top-color: var(--greenland-green); }
-        .card-2 { border-top-color: var(--greenland-white); }
-        .card-3 { border-top-color: var(--greenland-red); }
-        .principle-card h4 {
-            color: #fff;
-            margin-bottom: 0.8rem;
-            font-size: 1.3rem;
-        }
-        .principle-card p { color: #e0e0ff; line-height: 1.6; }
-        /* === THE "SECTION 8" PROPOSAL === */
-        .proposal-section {
-            background: linear-gradient(135deg,
-                rgba(0, 204, 139, 0.15) 0%,
-                rgba(200, 16, 46, 0.08) 100%);
-            border: 2px dashed var(--greenland-white);
-            padding: 3rem;
-            border-radius: 15px;
-            margin: 4rem 0;
-            max-width: 900px;
-        }
-        .proposal-section h3 {
-            color: #FFD166;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
-            margin-bottom: 1.5rem;
-        }
-        .proposal-section h3::before { content: '⚖️ '; }
-        .proposal-list {
-            list-style: none;
-            text-align: left;
-            margin: 2rem 0;
-        }
-        .proposal-list li {
-            padding: 1rem 0 1rem 2.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            color: #f0f0ff;
-            position: relative;
-        }
-        .proposal-list li::before {
-            content: '✅';
-            position: absolute;
-            left: 0;
-            color: #8BFFE0;
-        }
-        /* === NAVIGATION HUB === */
-        .nav-hub {
-            margin: 4rem auto 3rem;
-            max-width: 1000px;
-            padding: 2.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(0, 204, 139, 0.3);
-        }
-        .nav-hub-title {
-            color: #8BFFE0;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.2rem;
-        }
-        .nav-link {
-            background: rgba(0, 30, 20, 0.6);
-            border: 1px solid rgba(0, 204, 139, 0.4);
-            border-radius: 12px;
-            padding: 1.2rem;
-            text-align: center;
-            text-decoration: none;
-            color: #e0f7ff;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: block;
-        }
-        .nav-link:hover {
-            background: rgba(0, 204, 139, 0.2);
-            border-color: var(--greenland-white);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 204, 139, 0.3);
-        }
-        /* === FINAL CALL & LINK === */
-        .final-call {
-            margin: 3rem 0;
-            padding: 2rem;
-            border-top: 2px solid rgba(139, 255, 224, 0.3);
-            border-bottom: 2px solid rgba(255, 158, 170, 0.3);
-        }
-        .final-call a {
-            display: inline-block;
-            background: linear-gradient(90deg, var(--greenland-green), var(--greenland-red));
-            color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            margin-top: 1.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 5px 20px rgba(200, 16, 46, 0.4);
-        }
-        .final-call a:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 204, 139, 0.6);
-        }
-        /* === RESPONSIVE DESIGN === */
-        @media (max-width: 768px) {
-            /* Layout & Spacing */
-            .content-wrapper { padding: 100px 5% 80px; }
-            .ethic-section, .proposal-section, .nav-hub { padding: 1.8rem; }
-            .principle-card { padding: 1.2rem; }
-            /* Mobile Menu (Horizontal Scroll) */
-            nav.top-menu-simple {
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding: 0.6rem 1rem;
-            }
-            .top-menu-simple a, .footer-text {
-                margin: 0 0.8rem;
-                font-size: 0.9rem;
-            }
-            /* Control Buttons */
-            .content-toggle {
-                top: 70px;
-                right: 15px;
-            }
-            .audio-controls {
-                bottom: 70px;
-                right: 15px;
-            }
-            .control-btn {
-                padding: 8px 16px;
-                font-size: 0.85rem;
-            }
-            /* Single Column for Small Screens */
-            .ethic-principle, .nav-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    }
+    
+ /* === ETHICAL FRAMEWORK SECTIONS === */
+ .ethic-section {
+ background: rgba(255, 255, 255, 0.05);
+ backdrop-filter: blur(10px);
+ border-radius: 15px;
+ padding: 2.5rem;
+ margin: 2.5rem 0;
+ border-left: 5px solid;
+ text-align: left;
+ max-width: 900px;
+ }
+ .ethic-martian { border-left-color: var(--greenland-green); }
+ .ethic-earth { border-left-color: var(--greenland-red); }
+ .section-title {
+ color: #8BFFE0;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 2rem;
+ margin-bottom: 1.5rem;
+ display: flex;
+ align-items: center;
+ gap: 15px;
+ }
+ .section-title.earth-title { color: #FF9EAA; }
+ .section-title::before {
+ font-size: 2.5rem;
+ }
+ .ethic-martian .section-title::before { content: '🪐'; }
+ .ethic-earth .section-title::before { content: '💚'; }
+ .ethic-principle {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ gap: 1.5rem;
+ margin: 2rem 0;
+ }
+ .principle-card {
+ background: rgba(0, 20, 15, 0.5);
+ padding: 1.5rem;
+ border-radius: 10px;
+ border-top: 3px solid;
+ }
+ .card-1 { border-top-color: var(--greenland-green); }
+ .card-2 { border-top-color: var(--greenland-white); }
+ .card-3 { border-top-color: var(--greenland-red); }
+ .principle-card h4 {
+ color: #fff;
+ margin-bottom: 0.8rem;
+ font-size: 1.3rem;
+ }
+ .principle-card p { color: #e0e0ff; line-height: 1.6; }
+ /* === THE "SECTION 8" PROPOSAL === */
+ .proposal-section {
+ background: linear-gradient(135deg,
+ rgba(0, 204, 139, 0.15) 0%,
+ rgba(200, 16, 46, 0.08) 100%);
+ border: 2px dashed var(--greenland-white);
+ padding: 3rem;
+ border-radius: 15px;
+ margin: 4rem 0;
+ max-width: 900px;
+ }
+ .proposal-section h3 {
+ color: #FFD166;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 2.2rem;
+ margin-bottom: 1.5rem;
+ }
+ .proposal-section h3::before { content: '⚖️ '; }
+ .proposal-list {
+ list-style: none;
+ text-align: left;
+ margin: 2rem 0;
+ }
+ .proposal-list li {
+ padding: 1rem 0 1rem 2.5rem;
+ border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+ color: #f0f0ff;
+ position: relative;
+ }
+ .proposal-list li::before {
+ content: '✅';
+ position: absolute;
+ left: 0;
+ color: #8BFFE0;
+ }
+ /* === NAVIGATION HUB === */
+ .nav-hub {
+ margin: 4rem auto 3rem;
+ max-width: 1000px;
+ padding: 2.5rem;
+ background: rgba(255, 255, 255, 0.05);
+ backdrop-filter: blur(10px);
+ border-radius: 20px;
+ border: 1px solid rgba(0, 204, 139, 0.3);
+ }
+ .nav-hub-title {
+ color: #8BFFE0;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.8rem;
+ text-align: center;
+ margin-bottom: 2rem;
+ }
+ .nav-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+ gap: 1.2rem;
+ }
+ .nav-link {
+ background: rgba(0, 30, 20, 0.6);
+ border: 1px solid rgba(0, 204, 139, 0.4);
+ border-radius: 12px;
+ padding: 1.2rem;
+ text-align: center;
+ text-decoration: none;
+ color: #e0f7ff;
+ font-family: 'Exo 2', sans-serif;
+ font-weight: 500;
+ transition: all 0.3s ease;
+ display: block;
+ }
+ .nav-link:hover {
+ background: rgba(0, 204, 139, 0.2);
+ border-color: var(--greenland-white);
+ transform: translateY(-5px);
+ box-shadow: 0 10px 25px rgba(0, 204, 139, 0.3);
+ }
+ /* === FINAL CALL & LINK === */
+ .final-call {
+ margin: 3rem 0;
+ padding: 2rem;
+ border-top: 2px solid rgba(139, 255, 224, 0.3);
+ border-bottom: 2px solid rgba(255, 158, 170, 0.3);
+ }
+ .final-call a {
+ display: inline-block;
+ background: linear-gradient(90deg, var(--greenland-green), var(--greenland-red));
+ color: white;
+ padding: 1rem 2.5rem;
+ border-radius: 50px;
+ text-decoration: none;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.2rem;
+ margin-top: 1.5rem;
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ box-shadow: 0 5px 20px rgba(200, 16, 46, 0.4);
+ }
+ .final-call a:hover {
+ transform: translateY(-5px);
+ box-shadow: 0 10px 30px rgba(0, 204, 139, 0.6);
+ }
+
+ /* === ENHANCED RESPONSIVE DESIGN === */
+ @media (max-width: 1024px) {
+   .content-wrapper { padding: 110px 4% 90px; }
+   .page-hero h1 { font-size: clamp(2.2rem, 4.5vw, 4rem); }
+   .page-hero .subtitle { font-size: 1.3rem; }
+   .ethic-section, .proposal-section, .nav-hub { padding: 2rem; }
+   .section-title { font-size: 1.8rem; }
+   .proposal-section h3 { font-size: 2rem; }
+   .control-btn { font-size: 0.9rem; padding: 8px 18px; }
+ }
+
+ @media (max-width: 768px) {
+   /* Layout & Spacing */
+   .content-wrapper { padding: 100px 4% 80px; }
+   .page-hero h1 { font-size: clamp(2rem, 6vw, 2.8rem); }
+   .page-hero .subtitle { font-size: 1.1rem; margin-bottom: 2rem; }
+
+   /* Video container adjustments */
+   .dilemma-video-container {
+     height: clamp(280px, 40vh, 400px);
+     margin: 1.5rem auto 3rem;
+   }
+   .video-overlay-label { font-size: 0.9rem; padding: 8px; }
+
+   /* Sections */
+   .ethic-section, .proposal-section, .nav-hub { padding: 1.5rem; }
+   .section-title { font-size: 1.6rem; gap: 10px; }
+   .section-title::before { font-size: 2rem; }
+   .ethic-principle { grid-template-columns: 1fr; gap: 1rem; }
+   .principle-card { padding: 1.2rem; }
+   .principle-card h4 { font-size: 1.2rem; }
+   .proposal-section h3 { font-size: 1.8rem; }
+   .proposal-list li { padding: 0.8rem 0 0.8rem 2.2rem; font-size: 0.95rem; }
+   .nav-hub-title { font-size: 1.5rem; }
+   .nav-grid { grid-template-columns: 1fr; }
+   .nav-link { padding: 1rem; }
+
+   /* Mobile Menu (Horizontal Scroll) */
+   nav.top-menu-simple {
+     justify-content: flex-start;
+     overflow-x: auto;
+     padding: 0.6rem 1rem;
+   }
+   .top-menu-simple a, .footer-text {
+     margin: 0 0.8rem;
+     font-size: 0.85rem;
+   }
+
+   /* Control Buttons */
+   .content-toggle {
+     top: 70px;
+     right: 15px;
+   }
+   .audio-controls {
+     bottom: 70px;
+     right: 15px;
+   }
+   .control-btn {
+     padding: 6px 14px;
+     font-size: 0.8rem;
+   }
+
+   /* Footer text */
+   .footer-text { font-size: 0.8rem; }
+ }
+
+ @media (max-width: 480px) {
+   .content-wrapper { padding: 90px 4% 70px; }
+   .page-hero h1 { font-size: clamp(1.8rem, 7vw, 2.2rem); }
+   .page-hero .subtitle { font-size: 1rem; }
+   .dilemma-video-container { height: 220px; }
+   .ethic-section, .proposal-section, .nav-hub { padding: 1.2rem; }
+   .section-title { font-size: 1.4rem; flex-wrap: wrap; }
+   .proposal-section h3 { font-size: 1.6rem; }
+   .final-call a { font-size: 1rem; padding: 0.8rem 1.8rem; }
+   .top-menu-simple a { font-size: 0.8rem; margin: 0 0.6rem; }
+   .footer-text { font-size: 0.7rem; }
+   .control-btn { padding: 5px 12px; font-size: 0.75rem; }
+ }
+ </style>
 </head>
 <body>
-    <!-- Simplified Top Menu -->
-    <nav class="top-menu-simple">
-        <a href="index.html">THE MARS ABYSS</a>
-        <a href="the-bohr-institute.html">BOHR INSTITUTE</a>
-        <a href="mai-master-artificial-intelligence.html">MAI</a>
-    </nav>
+ <!-- Simplified Top Menu -->
+ <nav class="top-menu-simple">
+ <a href="index.html">THE MARS ABYSS</a>
+ <a href="the-bohr-institute.html">BOHR INSTITUTE</a>
+ <a href="mai-master-artificial-intelligence.html">MAI</a>
+ </nav>
 
-    <!-- Background Video -->
-    <div class="background-container">
-        <div class="static-bg"></div>
-        <video class="video-background" autoplay muted loop playsinline>
-            <source src="videos/deimos-mars-transit.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
+ <!-- Background Video -->
+ <div class="background-container">
+ <div class="static-bg"></div>
+ <video class="video-background" autoplay muted loop playsinline>
+ <source src="videos/deimos-mars-transit.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ </div>
 
-    <!-- Control Buttons -->
-    <div class="content-toggle">
-        <button class="control-btn" id="toggleContent">
-            <span class="btn-text">🌌 Hide Content</span>
-        </button>
-    </div>
-    <div class="audio-controls">
-        <button class="control-btn" id="toggleAudio">
-            <span class="btn-text">🔇 Mars Music</span>
-        </button>
-    </div>
+ <!-- Control Buttons -->
+ <div class="content-toggle">
+ <button class="control-btn" id="toggleContent">
+ <span class="btn-text">🌌 Hide Content</span>
+ </button>
+ </div>
+ <div class="audio-controls">
+ <button class="control-btn" id="toggleAudio">
+ <span class="btn-text">🔇 Mars Music</span>
+ </button>
+ </div>
 
-    <!-- Main Content -->
-    <div class="content-wrapper" id="mainContent">
-        <!-- Hero -->
-        <section class="page-hero">
-            <h1>THE DEIMOS DILEMMA</h1>
-            <p class="subtitle">When the need of your ship is absolute, and the resources lie under another's soil... what is the ethical choice? A Martian parable for an Earthly crisis.</p>
-        </section>
+ <!-- Main Content -->
+ <div class="content-wrapper" id="mainContent">
+ <!-- Hero -->
+ <section class="page-hero">
+ <h1>THE DEIMOS DILEMMA</h1>
+ <p class="subtitle">When the need of your ship is absolute, and the resources lie under another's soil... what is the ethical choice? A Martian parable for an Earthly crisis.</p>
+ </section>
 
-        <!-- Central Video -->
-        <div class="dilemma-video-container">
-            <video class="dilemma-video" controls poster="images/deimos-poster.jpg">
-                <source src="videos/phobos-mars.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div class="video-overlay-label">Concept: The Mars-Deimos Resource Elevator & Non-Invasive Mining</div>
-        </div>
+ <!-- Central Video -->
+ <div class="dilemma-video-container">
+ <video class="dilemma-video" controls poster="images/deimos-poster.jpg">
+ <source src="videos/phobos-mars.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ <div class="video-overlay-label">Concept: The Mars-Deimos Resource Elevator & Non-Invasive Mining</div>
+ </div>
 
-        <!-- The Martian Ethic -->
-        <section class="ethic-section ethic-martian">
-            <h2 class="section-title">The Martian Precedent: Stewardship, Not Conquest</h2>
-            <p>Faced with crippling resource scarcity on Deimos, the Regent's MAI did not authorize a takeover. It calculated a <strong>Fair Act of Extraction</strong>, proving that power is best exercised with restraint and vision.</p>
-            <div class="ethic-principle">
-                <div class="principle-card card-1">
-                    <h4>The 80/20 Principle</h4>
-                    <p>80% of all extracted value fuels the collective good—stabilizing energy grids, funding research, and eradicating scarcity. 20% is a fair return for the corporations providing the complex, non-invasive service.</p>
-                </div>
-                <div class="principle-card card-2">
-                    <h4>Zero-Scar Mining</h4>
-                    <p>Technology is directed not at maximizing yield, but at minimizing footprint. Quantum-resonance extraction, sealed bioreactors, and mandatory site restoration ensure the environment is left intact, even healthier.</p>
-                </div>
-                <div class="principle-card card-3">
-                    <h4>Local Sovereignty as Security</h4>
-                    <p>The people of the resource-rich land are not obstacles, but essential partners. They become the supervisors, the inspectors, and the primary beneficiaries, transforming resistance into guardianship.</p>
-                </div>
-            </div>
-        </section>
+ <!-- The Martian Ethic -->
+ <section class="ethic-section ethic-martian">
+ <h2 class="section-title">The Martian Precedent: Stewardship, Not Conquest</h2>
+ <p>Faced with crippling resource scarcity on Deimos, the Regent's MAI did not authorize a takeover. It calculated a <strong>Fair Act of Extraction</strong>, proving that power is best exercised with restraint and vision.</p>
+ <div class="ethic-principle">
+ <div class="principle-card card-1">
+ <h4>The 80/20 Principle</h4>
+ <p>80% of all extracted value fuels the collective good—stabilizing energy grids, funding research, and eradicating scarcity. 20% is a fair return for the corporations providing the complex, non-invasive service.</p>
+ </div>
+ <div class="principle-card card-2">
+ <h4>Zero-Scar Mining</h4>
+ <p>Technology is directed not at maximizing yield, but at minimizing footprint. Quantum-resonance extraction, sealed bioreactors, and mandatory site restoration ensure the environment is left intact, even healthier.</p>
+ </div>
+ <div class="principle-card card-3">
+ <h4>Local Sovereignty as Security</h4>
+ <p>The people of the resource-rich land are not obstacles, but essential partners. They become the supervisors, the inspectors, and the primary beneficiaries, transforming resistance into guardianship.</p>
+ </div>
+ </div>
+ </section>
 
-        <!-- The Earthly Crisis -->
-        <section class="ethic-section ethic-earth">
-            <h2 class="section-title earth-title">The Earthly Reflection: Greenland's Crossroads</h2>
-            <p>The dilemma is not science fiction. In our universe, Greenland possesses resources critical for the global green transition. A mining company invested, was told to leave, and lawsuits followed. The old, adversarial playbook ensures everyone loses.</p>
-            <p><strong>The Martian question for Earth:</strong> Do we see this as a property dispute to be won, or as a systemic failure to be solved with a new principle?</p>
-        </section>
+ <!-- The Earthly Crisis -->
+ <section class="ethic-section ethic-earth">
+ <h2 class="section-title earth-title">The Earthly Reflection: Greenland's Crossroads</h2>
+ <p>The dilemma is not science fiction. In our universe, Greenland possesses resources critical for the global green transition. A mining company invested, was told to leave, and lawsuits followed. The old, adversarial playbook ensures everyone loses.</p>
+ <p><strong>The Martian question for Earth:</strong> Do we see this as a property dispute to be won, or as a systemic failure to be solved with a new principle?</p>
+ </section>
 
-        <!-- The "Section 8" Proposal -->
-        <section class="proposal-section">
-            <h3>A Proposal: The Guardian Principle (Article 8)</h3>
-            <p>What if the framework for resource development was turned inside out? Instead of external corporations controlling access while promising safety, the community itself holds the final, unbreachable key.</p>
-            <ul class="proposal-list">
-                <li><strong>Public Access as Right:</strong> Real-time environmental data from every sensor is streamed publicly. No secrets, no "trust us."</li>
-                <li><strong>Local Guardians as Enforcers:</strong> A council of Greenlandic stewards, trained and funded by the project, holds unilateral power to pause operations.</li>
-                <li><strong>Benefit Lock:</strong> The 80% for the global good is legally enshrined before the first investor sees a return.</li>
-                <li><strong>Technology Mandate:</strong> Only extraction methods meeting a "Zero-Scar" standard, as defined by independent science, are permitted.</li>
-            </ul>
-            <p>This is not about stopping development. It's about evolving it. It aligns the company's success with the planet's health and the people's dignity. The MAI would advise nothing less.</p>
-        </section>
+ <!-- The "Section 8" Proposal -->
+ <section class="proposal-section">
+ <h3>A Proposal: The Guardian Principle (Article 8)</h3>
+ <p>What if the framework for resource development was turned inside out? Instead of external corporations controlling access while promising safety, the community itself holds the final, unbreachable key.</p>
+ <ul class="proposal-list">
+ <li><strong>Public Access as Right:</strong> Real-time environmental data from every sensor is streamed publicly. No secrets, no "trust us."</li>
+ <li><strong>Local Guardians as Enforcers:</strong> A council of Greenlandic stewards, trained and funded by the project, holds unilateral power to pause operations.</li>
+ <li><strong>Benefit Lock:</strong> The 80% for the global good is legally enshrined before the first investor sees a return.</li>
+ <li><strong>Technology Mandate:</strong> Only extraction methods meeting a "Zero-Scar" standard, as defined by independent science, are permitted.</li>
+ </ul>
+ <p>This is not about stopping development. It's about evolving it. It aligns the company's success with the planet's health and the people's dignity. The MAI would advise nothing less.</p>
+ </section>
 
-        <!-- Navigation Hub -->
-        <section class="nav-hub">
-            <h3 class="nav-hub-title">Explore The Mars Abyss</h3>
-            <div class="nav-grid">
-                <a href="my-mission.html" class="nav-link">My Mission</a>
-                <a href="mai-master-artificial-intelligence.html" class="nav-link">MAI - Master AI</a>
-                <a href="martian-edicts.html" class="nav-link">The Martian Edicts</a>
-                <a href="mars-dome-cities-tour.html" class="nav-link">Dome Cities Tour</a>
-                <a href="tharsis-scientific-lectures.html" class="nav-link">Tharsis Scientific Lectures</a>
-                <a href="the-pioneers-promise.html" class="nav-link">The Pioneer's Promise</a>
-                <a href="the-tharsis-laureates.html" class="nav-link">The Tharsis Laureates</a>
-            </div>
-        </section>
+ <!-- Navigation Hub -->
+ <section class="nav-hub">
+ <h3 class="nav-hub-title">Explore The Mars Abyss</h3>
+ <div class="nav-grid">
+ <a href="my-mission.html" class="nav-link">My Mission</a>
+ <a href="mai-master-artificial-intelligence.html" class="nav-link">MAI - Master AI</a>
+ <a href="martian-edicts.html" class="nav-link">The Martian Edicts</a>
+ <a href="mars-dome-cities-tour.html" class="nav-link">Dome Cities Tour</a>
+ <a href="tharsis-scientific-lectures.html" class="nav-link">Tharsis Scientific Lectures</a>
+ <a href="the-pioneers-promise.html" class="nav-link">The Pioneer's Promise</a>
+ <a href="the-tharsis-laureates.html" class="nav-link">The Tharsis Laureates</a>
+ </div>
+ </section>
 
-        <!-- Final Call -->
-        <section class="final-call">
-            <p>The colors of Greenland and Denmark on this page are not just decoration. They represent lands, people, and a shared future. The choice between the mirror universe of exploitation and a brighter timeline is made with such principles.</p>
-            <p><strong>We can mine the minerals without mining the trust.</strong></p>
-            <a href="the-bohr-institute.html#pacifistWeaponsSection">Return to the Bohr Institute</a>
-        </section>
-    </div>
+ <!-- Final Call -->
+ <section class="final-call">
+ <p>The colors of Greenland and Denmark on this page are not just decoration. They represent lands, people, and a shared future. The choice between the mirror universe of exploitation and a brighter timeline is made with such principles.</p>
+ <p><strong>We can mine the minerals without mining the trust.</strong></p>
+ <a href="the-bohr-institute.html#pacifistWeaponsSection">Return to the Bohr Institute</a>
+ </section>
+ </div>
 
-    <!-- Simplified Footer -->
-    <footer class="page-footer-simple" id="pageFooter">
-        <p class="footer-text">© 2025 The Mars Abyss | An Exploration of Ethics Through Fiction | 🇬🇱 🇩🇰 💚</p>
-    </footer>
+ <!-- Simplified Footer -->
+ <footer class="page-footer-simple" id="pageFooter">
+ <p class="footer-text">© 2025 The Mars Abyss | An Exploration of Ethics Through Fiction | 🇬🇱 🇩🇰 💚</p>
+ </footer>
 
-    <script>
-        // --- Toggle Content Visibility (Keep this, it works) ---
+ <script>
+ // --- Toggle Content Visibility (Keep this, it works) ---
 const toggleBtn = document.getElementById('toggleContent');
 const mainContent = document.getElementById('mainContent');
 const pageFooter = document.getElementById('pageFooter');
@@ -484,22 +551,22 @@ const controlButtons = document.querySelectorAll('.content-toggle, .audio-contro
 let isContentVisible = true;
 
 toggleBtn.addEventListener('click', function() {
-    isContentVisible = !isContentVisible;
-    if (isContentVisible) {
-        mainContent.style.opacity = '1';
-        mainContent.style.pointerEvents = 'all';
-        pageFooter.style.opacity = '1';
-        topMenu.style.opacity = '1';
-        controlButtons.forEach(btn => btn.style.opacity = '1');
-        toggleBtn.querySelector('.btn-text').textContent = '🌌 Hide Content';
-    } else {
-        mainContent.style.opacity = '0';
-        mainContent.style.pointerEvents = 'none';
-        pageFooter.style.opacity = '0';
-        topMenu.style.opacity = '0';
-        controlButtons.forEach(btn => btn.style.opacity = '0.7');
-        toggleBtn.querySelector('.btn-text').textContent = '📄 Show Content';
-    }
+ isContentVisible = !isContentVisible;
+ if (isContentVisible) {
+ mainContent.style.opacity = '1';
+ mainContent.style.pointerEvents = 'all';
+ pageFooter.style.opacity = '1';
+ topMenu.style.opacity = '1';
+ controlButtons.forEach(btn => btn.style.opacity = '1');
+ toggleBtn.querySelector('.btn-text').textContent = '🌌 Hide Content';
+ } else {
+ mainContent.style.opacity = '0';
+ mainContent.style.pointerEvents = 'none';
+ pageFooter.style.opacity = '0';
+ topMenu.style.opacity = '0';
+ controlButtons.forEach(btn => btn.style.opacity = '0.7');
+ toggleBtn.querySelector('.btn-text').textContent = '📄 Show Content';
+ }
 });
 
 // --- SIMPLIFIED & CORRECTED AUDIO SYSTEM ---
@@ -515,36 +582,36 @@ backgroundAudio.muted = true; // Start muted
 
 // 2. When the button is clicked:
 audioBtn.addEventListener('click', function() {
-    // If this is the VERY FIRST click, unmute AND start playback.
-    if (!audioPlayed) {
-        backgroundAudio.muted = false;
-        backgroundAudio.play().then(() => {
-            // Success! Audio is playing.
-            isMuted = false;
-            audioPlayed = true;
-            audioBtn.querySelector('.btn-text').textContent = '🔊 Mars Music';
-        }).catch(error => {
-            // This will show the error in your browser's Console (F12).
-            console.error("Audio playback failed on first click:", error);
-            alert("Browser blocked audio. Please click the button again to start playback.");
-        });
-    } else {
-        // For all subsequent clicks, just toggle mute.
-        isMuted = !isMuted;
-        backgroundAudio.muted = isMuted;
-        audioBtn.querySelector('.btn-text').textContent = isMuted ? '🔇 Mars Music' : '🔊 Mars Music';
-    }
+ // If this is the VERY FIRST click, unmute AND start playback.
+ if (!audioPlayed) {
+ backgroundAudio.muted = false;
+ backgroundAudio.play().then(() => {
+ // Success! Audio is playing.
+ isMuted = false;
+ audioPlayed = true;
+ audioBtn.querySelector('.btn-text').textContent = '🔊 Mars Music';
+ }).catch(error => {
+ // This will show the error in your browser's Console (F12).
+ console.error("Audio playback failed on first click:", error);
+ alert("Browser blocked audio. Please click the button again to start playback.");
+ });
+ } else {
+ // For all subsequent clicks, just toggle mute.
+ isMuted = !isMuted;
+ backgroundAudio.muted = isMuted;
+ audioBtn.querySelector('.btn-text').textContent = isMuted ? '🔇 Mars Music' : '🔊 Mars Music';
+ }
 });
 
 // --- (Optional) Keep the subtle background interaction if you like it ---
 const bgContainer = document.querySelector('.background-container');
 document.addEventListener('mousemove', (e) => {
-    if (bgContainer) {
-        const x = (e.clientX / window.innerWidth) * 2;
-        const y = (e.clientY / window.innerHeight) * 2;
-        bgContainer.style.transform = `translate(${x}px, ${y}px)`;
-    }
+ if (bgContainer) {
+ const x = (e.clientX / window.innerWidth) * 2;
+ const y = (e.clientY / window.innerHeight) * 2;
+ bgContainer.style.transform = `translate(${x}px, ${y}px)`;
+ }
 });
-    </script>
+ </script>
 </body>
 </html>
