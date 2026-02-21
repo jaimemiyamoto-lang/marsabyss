@@ -1153,18 +1153,28 @@
                         </button>
                     </div>
 
-                    <!-- PayPal Card -->
-                    <div class="platform-card">
-                        <div class="platform-icon">🔗</div>
-                        <div class="platform-name">DIRECT PAYPAL</div>
-                        <p>Immediate one-time energy transfer</p>
-                        <div style="margin-top: 1rem; color: #39ff14;">
-                            INSTANT PROCESSING
-                        </div>
-                        <button class="tron-button" style="margin-top: 1rem; padding: 1rem 1.5rem; font-size: 1rem;" onclick="window.open('https://paypal.com/your-donation-link', '_blank')">
-                            INITIATE TRANSFER
-                        </button>
-                    </div>
+                    <!-- Direct PayPal Card -->
+<div class="platform-card">
+  <div class="platform-icon">🔗</div>
+  <div class="platform-name">DIRECT PAYPAL</div>
+  <p>Immediate one-time energy transfer</p>
+  <div style="margin-top: 1rem; color: #39ff14;">
+    INSTANT PROCESSING
+  </div>
+  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+    <input type="hidden" name="cmd" value="_donations">
+    <input type="hidden" name="business" value="YOUR-PAYPAL-EMAIL@example.com">
+    <input type="hidden" name="item_name" value="Support The Mars Abyss">
+    <input type="hidden" name="currency_code" value="USD">
+    <input type="hidden" name="no_note" value="0">
+    <input type="hidden" name="cn" value="Add a message (optional)">
+    <!-- Dynamic amount from your amount selector -->
+    <input type="hidden" name="amount" id="paypal-amount" value="">
+    <button type="submit" class="tron-button" style="margin-top: 1rem; padding: 1rem 1.5rem; font-size: 1rem; width: 100%;">
+      INITIATE TRANSFER
+    </button>
+  </form>
+</div>
 
                     <!-- Coming Soon -->
                     <div class="platform-card">
@@ -1211,117 +1221,126 @@
     </div>
 
     <script>
-        // Initialize the payment portal
-        document.addEventListener('DOMContentLoaded', function() {
-            let selectedAmount = 0;
-            let selectedMethod = 'paypal';
-            let contentHidden = false;
-            let videoMuted = true;
+ // ===== INITIALIZE PAYMENT PORTAL =====
+ document.addEventListener('DOMContentLoaded', function() {
+   let selectedAmount = 0;
+   let selectedMethod = 'paypal';
+   let contentHidden = false;
+   let videoMuted = true;
 
-            // Start video background
-            const futureVideo = document.getElementById('futureVideo');
-            futureVideo.play().catch(e => console.log('Video autoplay prevented'));
+   // Start video background
+   const futureVideo = document.getElementById('futureVideo');
+   futureVideo.play().catch(e => console.log('Video autoplay prevented'));
 
-            // Hide Content Button
-            document.getElementById('hideContentBtn').addEventListener('click', function() {
-                const content = document.querySelector('.quantum-finance-portal');
-                const footer = document.querySelector('footer');
-                
-                if (contentHidden) {
-                    content.style.display = 'flex';
-                    footer.style.display = 'block';
-                    this.textContent = 'HIDE CONTENT';
-                } else {
-                    content.style.display = 'none';
-                    footer.style.display = 'none';
-                    this.textContent = 'SHOW CONTENT';
-                }
-                contentHidden = !contentHidden;
-            });
+   // Hide Content Button
+   document.getElementById('hideContentBtn').addEventListener('click', function() {
+     const content = document.querySelector('.quantum-finance-portal');
+     const footer = document.querySelector('footer');
+     
+     if (contentHidden) {
+       content.style.display = 'flex';
+       footer.style.display = 'block';
+       this.textContent = 'HIDE CONTENT';
+     } else {
+       content.style.display = 'none';
+       footer.style.display = 'none';
+       this.textContent = 'SHOW CONTENT';
+     }
+     contentHidden = !contentHidden;
+   });
 
-            // Mute Button
-            document.getElementById('muteBtn').addEventListener('click', function() {
-                if (videoMuted) {
-                    futureVideo.muted = false;
-                    this.textContent = 'UNMUTE';
-                } else {
-                    futureVideo.muted = true;
-                    this.textContent = 'MUTE';
-                }
-                videoMuted = !videoMuted;
-            });
+   // Mute Button
+   document.getElementById('muteBtn').addEventListener('click', function() {
+     if (videoMuted) {
+       futureVideo.muted = false;
+       this.textContent = 'UNMUTE';
+     } else {
+       futureVideo.muted = true;
+       this.textContent = 'MUTE';
+     }
+     videoMuted = !videoMuted;
+   });
 
-            // Amount selection
-            document.querySelectorAll('.amount-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('.amount-option').forEach(opt => opt.classList.remove('selected'));
-                    this.classList.add('selected');
-                    selectedAmount = parseInt(this.getAttribute('data-amount'));
-                    document.getElementById('customAmount').value = '';
-                });
-            });
+   // ----- FUNCTION TO UPDATE PAYPAL HIDDEN AMOUNT (NEW) -----
+   function updatePayPalAmount() {
+     const amountField = document.getElementById('paypal-amount');
+     if (!amountField) return; // only if you added the PayPal form
+     const amount = selectedAmount || document.getElementById('customAmount').value;
+     if (amount && amount > 0) {
+       amountField.value = amount;
+     }
+   }
 
-            // Custom amount input
-            document.getElementById('customAmount').addEventListener('input', function() {
-                document.querySelectorAll('.amount-option').forEach(opt => opt.classList.remove('selected'));
-                selectedAmount = parseInt(this.value) || 0;
-            });
+   // Amount selection
+   document.querySelectorAll('.amount-option').forEach(option => {
+     option.addEventListener('click', function() {
+       document.querySelectorAll('.amount-option').forEach(opt => opt.classList.remove('selected'));
+       this.classList.add('selected');
+       selectedAmount = parseInt(this.getAttribute('data-amount'));
+       document.getElementById('customAmount').value = '';
+       updatePayPalAmount(); // <-- NEW: update PayPal field
+     });
+   });
 
-            // Payment method selection
-            document.querySelectorAll('.payment-method').forEach(method => {
-                method.addEventListener('click', function() {
-                    document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
-                    this.classList.add('selected');
-                    selectedMethod = this.getAttribute('data-method');
-                });
-            });
+   // Custom amount input
+   document.getElementById('customAmount').addEventListener('input', function() {
+     document.querySelectorAll('.amount-option').forEach(opt => opt.classList.remove('selected'));
+     selectedAmount = parseInt(this.value) || 0;
+     updatePayPalAmount(); // <-- NEW: update PayPal field
+   });
 
-            // Initiate transfer
-            document.getElementById('initiateTransfer').addEventListener('click', function() {
-                if (selectedAmount === 0 && !document.getElementById('customAmount').value) {
-                    alert('PLEASE SELECT OR ENTER QUANTUM AMOUNT');
-                    return;
-                }
+   // Payment method selection (for the purple button, not PayPal)
+   document.querySelectorAll('.payment-method').forEach(method => {
+     method.addEventListener('click', function() {
+       document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+       this.classList.add('selected');
+       selectedMethod = this.getAttribute('data-method');
+     });
+   });
 
-                const amount = selectedAmount || parseInt(document.getElementById('customAmount').value);
-                // Show quantum transfer animation
-                const transferScreen = document.getElementById('quantumTransfer');
-                transferScreen.style.display = 'flex';
+   // Initiate transfer – purple button (simulated)
+   document.getElementById('initiateTransfer').addEventListener('click', function() {
+     if (selectedAmount === 0 && !document.getElementById('customAmount').value) {
+       alert('PLEASE SELECT OR ENTER QUANTUM AMOUNT');
+       return;
+     }
 
-                // Simulate processing
-                setTimeout(() => {
-                    // In production, this would redirect to actual payment processor
-                    // For now, show success message
-                    transferScreen.innerHTML = `
-                        <div class="transfer-animation">
-                            <div style="font-size: 4rem; margin-bottom: 2rem;">✅</div>
-                            <h2 style="color: #39ff14;">TRANSFER COMPLETE</h2>
-                            <p style="color: #00ffff;">Quantum energy transfer of $${amount} successful</p>
-                            <p style="margin-top: 1rem; color: #ff00ff;">Thank you for fueling The Mars Abyss!</p>
-                            <button class="tron-button" onclick="location.reload()" style="margin-top: 2rem;">
-                                INITIATE NEW TRANSFER
-                            </button>
-                        </div>
-                    `;
-                }, 3000);
-            });
+     const amount = selectedAmount || parseInt(document.getElementById('customAmount').value);
+     const transferScreen = document.getElementById('quantumTransfer');
+     transferScreen.style.display = 'flex';
 
-            // Recurring energy stream
-            document.getElementById('recurringEnergy').addEventListener('click', function() {
-                alert('QUANTUM RECURRING STREAM FEATURE - COMING IN v2.1\nThis will allow automated monthly support transfers.');
-            });
-            
-            // ===== MOBILE HAMBURGER MENU =====
-const hamburgerBtn = document.getElementById('hamburgerBtn');
-const closeMenu = document.getElementById('closeMenu');
-const mobileMenu = document.getElementById('mobileMenu');
-const menuContent = document.querySelector('.menu-content');
+     // Simulate processing
+     setTimeout(() => {
+       transferScreen.innerHTML = `
+         <div class="transfer-animation">
+           <div style="font-size: 4rem; margin-bottom: 2rem;">✅</div>
+           <h2 style="color: #39ff14;">TRANSFER COMPLETE</h2>
+           <p style="color: #00ffff;">Quantum energy transfer of $${amount} successful</p>
+           <p style="margin-top: 1rem; color: #ff00ff;">Thank you for fueling The Mars Abyss!</p>
+           <button class="tron-button" onclick="location.reload()" style="margin-top: 2rem;">
+             INITIATE NEW TRANSFER
+           </button>
+         </div>
+       `;
+     }, 3000);
+   });
 
-function createMobileMenu() {
-if (!menuContent) return;
-menuContent.innerHTML = '';
+   // Recurring energy stream (placeholder)
+   document.getElementById('recurringEnergy').addEventListener('click', function() {
+     alert('QUANTUM RECURRING STREAM FEATURE - COMING IN v2.1\nThis will allow automated monthly support transfers.');
+   });
 
-const menuItems = [
+   // ===== MOBILE HAMBURGER MENU (unchanged) =====
+   const hamburgerBtn = document.getElementById('hamburgerBtn');
+   const closeMenu = document.getElementById('closeMenu');
+   const mobileMenu = document.getElementById('mobileMenu');
+   const menuContent = document.querySelector('.menu-content');
+
+   function createMobileMenu() {
+     if (!menuContent) return;
+     menuContent.innerHTML = '';
+
+     const menuItems = [
   { text: '🏠 Home', href: 'index.html' },
   { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
   { text: ' Homage to Courage', href: 'homage-to-courage.html' },
@@ -1416,66 +1435,66 @@ const menuItems = [
   { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
 
   { text: '📧 Contact', href: 'contact.html' },
-  { text: 'Quantum Financial Transfer (current)', href: 'quantum-financial-transfer.html', active: true }
-];
+  { text: ' Quantum Financial Transfer (current)', href: 'quantum-financial-transfer.html', active: true }
+     ];
 
-menuItems.forEach(item => {
-const menuItem = document.createElement('div');
-menuItem.className = 'menu-item';
-const link = document.createElement('a');
-link.href = item.href;
-link.textContent = item.text;
-if (item.active) link.classList.add('active');
-menuItem.appendChild(link);
-menuContent.appendChild(menuItem);
-});
-}
+     menuItems.forEach(item => {
+       const menuItem = document.createElement('div');
+       menuItem.className = 'menu-item';
+       const link = document.createElement('a');
+       link.href = item.href;
+       link.textContent = item.text;
+       if (item.active) link.classList.add('active');
+       menuItem.appendChild(link);
+       menuContent.appendChild(menuItem);
+     });
+   }
 
-createMobileMenu();
+   createMobileMenu();
 
-hamburgerBtn.addEventListener('click', () => {
-mobileMenu.classList.add('active');
-document.body.style.overflow = 'hidden';
-});
+   hamburgerBtn.addEventListener('click', () => {
+     mobileMenu.classList.add('active');
+     document.body.style.overflow = 'hidden';
+   });
 
-closeMenu.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-});
+   closeMenu.addEventListener('click', () => {
+     mobileMenu.classList.remove('active');
+     document.body.style.overflow = '';
+   });
 
-document.addEventListener('click', (e) => {
-if (mobileMenu.classList.contains('active') &&
-!mobileMenu.contains(e.target) &&
-!hamburgerBtn.contains(e.target)) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
-});
+   document.addEventListener('click', (e) => {
+     if (mobileMenu.classList.contains('active') &&
+         !mobileMenu.contains(e.target) &&
+         !hamburgerBtn.contains(e.target)) {
+       mobileMenu.classList.remove('active');
+       document.body.style.overflow = '';
+     }
+   });
 
-document.querySelectorAll('.mobile-menu a').forEach(link => {
-link.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-});
-});
+   document.querySelectorAll('.mobile-menu a').forEach(link => {
+     link.addEventListener('click', () => {
+       mobileMenu.classList.remove('active');
+       document.body.style.overflow = '';
+     });
+   });
 
-function handleResize() {
-if (window.innerWidth > 992) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
-}
-window.addEventListener('resize', handleResize);
+   function handleResize() {
+     if (window.innerWidth > 992) {
+       mobileMenu.classList.remove('active');
+       document.body.style.overflow = '';
+     }
+   }
+   window.addEventListener('resize', handleResize);
 
+   // Ensure video plays on user interaction
+   document.addEventListener('click', function() {
+     if (futureVideo.paused) {
+       futureVideo.play().catch(e => console.log('Video play requires user interaction'));
+     }
+   });
 
-            // Ensure video plays on user interaction
-            document.addEventListener('click', function() {
-                if (futureVideo.paused) {
-                    futureVideo.play().catch(e => console.log('Video play requires user interaction'));
-                }
-            });
-        });
-    </script>
+ }); // end DOMContentLoaded
+</script>
 </body>
 </html>
 
