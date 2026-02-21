@@ -576,6 +576,41 @@
             margin-top: 0 !important;
         }
 
+        /* Impact section with vibrant blurred background */
+        .impact-container {
+            background: linear-gradient(135deg,
+             rgba(0, 255, 255, 0.15),
+             rgba(255, 0, 255, 0.15),
+             rgba(57, 255, 20, 0.15));
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(0, 255, 255, 0.4);
+            border-radius: 25px;
+            padding: 2.5rem 2rem;
+            margin: 3rem auto 5rem;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.3);
+        }
+           .impact-container h3 {
+               color: #39ff14;
+               font-size: 1.8rem;
+               margin-bottom: 1.5rem;
+               text-shadow: 0 0 15px #39ff14;
+           }
+
+        .impact-container p {
+            color: #fff;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .impact-container p:last-of-type {
+            color: #ff00ff;
+            font-style: italic;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+        
        /* FOOTER */
         footer {
             position: fixed;
@@ -1144,25 +1179,18 @@
                         </button>
                     </div>
 
-<div style="text-align: center; margin-top: 1rem;">
-        <a href="#" class="tron-button" 
-                style="display: inline-block; margin-top: 0.2rem; padding: 0.2rem 1.5rem; font-size: 0.7rem; background: linear-gradient(45deg, #39ff14, #00ffff);">
-            🔝 RETURN TO QUANTUM TRANSFER
-        </a>
-    </div> 
-
                 </div>
             </div>
         </div>
 
         <!-- Impact Statement -->
-        <div style="text-align: center; max-width: 600px; margin-top: 2rem;">
-            <h3 style="color: #39ff14; margin-bottom: 2rem;">🌍 EVERY CREDIT FUELS INTERPLANETARY CREATION</h3>
+        <div class="impact-section">
+            <h3>🌍 EVERY CREDIT FUELS INTERPLANETARY CREATION</h3>
             <p>Your support enables: Martian world-building • Educational content • Open-source development • Global humanitarian initiatives</p>
             <p style="margin-top: 2rem; font-style: italic; color: #ff00ff;">
                 "Energy cannot be destroyed, only transferred. Your contribution becomes part of something greater."
             </p>
-        </div>
+            </div>
     </div>   
 
     <!-- Footer -->
