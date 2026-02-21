@@ -76,7 +76,7 @@ position: fixed;
 top: 80px;
 right: 30px;
 z-index: 1000;
-background: rgba(0, 204, 255, 0.8);
+background: rgba(0, 204, 255, 0.5);
 border: 2px solid #00ccff;
 color: #fff;
 padding: 10px 15px;
@@ -101,7 +101,7 @@ z-index: 1000;
 }
 
 .audio-btn {
-background: rgba(0, 204, 255, 0.8);
+background: rgba(0, 204, 255, 0.5);
 border: 2px solid #00ccff;
 color: #fff;
 padding: 10px 15px;
@@ -499,6 +499,189 @@ border-top: 2px solid #00ccff;
 padding-left: 1px;
 }
 
+/* ===== HAMBURGER MENU (purple/blue theme) ===== */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1002;
+}
+
+.hamburger-btn {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #00ccff;
+  border-radius: 4px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px rgba(0, 204, 255, 0.3);
+}
+
+.hamburger-btn span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: #00ccff;
+  margin: 3px 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 5px rgba(0, 204, 255, 0.5);
+}
+
+.hamburger-btn:hover {
+  background: rgba(0, 204, 255, 0.2);
+  border-color: #ffffff;
+}
+
+.hamburger-btn:hover span {
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 300px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  border-right: 2px solid #00ccff;
+  padding: 20px;
+  transition: left 0.4s ease;
+  z-index: 1003;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0, 204, 255, 0.2);
+}
+
+.mobile-menu.active {
+  left: 0;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #00ccff;
+}
+
+.menu-header h3 {
+  color: #00ccff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+}
+
+.close-menu {
+  background: transparent;
+  border: none;
+  color: #00ccff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-menu:hover {
+  background: rgba(0, 204, 255, 0.2);
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+.menu-content {
+  margin-bottom: 20px;
+}
+
+.menu-content .menu-item {
+  margin-bottom: 10px;
+}
+
+.menu-content .menu-item a {
+  display: block;
+  color: #e0e0e0;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+}
+
+.menu-content .menu-item a:hover,
+.menu-content .menu-item a.active {
+  border-left-color: #00ccff;
+  background: rgba(0, 204, 255, 0.3);
+  color: #00ccff;
+  text-shadow: 0 0 8px rgba(0, 204, 255, 0.3);
+}
+
+.menu-footer {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #00ccff;
+  text-align: center;
+  color: #00ccff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  text-shadow: 0 0 8px rgba(0, 204, 255, 0.5);
+}
+
+.pulse {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #00ccff;
+  border-radius: 50%;
+  margin-right: 8px;
+  animation: blink 1.5s infinite;
+  box-shadow: 0 0 10px #00ccff;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Mobile media query – hide desktop menu, show hamburger */
+@media (max-width: 992px) {
+  nav.top-menu {
+    display: none;
+  }
+  .mobile-nav {
+    display: block;
+  }
+  .site-title-overlay {
+    top: 70px;
+    left: 15px;
+  }
+  .site-title-overlay h1 {
+    font-size: 1.4rem;
+  }
+  .view-toggle {
+    top: 70px;
+    right: 15px;
+  }
+  .audio-controls {
+    bottom: 70px;
+    right: 20px;
+  }
+}
+
 /* CARD BACKGROUNDS */
 .card-martian-shuttle { background-image: url('images/blueprint-martian-shuttle.jpg'); }
 .card-bio-suit { background-image: url('images/blueprint-bio-suit.jpg'); }
@@ -583,6 +766,25 @@ Your browser does not support the video tag.
 <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
 
+<!-- MOBILE HAMBURGER MENU -->
+<div class="mobile-nav">
+  <button class="hamburger-btn" id="hamburgerBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <nav class="mobile-menu" id="mobileMenu">
+    <div class="menu-header">
+      <h3>THE MARS ABYSS</h3>
+      <button class="close-menu" id="closeMenu">✕</button>
+    </div>
+    <div class="menu-content"></div>
+    <div class="menu-footer">
+      <span class="pulse"></span> TECHNICAL DATABASE    
+    </div>
+  </nav>
+</div>
+
 <!-- ENHANCED TOP MENU -->
 <nav class="top-menu">
 <div class="dropdown">
@@ -600,7 +802,7 @@ Your browser does not support the video tag.
 </div>
 </div>
 <div class="dropdown">
-<a href="story.html" class="dropbtn">Story</a>
+<a href="story.html" class="dropbtn active">Story</a>
 <div class="dropdown-content">
 <a href="characters.html">Characters</a>
 <div class="dropdown">
@@ -610,7 +812,7 @@ Your browser does not support the video tag.
 <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
 <a href="technical-database.html" class="active">Technical Database</a>
 <a href="martian-edicts.html">The Martian Edicts</a>
-<a href="alien-transport-network.html">Alien Transport Network</a>    
+<a href="alien-transport-network.html">Alien Transport Network</a>
 <a href="martian-martial-arts.html">Martian Martial Arts</a>
 <a href="solar-system-explorer.html">Solar System Explorer</a>
 <a href="aliens-ufos.html">Aliens & UFOs</a>
@@ -651,6 +853,7 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="martian-news.html" class="dropbtn">Martian News</a>
 <div class="dropdown-content">
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>    
 <a href="martian-actualities.html">Martian Actualities</a>
 <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martiab Economic Vision</a>
 <a href="mars-bee-facility.html">Mars Bee Facility</a>
@@ -705,7 +908,7 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="support.html" class="dropbtn">Support</a>
 <div class="dropdown-content">
-<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="silver's-sign-language-course.html">Silver's language Academy</a>     
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
@@ -1851,6 +2054,163 @@ closeBlueprint();
 }
 });
 });
+
+// ===== MOBILE HAMBURGER MENU =====
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuContent = document.querySelector('.menu-content');
+
+function createMobileMenu() {
+if (!menuContent) return;
+menuContent.innerHTML = '';
+
+const menuItems = [
+  { text: '🏠 Home', href: 'index.html' },
+  { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+  { text: ' Homage to Courage', href: 'homage-to-courage.html' },
+  { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+  { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+  { text: ' My Mission', href: 'my-mission.html' },
+  { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+  { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+  { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+  { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+
+  { text: '📖 Story', href: 'story.html' },
+  { text: ' Characters', href: 'characters.html' },
+  { text: ' Gallery', href: 'gallery.html' },
+  { text: ' Art & Concepts', href: 'art-and-concepts.html' },
+  { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+  { text: ' Technical Database', href: 'technical-database.html' },
+  { text: ' The Martian Edicts', href: 'martian-edicts.html' },
+  { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+  { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+  { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+  { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+
+  { text: '🎮 Martian Games', href: 'martian-games.html' },
+  { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+  { text: ' Martian Racer', href: 'martian-racer.html' },
+  { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+  { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+  { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+  { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+  { text: ' Music Player', href: 'music-app.html' },
+  { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+
+  { text: '🌍 Earth Codex', href: 'earth-codex.html' },
+  { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+  { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+  { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+  { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+  { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+  { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+  { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+  { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+  { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+
+  { text: '📰 Martian News', href: 'martian-news.html' },
+  { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+  { text: ' Martian Actualities', href: 'martian-actualities.html' },
+  { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+  { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+  { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+  { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+  { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+  { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+  { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+  { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+  { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+  { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+
+  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+  { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+  { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+  { text: ' Earthlings Beware', href: 'earthings-beware.html' },
+  { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+  { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+  { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+  { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+  { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+  { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+  { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+  { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+
+  { text: 'ℹ️ About', href: 'about.html' },
+  { text: ' About the Project', href: 'about-the-project.html' },
+  { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+  { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+  { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+  { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+  { text: ' The Pale Horse', href: 'the-pale-horse.html' },
+  { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+  { text: ' Arachne Labs', href: 'arachne-labs.html' },
+  { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+  { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+
+  { text: '🤝 Support', href: 'support.html' },
+  { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+  { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+  { text: ' Mars Food District', href: 'mars-food-district.html' },
+  { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+  { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+  { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+  { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+  { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+
+  { text: '📧 Contact', href: 'contact.html' },
+  { text: ' Technical Database (current)', href: 'technical-database.html', active: true }
+];
+
+menuItems.forEach(item => {
+const menuItem = document.createElement('div');
+menuItem.className = 'menu-item';
+const link = document.createElement('a');
+link.href = item.href;
+link.textContent = item.text;
+if (item.active) link.classList.add('active');
+menuItem.appendChild(link);
+menuContent.appendChild(menuItem);
+});
+}
+
+createMobileMenu();
+
+hamburgerBtn.addEventListener('click', () => {
+mobileMenu.classList.add('active');
+document.body.style.overflow = 'hidden';
+});
+
+closeMenu.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+
+document.addEventListener('click', (e) => {
+if (mobileMenu.classList.contains('active') &&
+!mobileMenu.contains(e.target) &&
+!hamburgerBtn.contains(e.target)) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+});
+
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+link.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+});
+
+function handleResize() {
+if (window.innerWidth > 992) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+}
+window.addEventListener('resize', handleResize);
+
 
 // Ensure video plays when user interacts with page
 document.addEventListener('click', function() {
