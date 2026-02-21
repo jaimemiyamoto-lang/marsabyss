@@ -21,14 +21,14 @@ overflow-x: hidden;
 position: relative;
 }
 
-/* VIDEO BACKGROUND - NO FILTERS! */
+/* VIDEO BACKGROUND WITH FALLBACK */
 .background-container {
 position: fixed;
 top: 0;
 left: 0;
 width: 100%;
 height: 100%;
-z-index: -2;
+z-index: 1;
 }
 
 .video-background {
@@ -39,8 +39,7 @@ width: 100%;
 height: 100%;
 object-fit: cover;
 z-index: 1;
-opacity: 1; /* Full opacity for full color */
-transition: opacity 0.5s ease;
+transition: opacity 0.5s ease, filter 0.5s ease;
 }
 
 .static-background {
@@ -65,6 +64,22 @@ background: url('images/biotech-facility.jpg') no-repeat center center / cover;
 z-index: 3;
 opacity: 0;
 transition: opacity 1.5s ease;
+}
+
+.video-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.3);
+z-index: 2;
+pointer-events: none;
+transition: opacity 0.5s ease;
+}
+
+.video-overlay.hidden {
+opacity: 0;
 }
 
 /* === STANDARD TOP MENU === */
@@ -165,7 +180,7 @@ display: block;
 display: block;
 }
 
-/* === HAMBURGER MENU FOR MOBILE === */
+/* === HAMBURGER MENU (blue theme) === */
 .mobile-nav {
 display: none;
 position: fixed;
@@ -175,8 +190,8 @@ z-index: 1002;
 }
 
 .hamburger-btn {
-background: rgba(17, 17, 17, 0.9);
-border: 2px solid #ff9553;
+background: rgba(0, 0, 0, 0.85);
+border: 2px solid #4da6ff;
 border-radius: 4px;
 width: 50px;
 height: 50px;
@@ -193,17 +208,17 @@ backdrop-filter: blur(5px);
 display: block;
 width: 25px;
 height: 2px;
-background: #ff9553;
+background: #4da6ff;
 margin: 3px 0;
 transition: all 0.3s ease;
 }
 
 .hamburger-btn:hover {
-background: rgba(255, 149, 83, 0.9);
+background: rgba(77, 166, 255, 0.9);
 }
 
 .hamburger-btn:hover span {
-background: #000;
+background: #ffffff;
 }
 
 .mobile-menu {
@@ -212,13 +227,13 @@ top: 0;
 left: -100%;
 width: 300px;
 height: 100vh;
-background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(17, 17, 17, 0.9));
-border-right: 2px solid #ff9553;
+background: rgba(10, 10, 20, 0.98);
+border-right: 2px solid #4da6ff;
 padding: 20px;
 transition: left 0.4s ease;
 z-index: 1003;
 overflow-y: auto;
-backdrop-filter: blur(10px);
+backdrop-filter: blur(8px);
 }
 
 .mobile-menu.active {
@@ -231,20 +246,21 @@ justify-content: space-between;
 align-items: center;
 margin-bottom: 20px;
 padding-bottom: 15px;
-border-bottom: 1px solid rgba(255, 149, 83, 0.3);
+border-bottom: 1px solid #4da6ff;
 }
 
 .menu-header h3 {
-color: #ff9553;
+color: #ffffff;
 font-family: 'Orbitron', sans-serif;
 font-size: 1rem;
 margin: 0;
+text-shadow: 0 0 8px #4da6ff;
 }
 
 .close-menu {
 background: transparent;
 border: none;
-color: #ff9553;
+color: #ffffff;
 font-size: 1.5rem;
 cursor: pointer;
 width: 30px;
@@ -257,7 +273,8 @@ transition: all 0.3s ease;
 }
 
 .close-menu:hover {
-background: rgba(255, 149, 83, 0.2);
+background: rgba(77, 166, 255, 0.5);
+color: #fff;
 }
 
 .menu-content {
@@ -270,7 +287,7 @@ margin-bottom: 10px;
 
 .menu-content .menu-item a {
 display: block;
-color: #fff;
+color: #e0f0ff;
 text-decoration: none;
 padding: 10px 15px;
 border-radius: 5px;
@@ -282,29 +299,31 @@ font-size: 0.95rem;
 
 .menu-content .menu-item a:hover,
 .menu-content .menu-item a.active {
-border-left-color: #ff9553;
-background: rgba(255, 149, 83, 0.1);
-color: #ff9553;
+border-left-color: #ffffff;
+background: rgba(77, 166, 255, 0.3);
+color: #ffffff;
 }
 
 .menu-footer {
 margin-top: 20px;
 padding-top: 15px;
-border-top: 1px solid rgba(255, 149, 83, 0.3);
+border-top: 1px solid #4da6ff;
 text-align: center;
-color: #ff9553;
+color: #ffffff;
 font-family: 'Orbitron', sans-serif;
 font-size: 0.8rem;
+text-shadow: 0 0 5px #4da6ff;
 }
 
 .pulse {
 display: inline-block;
 width: 8px;
 height: 8px;
-background-color: #ff9553;
+background-color: #ffffff;
 border-radius: 50%;
 margin-right: 8px;
 animation: blink 1.5s infinite;
+box-shadow: 0 0 10px #4da6ff;
 }
 
 @keyframes blink {
@@ -362,7 +381,7 @@ letter-spacing: 2px;
 transition: all 0.3s ease;
 }
 
-/* AUDIO CONTROLS */
+/* AUDIO CONTROLS - matching hide content button */
 .audio-controls {
 position: fixed;
 bottom: 80px;
@@ -371,9 +390,9 @@ z-index: 1000;
 }
 
 .audio-btn {
-background: rgba(255, 68, 68, 0.8);
+background: rgba(0, 0, 0, 0.7);
 border: 2px solid #ff9553;
-color: #fff;
+color: #ff9553;
 padding: 10px 15px;
 border-radius: 25px;
 cursor: pointer;
@@ -383,10 +402,11 @@ font-size: 0.9rem;
 }
 
 .audio-btn:hover {
-background: rgba(255, 68, 68, 0.3);
+background: rgba(255, 149, 83, 0.6);
+color: black;
 }
 
-/* Quote Overlay */
+/* Quote Overlay (initial) */
 .quote-container {
 position: fixed;
 top: 0;
@@ -436,15 +456,25 @@ color: #ff7b7b;
 text-shadow: 0 0 10px rgba(255, 100, 100, 0.5);
 }
 
-/* STORY CONTENT - IMPROVED READABILITY */
+/* STORY CONTENT */
 .story-content {
 position: relative;
 width: 100%;
 min-height: 100vh;
 padding: 120px 2rem 2rem;
 z-index: 50;
-opacity: 1;
+opacity: 0;
+animation: contentFadeIn 1s ease-in 15s forwards;
 transition: opacity 0.5s ease;
+}
+
+@keyframes contentFadeIn {
+to { opacity: 1; }
+}
+
+.story-content.hidden {
+opacity: 0 !important;
+pointer-events: none;
 }
 
 .story-title {
@@ -456,28 +486,18 @@ text-shadow: 0 0 20px rgba(255, 75, 75, 0.7);
 font-family: 'Orbitron', sans-serif;
 }
 
-/* Fix for hide Content functionality */
-.story-content.hidden-content {
-    opacity: 0 !important;
-    pointer-events: none !important;
-    animation: none !important;
-}
-
-.story-text-container {
+.story-text {
 max-width: 900px;
 margin: 0 auto;
+font-size: 1.3rem;
+line-height: 1.8;
+color: #f0f0f0;
 background: rgba(0, 0, 0, 0.7);
 padding: 3rem;
 border-radius: 15px;
 backdrop-filter: blur(10px);
 border: 1px solid rgba(255, 100, 100, 0.3);
 box-shadow: 0 0 30px rgba(255, 50, 50, 0.2);
-}
-
-.story-text {
-font-size: 1.3rem;
-line-height: 1.8;
-color: #f0f0f0;
 }
 
 .story-text p {
@@ -501,6 +521,11 @@ gap: 1rem;
 margin: 3rem auto;
 padding: 0 2rem;
 transition: opacity 0.5s ease;
+}
+
+.card-section.hidden {
+opacity: 0;
+pointer-events: none;
 }
 
 .card-container {
@@ -603,163 +628,186 @@ border-top: 2px solid #ff9553;
 transition: opacity 0.5s ease;
 }
 
+footer.hidden {
+opacity: 0;
+pointer-events: none;
+}
+
+/* Mobile media query – hide desktop menu, show hamburger */
+@media (max-width: 992px) {
+ nav.top-menu {
+ display: none;
+ }
+ .mobile-nav {
+ display: block;
+ }
+ .site-title-overlay {
+ top: 70px;
+ left: 15px;
+ }
+ .site-title-overlay h1 {
+ font-size: 1.4rem;
+ }
+ .hide-content-btn {
+ top: 60px;
+ right: 10px;
+ }
+ .audio-controls {
+ bottom: 70px;
+ right: 20px;
+ }
+}
+
 /* ==================== RESPONSIVE DESIGN ==================== */
 
 /* Tablet & Mobile: Hide desktop menu, show hamburger */
 @media (max-width: 1024px) {
 nav.top-menu {
-    display: none;
+ display: none;
 }
 
 .mobile-nav {
-    display: block;
+ display: block;
 }
 
 .site-title-overlay {
-    top: 70px;
-    left: 20px;
+ top: 70px;
+ left: 20px;
 }
 
 .site-title-overlay h1 {
-    font-size: 1.4rem;
+ font-size: 1.4rem;
 }
 
 .hide-content-btn {
-    top: 70px;
-    right: 20px;
+ top: 70px;
+ right: 20px;
 }
 }
 
 /* Tablet adjustments */
 @media (max-width: 768px) {
 .quote {
-    font-size: 1.4rem;
+ font-size: 1.4rem;
 }
 
 .author {
-    font-size: 1.2rem;
+ font-size: 1.2rem;
 }
 
 .quote-box {
-    padding: 2rem;
+ padding: 2rem;
 }
 
 .story-title {
-    font-size: 2.5rem;
-}
-
-.story-text-container {
-    padding: 2rem;
+ font-size: 2.5rem;
 }
 
 .story-text {
-    font-size: 1.1rem;
+ font-size: 1.1rem;
+ padding: 2rem;
 }
 
 .card-container {
-    max-width: 95%;
-    padding: 0.8rem 1rem;
+ max-width: 95%;
+ padding: 0.8rem 1rem;
 }
 
 .card {
-    width: 130px;
-    height: 200px;
+ width: 130px;
+ height: 200px;
 }
 
 .story-content {
-    padding-top: 100px;
+ padding-top: 100px;
 }
 }
 
 /* Mobile adjustments */
 @media (max-width: 480px) {
 .quote {
-    font-size: 1.2rem;
+ font-size: 1.2rem;
 }
 
 .author {
-    font-size: 1rem;
+ font-size: 1rem;
 }
 
 .quote-box {
-    padding: 1.5rem;
+ padding: 1.5rem;
 }
 
 .story-title {
-    font-size: 2rem;
-}
-
-.story-text-container {
-    padding: 1.5rem;
+ font-size: 2rem;
 }
 
 .story-text {
-    font-size: 1rem;
+ font-size: 1rem;
+ padding: 1.5rem;
 }
 
 .card {
-    width: 110px;
-    height: 170px;
+ width: 110px;
+ height: 170px;
 }
 
 .arrow {
-    font-size: 2rem;
+ font-size: 2rem;
 }
 
 .site-title-overlay {
-    top: 65px;
-    left: 15px;
+ top: 65px;
+ left: 15px;
 }
 
 .site-title-overlay h1 {
-    font-size: 1.2rem;
+ font-size: 1.2rem;
 }
 
 .audio-controls {
-    bottom: 60px;
-    right: 20px;
+ bottom: 60px;
+ right: 20px;
 }
 
 .audio-btn {
-    padding: 8px 12px;
-    font-size: 0.8rem;
+ padding: 8px 12px;
+ font-size: 0.8rem;
 }
 
 .story-content {
-    padding: 90px 1rem 1rem;
+ padding: 90px 1rem 1rem;
 }
 
 .hide-content-btn {
-    top: 20px;
-    right: 20px;
+ top: 20px;
+ right: 20px;
 }
 
 .menu-content .menu-item a {
-    padding: 12px 15px;
-    font-size: 0.9rem;
+ padding: 12px 15px;
+ font-size: 0.9rem;
 }
 }
 
 /* Very small phones */
 @media (max-width: 360px) {
 .card {
-    width: 90px;
-    height: 150px;
+ width: 90px;
+ height: 150px;
 }
 
 .story-title {
-    font-size: 1.8rem;
+ font-size: 1.8rem;
 }
 
 .mobile-menu {
-    width: 280px;
+ width: 280px;
 }
 }
 </style>
 </head>
-
 <body>
-<!-- BACKGROUND CONTAINER WITH VIDEO - NO FILTERS -->
+<!-- BACKGROUND CONTAINER WITH VIDEO -->
 <div class="background-container">
 <video class="video-background" id="storyVideo" muted loop playsinline autoplay>
 <source src="videos/videomartian-preview-2.mp4" type="video/mp4">
@@ -769,7 +817,10 @@ Your browser does not support the video tag.
 <div class="background-2" id="background2"></div>
 </div>
 
-<!-- MOBILE HAMBURGER MENU -->
+<!-- Video overlay (dimming) – will be hidden when content hidden -->
+<div class="video-overlay" id="videoOverlay"></div>
+
+<!-- HAMBURGER MENU (blue theme) -->
 <div class="mobile-nav">
 <button class="hamburger-btn" id="hamburgerBtn">
 <span></span>
@@ -778,14 +829,12 @@ Your browser does not support the video tag.
 </button>
 <nav class="mobile-menu" id="mobileMenu">
 <div class="menu-header">
-<h3>STORY PORTAL</h3>
+<h3>THE MARS ABYSS</h3>
 <button class="close-menu" id="closeMenu">✕</button>
 </div>
-<div class="menu-content">
-<!-- Menu items will be generated by JavaScript -->
-</div>
+<div class="menu-content"></div>
 <div class="menu-footer">
-<span class="pulse"></span> TRANSMISSION ACTIVE
+<span class="pulse"></span> STORY
 </div>
 </nav>
 </div>
@@ -794,13 +843,13 @@ Your browser does not support the video tag.
 <button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
 
 <!-- SITE TITLE OVERLAY -->
-<div class="site-title-overlay">
+<div class="site-title-overlay" id="siteTitle">
 <h1>The Mars Abyss</h1>
 </div>
 
 <!-- AUDIO CONTROLS -->
 <div class="audio-controls">
-<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+<button class="audio-btn" id="muteBtn">🔇 UNMUTE LAB</button>
 </div>
 
 <!-- CORRECT TOP MENU -->
@@ -876,8 +925,7 @@ Your browser does not support the video tag.
 <a href="martian-actualities.html">Martian Actualities</a>
 <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
 <a href="mars-bee-facility.html">Mars Bee Facility</a>
-<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
 <a href="house-of-health-secrets.html">The House of Health Secrets</a>
 <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
 <a href="martian-rest-areas.html">Martian Rest Areas</a>
@@ -927,7 +975,7 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="support.html" class="dropbtn">Support</a>
 <div class="dropdown-content">
-<a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
+<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
@@ -941,8 +989,8 @@ Your browser does not support the video tag.
 <a href="contact.html">Contact</a>
 </nav>
 
-<!-- Quote Overlay -->
-<div class="quote-container">
+<!-- Quote Overlay (appears on load, fades out) -->
+<div class="quote-container" id="quoteContainer">
 <div class="quote-box">
 <div class="quote">
 "Writing is like dreaming, and it's the writer's job to bring calm to the chaos often encountered in those dreams by giving them a direction that makes sense and rings true to the hearts and minds of every human being. This is what makes you smile at the end of a story."
@@ -952,9 +1000,8 @@ Your browser does not support the video tag.
 </div>
 
 <!-- Story Content -->
-<div class="story-content">
+<div class="story-content" id="storyContent">
 <h1 class="story-title">The Story of The Mars Abyss</h1>
-<div class="story-text-container">
 <div class="story-text">
 <p>In the year 2147, humanity established its first permanent settlement on Mars. The colony, named <span class="story-highlight">Ares Prime</span>, was meant to be the beginning of a new chapter for our species. But what we found beneath the Martian soil would change everything.</p>
 
@@ -970,10 +1017,9 @@ Your browser does not support the video tag.
 
 <p>The Mars Abyss is more than a place - it is a test of humanity's readiness for the stars. And the examination has just begun.</p>
 </div>
-</div>
 
 <!-- Fixed Scrollable Cards -->
-<div class="card-section">
+<div class="card-section" id="cardSection">
 <div class="arrow" onclick="scrollCards(-1)">🖖</div>
 
 <div class="card-container" id="cards">
@@ -990,59 +1036,63 @@ Your browser does not support the video tag.
 </div>
 </div>
 
-<footer>
+<footer id="pageFooter">
 <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
 
 <script>
-// VIDEO BACKGROUND - No filters, full color
+// VIDEO BACKGROUND
 const videoBg = document.getElementById('storyVideo');
 videoBg.play().catch(e => console.log('Video autoplay prevented'));
 
 // Background change function
 function changeBackground(bgNumber) {
-    const video = document.querySelector('.video-background');
-    const staticBg = document.querySelector('.static-background');
-    const bg2 = document.getElementById('background2');
+const video = document.querySelector('.video-background');
+const staticBg = document.querySelector('.static-background');
+const bg2 = document.getElementById('background2');
 
-    if (bgNumber === 1) {
-        video.style.opacity = '1';
-        staticBg.style.opacity = '0';
-        bg2.style.opacity = '0';
-    } else if (bgNumber === 2) {
-        video.style.opacity = '0';
-        staticBg.style.opacity = '0';
-        bg2.style.opacity = '1';
-    } else if (bgNumber === 3) {
-        video.style.opacity = '0';
-        staticBg.style.opacity = '0';
-        bg2.style.opacity = '0';
-        setTimeout(() => {
-            video.style.opacity = '1';
-            staticBg.style.opacity = '0';
-            bg2.style.opacity = '0';
-        }, 1000);
-    }
+if (bgNumber === 1) {
+ video.style.opacity = '0.9';
+ staticBg.style.opacity = '0';
+ bg2.style.opacity = '0';
+} else if (bgNumber === 2) {
+ video.style.opacity = '9';
+ staticBg.style.opacity = '0';
+ bg2.style.opacity = '1';
+} else if (bgNumber === 3) {
+ // Create a temporary background flash effect
+ video.style.opacity = '0.9';
+ staticBg.style.opacity = '0';
+ bg2.style.opacity = '0';
+
+ // After 1 second, return to video background
+ setTimeout(() => {
+ video.style.opacity = '0.9';
+ staticBg.style.opacity = '0';
+ bg2.style.opacity = '0';
+ }, 1000);
+}
 }
 
 // Initialize backgrounds
 window.onload = function() {
-    const video = document.querySelector('.video-background');
-    const staticBg = document.querySelector('.static-background');
-    const bg2 = document.getElementById('background2');
-    video.style.opacity = '1';
-    staticBg.style.opacity = '0';
-    bg2.style.opacity = '0';
+const video = document.querySelector('.video-background');
+const staticBg = document.querySelector('.static-background');
+const bg2 = document.getElementById('background2');
+
+video.style.opacity = '0.9';
+staticBg.style.opacity = '0';
+bg2.style.opacity = '0';
 };
 
 // Card scrolling function
 function scrollCards(direction) {
-    const container = document.querySelector(".card-container");
-    const scrollAmount = 200;
-    container.scrollBy({
-        left: direction * scrollAmount,
-        behavior: "smooth"
-    });
+const container = document.querySelector(".card-container");
+const scrollAmount = 200;
+container.scrollBy({
+ left: direction * scrollAmount,
+ behavior: "smooth"
+});
 }
 
 // ==================== MOBILE HAMBURGER MENU ====================
@@ -1052,216 +1102,332 @@ const mobileMenu = document.getElementById('mobileMenu');
 const menuContent = document.querySelector('.menu-content');
 
 function createMobileMenu() {
-    menuContent.innerHTML = '';
-    const menuItems = [
-        { text: 'Home', href: 'index.html' },
-        { text: 'Story', href: 'story.html', active: true },
-        { text: 'Characters', href: 'characters.html' },
-        { text: 'Gallery', href: 'gallery.html' },
-        { text: 'Art & Concepts', href: 'art-and-concepts.html' },
-        { text: 'Martian Games', href: 'martian-games.html' },
-        { text: 'Earth Codex', href: 'earth-codex.html' },
-        { text: 'Martian News', href: 'martian-news.html' },
-        { text: "Regent's Scrolls", href: 'the-regents-scrolls.html' },
-        { text: 'About', href: 'about.html' },
-        { text: 'Support', href: 'support.html' },
-        { text: 'Contact', href: 'contact.html' },
-        { text: 'Quantum Translation Lab', href: 'quantum-translation-labs.html' }
-    ];
+if (!menuContent) return;
+menuContent.innerHTML = '';
 
-    menuItems.forEach(item => {
-        const menuItem = document.createElement('div');
-        menuItem.className = 'menu-item';
-        const link = document.createElement('a');
-        link.href = item.href;
-        link.textContent = item.text;
-        if (item.active) {
-            link.classList.add('active');
-        }
-        menuItem.appendChild(link);
-        menuContent.appendChild(menuItem);
-    });
+const menuItems = [
+ { text: '🏠 Home', href: 'index.html' },
+ { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+ { text: ' Homage to Courage', href: 'homage-to-courage.html' },
+ { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+ { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+ { text: ' My Mission', href: 'my-mission.html' },
+ { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+ { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+ { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+ { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+
+ { text: '📖 Story', href: 'story.html' },
+ { text: ' Characters', href: 'characters.html' },
+ { text: ' Gallery', href: 'gallery.html' },
+ { text: ' Art & Concepts', href: 'art-and-concepts.html' },
+ { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+ { text: ' Technical Database', href: 'technical-database.html' },
+ { text: ' The Martian Edicts', href: 'martian-edicts.html' },
+ { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+ { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+ { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+ { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+
+ { text: '🎮 Martian Games', href: 'martian-games.html' },
+ { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+ { text: ' Martian Racer', href: 'martian-racer.html' },
+ { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+ { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+ { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+ { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+ { text: ' Music Player', href: 'music-app.html' },
+ { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+
+ { text: '🌍 Earth Codex', href: 'earth-codex.html' },
+ { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+ { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+ { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+ { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+ { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+ { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+ { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+ { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+ { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+
+ { text: '📰 Martian News', href: 'martian-news.html' },
+ { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+ { text: ' Martian Actualities', href: 'martian-actualities.html' },
+ { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+ { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+ { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+ { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+ { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+ { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+ { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+ { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+ { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+ { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+
+ { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+ { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+ { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+ { text: ' Earthlings Beware', href: 'earthings-beware.html' },
+ { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+ { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+ { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+ { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+ { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+ { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+ { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+ { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+
+ { text: 'ℹ️ About', href: 'about.html' },
+ { text: ' About the Project', href: 'about-the-project.html' },
+ { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+ { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+ { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+ { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+ { text: ' The Pale Horse', href: 'the-pale-horse.html' },
+ { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+ { text: ' Arachne Labs', href: 'arachne-labs.html' },
+ { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+ { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+
+ { text: '🤝 Support', href: 'support.html' },
+ { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+ { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+ { text: ' Mars Food District', href: 'mars-food-district.html' },
+ { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+ { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+ { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+ { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+ { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+
+ { text: '📧 Contact', href: 'contact.html' },
+ { text: 'Story (current)', href: 'story.html', active: true }
+];
+
+menuItems.forEach(item => {
+const menuItem = document.createElement('div');
+menuItem.className = 'menu-item';
+const link = document.createElement('a');
+link.href = item.href;
+link.textContent = item.text;
+if (item.active) link.classList.add('active');
+menuItem.appendChild(link);
+menuContent.appendChild(menuItem);
+});
 }
 
 createMobileMenu();
 
 hamburgerBtn.addEventListener('click', () => {
-    mobileMenu.classList.add('active');
-    document.body.style.overflow = 'hidden';
+mobileMenu.classList.add('active');
+document.body.style.overflow = 'hidden';
 });
 
 closeMenu.addEventListener('click', () => {
-    mobileMenu.classList.remove('active');
-    document.body.style.overflow = '';
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
 });
 
 document.addEventListener('click', (e) => {
-    if (mobileMenu.classList.contains('active') && 
-        !mobileMenu.contains(e.target) && 
-        !hamburgerBtn.contains(e.target)) {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    }
+if (mobileMenu.classList.contains('active') &&
+ !mobileMenu.contains(e.target) &&
+ !hamburgerBtn.contains(e.target)) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
 });
 
 document.querySelectorAll('.mobile-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    });
+link.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
 });
 
 function handleResize() {
-    if (window.innerWidth > 1024) {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    }
+if (window.innerWidth > 992) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
 }
 window.addEventListener('resize', handleResize);
 
-// ==================== HIDE CONTENT FUNCTIONALITY ====================
+// ===== HIDE CONTENT FUNCTIONALITY =====
 const hideContentBtn = document.getElementById('hideContentBtn');
-const storyContent = document.querySelector('.story-content');
-const pageFooter = document.querySelector('footer');
-const topMenu = document.querySelector('nav.top-menu');
-const storyTitle = document.querySelector('.story-title');
+const storyContent = document.getElementById('storyContent');
+const cardSection = document.getElementById('cardSection');
+const pageFooter = document.getElementById('pageFooter');
+const topMenu = document.getElementById('topMenu');
+const siteTitle = document.getElementById('siteTitle');
+const videoOverlay = document.getElementById('videoOverlay');
+const quoteContainer = document.getElementById('quoteContainer');
 
 let contentHidden = false;
 
 hideContentBtn.addEventListener('click', function() {
-    contentHidden = !contentHidden;
-    if (contentHidden) {
-        // HIDE: Story text, title, and cards
-        storyContent.style.opacity = '0';
-        storyContent.style.pointerEvents = 'none';
-        storyTitle.style.opacity = '0';
-        // HIDE: Footer and menu
-        pageFooter.classList.add('hidden');
-        topMenu.classList.add('hidden');
-        // Change button text
-        hideContentBtn.textContent = 'Show Content';
-    } else {
-        // SHOW: Story text, title, and cards
-        storyContent.style.opacity = '1';
-        storyContent.style.pointerEvents = 'auto';
-        storyTitle.style.opacity = '1';
-        // SHOW: Footer and menu
-        pageFooter.classList.remove('hidden');
-        topMenu.classList.remove('hidden');
-        // Change button text
-        hideContentBtn.textContent = 'Hide Content';
-    }
+contentHidden = !contentHidden;
+
+if (contentHidden) {
+ // Hide all UI elements
+ storyContent.classList.add('hidden');
+ cardSection.classList.add('hidden');
+ pageFooter.classList.add('hidden');
+ topMenu.classList.add('hidden');
+ siteTitle.classList.add('hidden');
+ videoOverlay.classList.add('hidden');
+ // Also hide quote if still visible
+ if (quoteContainer) quoteContainer.style.display = 'none';
+ hideContentBtn.textContent = 'Show Content';
+} else {
+ // Show all UI elements
+ storyContent.classList.remove('hidden');
+ cardSection.classList.remove('hidden');
+ pageFooter.classList.remove('hidden');
+ topMenu.classList.remove('hidden');
+ siteTitle.classList.remove('hidden');
+ videoOverlay.classList.remove('hidden');
+ // Quote will only be visible if it hasn't finished its fade-out yet.
+ // But we want it to remain hidden after it fades naturally.
+ // We'll just let it be: if it's still in DOM, its animation will play.
+ hideContentBtn.textContent = 'Hide Content';
+}
 });
 
-// ==================== AUDIO SYSTEM - FIXED ====================
+// ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-    const sounds = [
-        { src: 'music/story-theme-red-dust.mp3', volume: 0.3 },
-        { src: 'sounds/ambient-space.mp3', volume: 0.2 }
-    ];
+ const sounds = [
+ { src: 'music/depths-of-mystery.mp3', volume: 0.5 },
+ { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+ { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+ ];
 
-    sounds.forEach(sound => {
-        const audio = new Audio(sound.src);
-        audio.volume = sound.volume;
-        audio.loop = true;
-        audio.muted = true; // Start muted for autoplay
-        audio.play().catch(e => console.log('Audio init (muted):', e));
-        audioElements.push(audio);
-    });
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
+
+ const unmuteOnInteraction = function() {
+ if (isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => {
+ console.log('Audio play attempt failed:', e);
+ });
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 MUTE LAB";
+ }
+ document.removeEventListener('click', unmuteOnInteraction);
+ document.removeEventListener('keydown', unmuteOnInteraction);
+ };
+
+ document.addEventListener('click', unmuteOnInteraction);
+ document.addEventListener('keydown', unmuteOnInteraction);
+
+ setTimeout(() => {
+ audioElements.forEach(audio => {
+ audio.play().then(() => {
+ console.log('Audio autoplay succeeded.');
+ }).catch(e => {
+ console.log('Audio autoplay blocked.');
+ });
+ });
+ }, 1000);
 }
 
-// Initialize audio on load (muted)
+muteBtn.addEventListener('click', function() {
+ if (audioElements.length === 0) {
+ initAudio();
+ return;
+ }
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ if (!isMuted) {
+ audio.play().catch(e => console.log('Playback resume failed'));
+ }
+ });
+ muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
+});
+
+// Initialize audio
 initAudio();
 
-// Unmute on first user click
-document.addEventListener('click', function startAudioOnFirstInteraction() {
-    if (isMuted) {
-        audioElements.forEach(audio => {
-            audio.muted = false;
-        });
-        isMuted = false;
-        muteBtn.textContent = "🔊 Mute Sounds";
-    }
-    document.removeEventListener('click', startAudioOnFirstInteraction);
-});
-
-// Mute button toggle
-muteBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    isMuted = !isMuted;
-    audioElements.forEach(audio => { 
-        audio.muted = isMuted;
-    });
-    muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
-});
-
-// ==================== SITE TITLE SCROLL FADE ====================
-const siteTitle = document.querySelector('.site-title-overlay');
+// SITE TITLE SCROLL FADE
+const siteTitleElem = document.querySelector('.site-title-overlay');
 let titleScrollTimer;
 
 function handleTitleScroll() {
-    const scrolled = window.scrollY > 50;
-    if (scrolled) {
-        siteTitle.classList.add('scrolled');
-        if (window.scrollY > 150) {
-            siteTitle.classList.add('hidden');
-        } else {
-            siteTitle.classList.remove('hidden');
-        }
-    } else {
-        siteTitle.classList.remove('scrolled', 'hidden');
-    }
+const scrolled = window.scrollY > 50;
+if (scrolled) {
+ siteTitleElem.classList.add('scrolled');
+ if (window.scrollY > 150) {
+ siteTitleElem.classList.add('hidden');
+ } else {
+ siteTitleElem.classList.remove('hidden');
+ }
+} else {
+ siteTitleElem.classList.remove('scrolled', 'hidden');
+}
 
-    clearTimeout(titleScrollTimer);
-    titleScrollTimer = setTimeout(() => {
-        if (window.scrollY > 100) {
-            siteTitle.classList.remove('hidden');
-            siteTitle.classList.add('scrolled');
-        }
-    }, 2000);
+clearTimeout(titleScrollTimer);
+titleScrollTimer = setTimeout(() => {
+ if (window.scrollY > 100) {
+ siteTitleElem.classList.remove('hidden');
+ siteTitleElem.classList.add('scrolled');
+ }
+}, 2000);
 }
 
 window.addEventListener('scroll', handleTitleScroll);
 
+// Show title on mouse movement
 document.addEventListener('mousemove', () => {
-    siteTitle.classList.remove('hidden');
-    clearTimeout(titleScrollTimer);
-    titleScrollTimer = setTimeout(() => {
-        if (window.scrollY > 150) {
-            siteTitle.classList.add('hidden');
-        }
-    }, 3000);
+siteTitleElem.classList.remove('hidden');
+clearTimeout(titleScrollTimer);
+titleScrollTimer = setTimeout(() => {
+ if (window.scrollY > 150) {
+ siteTitleElem.classList.add('hidden');
+ }
+}, 3000);
 });
 
-// ==================== MOBILE DROPDOWN FIX ====================
+// ===== MOBILE / TABLET DROPDOWN FIX =====
 document.querySelectorAll('.dropdown > a').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const parent = this.parentElement;
-        if (window.innerWidth <= 1024) {
-            if (!parent.classList.contains('open')) {
-                e.preventDefault();
-                closeAllDropdowns(parent);
-                parent.classList.add('open');
-            }
-        }
-    });
+anchor.addEventListener('click', function (e) {
+ const parent = this.parentElement;
+
+ // Only intercept on touch-sized screens
+ if (window.innerWidth <= 1024) {
+ // If this dropdown isn't open yet → open it
+ if (!parent.classList.contains('open')) {
+ e.preventDefault(); // STOP navigation
+ closeAllDropdowns(parent);
+ parent.classList.add('open');
+ }
+ // If already open → allow normal navigation
+ }
+});
 });
 
 function closeAllDropdowns(except = null) {
-    document.querySelectorAll('.dropdown.open').forEach(drop => {
-        if (drop !== except) drop.classList.remove('open');
-    });
+document.querySelectorAll('.dropdown.open').forEach(drop => {
+ if (drop !== except) drop.classList.remove('open');
+});
 }
 
+// Close dropdowns when tapping outside nav
 document.addEventListener('click', function (e) {
-    const nav = document.getElementById('topMenu');
-    if (!nav.contains(e.target)) {
-        closeAllDropdowns();
-    }
+const nav = document.getElementById('topMenu');
+if (!nav.contains(e.target)) {
+ closeAllDropdowns();
+}
 });
 </script>
 </body>
