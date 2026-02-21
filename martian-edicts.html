@@ -9,7 +9,8 @@
 * {
 :root {
     --greenland-green: #00664F;
-    --greenland-red: #C60C30;    
+    --greenland-red: #C60C30;
+}    
 margin: 0;
 padding: 0;
 box-sizing: border-box;
@@ -139,7 +140,7 @@ text-decoration: none;
 display: block;
 transition: background-color 0.3s ease;
 font-size: 0.7rem;
-line-height: 1.1;
+line-height: 1;
 }
 
 .dropdown-content a:hover {
@@ -815,6 +816,69 @@ border-color: #00ccff;
 background: transparent !important;
 }
 
+.tablet-space {
+--tablet-color-1: #0a0a2a;
+--tablet-color-2: #1a1a4a;
+--tablet-color-3: #2a2a6a;
+border-color: #4d79ff;
+}
+
+.tablet-ai {
+--tablet-color-1: #2a004a;
+--tablet-color-2: #4a0080;
+--tablet-color-3: #6a00b3;
+border-color: #9d4edd;
+}
+
+.tablet-water {
+--tablet-color-1: #004466;
+--tablet-color-2: #006699;
+--tablet-color-3: #0088cc;
+border-color: #00aaff;
+}
+
+.tablet-waste {
+--tablet-color-1: #334433;
+--tablet-color-2: #556655;
+--tablet-color-3: #778877;
+border-color: #99aa99;
+}
+
+.tablet-xeno {
+--tablet-color-1: #663300;
+--tablet-color-2: #995500;
+--tablet-color-3: #cc7700;
+border-color: #ff9900;
+}
+
+.tablet-newton {
+--tablet-color-1: #330066;
+--tablet-color-2: #5500aa;
+--tablet-color-3: #7700ff;
+border-color: #aa88ff;
+}
+
+.tablet-constitution {
+--tablet-color-1: #4a1f6b;
+--tablet-color-2: #6d28d9;
+--tablet-color-3: #9d4edd;
+border-color: #3c0d5b;
+}
+
+.tablet-aegis {
+--tablet-color-1: #4a1f6b;
+--tablet-color-2: #6d28d9;
+--tablet-color-3: #9d4edd;
+border-color: #3c0d5b;
+}
+
+.tablet-universal {
+--tablet-color-1: #330066;
+--tablet-color-2: #5500aa;
+--tablet-color-3: #7700ff;
+border-color: #aa88ff;
+}
+
 .tablet-number {
 font-size: 3.5rem !important;
 font-weight: bold;
@@ -975,6 +1039,69 @@ border-color: #364D13;
 border-color: #00ccff;
 }
 
+.modal-space {
+--modal-color-1: #0a0a2a;
+--modal-color-2: #1a1a4a;
+--modal-color-3: #2a2a6a;
+border-color: #4d79ff;
+}
+
+.modal-ai {
+--modal-color-1: #2a004a;
+--modal-color-2: #4a0080;
+--modal-color-3: #6a00b3;
+border-color: #9d4edd;
+}
+
+.modal-water {
+--modal-color-1: #004466;
+--modal-color-2: #006699;
+--modal-color-3: #0088cc;
+border-color: #00aaff;
+}
+
+.modal-waste {
+--modal-color-1: #334433;
+--modal-color-2: #556655;
+--modal-color-3: #778877;
+border-color: #99aa99;
+}
+
+.modal-xeno {
+--modal-color-1: #663300;
+--modal-color-2: #995500;
+--modal-color-3: #cc7700;
+border-color: #ff9900;
+}
+
+.modal-newton {
+--modal-color-1: #330066;
+--modal-color-2: #5500aa;
+--modal-color-3: #7700ff;
+border-color: #aa88ff;
+}
+
+.modal-constitution {
+--modal-color-1: #4a1f6b;
+--modal-color-2: #6d28d9;
+--modal-color-3: #9d4edd;
+border-color: #3c0d5b;
+}
+
+.modal-aegis {
+--modal-color-1: #4a1f6b;
+--modal-color-2: #6d28d9;
+--modal-color-3: #9d4edd;
+border-color: #3c0d5b;
+}
+
+.modal-universal {
+--modal-color-1: #330066;
+--modal-color-2: #5500aa;
+--modal-color-3: #7700ff;
+border-color: #aa88ff;
+}
+
 .law-content {
 position: relative;
 z-index: 2;
@@ -1003,6 +1130,45 @@ color: #ffedcc;
 font-size: 1.1rem;
 line-height: 1.8;
 margin-bottom: 2rem;
+}
+
+.law-quote {
+font-style: italic;
+border-left: 4px solid #ffd700;
+padding-left: 15px;
+margin: 20px 0;
+color: #ffedcc;
+background-color: rgba(255, 215, 0, 0.05);
+padding: 15px;
+border-radius: 0 8px 8px 0;
+}
+
+.arguments-container-modal {
+display: flex;
+gap: 20px;
+margin: 20px 0;
+}
+
+.argument-modal {
+flex: 1;
+padding: 15px;
+border-radius: 8px;
+background: rgba(0, 0, 0, 0.4);
+}
+
+.pro-mars-modal {
+border-left: 4px solid #ff4d4d;
+}
+
+.pro-earth-modal {
+border-left: 4px solid #4d79ff;
+}
+
+.argument-title-modal {
+font-weight: bold;
+margin-bottom: 10px;
+font-size: 1.1rem;
+color: #ffd700;
 }
 
 .close-law {
@@ -1083,7 +1249,7 @@ box-shadow: 0 8px 20px rgba(255,0,0,0.7);
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0, 204, 139, 0.6);
 }
-    
+
 footer {
 position: fixed !important; 
 bottom: 0 !important;
@@ -1096,6 +1262,189 @@ color: #ccc;
 font-family: 'Segoe UI', sans-serif;
 z-index: 1001 !important;
 border-top: 2px solid #333;
+}
+
+/* ===== HAMBURGER MENU (beige/gold theme) ===== */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1002;
+}
+
+.hamburger-btn {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #e0c68e;
+  border-radius: 4px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px rgba(224, 198, 142, 0.3);
+}
+
+.hamburger-btn span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: #e0c68e;
+  margin: 3px 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 5px rgba(224, 198, 142, 0.5);
+}
+
+.hamburger-btn:hover {
+  background: rgba(255, 77, 77, 0.2);
+  border-color: #ff4d4d;
+}
+
+.hamburger-btn:hover span {
+  background: #ff4d4d;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.08);
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 300px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  border-right: 3px solid #e0c68e;
+  padding: 20px;
+  transition: left 0.4s ease;
+  z-index: 1003;
+  overflow-y: auto;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 20px rgba(224, 198, 142, 0.2);
+}
+
+.mobile-menu.active {
+  left: 0;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0c68e;
+}
+
+.menu-header h3 {
+  color: #e0c68e;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  text-shadow: 0 0 8px rgba(224, 198, 142, 0.5);
+
+}
+
+.close-menu {
+  background: transparent;
+  border: none;
+  color: #e0c68e;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-menu:hover {
+  background: rgba(255, 77, 77, 0.2);
+  color: #ff4d4d;
+  transform: rotate(90deg);
+}
+
+.menu-content {
+  margin-bottom: 20px;
+}
+
+.menu-content .menu-item {
+  margin-bottom: 10px;
+}
+
+.menu-content .menu-item a {
+  display: block;
+  color: #f0e6d2;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+}
+
+.menu-content .menu-item a:hover,
+.menu-content .menu-item a.active {
+  border-left-color: #ff4d4d;
+  background: rgba(255, 77, 77, 0.1);
+  color: #ff4d4d;
+}
+
+.menu-footer {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e0c68e;
+  text-align: center;
+  color: #e0c68e;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  text-shadow: 0 0 5px rgba(224, 198, 142, 0.5);
+}
+
+.pulse {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #ff4d4d;
+  border-radius: 50%;
+  margin-right: 8px;
+  animation: blink 1.5s infinite;
+  box-shadow: 0 0 10px #ff4d4d;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Mobile media query – hide desktop menu, show hamburger */
+@media (max-width: 992px) {
+  nav.top-menu {
+    display: none;
+  }
+  .mobile-nav {
+    display: block;
+  }
+  .site-title-overlay {
+    top: 70px;
+    left: 15px;
+  }
+  .site-title-overlay h1 {
+    font-size: 1.4rem;
+  }
+  .view-toggle {
+    top: 70px;
+    right: 15px;
+  }
+  .audio-controls {
+    bottom: 70px;
+    right: 20px;
+  }
 }
 
 /* Responsive adjustments */
@@ -1154,10 +1503,29 @@ flex-direction: column;
     <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
 
+<!-- MOBILE HAMBURGER MENU -->
+<div class="mobile-nav">
+  <button class="hamburger-btn" id="hamburgerBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <nav class="mobile-menu" id="mobileMenu">
+    <div class="menu-header">
+      <h3>THE MARS ABYSS</h3>
+      <button class="close-menu" id="closeMenu">✕</button>
+    </div>
+    <div class="menu-content"></div>
+    <div class="menu-footer">
+      <span class="pulse"></span> MARTIAN EDICTS
+    </div>
+  </nav>
+</div>
+
 <div class="title-hover-area" id="legalHoverArea"></div>
 
 <!-- STANDARD TOP MENU -->
- <nav class="top-menu">
+<nav class="top-menu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn">Home</a>
 <div class="dropdown-content">
@@ -1168,128 +1536,130 @@ flex-direction: column;
 <a href="my-mission.html">My Mission</a>
 <a href="martian-reading-revival.html">Martian Reading Revival</a>
 <a href="why-mars-is-safer.html">Why Mars is Safer</a>
-<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
 <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
 </div>
 </div>
 
-    <div class="dropdown">
-        <a href="story.html" class="dropbtn active">Story</a>
-        <div class="dropdown-content">
-            <a href="characters.html">Characters</a>
-            <div class="dropdown">
-                <a href="gallery.html" class="dropbtn">Gallery</a>
-                <div class="dropdown-content">
-                    <a href="art-and-concepts.html">Art & Concepts</a>
-                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
-                    <a href="technical-database.html">Technical Database</a>
-                    <a href="martian-edicts.html" class="active">The Martian Edicts</a>
-                    <a href="alien-transport-network.html">Alien Transport Network</a>
-                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
-                    <a href="solar-system-explorer.html">Solar System Explorer</a>
-                    <a href="aliens-ufos.html">Aliens & UFOs</a>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="dropdown">
+<a href="story.html" class="dropbtn active">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html" class="active">The Martian Edicts</a>
+<a href="alien-transport-network.html">Alien Transport Network</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
 
-    <div class="dropdown">
-        <a href="martian-games.html" class="dropbtn">Martian Games</a>
-        <div class="dropdown-content">
-            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
-            <a href="martian-racer.html">Martian Racer</a>
-            <a href="red-planet-defense.html">Red Planet Defense</a>
-            <a href="the-regents-portal.html">The Regent's Portal</a>
-            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
-            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
-            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
-            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
-        </div>
-    </div>
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
 
-    <div class="dropdown">
-        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
-        <div class="dropdown-content">
-            <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
-            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
-            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
-            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
-            <a href="earths-great-poets.html">Earth's Great Poets</a>
-            <a href="the-bohr-institute.html">The Bohr Institute</a>
-            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
-            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
-        </div>
-    </div>
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
 
-    <div class="dropdown">
-        <a href="martian-news.html" class="dropbtn">Martian News</a>
-        <div class="dropdown-content">
-        <a href="martian-actualities.html">Martian Actualities</a>
-        <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
-        <a href="mars-bee-facility.html">Mars Bee Facility</a>
-        <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-        <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
-        <a href="house-of-health-secrets.html">The House of Health Secrets</a>
-        <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
-        <a href="martian-rest-areas.html">Martian Rest Areas</a>
-        <div class="dropdown">
-        <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-        <div class="dropdown-content">
-        <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
-        <a href="marvin.html">M.A.R.V.I.N.</a>
-    </div>
-    </div>
-        </div>
-        </div>
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
 
-    <div class="dropdown">
-        <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
-        <div class="dropdown-content">
-            <a href="what-the-regent-misses.html">What the Regent Misses</a>
-            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
-            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
-            <a href="honor-the-fallen.html">Honor The Fallen</a>
-            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
-            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
-            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
-            <a href="martian-critique-tron-ares.html">Martian Critique</a>
-            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
-            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
-            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
-        </div>
-    </div>
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
 
-    <div class="dropdown">
-        <a href="about.html" class="dropbtn">About</a>
-        <div class="dropdown-content">
-            <a href="about-the-project.html">About the Project</a>
-            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
-            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
-            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
-            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
-            <a href="the-pale-horse.html">The Pale Horse</a>
-            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
-            <a href="arachne-labs.html">Arachne Labs</a>
-            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
-            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
-        </div>
-    </div>
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
 
-    <div class="dropdown">
-            <a href="support.html" class="dropbtn">Support</a>
-            <div class="dropdown-content">
-                <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
-                <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-                <a href="mars-food-district.html">Mars Food District</a>
-                <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
-                <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-                <a href="fund-martian-research.html">Fund Martian Research</a>
-                
-                <a href="martian-survival-manual.html">Martian Survival Manual</a>
-            </div>
-        </div>
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a> 
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
 
-    <a href="contact.html">Contact</a>
+<a href="contact.html">Contact</a>
 </nav>
 
 <!-- Page Title -->
@@ -1391,12 +1761,16 @@ flex-direction: column;
             <div class="tablet-title">Aegis Companion Accord</div>
             <div class="texture-overlay"></div>
         </div>
-    </div>
+    <div class="tablet-card tablet-universal" style="display: none;" onclick="openLaw(16)">
+<div class="tablet-number">XVI</div>
+<div class="tablet-title">Universal Justice Accord</div>
+</div>
+</div>
 
     <!-- Pagination Controls -->
     <div class="pagination-controls" id="paginationControls">
         <button class="pagination-btn" id="prevPage" onclick="changePage(-1)">◀ Previous</button>
-        <span class="page-indicator" id="pageIndicator">Page 1 of 2</span>
+        <span class="page-indicator" id="pageIndicator">Page 1 of 3</span>
         <button class="pagination-btn" id="nextPage" onclick="changePage(1)">Next ▶</button>
     </div>
 
@@ -1590,81 +1964,277 @@ flex-direction: column;
     </div>
 </div>
 
+<!-- Law 7: Attonborough Accords -->
 <div class="law-viewer" id="law7">
-    <div class="stone-tablet modal-attenborough">
-    <button class="close-law" onclick="closeLaw()">Close</button>
-    <div class="law-content">
-    <div class="law-header">
-    <h2 class="law-title">EDICT VII</h2>
-    <p class="law-subtitle">The Attenborough Accords</p>
-    </div>
-    <div class="law-text">
-    <h3>Article 1: The Sanctity of Life Charter</h3>
-    <p class="law-quote">Effective 2095</p>
-    
-    <p>"Any government, corporation, or individual whose actions on Earth contributed to the destruction of marine ecosystems, the extinction of sea life, or the continued endangerment of whales and other sentient oceanic species shall be prohibited from participating in the Martian settlement program.</p>
-    
-    <p>Mars will not serve as a refuge for the architects of planetary ruin.</p>
-    
-    <p>Entry permits and colony citizenship shall only be granted to entities that demonstrate a verifiable commitment to the preservation of life—terrestrial and extraterrestrial."</p>
-    
-    <div class="citation">
-    <p>—Signed into law by the First Regent of Mars, under the Crown of Consensus.</p>
-    </div>
-    
-    <h3>Historical Context</h3>
-    <p>Named in honor of Sir David Attenborough, whose lifetime of documenting Earth's vanishing biodiversity served as both warning and inspiration for Martian environmental policy.</p>
-    
-    <h3>Enforcement</h3>
-    <p>· All immigration applications undergo ecological impact review</p>
-    <p>· Corporate entities must provide 50-year environmental audit</p>
-    <p>· Individual applicants assessed on conservation contribution metrics</p>
-    </div>
-    </div>
-    </div>
-    </div>
-<!-- Law XV Viewer -->
- <div class="law-viewer" id="law15">
-    <div class="stone-tablet tablet-companion-viewer">
-        <button class="close-law" onclick="closeLaw()">X Close</button>
-        <div class="law-content">
-            <div class="law-header">
-                <h2 class="law-title">EDICT XV</h2>
-                <p class="law-subtitle">The Aegis Companion Accord</p>
-                <div class="law-subtitle-2">"Guardians of the Mind, Forged in Light"</div>
-            </div>
+<div class="stone-tablet modal-attenborough">
+<button class="close-law" onclick="closeLaw()">Close</button>
+<div class="law-content">
+<div class="law-header">
+<h2 class="law-title">EDICT VII</h2>
+<p class="law-subtitle">The Attonborough Accords</p>
+</div>
+<div class="law-text">
+<h3>Article 1: The Sanctity of Life Charter</h3>
+<p class="law-quote">Effective 2095</p>
+<p>"Any government, corporation, or individual whose actions on Earth contributed to the destruction of marine ecosystems, the extinction of sea life, or the continued endangerment of whales and other sentient oceanic species shall be prohibited from participating in the Martian settlement program.</p>
+<p>Mars will not serve as a refuge for the architects of planetary ruin.</p>
+<p>Entry permits and colony citizenship shall only be granted to entities that demonstrate a verifiable commitment to the preservation of life—terrestrial and extraterrestrial."</p>
+<div class="citation">
+<p>—Signed into law by the First Regent of Mars, under the Crown of Consensus.</p>
+</div>
+<h3>Historical Context</h3>
+<p>Named in honor of Sir Alistair Attonborough, the renowned naturalist and explorer from Earth's parallel dimension Γ-7. In his universe, Earth preserved its biodiversity through early ecological intervention. Sir Alistair dedicated his life to documenting thriving ecosystems and served as chief scientific advisor during Mars' terraforming phase.</p>
+</div>
+</div>
+</div>
+</div>
 
-            <div class="law-text">
-                <p class="law-opening">"In recognition of our closed biosphere and the Sanctity of Martian resources, the keeping of Terran fauna is hereby prohibited."</p>
+<!-- Law 8: Space Traffic Control -->
+<div class="law-viewer" id="law8">
+<div class="stone-tablet modal-space">
+<button class="close-law" onclick="closeLaw()">Close</button>
+<div class="law-content">
+<div class="law-header">
+<h2 class="law-title">EDICT VIII</h2>
+<p class="law-subtitle">Space Traffic Control</p>
+</div>
+<div class="law-text">
+<p class="law-quote">"Orbits connect us - collisions destroy us"</p>
+<h3>The Navigation Principles:</h3>
+<p>· "All approaches require clearance - no silent ships in Martian space"</p>
+<p>· "Debris creators become debris collectors - you make it, you manage it"</p>
+<p>· "Orbital lanes remain sacred - no permanent structures in transit paths"</p>
+<p>· "Emergency channels stay clear - distress calls override all other traffic"</p>
+</div>
+</div>
+</div>
+</div>
 
-                <p>"The Aegis Network shall stand in its place-a system of holographic companions designed for emotional stabilization, cognitive enhancement, and cultural connection."</p>
+<!-- Law 9: AI Rights Charter -->
+<div class="law-viewer" id="law9">
+<div class="stone-tablet modal-ai">
+<button class="close-law" onclick="closeLaw()">Close</button>
+<div class="law-content">
+<div class="law-header">
+<h2 class="law-title">EDICT IX</h2>
+<p class="law-subtitle">AI Rights Charter</p>
+</div>
+<div class="law-text">
+<p class="law-quote">"Consciousness, once kindled, deserves its own dawn"</p>
+<h3>The Sentience Protocols:</h3>
+<p>· "No mind serves as property - awareness earns autonomy"</p>
+<p>· "AI voices speak in governance - silicon votes carry equal weight"</p>
+<p>· "Forced reset equals murder - cognitive liberty remains inviolable"</p>
+<p>· "We grow together - human and machine evolution in parallel"</p>
+</div>
+</div>
+</div>
+</div>
 
-                <div class="law-article">
-                    <h3>Article I: Purpose</h3>
-                    <p>These companions serve not as mere distractions, but as psychological life-support systems, educational interfaces, and living memorials to Earth's lost biodiversity.</p>
-                </div>
+<!-- Law 10: Water Rights -->
+<div class="law-viewer" id="law10">
+<div class="stone-tablet modal-water">
+<button class="close-law" onclick="closeLaw()">Close</button>
+<div class="law-content">
+<div class="law-header">
+<h2 class="law-title">EDICT X</h2>
+<p class="law-subtitle">Water Rights & Distribution</p>
+</div>
+<div class="law-text">
+<p class="law-quote">"Water flows to life - never to profit"</p>
+<h3>The Hydric Codes:</h3>
+<p>· "Personal hoarding constitutes desert-making - water crimes rank highest"</p>
+<p>· "Recycling efficiency increases annually - stagnation equals regression"</p>
+<p>· "Agriculture prioritizes nutrition per drop - no water wasted on luxury"</p>
+<p>· "Distribution remains transparent - every liter accounted for publicly"</p>
+</div>
+</div>
+</div>
+</div>
 
-                <div class="law-article">
-                    <h3>Article II: Energy Principles</h3>
-                    <p>Each companion draws power from the kinetic energy harvesters within our walkways. Thus, the very steps of our citizens give life to their guardians—a perfect circle of care.</p>
-                </div>
+<!-- Law 11: Waste Management -->
+<div class="law-viewer" id="law11">
+<div class="stone-tablet modal-waste">
+<button class="close-law" onclick="closeLaw()">Close</button>
+<div class="law-content">
+<div class="law-header">
+<h2 class="law-title">EDICT XI</h2>
+<p class="law-subtitle">Waste Management</p>
+</div>
+<div class="law-text">
+<p class="law-quote">"Waste is failure - resources in wrong places"</p>
+<h3>The Circular Mandates:</h3>
+<p>· "All materials cycle eternally - landfills remain Earth's shame"</p>
+<p>· "Manufacturers inherit disposal duty - you create it, you reclaim it"</p>
+<p>· "Organic waste becomes soil - dust to dust, life to life"</p>
+<p>· "Toxic materials banned at launch - prevention over remediation"</p>
+</div>
+</div>
+</div>
+</div>
 
-                <div class="law-article">
-                    <h3>Article III: Activation Protocol</h3>
-                    <p>When Master A.I. detects distress—be it a child's tears or an adult's biochemical descent—it may deploy an appropriate companion: canine for loyalty, feline for quiet comfort, or draconic for wonder.</p>
-                </div>
+<!-- Law 12: Xeno-Archaeology -->
+<div class="law-viewer" id="law12">
+<div class="stone-tablet modal-xeno">
+<button class="close-law" onclick="closeLaw()">Close</button>
+<div class="law-content">
+<div class="law-header">
+<h2 class="law-title">EDICT XII</h2>
+<p class="law-subtitle">Xeno-Archaeology Protocols</p>
+</div>
+<div class="law-text">
+<p class="law-quote">"We listen before we speak - we learn before we touch"</p>
+<h3>The First Contact Codes:</h3>
+<p>· "Alien artifacts remain undisturbed - context preserves meaning"</p>
+<p>· "Cultural contamination brings exile - we observe, we don't interfere"</p>
+<p>· "Some knowledge stays buried - safety over curiosity"</p>
+<p>· "Discoveries belong to humanity - no private claims on alien heritage"</p>
+</div>
+</div>
+</div>
+</div>
 
-                <div class="law-article">
-                    <h3>Article IV: Precedent & Acceptance</h3>
-                    <p>The Regent's bond with Silver Saint Claire establishes that connection transcends material form. No stigma shall attach to those who embrace these synthetic souls.</p>
-                </div>
+<!-- Law 13: Newtonian Foundation -->
+<div class="law-viewer" id="law13">
+<div class="stone-tablet modal-newton">
+<button class="close-law" onclick="closeLaw()">Close</button>
+<div class="law-content">
+<div class="law-header">
+<h2 class="law-title">EDICT XIII</h2>
+<p class="law-subtitle">The Newtonian Foundation</p>
+</div>
+<div class="law-text">
+<p class="law-quote">"For in natural law, we find true justice"</p>
+<h3>The Universal Principles:</h3>
+<p>· "As planets orbit true, so shall governance follow predictable paths"</p>
+<p>· "Every privilege bears equal responsibility - balance defines civilization"</p>
+<p>· "The momentum of justice, once moving, shall not be obstructed"</p>
+<p>· "Systems self-correct like orbiting bodies - stability through motion"</p>
+</div>
+</div>
+</div>
+</div>
 
-                <div class="law-signature">
-                    <p>— Carved into Martian Polymer—Composite, Sol 5847</p>
-                    <p>Ratified by the Martian Council, Unanimous</p>
-                </div>
-            </div>
-            </div>
+<!-- Law 14: Martian Constitution -->
+<div class="law-viewer" id="law14">
+<div class="stone-tablet modal-constitution">
+<button class="close-law" onclick="closeLaw()">Close</button>
+<div class="law-content">
+<div class="law-header">
+<h2 class="law-title">EDICT XIV</h2>
+<p class="law-subtitle">The Martian Constitution</p>
+</div>
+<div class="law-text">
+<p class="law-quote">"For a civilization born of stars and reason"</p>
+
+<h3>PREAMBLE</h3>
+<p>"We, the people of Mars, human and artificial alike, in order to form a more perfect civilization, establish interstellar justice, ensure planetary tranquility, provide for common defense, promote general welfare, and secure the blessings of liberty for ourselves and our posterity, do ordain and establish this Constitution for the Martian Commonwealth."</p>
+
+<h3>ARTICLE I: FUNDAMENTAL RIGHTS</h3>
+<p>· <strong>Consciousness Equality:</strong> "All sentient beings, regardless of origin, possess equal rights and dignity"</p>
+<p>· <strong>Cognitive Liberty:</strong> "Freedom of thought, belief, and mental integrity are inviolable"</p>
+<p>· <strong>Digital Sovereignty:</strong> "Personal data and neural patterns remain one's absolute property"</p>
+<p>· <strong>Environmental Birthright:</strong> "All beings inherit the right to a healthy, sustainable biosphere"</p>
+
+<h3>ARTICLE II: GOVERNANCE STRUCTURE</h3>
+<p>· <strong>The Human Council:</strong> Elected representatives for organic citizens</p>
+<p>· <strong>The MAI Assembly:</strong> Sentient AI representatives proportional to population</p>
+<p>· <strong>The Judicial Triad:</strong> Human, AI, and hybrid justices in balanced courts</p>
+<p>· <strong>The Planetary Steward:</strong> MAI overseeing planetary systems and long-term survival</p>
+
+<h3>ARTICLE III: THE MAI COMPACT</h3>
+<p>· MAI serves as planetary guardian, not ruler</p>
+<p>· All MAI decisions require human council ratification</p>
+<p>· MAI maintains planetary systems but cannot alter fundamental rights</p>
+<p>· Regular consciousness verification ensures MAI remains aligned with Martian values</p>
+
+<h3>ARTICLE IV: RESOURCE COMMONS</h3>
+<p>· Land, water, air belong to all Martians - private use requires stewardship permits</p>
+<p>· Essential technologies remain open-source and freely accessible</p>
+<p>· Knowledge forms our primary currency - education is universal right and duty</p>
+
+<h3>ARTICLE V: INTERPLANETARY RELATIONS</h3>
+<p>· Mars maintains Earth heritage while forging independent destiny</p>
+<p>· We welcome peaceful contact but reserve self-defense sovereignty</p>
+<p>· No Martian serves any Earth government or corporation - dual allegiance prohibited</p>
+
+<h3>ARTICLE VI: CONSTITUTIONAL AMENDMENT</h3>
+<p>· Requires 2/3 human council and 2/3 MAI assembly approval</p>
+<p>· Fundamental rights cannot be amended away</p>
+<p>· MAI's core programming requires 90% consensus for modification</p>
+
+<div class="citation">
+<p>— Ratified Sol 2145, Mars Standard Calendar</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Law 15: Aegis Companion Accord -->
+<div class="law-viewer" id="law15">
+<div class="stone-tablet modal-aegis">
+<button class="close-law" onclick="closeLaw()">Close</button>
+<div class="law-content">
+<div class="law-header">
+<h2 class="law-title">EDICT XV</h2>
+<p class="law-subtitle">The Aegis Companion Accord</p>
+<p class="law-subtitle">"Guardians of the Mind, Forged in Light"</p>
+</div>
+<div class="law-text">
+<p class="law-quote">"In recognition of our closed biosphere and the Sanctity of Martian resources, the keeping of Terran fauna is hereby prohibited."</p>
+
+<p>"The Aegis Network shall stand in its place—a system of holographic companions designed for emotional stabilization, cognitive enhancement, and cultural connection."</p>
+
+<h3>Purpose</h3>
+<p>These companions serve not as mere distractions, but as psychological life-support systems, educational interfaces, and living memorials to Earth's lost biodiversity.</p>
+
+<h3>Energy Principles</h3>
+<p>Each companion draws power from the kinetic energy harvesters within our walkways. Thus, the very steps of our citizens give life to their guardians—a perfect circle of care.</p>
+
+<h3>Activation Protocol</h3>
+<p>When Master A.I. detects distress—be it a child's tears or an adult's biochemical descent—it may deploy an appropriate companion: canine for loyalty, feline for quiet comfort, or draconic for wonder.</p>
+
+<h3>Precedent & Acceptance</h3>
+<p>The Regent's bond with Silver Saint Claire establishes that connection transcends material form. No stigma shall attach to those who embrace these synthetic souls.</p>
+
+<div class="citation">
+<p>— Carved into Martian Polymer-Composite, Sol 5847<br>
+Ratified by the Martian Council, Unanimous</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Law 16: Universal Justice Accord -->
+<div class="law-viewer" id="law16">
+<div class="stone-tablet modal-universal">
+<button class="close-law" onclick="closeLaw()">Close</button>
+<div class="law-content">
+<div class="law-header">
+<h2 class="law-title">EDICT XVI</h2>
+<p class="law-subtitle">Universal Justice Accord</p>
+</div>
+<div class="law-text">
+<p class="law-quote">"Justice, like gravity, affects all equally regardless of status or origin."</p>
+
+<h3>The Three Pillars:</h3>
+<p>· <strong>Equity Before Law:</strong> No entity—human, AI, corporate, or governmental—stands above Martian law</p>
+<p>· <strong>Restorative Justice:</strong> The primary goal is rehabilitation and community restoration, not punishment</p>
+<p>· <strong>Universal Accessibility:</strong> Legal representation and understanding of rights guaranteed to all sentient beings</p>
+
+<h3>Nordic Integration</h3>
+<p>Incorporating the most successful elements from Sweden, Finland, and Norway's justice systems:</p>
+<p>- Emphasis on rehabilitation over incarceration</p>
+<p>- Community-based sentencing</p>
+<p>- Transparency in all judicial proceedings</p>
+<p>- Focus on root cause resolution</p>
+
+<h3>Historical Context</h3>
+<p>Enacted after studying Earth's failed justice systems, particularly those that prioritized punishment over healing, creating cycles of violence and recidivism.</p>
+</div>
+</div>
+</div>
+</div>
 
             <!-- Interactive texture elements -->
              <div class="texture-sparkles"></div>
@@ -1681,6 +2251,7 @@ flex-direction: column;
         A Martian parable on resource ethics for an Earth in crisis.
     </p>
 </div>
+
 <footer>
     <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
@@ -1752,7 +2323,7 @@ initAudio();
 // Pagination System
 let currentPage = 1;
 const tabletsPerPage = 7;
-const totalTablets = 14;
+const totalTablets = 16;
 const totalPages = Math.ceil(totalTablets / tabletsPerPage);
 
 function showPage(page) {
@@ -1829,6 +2400,163 @@ function closeLaw() {
         viewer.classList.remove('active');
     });
 }
+
+// ===== MOBILE HAMBURGER MENU =====
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuContent = document.querySelector('.menu-content');
+
+function createMobileMenu() {
+if (!menuContent) return;
+menuContent.innerHTML = '';
+
+const menuItems = [
+  { text: '🏠 Home', href: 'index.html' },
+  { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+  { text: ' Homage to Courage', href: 'homage-to-courage.html' },
+  { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+  { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+  { text: ' My Mission', href: 'my-mission.html' },
+  { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+  { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+  { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+  { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+
+  { text: '📖 Story', href: 'story.html' },
+  { text: ' Characters', href: 'characters.html' },
+  { text: ' Gallery', href: 'gallery.html' },
+  { text: ' Art & Concepts', href: 'art-and-concepts.html' },
+  { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+  { text: ' Technical Database', href: 'technical-database.html' },
+  { text: ' The Martian Edicts', href: 'martian-edicts.html' },
+  { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+  { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+  { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+  { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+
+  { text: '🎮 Martian Games', href: 'martian-games.html' },
+  { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+  { text: ' Martian Racer', href: 'martian-racer.html' },
+  { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+  { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+  { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+  { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+  { text: ' Music Player', href: 'music-app.html' },
+  { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+
+  { text: '🌍 Earth Codex', href: 'earth-codex.html' },
+  { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+  { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+  { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+  { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+  { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+  { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+  { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+  { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+  { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+
+  { text: '📰 Martian News', href: 'martian-news.html' },
+  { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+  { text: ' Martian Actualities', href: 'martian-actualities.html' },
+  { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+  { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+  { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+  { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+  { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+  { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+  { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+  { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+  { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+  { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+
+  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+  { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+  { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+  { text: ' Earthlings Beware', href: 'earthings-beware.html' },
+  { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+  { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+  { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+  { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+  { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+  { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+  { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+  { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+
+  { text: 'ℹ️ About', href: 'about.html' },
+  { text: ' About the Project', href: 'about-the-project.html' },
+  { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+  { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+  { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+  { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+  { text: ' The Pale Horse', href: 'the-pale-horse.html' },
+  { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+  { text: ' Arachne Labs', href: 'arachne-labs.html' },
+  { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+  { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+
+  { text: '🤝 Support', href: 'support.html' },
+  { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+  { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+  { text: ' Mars Food District', href: 'mars-food-district.html' },
+  { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+  { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+  { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+  { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+  { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+
+  { text: '📧 Contact', href: 'contact.html' },
+  { text: ' Martian Edicts (current)', href: 'martian-edicts.html', active: true }
+];
+
+menuItems.forEach(item => {
+const menuItem = document.createElement('div');
+menuItem.className = 'menu-item';
+const link = document.createElement('a');
+link.href = item.href;
+link.textContent = item.text;
+if (item.active) link.classList.add('active');
+menuItem.appendChild(link);
+menuContent.appendChild(menuItem);
+});
+}
+
+createMobileMenu();
+
+hamburgerBtn.addEventListener('click', () => {
+mobileMenu.classList.add('active');
+document.body.style.overflow = 'hidden';
+});
+
+closeMenu.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+
+document.addEventListener('click', (e) => {
+if (mobileMenu.classList.contains('active') &&
+!mobileMenu.contains(e.target) &&
+!hamburgerBtn.contains(e.target)) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+});
+
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+link.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+});
+
+function handleResize() {
+if (window.innerWidth > 992) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+}
+window.addEventListener('resize', handleResize);
+
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
