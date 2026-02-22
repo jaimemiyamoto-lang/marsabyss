@@ -7,182 +7,233 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Bangers&display=swap" rel="stylesheet">
 <style>
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
 }
 
 body, html {
-    height: 100%;
-    width: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #fff;
-    background: #000;
-    overflow-x: hidden;
+ height: 100%;
+ width: 100%;
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ color: #fff;
+ background: #000;
+ overflow-x: hidden;
+}
+
+/* Background Container with Fallback */
+.background-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 1;
 }
 
 /* STATIC BACKGROUND */
 .static-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('images/ivonne-as-astronaut.jpg') no-repeat center center / cover;
-    background-color: #0a0a12;
-    z-index: 1;
-    filter: brightness(0.8);
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: url('images/ivonne-as-astronaut.jpg') no-repeat center center / cover;
+ background-color: #0a0a12;
+ z-index: 1;
+ filter: brightness(0.8);
+ opacity: 0;
+ transition: opacity 0.5s ease;
+ pointer-events: none;
+}
+
+/* Show only if video fails */
+.static-background.show {
+    opacity: 1;
+}
+
+/* VIDEO BACKGROUND */
+ .video-container {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: 2;
+ }
+
+/* Video Background - Optional */
+.video-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 2;
+opacity: 0.7;
+}
+
+/* Video Overlay */
+.video-overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.1);
+z-index: 1;
 }
 
 /* TOP MENU - ORANGE THEME */
 nav.top-menu {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background: rgba(17, 17, 17, 0.95);
-    padding: 0.6rem 0;
-    z-index: 1000;
-    gap: 2.5rem;
-    flex-wrap: nowrap;
-    backdrop-filter: blur(10px);
-    border-bottom: 2px solid #ff6600;
-    transition: all 0.5s ease;
+ position: fixed;
+ top: 0;
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ background: rgba(17, 17, 17, 0.95);
+ padding: 0.6rem 0;
+ z-index: 1000;
+ gap: 2.5rem;
+ flex-wrap: nowrap;
+ backdrop-filter: blur(10px);
+ border-bottom: 2px solid #ff6600;
+ transition: all 0.5s ease;
 }
 
 nav.top-menu a {
-    color: #f5f5f5;
-    text-decoration: none;
-    font-size: 1.1rem;
-    padding: 0.5rem 0.8rem;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
+ color: #f5f5f5;
+ text-decoration: none;
+ font-size: 1.1rem;
+ padding: 0.5rem 0.8rem;
+ border-radius: 4px;
+ transition: all 0.3s ease;
+ display: flex;
+ align-items: center;
 }
 
 nav.top-menu a.active,
 nav.top-menu a:hover {
-    color: #ff6600;
-    background: transparent;
-    text-shadow: 0 0 8px rgba(255, 102, 0, 0.5);
+ color: #ff6600;
+ background: transparent;
+ text-shadow: 0 0 8px rgba(255, 102, 0, 0.5);
 }
 
 /* Dropdown - Orange Theme */
 .dropdown { 
-    position: relative; 
-    display: inline-block; 
+ position: relative; 
+ display: inline-block; 
 }
 .dropdown > a, .dropdown { 
-    display: flex; 
-    align-items: center; 
-    height: 100%; 
+ display: flex; 
+ align-items: center; 
+ height: 100%; 
 }
 .dropdown-content { 
-    display: none; 
-    position: absolute; 
-    background: rgba(20, 20, 20, 0.98); 
-    min-width: 140px; 
-    z-index: 1001; 
-    border-radius: 4px; 
-    border: 2px solid #ff6600; 
-    top: 100%; 
-    left: 0; 
-    backdrop-filter: blur(5px); 
-    padding: 4px 0; 
+ display: none; 
+ position: absolute; 
+ background: rgba(20, 20, 20, 0.98); 
+ min-width: 140px; 
+ z-index: 1001; 
+ border-radius: 4px; 
+ border: 2px solid #ff6600; 
+ top: 100%; 
+ left: 0; 
+ backdrop-filter: blur(5px); 
+ padding: 4px 0; 
 }
 .dropdown-content a { 
-    color: #ff6600; 
-    padding: 3px 5px; 
-    text-decoration: none; 
-    display: block; 
-    transition: background-color 0.3s ease; 
-    font-size: 0.8rem; 
-    line-height: 1; 
+ color: #ff6600; 
+ padding: 3px 5px; 
+ text-decoration: none; 
+ display: block; 
+ transition: background-color 0.3s ease; 
+ font-size: 0.8rem; 
+ line-height: 1; 
 }
 .dropdown-content a:hover { 
-    background: rgba(255, 102, 0, 0.4); 
-    color: #fff; 
+ background: rgba(255, 102, 0, 0.4); 
+ color: #fff; 
 }
 .dropdown:hover .dropdown-content { 
-    display: block; 
+ display: block; 
 }
 
 /* SITE TITLE */
 .site-title-overlay {
-    position: fixed;
-    top: 80px;
-    left: 30px;
-    z-index: 50;
-    transition: all 0.5s ease;
+ position: fixed;
+ top: 80px;
+ left: 30px;
+ z-index: 50;
+ transition: all 0.5s ease;
 }
 
 .site-title-overlay h1 {
-    color: #ff9553;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
-    text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
-    font-weight: 300;
-    letter-spacing: 2px;
+ color: #ff9553;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.8rem;
+ text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+ font-weight: 300;
+ letter-spacing: 2px;
 }
 
 /* HIDE CONTENT BUTTON - ORANGE THEME */
 .hide-content-btn {
-    position: fixed;
-    top: 80px;
-    right: 30px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #ff6600;
-    border: 2px solid #ff6600;
-    padding: 8px 12px;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-    font-family: 'Segoe UI', sans-serif;
-    z-index: 1001;
+ position: fixed;
+ top: 80px;
+ right: 30px;
+ background: rgba(0, 0, 0, 0.7);
+ color: #ff6600;
+ border: 2px solid #ff6600;
+ padding: 8px 12px;
+ border-radius: 15px;
+ cursor: pointer;
+ font-size: 0.8rem;
+ transition: all 0.3s ease;
+ font-family: 'Segoe UI', sans-serif;
+ z-index: 1001;
 }
 
 .hide-content-btn:hover {
-    background: rgba(255, 102, 0, 0.2);
+ background: rgba(255, 102, 0, 0.2);
 }
 
 /* AUDIO CONTROLS - ORANGE THEME */
 .audio-controls {
-    position: fixed;
-    bottom: 80px;
-    right: 40px;
-    z-index: 1000;
+ position: fixed;
+ bottom: 80px;
+ right: 40px;
+ z-index: 1000;
 }
 
 .audio-btn {
-    background: rgba(0, 0, 0, 0.7);
-    color: #ff6600;
-    border: 2px solid #ff6600;
-    padding: 8px 12px;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-    font-family: 'Segoe UI', sans-serif;
-    z-index: 1001;
+ background: rgba(0, 0, 0, 0.7);
+ color: #ff6600;
+ border: 2px solid #ff6600;
+ padding: 8px 12px;
+ border-radius: 15px;
+ cursor: pointer;
+ font-size: 0.8rem;
+ transition: all 0.3s ease;
+ font-family: 'Segoe UI', sans-serif;
+ z-index: 1001;
 }
 
 .audio-btn:hover {
-    background: rgba(255, 102, 0, 0.2);
+ background: rgba(255, 102, 0, 0.2);
 }
 
 /* MAIN CONTENT */
 .main-content {
-    position: relative;
-    z-index: 10;
-    min-height: 150vh;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    transition: all 0.5s ease;
-    margin-top: 80px;
+ position: relative;
+ z-index: 10;
+ min-height: 150vh;
+ padding: 20px;
+ max-width: 1200px;
+ margin: 0 auto;
+ transition: all 0.5s ease;
+ margin-top: 80px;
 }
 
 /* HIDE FUNCTIONALITY */
@@ -192,331 +243,522 @@ footer.hidden,
 nav.top-menu.hidden,
 .hide-content-btn.hidden,
 .audio-controls.hidden {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(20px);
+ opacity: 0;
+ pointer-events: none;
+ transform: translateY(20px);
 }
 
 /* SILVER'S RESCUE MISSION HEADER */
 .game-title-header {
-    text-align: center;
-    margin: 2rem 0 3rem;
+ text-align: center;
+ margin: 2rem 0 3rem;
 }
 
 .game-title-header h1 {
-    color: #00ccff;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 3rem;
-    text-shadow: 0 0 20px rgba(0, 204, 255, 0.6);
-    margin-bottom: 0.5rem;
+ color: #00ccff;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 3rem;
+ text-shadow: 0 0 20px rgba(0, 204, 255, 0.6);
+ margin-bottom: 0.5rem;
 }
 
 /* Subtitle with background rectangle */
 .subtitle-container {
-    position: relative;
-    display: inline-block;
-    margin: 1rem auto 2rem;
-    padding: 0.8rem 2rem;
-    border-radius: 25px;
-    backdrop-filter: blur(10px);
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(0, 204, 255, 0.3);
-    box-shadow: 0 0 20px rgba(0, 204, 255, 0.2);
+ position: relative;
+ display: inline-block;
+ margin: 1rem auto 2rem;
+ padding: 0.8rem 2rem;
+ border-radius: 25px;
+ backdrop-filter: blur(10px);
+ background: rgba(0, 0, 0, 0.6);
+ border: 1px solid rgba(0, 204, 255, 0.3);
+ box-shadow: 0 0 20px rgba(0, 204, 255, 0.2);
 }
 
 .subtitle-container p {
-    margin: 0;
-    font-size: 1.2rem;
-    color: #88ddff;
-    text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
-    font-weight: 500;
-    letter-spacing: 0.5px;
+ margin: 0;
+ font-size: 1.2rem;
+ color: #88ddff;
+ text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+ font-weight: 500;
+ letter-spacing: 0.5px;
 }
 
 /* COMIC SECTION WITH DARK BACKGROUND */
 .comic-section {
-    margin: 3rem 0;
-    padding: 3rem 2rem;
-    background: rgba(0, 0, 0, 0.85);
-    border-radius: 15px;
-    border: 3px solid #ff6600;
-    box-shadow: 0 0 40px rgba(255, 102, 0, 0.2);
+ margin: 3rem 0;
+ padding: 3rem 2rem;
+ background: rgba(0, 0, 0, 0.85);
+ border-radius: 15px;
+ border: 3px solid #ff6600;
+ box-shadow: 0 0 40px rgba(255, 102, 0, 0.2);
 }
 
 .comic-header {
-    text-align: center;
-    margin-bottom: 2rem;
+ text-align: center;
+ margin-bottom: 2rem;
 }
 
 .comic-header h2 {
-    color: #ff6600;
-    font-family: 'Bangers', cursive;
-    font-size: 3.5rem;
-    letter-spacing: 3px;
-    text-shadow: 2px 2px 0 #000, 4px 4px 0 rgba(255, 0, 0, 0.5);
-    margin-bottom: 0.5rem;
+ color: #ff6600;
+ font-family: 'Bangers', cursive;
+ font-size: 3.5rem;
+ letter-spacing: 3px;
+ text-shadow: 2px 2px 0 #000, 4px 4px 0 rgba(255, 0, 0, 0.5);
+ margin-bottom: 0.5rem;
 }
 
 .comic-header p {
-    color: #00ccff;
-    font-style: italic;
-    font-size: 1.2rem;
-    max-width: 800px;
-    margin: 0 auto;
+ color: #00ccff;
+ font-style: italic;
+ font-size: 1.2rem;
+ max-width: 800px;
+ margin: 0 auto;
 }
 
 /* SIMPLE COMIC VIEWER */
 .comic-viewer {
-    max-width: 900px;
-    margin: 0 auto;
-    background: #111;
-    border: 5px solid #333;
-    border-radius: 10px;
-    box-shadow: 0 0 40px rgba(255, 149, 83, 0.3);
-    overflow: hidden;
-    min-height: 500px;
+ max-width: 900px;
+ margin: 0 auto;
+ background: #111;
+ border: 5px solid #333;
+ border-radius: 10px;
+ box-shadow: 0 0 40px rgba(255, 149, 83, 0.3);
+ overflow: hidden;
+ min-height: 500px;
 }
 
 .comic-panel {
-    width: 100%;
-    display: none;
+ width: 100%;
+ display: none;
 }
 
 .comic-panel.active {
-    display: block;
+ display: block;
 }
 
 .comic-panel img {
-    width: 100%;
-    height: auto;
-    display: block;
+ width: 100%;
+ height: auto;
+ display: block;
 }
 
 /* NAVIGATION */
 .comic-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-    padding: 1rem;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-top: 1rem;
+ padding: 1rem;
+ background: rgba(0, 0, 0, 0.7);
+ border-radius: 10px;
 }
 
 .nav-btn {
-    background: #ff9553;
-    color: black;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: bold;
-    transition: all 0.3s ease;
+ background: #ff9553;
+ color: black;
+ border: none;
+ padding: 10px 20px;
+ border-radius: 5px;
+ cursor: pointer;
+ font-family: 'Orbitron', sans-serif;
+ font-weight: bold;
+ transition: all 0.3s ease;
 }
 
 .nav-btn:hover:not(:disabled) {
-    background: #ff6600;
-    transform: scale(1.05);
+ background: #ff6600;
+ transform: scale(1.05);
 }
 
 .nav-btn:disabled {
-    background: #666;
-    cursor: not-allowed;
+ background: #666;
+ cursor: not-allowed;
 }
 
 .panel-counter {
-    color: #00ccff;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.2rem;
+ color: #00ccff;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.2rem;
 }
 
 /* GAME DEMO SECTION */
 .game-demo-section {
-    margin: 4rem auto;
-    padding: 2rem;
-    max-width: 1000px;
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 15px;
-    border: 3px solid #00ccff;
+ margin: 4rem auto;
+ padding: 2rem;
+ max-width: 1000px;
+ background: rgba(0, 0, 0, 0.8);
+ border-radius: 15px;
+ border: 3px solid #00ccff;
 }
 
 .demo-header {
-    text-align: center;
-    margin-bottom: 2rem;
+ text-align: center;
+ margin-bottom: 2rem;
 }
 
 .demo-header h2 {
-    color: #00ccff;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2.5rem;
-    text-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
-    margin-bottom: 1rem;
+ color: #00ccff;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 2.5rem;
+ text-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+ margin-bottom: 1rem;
 }
 
 /* VIDEO DEMO PLACEHOLDER */
 .video-demo-placeholder {
-    width: 100%;
-    height: 400px;
-    background: #000;
-    border: 2px solid #00ccff;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    overflow: hidden;
-    position: relative;
+ width: 100%;
+ height: 400px;
+ background: #000;
+ border: 2px solid #00ccff;
+ border-radius: 8px;
+ margin-bottom: 2rem;
+ overflow: hidden;
+ position: relative;
 }
 
 .demo-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
 }
 
 .demo-notification {
-    display: inline-block;
-    margin-top: 20px;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 204, 255, 0.8);
-    color: white !important;
-    border: 2px solid#00ccff;
-    font-family: 'Orbitron', sans-serif;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
-    text-decoration: none;
-    padding: 12px 24px;
-    border-radius: 25px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    min-width: 180px;
-    position: absolute;
+ display: inline-block;
+ margin-top: 20px;
+ bottom: 20px;
+ left: 50%;
+ transform: translateX(-50%);
+ background: rgba(0, 204, 255, 0.8);
+ color: white !important;
+ border: 2px solid#00ccff;
+ font-family: 'Orbitron', sans-serif;
+ text-align: center;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ box-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
+ text-decoration: none;
+ padding: 12px 24px;
+ border-radius: 25px;
+ font-weight: bold;
+ font-size: 1.1rem;
+ min-width: 180px;
+ position: absolute;
 }
 
-    .demo-notification:hover {
-    background: rgba(0, 204, 255, 0.1);
-    box-shadow: 0 0 25px rgba(0, 204, 255, 0.8);
-    text-decoration: none;
-    }
+ .demo-notification:hover {
+ background: rgba(0, 204, 255, 0.1);
+ box-shadow: 0 0 25px rgba(0, 204, 255, 0.8);
+ text-decoration: none;
+ }
 
-    .demo-notification:active {
-        transform: translateY(1px);
-    }
+ .demo-notification:active {
+ transform: translateY(1px);
+ }
 
-    /* Center the video and button */
-    .video-demo-placeholder {
-        text-align: center;
-        margin: 20px 0;
-    }
+ /* Center the video and button */
+ .video-demo-placeholder {
+ text-align: center;
+ margin: 20px 0;
+ }
+
+ .demo-video {
+ max-width: 100%;
+ border-radius: 8px;
+ border: 2px solid#00ccff;
+ box-shadow: 0 0 20px rgba(0, 204, 255, 0.5);
+ }
 
 /* HELP SILVER SECTION - FROM YOUR ORIGINAL */
 .funding-cta {
-    background: linear-gradient(45deg, rgba(255, 107, 107, 0.8), rgba(0, 204, 255, 0.8));
-    padding: 3rem;
-    border-radius: 12px;
-    text-align: center;
-    margin: 2rem 0;
+ background: linear-gradient(45deg, rgba(255, 107, 107, 0.8), rgba(0, 204, 255, 0.8));
+ padding: 3rem;
+ border-radius: 12px;
+ text-align: center;
+ margin: 2rem 0;
 }
 
 .funding-cta h2 {
-    color: #fff;
-    font-family: 'Orbitron', sans-serif;
-    margin-bottom: 1rem;
-    font-size: 2rem;
+ color: #fff;
+ font-family: 'Orbitron', sans-serif;
+ margin-bottom: 1rem;
+ font-size: 2rem;
 }
 
 /* CTA BUTTONS */
 .cta-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-    margin-top: 2rem;
+ display: flex;
+ justify-content: center;
+ gap: 2rem;
+ flex-wrap: wrap;
+ margin-top: 2rem;
 }
 
 .cta-button {
-    background: #000;
-    color: #fff;
-    border: 2px solid #00ccff;
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: 'Orbitron', sans-serif;
-    text-decoration: none;
-    display: inline-block;
+ background: #000;
+ color: #fff;
+ border: 2px solid #00ccff;
+ padding: 15px 30px;
+ font-size: 1.1rem;
+ border-radius: 30px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ font-family: 'Orbitron', sans-serif;
+ text-decoration: none;
+ display: inline-block;
 }
 
 .cta-button:hover {
-    background: #00ccff;
-    color: #000;
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(0, 204, 255, 0.7);
+ background: #00ccff;
+ color: #000;
+ transform: scale(1.05);
+ box-shadow: 0 0 20px rgba(0, 204, 255, 0.7);
 }
 
 /* FOOTER - FIXED WIDTH */
 footer {
-    position: relative;
-    text-align: center;
-    padding: 0.6rem 0;
-    background: rgba(0, 0, 0, 0.8);
-    color: #ccc;
-    font-family: 'Segoe UI', sans-serif;
-    z-index: 1000;
-    border-top: 2px solid #ff0000;
-    margin-top: 4rem;
-    width: 100%;
-    transition: all 0.5s ease;
+ position: relative;
+ text-align: center;
+ padding: 0.6rem 0;
+ background: rgba(0, 0, 0, 0.8);
+ color: #ccc;
+ font-family: 'Segoe UI', sans-serif;
+ z-index: 1000;
+ border-top: 2px solid #ff0000;
+ margin-top: 4rem;
+ width: 100%;
+ transition: all 0.5s ease;
+}
+
+/* ===== HAMBURGER MENU (Orange Theme) with Hamburger Emoji ===== */
+.mobile-nav {
+ display: none;
+ position: fixed;
+ top: 15px;
+ left: 15px;
+ z-index: 1002;
+}
+
+.hamburger-btn {
+ background: rgba(0, 0, 0, 0.7);
+ border: 2px solid #ff6600;
+ border-radius: 4px;
+ width: 50px;
+ height: 50px;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ box-shadow: 0 0 10px rgba(255, 102, 0, 0.3);
+ font-size: 1.8rem;
+ color: #ff6600;
+ line-height: 1;
+}
+
+.hamburger-btn span {
+ display: none; /* Hide the old lines, using an emoji now */
+}
+
+.hamburger-btn:hover {
+ background: rgba(255, 102, 0, 0.2);
+ border-color: #ff6600;
+ color: #ff6600;
+}
+
+.mobile-menu {
+ position: fixed;
+ top: 0;
+ left: -100%;
+ width: 300px;
+ height: 100vh;
+ background: rgba(0, 0, 0, 0.95);
+ border-right: 3px solid #ff6600;
+ padding: 20px;
+ transition: left 0.4s ease;
+ z-index: 1003;
+ overflow-y: auto;
+ backdrop-filter: blur(8px);
+ box-shadow: 0 0 20px rgba(255, 102, 0, 0.2);
+}
+
+.mobile-menu.active {
+ left: 0;
+}
+
+.menu-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 20px;
+ padding-bottom: 15px;
+ border-bottom: 1px solid #ff6600;
+}
+
+.menu-header h3 {
+ color: #ff6600;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1rem;
+ margin: 0;
+ text-shadow: 0 0 8px rgba(255, 102, 0, 0.5);
+}
+
+.close-menu {
+ background: transparent;
+ border: none;
+ color: #ff6600;
+ font-size: 1.5rem;
+ cursor: pointer;
+ width: 30px;
+ height: 30px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border-radius: 50%;
+ transition: all 0.3s ease;
+}
+
+.close-menu:hover {
+ background: rgba(255, 102, 0, 0.2);
+ color: #fff;
+ transform: rotate(90deg);
+}
+
+.menu-content {
+ margin-bottom: 20px;
+}
+
+.menu-content .menu-item {
+ margin-bottom: 10px;
+}
+
+.menu-content .menu-item a {
+ display: block;
+ color: #e0e0e0;
+ text-decoration: none;
+ padding: 10px 15px;
+ border-radius: 5px;
+ border-left: 3px solid transparent;
+ transition: all 0.3s ease;
+ font-family: 'Segoe UI', sans-serif;
+ font-size: 0.95rem;
+}
+
+.menu-content .menu-item a:hover,
+.menu-content .menu-item a.active {
+ border-left-color: #ff6600;
+ background: rgba(255, 102, 0, 0.1);
+ color: #ff6600;
+ text-shadow: 0 0 8px rgba(255, 102, 0, 0.3);
+}
+
+.menu-footer {
+ margin-top: 20px;
+ padding-top: 15px;
+ border-top: 1px solid #ff6600;
+ text-align: center;
+ color: #ff6600;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.8rem;
+ text-shadow: 0 0 5px rgba(255, 102, 0, 0.5);
+}
+
+.pulse {
+ display: inline-block;
+ width: 8px;
+ height: 8px;
+ background-color: #ff6600;
+ border-radius: 50%;
+ margin-right: 8px;
+ animation: blink 1.5s infinite;
+ box-shadow: 0 0 10px #ff6600;
+}
+
+@keyframes blink {
+ 0%, 100% { opacity: 1; }
+ 50% { opacity: 0.3; }
+}
+
+/* Mobile media query – hide desktop menu, show hamburger */
+@media (max-width: 992px) {
+ nav.top-menu {
+ display: none;
+ }
+ .mobile-nav {
+ display: block;
+ }
+ .site-title-overlay {
+ top: 70px;
+ left: 15px;
+ }
+ .site-title-overlay h1 {
+ font-size: 1.4rem;
+ }
+ .view-toggle {
+ top: 70px;
+ right: 15px;
+ }
+ .audio-controls {
+ bottom: 70px;
+ right: 20px;
+ }
 }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-    nav.top-menu { 
-        gap: 1rem; 
-        flex-wrap: wrap; 
-    }
-    .game-title-header h1 { 
-        font-size: 2.2rem; 
-    }
-    .comic-header h2 { 
-        font-size: 2.5rem; 
-    }
-    .video-demo-placeholder {
-        height: 300px;
-    }
-    .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-    .hide-content-btn {
-        top: 70px;
-        right: 20px;
-    }
-    .audio-controls {
-        bottom: 70px;
-        right: 20px;
-    }
-    .site-title-overlay {
-        top: 70px;
-        left: 20px;
-    }
-    .site-title-overlay h1 {
-        font-size: 1.4rem;
-    }
+ nav.top-menu { 
+ gap: 1rem; 
+ flex-wrap: wrap; 
+ }
+ .game-title-header h1 { 
+ font-size: 2.2rem; 
+ }
+ .comic-header h2 { 
+ font-size: 2.5rem; 
+ }
+ .video-demo-placeholder {
+ height: 300px;
+ }
+ .cta-buttons {
+ flex-direction: column;
+ align-items: center;
+ }
+ .hide-content-btn {
+ top: 70px;
+ right: 20px;
+ }
+ .audio-controls {
+ bottom: 70px;
+ right: 20px;
+ }
+ .site-title-overlay {
+ top: 70px;
+ left: 20px;
+ }
+ .site-title-overlay h1 {
+ font-size: 1.4rem;
+ }
 }
 </style>
 </head>
 
 <body>
-<!-- Static Background -->
+
+ <!-- Background Container -->
+<div class="background-container">
 <div class="static-background"></div>
+<video class="video-background" id="silverVideo" muted loop playsinline>
+<source src="videos/ivonne-astronaut.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+<div class="video-overlay"></div>
+</div>
 
 <!-- Site Title -->
 <div class="site-title-overlay" id="siteTitle">
-    <h1>The Mars Abyss<sup>™</sup></h1>
+ <h1>The Mars Abyss<sup>™</sup></h1>
 </div>
 
 <!-- Hide Content Button -->
@@ -524,374 +766,586 @@ footer {
 
 <!-- Audio Controls -->
 <div class="audio-controls">
-    <button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
+ <button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
 </div>
 
-<!-- Top Menu - ORANGE THEME RESTORED -->
-<nav class="top-menu" id="topMenu">
-    <div class="dropdown">
-        <a href="index.html" class="dropbtn">Home</a>
-        <div class="dropdown-content">
-            <a href="why-this-world-matters.html">Why This World Matters</a>
-            <a href="homage-to-courage.html">Homage to Courage</a>
-            <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
-            <a href="the-migrant-initiative.html">The Migrant Initiative</a>
-            <a href="my-mission.html">My Mission</a>
-            <a href="martian-reading-revival.html">Martian Reading Revival</a>
-            <a href="why-mars-is-safer.html">Why Mars is Safer</a>
-            <a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
-            <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
-        </div>
-    </div>
+<!-- MOBILE HAMBURGER MENU with Hamburger Emoji -->
+<div class="mobile-nav">
+ <button class="hamburger-btn" id="hamburgerBtn">
+ 🍔
+ </button>
+ <nav class="mobile-menu" id="mobileMenu">
+ <div class="menu-header">
+ <h3>THE MARS ABYSS</h3>
+ <button class="close-menu" id="closeMenu">✕</button>
+ </div>
+ <div class="menu-content"></div>
+ <div class="menu-footer">
+ <span class="pulse"></span> SILVER'S RESCUE MISSION
+ </div>
+ </nav>
+</div>
 
-    <div class="dropdown">
-        <a href="story.html" class="dropbtn">Story</a>
-        <div class="dropdown-content">
-            <a href="characters.html">Characters</a>
-            <div class="dropdown">
-                <a href="gallery.html" class="dropbtn">Gallery</a>
-                <div class="dropdown-content">
-                    <a href="art-and-concepts.html">Art & Concepts</a>
-                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
-                    <a href="technical-database.html">Technical Database</a>
-                    <a href="martian-edicts.html">The Martian Edicts</a>
-                    <a href="alien-transport-network.html">Alien Transport Network</a>
-                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
-                    <a href="solar-system-explorer.html">Solar System Explorer</a>
-                    <a href="aliens-ufos.html">Aliens & UFOs</a>
-                </div>
-            </div>
-        </div>
-    </div>
+<nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
 
-    <div class="dropdown">
-        <a href="martian-games.html" class="dropbtn active">Martian Games</a>
-        <div class="dropdown-content">
-            <a href="silvers-rescue-mission.html" class="active">Silver's Rescue Mission</a>
-            <a href="martian-racer.html">Martian Racer</a>
-            <a href="red-planet-defense.html">Red Planet Defense</a>
-            <a href="the-regents-portal.html">The Regent's Portal</a>
-            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
-            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
-            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
-            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
-        </div>
-    </div>
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="alien-transport-network.html">Alien Transport Network</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
 
-    <div class="dropdown">
-        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
-        <div class="dropdown-content">
-            <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
-            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
-            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
-            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
-            <a href="earths-great-poets.html">Earth's Great Poets</a>
-            <a href="the-bohr-institute.html">The Bohr Institute</a>
-            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
-            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
-            <a href="the-bronx-dome.html">The Bronx Dome</a>
-        </div>
-    </div>
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn active">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html" class="active">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
 
-    <div class="dropdown">
-        <a href="martian-news.html" class="dropbtn">Martian News</a>
-        <div class="dropdown-content">
-            <a href="martian-actualities.html">Martian Actualities</a>
-            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
-            <a href="mars-bee-facility.html">Mars Bee Facility</a>
-            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
-            <a href="house-of-health-secrets.html">The House of Health Secrets</a>
-            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
-            <a href="martian-rest-areas.html">Martian Rest Areas</a>
-            <div class="dropdown">
-                <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-                <div class="dropdown-content">
-                    <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
-                    <a href="marvin.html">M.A.R.V.I.N.</a>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
 
-    <div class="dropdown">
-        <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
-        <div class="dropdown-content">
-            <a href="what-the-regent-misses.html">What the Regent Misses</a>
-            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
-            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
-            <a href="honor-the-fallen.html">Honor The Fallen</a>
-            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
-            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
-            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
-            <a href="martian-critique-tron-ares.html">Martian Critique</a>
-            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
-            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
-            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
-        </div>
-    </div>
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
 
-    <div class="dropdown">
-        <a href="about.html" class="dropbtn">About</a>
-        <div class="dropdown-content">
-            <a href="about-the-project.html">About the Project</a>
-            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
-            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
-            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
-            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
-            <a href="the-pale-horse.html">The Pale Horse</a>
-            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
-            <a href="arachne-labs.html">Arachne Labs</a>
-            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
-            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
-        </div>
-    </div>
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
 
-    <div class="dropdown">
-        <a href="support.html" class="dropbtn">Support</a>
-        <div class="dropdown-content">
-            <a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
-            <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-            <a href="mars-food-district.html">Mars Food District</a>
-            <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
-            <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-            <a href="fund-martian-research.html">Fund Martian Research</a>
-            <a href="martian-survival-manual.html">Martian Survival Manual</a>
-            <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
-        </div>
-    </div>
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
 
-    <a href="contact.html">Contact</a>
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a> 
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+<a href="contact.html">Contact</a>
 </nav>
 
 <!-- Main Content -->
 <div class="main-content" id="mainContent">
-    <!-- SILVER'S RESCUE MISSION HEADER -->
-    <div class="game-title-header">
-        <h1>SILVER'S RESCUE MISSION</h1>
-        <div class="subtitle-container">
-            <p>An FPS Adventure - Jetbike Chase Demo</p>
-        </div>
-    </div>
+ <!-- SILVER'S RESCUE MISSION HEADER -->
+ <div class="game-title-header">
+ <h1>SILVER'S RESCUE MISSION</h1>
+ <div class="subtitle-container">
+ <p>An FPS Adventure - Jetbike Chase Demo</p>
+ </div>
+ </div>
 
-    <!-- SILVER VS XIGA-VAGA COMIC SECTION -->
-    <div class="comic-section">
-        <div class="comic-header">
-            <h2>SILVER VS XIGA-VAGA</h2>
-            <p>The Webcomic That Never Was - Now An Interactive Experience</p>
-        </div>
+ <!-- SILVER VS XIGA-VAGA COMIC SECTION -->
+ <div class="comic-section">
+ <div class="comic-header">
+ <h2>SILVER VS XIGA-VAGA</h2>
+ <p>The Webcomic That Never Was - Now An Interactive Experience</p>
+ </div>
 
-        <!-- SIMPLE COMIC VIEWER -->
-        <div class="comic-viewer">
-            <!-- Panel 1 -->
-            <div class="comic-panel active">
-                <img src="images/1-Silver missing punch-001.jpg" alt="Panel 1">
-            </div>
-            
-            <!-- Panel 2 -->
-            <div class="comic-panel">
-                <img src="images/silver-follows-up-with-punch.jpg" alt="Panel 2">
-            </div>
-            
-            <!-- Panel 3 -->
-            <div class="comic-panel">
-                <img src="images/1-Xiga looking up at Silver both talking.jpg" alt="Panel 3">
-            </div>
+ <!-- SIMPLE COMIC VIEWER -->
+ <div class="comic-viewer">
+ <!-- Panel 1 -->
+ <div class="comic-panel active">
+ <img src="images/5-Silver tells Xiga to mind her own buisness.JPG" alt="Panel 1">
+ </div>
+ 
+ <!-- Panel 2 -->
+ <div class="comic-panel">
+ <img src="images/1-Silver telling Xiga you listen .jpg" alt="Panel 2">
+ </div>
+ 
+ <!-- Panel 3 -->
+ <div class="comic-panel">
+ <img src="images/7-Silver talking about abortion-001.JPG" alt="Panel 3">
+ </div>
 
-            <div class="comic-nav">
-                <button class="nav-btn" id="prevBtn">← Previous Panel</button>
-                <div class="panel-counter">
-                    Panel <span id="currentPanel">1</span> of <span id="totalPanels">3</span>
-                </div>
-                <button class="nav-btn" id="nextBtn">Next Panel →</button>
-            </div>
-        </div>
-    </div>
+ <div class="comic-nav">
+ <button class="nav-btn" id="prevBtn">← Previous Panel</button>
+ <div class="panel-counter">
+ Panel <span id="currentPanel">1</span> of <span id="totalPanels">3</span>
+ </div>
+ <button class="nav-btn" id="nextBtn">Next Panel →</button>
+ </div>
+ </div>
+ </div>
 
-    <!-- GAME DEMO SECTION -->
-    <div class="game-demo-section">
-        <div class="demo-header">
-            <h2>GAME DEMO</h2>
-        </div>
-        
-      <!-- VIDEO DEMO -->
-        <div class="video-demo-placeholder">
-            <video class="demo-video" id="demoVideo" muted loop playsinline>
-                <source src="silver-vs-xiga-vaga-2.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <a href="contact-form.html" class="demo-notification" style="display: inline-block;  text-decoration: none; color: white;">
-                Notify me when ready!
-            </a>
-        </div>
-        
-        <!-- Game Story -->
-        <div style="background: rgba(0, 0, 0, 0.6); padding: 2rem; border-radius: 12px; border-left: 4px solid #ff6b6b; margin: 2rem 0;">
-            <h3 style="color: #ff9553; margin-bottom: 1rem;">🚀 The Story</h3>
-            <p>Silver Saint Claire races across the Martian canyons on her custom Jetbike, battling corporate mercenaries and robots who've kidnapped her boyfriend. These mercenaries work for Earth-based corporations trying to seize control of Martian resources and technology.</p>
-            <p style="font-style: italic; color: #ff9553; margin-top: 1rem;">
-                "They think money gives them power over love? They've never faced a determined robot with a jetbike and a cause!"
-            </p>
-            <ul style="text-align: left; max-width: 600px; margin: 1.5rem auto; padding-left: 1.5rem;">
-                <li>High-speed jetbike combat through Martian landscapes</li>
-                <li>Upgradable weapons and bike capabilities</li>
-                <li>Story-driven missions exposing corporate corruption</li>
-                <li>Multiplayer racing and combat modes</li>
-                <li>VR compatibility for immersive experience</li>
-            </ul>
-        </div>
-    </div>
+ <!-- GAME DEMO SECTION -->
+ <div class="game-demo-section">
+ <div class="demo-header">
+ <h2>GAME DEMO</h2>
+ </div>
+ 
+ <!-- VIDEO DEMO -->
+ <div class="video-demo-placeholder">
+ <video class="demo-video" id="demoVideo" muted loop playsinline>
+ <source src="videos/silver-vs-xiga-vaga.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ <a href="contact-form.html" class="demo-notification" style="display: inline-block; text-decoration: none; color: white;">
+ Notify me when ready!
+ </a>
+ </div>
+ 
+ <!-- Game Story -->
+ <div style="background: rgba(0, 0, 0, 0.6); padding: 2rem; border-radius: 12px; border-left: 4px solid #ff6b6b; margin: 2rem 0;">
+ <h3 style="color: #ff9553; margin-bottom: 1rem;">🚀 The Story</h3>
+ <p>Silver Saint Claire races across the Martian canyons on her custom Jetbike, battling corporate mercenaries and robots who've kidnapped her boyfriend. These mercenaries work for Earth-based corporations trying to seize control of Martian resources and technology.</p>
+ <p style="font-style: italic; color: #ff9553; margin-top: 1rem;">
+ "They think money gives them power over love? They've never faced a determined robot with a jetbike and a cause!"
+ </p>
+ <ul style="text-align: left; max-width: 600px; margin: 1.5rem auto; padding-left: 1.5rem;">
+ <li>High-speed jetbike combat through Martian landscapes</li>
+ <li>Upgradable weapons and bike capabilities</li>
+ <li>Story-driven missions exposing corporate corruption</li>
+ <li>Multiplayer racing and combat modes</li>
+ <li>VR compatibility for immersive experience</li>
+ </ul>
+ </div>
+ </div>
 
-    <!-- HELP SILVER SECTION - FROM YOUR ORIGINAL -->
-    <div class="funding-cta">
-        <h2>💖 Help Silver Save Her Love!</h2>
-        <p>Your contribution brings this game to life and supports independent game development against corporate giants.</p>
-        
-        <div class="cta-buttons">
-            <button class="cta-button" onclick="playAlphaDemo()">🎮 Play Alpha Demo</button>
-            <a href="quantum-financial-transfer.html" class="cta-button">💰 Quantum Financial Transfer</a>
-            <a href="support.html" class="cta-button">🌟 Support This Project</a>
-        </div>
-        
-        <p><small>Every donation gets you closer to the full game and exclusive behind-the-scenes content!</small></p>
-    </div>
+ <!-- HELP SILVER SECTION - FROM YOUR ORIGINAL -->
+ <div class="funding-cta">
+ <h2>💖 Help Silver Save Her Love!</h2>
+ <p>Your contribution brings this game to life and supports independent game development against corporate giants.</p>
+ 
+ <div class="cta-buttons">
+ <button class="cta-button" onclick="playAlphaDemo()">🎮 Play Alpha Demo</button>
+ <a href="quantum-financial-transfer.html" class="cta-button">💰 Quantum Financial Transfer</a>
+ <a href="support.html" class="cta-button">🌟 Support This Project</a>
+ </div>
+ 
+ <p><small>Every donation gets you closer to the full game and exclusive behind-the-scenes content!</small></p>
+ </div>
 </div>
 
 <footer id="pageFooter">
-    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+ <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
 
 <script>
-// SIMPLE COMIC VIEWER
-const totalPanels = 3;
-let currentPanel = 1;
-
-function initComicViewer() {
-    updatePanel();
-    
-    // Button navigation
-    document.getElementById('prevBtn').addEventListener('click', () => {
-        if (currentPanel > 1) {
-            currentPanel--;
-            updatePanel();
-        }
-    });
-    
-    document.getElementById('nextBtn').addEventListener('click', () => {
-        if (currentPanel < totalPanels) {
-            currentPanel++;
-            updatePanel();
-        }
-    });
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') {
-            if (currentPanel > 1) {
-                currentPanel--;
-                updatePanel();
-            }
-        } else if (e.key === 'ArrowRight') {
-            if (currentPanel < totalPanels) {
-                currentPanel++;
-                updatePanel();
-            }
-        }
-    });
-}
-
-function updatePanel() {
-    // Hide all panels
-    document.querySelectorAll('.comic-panel').forEach((panel, index) => {
-        panel.classList.toggle('active', index + 1 === currentPanel);
-    });
-    
-    // Update counter
-    document.getElementById('currentPanel').textContent = currentPanel;
-    document.getElementById('totalPanels').textContent = totalPanels;
-    
-    // Update button states
-    document.getElementById('prevBtn').disabled = currentPanel === 1;
-    document.getElementById('nextBtn').disabled = currentPanel === totalPanels;
-}
-
-// VIDEO DEMO
-function initVideoDemo() {
-    const demoVideo = document.getElementById('demoVideo');
-    demoVideo.play().catch(e => {
-        console.log('Video autoplay prevented');
-    });
-}
-
-// WORKING AUDIO SYSTEM FROM YOUR PAGE
+// ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-    const sounds = [
-        { src: 'sounds/from-the- crypt-ext v2.mp3', volume: 0.5 },
-    ];
+ const sounds = [
+ { src: 'music/depths-of-mystery.mp3', volume: 0.5 },
+ { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+ { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+ ];
 
-    sounds.forEach(sound => {
-        const audio = new Audio(sound.src);
-        audio.volume = sound.volume;
-        audio.loop = true;
-        audio.muted = true;
-        audioElements.push(audio);
-    });
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
 
-    document.addEventListener('click', function unmuteAudio() {
-        if (!isMuted) {
-            audioElements.forEach(audio => {
-                audio.muted = false;
-                audio.play().catch(e => console.log('Audio play failed'));
-            });
-            isMuted = false;
-            muteBtn.textContent = "🔊 Mute Sounds";
-        }
-        document.removeEventListener('click', unmuteAudio);
-    }, { once: true });
+ const unmuteOnInteraction = function() {
+ if (isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => {
+ console.log('Audio play attempt failed:', e);
+ });
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 Mute Sounds";
+ }
+ document.removeEventListener('click', unmuteOnInteraction);
+ document.removeEventListener('keydown', unmuteOnInteraction);
+ };
+
+ document.addEventListener('click', unmuteOnInteraction);
+ document.addEventListener('keydown', unmuteOnInteraction);
+
+ setTimeout(() => {
+ audioElements.forEach(audio => {
+ audio.play().then(() => {
+ console.log('Audio autoplay succeeded.');
+ }).catch(e => {
+ console.log('Audio autoplay blocked.');
+ });
+ });
+ }, 1000);
 }
 
-// Mute toggle
 muteBtn.addEventListener('click', function() {
-    isMuted = !isMuted;
-    audioElements.forEach(audio => {
-        audio.muted = isMuted;
-    });
-    muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+ if (audioElements.length === 0) {
+ initAudio();
+ return;
+ }
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ if (!isMuted) {
+ audio.play().catch(e => console.log('Playback resume failed'));
+ }
+ });
+ muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
 });
 
-// HIDE CONTENT FUNCTIONALITY FROM YOUR PAGE
+// ===== VIDEO BACKGROUND =====
+document.addEventListener('DOMContentLoaded', function() {
+ const silverVideo = document.getElementById('silverVideo');
+ silverVideo.play().catch(e => {
+ console.log('Video autoplay prevented');
+ });
+
+ // Initialize comic viewer
+ initComicViewer();
+ initVideoDemo();
+ initAudio();
+});
+
+// ===== HIDE CONTENT FUNCTIONALITY =====
 const hideContentBtn = document.getElementById('hideContentBtn');
 const mainContent = document.getElementById('mainContent');
 const pageFooter = document.getElementById('pageFooter');
-const topMenu = document.getElementById('topMenu');
+const topMenu = document.querySelector('nav.top-menu');
 const siteTitle = document.getElementById('siteTitle');
 const audioControls = document.querySelector('.audio-controls');
 let contentHidden = false;
 
 hideContentBtn.addEventListener('click', function() {
-    contentHidden = !contentHidden;
-    mainContent.classList.toggle('hidden', contentHidden);
-    pageFooter.classList.toggle('hidden', contentHidden);
-    topMenu.classList.toggle('hidden', contentHidden);
-    siteTitle.classList.toggle('hidden', contentHidden);
-    audioControls.classList.toggle('hidden', contentHidden);
-    hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
+ contentHidden = !contentHidden;
+ 
+ mainContent.classList.toggle('hidden', contentHidden);
+ pageFooter.classList.toggle('hidden', contentHidden);
+ if (topMenu) topMenu.classList.toggle('hidden', contentHidden);
+ siteTitle.classList.toggle('hidden', contentHidden);
+ audioControls.classList.toggle('hidden', contentHidden);
+ 
+ hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
 });
 
-// Alpha Demo function
-function playAlphaDemo() {
-    alert('Alpha Demo Coming Soon! Check back for updates.');
+// ===== SIMPLE COMIC VIEWER =====
+const totalPanels = 3;
+let currentPanel = 1;
+
+function initComicViewer() {
+ updatePanel();
+ 
+ // Button navigation
+ document.getElementById('prevBtn').addEventListener('click', () => {
+ if (currentPanel > 1) {
+ currentPanel--;
+ updatePanel();
+ }
+ });
+ 
+ document.getElementById('nextBtn').addEventListener('click', () => {
+ if (currentPanel < totalPanels) {
+ currentPanel++;
+ updatePanel();
+ }
+ });
+ 
+ // Keyboard navigation
+ document.addEventListener('keydown', (e) => {
+ if (e.key === 'ArrowLeft') {
+ if (currentPanel > 1) {
+ currentPanel--;
+ updatePanel();
+ }
+ } else if (e.key === 'ArrowRight') {
+ if (currentPanel < totalPanels) {
+ currentPanel++;
+ updatePanel();
+ }
+ }
+ });
 }
 
-// Initialize everything
-document.addEventListener('DOMContentLoaded', function() {
-    initComicViewer();
-    initVideoDemo();
-    initAudio();
+function updatePanel() {
+ // Hide all panels
+ document.querySelectorAll('.comic-panel').forEach((panel, index) => {
+ panel.classList.toggle('active', index + 1 === currentPanel);
+ });
+ 
+ // Update counter
+ document.getElementById('currentPanel').textContent = currentPanel;
+ document.getElementById('totalPanels').textContent = totalPanels;
+ 
+ // Update button states
+ document.getElementById('prevBtn').disabled = currentPanel === 1;
+ document.getElementById('nextBtn').disabled = currentPanel === totalPanels;
+}
+
+// ===== VIDEO DEMO =====
+function initVideoDemo() {
+ const demoVideo = document.getElementById('demoVideo');
+ demoVideo.play().catch(e => {
+ console.log('Video autoplay prevented');
+ });
+}
+
+// ===== ALPHA DEMO FUNCTION =====
+function playAlphaDemo() {
+ alert('Alpha Demo Coming Soon! Check back for updates.');
+}
+
+// ===== MOBILE HAMBURGER MENU =====
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuContent = document.querySelector('.menu-content');
+
+function createMobileMenu() {
+if (!menuContent) return;
+menuContent.innerHTML = '';
+
+const menuItems = [
+ { text: '🏠 Home', href: 'index.html' },
+ { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+ { text: ' Homage to Courage', href: 'homage-to-courage.html' },
+ { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+ { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+ { text: ' My Mission', href: 'my-mission.html' },
+ { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+ { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+ { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+ { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+
+ { text: '📖 Story', href: 'story.html' },
+ { text: ' Characters', href: 'characters.html' },
+ { text: ' Gallery', href: 'gallery.html' },
+ { text: ' Art & Concepts', href: 'art-and-concepts.html' },
+ { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+ { text: ' Technical Database', href: 'technical-database.html' },
+ { text: ' The Martian Edicts', href: 'martian-edicts.html' },
+ { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+ { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+ { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+ { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+
+ { text: '🎮 Martian Games', href: 'martian-games.html' },
+ { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+ { text: ' Martian Racer', href: 'martian-racer.html' },
+ { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+ { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+ { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+ { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+ { text: ' Music Player', href: 'music-app.html' },
+ { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+
+ { text: '🌍 Earth Codex', href: 'earth-codex.html' },
+ { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+ { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+ { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+ { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+ { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+ { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+ { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+ { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+ { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+
+ { text: '📰 Martian News', href: 'martian-news.html' },
+ { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+ { text: ' Martian Actualities', href: 'martian-actualities.html' },
+ { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+ { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+ { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+ { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+ { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+ { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+ { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+ { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+ { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+ { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+
+ { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+ { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+ { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+ { text: ' Earthlings Beware', href: 'earthings-beware.html' },
+ { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+ { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+ { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+ { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+ { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+ { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+ { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+ { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+
+ { text: 'ℹ️ About', href: 'about.html' },
+ { text: ' About the Project', href: 'about-the-project.html' },
+ { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+ { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+ { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+ { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+ { text: ' The Pale Horse', href: 'the-pale-horse.html' },
+ { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+ { text: ' Arachne Labs', href: 'arachne-labs.html' },
+ { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+ { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+
+ { text: '🤝 Support', href: 'support.html' },
+ { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+ { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+ { text: ' Mars Food District', href: 'mars-food-district.html' },
+ { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+ { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+ { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+ { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+ { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+
+ { text: '📧 Contact', href: 'contact.html' },
+ { text: 'Silver\'s Rescue Mission (current)', href: 'silvers-rescue-mission.html', active: true }
+];
+
+menuItems.forEach(item => {
+const menuItem = document.createElement('div');
+menuItem.className = 'menu-item';
+const link = document.createElement('a');
+link.href = item.href;
+link.textContent = item.text;
+if (item.active) link.classList.add('active');
+menuItem.appendChild(link);
+menuContent.appendChild(menuItem);
+});
+}
+
+createMobileMenu();
+
+hamburgerBtn.addEventListener('click', () => {
+mobileMenu.classList.add('active');
+document.body.style.overflow = 'hidden';
+});
+
+closeMenu.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+
+document.addEventListener('click', (e) => {
+if (mobileMenu.classList.contains('active') &&
+!mobileMenu.contains(e.target) &&
+!hamburgerBtn.contains(e.target)) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+});
+
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+link.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+});
+
+function handleResize() {
+if (window.innerWidth > 992) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+}
+window.addEventListener('resize', handleResize);
+
+// Initialize everything on page load
+window.addEventListener('load', function() {
+ initComicViewer();
+ initVideoDemo();
+ initAudio();
 });
 </script>
 </body>
