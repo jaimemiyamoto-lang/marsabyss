@@ -422,6 +422,23 @@ box-shadow: 0 15px 30px rgba(255, 105, 180, 0.4);
     background: rgba(255, 105, 180, 0.95);
 }
 
+/* ===== HIDE CONTENT FIXES ===== */
+.content-container.hidden,
+footer.hidden,
+nav.top-menu.hidden {
+   display: none !important;
+}
+
+/* These elements NEVER hide */
+.hide-content-btn.hidden,
+.audio-controls.hidden,
+.mobile-nav.hidden,
+.site-title-overlay.hidden {
+   display: block !important;
+   opacity: 1 !important;
+   pointer-events: auto !important;
+}
+    
 /* FOOTER */
 footer {
     position: relative;
@@ -1054,6 +1071,15 @@ statNumbers.forEach(stat => {
 observer.observe(stat);
 });
 
+// ===== VIDEO PROTECTION =====
+document.addEventListener('DOMContentLoaded', function() {
+   document.querySelectorAll('video').forEach(video => {
+       video.setAttribute('controlslist', 'nodownload');
+       video.addEventListener('contextmenu', (e) => e.preventDefault());
+       video.addEventListener('dragstart', (e) => e.preventDefault());
+   });
+});
+    
 // Parallax effect for video background
 window.addEventListener('scroll', function() {
 const scrolled = window.pageYOffset;
@@ -1234,31 +1260,29 @@ document.body.style.overflow = '';
 window.addEventListener('resize', handleResize);
 
 
-// Toggle Visibility of Main Content (Keeps Background & Title)
-function toggleContent() {
-    const topMenu = document.querySelector('nav.top-menu');
-    const mainContent = document.querySelector('.content-container');
-    const footer = document.querySelector('footer');
-    const button = document.getElementById('hide-content-toggle');
+// ===== HIDE CONTENT FUNCTIONALITY =====
+const hideContentBtn = document.getElementById('hide-content-toggle');
+const mainContent = document.querySelector('.content-container');
+const pageFooter = document.getElementById('pageFooter');
+const topMenu = document.querySelector('nav.top-menu');
+const siteTitle = document.querySelector('.site-title-overlay');
+const audioControls = document.querySelector('.audio-controls');
+const mobileNav = document.querySelector('.mobile-nav');
 
-    // Check if content is currently visible
-    const isContentVisible = mainContent.style.display !== 'none';
+let contentHidden = false;
 
-    if (isContentVisible) {
-        // Hide content
-        if (topMenu) topMenu.style.display = 'none';
-        if (mainContent) mainContent.style.display = 'none';
-        if (footer) footer.style.display = 'none';
-        button.textContent = 'Show Content';
-    } else {
-        // Show content
-        if (topMenu) topMenu.style.display = 'flex';
-        if (mainContent) mainContent.style.display = 'block';
-        if (footer) footer.style.display = 'block';
-        button.textContent = 'Hide Content';
-    }
+if (hideContentBtn) {
+   hideContentBtn.addEventListener('click', function() {
+       contentHidden = !contentHidden;
+       
+       // Hide/show main elements
+       if (mainContent) mainContent.classList.toggle('hidden', contentHidden);
+       if (pageFooter) pageFooter.classList.toggle('hidden', contentHidden);
+       if (topMenu) topMenu.classList.toggle('hidden', contentHidden);
+       
+       hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
+   });
 }
-
 </script>
 </body>
 </html>
