@@ -22,168 +22,6 @@
             background: #000;
         }
 
-        /* ========== MOBILE HAMBURGER BUTTON (Hidden on Desktop) ========== */
-        /* [NEW] This button is only visible on mobile/tablet */
-        .mobile-menu-toggle {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 1001;
-            background: linear-gradient(135deg, rgba(0, 204, 255, 0.9), rgba(0, 153, 204, 0.9));
-            border: 2px solid #00ccff;
-            color: white;
-            padding: 12px 14px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0, 204, 255, 0.4);
-        }
-
-        /* ========== YOUR ORIGINAL DESKTOP MENU ========== */
-        /* This stays exactly as you like it for desktop */
-        nav.top-menu {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            background: rgba(17, 17, 17, 0.95);
-            padding: 0.6rem 0;
-            z-index: 1000;
-            gap: 2.5rem; /* Your original spacing */
-            flex-wrap: nowrap;
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid #00ccff;
-        }
-
-        nav.top-menu a {
-            color: #f5f5f5;
-            text-decoration: none;
-            font-size: 1.1rem;
-            padding: 0.5rem 0.8rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
-
-        nav.top-menu a.active,
-        nav.top-menu a:hover {
-            color: #00ccff;
-            background: transparent;
-            text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown > a, .dropdown {
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background: rgba(26, 26, 26, 0.98);
-            min-width: 140px;
-            z-index: 1001;
-            border-radius: 4px;
-            border: 2px solid #00ccff;
-            top: 100%;
-            left: 0;
-            backdrop-filter: blur(5px);
-            padding: 4px 0;
-        }
-
-        .dropdown .dropdown .dropdown-content {
-            position: absolute;
-            left: 0;
-            top: 100%;
-            width: 100%;
-        }
-
-        .dropdown-content a {
-            color: #f5f5f5;
-            padding: 3px 5px;
-            text-decoration: none;
-            display: block;
-            transition: background-color 0.3s ease;
-            font-size: 0.8rem;
-            line-height: 1;
-        }
-
-        .dropdown-content a:hover {
-            background: rgba(0, 204, 255, 0.6);
-            color: #fff;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        /* ========== NEW MOBILE NAVIGATION PANEL ========== */
-        /* [NEW] This is the menu that slides in from the left on mobile */
-        .mobile-nav {
-            position: fixed;
-            top: 0;
-            left: -100%; /* Start hidden off-screen */
-            width: 85%;
-            height: 100vh;
-            background: linear-gradient(135deg, rgba(10, 10, 30, 0.98), rgba(20, 20, 50, 0.98));
-            flex-direction: column;
-            padding-top: 80px;
-            transition: left 0.3s ease;
-            overflow-y: auto;
-            backdrop-filter: blur(15px);
-            border-right: 3px solid #00ccff;
-            z-index: 1000;
-        }
-
-        .mobile-nav.active {
-            left: 0; /* Slide in when active */
-        }
-
-        .mobile-nav a {
-            color: #f5f5f5;
-            padding: 16px 20px;
-            text-decoration: none;
-            display: block;
-            border-bottom: 1px solid rgba(0, 204, 255, 0.2);
-            font-size: 1.1rem;
-        }
-
-        /* ========== RESPONSIVE MEDIA QUERIES ========== */
-        /* [UPDATED] Rules that activate only on tablets & phones */
-        @media (max-width: 992px) {
-            /* 1. Hide the original desktop menu */
-            nav.top-menu {
-                display: none;
-            }
-
-            /* 2. Show the mobile hamburger button */
-            .mobile-menu-toggle {
-                display: block;
-            }
-
-            /* 3. Adjust content padding for mobile */
-            .games-container {
-                padding-top: 100px !important;
-            }
-        }
-
-        /* Tablet adjustment */
-        @media (min-width: 768px) and (max-width: 992px) {
-            .mobile-nav {
-                width: 70%;
-            }
-        }
-
-        /* ========== THE REST OF YOUR ORIGINAL STYLES ========== */
         /* Background */
         .background-container {
             position: fixed;
@@ -486,6 +324,91 @@
             margin-bottom: 20px;
         }
 
+        /* Your existing menu, audio controls, and footer styles */
+        nav.top-menu {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(17, 17, 17, 0.95);
+            padding: 0.6rem 0;
+            z-index: 1000;
+            gap: 2.5rem;
+            flex-wrap: nowrap;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00ccff;
+        }
+
+        nav.top-menu a {
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        nav.top-menu a.active,
+        nav.top-menu a:hover {
+            color: #00ccff;
+            background: transparent;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown > a, .dropdown {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(26, 26, 26, 0.98);
+            min-width: 140px;
+            z-index: 1005;
+            border-radius: 4px;
+            border: 2px solid #00ccff;
+            top: 100%;
+            left: 0;
+            backdrop-filter: blur(5px);
+            padding: 4px 0;
+        }
+
+        .dropdown .dropdown .dropdown-content {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            width: 100%;
+        }
+
+        .dropdown-content a {
+            color: #f5f5f5;
+            padding: 3px 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+            font-size: 0.8rem;
+            line-height: 1;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(0, 204, 255, 0.6);
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
         /* SITE TITLE OVERLAY */
         .site-title-overlay {
             position: fixed;
@@ -512,8 +435,8 @@
         }
 
         .audio-btn {
-            background: rgba(0, 204, 255, 0.8);
-            border: 2px solid #00ccff;
+            background: rgba(255, 193, 7, 0.8);
+            border: 2px solid #ffc107;
             color: #fff;
             padding: 10px 15px;
             border-radius: 25px;
@@ -524,8 +447,8 @@
         }
 
         .audio-btn:hover {
-            background: rgba(0, 204, 255, 0.6);
-            box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+            background: rgba(255, 193, 7, 0.6);
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.7);
         }
 
         /* VIEW TOGGLE BUTTON */
@@ -575,6 +498,181 @@
             pointer-events: none;
         }
 
+        /* ===== HAMBURGER MENU (purple/blue theme) ===== */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1002;
+}
+
+.hamburger-btn {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #00ccff;
+  border-radius: 4px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px rgba(0, 204, 255, 0.3);
+  font-size: 1.8rem;
+  color: #00ccff;
+  line-height: 1;
+}
+
+.hamburger-btn span {
+  display: none;
+}
+
+.hamburger-btn:hover {
+  background: rgba(255, 193, 7, 0.2);
+  border-color: #ffc107;
+  color: #ffc107;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 300px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  border-right: 3px solid #00ccff;
+  padding: 20px;
+  transition: left 0.4s ease;
+  z-index: 1003;
+  overflow-y: auto;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 20px rgba(0, 204, 255, 0.2);
+}
+
+.mobile-menu.active {
+  left: 0;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #00ccff;
+}
+
+.menu-header h3 {
+  color: #00ccff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  text-shadow: 0 0 8px rgba(0, 204, 255, 0.5);
+}
+
+.close-menu {
+  background: transparent;
+  border: none;
+  color: #00ccff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-menu:hover {
+  background: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+  transform: rotate(90deg);
+}
+
+.menu-content {
+  margin-bottom: 20px;
+}
+
+.menu-content .menu-item {
+  margin-bottom: 10px;
+}
+
+.menu-content .menu-item a {
+  display: block;
+  color: #e0e0e0;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+}
+
+.menu-content .menu-item a:hover,
+.menu-content .menu-item a.active {
+  border-left-color: #ffc107;
+  background: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+  text-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
+}
+
+.menu-footer {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #00ccff;
+  text-align: center;
+  color: #00ccff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  text-shadow: 0 0 5px rgba(0, 204, 255, 0.5);
+}
+
+.pulse {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #ffc107;
+  border-radius: 50%;
+  margin-right: 8px;
+  animation: blink 1.5s infinite;
+  box-shadow: 0 0 10px #ffc107;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Mobile media query – hide desktop menu, show hamburger */
+@media (max-width: 992px) {
+  nav.top-menu {
+    display: none;
+  }
+  .mobile-nav {
+    display: block;
+  }
+  .site-title-overlay {
+    top: 70px;
+    left: 15px;
+  }
+  .site-title-overlay h1 {
+    font-size: 1.4rem;
+  }
+  .view-toggle {
+    top: 70px;
+    right: 15px;
+  }
+  .audio-controls {
+    bottom: 70px;
+    right: 20px;
+  }
+}
         /* Hidden state for content */
         .hidden {
             opacity: 0;
@@ -590,159 +688,6 @@
     </style>
 </head>
 <body>
-    <!-- [NEW] MOBILE HAMBURGER BUTTON & MENU -->
-    <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
-    <nav class="mobile-nav" id="mobileNav">
-        <a href="index.html">Home</a>
-        <a href="story.html">Story</a>
-        <a href="martian-games.html" class="active">Martian Games</a>
-        <a href="earth-codex.html">Earth Codex</a>
-        <a href="martian-news.html">Martian News</a>
-        <a href="the-regents-scrolls.html">Regent's Scrolls</a>
-        <a href="about.html">About</a>
-        <a href="support.html">Support</a>
-        <a href="contact.html">Contact</a>
-        <!-- Note: For simplicity, mobile shows main links.
-             You can add nested mobile dropdowns later if needed. -->
-    </nav>
-
-    <!-- YOUR ORIGINAL DESKTOP NAVIGATION MENU -->
-    <nav class="top-menu">
-        <div class="dropdown">
-            <a href="index.html" class="dropbtn">Home</a>
-            <div class="dropdown-content">
-                <a href="why-this-world-matters.html">Why This World Matters</a>
-                <a href="homage-to-courage.html">Homage to Courage</a>
-                <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
-                <a href="the-migrant-initiative.html">The Migrant Initiative</a>
-                <a href="my-mission.html">My Mission</a>
-                <a href="martian-reading-revival.html">Martian Reading Revival</a>
-                <a href="why-mars-is-safer.html">Why Mars is Safer</a>
-                <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
-                <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <a href="story.html" class="dropbtn">Story</a>
-            <div class="dropdown-content">
-                <a href="characters.html">Characters</a>
-                <div class="dropdown">
-                    <a href="gallery.html" class="dropbtn">Gallery</a>
-                    <div class="dropdown-content">
-                        <a href="art-and-concepts.html">Art & Concepts</a>
-                        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
-                        <a href="technical-database.html">Technical Database</a>
-                        <a href="martian-edicts.html">The Martian Edicts</a>
-                        <a href="alien-transport-network.html">Alien Transport Network</a>
-                        <a href="martian-martial-arts.html">Martian Martial Arts</a>
-                        <a href="solar-system-explorer.html">Solar System Explorer</a>
-                        <a href="aliens-ufos.html">Aliens & UFOs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <a href="martian-games.html" class="dropbtn active">Martian Games</a>
-            <div class="dropdown-content">
-                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
-                <a href="martian-racer.html">Martian Racer</a>
-                <a href="red-planet-defense.html">Red Planet Defense</a>
-                <a href="the-regents-portal.html">The Regent's Portal</a>
-                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
-                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
-                <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
-                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
-            <div class="dropdown-content">
-                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
-                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
-                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
-                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
-                <a href="earths-great-poets.html">Earth's Great Poets</a>
-                <a href="the-bohr-institute.html">The Bohr Institute</a>
-                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
-                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
-                <a href="the-bronx-dome.html">The Bronx Dome</a>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <a href="martian-news.html" class="dropbtn">Martian News</a>
-            <div class="dropdown-content">
-                <a href="martian-actualities.html">Martian Actualities</a>
-                <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
-                <a href="mars-bee-facility.html">Mars Bee Facility</a>
-                <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-                <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
-                <a href="house-of-health-secrets.html">The House of Health Secrets</a>
-                <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
-                <a href="martian-rest-areas.html">Martian Rest Areas</a>
-                <div class="dropdown">
-                    <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-                    <div class="dropdown-content">
-                        <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
-                        <a href="marvin.html">M.A.R.V.I.N.</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
-            <div class="dropdown-content">
-                <a href="what-the-regent-misses.html">What the Regent Misses</a>
-                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
-                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
-                <a href="honor-the-fallen.html">Honor The Fallen</a>
-                <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
-                <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
-                <a href="salems-witching-hour.html">Salem's Witching Hour</a>
-                <a href="martian-critique-tron-ares.html">Martian Critique</a>
-                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
-                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
-                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <a href="about.html" class="dropbtn">About</a>
-            <div class="dropdown-content">
-                <a href="about-the-project.html">About the Project</a>
-                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
-                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
-                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
-                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
-                <a href="the-pale-horse.html">The Pale Horse</a>
-                <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
-                <a href="arachne-labs.html">Arachne Labs</a>
-                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
-                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <a href="support.html" class="dropbtn">Support</a>
-            <div class="dropdown-content">
-                <a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
-                <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-                <a href="mars-food-district.html">Mars Food District</a>
-                <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
-                <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-                <a href="fund-martian-research.html">Fund Martian Research</a>
-                <a href="martian-survival-manual.html">Martian Survival Manual</a>
-                <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
-            </div>
-        </div>
-
-        <a href="contact.html">Contact</a>
-    </nav>
-
     <!-- Background -->
     <div class="background-container">
         <div class="static-background"></div>
@@ -764,6 +709,144 @@
         <button onclick="resetAircraft()">Reset Position</button>
     </div>
 
+    <!-- Your Standard Navigation Menu -->
+     <nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="alien-transport-network.html">Alien Transport Network</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn active">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a> 
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
+
+<a href="contact.html">Contact</a>
+</nav>
+
     <!-- SITE TITLE OVERLAY -->
     <div class="site-title-overlay">
         <h1>The Mars Abyss</h1>
@@ -778,6 +861,23 @@
     <div class="audio-controls">
         <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
     </div>
+
+    <!-- MOBILE HAMBURGER MENU -->
+<div class="mobile-nav">
+  <button class="hamburger-btn" id="hamburgerBtn">
+    🍔
+  </button>
+  <nav class="mobile-menu" id="mobileMenu">
+    <div class="menu-header">
+      <h3>THE MARS ABYSS</h3>
+      <button class="close-menu" id="closeMenu">✕</button>
+    </div>
+    <div class="menu-content"></div>
+    <div class="menu-footer">
+      <span class="pulse"></span> MARTIAN GAMES
+    </div>
+  </nav>
+</div>
 
     <!-- Games Content -->
     <div class="games-container">
@@ -811,6 +911,7 @@
                     <button class="play-button" onclick="startFlightSimulator()">Take Flight</button>
                 </div>
             </div>
+
             <!-- Other game cards... -->
         </div>
     </div>
@@ -824,28 +925,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <script>
-        // ========== NEW MOBILE MENU TOGGLE FUNCTION ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleButton = document.getElementById('mobileMenuToggle');
-            const mobileMenu = document.getElementById('mobileNav');
-
-            if (toggleButton && mobileMenu) {
-                toggleButton.addEventListener('click', function() {
-                    mobileMenu.classList.toggle('active');
-                    // Change icon from hamburger to 'X' when open
-                    toggleButton.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
-                });
-
-                // Close mobile menu when clicking a link inside it
-                mobileMenu.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        mobileMenu.classList.remove('active');
-                        toggleButton.textContent = '☰';
-                    });
-                });
-            }
-        });
-
         // Enhanced Hide/Show Content System
         const viewToggle = document.getElementById('viewToggle');
         const gamesContainer = document.querySelector('.games-container');
@@ -859,7 +938,7 @@
             siteTitle.classList.toggle('hidden');
             pageFooter.classList.toggle('hidden');
             mainMenu.classList.toggle('hidden');
-
+            
             if (gamesContainer.classList.contains('hidden')) {
                 viewToggle.textContent = '📄 Show Content';
                 videoBackground.style.opacity = '1';
@@ -884,7 +963,7 @@
 
         muteBtn.addEventListener('click', function() {
             if (!backgroundAudio) initAudio();
-
+            
             if (isMuted) {
                 backgroundAudio.muted = false;
                 videoBackground.muted = false;
@@ -927,7 +1006,7 @@
                 // Clean up Three.js resources
                 const scene = flightSimulator.scene;
                 const renderer = flightSimulator.renderer;
-
+                
                 scene.traverse(function(object) {
                     if (object.geometry) object.geometry.dispose();
                     if (object.material) {
@@ -974,11 +1053,11 @@
                 this.landmarks = [];
                 this.missions = [];
                 this.currentMission = null;
-
+                
                 this.keys = {};
                 this.velocity = new THREE.Vector3();
                 this.rotation = new THREE.Vector3();
-
+                
                 this.setupScene();
                 this.createMarsTerrain();
                 this.createMartianLandmarks();
@@ -986,7 +1065,7 @@
                 this.setupMissions();
                 this.setupControls();
                 this.setupEventListeners();
-
+                
                 this.animate();
             }
 
@@ -1009,22 +1088,22 @@
             createMarsTerrain() {
                 const terrainGeometry = new THREE.PlaneGeometry(5000, 5000, 200, 200);
                 const positions = terrainGeometry.attributes.position.array;
-
+                
                 for (let i = 0; i < positions.length; i += 3) {
                     const x = positions[i];
                     const z = positions[i + 2];
-
+                    
                     // Base terrain with larger features
                     let height = Math.sin(x * 0.002) * Math.cos(z * 0.002) * 100 +
-                    Math.sin(x * 0.005) * Math.cos(z * 0.005) * 40 +
-                    (Math.random() - 0.5) * 20;
-
+                                Math.sin(x * 0.005) * Math.cos(z * 0.005) * 40 +
+                                (Math.random() - 0.5) * 20;
+                    
                     positions[i + 1] = height;
                 }
 
                 terrainGeometry.computeVertexNormals();
 
-                const terrainMaterial = new THREE.MeshLambertMaterial({
+                const terrainMaterial = new THREE.MeshLambertMaterial({ 
                     color: 0xb3543d,
                     wireframe: false
                 });
@@ -1038,20 +1117,20 @@
             createMartianLandmarks() {
                 // OLYMPUS MONS - The largest volcano in solar system
                 this.createVolcano(800, 600, 22000, 500, 0xff4444, "OLYMPUS MONS");
-
+                
                 // VALLES MARINERIS - The grand canyon of Mars
                 this.createCanyon(-600, -400, 4000, 200, 700, 0x4444ff, "VALLES MARINERIS");
-
+                
                 // HELLAS PLANITIA - Massive impact basin
                 this.createCraterBasin(-1000, 800, 1200, 300, 0x44ff44, "HELLAS PLANITIA");
-
+                
                 // THARSIS VOLCANOES
                 this.createVolcano(500, 800, 18000, 400, 0xff8844, "ASCRAEUS MONS");
                 this.createVolcano(300, 400, 15000, 350, 0xff8844, "PAVONIS MONS");
-
+                
                 // GALE CRATER (Curiosity Rover landing site)
                 this.createScientificOutpost(-800, -600, 150, 0x00ffff, "GALE CRATER");
-
+                
                 // Add navigation beacons
                 this.addNavigationBeacons();
             }
@@ -1060,7 +1139,7 @@
                 // Volcano cone
                 const segments = 32;
                 const volcanoGeometry = new THREE.ConeGeometry(baseRadius, height, segments);
-                const volcanoMaterial = new THREE.MeshLambertMaterial({
+                const volcanoMaterial = new THREE.MeshLambertMaterial({ 
                     color: color,
                     transparent: true,
                     opacity: 0.9
@@ -1079,7 +1158,7 @@
 
                 // Navigation beacon
                 this.addLandmarkBeacon(x, z, height + 100, name, color);
-
+                
                 this.landmarks.push({
                     name: name,
                     position: new THREE.Vector3(x, height, z),
@@ -1091,21 +1170,21 @@
             createCanyon(startX, startZ, length, width, depth, color, name) {
                 // Create canyon by modifying terrain vertices
                 const positions = this.terrain.geometry.attributes.position.array;
-
+                
                 for (let i = 0; i < positions.length; i += 3) {
                     const x = positions[i];
                     const z = positions[i + 2];
-
+                    
                     // Check if point is in canyon area
-                    const inCanyon = Math.abs(z - startZ) < width &&
-                    x > startX && x < startX + length;
-
+                    const inCanyon = Math.abs(z - startZ) < width && 
+                                    x > startX && x < startX + length;
+                    
                     if (inCanyon) {
                         const canyonDepth = depth * Math.sin((x - startX) / length * Math.PI);
                         positions[i + 1] -= canyonDepth;
                     }
                 }
-
+                
                 this.terrain.geometry.attributes.position.needsUpdate = true;
                 this.terrain.geometry.computeVertexNormals();
 
@@ -1115,18 +1194,18 @@
 
             createCraterBasin(x, z, radius, depth, color, name) {
                 const positions = this.terrain.geometry.attributes.position.array;
-
+                
                 for (let i = 0; i < positions.length; i += 3) {
                     const px = positions[i];
                     const pz = positions[i + 2];
                     const distance = Math.sqrt((px - x) ** 2 + (pz - z) ** 2);
-
+                    
                     if (distance < radius) {
                         const basinDepth = depth * (1 - (distance / radius));
                         positions[i + 1] -= basinDepth;
                     }
                 }
-
+                
                 this.terrain.geometry.attributes.position.needsUpdate = true;
                 this.terrain.geometry.computeVertexNormals();
                 this.addLandmarkBeacon(x, z, 150, name, color);
@@ -1135,7 +1214,7 @@
             createScientificOutpost(x, z, radius, color, name) {
                 // Crater rim
                 const craterGeometry = new THREE.RingGeometry(radius, radius + 50, 32);
-                const craterMaterial = new THREE.MeshLambertMaterial({
+                const craterMaterial = new THREE.MeshLambertMaterial({ 
                     color: color,
                     side: THREE.DoubleSide
                 });
@@ -1147,7 +1226,7 @@
                 // Habitat domes
                 for (let i = 0; i < 3; i++) {
                     const domeGeometry = new THREE.SphereGeometry(20, 16, 16);
-                    const domeMaterial = new THREE.MeshLambertMaterial({
+                    const domeMaterial = new THREE.MeshLambertMaterial({ 
                         color: 0xffffff,
                         transparent: true,
                         opacity: 0.7
@@ -1336,11 +1415,11 @@
             updateHUD() {
                 document.getElementById('altitude').textContent = Math.floor(this.aircraft.position.y);
                 document.getElementById('speed').textContent = Math.floor(this.velocity.length() * 20);
-
+                
                 // Find nearest landmark
                 let nearestLandmark = "Exploring...";
                 let minDistance = Infinity;
-
+                
                 this.landmarks.forEach(landmark => {
                     const distance = this.aircraft.position.distanceTo(landmark.position);
                     if (distance < minDistance && distance < 2000) {
@@ -1348,7 +1427,7 @@
                         nearestLandmark = landmark.name;
                     }
                 });
-
+                
                 document.getElementById('location').textContent = nearestLandmark;
             }
 
@@ -1364,6 +1443,164 @@
         document.addEventListener('DOMContentLoaded', function() {
             initAudio();
         });
+
+        // ===== MOBILE HAMBURGER MENU =====
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuContent = document.querySelector('.menu-content');
+
+function createMobileMenu() {
+if (!menuContent) return;
+menuContent.innerHTML = '';
+
+const menuItems = [
+  { text: '🏠 Home', href: 'index.html' },
+  { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+  { text: ' Homage to Courage', href: 'homage-to-courage.html' },
+  { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+  { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+  { text: ' My Mission', href: 'my-mission.html' },
+  { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+  { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+  { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+  { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+
+  { text: '📖 Story', href: 'story.html' },
+  { text: ' Characters', href: 'characters.html' },
+  { text: ' Gallery', href: 'gallery.html' },
+  { text: ' Art & Concepts', href: 'art-and-concepts.html' },
+  { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+  { text: ' Technical Database', href: 'technical-database.html' },
+  { text: ' The Martian Edicts', href: 'martian-edicts.html' },
+  { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+  { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+  { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+  { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+
+  { text: '🎮 Martian Games', href: 'martian-games.html' },
+  { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+  { text: ' Martian Racer', href: 'martian-racer.html' },
+  { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+  { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+  { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+  { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+  { text: ' Music Player', href: 'music-app.html' },
+  { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+
+  { text: '🌍 Earth Codex', href: 'earth-codex.html' },
+  { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+  { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+  { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+  { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+  { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+  { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+  { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+  { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+  { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+
+  { text: '📰 Martian News', href: 'martian-news.html' },
+  { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+  { text: ' Martian Actualities', href: 'martian-actualities.html' },
+  { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+  { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+  { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+  { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+  { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+  { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+  { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+  { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+  { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+  { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+
+  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+  { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+  { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+  { text: ' Earthlings Beware', href: 'earthings-beware.html' },
+  { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+  { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+  { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+  { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+  { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+  { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+  { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+  { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+
+  { text: 'ℹ️ About', href: 'about.html' },
+  { text: ' About the Project', href: 'about-the-project.html' },
+  { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+  { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+  { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+  { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+  { text: ' The Pale Horse', href: 'the-pale-horse.html' },
+  { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+  { text: ' Arachne Labs', href: 'arachne-labs.html' },
+  { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+  { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+
+  { text: '🤝 Support', href: 'support.html' },
+  { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+  { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+  { text: ' Mars Food District', href: 'mars-food-district.html' },
+  { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+  { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+  { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+  { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+  { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+
+  { text: '📧 Contact', href: 'contact.html' },
+  { text: '🎮 Martian Games (current)', href: 'martian-games.html', active: true }
+];
+
+
+menuItems.forEach(item => {
+const menuItem = document.createElement('div');
+menuItem.className = 'menu-item';
+const link = document.createElement('a');
+link.href = item.href;
+link.textContent = item.text;
+if (item.active) link.classList.add('active');
+menuItem.appendChild(link);
+menuContent.appendChild(menuItem);
+});
+}
+
+createMobileMenu();
+
+hamburgerBtn.addEventListener('click', () => {
+mobileMenu.classList.add('active');
+document.body.style.overflow = 'hidden';
+});
+
+closeMenu.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+
+document.addEventListener('click', (e) => {
+if (mobileMenu.classList.contains('active') &&
+!mobileMenu.contains(e.target) &&
+!hamburgerBtn.contains(e.target)) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+});
+
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+link.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+});
+
+function handleResize() {
+if (window.innerWidth > 992) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+}
+window.addEventListener('resize', handleResize);
+
     </script>
 </body>
 </html>
