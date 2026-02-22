@@ -1,661 +1,698 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Mars Abyss - Gallery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Mars Abyss - Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
 
-        body, html {
-            height: 100%;
-            width: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
-            overflow-x: hidden;
-            position: relative;
-            background: #000;
-        }
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #fff;
+overflow-x: hidden;
+position: relative;
+background: #000;
+}
 
-        /* VIDEO BACKGROUND WITH STATIC FALLBACK */
-        .background-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-        }
+/* VIDEO BACKGROUND WITH STATIC FALLBACK */
+.background-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 2;
+}
 
-        .static-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('images/landing-party-bg.jpg') no-repeat center center / cover;
-            z-index: 1;
-        }
+.static-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('images/landing-party-bg.jpg') no-repeat center center / cover;
+z-index: 1;
+opacity: 0;
+transition: opacity 0.5s ease;
+}
 
-        .video-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 2;
-            opacity: 0.8;
-        }
+.static-background.visible {
+opacity: 1;
+}
 
-        /* UPDATED TOP MENU - MATCHES HOME PAGE */
-        nav.top-menu {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            background: rgba(17, 17, 17, 0.95);
-            padding: 0.6rem 0;
-            z-index: 1000;
-            gap: 2.5rem;
-            flex-wrap: nowrap;
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid #4cc9f0;
-        }
+.video-background {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 2;
+opacity: 0.8;
+}
 
-        nav.top-menu a {
-            color: #f5f5f5;
-            text-decoration: none;
-            font-size: 1.1rem;
-            padding: 0.5rem 0.8rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
+/* UPDATED TOP MENU - MATCHES HOME PAGE */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #4cc9f0;
+}
 
-        nav.top-menu a.active,
-        nav.top-menu a:hover {
-            color: #4cc9f0;
-            background: transparent;
-        }
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #4cc9f0;
+background: transparent;
+}
 
-        .dropdown > a, .dropdown {
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
+.dropdown {
+position: relative;
+display: inline-block;
+}
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background: rgba(26, 26, 26, 0.98);
-            min-width: 140px;
-            z-index: 1001;
-            border-radius: 4px;
-            border: 2px solid #4cc9f0;
-            top: 100%;
-            left: 0;
-            backdrop-filter: blur(5px);
-            padding: 4px 0;
-        }
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
 
-        .dropdown .dropdown .dropdown-content {
-            position: absolute;
-            left: 0;
-            top: 100%;
-            width: 100%;
-        }
+.dropdown-content {
+display: none;
+position: absolute;
+background: rgba(26, 26, 26, 0.98);
+min-width: 140px;
+z-index: 1001;
+border-radius: 4px;
+border: 2px solid #4cc9f0;
+top: 100%;
+left: 0;
+backdrop-filter: blur(5px);
+padding: 4px 0;
+}
 
-        .dropdown-content a {
-            color: #f5f5f5;
-            padding: 3px 5px;
-            text-decoration: none;
-            display: block;
-            transition: background-color 0.3s ease;
-            font-size: 0.7rem;
-            line-height: 1;
-        }
+.dropdown .dropdown .dropdown-content {
+position: absolute;
+left: 0;
+top: 100%;
+width: 100%;
+}
 
-        .dropdown-content a:hover {
-            background: rgba(76, 201, 240, 0.6);
-            color: #fff;
-        }
+.dropdown-content a {
+color: #f5f5f5;
+padding: 3px 5px;
+text-decoration: none;
+display: block;
+transition: background-color 0.3s ease;
+font-size: 0.7rem;
+line-height: 1;
+}
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+.dropdown-content a:hover {
+background: rgba(76, 201, 240, 0.6);
+color: #fff;
+}
 
-        /* SITE TITLE OVERLAY */
-        .site-title-overlay {
-            position: fixed;
-            top: 80px;
-            left: 30px;
-            z-index: 50;
-        }
+.dropdown:hover .dropdown-content {
+display: block;
+}
 
-        .site-title-overlay h1 {
-            color: #4cc9f0;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
-            font-weight: 300;
-            letter-spacing: 2px;
-        }
+/* SITE TITLE OVERLAY */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+}
 
-        /* CONTROL BUTTONS */
-        .audio-controls {
-            position: fixed;
-            bottom: 80px;
-            right: 40px;
-            z-index: 1000;
-        }
+.site-title-overlay h1 {
+color: #4cc9f0;
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
 
-        .view-toggle {
-            position: fixed;
-            top: 80px;
-            right: 30px;
-            z-index: 1000;
-        }
+/* CONTROL BUTTONS */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 40px;
+z-index: 1000;
+}
 
-        .audio-btn, .view-btn {
-            background: rgba(25, 25, 30, 0.7);
-            border: 2px solid #8b7d6b;
-            color: #e0d5c0;
-            padding: 8px 16px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            font-size: 0.9rem;
-            min-width: 120px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
+.view-toggle {
+position: fixed;
+top: 80px;
+right: 30px;
+z-index: 1000;
+}
 
-        .view-btn {
-            border-color: #5d6d7e;
-        }
+.audio-btn, .view-btn {
+background: rgba(25, 25, 30, 0.7);
+border: 2px solid #8b7d6b;
+color: #e0d5c0;
+padding: 8px 16px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+min-width: 120px;
+text-align: center;
+box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
 
-        .audio-btn:hover, .view-btn:hover {
-            background: rgba(55, 65, 75, 0.8);
-            border-color: #a8c0d0;
-            color: #ffffff;
-            box-shadow: 0 0 20px rgba(168, 192, 208, 0.3);
-            transform: scale(1.02);
-        }
+.view-btn {
+border-color: #5d6d7e;
+}
 
-        /* PAGE TITLE */
-        .page-title {
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            font-size: 5rem;
-            font-weight: bold;
-            color: #f5f5dc;
-            text-shadow: 3px 3px 10px black;
-            letter-spacing: 4px;
-            text-align: center;
-            z-index: 10;
-        }
+.audio-btn:hover, .view-btn:hover {
+background: rgba(55, 65, 75, 0.8);
+border-color: #a8c0d0;
+color: #ffffff;
+box-shadow: 0 0 20px rgba(168, 192, 208, 0.3);
+transform: scale(1.02);
+}
 
-        /* SCROLLABLE CARD STRIP */
-        .card-section {
-            position: absolute;
-            bottom: 8%;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            z-index: 100;
-        }
+/* PAGE TITLE */
+.page-title {
+position: absolute;
+top: 45%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 100%;
+font-size: 5rem;
+font-weight: bold;
+color: #f5f5dc;
+text-shadow: 3px 3px 10px black;
+letter-spacing: 4px;
+text-align: center;
+z-index: 10;
+}
 
-        .card-container {
-            display: flex;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            gap: 1.5rem;
-            padding: 1rem;
-            max-width: 80%;
-        }
+/* SCROLLABLE CARD STRIP */
+.card-section {
+position: absolute;
+bottom: 8%;
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 1rem;
+z-index: 100;
+}
 
-        .card-container::-webkit-scrollbar {
-            display: none;
-        }
+.card-container {
+display: flex;
+overflow-x: auto;
+scroll-behavior: smooth;
+gap: 1.5rem;
+padding: 1rem;
+max-width: 80%;
+}
 
-        .card {
-            flex: 0 0 auto;
-            width: 150px;
-            height: 220px;
-            background: #111;
-            background-size: cover;
-            background-position: center;
-            filter: grayscale(100%);
-            transition: filter 0.4s ease, transform 0.4s ease;
-            border-radius: 8px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid #333;
-        }
+.card-container::-webkit-scrollbar {
+display: none;
+}
 
-        .card-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: all 0.4s ease;
-        }
+.card {
+flex: 0 0 auto;
+width: 150px;
+height: 220px;
+background: #111;
+background-size: cover;
+background-position: center;
+filter: grayscale(100%);
+transition: filter 0.4s ease, transform 0.4s ease;
+border-radius: 8px;
+cursor: pointer;
+position: relative;
+overflow: hidden;
+border: 2px solid #333;
+}
 
-        .card:hover {
-            filter: grayscale(0%);
-            transform: scale(1.05);
-            border-color: #4cc9f0;
-        }
+.card-video {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: all 0.4s ease;
+/* Protection: disable context menu on videos */
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+/* Hide browser download button */
+-webkit-media-controls-download-button {
+display: none !important;
+}
+}
 
-        .card:hover .card-video {
-            transform: scale(1.1);
-        }
+/* Hide download button in various browsers */
+video::-webkit-media-controls-download-button {
+display: none !important;
+}
 
-        .card-title {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            color: white;
-            padding: 8px;
-            font-size: 0.8rem;
-            text-align: center;
-            font-family: 'Orbitron', sans-serif;
-        }
+video::-webkit-media-controls-enclosure {
+overflow: hidden;
+}
 
-        /* ARROWS */
-        .arrow {
-            font-size: 2.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 50%;
-            transition: background 0.3s ease;
-            user-select: none;
-        }
+video::-webkit-media-controls-panel {
+width: calc(100% + 30px);
+}
 
-        .arrow:hover {
-            background: rgba(76, 201, 240, 0.6);
-        }
+.card:hover {
+filter: grayscale(0%);
+transform: scale(1.05);
+border-color: #4cc9f0;
+}
 
-        /* VIDEO PLAYER MODAL */
-        .video-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
+.card:hover .card-video {
+transform: scale(1.1);
+}
 
-        .video-modal.active {
-            display: flex;
-        }
+.card-title {
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+background: linear-gradient(transparent, rgba(0,0,0,0.9));
+color: white;
+padding: 8px;
+font-size: 0.8rem;
+text-align: center;
+font-family: 'Orbitron', sans-serif;
+pointer-events: none; /* Prevent title from blocking clicks */
+}
 
-        .modal-content {
-            position: relative;
-            width: 80%;
-            max-width: 900px;
-            background: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 3px solid #4cc9f0;
-            box-shadow: 0 0 50px rgba(76, 201, 240, 0.3);
-        }
+/* ARROWS */
+.arrow {
+font-size: 2.5rem;
+cursor: pointer;
+padding: 0.5rem;
+background: rgba(0, 0, 0, 0.5);
+border-radius: 50%;
+transition: background 0.3s ease;
+user-select: none;
+}
 
-        .modal-video {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+.arrow:hover {
+background: rgba(76, 201, 240, 0.6);
+}
 
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 2001;
-        }
+/* VIDEO PLAYER MODAL */
+.video-modal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.95);
+z-index: 2000;
+justify-content: center;
+align-items: center;
+}
 
-        .modal-close:hover {
-            background: rgba(76, 201, 240, 0.9);
-            transform: scale(1.1);
-        }
+.video-modal.active {
+display: flex;
+}
 
-        .modal-title {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            color: white;
-            padding: 15px;
-            font-size: 1.5rem;
-            text-align: center;
-            font-family: 'Orbitron', sans-serif;
-        }
+.modal-content {
+position: relative;
+width: 80%;
+max-width: 900px;
+background: #000;
+border-radius: 12px;
+overflow: hidden;
+border: 3px solid #4cc9f0;
+box-shadow: 0 0 50px rgba(76, 201, 240, 0.3);
+}
 
-        /* HIDDEN CLASS FOR TOGGLE FUNCTIONALITY */
-        .hidden {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
+.modal-video {
+width: 100%;
+height: auto;
+display: block;
+/* Disable download in modal too */
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
 
-        /* FOOTER - MATCHES HOME PAGE */
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            padding: 0.6rem 0;
-            background: rgba(0, 0, 0, 0.8);
-            color: #ccc;
-            font-family: 'Segoe UI', sans-serif;
-            z-index: 1000;
-            border-top: 2px solid #4cc9f0;
-            transition: opacity 0.5s ease;
-        }
+.modal-close {
+position: absolute;
+top: 15px;
+right: 15px;
+background: rgba(0, 0, 0, 0.7);
+color: white;
+border: none;
+border-radius: 50%;
+width: 40px;
+height: 40px;
+font-size: 1.2rem;
+cursor: pointer;
+transition: all 0.3s ease;
+z-index: 2001;
+}
 
-        /* ===== HAMBURGER MENU (purple/blue theme) ===== */
+.modal-close:hover {
+background: rgba(76, 201, 240, 0.9);
+transform: scale(1.1);
+}
+
+.modal-title {
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+background: linear-gradient(transparent, rgba(0,0,0,0.9));
+color: white;
+padding: 15px;
+font-size: 1.5rem;
+text-align: center;
+font-family: 'Orbitron', sans-serif;
+pointer-events: none;
+}
+
+/* HIDDEN CLASS FOR TOGGLE FUNCTIONALITY */
+.hidden {
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.5s ease;
+}
+
+/* FOOTER - MATCHES HOME PAGE */
+footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+text-align: center;
+padding: 0.6rem 0;
+background: rgba(0, 0, 0, 0.8);
+color: #ccc;
+font-family: 'Segoe UI', sans-serif;
+z-index: 1000;
+border-top: 2px solid #4cc9f0;
+transition: opacity 0.5s ease;
+}
+
+/* ===== HAMBURGER MENU (beige/gold theme) ===== */
 .mobile-nav {
-  display: none;
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  z-index: 1002;
+display: none;
+position: fixed;
+top: 15px;
+left: 15px;
+z-index: 1002;
 }
 
 .hamburger-btn {
-  background: rgba(20, 20, 25, 0.85);
-  border: 2px solid #8b7d6b;
-  border-radius: 4px;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(5px);
+background: rgba(20, 20, 25, 0.85);
+border: 2px solid #8b7d6b;
+border-radius: 4px;
+width: 50px;
+height: 50px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
 }
 
 .hamburger-btn span {
-  display: block;
-  width: 25px;
-  height: 2px;
-  background: #8b7d6b;
-  margin: 3px 0;
-  transition: all 0.3s ease;
+display: block;
+width: 25px;
+height: 2px;
+background: #8b7d6b;
+margin: 3px 0;
+transition: all 0.3s ease;
 }
 
 .hamburger-btn:hover {
-  background: rgba(139, 125, 107, 0.9);
+background: rgba(139, 125, 107, 0.9);
 }
 
 .hamburger-btn:hover span {
-  background: #f0e6d2;
+background: #f0e6d2;
 }
 
 .mobile-menu {
-  position: fixed;
-  top: 0;
-  left: -100%;
-  width: 300px;
-  height: 100vh;
-  background: rgba(15, 15, 20, 0.98);
-  border-right: 3px solid #8b7d6b;
-  padding: 20px;
-  transition: left 0.4s ease;
-  z-index: 1003;
-  overflow-y: auto;
-  backdrop-filter: blur(8px);
+position: fixed;
+top: 0;
+left: -100%;
+width: 300px;
+height: 100vh;
+background: rgba(15, 15, 20, 0.98);
+border-right: 3px solid #8b7d6b;
+padding: 20px;
+transition: left 0.4s ease;
+z-index: 1003;
+overflow-y: auto;
+backdrop-filter: blur(8px);
 }
 
 .mobile-menu.active {
-  left: 0;
+left: 0;
 }
 
 .menu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #8b7d6b;
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 20px;
+padding-bottom: 15px;
+border-bottom: 1px solid #8b7d6b;
 }
 
 .menu-header h3 {
-  color: #f0e6d2;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1rem;
-  margin: 0;
-  text-shadow: 0 0 8px rgba(139, 125, 107, 0.5);
+color: #f0e6d2;
+font-family: 'Orbitron', sans-serif;
+font-size: 1rem;
+margin: 0;
+text-shadow: 0 0 8px rgba(139, 125, 107, 0.5);
 
 }
 
 .close-menu {
-  background: transparent;
-  border: none;
-  color: #f0e6d2;
-  font-size: 1.5rem;
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.3s ease;
+background: transparent;
+border: none;
+color: #f0e6d2;
+font-size: 1.5rem;
+cursor: pointer;
+width: 30px;
+height: 30px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%;
+transition: all 0.3s ease;
 }
 
 .close-menu:hover {
-  background: rgba(139, 125, 107, 0.3);
-  color: #fff;
+background: rgba(139, 125, 107, 0.3);
+color: #fff;
 }
 
 .menu-content {
-  margin-bottom: 20px;
+margin-bottom: 20px;
 }
 
 .menu-content .menu-item {
-  margin-bottom: 10px;
+margin-bottom: 10px;
 }
 
 .menu-content .menu-item a {
-  display: block;
-  color: #e0d5c0;
-  text-decoration: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  border-left: 3px solid transparent;
-  transition: all 0.3s ease;
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 0.95rem;
+display: block;
+color: #e0d5c0;
+text-decoration: none;
+padding: 10px 15px;
+border-radius: 5px;
+border-left: 3px solid transparent;
+transition: all 0.3s ease;
+font-family: 'Segoe UI', sans-serif;
+font-size: 0.95rem;
 }
 
 .menu-content .menu-item a:hover,
 .menu-content .menu-item a.active {
-  border-left-color: #a8c0d0;
-  background: rgba(139, 125, 107, 0.15);
-  color: #ffffff;
+border-left-color: #a8c0d0;
+background: rgba(139, 125, 107, 0.15);
+color: #ffffff;
 }
 
 .menu-footer {
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #8b7d6b;
-  text-align: center;
-  color: #f0e6d2;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.8rem;
-  text-shadow: 0 0 5px rgba(139, 125, 107, 0.5);
+margin-top: 20px;
+padding-top: 15px;
+border-top: 1px solid #8b7d6b;
+text-align: center;
+color: #f0e6d2;
+font-family: 'Orbitron', sans-serif;
+font-size: 0.8rem;
+text-shadow: 0 0 5px rgba(139, 125, 107, 0.5);
 }
 
 .pulse {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: #a8c0d0;
-  border-radius: 50%;
-  margin-right: 8px;
-  animation: blink 1.5s infinite;
-  box-shadow: 0 0 10px rgba(168, 192, 208, 0.6);
+display: inline-block;
+width: 8px;
+height: 8px;
+background-color: #a8c0d0;
+border-radius: 50%;
+margin-right: 8px;
+animation: blink 1.5s infinite;
+box-shadow: 0 0 10px rgba(168, 192, 208, 0.6);
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+0%, 100% { opacity: 1; }
+50% { opacity: 0.3; }
 }
 
 /* Mobile media query – hide desktop menu, show hamburger */
 @media (max-width: 992px) {
-  nav.top-menu {
-    display: none;
-  }
-  .mobile-nav {
-    display: block;
-  }
-  .site-title-overlay {
-    top: 70px;
-    left: 15px;
-  }
-  .site-title-overlay h1 {
-    font-size: 1.4rem;
-  }
-  .view-toggle {
-    top: 70px;
-    right: 15px;
-  }
-  .audio-controls {
-    bottom: 70px;
-    right: 20px;
-  }
+nav.top-menu {
+display: none;
+}
+.mobile-nav {
+display: block;
+}
+.site-title-overlay {
+top: 70px;
+left: 15px;
+}
+.site-title-overlay h1 {
+font-size: 1.4rem;
+}
+.view-toggle {
+top: 70px;
+right: 15px;
+}
+.audio-controls {
+bottom: 70px;
+right: 20px;
+}
 }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .page-title {
-                font-size: 3rem;
-            }
-            .card-container {
-                max-width: 90%;
-            }
-            .card {
-                width: 120px;
-                height: 180px;
-            }
-            nav.top-menu {
-                gap: 1rem;
-                flex-wrap: wrap;
-            }
-            .site-title-overlay {
-                top: 70px;
-                left: 20px;
-            }
-            .site-title-overlay h1 {
-                font-size: 1.4rem;
-            }
-            .modal-content {
-                width: 95%;
-            }
-            .modal-title {
-                font-size: 1.1rem;
-                padding: 10px;
-            }
-        }
-    </style>
+/* Responsive */
+@media (max-width: 768px) {
+.page-title {
+font-size: 3rem;
+}
+.card-container {
+max-width: 90%;
+}
+.card {
+width: 120px;
+height: 180px;
+}
+nav.top-menu {
+gap: 1rem;
+flex-wrap: wrap;
+}
+.site-title-overlay {
+top: 70px;
+left: 20px;
+}
+.site-title-overlay h1 {
+font-size: 1.4rem;
+}
+.modal-content {
+width: 95%;
+}
+.modal-title {
+font-size: 1.1rem;
+padding: 10px;
+}
+}
+</style>
 </head>
 
 <body>
-    <!-- VIDEO BACKGROUND WITH STATIC FALLBACK -->
-    <div class="background-container">
-        <div class="static-background" id="staticBg"></div>
-        <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
-            <source src="videos/floating-holographic-frames-for-museum-gallery-2.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
 
-    <!-- VIDEO PLAYER MODAL -->
-    <div class="video-modal" id="videoModal">
-        <div class="modal-content">
-            <button class="modal-close" id="modalClose">✕</button>
-            <video class="modal-video" id="modalVideo" controls>
-                Your browser does not support the video tag.
-            </video>
-            <div class="modal-title" id="modalTitle"></div>
-        </div>
-    </div>
-
-    <!-- SITE TITLE OVERLAY -->
-    <div class="site-title-overlay">
-        <h1>The Mars Abyss</h1>
-    </div>
-
-    <!-- CONTROL BUTTONS -->
-    <div class="view-toggle">
-        <button class="view-btn" id="viewToggle">🌌 Hide Content</button>
-    </div>
-
-    <div class="audio-controls">
-        <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
-    </div>
-
-    <!-- MOBILE HAMBURGER MENU -->
-<div class="mobile-nav">
-  <button class="hamburger-btn" id="hamburgerBtn">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-  <nav class="mobile-menu" id="mobileMenu">
-    <div class="menu-header">
-      <h3>THE MARS ABYSS</h3>
-      <button class="close-menu" id="closeMenu">✕</button>
-    </div>
-    <div class="menu-content"></div>
-    <div class="menu-footer">
-      <span class="pulse"></span> GALLERY
-    </div>
-  </nav>
+<!-- VIDEO BACKGROUND WITH STATIC FALLBACK -->
+<div class="background-container">
+<div class="static-background" id="staticBg"></div>
+<video class="video-background" id="videoBg" muted loop playsinline preload="auto">
+<source src="videos/floating-holographic-frames-for-museum-gallery-2.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
 </div>
 
-    <!-- UPDATED MENU STRUCTURE - MATCHES HOME PAGE -->
+<!-- VIDEO PLAYER MODAL -->
+<div class="video-modal" id="videoModal">
+<div class="modal-content">
+<button class="modal-close" id="modalClose">✕</button>
+<video class="modal-video" id="modalVideo" controls controlslist="nodownload" oncontextmenu="return false;">
+Your browser does not support the video tag.
+</video>
+<div class="modal-title" id="modalTitle"></div>
+</div>
+</div>
+
+<!-- SITE TITLE OVERLAY -->
+<div class="site-title-overlay">
+<h1>The Mars Abyss</h1>
+</div>
+
+<!-- CONTROL BUTTONS -->
+<div class="view-toggle">
+<button class="view-btn" id="viewToggle">🌌 Hide Content</button>
+</div>
+
+<div class="audio-controls">
+<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+</div>
+
+<!-- MOBILE HAMBURGER MENU -->
+<div class="mobile-nav">
+<button class="hamburger-btn" id="hamburgerBtn">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<nav class="mobile-menu" id="mobileMenu">
+<div class="menu-header">
+<h3>THE MARS ABYSS</h3>
+<button class="close-menu" id="closeMenu">✕</button>
+</div>
+<div class="menu-content"></div>
+<div class="menu-footer">
+<span class="pulse"></span> GALLERY
+</div>
+</nav>
+</div>
+
+<!-- UPDATED MENU STRUCTURE - MATCHES HOME PAGE -->
 <nav class="top-menu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn">Home</a>
@@ -793,228 +830,233 @@
 <a href="contact.html">Contact</a>
 </nav>
 
-    <!-- PAGE TITLE -->
-    <div class="page-title" id="pageTitle">Ares Visual Archives</div>
+<!-- PAGE TITLE -->
+<div class="page-title" id="pageTitle">Ares Visual Archives</div>
 
-    <!-- SCROLLABLE VIDEO CARDS -->
-    <div class="card-section" id="contentSection">
-        <div class="arrow" onclick="scrollCards(-1)">🖖</div>
+<!-- SCROLLABLE VIDEO CARDS -->
+<div class="card-section" id="contentSection">
+<div class="arrow" onclick="scrollCards(-1)">🖖</div>
 
-        <div class="card-container">
-            <!-- Video Cards - Replace with your actual video files -->
-            <div class="card" onclick="openVideo('videos/aquarium.mp4', 'Aquarium Dreams')">
-                <video class="card-video" muted loop playsinline>
-                    <source src="videos/aquarium-2-2-2.mp4" type="video/mp4">
-                </video>
-                <div class="card-title">Aquarium Dreams</div>
-            </div>
-            
-            <div class="card" onclick="openVideo('videos/nighttime-lights.mp4', 'Nighttime Lights')">
-                <video class="card-video" muted loop playsinline>
-                    <source src="videos/city-lights-2.mp4" type="video/mp4">
-                </video>
-                <div class="card-title">Nighttime Lights</div>
-            </div>
-            
-            <div class="card" onclick="openVideo('videos/twilight-singers.mp4', 'Twilight Singers')">
-                <video class="card-video" muted loop playsinline>
-                    <source src="videos/twilight-singers-2.mp4" type="video/mp4">
-                </video>
-                <div class="card-title">twilight Singers</div>
-            </div>
-            
-            <div class="card" onclick="openVideo('videos/the-golden-fingers.mp4', 'The Golden Fingers')">
-                <video class="card-video" muted loop playsinline>
-                    <source src="videos/the-golden-fingers-2.mp4" type="video/mp4">
-                </video>
-                <div class="card-title">The Golden Fingers</div>
-            </div>
-            
-            <div class="card" onclick="openVideo('videos/martian-dreams.mp4', 'Martian Dreams')">
-                <video class="card-video" muted loop playsinline>
-                    <source src="videos/martian-dreams-2-2.mp4" type="video/mp4">
-                </video>
-                <div class="card-title">Martian Dreams</div>
-            </div>
-            
-            <div class="card" onclick="openVideo('videos/earth-earths-soldier-2.mp4', 'Earth Soldier')">
-                <video class="card-video" muted loop playsinline>
-                    <source src="videos/earths-soldier-2.mp4" type="video/mp4">
-                </video>
-                <div class="card-title">Earth Soldier</div>
-            </div>
-            
-            <div class="card" onclick="openVideo('videos/the-trees-at-the-swaying-beach.mp4', 'Trees at the Swaying Beach')">
-                <video class="card-video" muted loop playsinline>
-                    <source src="videos/the-trees-at-the-swaying-beach.mp4" type="video/mp4">
-                </video>
-                <div class="card-title">The Trees At The Swaying Beach</div>
-            </div>
-            
-            <div class="card" onclick="openVideo('videos/duskmaker.mp4', 'Duskmaker')">
-                <video class="card-video" muted loop playsinline>
-                    <source src="videos/dustmaker-2.mp4" type="video/mp4">
-                </video>
-                <div class="card-title">Duskmaker</div>
-            </div>
-        </div>
+<div class="card-container">
+<!-- Video Cards - Protected from downloads -->
+<div class="card" onclick="openVideo('videos/aquarium.mp4', 'Aquarium Dreams')">
+<video class="card-video" muted loop playsinline controlslist="nodownload" oncontextmenu="return false;">
+<source src="videos/aquarium-2-2-2.mp4" type="video/mp4">
+</video>
+<div class="card-title">Aquarium Dreams</div>
+</div>
+<div class="card" onclick="openVideo('videos/nighttime-lights.mp4', 'Nighttime Lights')">
+<video class="card-video" muted loop playsinline controlslist="nodownload" oncontextmenu="return false;">
+<source src="videos/city-lights-2.mp4" type="video/mp4">
+</video>
+<div class="card-title">Nighttime Lights</div>
+</div>
+<div class="card" onclick="openVideo('videos/twilight-singers.mp4', 'Twilight Singers')">
+<video class="card-video" muted loop playsinline controlslist="nodownload" oncontextmenu="return false;">
+<source src="videos/twilight-singers-2.mp4" type="video/mp4">
+</video>
+<div class="card-title">twilight Singers</div>
+</div>
+<div class="card" onclick="openVideo('videos/the-golden-fingers.mp4', 'The Golden Fingers')">
+<video class="card-video" muted loop playsinline controlslist="nodownload" oncontextmenu="return false;">
+<source src="videos/the-golden-fingers-2.mp4" type="video/mp4">
+</video>
+<div class="card-title">The Golden Fingers</div>
+</div>
+<div class="card" onclick="openVideo('videos/martian-dreams.mp4', 'Martian Dreams')">
+<video class="card-video" muted loop playsinline controlslist="nodownload" oncontextmenu="return false;">
+<source src="videos/martian-dreams-2-2.mp4" type="video/mp4">
+</video>
+<div class="card-title">Martian Dreams</div>
+</div>
+<div class="card" onclick="openVideo('videos/earth-earths-soldier-2.mp4', 'Earth Soldier')">
+<video class="card-video" muted loop playsinline controlslist="nodownload" oncontextmenu="return false;">
+<source src="videos/earths-soldier-2.mp4" type="video/mp4">
+</video>
+<div class="card-title">Earth Soldier</div>
+</div>
+<div class="card" onclick="openVideo('videos/the-trees-at-the-swaying-beach.mp4', 'Trees at the Swaying Beach')">
+<video class="card-video" muted loop playsinline controlslist="nodownload" oncontextmenu="return false;">
+<source src="videos/the-trees-at-the-swaying-beach.mp4" type="video/mp4">
+</video>
+<div class="card-title">The Trees At The Swaying Beach</div>
+</div>
+<div class="card" onclick="openVideo('videos/duskmaker.mp4', 'Duskmaker')">
+<video class="card-video" muted loop playsinline controlslist="nodownload" oncontextmenu="return false;">
+<source src="videos/dustmaker-2.mp4" type="video/mp4">
+</video>
+<div class="card-title">Duskmaker</div>
+</div>
+</div>
 
-        <div class="arrow" onclick="scrollCards(1)">🖖</div>
-    </div>
+<div class="arrow" onclick="scrollCards(1)">🖖</div>
+</div>
 
-    <footer id="pageFooter">
-        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
-    </footer>
+<footer id="pageFooter">
+<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
 
-    <script>
-        // VIDEO BACKGROUND - NO BLINKING
-        const videoBg = document.getElementById('videoBg');
-        const staticBg = document.getElementById('staticBg');
+<script>
+// VIDEO BACKGROUND - WITH STATIC FALLBACK
+const videoBg = document.getElementById('videoBg');
+const staticBg = document.getElementById('staticBg');
 
-        videoBg.addEventListener('loadeddata', function() {
-            videoBg.classList.add('loaded');
-            setTimeout(() => {
-                videoBg.play().catch(e => {
-                    console.log('Autoplay prevented, waiting for user interaction');
-                });
-            }, 500);
-        });
+// If video loads successfully, keep static background hidden
+videoBg.addEventListener('loadeddata', function() {
+videoBg.classList.add('loaded');
+staticBg.classList.remove('visible');
+setTimeout(() => {
+videoBg.play().catch(e => {
+console.log('Autoplay prevented, waiting for user interaction');
+});
+}, 500);
+});
 
-        videoBg.addEventListener('error', function() {
-            console.log('Video failed to load, using static background only');
-            videoBg.style.display = 'none';
-        });
+// If video fails to load, show static background
+videoBg.addEventListener('error', function() {
+console.log('Video failed to load, using static background');
+videoBg.style.display = 'none';
+staticBg.classList.add('visible');
+});
 
-        // Fallback: if video doesn't load within 3 seconds, hide it
-        setTimeout(() => {
-            if (!videoBg.classList.contains('loaded')) {
-                videoBg.style.display = 'none';
-                console.log('Video loading timeout, falling back to static background');
-            }
-        }, 3000);
+// Fallback: if video doesn't load within 3 seconds, show static background
+setTimeout(() => {
+if (!videoBg.classList.contains('loaded')) {
+videoBg.style.display = 'none';
+staticBg.classList.add('visible');
+console.log('Video loading timeout, falling back to static background');
+}
+}, 3000);
 
-        // Initialize card videos to play on hover
-        document.querySelectorAll('.card-video').forEach(video => {
-            video.addEventListener('mouseenter', function() {
-                this.play().catch(e => {
-                    // Autoplay might be blocked, that's okay
-                });
-            });
-            
-            video.addEventListener('mouseleave', function() {
-                this.pause();
-                this.currentTime = 0;
-            });
-        });
+// Initialize card videos with download protection
+document.querySelectorAll('.card-video').forEach(video => {
+// Disable right-click on videos
+video.addEventListener('contextmenu', (e) => {
+e.preventDefault();
+return false;
+});
 
-        // VIDEO MODAL FUNCTIONALITY
-        const videoModal = document.getElementById('videoModal');
-        const modalVideo = document.getElementById('modalVideo');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalClose = document.getElementById('modalClose');
+// Play on hover
+video.addEventListener('mouseenter', function() {
+this.play().catch(e => {
+// Autoplay might be blocked, that's okay
+});
+});
 
-        function openVideo(videoSrc, title) {
-            modalVideo.src = videoSrc;
-            modalTitle.textContent = title;
-            videoModal.classList.add('active');
-            modalVideo.play().catch(e => {
-                console.log('Video play requires user interaction');
-            });
-        }
+video.addEventListener('mouseleave', function() {
+this.pause();
+this.currentTime = 0;
+});
+});
 
-        modalClose.addEventListener('click', function() {
-            videoModal.classList.remove('active');
-            modalVideo.pause();
-            modalVideo.src = '';
-        });
+// VIDEO MODAL FUNCTIONALITY with protection
+const videoModal = document.getElementById('videoModal');
+const modalVideo = document.getElementById('modalVideo');
+const modalTitle = document.getElementById('modalTitle');
+const modalClose = document.getElementById('modalClose');
 
-        // Close modal when clicking outside the video
-        videoModal.addEventListener('click', function(e) {
-            if (e.target === videoModal) {
-                videoModal.classList.remove('active');
-                modalVideo.pause();
-                modalVideo.src = '';
-            }
-        });
+function openVideo(videoSrc, title) {
+modalVideo.src = videoSrc;
+modalTitle.textContent = title;
+videoModal.classList.add('active');
+modalVideo.play().catch(e => {
+console.log('Video play requires user interaction');
+});
+}
 
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && videoModal.classList.contains('active')) {
-                videoModal.classList.remove('active');
-                modalVideo.pause();
-                modalVideo.src = '';
-            }
-        });
+modalClose.addEventListener('click', function() {
+videoModal.classList.remove('active');
+modalVideo.pause();
+modalVideo.src = '';
+});
 
-        // AUDIO SYSTEM
-        const muteBtn = document.getElementById('muteBtn');
-        let isMuted = true;
-        let audioElements = [];
+// Close modal when clicking outside the video
+videoModal.addEventListener('click', function(e) {
+if (e.target === videoModal) {
+videoModal.classList.remove('active');
+modalVideo.pause();
+modalVideo.src = '';
+}
+});
 
-        function initAudio() {
-            const sounds = [
-                { src: 'music/Drifting in Dreams.mp3', volume: 0.3 },
-            ];
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+videoModal.classList.remove('active');
+modalVideo.pause();
+modalVideo.src = '';
+}
+});
 
-            sounds.forEach(sound => {
-                const audio = new Audio(sound.src);
-                audio.volume = sound.volume;
-                audio.loop = true;
-                audio.muted = true;
-                audioElements.push(audio);
-            });
-        }
+// AUDIO SYSTEM
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
 
-        muteBtn.addEventListener('click', function() {
-            if (isMuted) {
-                audioElements.forEach(audio => {
-                    audio.muted = false;
-                    audio.play().catch(e => {
-                        console.log('Audio play failed:', e);
-                    });
-                });
-                isMuted = false;
-                muteBtn.textContent = "🔊 Mute Sounds";
-            } else {
-                audioElements.forEach(audio => {
-                    audio.muted = true;
-                });
-                isMuted = true;
-                muteBtn.textContent = "🔈 Unmute Sounds";
-            }
-        });
+function initAudio() {
+const sounds = [
+{ src: 'music/Drifting in Dreams.mp3', volume: 0.3 },
+];
 
-        initAudio();
+sounds.forEach(sound => {
+const audio = new Audio(sound.src);
+audio.volume = sound.volume;
+audio.loop = true;
+audio.muted = true;
+audioElements.push(audio);
+});
+}
 
-        // HIDE/SHOW CONTENT TOGGLE
-        const viewToggle = document.getElementById('viewToggle');
-        const contentSection = document.getElementById('contentSection');
-        const pageTitle = document.getElementById('pageTitle');
-        const pageFooter = document.getElementById('pageFooter');
+muteBtn.addEventListener('click', function() {
+if (isMuted) {
+audioElements.forEach(audio => {
+audio.muted = false;
+audio.play().catch(e => {
+console.log('Audio play failed:', e);
+});
+});
+isMuted = false;
+muteBtn.textContent = "🔊 Mute Sounds";
+} else {
+audioElements.forEach(audio => {
+audio.muted = true;
+});
+isMuted = true;
+muteBtn.textContent = "🔈 Unmute Sounds";
+}
+});
 
-        viewToggle.addEventListener('click', function() {
-            contentSection.classList.toggle('hidden');
-            pageTitle.classList.toggle('hidden');
-            pageFooter.classList.toggle('hidden');
-            
-            if (contentSection.classList.contains('hidden')) {
-                viewToggle.textContent = '📄 Show Content';
-            } else {
-                viewToggle.textContent = '🌌 Hide Content';
-            }
-        });
+initAudio();
 
-        // Card navigation functions
-        function scrollCards(direction) {
-            const container = document.querySelector(".card-container");
-            const scrollAmount = 200;
-            container.scrollBy({
-                left: direction * scrollAmount,
-                behavior: "smooth"
-            });
-        }
+// HIDE/SHOW CONTENT TOGGLE
+const viewToggle = document.getElementById('viewToggle');
+const contentSection = document.getElementById('contentSection');
+const pageTitle = document.getElementById('pageTitle');
+const pageFooter = document.getElementById('pageFooter');
 
-        // ===== MOBILE HAMBURGER MENU =====
+viewToggle.addEventListener('click', function() {
+contentSection.classList.toggle('hidden');
+pageTitle.classList.toggle('hidden');
+pageFooter.classList.toggle('hidden');
+
+if (contentSection.classList.contains('hidden')) {
+viewToggle.textContent = '📄 Show Content';
+} else {
+viewToggle.textContent = '🌌 Hide Content';
+}
+});
+
+// Card navigation functions
+function scrollCards(direction) {
+const container = document.querySelector(".card-container");
+const scrollAmount = 200;
+container.scrollBy({
+left: direction * scrollAmount,
+behavior: "smooth"
+});
+}
+
+// ===== MOBILE HAMBURGER MENU =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const closeMenu = document.getElementById('closeMenu');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -1025,101 +1067,101 @@ if (!menuContent) return;
 menuContent.innerHTML = '';
 
 const menuItems = [
-  { text: '🏠 Home', href: 'index.html' },
-  { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
-  { text: ' Homage to Courage', href: 'homage-to-courage.html' },
-  { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
-  { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
-  { text: ' My Mission', href: 'my-mission.html' },
-  { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
-  { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
-  { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
-  { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+{ text: '🏠 Home', href: 'index.html' },
+{ text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+{ text: ' Homage to Courage', href: 'homage-to-courage.html' },
+{ text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+{ text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+{ text: ' My Mission', href: 'my-mission.html' },
+{ text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+{ text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+{ text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+{ text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
 
-  { text: '📖 Story', href: 'story.html' },
-  { text: ' Characters', href: 'characters.html' },
-  { text: ' Gallery', href: 'gallery.html' },
-  { text: ' Art & Concepts', href: 'art-and-concepts.html' },
-  { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
-  { text: ' Technical Database', href: 'technical-database.html' },
-  { text: ' The Martian Edicts', href: 'martian-edicts.html' },
-  { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
-  { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
-  { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
-  { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+{ text: '📖 Story', href: 'story.html' },
+{ text: ' Characters', href: 'characters.html' },
+{ text: ' Gallery', href: 'gallery.html' },
+{ text: ' Art & Concepts', href: 'art-and-concepts.html' },
+{ text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+{ text: ' Technical Database', href: 'technical-database.html' },
+{ text: ' The Martian Edicts', href: 'martian-edicts.html' },
+{ text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+{ text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+{ text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+{ text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
 
-  { text: '🎮 Martian Games', href: 'martian-games.html' },
-  { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
-  { text: ' Martian Racer', href: 'martian-racer.html' },
-  { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
-  { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
-  { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
-  { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
-  { text: ' Music Player', href: 'music-app.html' },
-  { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+{ text: '🎮 Martian Games', href: 'martian-games.html' },
+{ text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+{ text: ' Martian Racer', href: 'martian-racer.html' },
+{ text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+{ text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+{ text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+{ text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+{ text: ' Music Player', href: 'music-app.html' },
+{ text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
 
-  { text: '🌍 Earth Codex', href: 'earth-codex.html' },
-  { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
-  { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
-  { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
-  { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
-  { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
-  { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
-  { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
-  { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
-  { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+{ text: '🌍 Earth Codex', href: 'earth-codex.html' },
+{ text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+{ text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+{ text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+{ text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+{ text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+{ text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+{ text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+{ text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+{ text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
 
-  { text: '📰 Martian News', href: 'martian-news.html' },
-  { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
-  { text: ' Martian Actualities', href: 'martian-actualities.html' },
-  { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
-  { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
-  { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
-  { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
-  { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
-  { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
-  { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
-  { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
-  { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
-  { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+{ text: '📰 Martian News', href: 'martian-news.html' },
+{ text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+{ text: ' Martian Actualities', href: 'martian-actualities.html' },
+{ text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+{ text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+{ text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+{ text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+{ text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+{ text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+{ text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+{ text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+{ text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+{ text: ' M.A.R.V.I.N.', href: 'marvin.html' },
 
-  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
-  { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
-  { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
-  { text: ' Earthlings Beware', href: 'earthings-beware.html' },
-  { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
-  { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
-  { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
-  { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
-  { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
-  { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
-  { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
-  { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+{ text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+{ text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+{ text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+{ text: ' Earthlings Beware', href: 'earthings-beware.html' },
+{ text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+{ text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+{ text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+{ text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+{ text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+{ text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+{ text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+{ text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
 
-  { text: 'ℹ️ About', href: 'about.html' },
-  { text: ' About the Project', href: 'about-the-project.html' },
-  { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
-  { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
-  { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
-  { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
-  { text: ' The Pale Horse', href: 'the-pale-horse.html' },
-  { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
-  { text: ' Arachne Labs', href: 'arachne-labs.html' },
-  { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
-  { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+{ text: 'ℹ️ About', href: 'about.html' },
+{ text: ' About the Project', href: 'about-the-project.html' },
+{ text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+{ text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+{ text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+{ text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+{ text: ' The Pale Horse', href: 'the-pale-horse.html' },
+{ text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+{ text: ' Arachne Labs', href: 'arachne-labs.html' },
+{ text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+{ text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
 
-  { text: '🤝 Support', href: 'support.html' },
-  { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
-  { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
-  { text: ' Mars Food District', href: 'mars-food-district.html' },
-  { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
-  { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
-  { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
-  { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
-  { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+{ text: '🤝 Support', href: 'support.html' },
+{ text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+{ text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+{ text: ' Mars Food District', href: 'mars-food-district.html' },
+{ text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+{ text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+{ text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+{ text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+{ text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
 
-  { text: '📧 Contact', href: 'contact.html' },
-  { text: ' Gallery (current)', href: 'gallery.html', active: true }
+{ text: '📧 Contact', href: 'contact.html' },
+{ text: ' Gallery (current)', href: 'gallery.html', active: true }
 ];
 
 menuItems.forEach(item => {
@@ -1170,14 +1212,13 @@ document.body.style.overflow = '';
 }
 window.addEventListener('resize', handleResize);
 
-
-        // Ensure video plays when user interacts with page
-        document.addEventListener('click', function() {
-            if (videoBg.paused) {
-                videoBg.play().catch(e => console.log('Video play requires user interaction'));
-            }
-        });
-    </script>
+// Ensure video plays when user interacts with page
+document.addEventListener('click', function() {
+if (videoBg.paused) {
+videoBg.play().catch(e => console.log('Video play requires user interaction'));
+}
+});
+</script>
 </body>
 </html>
 
