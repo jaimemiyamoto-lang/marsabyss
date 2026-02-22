@@ -1021,6 +1021,119 @@ Your browser does not support the video tag.
 </footer>
 
 <script>
+// ===== VIDEO BACKGROUND WITH STATIC FALLBACK =====
+const silverVideo = document.getElementById('silverVideo');
+const staticBg = document.querySelector('.static-background');
+
+// Try to play the video
+silverVideo.play().catch(e => {
+ console.log('Video autoplay prevented');
+});
+
+// If video fails to load, show static background
+silverVideo.addEventListener('error', function() {
+ console.log('Video failed to load, showing static background');
+ staticBg.style.opacity = '1';
+ silverVideo.style.display = 'none';
+});
+
+// Fallback timeout
+setTimeout(() => {
+ if (silverVideo.readyState < 2) {
+   console.log('Video loading timeout, showing static background');
+   staticBg.style.opacity = '1';
+   silverVideo.style.display = 'none';
+ }
+}, 3000);
+
+// ===== VIDEO PROTECTION (FIXED) =====
+document.addEventListener('DOMContentLoaded', function() {
+ // Add protection attributes to all videos
+ document.querySelectorAll('video').forEach(video => {
+   // Set attributes without disrupting playback
+   video.setAttribute('controlslist', 'nodownload');
+   
+   // Prevent right-click
+   video.addEventListener('contextmenu', (e) => {
+     e.preventDefault();
+     return false;
+   });
+   
+   // Prevent drag
+   video.addEventListener('dragstart', (e) => {
+     e.preventDefault();
+     return false;
+   });
+ });
+ 
+ // Keyboard protection
+ document.addEventListener('keydown', (e) => {
+   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+     e.preventDefault();
+   }
+ });
+});
+
+// ===== SIMPLE COMIC VIEWER =====
+const totalPanels = 3;
+let currentPanel = 1;
+
+function initComicViewer() {
+ updatePanel();
+ 
+ document.getElementById('prevBtn').addEventListener('click', () => {
+   if (currentPanel > 1) {
+     currentPanel--;
+     updatePanel();
+   }
+ });
+ 
+ document.getElementById('nextBtn').addEventListener('click', () => {
+   if (currentPanel < totalPanels) {
+     currentPanel++;
+     updatePanel();
+   }
+ });
+ 
+ document.addEventListener('keydown', (e) => {
+   if (e.key === 'ArrowLeft' && currentPanel > 1) {
+     currentPanel--;
+     updatePanel();
+   } else if (e.key === 'ArrowRight' && currentPanel < totalPanels) {
+     currentPanel++;
+     updatePanel();
+   }
+ });
+}
+
+function updatePanel() {
+ document.querySelectorAll('.comic-panel').forEach((panel, index) => {
+   panel.classList.toggle('active', index + 1 === currentPanel);
+ });
+ 
+ document.getElementById('currentPanel').textContent = currentPanel;
+ document.getElementById('totalPanels').textContent = totalPanels;
+ 
+ document.getElementById('prevBtn').disabled = currentPanel === 1;
+ document.getElementById('nextBtn').disabled = currentPanel === totalPanels;
+}
+
+// ===== VIDEO DEMO =====
+function initVideoDemo() {
+ const demoVideo = document.getElementById('demoVideo');
+ if (demoVideo) {
+   demoVideo.play().catch(e => {
+     console.log('Demo video autoplay prevented');
+   });
+ }
+}
+
+// ===== ALPHA DEMO FUNCTION =====
+function playAlphaDemo() {
+ alert('Alpha Demo Coming Soon! Check back for updates.');
+}
+
 // ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
@@ -1028,74 +1141,61 @@ let audioElements = [];
 
 function initAudio() {
  const sounds = [
- { src: 'music/depths-of-mystery.mp3', volume: 0.5 },
- { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
- { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+   { src: 'music/depths-of-mystery.mp3', volume: 0.5 },
+   { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+   { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
  ];
 
  sounds.forEach(sound => {
- const audio = new Audio(sound.src);
- audio.volume = sound.volume;
- audio.loop = true;
- audio.muted = true;
- audioElements.push(audio);
+   const audio = new Audio(sound.src);
+   audio.volume = sound.volume;
+   audio.loop = true;
+   audio.muted = true;
+   audioElements.push(audio);
  });
 
  const unmuteOnInteraction = function() {
- if (isMuted) {
- audioElements.forEach(audio => {
- audio.muted = false;
- audio.play().catch(e => {
- console.log('Audio play attempt failed:', e);
- });
- });
- isMuted = false;
- muteBtn.textContent = "🔊 Mute Sounds";
- }
- document.removeEventListener('click', unmuteOnInteraction);
- document.removeEventListener('keydown', unmuteOnInteraction);
+   if (isMuted) {
+     audioElements.forEach(audio => {
+       audio.muted = false;
+       audio.play().catch(e => {
+         console.log('Audio play attempt failed:', e);
+       });
+     });
+     isMuted = false;
+     muteBtn.textContent = "🔊 Mute Sounds";
+   }
+   document.removeEventListener('click', unmuteOnInteraction);
+   document.removeEventListener('keydown', unmuteOnInteraction);
  };
 
  document.addEventListener('click', unmuteOnInteraction);
  document.addEventListener('keydown', unmuteOnInteraction);
 
  setTimeout(() => {
- audioElements.forEach(audio => {
- audio.play().then(() => {
- console.log('Audio autoplay succeeded.');
- }).catch(e => {
- console.log('Audio autoplay blocked.');
- });
- });
+   audioElements.forEach(audio => {
+     audio.play().then(() => {
+       console.log('Audio autoplay succeeded.');
+     }).catch(e => {
+       console.log('Audio autoplay blocked.');
+     });
+   });
  }, 1000);
 }
 
 muteBtn.addEventListener('click', function() {
  if (audioElements.length === 0) {
- initAudio();
- return;
+   initAudio();
+   return;
  }
  isMuted = !isMuted;
  audioElements.forEach(audio => {
- audio.muted = isMuted;
- if (!isMuted) {
- audio.play().catch(e => console.log('Playback resume failed'));
- }
+   audio.muted = isMuted;
+   if (!isMuted) {
+     audio.play().catch(e => console.log('Playback resume failed'));
+   }
  });
  muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
-});
-
-// ===== VIDEO BACKGROUND =====
-document.addEventListener('DOMContentLoaded', function() {
- const silverVideo = document.getElementById('silverVideo');
- silverVideo.play().catch(e => {
- console.log('Video autoplay prevented');
- });
-
- // Initialize comic viewer
- initComicViewer();
- initVideoDemo();
- initAudio();
 });
 
 // ===== HIDE CONTENT FUNCTIONALITY =====
@@ -1118,72 +1218,6 @@ hideContentBtn.addEventListener('click', function() {
  
  hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
 });
-
-// ===== SIMPLE COMIC VIEWER =====
-const totalPanels = 3;
-let currentPanel = 1;
-
-function initComicViewer() {
- updatePanel();
- 
- // Button navigation
- document.getElementById('prevBtn').addEventListener('click', () => {
- if (currentPanel > 1) {
- currentPanel--;
- updatePanel();
- }
- });
- 
- document.getElementById('nextBtn').addEventListener('click', () => {
- if (currentPanel < totalPanels) {
- currentPanel++;
- updatePanel();
- }
- });
- 
- // Keyboard navigation
- document.addEventListener('keydown', (e) => {
- if (e.key === 'ArrowLeft') {
- if (currentPanel > 1) {
- currentPanel--;
- updatePanel();
- }
- } else if (e.key === 'ArrowRight') {
- if (currentPanel < totalPanels) {
- currentPanel++;
- updatePanel();
- }
- }
- });
-}
-
-function updatePanel() {
- // Hide all panels
- document.querySelectorAll('.comic-panel').forEach((panel, index) => {
- panel.classList.toggle('active', index + 1 === currentPanel);
- });
- 
- // Update counter
- document.getElementById('currentPanel').textContent = currentPanel;
- document.getElementById('totalPanels').textContent = totalPanels;
- 
- // Update button states
- document.getElementById('prevBtn').disabled = currentPanel === 1;
- document.getElementById('nextBtn').disabled = currentPanel === totalPanels;
-}
-
-// ===== VIDEO DEMO =====
-function initVideoDemo() {
- const demoVideo = document.getElementById('demoVideo');
- demoVideo.play().catch(e => {
- console.log('Video autoplay prevented');
- });
-}
-
-// ===== ALPHA DEMO FUNCTION =====
-function playAlphaDemo() {
- alert('Alpha Demo Coming Soon! Check back for updates.');
-}
 
 // ===== MOBILE HAMBURGER MENU =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -1341,8 +1375,8 @@ document.body.style.overflow = '';
 }
 window.addEventListener('resize', handleResize);
 
-// Initialize everything on page load
-window.addEventListener('load', function() {
+// ===== INITIALIZE EVERYTHING =====
+document.addEventListener('DOMContentLoaded', function() {
  initComicViewer();
  initVideoDemo();
  initAudio();
