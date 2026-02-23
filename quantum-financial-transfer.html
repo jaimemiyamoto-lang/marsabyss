@@ -83,6 +83,25 @@
             gap: 10px;
         }
 
+        /* ==== VIDEO PROTECTION ==== */
+        video {
+            user-select: none;
+            -webkit-touch-callout: none;
+            pointer-events: auto;
+        }
+
+        video::-webkit-media-controls-download-button {
+            display: none !important;
+        }
+
+        video::-webkit-media-controls-enclosure {
+            overflow: hidden;
+        }
+
+        video::-webkit-media-controls-panel {
+            width: calc(100% + 30px);
+        }
+        
         .control-btn {
             background: rgba(0, 20, 40, 0.8);
             border: 1px solid #00ffff;
@@ -834,6 +853,20 @@
             .video-controls {
                 top: 10px;
                 right: 10px;
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+                gap: 5px;
+                /* remove any bottom positioning that might interfere */
+                bottom: auto;
+            }
+
+            .control.btn {
+                padding: 6px 10px !important;
+                font-size: 0.7rem !important;
+                white-space: nowrap !important;
+                min-width: auto !important;
+                width: auto !important;
+                line-height: 1.2 !important;
             }
         }
     </style>
@@ -1485,6 +1518,13 @@
      }
    }
    window.addEventListener('resize', handleResize);
+
+   // ==== Video Protection ====
+document.querySelectorAll('video').forEach(video => {
+    video.setAttribute('controlslist', 'nodownload');
+    video.addEventListener('contextmenu', (e) => e.preventDefault());
+    video.addEventListener('dragstart', (e) => e.preventDefault());
+});  
 
    // Ensure video plays on user interaction
    document.addEventListener('click', function() {
