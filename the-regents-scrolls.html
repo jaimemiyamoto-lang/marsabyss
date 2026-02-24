@@ -1199,25 +1199,68 @@ The future's machine, with Taino eyes.
 <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
 <script>
-// ===== AUDIO SYSTEM =====
-const muteBtn = document.getElementById('muteBtn');
-let isMuted = true;
-let audioElements = [];
+// Function to show selected poem and hide others
+function openPoem(poemId) {
+// Hide all poems
+const poems = document.querySelectorAll('.featured-poem');
+poems.forEach(poem => {
+poem.style.display = 'none';
+});
+// Show selected poem
+const selectedPoem = document.getElementById(poemId);
+if (selectedPoem) {
+selectedPoem.style.display = 'block';
+// Scroll to the poem
+selectedPoem.scrollIntoView({ behavior: 'smooth' });
+}
+}
 
-function initAudio() {
-    const sounds = [
-        { src: 'sounds/from-the-crypt-ext v2.mp3', volume: 0.5 }
-    ];
-    sounds.forEach(sound => {
-        const audio = new Audio(sound.src);
-        audio.volume = sound.volume;
-        audio.loop = true;
-        audio.muted = true;
-        audioElements.push(audio);
-    });
+// CARD SCROLLING FUNCTION
+function scrollCards(direction) {
+const container = document.querySelector(".card-container");
+const scrollAmount = 200;
+container.scrollBy({
+left: direction * scrollAmount,
+behavior: "smooth"
+});
+}
 
-    // Unmute on first user interaction
-    document.addEventListener('click', function unmuteAudio() {
+// Site title hide on scroll
+const siteTitle = document.getElementById('siteTitle');
+let lastScrollTop = 0;
+
+window.addEventListener('scroll', function() {
+let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+if (scrollTop > lastScrollTop && scrollTop > 50) {
+siteTitle.classList.add('hidden');
+} else {
+siteTitle.classList.remove('hidden');
+}
+
+lastScrollTop = scrollTop;
+});
+
+// Simple audio system
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true; // start muted to avoid autoplay issues
+        let audioElements = [];
+
+        function initAudio() {
+            const sounds = [
+            { src: 'sounds/from-the-crypt-ext v2.mp3', volume: 0.5 },
+            ];
+
+            sounds.forEach(sound => {
+                const audio = new Audio(sound.src);
+                audio.volume = sound.volume;
+                audio.loop = true;
+                audio.muted = true;  // Start muted
+                audioElements.push(audio);
+            });
+
+        // Unmute and Play sounds first user interaction
+        document.addEventListener('click', function unmuteAudio() {
         if (!isMuted) {
             audioElements.forEach(audio => {
                 audio.muted = false;
@@ -1230,31 +1273,66 @@ function initAudio() {
     }, { once: true });
 }
 
-muteBtn.addEventListener('click', function() {
-    isMuted = !isMuted;
-    audioElements.forEach(audio => {
-        audio.muted = isMuted;
+        // Mute toggle
+        muteBtn.addEventListener('click', function() {
+            isMuted = !isMuted;
+            audioElements.forEach(audio => {
+                audio.muted = isMuted;
+        });
+        muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
     });
-    muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+        // Initialize audio when page loads
+        initAudio();
+
+// Initialize by showing only the first poem
+document.addEventListener('DOMContentLoaded', function() {
+// Show only the first poem initially
+const poems = document.querySelectorAll('.featured-poem');
+poems.forEach((poem, index) => {
+if (index === 0) {
+poem.style.display = 'block';
+} else {
+poem.style.display = 'none';
+}
 });
 
-// ===== CARD SCROLLING =====
-function scrollCards(direction) {
-    const container = document.querySelector(".card-container");
-    const scrollAmount = 200;
-    container.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
-}
+// Add keyboard navigation for cards
+document.addEventListener('keydown', function(event) {
+if (event.key === 'ArrowLeft') scrollCards(-1);
+if (event.key === 'ArrowRight') scrollCards(1);
+});
+});
 
-// ===== POEM DISPLAY =====
-function openPoem(poemId) {
-    const poems = document.querySelectorAll('.featured-poem');
-    poems.forEach(poem => poem.style.display = 'none');
-    const selectedPoem = document.getElementById(poemId);
-    if (selectedPoem) {
-        selectedPoem.style.display = 'block';
-        selectedPoem.scrollIntoView({ behavior: 'smooth' });
-    }
+// Initialize audio when page loads
+initAudio();
+
+// Initialize by showing only the first poem
+document.addEventListener('DOMContentLoaded', function() {
+// Show only the first poem initially
+const poems = document.querySelectorAll('.featured-poem');
+poems.forEach((poem, index) => {
+if (index === 0) {
+poem.style.display = 'block';
+} else {
+poem.style.display = 'none';
 }
+});
+
+// ===== VIDEO PROTECTION =====
+(function() {
+ document.querySelectorAll('video').forEach(video => {
+   video.setAttribute('controlslist', 'nodownload');
+   video.addEventListener('contextmenu', (e) => e.preventDefault());
+   video.addEventListener('dragstart', (e) => e.preventDefault());
+ });
+ 
+ document.addEventListener('keydown', (e) => {
+   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+     e.preventDefault();
+   }
+ });
+})();
 
 // ===== MOBILE HAMBURGER MENU =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -1263,203 +1341,163 @@ const mobileMenu = document.getElementById('mobileMenu');
 const menuContent = document.querySelector('.menu-content');
 
 function createMobileMenu() {
-    if (!menuContent) return;
-    menuContent.innerHTML = '';
-    const menuItems = [
-        { text: '🏠 Home', href: 'index.html' },
-        { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
-        { text: ' Homage to Courage', href: 'homage-to-courage.html' },
-        { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
-        { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
-        { text: ' My Mission', href: 'my-mission.html' },
-        { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
-        { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
-        { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
-        { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+if (!menuContent) return;
+menuContent.innerHTML = '';
 
-        { text: '📖 Story', href: 'story.html' },
-        { text: ' Characters', href: 'characters.html' },
-        { text: ' Gallery', href: 'gallery.html' },
-        { text: ' Art & Concepts', href: 'art-and-concepts.html' },
-        { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
-        { text: ' Technical Database', href: 'technical-database.html' },
-        { text: ' The Martian Edicts', href: 'martian-edicts.html' },
-        { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
-        { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
-        { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
-        { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+const menuItems = [
+  { text: '🏠 Home', href: 'index.html' },
+  { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+  { text: ' Homage to Courage', href: 'homage-to-courage.html' },
+  { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+  { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+  { text: ' My Mission', href: 'my-mission.html' },
+  { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+  { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+  { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+  { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
 
-        { text: '🎮 Martian Games', href: 'martian-games.html' },
-        { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
-        { text: ' Martian Racer', href: 'martian-racer.html' },
-        { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
-        { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
-        { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
-        { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
-        { text: ' Music Player', href: 'music-app.html' },
-        { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+  { text: '📖 Story', href: 'story.html' },
+  { text: ' Characters', href: 'characters.html' },
+  { text: ' Gallery', href: 'gallery.html' },
+  { text: ' Art & Concepts', href: 'art-and-concepts.html' },
+  { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+  { text: ' Technical Database', href: 'technical-database.html' },
+  { text: ' The Martian Edicts', href: 'martian-edicts.html' },
+  { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+  { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+  { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+  { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
 
-        { text: '🌍 Earth Codex', href: 'earth-codex.html' },
-        { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
-        { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
-        { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
-        { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
-        { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
-        { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
-        { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
-        { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
-        { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+  { text: '🎮 Martian Games', href: 'martian-games.html' },
+  { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+  { text: ' Martian Racer', href: 'martian-racer.html' },
+  { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+  { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+  { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+  { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+  { text: ' Music Player', href: 'music-app.html' },
+  { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
 
-        { text: '📰 Martian News', href: 'martian-news.html' },
-        { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
-        { text: ' Martian Actualities', href: 'martian-actualities.html' },
-        { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
-        { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
-        { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
-        { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
-        { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
-        { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
-        { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
-        { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
-        { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
-        { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+  { text: '🌍 Earth Codex', href: 'earth-codex.html' },
+  { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+  { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+  { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+  { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+  { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+  { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+  { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+  { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+  { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
 
-        { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
-        { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
-        { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
-        { text: ' Earthlings Beware', href: 'earthings-beware.html' },
-        { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
-        { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
-        { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
-        { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
-        { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
-        { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
-        { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
-        { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+  { text: '📰 Martian News', href: 'martian-news.html' },
+  { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+  { text: ' Martian Actualities', href: 'martian-actualities.html' },
+  { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+  { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+  { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+  { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+  { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+  { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+  { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+  { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+  { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+  { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
 
-        { text: 'ℹ️ About', href: 'about.html' },
-        { text: ' About the Project', href: 'about-the-project.html' },
-        { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
-        { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
-        { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
-        { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
-        { text: ' The Pale Horse', href: 'the-pale-horse.html' },
-        { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
-        { text: ' Arachne Labs', href: 'arachne-labs.html' },
-        { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
-        { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+  { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+  { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+  { text: ' Earthlings Beware', href: 'earthings-beware.html' },
+  { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+  { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+  { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+  { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+  { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+  { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+  { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+  { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
 
-        { text: '🤝 Support', href: 'support.html' },
-        { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
-        { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
-        { text: ' Mars Food District', href: 'mars-food-district.html' },
-        { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
-        { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
-        { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
-        { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
-        { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+  { text: 'ℹ️ About', href: 'about.html' },
+  { text: ' About the Project', href: 'about-the-project.html' },
+  { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+  { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+  { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+  { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+  { text: ' The Pale Horse', href: 'the-pale-horse.html' },
+  { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+  { text: ' Arachne Labs', href: 'arachne-labs.html' },
+  { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+  { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
 
-        { text: '📧 Contact', href: 'contact.html' },
-        { text: '📜 Regent\'s Scrolls (current)', href: 'the-regents-scrolls.html', active: true }
-    ];
+  { text: '🤝 Support', href: 'support.html' },
+  { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+  { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+  { text: ' Mars Food District', href: 'mars-food-district.html' },
+  { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+  { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+  { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+  { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+  { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
 
-    menuItems.forEach(item => {
-        const menuItem = document.createElement('div');
-        menuItem.className = 'menu-item';
-        const link = document.createElement('a');
-        link.href = item.href;
-        link.textContent = item.text;
-        if (item.active) link.classList.add('active');
-        menuItem.appendChild(link);
-        menuContent.appendChild(menuItem);
-    });
+  { text: '📧 Contact', href: 'contact.html' },
+  { text: '📜 Regent\'s Scrolls (current)', href: 'the-regents-scrolls.html', active: true }
+];
+
+menuItems.forEach(item => {
+const menuItem = document.createElement('div');
+menuItem.className = 'menu-item';
+const link = document.createElement('a');
+link.href = item.href;
+link.textContent = item.text;
+if (item.active) link.classList.add('active');
+menuItem.appendChild(link);
+menuContent.appendChild(menuItem);
+});
 }
 
+createMobileMenu();
+
 hamburgerBtn.addEventListener('click', () => {
-    mobileMenu.classList.add('active');
-    document.body.style.overflow = 'hidden';
+mobileMenu.classList.add('active');
+document.body.style.overflow = 'hidden';
 });
 
 closeMenu.addEventListener('click', () => {
-    mobileMenu.classList.remove('active');
-    document.body.style.overflow = '';
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
 });
 
 document.addEventListener('click', (e) => {
-    if (mobileMenu.classList.contains('active') &&
-        !mobileMenu.contains(e.target) &&
-        !hamburgerBtn.contains(e.target)) {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    }
+if (mobileMenu.classList.contains('active') &&
+!mobileMenu.contains(e.target) &&
+!hamburgerBtn.contains(e.target)) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
 });
 
 document.querySelectorAll('.mobile-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    });
+link.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
 });
 
 function handleResize() {
-    if (window.innerWidth > 992) {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    }
+if (window.innerWidth > 992) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
 }
 window.addEventListener('resize', handleResize);
 
-// ===== SITE TITLE HIDE ON SCROLL =====
-const siteTitle = document.getElementById('siteTitle');
-let lastScrollTop = 0;
 
-window.addEventListener('scroll', function() {
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    if (scrollTop > lastScrollTop && scrollTop > 50) {
-        siteTitle.classList.add('hidden');
-    } else {
-        siteTitle.classList.remove('hidden');
-    }
-    lastScrollTop = scrollTop;
+// Add keyboard navigation for cards
+document.addEventListener('keydown', function(event) {
+if (event.key === 'ArrowLeft') scrollCards(-1);
+if (event.key === 'ArrowRight') scrollCards(1);
 });
-
-// ===== PAGE INITIALISATION =====
-document.addEventListener('DOMContentLoaded', function() {
-    // Show first poem only
-    const poems = document.querySelectorAll('.featured-poem');
-    poems.forEach((poem, index) => {
-        poem.style.display = index === 0 ? 'block' : 'none';
-    });
-
-    // Keyboard navigation for cards
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'ArrowLeft') scrollCards(-1);
-        if (event.key === 'ArrowRight') scrollCards(1);
-    });
-
-    // Video protection (for any videos added later)
-    (function protectVideos() {
-        document.querySelectorAll('video').forEach(video => {
-            video.setAttribute('controlslist', 'nodownload');
-            video.addEventListener('contextmenu', (e) => e.preventDefault());
-            video.addEventListener('dragstart', (e) => e.preventDefault());
-        });
-        document.addEventListener('keydown', (e) => {
-            const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
-            if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
-                e.preventDefault();
-            }
-        });
-    })();
-
-    // Initialize mobile menu
-    createMobileMenu();
-
-    // Initialize audio
-    initAudio();
 });
 </script>
-
 </body>
 </html>
 
