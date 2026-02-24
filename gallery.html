@@ -1212,22 +1212,48 @@ document.body.style.overflow = '';
 }
 window.addEventListener('resize', handleResize);
 
-// ===== VIDEO PROTECTION =====
+// ===== VIDEO PROTECTION (revised - doesn't block modal playback) =====
 (function() {
- document.querySelectorAll('video').forEach(video => {
+ document.querySelectorAll('video:not(#modalVideo)').forEach(video => {
    video.setAttribute('controlslist', 'nodownload');
    video.addEventListener('contextmenu', (e) => e.preventDefault());
    video.addEventListener('dragstart', (e) => e.preventDefault());
  });
- 
+
+ // Apply lighter protection to modal video
+ const modalVideo = document.getElementById('modalVideo');
+ if (modalVideo) {
+     modalVideo.setAttribute('controlslist', 'nodownload');
+     modalVideo.addEventListener('contextmenu', (e) => e.preventDefault());
+     // Don't block dragstart on modal video
+ }
+
  document.addEventListener('keydown', (e) => {
-   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
-   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
-     e.preventDefault();
-   }
+  const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+  // Only block if it's not the modal video
+  if (isVideo && e.target.id !== 'modalVideo' && (e.ctrlkey || e.metakey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+      e.preventDefault();
+  }
  });
 })();
-  
+
+function openVideo(videoSrc, title) {
+    const modal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
+    const modalTitle = document.getElementById('modalTitle');
+    
+    modalVideo.pause();
+    modalVideo.src = videoSrc;
+    modalVideo.load();
+    modalTitle.textContent = title;
+    modal.classList.add('active');
+    
+    // Small delay to ensure loading
+    setTimeout(() => {
+        modalVideo.play().catch(e => console.log('Play failed -可能需要用户交互'));
+    }, 100);
+}
+ 
 // Ensure video plays when user interacts with page
 document.addEventListener('click', function() {
 if (videoBg.paused) {
