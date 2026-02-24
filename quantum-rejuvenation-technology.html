@@ -1464,6 +1464,23 @@ Your browser does not support the video tag.
 </footer>
 
 <script>
+// ===== VIDEO PROTECTION =====
+(function() {
+ document.querySelectorAll('video').forEach(video => {
+   video.setAttribute('controlslist', 'nodownload');
+   video.addEventListener('contextmenu', (e) => e.preventDefault());
+   video.addEventListener('dragstart', (e) => e.preventDefault());
+ });
+ 
+ document.addEventListener('keydown', (e) => {
+   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+     e.preventDefault();
+   }
+ });
+})();
+
+    
 // COPY THE EXACT SAME JAVASCRIPT FROM YOUR MAI PAGE HERE
 // (All the toggle functionality, video controls, etc.)
 // Video background with fade
