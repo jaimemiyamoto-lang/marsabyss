@@ -113,40 +113,40 @@ height: 100%;
 }
 
 .dropdown-content {
-    display: none;
-    position: absolute;
-    background: rgba(26, 26, 26, 0.98);
-    min-width: 140px;
-    z-index: 1001;
-    border-radius: 4px;
-    border: 2px solid #ff0000;
-    top: 100%;
-    left: 0;
-    backdrop-filter: blur(5px);
-    
+ display: none;
+ position: absolute;
+ background: rgba(26, 26, 26, 0.98);
+ min-width: 140px;
+ z-index: 1001;
+ border-radius: 4px;
+ border: 2px solid #ff0000;
+ top: 100%;
+ left: 0;
+ backdrop-filter: blur(5px);
+ 
 }
 
 /* By placing position, and width, fixed the side-by-side dropdown behavior */
 .dropdown .dropdown .dropdown-content {
-    position: absolute;
-    left: 0;
-    top: 100%;
-    width: 100%;
+ position: absolute;
+ left: 0;
+ top: 100%;
+ width: 100%;
 }
 
 .dropdown-content a {
-    color: #f5f5f5;
-    padding: 3px 5px;
-    text-decoration: none;
-    display: block;
-    transition: background-color 0.3s ease;
-    font-size: 0.8rem;
-    line-height: 1;
+ color: #f5f5f5;
+ padding: 3px 5px;
+ text-decoration: none;
+ display: block;
+ transition: background-color 0.3s ease;
+ font-size: 0.8rem;
+ line-height: 1;
 }
 
 .dropdown-content a:hover {
-    background: rgba(255, 0, 0, 0.6);
-    color: #fff;
+ background: rgba(255, 0, 0, 0.6);
+ color: #fff;
 }
 
 .dropdown:hover .dropdown-content {
@@ -154,80 +154,126 @@ display: block;
 }
 
 .card-pole {
-    position: absolute;
-    left: -3px; /* Position to the left of the cards */
-    top: 14%;
-    bottom: 0%;
-    width: 15px;
-    background: linear-gradient(180deg, 
-        #2a2a2a 0%,
-        #000000 20%,
-        #1a1a1a 50%,
-        #000000 80%,
-        #1a1a1a 100%);
-    z-index: 9;
-    border-left: 2px solid #ffd700;
-    box-shadow: 3px 0 10px rgba(0, 0, 0, 0.8);
-    border-radius: 0 8px 8px 0;    
+ position: absolute;
+ left: -3px;
+ top: 14%;
+ bottom: 0%;
+ width: 15px;
+ background: linear-gradient(180deg, 
+ #2a2a2a 0%,
+ #000000 20%,
+ #1a1a1a 50%,
+ #000000 80%,
+ #1a1a1a 100%);
+ z-index: 9;
+ border-left: 2px solid #ffd700;
+ box-shadow: 3px 0 10px rgba(0, 0, 0, 0.8);
+ border-radius: 0 8px 8px 0; 
 }
 
 .card-pole::before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -2px;
-    width: 19px;
-    height: 10px;
-    background: #ffd700;
-    border-radius: 3px 3px 0 0;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);    
+ content: '';
+ position: absolute;
+ top: -5px;
+ left: -2px;
+ width: 19px;
+ height: 10px;
+ background: #ffd700;
+ border-radius: 3px 3px 0 0;
+ box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); 
 }
 .pole-cover {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 25px;
-    background: #000000;
-    z-index: 0;
-    pointer-events: none; 
-    border: none;   
+ position: absolute;
+ left: 0;
+ top: 0;
+ height: 100%;
+ width: 25px;
+ background: #000000;
+ z-index: 0;
+ pointer-events: none; 
+ border: none; 
 }
 
 .right-frame {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 15px;
-    background: #000000;
-    z-index: 20;
-    pointer-events: none;
-    border: none;
+ position: absolute;
+ right: 0;
+ top: 0;
+ height: 100%;
+ width: 15px;
+ background: #000000;
+ z-index: 20;
+ pointer-events: none;
+ border: none;
 }
 
-/* AUDIO CONTROLS - MATCHING CONTACT PAGE */
-.audio-controls {
-position: fixed;
-bottom: 80px;
-right: 40px;
-z-index: 1000;
+/* ===== HIDE CONTENT BUTTON ===== */
+.hide-content-btn {
+ background: rgba(0, 0, 0, 0.7);
+ border: 2px solid #ff4b4b;
+ color: #ff4b4b;
+ padding: 10px 15px;
+ border-radius: 25px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ font-size: 0.9rem;
+ font-weight: 600;
+ opacity: 0.7;
+ min-width: 120px;
+ text-align: center;
+ position: fixed;
+ top: 80px;
+ right: 30px;
+ z-index: 1001;
 }
 
+.hide-content-btn:hover {
+ opacity: 1;
+ background: rgba(255, 75, 75, 0.2);
+ color: #fff;
+ border-color: #ffd700;
+ transform: scale(1.02);
+}
+
+/* ===== AUDIO BUTTON ===== */
 .audio-btn {
-background: rgba(255, 0, 0, 0.8);
-border: 2px solid #ff4b4b;
-color: #fff;
-padding: 10px 15px;
-border-radius: 25px;
-cursor: pointer;
-transition: all 0.3s ease;
-backdrop-filter: blur(5px);
-font-size: 0.9rem;
+ background: rgba(0, 0, 0, 0.7);
+ border: 2px solid #ff4b4b;
+ color: #ff4b4b;
+ padding: 10px 15px;
+ border-radius: 25px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ font-size: 0.9rem;
+ font-weight: 600;
+ opacity: 0.7;
+ min-width: 120px;
+ text-align: center;
+ position: fixed;
+ bottom: 80px;
+ right: 40px;
+ z-index: 1000;
 }
 
 .audio-btn:hover {
-background: rgba(255, 75, 75, 0.6);
+ opacity: 1;
+ background: rgba(255, 75, 75, 0.2);
+ color: #fff;
+ border-color: #ffd700;
+ transform: scale(1.02);
+}
+
+/* Mobile adjustments */
+@media (max-width: 992px) {
+ .hide-content-btn {
+ top: 70px;
+ right: 20px;
+ }
+ .audio-btn {
+ bottom: 70px;
+ right: 20px;
+ }
 }
 
 /* ROTATING MUSASHI QUOTES */
@@ -391,6 +437,186 @@ line-height: 1.3;
 letter-spacing: 1px;
 }
 
+/* ===== HAMBURGER MENU (unified red/gold theme) ===== */
+.mobile-nav {
+ display: none;
+ position: fixed;
+ top: 15px;
+ left: 15px;
+ z-index: 1002;
+}
+
+.hamburger-btn {
+ background: rgba(0, 0, 0, 0.8);
+ border: 2px solid #ffd700;
+ border-radius: 4px;
+ width: 50px;
+ height: 50px;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.hamburger-btn span {
+ display: block;
+ width: 25px;
+ height: 2px;
+ background: #ffd700;
+ margin: 3px 0;
+ transition: all 0.3s ease;
+}
+
+.hamburger-btn:hover {
+ background: rgba(139, 0, 0, 0.6);
+ border-color: #ffd700;
+}
+
+.hamburger-btn:hover span {
+ background: #fff;
+}
+
+.mobile-menu {
+ position: fixed;
+ top: 0;
+ left: -100%;
+ width: 300px;
+ height: 100vh;
+ background: linear-gradient(135deg, #1a0000, #000);
+ border-right: 2px solid #ffd700;
+ padding: 20px;
+ transition: left 0.4s ease;
+ z-index: 1003;
+ overflow-y: auto;
+ backdrop-filter: blur(10px);
+ text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.mobile-menu.active {
+ left: 0;
+}
+
+.menu-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 20px;
+ padding-bottom: 15px;
+ border-bottom: 1px solid #ffd700;
+}
+
+.menu-header h3 {
+ color: #ffd700;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1rem;
+ margin: 0;
+ text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.close-menu {
+ background: transparent;
+ border: none;
+ color: #ffd700;
+ font-size: 1.5rem;
+ cursor: pointer;
+ width: 30px;
+ height: 30px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border-radius: 50%;
+ transition: all 0.3s ease;
+}
+
+.close-menu:hover {
+ background: rgba(139, 0, 0, 0.5);
+ color: #fff;
+ transform: rotate(90deg);
+}
+
+.menu-content {
+ margin-bottom: 20px;
+}
+
+.menu-content .menu-item {
+ margin-bottom: 10px;
+}
+
+.menu-content .menu-item a {
+ display: block;
+ color: #e0d5c0;
+ text-decoration: none;
+ padding: 10px 15px;
+ border-radius: 5px;
+ border-left: 3px solid transparent;
+ transition: all 0.3s ease;
+ font-family: 'Segoe UI', sans-serif;
+ font-size: 0.95rem;
+}
+
+.menu-content .menu-item a:hover,
+.menu-content .menu-item a.active {
+ border-left-color: #ffd700;
+ background: rgba(255, 215, 0, 0.1);
+ color: #ffd700;
+}
+
+.menu-footer {
+ margin-top: 20px;
+ padding-top: 15px;
+ border-top: 1px solid #ffd700;
+ text-align: center;
+ color: #ffd700;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.8rem;
+ text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+.pulse {
+ display: inline-block;
+ width: 8px;
+ height: 8px;
+ background-color: #ffd700;
+ border-radius: 50%;
+ margin-right: 8px;
+ animation: blink 1.5s infinite;
+ box-shadow: 0 0 10px #ffd700;
+}
+
+@keyframes blink {
+ 0%, 100% { opacity: 1; }
+ 50% { opacity: 0.3; }
+}
+
+/* Mobile media query – hide desktop menu, show hamburger */
+@media (max-width: 992px) {
+ nav.top-menu {
+ display: none;
+ }
+ .mobile-nav {
+ display: block;
+ }
+ .site-title-overlay {
+ top: 70px;
+ left: 15px;
+ }
+ .site-title-overlay h1 {
+ font-size: 1.4rem;
+ }
+ .view-toggle {
+ top: 70px;
+ right: 15px;
+ }
+ .audio-controls {
+ bottom: 70px;
+ right: 20px;
+ }
+}
+
 /* FOOTER */
 footer {
 position: fixed;
@@ -405,249 +631,13 @@ font-family: 'Segoe UI', sans-serif;
 z-index: 1000;
 border-top: 2px solid #ff0000;
 }
-/* ========== MOBILE ADJUSTMENTS ========== */
-/* Keep the menu scrollable on mobile */
-@media (max-width: 1024px) {
-    nav.top-menu {
-        gap: 0.8rem;
-        padding: 0.5rem 1rem;
-        justify-content: flex-start;
-        overflow-x: auto;
-        overflow-y: visible;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        flex-wrap: nowrap;
-    }
 
-    nav.top-menu::-webkit-scrollbar {
-        display: none;
-    }
-
-    nav.top-menu a {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.6rem;
-        flex-shrink: 0;
-    }
-
-    .site-title-overlay {
-        top: 70px;
-        left: 20px;
-    }
-
-    .site-title-overlay h1 {
-        font-size: 1.4rem;
-    }
-
-    /* Fix the overlapping elements on mobile */
-    .musashi-quotes-container {
-        position: relative;
-        left: auto;
-        top: auto;
-        width: 90%;
-        max-width: 400px;
-        margin: 120px auto 2rem auto;
-        opacity: 1 !important; /* Override fade effect for mobile */
-    }
-
-    .funding-cards {
-        position: relative;
-        left: auto;
-        bottom: auto;
-        width: 90%;
-        max-width: 400px;
-        margin: 0 auto 2rem auto;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    /* Hide decorative elements on mobile */
-    .card-pole, 
-    .right-frame,
-    .musashi-banner {
-        display: none;
-    }
-
-    /* Adjust audio controls */
-    .audio-controls {
-        bottom: 60px;
-        right: 20px;
-    }
-
-    .audio-btn {
-        padding: 8px 12px;
-        font-size: 0.8rem;
-    }
+/* Hidden class for toggle functionality */
+.hidden {
+ opacity: 0;
+ pointer-events: none;
+ transition: opacity 0.5s ease;
 }
-
-/* Tablet adjustments */
-@media (max-width: 768px) {
-    .musashi-quotes-container {
-        margin-top: 100px;
-        padding: 1.5rem;
-    }
-
-    .quote-text {
-        font-size: 16px;
-        min-height: 100px;
-    }
-
-    .quote-author {
-        font-size: 14px;
-    }
-
-    .funding-card {
-        padding: 1.2rem;
-    }
-
-    .funding-card h3 {
-        font-size: 1.1rem;
-    }
-
-    .funding-card p {
-        font-size: 0.9rem;
-    }
-
-    .funding-button {
-        padding: 8px 16px;
-        font-size: 0.9rem;
-    }
-}
-
-/* Small phones */
-@media (max-width: 480px) {
-    nav.top-menu {
-        gap: 0.5rem;
-        padding: 0.4rem 0.8rem;
-    }
-
-    nav.top-menu a {
-        font-size: 0.8rem;
-        padding: 0.3rem 0.5rem;
-    }
-
-    .site-title-overlay {
-        top: 65px;
-        left: 15px;
-    }
-
-    .site-title-overlay h1 {
-        font-size: 1.2rem;
-    }
-
-    .musashi-quotes-container {
-        margin-top: 90px;
-        width: 95%;
-        padding: 1rem;
-    }
-
-    .quote-text {
-        font-size: 14px;
-        min-height: 80px;
-    }
-
-    .funding-cards {
-        width: 95%;
-    }
-
-    .funding-card {
-        padding: 1rem;
-    }
-
-    .funding-card h3 {
-        font-size: 1rem;
-    }
-
-    .funding-card p {
-        font-size: 0.85rem;
-    }
-
-    .funding-button {
-        padding: 8px 14px;
-        font-size: 0.85rem;
-    }
-
-    .audio-controls {
-        bottom: 50px;
-        right: 15px;
-    }
-
-    .audio-btn {
-        padding: 6px 10px;
-        font-size: 0.75rem;
-    }
-
-    footer {
-        padding: 0.5rem 0;
-        font-size: 0.9rem;
-    }
-}
-
-/* Very small phones (landscape) */
-@media (max-width: 768px) and (orientation: landscape) {
-    .musashi-quotes-container {
-        margin-top: 80px;
-        width: 60%;
-        float: left;
-        margin-left: 5%;
-        margin-right: 5%;
-    }
-
-    .funding-cards {
-        width: 60%;
-        float: right;
-        margin-right: 5%;
-    }
-}
-
-/* Mobile open state for dropdowns - ADD THIS IN THE MAIN CSS SECTION (not inside media query) */
-.dropdown.open .dropdown-content {
-    display: block;
-}
-
-/* For better tap targets on mobile */
-@media (max-width: 768px) {
-    .dropdown > a {
-        padding: 0.5rem 0.8rem !important;
-    }
-    
-    .funding-button,
-    .audio-btn {
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-    }
-    
-    /* Ensure content doesn't overflow on small screens */
-    body, html {
-        overflow-y: auto;
-    }
-}
-
-/* Fix for video background on mobile */
-@media (max-width: 768px) {
-    .video-background {
-        object-fit: cover;
-        height: 100%;
-    }
-    
-    .static-background {
-        display: block;
-        opacity: 0.5;
-    }
-}
-
-/* Clear floats for mobile layout */
-@media (max-width: 768px) {
-    .clearfix::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-}
-    
 </style>
 </head>
 
@@ -656,7 +646,7 @@ border-top: 2px solid #ff0000;
 <div class="background-container">
 <div class="static-background" id="staticBg"></div>
 <video class="video-background" id="roninVideo" muted loop playsinline>
-<source src="videos/ronin-background.mp4" type="video/mp4">
+<source src="videos/ronin-in-battle.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
 <div class="card-pole"></div>
@@ -704,8 +694,11 @@ Your browser does not support the video tag.
 <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
 
+<!-- HIDE CONTENT BUTTON -->
+<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
 <!-- UPDATED MENU WITH MARTIAN GAMES -->
- <nav class="top-menu">
+<nav class="top-menu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn">Home</a>
 <div class="dropdown-content">
@@ -716,7 +709,7 @@ Your browser does not support the video tag.
 <a href="my-mission.html">My Mission</a>
 <a href="martian-reading-revival.html">Martian Reading Revival</a>
 <a href="why-mars-is-safer.html">Why Mars is Safer</a>
-<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
 <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
 </div>
 </div>
@@ -732,7 +725,7 @@ Your browser does not support the video tag.
 <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
 <a href="technical-database.html">Technical Database</a>
 <a href="martian-edicts.html">The Martian Edicts</a>
-<a href="alien-transport-network.html">Alien Transport Network</a>    
+<a href="alien-transport-network.html">Alien Transport Network</a>
 <a href="martian-martial-arts.html">Martian Martial Arts</a>
 <a href="solar-system-explorer.html">Solar System Explorer</a>
 <a href="aliens-ufos.html">Aliens & UFOs</a>
@@ -771,30 +764,31 @@ Your browser does not support the video tag.
 </div>
 
 <div class="dropdown">
-    <a href="martian-news.html" class="dropbtn">Martian News</a>
-    <div class="dropdown-content">
-    <a href="martian-actualities.html">Martian Actualities</a>
-    <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
-    <a href="mars-bee-facility.html">Mars Bee Facility</a>
-    <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-    <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
-    <a href="house-of-health-secrets.html">The House of Health Secrets</a>
-    <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
-    <a href="martian-rest-areas.html">Martian Rest Areas</a>
-    <div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
 <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
 <div class="dropdown-content">
 <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
 <a href="marvin.html">M.A.R.V.I.N.</a>
 </div>
 </div>
-    </div>
-    </div>
+</div>
+</div>
 
 <div class="dropdown">
 <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
 <div class="dropdown-content">
-<a href="what-the-regent-misses.html">What the Regent Misses</a>    
+<a href="what-the-regent-misses.html">What the Regent Misses</a>
 <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
 <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
 <a href="honor-the-fallen.html">Honor The Fallen</a>
@@ -811,7 +805,7 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="about.html" class="dropbtn">About</a>
 <div class="dropdown-content">
-<a href="about-the-project.html">About the Project</a>    
+<a href="about-the-project.html">About the Project</a>
 <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
 <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
 <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
@@ -824,16 +818,15 @@ Your browser does not support the video tag.
 </div>
 </div>
 
-<!-- CHILDREN'S SANCTUARY ADDED TO SUPPORT DROPDOWN -->
 <div class="dropdown">
 <a href="support.html" class="dropbtn active">Support</a>
 <div class="dropdown-content">
-<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
 <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="fund-martian-research.html">Fund Martian Research</a> 
 <a href="martian-survival-manual.html">Martian Survival Manual</a>
 <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
 </div>
@@ -847,6 +840,23 @@ Your browser does not support the video tag.
 </footer>
 
 <script>
+
+// ===== VIDEO PROTECTION =====
+(function() {
+ document.querySelectorAll('video').forEach(video => {
+ video.setAttribute('controlslist', 'nodownload');
+ video.addEventListener('contextmenu', (e) => e.preventDefault());
+ video.addEventListener('dragstart', (e) => e.preventDefault());
+ });
+ 
+ document.addEventListener('keydown', (e) => {
+ const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+ if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+ e.preventDefault();
+ }
+ });
+})();
+
 // Video loading
 const videoBg = document.getElementById('roninVideo');
 const staticBg = document.getElementById('staticBg');
@@ -861,53 +871,71 @@ videoBg.addEventListener('error', function() {
 console.log('Video failed to load, using static background');
 });
 
-// Simple audio system
-        const muteBtn = document.getElementById('muteBtn');
-        let isMuted = true; // start muted to avoid autoplay issues
-        let audioElements = [];
+// ===== AUDIO SYSTEM =====
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
 
-        function initAudio() {
-            const sounds = [
-            { src: 'sounds/light-rain-109591.mp3', volume: 0.3 },
-            { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
-            { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.3 },
-            { src: 'sounds/coqui-aloha-light-rain-205316.mp3', volume: 0.6 }
-            ];
+function initAudio() {
+ const sounds = [
+ { src: 'sounds/light-rain-109591.mp3', volume: 0.5 },
+ { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+ { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+ ];
 
-            sounds.forEach(sound => {
-                const audio = new Audio(sound.src);
-                audio.volume = sound.volume;
-                audio.loop = true;
-                audio.muted = true;  // Start muted
-                audioElements.push(audio);
-            });
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
 
-        // Unmute and Play sounds first user interaction
-        document.addEventListener('click', function unmuteAudio() {
-        if (!isMuted) {
-            audioElements.forEach(audio => {
-                audio.muted = false;
-                audio.play().catch(e => console.log('Audio play failed'));
-            });
-            isMuted = false;
-            muteBtn.textContent = "🔊 Mute Sounds";
-        }
-        document.removeEventListener('click', unmuteAudio);
-    }, { once: true });
+ const unmuteOnInteraction = function() {
+ if (isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => {
+ console.log('Audio play attempt failed:', e);
+ });
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 MUTE LAB";
+ }
+ document.removeEventListener('click', unmuteOnInteraction);
+ document.removeEventListener('keydown', unmuteOnInteraction);
+ };
+
+ document.addEventListener('click', unmuteOnInteraction);
+ document.addEventListener('keydown', unmuteOnInteraction);
+
+ setTimeout(() => {
+ audioElements.forEach(audio => {
+ audio.play().then(() => {
+ console.log('Audio autoplay succeeded.');
+ }).catch(e => {
+ console.log('Audio autoplay blocked.');
+ });
+ });
+ }, 1000);
 }
 
-        // Mute toggle
-        muteBtn.addEventListener('click', function() {
-            isMuted = !isMuted;
-            audioElements.forEach(audio => {
-                audio.muted = isMuted;
-        });
-        muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
-    });
-        // Initialize audio when page loads
-        initAudio();
+muteBtn.addEventListener('click', function() {
+ if (audioElements.length === 0) {
+ initAudio();
+ return;
+ }
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ if (!isMuted) {
+ audio.play().catch(e => console.log('Playback resume failed'));
+ }
+ });
+ muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
+});
 
-// ROTATING MUSASHI QUOTES WITH FADE EFFECT
+// ===== ROTATING MUSASHI QUOTES =====
 const musashiQuotes = document.getElementById('musashiQuotes');
 const currentQuote = document.getElementById('currentQuote');
 const quoteArray = [
@@ -963,87 +991,190 @@ const quoteArray = [
 let quoteIndex = 0;
 
 function rotateQuote() {
-// Fade out
-musashiQuotes.classList.add('fade-out');
+ musashiQuotes.classList.add('fade-out');
 
-setTimeout(() => {
-// Change quote
-quoteIndex = (quoteIndex + 1) % quoteArray.length;
-currentQuote.textContent = quoteArray[quoteIndex];
-
-// Fade in
-musashiQuotes.classList.remove('fade-out');
-}, 1000);
+ setTimeout(() => {
+ quoteIndex = (quoteIndex + 1) % quoteArray.length;
+ currentQuote.textContent = quoteArray[quoteIndex];
+ musashiQuotes.classList.remove('fade-out');
+ }, 1000);
 }
 
-// Rotate quotes every 8 seconds
 setInterval(rotateQuote, 8000);
 
-// Manual quote rotation via banner
 document.getElementById('musashiBanner').addEventListener('click', rotateQuote);
-// ===== MOBILE / TABLET DROPDOWN FIX =====
-document.querySelectorAll('.dropdown > a').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const parent = this.parentElement;
 
-        // Only intercept on touch-sized screens
-        if (window.innerWidth <= 1024) {
+// ===== HIDE CONTENT BUTTON (Independent) =====
+const hideBtn = document.getElementById('hideContentBtn');
+const fundingCards = document.querySelector('.funding-cards');
 
-            // If this dropdown isn't open yet → open it
-            if (!parent.classList.contains('open')) {
-                e.preventDefault(); // STOP navigation
-                closeAllDropdowns(parent);
-                parent.classList.add('open');
-            }
-            // If already open → allow normal navigation
-        }
-    });
+if (hideBtn && fundingCards && musashiQuotes) {
+ let contentHidden = false;
+ 
+ hideBtn.addEventListener('click', () => {
+ contentHidden = !contentHidden;
+ musashiQuotes.classList.toggle('hidden', contentHidden);
+ fundingCards.classList.toggle('hidden', contentHidden);
+ hideBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
+ });
+}
+
+// ===== MOBILE HAMBURGER MENU =====
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuContent = document.querySelector('.menu-content');
+
+function createMobileMenu() {
+ if (!menuContent) return;
+ menuContent.innerHTML = '';
+
+ const menuItems = [
+ { text: '🏠 Home', href: 'index.html' },
+ { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+ { text: ' Homage to Courage', href: 'homage-to-courage.html' },
+ { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+ { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+ { text: ' My Mission', href: 'my-mission.html' },
+ { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+ { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+ { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+ { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+
+ { text: '📖 Story', href: 'story.html' },
+ { text: ' Characters', href: 'characters.html' },
+ { text: ' Gallery', href: 'gallery.html' },
+ { text: ' Art & Concepts', href: 'art-and-concepts.html' },
+ { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+ { text: ' Technical Database', href: 'technical-database.html' },
+ { text: ' The Martian Edicts', href: 'martian-edicts.html' },
+ { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+ { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+ { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+ { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+
+ { text: '🎮 Martian Games', href: 'martian-games.html' },
+ { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+ { text: ' Martian Racer', href: 'martian-racer.html' },
+ { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+ { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+ { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+ { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+ { text: ' Music Player', href: 'music-app.html' },
+ { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+
+ { text: '🌍 Earth Codex', href: 'earth-codex.html' },
+ { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+ { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+ { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+ { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+ { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+ { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+ { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+ { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+ { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+
+ { text: '📰 Martian News', href: 'martian-news.html' },
+ { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+ { text: ' Martian Actualities', href: 'martian-actualities.html' },
+ { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+ { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+ { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+ { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+ { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+ { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+ { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+ { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+ { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+ { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+
+ { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+ { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+ { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+ { text: ' Earthlings Beware', href: 'earthings-beware.html' },
+ { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+ { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+ { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+ { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+ { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+ { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+ { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+ { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+
+ { text: 'ℹ️ About', href: 'about.html' },
+ { text: ' About the Project', href: 'about-the-project.html' },
+ { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+ { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+ { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+ { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+ { text: ' The Pale Horse', href: 'the-pale-horse.html' },
+ { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+ { text: ' Arachne Labs', href: 'arachne-labs.html' },
+ { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+ { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+
+ { text: '🤝 Support', href: 'support.html' },
+ { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+ { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+ { text: ' Mars Food District', href: 'mars-food-district.html' },
+ { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+ { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+ { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+ { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+ { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+
+ { text: '📧 Contact', href: 'contact.html' },
+ { text: '🤝 Support (current)', href: 'support.html', active: true }
+ ];
+
+ menuItems.forEach(item => {
+ const menuItem = document.createElement('div');
+ menuItem.className = 'menu-item';
+ const link = document.createElement('a');
+ link.href = item.href;
+ link.textContent = item.text;
+ if (item.active) link.classList.add('active');
+ menuItem.appendChild(link);
+ menuContent.appendChild(menuItem);
+ });
+}
+
+createMobileMenu();
+
+hamburgerBtn.addEventListener('click', () => {
+ mobileMenu.classList.add('active');
+ document.body.style.overflow = 'hidden';
 });
 
-function closeAllDropdowns(except = null) {
-    document.querySelectorAll('.dropdown.open').forEach(drop => {
-        if (drop !== except) drop.classList.remove('open');
-    });
-}
-
-// Close dropdowns when tapping outside nav
-document.addEventListener('click', function (e) {
-    const nav = document.querySelector('nav.top-menu');
-    if (!nav.contains(e.target)) {
-        closeAllDropdowns();
-    }
+closeMenu.addEventListener('click', () => {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
 });
 
-// Adjust Musashi quotes behavior for mobile
-if (window.innerWidth <= 1024) {
-    // On mobile, make the quotes clickable to rotate manually
-    const quotesContainer = document.getElementById('musashiQuotes');
-    if (quotesContainer) {
-        quotesContainer.style.cursor = 'pointer';
-        quotesContainer.addEventListener('click', rotateQuote);
-    }
-    
-    // Clear any existing interval for mobile (optional - you can keep it or remove)
-    // The quotes will now rotate only when clicked
-}
+document.addEventListener('click', (e) => {
+ if (mobileMenu.classList.contains('active') &&
+ !mobileMenu.contains(e.target) &&
+ !hamburgerBtn.contains(e.target)) {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ }
+});
 
-// Optional: Add body class for mobile detection
-if (window.innerWidth <= 1024) {
-    document.body.classList.add('mobile-view');
-}
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+ link.addEventListener('click', () => {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ });
+});
 
-// Fix for video loading on mobile
-if (window.innerWidth <= 768) {
-    const videoBg = document.getElementById('roninVideo');
-    const staticBg = document.getElementById('staticBg');
-    
-    // On mobile, prioritize static background and don't autoplay video
-    if (videoBg) {
-        videoBg.pause();
-        staticBg.style.opacity = '1';
-    }
+function handleResize() {
+ if (window.innerWidth > 992) {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ }
 }
-    
+window.addEventListener('resize', handleResize);
+
 </script>
 </body>
 </html>
