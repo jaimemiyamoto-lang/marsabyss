@@ -8,19 +8,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
 }
 
 body, html {
-  height: 100%;
-  width: 100%;
-  font-family: 'Cinzel Decorative', serif;
-  color: #f0e6d2;
-  overflow-x: hidden;
-  position: relative;
-  background: #0a0a2a;
+ height: 100%;
+ width: 100%;
+ font-family: 'Cinzel Decorative', serif;
+ color: #f0e6d2;
+ overflow-x: hidden;
+ position: relative;
+ background: #0a0a2a;
 }
 
 /* === SITE TITLE OVERLAY === */
@@ -47,20 +47,20 @@ letter-spacing: 2px;
 }
 
 nav.top-menu {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            background: rgba(10, 10, 42, 0.9);
-            padding: 0.8rem 0;
-            z-index: 1000;
-            gap: 2.5rem;
-            flex-wrap: nowrap;
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid #c0a050;
-            font-weight: bolder;
-        }
+ position: fixed;
+ top: 0;
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ background: rgba(10, 10, 42, 0.9);
+ padding: 0.8rem 0;
+ z-index: 1000;
+ gap: 2.5rem;
+ flex-wrap: nowrap;
+ backdrop-filter: blur(10px);
+ border-bottom: 2px solid #c0a050;
+ font-weight: bolder;
+ }
 
 nav.top-menu a.active,
 nav.top-menu a:hover {
@@ -106,8 +106,8 @@ padding: 2px 3px;
 text-decoration: none;
 display: block;
 transition: background-color 0.3s ease;
-font-size: 0.8rem;
-line-height: 1;
+font-size: 0.7rem;
+line-height: 1.2;
 }
 
 .dropdown-content a:hover {
@@ -117,337 +117,583 @@ color: #fff;
 
 .dropdown:hover .dropdown-content {
 display: block;
-}        
+} 
+
+/* === MOBILE HAMBURGER MENU === */
+.mobile-nav {
+ display: none;
+ position: fixed;
+ top: 15px;
+ left: 15px;
+ z-index: 1002;
+}
+
+.hamburger-btn {
+ background: rgba(10, 10, 42, 0.9);
+ border: 2px solid #c0a050;
+ border-radius: 4px;
+ width: 50px;
+ height: 50px;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+}
+
+.hamburger-btn span {
+ display: block;
+ width: 25px;
+ height: 2px;
+ background: #c0a050;
+ margin: 3px 0;
+ transition: all 0.3s ease;
+}
+
+.hamburger-btn:hover {
+ background: rgba(192, 160, 80, 0.9);
+}
+
+.hamburger-btn:hover span {
+ background: #000;
+}
+
+.mobile-menu {
+ position: fixed;
+ top: 0;
+ left: -100%;
+ width: 300px;
+ height: 100vh;
+ background: linear-gradient(145deg, rgba(10, 10, 42, 0.95), rgba(26, 26, 64, 0.9));
+ border-right: 2px solid #c0a050;
+ padding: 20px;
+ transition: left 0.4s ease;
+ z-index: 1003;
+ overflow-y: auto;
+ backdrop-filter: blur(10px);
+}
+
+.mobile-menu.active {
+ left: 0;
+}
+
+.menu-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 20px;
+ padding-bottom: 15px;
+ border-bottom: 1px solid rgba(192, 160, 80, 0.3);
+}
+
+.menu-header h3 {
+ color: #c0a050;
+ font-family: 'Cinzel Decorative', serif;
+ font-size: 1rem;
+ margin: 0;
+}
+
+.close-menu {
+ background: transparent;
+ border: none;
+ color: #c0a050;
+ font-size: 1.5rem;
+ cursor: pointer;
+ width: 30px;
+ height: 30px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border-radius: 50%;
+ transition: all 0.3s ease;
+}
+
+.close-menu:hover {
+ background: rgba(192, 160, 80, 0.2);
+}
+
+.menu-content {
+ margin-bottom: 20px;
+}
+
+.menu-content .menu-item {
+ margin-bottom: 10px;
+}
+
+.menu-content .menu-item a {
+ display: block;
+ color: #f0e6d2;
+ text-decoration: none;
+ padding: 10px 15px;
+ border-radius: 5px;
+ border-left: 3px solid transparent;
+ transition: all 0.3s ease;
+ font-family: 'Segoe UI', sans-serif;
+ font-size: 0.95rem;
+}
+
+.menu-content .menu-item a:hover,
+.menu-content .menu-item a.active {
+ border-left-color: #c0a050;
+ background: rgba(192, 160, 80, 0.1);
+ color: #c0a050;
+}
+
+.menu-footer {
+ margin-top: 20px;
+ padding-top: 15px;
+ border-top: 1px solid rgba(192, 160, 80, 0.3);
+ text-align: center;
+ color: #c0a050;
+ font-family: 'Cinzel Decorative', serif;
+ font-size: 0.8rem;
+}
+
+.pulse {
+ display: inline-block;
+ width: 8px;
+ height: 8px;
+ background-color: #c0a050;
+ border-radius: 50%;
+ margin-right: 8px;
+ animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+ 0%, 100% { opacity: 1; }
+ 50% { opacity: 0.3; }
+}
 
 /* MAGICAL BACKGROUND */
 .magical-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background:
-    radial-gradient(circle at 20% 80%, #2d1b69 0%, #1a0a2a 70%),
-    radial-gradient(circle at 80% 20%, #4a1f6b 0%, transparent 50%);
-  z-index: 1;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background:
+ radial-gradient(circle at 20% 80%, #2d1b69 0%, #1a0a2a 70%),
+ radial-gradient(circle at 80% 20%, #4a1f6b 0%, transparent 50%);
+ z-index: 1;
 }
 
 .twinkling-stars {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image:
-    radial-gradient(2px 2px at 20% 30%, #fff, transparent),
-    radial-gradient(2px 2px at 40% 70%, #fff, transparent),
-    radial-gradient(1px 1px at 60% 20%, #fff, transparent),
-    radial-gradient(1px 1px at 80% 50%, #fff, transparent),
-    radial-gradient(2px 2px at 30% 80%, #fff, transparent);
-  animation: twinkle 4s infinite alternate;
-  z-index: 2;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background-image:
+ radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+ radial-gradient(2px 2px at 40% 70%, #fff, transparent),
+ radial-gradient(1px 1px at 60% 20%, #fff, transparent),
+ radial-gradient(1px 1px at 80% 50%, #fff, transparent),
+ radial-gradient(2px 2px at 30% 80%, #fff, transparent);
+ animation: twinkle 4s infinite alternate;
+ z-index: 2;
 }
 
 @keyframes twinkle {
-  0% { opacity: 0.3; }
-  100% { opacity: 0.8; }
+ 0% { opacity: 0.3; }
+ 100% { opacity: 0.8; }
 }
 
 /* HARRY POTTER STYLE NAVIGATION */
 .magical-nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            background: rgba(10, 10, 42, 0.95);
-            padding: 0.6rem 0;
-            z-index: 1000;
-            gap: 1.5rem;
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid #c0a050;
-            font-family: 'Cinzel Decorative', serif;
-        }
+ position: fixed;
+ top: 0;
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ background: rgba(10, 10, 42, 0.95);
+ padding: 0.6rem 0;
+ z-index: 1000;
+ gap: 1.5rem;
+ backdrop-filter: blur(10px);
+ border-bottom: 2px solid #c0a050;
+ font-family: 'Cinzel Decorative', serif;
+ }
 
-        .magical-nav a {
-            color: #f0e6d2;
-            text-decoration: none;
-            font-size: 0.85rem;
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            text-shadow: 0 0 5px rgba(192, 160, 80, 0.5);
-        }
+ .magical-nav a {
+ color: #f0e6d2;
+ text-decoration: none;
+ font-size: 0.85rem;
+ padding: 0.3rem 0.6rem;
+ border-radius: 4px;
+ transition: all 0.3s ease;
+ border: 2px solid transparent;
+ text-shadow: 0 0 5px rgba(192, 160, 80, 0.5);
+ }
 
 .magical-nav a:hover {
-  color: #ffd700;
-  border: 1px solid #c0a050;
-  background: rgba(192, 160, 80, 0.1);
-  box-shadow: 0 0 15px rgba(192, 160, 80, 0.3);
+ color: #ffd700;
+ border: 1px solid #c0a050;
+ background: rgba(192, 160, 80, 0.1);
+ box-shadow: 0 0 15px rgba(192, 160, 80, 0.3);
 }
 
 /* MAIN CONTENT AREA */
 .main-content {
-  position: relative;
-  z-index: 10;
-  min-height: 100vh;
-  padding: 100px 2rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+ position: relative;
+ z-index: 10;
+ min-height: 100vh;
+ padding: 100px 2rem 2rem;
+ max-width: 1200px;
+ margin: 0 auto;
 }
 
 /* MAGICAL HEADER */
 .magical-header {
-  text-align: center;
-  margin-bottom: 3rem;
-  padding: 2rem;
-  background: rgba(10, 10, 42, 0.7);
-  border: 2px solid #c0a050;
-  border-radius: 20px;
-  box-shadow: 0 0 30px rgba(192, 160, 80, 0.3);
+ text-align: center;
+ margin-bottom: 3rem;
+ padding: 2rem;
+ background: rgba(10, 10, 42, 0.7);
+ border: 2px solid #c0a050;
+ border-radius: 20px;
+ box-shadow: 0 0 30px rgba(192, 160, 80, 0.3);
 }
 
 .magical-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 3.5rem;
-  color: #ffd700;
-  text-shadow: 3px 3px 0px #8b4513, 0 0 20px rgba(255, 215, 0, 0.5);
-  margin-bottom: 1rem;
-  background: linear-gradient(45deg, #ffd700, #c0a050, #ffd700);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+ font-family: 'Cinzel Decorative', serif;
+ font-size: 3.5rem;
+ color: #ffd700;
+ text-shadow: 3px 3px 0px #8b4513, 0 0 20px rgba(255, 215, 0, 0.5);
+ margin-bottom: 1rem;
+ background: linear-gradient(45deg, #ffd700, #c0a050, #ffd700);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
 }
 
 .magical-subtitle {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 1.5rem;
-  color: #c0a050;
-  text-shadow: 2px 2px 0px #000;
-  font-style: italic;
+ font-family: 'Cinzel Decorative', serif;
+ font-size: 1.5rem;
+ color: #c0a050;
+ text-shadow: 2px 2px 0px #000;
+ font-style: italic;
 }
 
 /* VIDEO PLAYER - HARRY POTTER STYLE */
 .magical-video-container {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto 3rem;
-  border: 4px solid #c0a050;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 0 40px rgba(192, 160, 80, 0.4);
-  background: #000;
-  position: relative;
+ width: 100%;
+ max-width: 900px;
+ margin: 0 auto 3rem;
+ border: 4px solid #c0a050;
+ border-radius: 15px;
+ overflow: hidden;
+ box-shadow: 0 0 40px rgba(192, 160, 80, 0.4);
+ background: #000;
+ position: relative;
 }
 
-/* NEW: Video Screen Frame */
 .video-screen-frame {
-  position: relative;
-  width: 100%;
-  height: 500px;
-  background: #111;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+ position: relative;
+ width: 100%;
+ height: 500px;
+ background: #111;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ overflow: hidden;
 }
 
 .video-screen-frame::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border: 12px solid #222;
-  border-radius: 8px;
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7);
-  z-index: 2;
-  pointer-events: none;
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ border: 12px solid #222;
+ border-radius: 8px;
+ box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7);
+ z-index: 2;
+ pointer-events: none;
 }
 
 .video-screen-frame::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 95%;
-  height: 95%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.1) 100%);
-  border-radius: 4px;
-  z-index: 1;
-  pointer-events: none;
+ content: '';
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ width: 95%;
+ height: 95%;
+ background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.1) 100%);
+ border-radius: 4px;
+ z-index: 1;
+ pointer-events: none;
 }
 
 .magical-video {
-  max-width: 90%;
-  max-height: 90%;
-  display: block;
-  z-index: 3;
-  position: relative;
-  object-fit: contain;
-}
-
-.video-screen-frame {
-    position: relative;
-    width: 100%;
-    height: 500px;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.video-screen-frame::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 15px solid#1a1a1a;
-    border-radius: 8px;
-    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8);
-    z-index: 2;
-    pointer-events: none;
-}
-
-.video-screen-frame::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 92%;
-    height: 92%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0, 03) 0%, rgba(0,0,0,0.2) 100%);
-    border-radius: 4px;
-    z-index: 1;
-    pointer-events: none;
+ max-width: 90%;
+ max-height: 90%;
+ display: block;
+ z-index: 3;
+ position: relative;
+ object-fit: contain;
 }
 
 .video-controls-magical {
-  background: linear-gradient(180deg, #2d1b69, #1a0a2a);
-  padding: 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  border-top: 2px solid #c0a050;
+ background: linear-gradient(180deg, #2d1b69, #1a0a2a);
+ padding: 1.5rem;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ gap: 1.5rem;
+ flex-wrap: wrap;
+ border-top: 2px solid #c0a050;
 }
 
 .magical-button {
-  background: linear-gradient(180deg, #c0a050, #8b4513);
-  color: #f0e6d2;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 30px;
-  cursor: pointer;
-  font-family: 'Cinzel Decorative', serif;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  border: 1px solid #ffd700;
-  box-shadow: 0 4px 0px #8b4513;
+ background: linear-gradient(180deg, #c0a050, #8b4513);
+ color: #f0e6d2;
+ border: none;
+ padding: 12px 25px;
+ border-radius: 30px;
+ cursor: pointer;
+ font-family: 'Cinzel Decorative', serif;
+ font-weight: bold;
+ font-size: 1rem;
+ transition: all 0.3s ease;
+ border: 1px solid #ffd700;
+ box-shadow: 0 4px 0px #8b4513;
 }
 
 .magical-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0px #8b4513;
-  background: linear-gradient(180deg, #ffd700, #c0a050);
-  color: #000;
+ transform: translateY(-2px);
+ box-shadow: 0 6px 0px #8b4513;
+ background: linear-gradient(180deg, #ffd700, #c0a050);
+ color: #000;
 }
 
 .magical-button:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 0px #8b4513;
+ transform: translateY(1px);
+ box-shadow: 0 2px 0px #8b4513;
 }
 
 .volume-control-magical {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  color: #ffd700;
-  font-family: 'Cinzel Decorative', serif;
+ display: flex;
+ align-items: center;
+ gap: 0.8rem;
+ color: #ffd700;
+ font-family: 'Cinzel Decorative', serif;
+}
+
+/* Oxygen Video Container - with text overlays */
+.oxygen-video-container {
+ width: 100%;
+ max-width: 900px;
+ margin: 2rem auto 3rem;
+ border: 4px solid #4a90e2;
+ border-radius: 15px;
+ overflow: hidden;
+ box-shadow: 0 0 40px rgba(74, 144, 226, 0.4);
+ background: #000;
+ position: relative;
+}
+
+.oxygen-video-container .video-screen-frame {
+ border: 12px solid #1a3a5a;
+}
+
+.oxygen-video-container .video-screen-frame::before {
+ border-color: #2a4a6a;
+}
+
+/* Text Overlay Labels */
+.earth-label {
+ position: absolute;
+ top: 25%;
+ left: 10%;
+ color: #4CAF50;
+ font-family: 'Cinzel Decorative', serif;
+ font-size: 1.8rem;
+ text-shadow: 3px 3px 0 #000, 0 0 20px rgba(76, 175, 80, 0.5);
+ z-index: 20;
+ background: rgba(0, 0, 0, 0.6);
+ padding: 8px 20px;
+ border-radius: 40px;
+ border: 2px solid #4CAF50;
+ opacity: 0;
+ transition: opacity 0.3s ease;
+ pointer-events: none;
+ backdrop-filter: blur(4px);
+ box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+}
+
+.mars-label {
+ position: absolute;
+ top: 25%;
+ right: 10%;
+ color: #ff6b6b;
+ font-family: 'Cinzel Decorative', serif;
+ font-size: 1.8rem;
+ text-shadow: 3px 3px 0 #000, 0 0 20px rgba(255, 107, 107, 0.5);
+ z-index: 20;
+ background: rgba(0, 0, 0, 0.6);
+ padding: 8px 20px;
+ border-radius: 40px;
+ border: 2px solid #ff6b6b;
+ opacity: 0;
+ transition: opacity 0.3s ease;
+ pointer-events: none;
+ backdrop-filter: blur(4px);
+ box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+}
+
+.dome-label {
+ position: absolute;
+ bottom: 35%;
+ left: 50%;
+ transform: translateX(-50%);
+ color: #ffd700;
+ font-family: 'Cinzel Decorative', serif;
+ font-size: 1.2rem;
+ text-shadow: 2px 2px 0 #000, 0 0 15px rgba(255, 215, 0, 0.5);
+ z-index: 20;
+ background: rgba(0, 0, 0, 0.6);
+ padding: 6px 15px;
+ border-radius: 30px;
+ border: 2px solid #ffd700;
+ opacity: 0;
+ transition: opacity 0.3s ease;
+ pointer-events: none;
+ backdrop-filter: blur(4px);
+ box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+ white-space: nowrap;
+}
+
+/* Small adjustments for mobile */
+@media (max-width: 768px) {
+ .earth-label, .mars-label {
+ font-size: 1.2rem;
+ padding: 5px 12px;
+ top: 15%;
+ }
+ .dome-label {
+ font-size: 0.9rem;
+ padding:4px 10px;
+ bottom: 5%;
+ white-space: normal;
+ width: 90%;
+ text-align: center;
+ }
+}
+
+.oxygen-header {
+ background: linear-gradient(180deg, #2a4a6a, #1a3a5a);
+ padding: 1rem;
+ text-align: center;
+ border-bottom: 2px solid #4a90e2;
+}
+
+.oxygen-header h3 {
+ color: #aaddff;
+ font-family: 'Cinzel Decorative', serif;
+ font-size: 1.8rem;
+ text-shadow: 2px 2px 0px #000;
+}
+
+.oxygen-header p {
+ color: #c0e0ff;
+ font-size: 1rem;
+ margin-top: 0.5rem;
+}
+
+.oxygen-fact {
+ background: rgba(0, 0, 0, 0.5);
+ padding: 1rem;
+ margin: 1rem;
+ border-left: 4px solid #4a90e2;
+ border-radius: 8px;
+}
+
+.oxygen-fact p {
+ color: #aaddff;
+ font-size: 1rem;
+ line-height: 1.5;
+}
+
+.oxygen-fact strong {
+ color: #ffd700;
 }
 
 /* EDUCATIONAL CARDS - MAGICAL STYLE */
 .magical-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-  margin: 3rem 0;
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+ gap: 2rem;
+ margin: 3rem 0;
 }
 
 .spell-card {
-  background: rgba(10, 10, 42, 0.8);
-  border: 2px solid #c0a050;
-  border-radius: 15px;
-  padding: 2rem;
-  text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  position: relative;
-  overflow: hidden;
+ background: rgba(10, 10, 42, 0.8);
+ border: 2px solid #c0a050;
+ border-radius: 15px;
+ padding: 2rem;
+ text-align: center;
+ transition: all 0.3s ease;
+ box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+ position: relative;
+ overflow: hidden;
 }
 
 .spell-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-  transform: rotate(45deg);
-  transition: all 0.6s ease;
-  opacity: 0;
+ content: '';
+ position: absolute;
+ top: -50%;
+ left: -50%;
+ width: 200%;
+ height: 200%;
+ background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+ transform: rotate(45deg);
+ transition: all 0.6s ease;
+ opacity: 0;
 }
 
 .spell-card:hover::before {
-  opacity: 1;
-  transform: rotate(45deg) translate(20px, 20px);
+ opacity: 1;
+ transform: rotate(45deg) translate(20px, 20px);
 }
 
 .spell-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(192, 160, 80, 0.3);
-  border-color: #ffd700;
+ transform: translateY(-10px);
+ box-shadow: 0 15px 30px rgba(192, 160, 80, 0.3);
+ border-color: #ffd700;
 }
 
 .spell-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+ font-size: 3rem;
+ margin-bottom: 1rem;
+ text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .spell-title {
-  font-family: 'Cinzel Decorative', serif;
-  color: #ffd700;
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #c0a050;
-  padding-bottom: 0.5rem;
+ font-family: 'Cinzel Decorative', serif;
+ color: #ffd700;
+ font-size: 1.4rem;
+ margin-bottom: 1rem;
+ border-bottom: 1px solid #c0a050;
+ padding-bottom: 0.5rem;
 }
 
 .spell-description {
-  color: #f0e6d2;
-  line-height: 1.6;
-  font-size: 1rem;
+ color: #f0e6d2;
+ line-height: 1.6;
+ font-size: 1rem;
 }
 
-/* HIDE/SHOW CONTROLS */
+/* HIDE/SHOW CONTROLS - ORIGINAL STYLING */
 .visibility-controls {
-  text-align: center;
-  margin: 2rem 0;
-  padding: 1.5rem;
-  background: rgba(10, 10, 42, 0.7);
-  border: 2px solid #c0a050;
-  border-radius: 15px;
+ text-align: center;
+ margin: 2rem 0;
+ padding: 1.5rem;
+ background: rgba(10, 10, 42, 0.7);
+ border: 2px solid #c0a050;
+ border-radius: 15px;
 }
 
 /* FOOTER */
@@ -467,27 +713,57 @@ border-top: 2px solid #c0a050;
 
 /* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
-  .magical-nav {
-    gap: 1rem;
-    padding: 0.6rem;
-  }
-  .magical-nav a {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
-  }
-  .magical-title {
-    font-size: 2.5rem;
-  }
-  .video-screen-frame {
-    height: 300px;
-  }
-  .video-controls-magical {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .magical-cards {
-    grid-template-columns: 1fr;
-  }
+ .magical-nav {
+ gap: 1rem;
+ padding: 0.6rem;
+ }
+ .magical-nav a {
+ font-size: 0.9rem;
+ padding: 0.5rem 1rem;
+ }
+ .magical-title {
+ font-size: 2.5rem;
+ }
+ .video-screen-frame {
+ height: 300px;
+ }
+ .video-controls-magical {
+ flex-direction: column;
+ gap: 1rem;
+ }
+ .magical-cards {
+ grid-template-columns: 1fr;
+ }
+}
+
+/* Mobile & Tablet: Hide desktop menu, show hamburger */
+@media (max-width: 1024px) {
+ nav.top-menu, .magical-nav {
+ display: none;
+ }
+
+ .mobile-nav {
+ display: block;
+ }
+
+ .site-title-overlay {
+ top: 70px;
+ left: 20px;
+ }
+ 
+ .site-title-overlay h1 {
+ font-size: 1.4rem;
+ }
+}
+
+/* Desktop: hide mobile menu */
+@media (min-width: 1025px) {
+ .mobile-nav {
+ display: none;
+ }
+ nav.top-menu, .magical-nav {
+ display: flex;
+ }
 }
 </style>
 </head>
@@ -496,6 +772,27 @@ border-top: 2px solid #c0a050;
 <!-- SITE TITLE -->
 <div class="site-title-overlay" id="siteTitle">
 <h1>The Mars Abyss</h1>
+</div>
+
+<!-- MOBILE HAMBURGER MENU -->
+<div class="mobile-nav">
+ <button class="hamburger-btn" id="hamburgerBtn">
+ <span></span>
+ <span></span>
+ <span></span>
+ </button>
+ <nav class="mobile-menu" id="mobileMenu">
+ <div class="menu-header">
+ <h3>PROFESSOR SQUEAKS</h3>
+ <button class="close-menu" id="closeMenu">✕</button>
+ </div>
+ <div class="menu-content">
+ <!-- Menu items will be generated by JavaScript -->
+ </div>
+ <div class="menu-footer">
+ <span class="pulse"></span> MAGIC IN PROGRESS
+ </div>
+ </nav>
 </div>
 
 <!-- Magical Background -->
@@ -532,7 +829,7 @@ border-top: 2px solid #c0a050;
 <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
 <a href="technical-database.html">Technical Database</a>
 <a href="martian-edicts.html">The Martian Edicts</a>
-<a href="alien-transport-network.html">Alien Transport Network</a>  
+<a href="alien-transport-network.html">Alien Transport Network</a>
 <a href="martian-martial-arts.html">Martian Martial Arts</a>
 <a href="solar-system-explorer.html">Solar System Explorer</a>
 <a href="aliens-ufos.html">Aliens & UFOs</a>
@@ -571,18 +868,18 @@ border-top: 2px solid #c0a050;
 </div>
 
 <div class="dropdown">
-    <a href="martian-news.html" class="dropbtn">Martian News</a>
-    <div class="dropdown-content">
-    <a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>  
-    <a href="martian-actualities.html">Martian Actualities</a>
-    <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
-    <a href="mars-bee-facility.html">Mars Bee Facility</a>
-    <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-    <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
-    <a href="house-of-health-secrets.html">The House of Health Secrets</a>
-    <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
-    <a href="martian-rest-areas.html">Martian Rest Areas</a>
-    <div class="dropdown">
+ <a href="martian-news.html" class="dropbtn">Martian News</a>
+ <div class="dropdown-content">
+ <a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a> 
+ <a href="martian-actualities.html">Martian Actualities</a>
+ <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+ <a href="mars-bee-facility.html">Mars Bee Facility</a>
+ <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+ <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+ <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+ <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+ <a href="martian-rest-areas.html">Martian Rest Areas</a>
+ <div class="dropdown">
 <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
 <div class="dropdown-content">
 <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
@@ -595,7 +892,7 @@ border-top: 2px solid #c0a050;
 <div class="dropdown">
 <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
 <div class="dropdown-content">
-<a href="what-the-regent-misses.html">What the Regent Misses</a>  
+<a href="what-the-regent-misses.html">What the Regent Misses</a> 
 <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
 <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
 <a href="honor-the-fallen.html">Honor The Fallen</a>
@@ -612,7 +909,7 @@ border-top: 2px solid #c0a050;
 <div class="dropdown">
 <a href="about.html" class="dropbtn">About</a>
 <div class="dropdown-content">
-<a href="about-the-project.html">About the Project</a>  
+<a href="about-the-project.html">About the Project</a> 
 <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
 <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
 <a href="professor-squeaks-academy.html" class="active">Professor Squeaks' Academy</a>
@@ -628,7 +925,7 @@ border-top: 2px solid #c0a050;
 <div class="dropdown">
 <a href="support.html" class="dropbtn">Support</a>
 <div class="dropdown-content">
-<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>  
+<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
@@ -642,183 +939,457 @@ border-top: 2px solid #c0a050;
 <a href="contact.html">Contact</a>
 </nav>
 
-
-
 </nav>
 
 <div class="main-content">
-  <!-- Magical Header -->
-  <header class="magical-header">
-    <h1 class="magical-title">Professor Squeaks' Sleep Academy</h1>
-    <p class="magical-subtitle">Making Martian Science Magical for Children!</p>
-  </header>
+ <!-- Magical Header -->
+ <header class="magical-header">
+ <h1 class="magical-title">Professor Squeaks' Academy</h1>
+ <p class="magical-subtitle">Making Martian Science Magical for Children!</p>
+ </header>
 
-  <!-- Main Video Player -->
-  <div class="magical-video-container">
-    <div class="video-screen-frame">
-      <video class="magical-video" id="cartoonVideo" poster="images/professor-squeaks-poster.jpg">
-        <source src="videos/professor-squeaks.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
-    <div class="video-controls-magical">
-      <button class="magical-button" onclick="toggleVideoPlay()">⚡ Play/Pause</button>
-      <button class="magical-button" onclick="toggleVideoMute()">🔇 Mute</button>
-      <div class="volume-control-magical">
-        <label for="videoVolume">Volume:</label>
-        <input type="range" id="videoVolume" min="0" max="1" step="0.1" value="1"
-          onchange="setVideoVolume(this.value)" style="accent-color: #ffd700;">
-      </div>
-      <button class="magical-button" onclick="toggleBackgroundMusic()">🎵 Music</button>
-    </div>
-  </div>
+ <!-- Main Video Player - Sleep Academy -->
+ <div class="magical-video-container">
+ <div class="video-screen-frame">
+ <video class="magical-video" id="cartoonVideo" poster="images/professor-squeaks-poster.jpg">
+ <source src="videos/professor-squeaks.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ </div>
+ <div class="video-controls-magical">
+ <button class="magical-button" onclick="toggleVideoPlay()">⚡ Play/Pause</button>
+ <button class="magical-button" onclick="toggleVideoMute()">🔇 Mute</button>
+ <div class="volume-control-magical">
+ <label for="videoVolume">Volume:</label>
+ <input type="range" id="videoVolume" min="0" max="1" step="0.1" value="1"
+ onchange="setVideoVolume(this.value)" style="accent-color: #ffd700;">
+ </div>
+ <button class="magical-button" onclick="toggleBackgroundMusic()">🎵 Music</button>
+ </div>
+ </div>
 
-  <!-- Hide/Show Controls -->
-  <div class="visibility-controls">
-    <button class="magical-button" onclick="toggleEducationalContent()">
-      📚 Show/Hide Learning Cards
-    </button>
-  </div>
+ <!-- Breathing on Mars Video Container with Text Overlays -->
+ <div class="oxygen-video-container" style="position: relative;">
+ <div class="oxygen-header">
+ <h3>🌬️ Breathing on Mars</h3>
+ <p>The Oxygen Problem - Why We Need Domes to Survive</p>
+ </div>
+ 
+ <!-- Text Overlays (initially hidden) -->
+ <div class="earth-label" id="earthLabel">🌍 21% OXYGEN</div>
+ <div class="mars-label" id="marsLabel">🔴 0.13% OXYGEN</div>
+ <div class="dome-label" id="domeLabel">🏠 BREATHABLE AIR INSIDE DOMES</div>
+ 
+ <div class="video-screen-frame">
+ <video class="magical-video" id="oxygenVideo" poster="images/oxygen-poster.jpg">
+ <source src="videos/breathing-on-mars.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ </div>
+ <div class="video-controls-magical">
+ <button class="magical-button" onclick="toggleOxygenPlay()">⚡ Play/Pause</button>
+ <button class="magical-button" onclick="toggleOxygenMute()">🔇 Mute</button>
+ <div class="volume-control-magical">
+ <label>Volume:</label>
+ <input type="range" id="oxygenVolume" min="0" max="1" step="0.1" value="1"
+ onchange="setOxygenVolume(this.value)" style="accent-color: #4a90e2;">
+ </div>
+ </div>
+ <div class="oxygen-fact">
+ <p><strong>🌍 Earth's Air:</strong> 21% Oxygen, 78% Nitrogen, 1% Other gases - Perfect for breathing!</p>
+ <p><strong>🔴 Mars' Air:</strong> 0.13% Oxygen (200x thinner), 95% Carbon Dioxide - Deadly for humans!</p>
+ <p><strong>🏠 Dome Solution:</strong> We create Earth-like air inside domes so we can breathe, play, and live!</p>
+ </div>
+ </div>
 
-  <!-- Educational Cards -->
-  <div class="magical-cards" id="educationalContent">
-    <div class="spell-card">
-      <div class="spell-icon">⚖️</div>
-      <h3 class="spell-title">Gravity & Sleep</h3>
-      <p class="spell-description">
-        Mars has only 38% of Earth's gravity! This means your body floats a little while sleeping,
-        making rest more comfortable but requiring special sleeping bags to stay in place!
-      </p>
-    </div>
+ <!-- Hide/Show Controls -->
+ <div class="visibility-controls">
+ <button class="magical-button" onclick="toggleEducationalContent()">
+ 📚 Show/Hide Learning Cards
+ </button>
+ </div>
 
-    <div class="spell-card">
-      <div class="spell-icon">⏰</div>
-      <h3 class="spell-title">Martian Time</h3>
-      <p class="spell-description">
-        A day on Mars is 24.6 hours long - just a bit longer than Earth! Our bodies need special
-        lights to help adjust to this new daily rhythm and maintain healthy sleep patterns.
-      </p>
-    </div>
+ <!-- Educational Cards -->
+ <div class="magical-cards" id="educationalContent">
+ <div class="spell-card">
+ <div class="spell-icon">⚖️</div>
+ <h3 class="spell-title">Gravity & Sleep</h3>
+ <p class="spell-description">
+ Mars has only 38% of Earth's gravity! This means your body floats a little while sleeping,
+ making rest more comfortable but requiring special sleeping bags to stay in place!
+ </p>
+ </div>
 
-    <div class="spell-card">
-      <div class="spell-icon">🌟</div>
-      <h3 class="spell-title">Space Dreams</h3>
-      <p class="spell-description">
-        Astronauts report having more vivid dreams in space! The change in gravity and environment
-        makes dream adventures extra special and memorable for young Martians.
-      </p>
-    </div>
-  </div>
+ <div class="spell-card">
+ <div class="spell-icon">⏰</div>
+ <h3 class="spell-title">Martian Time</h3>
+ <p class="spell-description">
+ A day on Mars is 24.6 hours long - just a bit longer than Earth! Our bodies need special
+ lights to help adjust to this new daily rhythm and maintain healthy sleep patterns.
+ </p>
+ </div>
+
+ <div class="spell-card">
+ <div class="spell-icon">🌟</div>
+ <h3 class="spell-title">Space Dreams</h3>
+ <p class="spell-description">
+ Astronauts report having more vivid dreams in space! The change in gravity and environment
+ makes dream adventures extra special and memorable for young Martians.
+ </p>
+ </div>
+ </div>
 </div>
 
 <footer class="magical-footer">
-    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+ <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
 
 <script>
-// Video element
-const cartoonVideo = document.getElementById('cartoonVideo');
 
-// Background music
+// ===== VIDEO PROTECTION =====
+(function() {
+ document.querySelectorAll('video').forEach(video => {
+ video.setAttribute('controlslist', 'nodownload');
+ video.addEventListener('contextmenu', (e) => e.preventDefault());
+ video.addEventListener('dragstart', (e) => e.preventDefault());
+ });
+ 
+ document.addEventListener('keydown', (e) => {
+ const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+ if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+ e.preventDefault();
+ }
+ });
+})();
+
+// ==================== MOBILE HAMBURGER MENU ====================
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuContent = document.querySelector('.menu-content');
+
+// Create mobile menu
+function createMobileMenu() {
+ menuContent.innerHTML = '';
+ const menuItems = [
+ { text: '🏠 Home', href: 'index.html' },
+ { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+ { text: ' Homage to Courage', href: 'homage-to-courage.html' },
+ { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+ { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+ { text: ' My Mission', href: 'my-mission.html' },
+ { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+ { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+ { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+ { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+
+ { text: '📖 Story', href: 'story.html' },
+ { text: ' Characters', href: 'characters.html' },
+ { text: ' Gallery', href: 'gallery.html' },
+ { text: ' Art & Concepts', href: 'art-and-concepts.html' },
+ { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+ { text: ' Technical Database', href: 'technical-database.html' },
+ { text: ' The Martian Edicts', href: 'martian-edicts.html' },
+ { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+ { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+ { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+ { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+
+ { text: '🎮 Martian Games', href: 'martian-games.html' },
+ { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+ { text: ' Martian Racer', href: 'martian-racer.html' },
+ { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+ { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+ { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+ { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+ { text: ' Music Player', href: 'music-app.html' },
+ { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+
+ { text: '🌍 Earth Codex', href: 'earth-codex.html' },
+ { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+ { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+ { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+ { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+ { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+ { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+ { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+ { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+ { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+
+ { text: '📰 Martian News', href: 'martian-news.html' },
+ { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+ { text: ' Martian Actualities', href: 'martian-actualities.html' },
+ { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+ { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+ { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+ { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+ { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+ { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+ { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+ { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+ { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+ { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+
+ { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+ { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+ { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+ { text: ' Earthlings Beware', href: 'earthings-beware.html' },
+ { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+ { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+ { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+ { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+ { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+ { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+ { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+ { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+
+ { text: 'ℹ️ About', href: 'about.html' },
+ { text: ' About the Project', href: 'about-the-project.html' },
+ { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+ { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+ { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+ { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+ { text: ' The Pale Horse', href: 'the-pale-horse.html' },
+ { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+ { text: ' Arachne Labs', href: 'arachne-labs.html' },
+ { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+ { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+
+ { text: '🤝 Support', href: 'support.html' },
+ { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+ { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+ { text: ' Mars Food District', href: 'mars-food-district.html' },
+ { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+ { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+ { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+ { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+ { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+
+ { text: '📧 Contact', href: 'contact.html' },
+ { text: '🎓 Professor Squeaks\' Academy (current)', href: 'professor-squeaks-academy.html', active: true }
+];
+
+ menuItems.forEach(item => {
+ const menuItem = document.createElement('div');
+ menuItem.className = 'menu-item';
+ const link = document.createElement('a');
+ link.href = item.href;
+ link.textContent = item.text;
+ if (item.active) {
+ link.classList.add('active');
+ }
+ menuItem.appendChild(link);
+ menuContent.appendChild(menuItem);
+ });
+}
+
+// Initialize mobile menu
+createMobileMenu();
+
+// Toggle menu
+hamburgerBtn.addEventListener('click', () => {
+ mobileMenu.classList.add('active');
+ document.body.style.overflow = 'hidden';
+});
+
+closeMenu.addEventListener('click', () => {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+ if (mobileMenu.classList.contains('active') && 
+ !mobileMenu.contains(e.target) && 
+ !hamburgerBtn.contains(e.target)) {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ }
+});
+
+// Close menu when clicking a link
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+ link.addEventListener('click', () => {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ });
+});
+
+// Handle window resize
+function handleResize() {
+ if (window.innerWidth > 1024) {
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
+ }
+}
+window.addEventListener('resize', handleResize);
+
+// ORIGINAL FUNCTIONALITY
+const cartoonVideo = document.getElementById('cartoonVideo');
+const oxygenVideo = document.getElementById('oxygenVideo');
 let backgroundMusic = null;
 let isMusicPlaying = false;
-
-// Educational content visibility
 let isContentVisible = true;
 
-// Video control functions
+// Get overlay elements
+const earthLabel = document.getElementById('earthLabel');
+const marsLabel = document.getElementById('marsLabel');
+const domeLabel = document.getElementById('domeLabel');
+
+// Set both videos to be paused initially
+cartoonVideo.pause();
+oxygenVideo.pause();
+
+// Cartoon Video Controls
 function toggleVideoPlay() {
-  if (cartoonVideo.paused) {
-    cartoonVideo.play();
-  } else {
-    cartoonVideo.pause();
-  }
+ if (cartoonVideo.paused) {
+   // Pause oxygen video if it's playing
+   if (!oxygenVideo.paused) {
+     oxygenVideo.pause();
+   }
+   cartoonVideo.play();
+ } else {
+   cartoonVideo.pause();
+ }
 }
 
+// Oxygen Video Controls
+function toggleOxygenPlay() {
+ if (oxygenVideo.paused) {
+   // Pause cartoon video if it's playing
+   if (!cartoonVideo.paused) {
+     cartoonVideo.pause();
+   }
+   oxygenVideo.play();
+ } else {
+   oxygenVideo.pause();
+ }
+}
+
+// Mute functions
 function toggleVideoMute() {
-  cartoonVideo.muted = !cartoonVideo.muted;
-  const button = document.querySelector('.video-controls-magical button:nth-child(2)');
-  button.textContent = cartoonVideo.muted ? '🔊 Unmute' : '🔇 Mute';
+ cartoonVideo.muted = !cartoonVideo.muted;
+ const button = document.querySelectorAll('.magical-video-container .magical-button')[1];
+ if (button) button.textContent = cartoonVideo.muted ? '🔊 Unmute' : '🔇 Mute';
 }
 
+function toggleOxygenMute() {
+ oxygenVideo.muted = !oxygenVideo.muted;
+ const button = document.querySelectorAll('.oxygen-video-container .magical-button')[1];
+ if (button) button.textContent = oxygenVideo.muted ? '🔊 Unmute' : '🔇 Mute';
+}
+
+// Volume functions
 function setVideoVolume(volume) {
-  cartoonVideo.volume = volume;
+ cartoonVideo.volume = volume;
+}
+
+function setOxygenVolume(volume) {
+ oxygenVideo.volume = volume;
 }
 
 // Background music system
 function toggleBackgroundMusic() {
-  if (!backgroundMusic) {
-    // Initialize background music
-    backgroundMusic = new Audio('music/eres-mi-luz-remix v1-for-squeaks.mp3');
-    backgroundMusic.loop = true;
-    backgroundMusic.volume = 0.2;
-  }
-  if (isMusicPlaying) {
-    backgroundMusic.pause();
-    isMusicPlaying = false;
-  } else {
-    backgroundMusic.play().catch(e => {
-      console.log('Music play failed:', e);
-    });
-    isMusicPlaying = true;
-  }
-  const button = document.querySelector('.video-controls-magical button:nth-child(4)');
-  button.textContent = isMusicPlaying ? '🎵 Music On' : '🎵 Music Off';
+ if (!backgroundMusic) {
+   backgroundMusic = new Audio('music/eres-mi-luz-remix v1-for-squeaks.mp3');
+   backgroundMusic.loop = true;
+   backgroundMusic.volume = 0.2;
+ }
+ if (isMusicPlaying) {
+   backgroundMusic.pause();
+   isMusicPlaying = false;
+ } else {
+   // Pause videos when music starts
+   if (!cartoonVideo.paused) cartoonVideo.pause();
+   if (!oxygenVideo.paused) oxygenVideo.pause();
+   
+   backgroundMusic.play().catch(e => {
+     console.log('Music play failed:', e);
+   });
+   isMusicPlaying = true;
+ }
+ const button = document.querySelectorAll('.magical-video-container .magical-button')[3];
+ if (button) button.textContent = isMusicPlaying ? '🎵 Music On' : '🎵 Music Off';
 }
 
 // Educational content toggle
 function toggleEducationalContent() {
-  const content = document.getElementById('educationalContent');
-  if (isContentVisible) {
-    content.style.display = 'none';
-    isContentVisible = false;
-  } else {
-    content.style.display = 'grid';
-    isContentVisible = true;
-  }
+ const content = document.getElementById('educationalContent');
+ if (content) {
+   if (isContentVisible) {
+     content.style.display = 'none';
+     isContentVisible = false;
+   } else {
+     content.style.display = 'grid';
+     isContentVisible = true;
+   }
+ }
 }
 
-// Initialize video
+// Update oxygen labels based on video time
+if (oxygenVideo) {
+ oxygenVideo.addEventListener('timeupdate', function() {
+   const time = oxygenVideo.currentTime;
+   
+   if (time >= 0.5 && time < 4) {
+     earthLabel.style.opacity = '1';
+     marsLabel.style.opacity = '0';
+     domeLabel.style.opacity = '0';
+   } else if (time >= 4 && time < 8) {
+     earthLabel.style.opacity = '0';
+     marsLabel.style.opacity = '1';
+     domeLabel.style.opacity = '0';
+   } else if (time >= 8) {
+     earthLabel.style.opacity = '0';
+     marsLabel.style.opacity = '0';
+     domeLabel.style.opacity = '1';
+   } else {
+     earthLabel.style.opacity = '0';
+     marsLabel.style.opacity = '0';
+     domeLabel.style.opacity = '0';
+   }
+ });
+}
+
+// Initialize videos - pause both initially
 document.addEventListener('DOMContentLoaded', function() {
-  cartoonVideo.volume = 1;
-  // Auto-play video when user interacts (for mobile)
-  document.addEventListener('click', function initVideo() {
-    cartoonVideo.play().catch(e => {
-      console.log('Auto-play prevented');
-    });
-    document.removeEventListener('click', initVideo);
-  });
+ cartoonVideo.volume = 1;
+ oxygenVideo.volume = 1;
+ 
+ // Ensure both are paused at start
+ cartoonVideo.pause();
+ oxygenVideo.pause();
+ 
+ console.log('Videos initialized and paused');
 });
 
-// Add some magical particle effects on click
+// Magical sparkle effect (optional)
 document.addEventListener('click', function(e) {
-  createMagicSparkle(e.clientX, e.clientY);
+ createMagicSparkle(e.clientX, e.clientY);
 });
 
 function createMagicSparkle(x, y) {
-  const sparkle = document.createElement('div');
-  sparkle.style.position = 'fixed';
-  sparkle.style.left = x + 'px';
-  sparkle.style.top = y + 'px';
-  sparkle.style.width = '20px';
-  sparkle.style.height = '20px';
-  sparkle.style.background = 'radial-gradient(circle, #ffd700, transparent)';
-  sparkle.style.borderRadius = '50%';
-  sparkle.style.pointerEvents = 'none';
-  sparkle.style.zIndex = '100';
-  sparkle.style.animation = 'sparkleFade 1s forwards';
-  document.body.appendChild(sparkle);
-  setTimeout(() => {
-    sparkle.remove();
-  }, 1000);
+ const sparkle = document.createElement('div');
+ sparkle.style.position = 'fixed';
+ sparkle.style.left = x + 'px';
+ sparkle.style.top = y + 'px';
+ sparkle.style.width = '20px';
+ sparkle.style.height = '20px';
+ sparkle.style.background = 'radial-gradient(circle, #ffd700, transparent)';
+ sparkle.style.borderRadius = '50%';
+ sparkle.style.pointerEvents = 'none';
+ sparkle.style.zIndex = '100';
+ sparkle.style.animation = 'sparkleFade 1s forwards';
+ document.body.appendChild(sparkle);
+ setTimeout(() => sparkle.remove(), 1000);
 }
 
 // Add sparkle animation
 const style = document.createElement('style');
 style.textContent = `
 @keyframes sparkleFade {
-  0% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(3); opacity: 0; }
+ 0% { transform: scale(1); opacity: 1; }
+ 100% { transform: scale(3); opacity: 0; }
 }
 `;
 document.head.appendChild(style);
