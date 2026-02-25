@@ -261,8 +261,8 @@ z-index: 1002;
 
 /* ROTATING MUSASHI QUOTES - TOP LAYER (z-index: 30) */
 .musashi-quotes-container {
-position: relative;
-left: 25%;
+position: absolute;
+left: 1%;
 top:33%;
 width: 320px;
 margin: 150px auto 2rem auto;
@@ -587,14 +587,20 @@ letter-spacing: 1px;
 /* Tablet adjustment */
 @media (max-width: 992px) {
     .musashi-quotes-container {
-        top: 40%; /* Adjust this value as needed */
+        left: 2%;
+        width: 300px;
+        top: 25%; /* Adjust this value as needed */
     }
 }
 
 /* Mobile adjustment */
 @media (max-width: 768px) {
     .musashi-quotes-container {
-        top: 45%; /* Adjust this value as needed */
+        left: 5%
+        top: 20%; /* Adjust this value as needed */
+        width: 90%; /* Wider on mobile for better visibility */
+        max-width: 320%;
+        margin: 0 auto;
     }
 }
 
@@ -730,7 +736,7 @@ Your browser does not support the video tag.
 </div>
 
 <!-- HIDE CONTENT BUTTON -->
- <button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+ <button class="hide-content-btn" id="hideContentBtn">Hide Support Cards</button>
 
 
 <!-- UPDATED MENU WITH MARTIAN GAMES -->
@@ -1209,9 +1215,8 @@ let contentHidden = false;
 
 hideBtn.addEventListener('click', () => {
  contentHidden = !contentHidden;
- musashiQuotes.classList.toggle('hidden', contentHidden);
  fundingCards.classList.toggle('hidden', contentHidden);
- hideBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
+ hideBtn.textContent = cardsHidden ? 'Show Support Cards' : 'Hide Support Cards';
 });
 
 </script>
