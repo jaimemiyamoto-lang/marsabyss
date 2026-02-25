@@ -316,7 +316,7 @@ mix-blend-mode: multiply;
 
 /* FUNDING CARDS - MIDDLE LAYER (z-index: 20) */
 .funding-cards {
-position: relative;
+position: absolute;
 left: 1%;
 bottom: 12%;
 width: 320px;
@@ -634,11 +634,49 @@ letter-spacing: 1px;
  top: 25%;
  }
  .funding-cards {
- left: 2%;
- width: 280px;
+ position: absolute;
+ left: 1%;
+ bottom: 12%;
+ width: 320px;
+ z-index: 20;
+ display: flex;
+ flex-direction: column;
+ gap: 1.5rem; 
+ }
+
+ /* Tablet adjustment */
+ @media (max-width: 992px) {
+  .funding-cards {
+   bottom: 8%; /* Move down a bit on tablet */
+   left: 2%;
+  }
+}
+
+/* Mobile adjustment - push them way down */
+@media (max-width: 768px) {
+ .funding-cards {
+  bottom: 5%;
+  left: 5%; /* Move down a bit on mobile */
  }
 }
 
+/* Mobile adjustment - push them way down */
+ @media (max-width: 768px) {
+  .funding-cards {
+   bottom: 5%; /* Much lower on mobile */
+   left: 5%;
+   width: 90% /* Wider for easier tapping */
+   max-width: 320px;
+  }
+ }
+
+ /* Even smaller screens */
+ @media (max-width: 480px) {
+  .funding-cards {
+   bottom: 3%; /* Almost at the bottom */
+  }
+ }
+ 
 /* FOOTER */
 footer {
 position: fixed;
