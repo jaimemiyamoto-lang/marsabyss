@@ -28,7 +28,7 @@ top: 0;
 left: 0;
 width: 100%;
 height: 100%;
-z-index: -2;
+z-index: 1;
 }
 
 .static-background {
@@ -56,7 +56,7 @@ z-index: 2;
 position: fixed;
 top: 80px;
 left: 30px;
-z-index: 50;
+z-index: 1001;
 }
 
 .site-title-overlay h1 {
@@ -123,7 +123,6 @@ height: 100%;
  top: 100%;
  left: 0;
  backdrop-filter: blur(5px);
- 
 }
 
 /* By placing position, and width, fixed the side-by-side dropdown behavior */
@@ -206,36 +205,8 @@ display: block;
  border: none;
 }
 
-/* ===== HIDE CONTENT BUTTON ===== */
-.hide-content-btn {
- background: rgba(0, 0, 0, 0.7);
- border: 2px solid #ff4b4b;
- color: #ff4b4b;
- padding: 10px 15px;
- border-radius: 25px;
- cursor: pointer;
- transition: all 0.3s ease;
- backdrop-filter: blur(5px);
- font-size: 0.9rem;
- font-weight: 600;
- opacity: 0.7;
- min-width: 120px;
- text-align: center;
- position: fixed;
- top: 80px;
- right: 30px;
- z-index: 1001;
-}
-
-.hide-content-btn:hover {
- opacity: 1;
- background: rgba(255, 75, 75, 0.2);
- color: #fff;
- border-color: #ffd700;
- transform: scale(1.02);
-}
-
-/* ===== AUDIO BUTTON ===== */
+/* ==== Hide & Audio Buttons - dark, faint, solid on hover ==== */
+.hide-content-btn,
 .audio-btn {
  background: rgba(0, 0, 0, 0.7);
  border: 2px solid #ff4b4b;
@@ -250,12 +221,9 @@ display: block;
  opacity: 0.7;
  min-width: 120px;
  text-align: center;
- position: fixed;
- bottom: 80px;
- right: 40px;
- z-index: 1000;
 }
 
+.hide-content-btn:hover,
 .audio-btn:hover {
  opacity: 1;
  background: rgba(255, 75, 75, 0.2);
@@ -264,7 +232,22 @@ display: block;
  transform: scale(1.02);
 }
 
-/* Mobile adjustments */
+/* Separate positioning */
+.hide-content-btn {
+ position: fixed;
+ top: 80px;
+ right: 30px;
+ z-index: 1002;
+}
+
+.audio-btn {
+position: fixed;
+bottom: 80px;
+right: 40px;
+z-index: 1002;
+}
+
+/* On mobile, adjust positions */
 @media (max-width: 992px) {
  .hide-content-btn {
  top: 70px;
@@ -276,13 +259,13 @@ display: block;
  }
 }
 
-/* ROTATING MUSASHI QUOTES */
+/* ROTATING MUSASHI QUOTES - BACKGROUND ELEMENT (z-index: 5) */
 .musashi-quotes-container {
 position: absolute;
 left: 25%;
 top:33%;
 width: 320px;
-z-index: 10;
+z-index: 5; /* Lower z-index to be behind cards */
 background: rgba(0, 0, 0, 0.85);
 padding: 2rem;
 border-radius: 12px;
@@ -324,19 +307,19 @@ width: 100%;
 height: 100%;
 background: url('images/blood-spatter.png') no-repeat center center;
 background-size: contain;
-z-index: 11;
+z-index: 6;
 pointer-events: none;
 opacity: 0.7;
 mix-blend-mode: multiply;
 }
 
-/* FUNDING CARDS */
+/* FUNDING CARDS - FOREGROUND ELEMENT (z-index: 20) */
 .funding-cards {
 position: absolute;
 left: 1%;
 bottom: 12%;
 width: 320px;
-z-index: 10;
+z-index: 20; /* Higher z-index to be above quotes */
 display: flex;
 flex-direction: column;
 gap: 1.5rem;
@@ -401,7 +384,7 @@ border: 2px solid #ffd700;
 border-right: none;
 border-radius: 8px 0 0 8px;
 cursor: pointer;
-z-index: 8;
+z-index: 30; /* Higher than everything */
 transition: all 0.3s ease;
 display: flex;
 align-items: center;
@@ -437,18 +420,18 @@ line-height: 1.3;
 letter-spacing: 1px;
 }
 
-/* ===== HAMBURGER MENU (unified red/gold theme) ===== */
+/* ===== HAMBURGER MENU (Orange/Red Theme) - ADDED ===== */
 .mobile-nav {
  display: none;
  position: fixed;
  top: 15px;
  left: 15px;
- z-index: 1002;
+ z-index: 1003; /* Higher than most elements */
 }
 
 .hamburger-btn {
- background: rgba(0, 0, 0, 0.8);
- border: 2px solid #ffd700;
+ background: rgba(0, 0, 0, 0.7);
+ border: 2px solid #ff9553;
  border-radius: 4px;
  width: 50px;
  height: 50px;
@@ -459,25 +442,27 @@ letter-spacing: 1px;
  cursor: pointer;
  transition: all 0.3s ease;
  backdrop-filter: blur(5px);
- box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+ box-shadow: 0 0 10px rgba(255, 149, 83, 0.3);
 }
 
 .hamburger-btn span {
  display: block;
  width: 25px;
  height: 2px;
- background: #ffd700;
+ background: #ff9553;
  margin: 3px 0;
  transition: all 0.3s ease;
+ box-shadow: 0 0 5px rgba(255, 149, 83, 0.5);
 }
 
 .hamburger-btn:hover {
- background: rgba(139, 0, 0, 0.6);
- border-color: #ffd700;
+ background: rgba(255, 68, 68, 0.2);
+ border-color: #ff4444;
 }
 
 .hamburger-btn:hover span {
- background: #fff;
+ background: #ff4444;
+ box-shadow: 0 0 8px rgba(255, 68, 68, 0.8);
 }
 
 .mobile-menu {
@@ -486,14 +471,14 @@ letter-spacing: 1px;
  left: -100%;
  width: 300px;
  height: 100vh;
- background: linear-gradient(135deg, #1a0000, #000);
- border-right: 2px solid #ffd700;
+ background: rgba(0, 0, 0, 0.98);
+ border-right: 2px solid #ff9553;
  padding: 20px;
  transition: left 0.4s ease;
- z-index: 1003;
+ z-index: 1004; /* Highest z-index */
  overflow-y: auto;
- backdrop-filter: blur(10px);
- text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+ backdrop-filter: blur(8px);
+ box-shadow: 0 0 20px rgba(255, 149, 83, 0.2);
 }
 
 .mobile-menu.active {
@@ -506,21 +491,21 @@ letter-spacing: 1px;
  align-items: center;
  margin-bottom: 20px;
  padding-bottom: 15px;
- border-bottom: 1px solid #ffd700;
+ border-bottom: 1px solid #ff9553;
 }
 
 .menu-header h3 {
- color: #ffd700;
+ color: #ff9553;
  font-family: 'Orbitron', sans-serif;
  font-size: 1rem;
  margin: 0;
- text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+ text-shadow: 0 0 8px rgba(255, 149, 83, 0.5);
 }
 
 .close-menu {
  background: transparent;
  border: none;
- color: #ffd700;
+ color: #ff9553;
  font-size: 1.5rem;
  cursor: pointer;
  width: 30px;
@@ -533,8 +518,8 @@ letter-spacing: 1px;
 }
 
 .close-menu:hover {
- background: rgba(139, 0, 0, 0.5);
- color: #fff;
+ background: rgba(255, 68, 68, 0.2);
+ color: #ff4444;
  transform: rotate(90deg);
 }
 
@@ -548,7 +533,7 @@ letter-spacing: 1px;
 
 .menu-content .menu-item a {
  display: block;
- color: #e0d5c0;
+ color: #e0e0e0;
  text-decoration: none;
  padding: 10px 15px;
  border-radius: 5px;
@@ -560,31 +545,32 @@ letter-spacing: 1px;
 
 .menu-content .menu-item a:hover,
 .menu-content .menu-item a.active {
- border-left-color: #ffd700;
- background: rgba(255, 215, 0, 0.1);
- color: #ffd700;
+ border-left-color: #ff9553;
+ background: rgba(255, 149, 83, 0.1);
+ color: #ff9553;
+ text-shadow: 0 0 8px rgba(255, 149, 83, 0.3);
 }
 
 .menu-footer {
  margin-top: 20px;
  padding-top: 15px;
- border-top: 1px solid #ffd700;
+ border-top: 1px solid #ff9553;
  text-align: center;
- color: #ffd700;
+ color: #ff9553;
  font-family: 'Orbitron', sans-serif;
  font-size: 0.8rem;
- text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+ text-shadow: 0 0 5px rgba(255, 149, 83, 0.5);
 }
 
 .pulse {
  display: inline-block;
  width: 8px;
  height: 8px;
- background-color: #ffd700;
+ background-color: #ff4444;
  border-radius: 50%;
  margin-right: 8px;
  animation: blink 1.5s infinite;
- box-shadow: 0 0 10px #ffd700;
+ box-shadow: 0 0 10px #ff4444;
 }
 
 @keyframes blink {
@@ -607,11 +593,11 @@ letter-spacing: 1px;
  .site-title-overlay h1 {
  font-size: 1.4rem;
  }
- .view-toggle {
+ .hide-content-btn {
  top: 70px;
- right: 15px;
+ right: 20px;
  }
- .audio-controls {
+ .audio-btn {
  bottom: 70px;
  right: 20px;
  }
@@ -658,6 +644,25 @@ Your browser does not support the video tag.
 <h1>The Mars Abyss</h1>
 </div>
 
+<!-- MOBILE HAMBURGER MENU - ADDED -->
+<div class="mobile-nav">
+ <button class="hamburger-btn" id="hamburgerBtn">
+ <span></span>
+ <span></span>
+ <span></span>
+ </button>
+ <nav class="mobile-menu" id="mobileMenu">
+ <div class="menu-header">
+ <h3>THE MARS ABYSS</h3>
+ <button class="close-menu" id="closeMenu">✕</button>
+ </div>
+ <div class="menu-content"></div>
+ <div class="menu-footer">
+ <span class="pulse"></span> SUPPORT THE MARS ABYSS
+ </div>
+ </nav>
+</div>
+
 <!-- MUSASHI QUOTES BOARD -->
 <div class="musashi-quotes-container" id="musashiQuotes">
 <div class="quote-text" id="currentQuote">
@@ -695,7 +700,8 @@ Your browser does not support the video tag.
 </div>
 
 <!-- HIDE CONTENT BUTTON -->
-<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+ <button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+
 
 <!-- UPDATED MENU WITH MARTIAN GAMES -->
 <nav class="top-menu">
@@ -935,7 +941,7 @@ muteBtn.addEventListener('click', function() {
  muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
 });
 
-// ===== ROTATING MUSASHI QUOTES =====
+// ROTATING MUSASHI QUOTES WITH FADE EFFECT
 const musashiQuotes = document.getElementById('musashiQuotes');
 const currentQuote = document.getElementById('currentQuote');
 const quoteArray = [
@@ -991,33 +997,24 @@ const quoteArray = [
 let quoteIndex = 0;
 
 function rotateQuote() {
- musashiQuotes.classList.add('fade-out');
+// Fade out
+musashiQuotes.classList.add('fade-out');
 
- setTimeout(() => {
- quoteIndex = (quoteIndex + 1) % quoteArray.length;
- currentQuote.textContent = quoteArray[quoteIndex];
- musashiQuotes.classList.remove('fade-out');
- }, 1000);
+setTimeout(() => {
+// Change quote
+quoteIndex = (quoteIndex + 1) % quoteArray.length;
+currentQuote.textContent = quoteArray[quoteIndex];
+
+// Fade in
+musashiQuotes.classList.remove('fade-out');
+}, 1000);
 }
 
+// Rotate quotes every 8 seconds
 setInterval(rotateQuote, 8000);
 
+// Manual quote rotation via banner
 document.getElementById('musashiBanner').addEventListener('click', rotateQuote);
-
-// ===== HIDE CONTENT BUTTON (Independent) =====
-const hideBtn = document.getElementById('hideContentBtn');
-const fundingCards = document.querySelector('.funding-cards');
-
-if (hideBtn && fundingCards && musashiQuotes) {
- let contentHidden = false;
- 
- hideBtn.addEventListener('click', () => {
- contentHidden = !contentHidden;
- musashiQuotes.classList.toggle('hidden', contentHidden);
- fundingCards.classList.toggle('hidden', contentHidden);
- hideBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
- });
-}
 
 // ===== MOBILE HAMBURGER MENU =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -1174,6 +1171,18 @@ function handleResize() {
  }
 }
 window.addEventListener('resize', handleResize);
+
+// ==== Hide Content Functionality ====
+const hideBtn = document.getElementById('hideContentBtn');
+const fundingCards = document.querySelector('.funding-cards');
+let contentHidden = false;
+
+hideBtn.addEventListener('click', () => {
+ contentHidden = !contentHidden;
+ musashiQuotes.classList.toggle('hidden', contentHidden);
+ fundingCards.classList.toggle('hidden', contentHidden);
+ hideBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
+});
 
 </script>
 </body>
