@@ -259,13 +259,13 @@ z-index: 1002;
  }
 }
 
-/* ROTATING MUSASHI QUOTES - BACKGROUND ELEMENT (z-index: 5) */
+/* ROTATING MUSASHI QUOTES - TOP LAYER (z-index: 30) */
 .musashi-quotes-container {
 position: absolute;
 left: 25%;
 top:33%;
 width: 320px;
-z-index: 5; /* Lower z-index to be behind cards */
+z-index: 30; /* HIGHER z-index to be on top */
 background: rgba(0, 0, 0, 0.85);
 padding: 2rem;
 border-radius: 12px;
@@ -307,19 +307,19 @@ width: 100%;
 height: 100%;
 background: url('images/blood-spatter.png') no-repeat center center;
 background-size: contain;
-z-index: 6;
+z-index: 31; /* Slightly above the quote box */
 pointer-events: none;
 opacity: 0.7;
 mix-blend-mode: multiply;
 }
 
-/* FUNDING CARDS - FOREGROUND ELEMENT (z-index: 20) */
+/* FUNDING CARDS - MIDDLE LAYER (z-index: 20) */
 .funding-cards {
 position: absolute;
 left: 1%;
 bottom: 12%;
 width: 320px;
-z-index: 20; /* Higher z-index to be above quotes */
+z-index: 20; /* MIDDLE z-index - below quotes but above background */
 display: flex;
 flex-direction: column;
 gap: 1.5rem;
@@ -384,7 +384,7 @@ border: 2px solid #ffd700;
 border-right: none;
 border-radius: 8px 0 0 8px;
 cursor: pointer;
-z-index: 30; /* Higher than everything */
+z-index: 40; /* Highest z-index for the side banner */
 transition: all 0.3s ease;
 display: flex;
 align-items: center;
@@ -420,7 +420,7 @@ line-height: 1.3;
 letter-spacing: 1px;
 }
 
-/* ===== HAMBURGER MENU (Orange/Red Theme) - ADDED ===== */
+/* ===== HAMBURGER MENU (Orange/Red Theme) ===== */
 .mobile-nav {
  display: none;
  position: fixed;
@@ -601,6 +601,16 @@ letter-spacing: 1px;
  bottom: 70px;
  right: 20px;
  }
+ /* Adjust quote position on mobile */
+ .musashi-quotes-container {
+ left: 10%;
+ width: 280px;
+ top: 25%;
+ }
+ .funding-cards {
+ left: 2%;
+ width: 280px;
+ }
 }
 
 /* FOOTER */
@@ -644,7 +654,7 @@ Your browser does not support the video tag.
 <h1>The Mars Abyss</h1>
 </div>
 
-<!-- MOBILE HAMBURGER MENU - ADDED -->
+<!-- MOBILE HAMBURGER MENU -->
 <div class="mobile-nav">
  <button class="hamburger-btn" id="hamburgerBtn">
  <span></span>
@@ -663,7 +673,7 @@ Your browser does not support the video tag.
  </nav>
 </div>
 
-<!-- MUSASHI QUOTES BOARD -->
+<!-- MUSASHI QUOTES BOARD - NOW ON TOP (z-index: 30) -->
 <div class="musashi-quotes-container" id="musashiQuotes">
 <div class="quote-text" id="currentQuote">
 "Today is victory over yourself of yesterday; tomorrow is your victory over lesser men."
@@ -672,7 +682,7 @@ Your browser does not support the video tag.
 <div class="blood-overlay"></div>
 </div>
 
-<!-- FUNDING CARDS -->
+<!-- FUNDING CARDS - NOW BELOW QUOTES (z-index: 20) -->
 <div class="funding-cards">
 <!-- Lateral Musashi Banner -->
 <div class="musashi-banner" id="musashiBanner">
