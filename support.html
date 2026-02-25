@@ -125,7 +125,6 @@ height: 100%;
  backdrop-filter: blur(5px);
 }
 
-/* By placing position, and width, fixed the side-by-side dropdown behavior */
 .dropdown .dropdown .dropdown-content {
  position: absolute;
  left: 0;
@@ -247,26 +246,13 @@ right: 40px;
 z-index: 1002;
 }
 
-/* On mobile, adjust positions */
-@media (max-width: 992px) {
- .hide-content-btn {
- top: 70px;
- right: 20px;
- }
- .audio-btn {
- bottom: 70px;
- right: 20px;
- }
-}
-
-/* ROTATING MUSASHI QUOTES - TOP LAYER (z-index: 30) */
+/* ROTATING MUSASHI QUOTES - positioned under site title */
 .musashi-quotes-container {
 position: absolute;
-left: 1%;
-top:33%;
+left: 25%;
+top:33%; 
 width: 320px;
-margin: 150px auto 2rem auto;
-z-index: 30; /* HIGHER z-index to be on top */
+z-index: 30;
 background: rgba(0, 0, 0, 0.85);
 padding: 2rem;
 border-radius: 12px;
@@ -308,19 +294,19 @@ width: 100%;
 height: 100%;
 background: url('images/blood-spatter.png') no-repeat center center;
 background-size: contain;
-z-index: 31; /* Slightly above the quote box */
+z-index: 31;
 pointer-events: none;
 opacity: 0.7;
 mix-blend-mode: multiply;
 }
 
-/* FUNDING CARDS - MIDDLE LAYER (z-index: 20) */
+/* FUNDING CARDS - positioned lower */
 .funding-cards {
 position: absolute;
 left: 1%;
-bottom: 12%;
+bottom: 10%;
 width: 320px;
-z-index: 20; /* MIDDLE z-index - below quotes but above background */
+z-index: 20;
 display: flex;
 flex-direction: column;
 gap: 1.5rem;
@@ -385,7 +371,7 @@ border: 2px solid #ffd700;
 border-right: none;
 border-radius: 8px 0 0 8px;
 cursor: pointer;
-z-index: 40; /* Highest z-index for the side banner */
+z-index: 40;
 transition: all 0.3s ease;
 display: flex;
 align-items: center;
@@ -427,7 +413,7 @@ letter-spacing: 1px;
  position: fixed;
  top: 15px;
  left: 15px;
- z-index: 1003; /* Higher than most elements */
+ z-index: 1003;
 }
 
 .hamburger-btn {
@@ -476,7 +462,7 @@ letter-spacing: 1px;
  border-right: 2px solid #ff9553;
  padding: 20px;
  transition: left 0.4s ease;
- z-index: 1004; /* Highest z-index */
+ z-index: 1004;
  overflow-y: auto;
  backdrop-filter: blur(8px);
  box-shadow: 0 0 20px rgba(255, 149, 83, 0.2);
@@ -579,167 +565,124 @@ letter-spacing: 1px;
  50% { opacity: 0.3; }
 }
 
-/* Default desktop setting - keep at 33% */
-.musashi-quotes-container {
-    top: 33%;
-}
+/* ===== RESPONSIVE DESIGN ===== */
 
-/* Tablet adjustment */
+/* Tablet landscape & portrait adjustments */
 @media (max-width: 992px) {
-    .musashi-quotes-container {
-        left: 2%;
-        width: 300px;
-        top: 25%; /* Adjust this value as needed */
-    }
+  .musashi-quotes-container {
+    left: 2%;
+    width: 300px;
+    top: 100px; /* slightly lower */
+  }
+  .funding-cards {
+    left: 2%;
+    bottom: 8%;
+    width: 300px;
+  }
 }
 
-/* Mobile adjustment */
-@media (max-width: 768px) {
-    .musashi-quotes-container {
-        left: 5%
-        top: 20%; /* Adjust this value as needed */
-        width: 90%; /* Wider on mobile for better visibility */
-        max-width: 320%;
-        margin: 0 auto;
-    }
+/* Mobile landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+  .musashi-quotes-container {
+    position: absolute;
+    left: 2%;
+    width: 280px;
+    top: 70px;
+    padding: 1.5rem;
+  }
+  .quote-text {
+    font-size: 16px;
+    min-height: 100px;
+  }
+  .funding-cards {
+    left: auto;
+    right: 2%;
+    bottom: 5%;
+    width: 280px;
+  }
+  .funding-card {
+    padding: 1rem;
+  }
+  .funding-card h3 {
+    font-size: 1.1rem;
+  }
+  .funding-card p {
+    font-size: 0.85rem;
+  }
+  .funding-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 768px) and (orientation: portrait) {
+  .musashi-quotes-container {
+    position: relative;
+    width: 90%;
+    max-width: 320px;
+    margin: 20px auto;
+    top: 0;
+    left: auto;
+  }
+  .funding-cards {
+    position: relative;
+    width: 90%;
+    max-width: 320px;
+    margin: 10px auto;
+    bottom: auto;
+    left: auto;
+  }
+  body {
+    padding-bottom: 20px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .funding-cards {
+    width: 95%;
+  }
+  .funding-card {
+    padding: 0.8rem;
+  }
+  .funding-card h3 {
+    font-size: 1rem;
+  }
+  .funding-card p {
+    font-size: 0.8rem;
+  }
+  .quote-text {
+    font-size: 14px;
+    min-height: 80px;
+  }
 }
 
 /* Mobile media query – hide desktop menu, show hamburger */
 @media (max-width: 992px) {
- nav.top-menu {
- display: none;
- }
- .mobile-nav {
- display: block;
- }
- .site-title-overlay {
- top: 70px;
- left: 15px;
- }
- .site-title-overlay h1 {
- font-size: 1.4rem;
- }
- .hide-content-btn {
- top: 70px;
- right: 20px;
- }
- .audio-btn {
- bottom: 70px;
- right: 20px;
- }
- /* Adjust quote position on mobile */
- .musashi-quotes-container {
- left: auto;
- width: 280px;
- top: 20%;
-  padding: 1.5rem;
- }
- .quote-text {
-  font-size: 16px;
-  min-height: 100px;
- }
-}
-
-/* Portrait mobile */
- @media (max-width: 768px) and (orientation: portrait) {
-  .musashi-quotes-container {
-   position: relative;
-   width: 90%;
-   max-width: 320px;
-   margin: 20px auto;
-   top: 0;
-   left: auto;
-   right: auto;
+  nav.top-menu {
+    display: none;
   }
-  
- 
- .funding-cards {
- position: relative;
- width: 90%; 
- left: auto;
- bottom: 0;
- max-width: 320px;
- margin: 10px auto;
- z-index: 20;
- display: flex;
- flex-direction: column;
- gap: 1.5rem; 
- }
-
-  /* Adjust bottom spacing */
-  body {
-   padding-bottom: 20px;
+  .mobile-nav {
+    display: block;
   }
- }
- 
-
- /* Tablet adjustment */
- @media (max-width: 992px)  and (orientation: landscape) {
-  .funding-cards {
-   width: 280px;
-   bottom: 5%; /* Move down a bit on tablet */
-   left: 2%;
+  .site-title-overlay {
+    top: 70px;
+    left: 15px;
   }
-  .funding-card {
-   padding: 1rem;
+  .site-title-overlay h1 {
+    font-size: 1.4rem;
   }
-  .funding-card h3 {
-   font-size: 1.1rem;
+  .hide-content-btn {
+    top: 70px;
+    right: 20px;
   }
-  .funding-card p {
-   font-size: 0.85rem;
-  }
-  .funding-button {
-   padding: 8px 16px;
-   font-size: 0.9rem;
+  .audio-btn {
+    bottom: 70px;
+    right: 20px;
   }
 }
 
-/* Mobile adjustment - push them way down */
-@media (max-width: 768px) {
- .funding-cards {
-  bottom: 5%;
-  left: 5%; /* Move down a bit on mobile */
- }
-}
-
-/* Mobile adjustment - push them way down */
- @media (max-width: 768px) {
-  .funding-cards {
-   bottom: 5%; /* Much lower on mobile */
-   left: 5%;
-   width: 90% /* Wider for easier tapping */
-   max-width: 320px;
-  }
- }
-
- /* Even smaller screens */
- @media (max-width: 480px) {
-  .funding-cards {
-   bottom: 3%; /* Almost at the bottom */
-  }
- }
-
- /* very small screens (under 400px) */
- @media (max-width: 400px) {
-   .funding-card {
-    padding: 0.8rem;
-   }
-
-  .funding-card h3 {
-   font-size: 1rem;
-  }
-
-  .funding-card p {
-   font-size: 0.8rem;
-  }
-
-  .quote-text {
-   font-size: 14px;
-   min-height: 80px;
-  }
- }
- 
 /* FOOTER */
 footer {
 position: fixed;
@@ -800,7 +743,7 @@ Your browser does not support the video tag.
  </nav>
 </div>
 
-<!-- MUSASHI QUOTES BOARD - NOW ON TOP (z-index: 30) -->
+<!-- MUSASHI QUOTES BOARD -->
 <div class="musashi-quotes-container" id="musashiQuotes">
 <div class="quote-text" id="currentQuote">
 "Today is victory over yourself of yesterday; tomorrow is your victory over lesser men."
@@ -809,7 +752,7 @@ Your browser does not support the video tag.
 <div class="blood-overlay"></div>
 </div>
 
-<!-- FUNDING CARDS - NOW BELOW QUOTES (z-index: 20) -->
+<!-- FUNDING CARDS -->
 <div class="funding-cards">
 <!-- Lateral Musashi Banner -->
 <div class="musashi-banner" id="musashiBanner">
@@ -964,12 +907,12 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="support.html" class="dropbtn active">Support</a>
 <div class="dropdown-content">
-<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+<a href="silver's-sign-language-course.html">Silver's language Academy</a>
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
 <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-<a href="fund-martian-research.html">Fund Martian Research</a> 
+<a href="fund-martian-research.html">Fund Martian Research</a>
 <a href="martian-survival-manual.html">Martian Survival Manual</a>
 <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
 </div>
@@ -1134,21 +1077,20 @@ const quoteArray = [
 let quoteIndex = 0;
 
 function rotateQuote() {
-// Fade out
-musashiQuotes.classList.add('fade-out');
+ // Fade out
+ musashiQuotes.classList.add('fade-out');
 
-setTimeout(() => {
-// Change quote
-quoteIndex = (quoteIndex + 1) % quoteArray.length;
-currentQuote.textContent = quoteArray[quoteIndex];
-
-// Fade in
-musashiQuotes.classList.remove('fade-out');
-}, 1000);
+ setTimeout(() => {
+   // Change quote
+   quoteIndex = (quoteIndex + 1) % quoteArray.length;
+   currentQuote.textContent = quoteArray[quoteIndex];
+   // Fade in
+   musashiQuotes.classList.remove('fade-out');
+ }, 2000); // fade duration matches CSS transition
 }
 
-// Rotate quotes every 15 seconds
-setInterval(rotateQuote, 15000);
+// Rotate quotes every 9 seconds (8s visible + 1s fade)
+setInterval(rotateQuote, 9000);
 
 // Manual quote rotation via banner
 document.getElementById('musashiBanner').addEventListener('click', rotateQuote);
@@ -1309,7 +1251,7 @@ function handleResize() {
 }
 window.addEventListener('resize', handleResize);
 
-// ==== Hide Content Functionality ====
+// ==== Hide Support Cards Functionality ====
 const hideBtn = document.getElementById('hideContentBtn');
 const fundingCards = document.querySelector('.funding-cards');
 let contentHidden = false;
@@ -1317,7 +1259,7 @@ let contentHidden = false;
 hideBtn.addEventListener('click', () => {
  contentHidden = !contentHidden;
  fundingCards.classList.toggle('hidden', contentHidden);
- hideBtn.textContent = cardsHidden ? 'Show Support Cards' : 'Hide Support Cards';
+ hideBtn.textContent = contentHidden ? 'Show Support Cards' : 'Hide Support Cards';
 });
 
 </script>
