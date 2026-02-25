@@ -579,6 +579,25 @@ letter-spacing: 1px;
  50% { opacity: 0.3; }
 }
 
+/* Default desktop setting - keep at 33% */
+.musashi-quotes-container {
+    top: 33%;
+}
+
+/* Tablet adjustment */
+@media (max-width: 992px) {
+    .musashi-quotes-container {
+        top: 40%; /* Adjust this value as needed */
+    }
+}
+
+/* Mobile adjustment */
+@media (max-width: 768px) {
+    .musashi-quotes-container {
+        top: 45%; /* Adjust this value as needed */
+    }
+}
+
 /* Mobile media query – hide desktop menu, show hamburger */
 @media (max-width: 992px) {
  nav.top-menu {
