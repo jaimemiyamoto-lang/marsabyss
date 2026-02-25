@@ -691,8 +691,26 @@
 
         @media (max-width: 768px) {
             .hero-title {
-                font-size: 2.5rem;
+                font-size: 2rem;
+                word-wrap: break-word;
+                hyphens: auto;
+                line-height: 1.2;
             }
+
+            .bronx-hero {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
             
             .subtitle {
                 font-size: 1.2rem;
