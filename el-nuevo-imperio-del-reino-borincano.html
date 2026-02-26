@@ -396,177 +396,184 @@ color: #ffc400;
 margin-bottom: 0.5rem;
 }
 
-/* ==== Hamburger Button - blue/gold theme ==== */
+/* ===== MOBILE HAMBURGER MENU – BLUE/GOLD THEME ===== */
+.mobile-nav {
+    display: none; /* hidden on desktop */
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1002;
+}
+
 .hamburger-btn {
-  background: rgba(10, 10, 20, 0.85);
-  border: 2px solid #00ccff;
-  border-radius: 12px; /* Softer shape */
-  width: 54px;
-  height: 54px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(0, 204, 255, 0.2) inset;
-  backdrop-filter: blur(8px);
+    background: rgba(10, 10, 20, 0.85);
+    backdrop-filter: blur(8px);
+    border: 2px solid #00ccff;
+    border-radius: 12px;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(0, 204, 255, 0.2) inset;
 }
 
 .hamburger-btn span {
-  display: block;
-  width: 28px;
-  height: 3px;
-  background: linear-gradient(90deg, #ffc400, #ffd966);
-  margin: 4px 0;
-  border-radius: 4px;
-  transition: all 0.4s ease;
-  box-shadow: 0 0 8px rgba(255, 196, 0, 0.6);
+    display: block;
+    width: 28px;
+    height: 3px;
+    background: linear-gradient(90deg, #ffc400, #ffd966);
+    margin: 4px 0;
+    border-radius: 4px;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 8px rgba(255, 196, 0, 0.6);
 }
 
 .hamburger-btn:hover {
-  background: rgba(0, 204, 255, 0.25);
-  border-color: #ffc400;
-  transform: scale(1.08);
-  box-shadow: 0 8px 25px rgba(0, 204, 255, 0.4);
+    background: rgba(0, 204, 255, 0.25);
+    border-color: #ffc400;
+    transform: scale(1.08);
+    box-shadow: 0 8px 25px rgba(0, 204, 255, 0.4);
 }
 
 .hamburger-btn:hover span {
-  background: linear-gradient(90deg, #fff, #ffc400);
-  box-shadow: 0 0 12px #ffc400;
-  transform: scaleX(1.05);
+    background: linear-gradient(90deg, #fff, #ffc400);
+    box-shadow: 0 0 12px #ffc400;
+    transform: scaleX(1.05);
 }
-/* === Mobile menu panel - Dark Luxury with blue/gold trim === */
+
 .mobile-menu {
-  position: fixed;
-  top: 0;
-  left: -100%;
-  width: 320px;
-  height: 100vh;
-  background: linear-gradient(145deg, #0b0b15 0%, #1a1a2a 100%);
-  border-right: 3px solid #00ccff;
-  padding: 25px 20px;
-  transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  z-index: 1003;
-  overflow-y: auto;
-  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8), 5px 0 25px rgba(0, 204, 255, 0.3);
-  backdrop-filter: blur(15px);
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 320px;
+    height: 100vh;
+    background: linear-gradient(145deg, #0b0b15 0%, #1a1a2a 100%);
+    border-right: 3px solid #00ccff;
+    padding: 25px 20px;
+    transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1003;
+    overflow-y: auto;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8), 5px 0 25px rgba(0, 204, 255, 0.3);
+    backdrop-filter: blur(15px);
 }
 
 .mobile-menu.active {
-  left: 0;
+    left: 0;
 }
-/* === Header with blue text, gold border === */
+
 .menu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid transparent;
-  border-image: linear-gradient(90deg, transparent, #00ccff, #ffc400, transparent) 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, transparent, #00ccff, #ffc400, transparent) 1;
 }
 
 .menu-header h3 {
-  color: #00ccff;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1rem;
-  margin: 0;
-  text-shadow: 0 0 10px rgba(0, 204, 255, 0.8), 0 0 20px rgba(255, 196, 0, 0.4);
-  margin: 0;
+    color: #00ccff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(0, 204, 255, 0.8), 0 0 20px rgba(255, 196, 0, 0.4);
 }
 
 .close-menu {
-  background: rgba(0, 204, 255, 0.1);
-  border: 1px solid rgba(0, 204, 255, 0.5);
-  color: #00ccff;
-  font-size: 1.8rem;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
-  text-shadow: 0 0 8px currentColor;
+    background: rgba(0, 204, 255, 0.1);
+    border: 1px solid rgba(0, 204, 255, 0.5);
+    color: #00ccff;
+    font-size: 1.8rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+    text-shadow: 0 0 8px currentColor;
 }
 
 .close-menu:hover {
-  background: rgba(0, 204, 255, 0.3);
-  color: #fff;
-  transform: rotate(90deg) scale(1.1);
-  border-color: #ffc400;
-  box-shadow: 0 0 25px #00ccff;
+    background: rgba(0, 204, 255, 0.3);
+    color: #fff;
+    transform: rotate(90deg) scale(1.1);
+    border-color: #ffc400;
+    box-shadow: 0 0 25px #00ccff;
 }
-/* Menu items - stylish and readable ===*/
+
 .menu-content {
-  margin-bottom: 25px;
+    margin-bottom: 25px;
 }
 
 .menu-content .menu-item {
-  margin-bottom: 8px;
-  transform: translateX(0);
-  transition: transform 0.3s ease;
+    margin-bottom: 8px;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
 }
 
 .menu-content .menu-item a {
-  display: block;
-  color: #f0f0ff;
-  text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border-left: 3px solid transparent;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(2px);
-  transition: all 0.3s ease;
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 400;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+    display: block;
+    color: #f0f0ff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(2px);
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
 }
 
 .menu-content .menu-item a:hover,
 .menu-content .menu-item a.active {
-  border-left-color: #00ccff;
-  background: linear-gradient(90deg, rgba(0, 204. 255, 0.15), rgba(255, 196, 0, 0.05));
-  color: #00ccff;
-  box-shadow: 0 4px 12px rgba(0, 204, 255, 0.3);
-  text-shadow: 0 0 6px #00ccff;
-  padding-left: 16px;
+    border-left-color: #00ccff;
+    background: linear-gradient(90deg, rgba(0, 204, 255, 0.15), rgba(255, 196, 0, 0.05));
+    color: #00ccff;
+    box-shadow: 0 4px 12px rgba(0, 204, 255, 0.3);
+    text-shadow: 0 0 6px #00ccff;
+    padding-left: 16px;
 }
-/* Menu footer - blue and gold */
+
 .menu-footer {
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 2px solid transparent;
-  border-image: linear-gradient(90deg, transparent, #00ccff, #ffc400, transparent) 1;
-  text-align: center;
-  color: #00ccff;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
-  text-shadow: 0 0 6px #00ccff;
-  position: relative;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid transparent;
+    border-image: linear-gradient(90deg, transparent, #00ccff, #ffc400, transparent) 1;
+    text-align: center;
+    color: #00ccff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-shadow: 0 0 6px #00ccff;
+    position: relative;
 }
 
 .pulse {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: #00ccff;
-  border-radius: 50%;
-  margin-right: 8px;
-  box-shadow: 0 0 12px #ffc400;
-  animation: cosmic-pulse 1.8s infinite;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #00ccff;
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 12px #ffc400;
+    animation: cosmic-pulse 1.8s infinite;
 }
 
 @keyframes cosmic-pulse {
-  0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
-  50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 20px #ffc400, 0 0 40px #00ccff; }
-  100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
+    0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
+    50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 20px #ffc400, 0 0 40px #00ccff; }
+    100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
 }
 
 /* FOOTER */
