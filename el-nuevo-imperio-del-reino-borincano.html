@@ -590,6 +590,27 @@ opacity: 0;
 pointer-events: none;
 }
 
+@media (max-width: 992px) {
+  nav.top-menu {
+    display: none;
+  }
+  .mobile-nav {
+    display: block;
+  }
+  .site-title-overlay {
+    top: 70px;
+    left: 15px;
+  }
+  .site-title-overlay h1 {
+    font-size: 1.4rem;
+  }
+  .audio-controls {
+    bottom: 70px;
+    right: 15px;
+  }
+  /* keep any other existing mobile styles */
+}
+  
 /* Responsive */
 @media (max-width: 768px) {
 .site-title-overlay {
