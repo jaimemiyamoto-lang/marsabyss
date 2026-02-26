@@ -396,7 +396,7 @@ color: #ffc400;
 margin-bottom: 0.5rem;
 }
 
-/* ===== MOBILE HAMBURGER MENU – BLUE/GOLD THEME ===== */
+/* ===== FULLY ENHANCED HAMBURGER MENU – BLUE/GOLD THEME ===== */
 .mobile-nav {
     display: none; /* hidden on desktop */
     position: fixed;
@@ -597,28 +597,28 @@ opacity: 0;
 pointer-events: none;
 }
 
+/* ===== MEDIA QUERIES – MOBILE ===== */
 @media (max-width: 992px) {
-  nav.top-menu {
-    display: none;
-  }
-  .mobile-nav {
-    display: block;
-  }
-  .site-title-overlay {
-    top: 70px;
-    left: 15px;
-  }
-  .site-title-overlay h1 {
-    font-size: 1.4rem;
-  }
-  .audio-controls {
-    bottom: 80px;
-    right: 15px;
-  }
-  /* keep any other existing mobile styles */
+    nav.top-menu {
+        display: none;
+    }
+    .mobile-nav {
+        display: block; /* show hamburger button */
+    }
+    .site-title-overlay {
+        top: 70px;
+        left: 15px;
+    }
+    .site-title-overlay h1 {
+        font-size: 1.4rem;
+    }
+    .audio-controls {
+        bottom: 80px;
+        right: 15px;
+    }
 }
-  
-/* Responsive */
+ 
+/* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
 .site-title-overlay {
 top: 70px;
@@ -647,7 +647,8 @@ width: 95%;
 height: 250px;
 }
 .crown-overlay {
-display: none;
+font-size: 2.5rem;
+top: 40%;
 }
 .comic-panel {
 grid-template-columns: 1fr;
@@ -834,12 +835,12 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="support.html" class="dropbtn">Support</a>
 <div class="dropdown-content">
-<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+<a href="silver's-sign-language-course.html">Silver's language Academy</a>
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
 <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-<a href="fund-martian-research.html">Fund Martian Research</a> 
+<a href="fund-martian-research.html">Fund Martian Research</a>
 <a href="martian-survival-manual.html">Martian Survival Manual</a>
 <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
 </div>
@@ -942,7 +943,6 @@ Your browser does not support the video tag.
 </footer>
 
 <script>
-
 // ===== VIDEO PROTECTION =====
 (function() {
  document.querySelectorAll('video').forEach(video => {
@@ -963,97 +963,93 @@ Your browser does not support the video tag.
 const videoBg = document.getElementById('marsVideo');
 const staticBg = document.getElementById('staticBg');
 
-// Preload and handle video properly
 videoBg.addEventListener('loadeddata', function() {
-videoBg.classList.add('loaded');
-setTimeout(() => {
-videoBg.play().catch(e => {
-console.log('Autoplay prevented, waiting for user interaction');
-});
-}, 500);
+  videoBg.classList.add('loaded');
+  setTimeout(() => {
+    videoBg.play().catch(e => {
+      console.log('Autoplay prevented, waiting for user interaction');
+    });
+  }, 500);
 });
 
 videoBg.addEventListener('canplaythrough', function() {
-videoBg.classList.add('loaded');
+  videoBg.classList.add('loaded');
 });
 
 videoBg.addEventListener('error', function() {
-console.log('Video failed to load, using static background only');
-videoBg.style.display = 'none';
+  console.log('Video failed to load, using static background only');
+  videoBg.style.display = 'none';
 });
 
-// Fallback: if video doesn't load within 3 seconds, hide it
 setTimeout(() => {
-if (!videoBg.classList.contains('loaded')) {
-videoBg.style.display = 'none';
-console.log('Video loading timeout, falling back to static background');
-}
+  if (!videoBg.classList.contains('loaded')) {
+    videoBg.style.display = 'none';
+    console.log('Video loading timeout, falling back to static background');
+  }
 }, 3000);
 
-// AUDIO SYSTEM
-/// Simple audio system
+// ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
-let isMuted = true; // start muted to avoid autoplay issues
+let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-const sounds = [
-{ src: 'music/Oceanic Embrace ext v2.2.mp3', volume: 0.3 },
-{ src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
-{ src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
-];
+ const sounds = [
+ { src: 'music/Oceanic Embrace ext v2.1.mp3', volume: 0.5 },
+ { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+ { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+ ];
 
-sounds.forEach(sound => {
-const audio = new Audio(sound.src);
-audio.volume = sound.volume;
-audio.loop = true;
-audio.muted = true; // Start muted
-audioElements.push(audio);
-});
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
 
-// Unmute and Play sounds first user interaction
-document.addEventListener('click', function unmuteAudio() {
-if (!isMuted) {
-audioElements.forEach(audio => {
-audio.muted = false;
-audio.play().catch(e => console.log('Audio play failed'));
-});
-isMuted = false;
-muteBtn.textContent = "🔊 Mute Sounds";
+ const unmuteOnInteraction = function() {
+ if (isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => {
+ console.log('Audio play attempt failed:', e);
+ });
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 MUTE LAB";
+ }
+ document.removeEventListener('click', unmuteOnInteraction);
+ document.removeEventListener('keydown', unmuteOnInteraction);
+ };
+
+ document.addEventListener('click', unmuteOnInteraction);
+ document.addEventListener('keydown', unmuteOnInteraction);
+
+ setTimeout(() => {
+ audioElements.forEach(audio => {
+ audio.play().then(() => {
+ console.log('Audio autoplay succeeded.');
+ }).catch(e => {
+ console.log('Audio autoplay blocked.');
+ });
+ });
+ }, 1000);
 }
-document.removeEventListener('click', unmuteAudio);
-}, { once: true });
-}
 
-// Mute toggle
 muteBtn.addEventListener('click', function() {
-isMuted = !isMuted;
-audioElements.forEach(audio => {
-audio.muted = isMuted;
-});
-muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
-});
-// Initialize audio when page loads
-initAudio();
-
-// Mute toggle
-muteBtn.addEventListener('click', function() {
-isMuted = !isMuted;
-audioElements.forEach(audio => {
-audio.muted = isMuted;
-});
-muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
-});
-// Initialize audio when page loads
-initAudio();
-
-// Mute toggle
-muteBtn.addEventListener('click', function() {
-isMuted = !isMuted;
-audioElements.forEach(audio => {
-audio.muted = isMuted;
-});
-muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+ if (audioElements.length === 0) {
+ initAudio();
+ return;
+ }
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ if (!isMuted) {
+ audio.play().catch(e => console.log('Playback resume failed'));
+ }
+ });
+ muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
 });
 
 // HIDE CONTENT FUNCTIONALITY
@@ -1063,78 +1059,53 @@ const pageFooter = document.getElementById('pageFooter');
 let contentHidden = false;
 
 hideContentBtn.addEventListener('click', function() {
-contentHidden = !contentHidden;
-
-if (contentHidden) {
-mainContent.classList.add('hidden');
-pageFooter.classList.add('hidden');
-hideContentBtn.textContent = 'Show Content';
-} else {
-mainContent.classList.remove('hidden');
-pageFooter.classList.remove('hidden');
-hideContentBtn.textContent = 'Hide Content';
-}
+  contentHidden = !contentHidden;
+  if (contentHidden) {
+    mainContent.classList.add('hidden');
+    pageFooter.classList.add('hidden');
+    hideContentBtn.textContent = 'Show Content';
+  } else {
+    mainContent.classList.remove('hidden');
+    pageFooter.classList.remove('hidden');
+    hideContentBtn.textContent = 'Hide Content';
+  }
 });
-
-// Initialize audio when page loads
-initAudio();
 
 // Ensure video plays when user interacts with page
 document.addEventListener('click', function() {
-if (videoBg.paused) {
-videoBg.play().catch(e => console.log('Video play requires user interaction'));
-}
+  if (videoBg.paused) {
+    videoBg.play().catch(e => console.log('Video play requires user interaction'));
+  }
 });
 
-// Enable sound for the imperio video
+// Imperio video handling
 const imperioVideo = document.querySelector('.imperio-video');
 if (imperioVideo) {
-imperioVideo.volume = 0.3;
-imperioVideo.loop = false;
+  imperioVideo.volume = 0.3;
+  imperioVideo.loop = false;
+  imperioVideo.style.opacity = '0.7';
 
-muteBtn.addEventListener('click', function() {
+  muteBtn.addEventListener('click', function() {
     imperioVideo.muted = isMuted;
-});
+    imperioVideo.style.opacity = isMuted ? '0.7' : '1';
+  });
 
-imperioVideo.addEventListener('ended', function() {
+  imperioVideo.addEventListener('ended', function() {
     setTimeout(() => {
-        this.currentTime =0;
-        this.play();
+      this.currentTime = 0;
+      this.play();
     }, 5000);
-    });
-    this.muted = !this.muted; 
+  });
 
-    if (this.muted) {
-        this.style.opacity = '0.7';
-    } else {
-        this.style.opacity = '1';
-    }
-};
-imperioVideo.addEventListener('pause', function() {
+  imperioVideo.addEventListener('pause', function() {
     if (this.currentTime >= this.duration - 0.1) {
-        setTimeout(() => {
-            this.currentTime = 0;
-            this.play();
-        }, 5000);
+      setTimeout(() => {
+        this.currentTime = 0;
+        this.play();
+      }, 5000);
     }
-});
-
-imperioVideo.style.opacity = '0.7';
-
-const originalMuteToggle = muteBtn.onclick;
-muteBtn.onclick = function() {
-
-    isMuted = !isMuted;
-    audioElements.forEach(audio => {
-        audio.muted = isMuted;
-    });
-    muteBtn.textContent = isMuted ?  "🔈 Unmute Sounds" : "🔊 Mute Sounds";
-    
-    if (imperioVideo) {
-        imperioVideo.muted = isMuted;
-        imperioVideo.style.opacity = isMuted ? '0.7'  : '1';
-    }
-};
+  });
+}
 
 // ===== MOBILE HAMBURGER MENU =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -1143,152 +1114,152 @@ const mobileMenu = document.getElementById('mobileMenu');
 const menuContent = document.querySelector('.menu-content');
 
 function createMobileMenu() {
-if (!menuContent) return;
-menuContent.innerHTML = '';
+  if (!menuContent) return;
+  menuContent.innerHTML = '';
 
-const menuItems = [
-  { text: '🏠 Home', href: 'index.html' },
-  { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
-  { text: ' Homage to Courage', href: 'homage-to-courage.html' },
-  { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
-  { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
-  { text: ' My Mission', href: 'my-mission.html' },
-  { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
-  { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
-  { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
-  { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+  const menuItems = [
+    { text: '🏠 Home', href: 'index.html' },
+    { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+    { text: ' Homage to Courage', href: 'homage-to-courage.html' },
+    { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+    { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+    { text: ' My Mission', href: 'my-mission.html' },
+    { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+    { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+    { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+    { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
 
-  { text: '📖 Story', href: 'story.html' },
-  { text: ' Characters', href: 'characters.html' },
-  { text: ' Gallery', href: 'gallery.html' },
-  { text: ' Art & Concepts', href: 'art-and-concepts.html' },
-  { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
-  { text: ' Technical Database', href: 'technical-database.html' },
-  { text: ' The Martian Edicts', href: 'martian-edicts.html' },
-  { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
-  { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
-  { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
-  { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+    { text: '📖 Story', href: 'story.html' },
+    { text: ' Characters', href: 'characters.html' },
+    { text: ' Gallery', href: 'gallery.html' },
+    { text: ' Art & Concepts', href: 'art-and-concepts.html' },
+    { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+    { text: ' Technical Database', href: 'technical-database.html' },
+    { text: ' The Martian Edicts', href: 'martian-edicts.html' },
+    { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+    { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+    { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+    { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
 
-  { text: '🎮 Martian Games', href: 'martian-games.html' },
-  { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
-  { text: ' Martian Racer', href: 'martian-racer.html' },
-  { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
-  { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
-  { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
-  { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
-  { text: ' Music Player', href: 'music-app.html' },
-  { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+    { text: '🎮 Martian Games', href: 'martian-games.html' },
+    { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+    { text: ' Martian Racer', href: 'martian-racer.html' },
+    { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+    { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+    { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+    { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+    { text: ' Music Player', href: 'music-app.html' },
+    { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
 
-  { text: '🌍 Earth Codex', href: 'earth-codex.html' },
-  { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
-  { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
-  { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
-  { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
-  { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
-  { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
-  { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
-  { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
-  { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+    { text: '🌍 Earth Codex', href: 'earth-codex.html' },
+    { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+    { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+    { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+    { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+    { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+    { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+    { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+    { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+    { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
 
-  { text: '📰 Martian News', href: 'martian-news.html' },
-  { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
-  { text: ' Martian Actualities', href: 'martian-actualities.html' },
-  { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
-  { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
-  { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
-  { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
-  { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
-  { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
-  { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
-  { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
-  { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
-  { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+    { text: '📰 Martian News', href: 'martian-news.html' },
+    { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+    { text: ' Martian Actualities', href: 'martian-actualities.html' },
+    { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+    { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+    { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+    { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+    { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+    { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+    { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+    { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+    { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+    { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
 
-  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
-  { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
-  { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
-  { text: ' Earthlings Beware', href: 'earthings-beware.html' },
-  { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
-  { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
-  { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
-  { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
-  { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
-  { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
-  { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
-  { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+    { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+    { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+    { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+    { text: ' Earthlings Beware', href: 'earthings-beware.html' },
+    { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+    { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+    { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+    { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+    { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+    { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+    { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+    { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
 
-  { text: 'ℹ️ About', href: 'about.html' },
-  { text: ' About the Project', href: 'about-the-project.html' },
-  { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
-  { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
-  { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
-  { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
-  { text: ' The Pale Horse', href: 'the-pale-horse.html' },
-  { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
-  { text: ' Arachne Labs', href: 'arachne-labs.html' },
-  { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
-  { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+    { text: 'ℹ️ About', href: 'about.html' },
+    { text: ' About the Project', href: 'about-the-project.html' },
+    { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+    { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+    { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+    { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+    { text: ' The Pale Horse', href: 'the-pale-horse.html' },
+    { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+    { text: ' Arachne Labs', href: 'arachne-labs.html' },
+    { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+    { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
 
-  { text: '🤝 Support', href: 'support.html' },
-  { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
-  { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
-  { text: ' Mars Food District', href: 'mars-food-district.html' },
-  { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
-  { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
-  { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
-  { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
-  { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+    { text: '🤝 Support', href: 'support.html' },
+    { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+    { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+    { text: ' Mars Food District', href: 'mars-food-district.html' },
+    { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+    { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+    { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+    { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+    { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
 
-  { text: '📧 Contact', href: 'contact.html' },
-  { text: '👑 El Nuevo Imperio Del Reino Borincano (current)', href: 'el-nuevo-imperio-del-reino-borincano.html', active: true }
-];
+    { text: '📧 Contact', href: 'contact.html' },
+    { text: '👑 El Nuevo Imperio (current)', href: 'el-nuevo-imperio-del-reino-borincano.html', active: true }
+  ];
 
-menuItems.forEach(item => {
-const menuItem = document.createElement('div');
-menuItem.className = 'menu-item';
-const link = document.createElement('a');
-link.href = item.href;
-link.textContent = item.text;
-if (item.active) link.classList.add('active');
-menuItem.appendChild(link);
-menuContent.appendChild(menuItem);
-});
+  menuItems.forEach(item => {
+    const menuItem = document.createElement('div');
+    menuItem.className = 'menu-item';
+    const link = document.createElement('a');
+    link.href = item.href;
+    link.textContent = item.text;
+    if (item.active) link.classList.add('active');
+    menuItem.appendChild(link);
+    menuContent.appendChild(menuItem);
+  });
 }
 
 createMobileMenu();
 
 hamburgerBtn.addEventListener('click', () => {
-mobileMenu.classList.add('active');
-document.body.style.overflow = 'hidden';
+  mobileMenu.classList.add('active');
+  document.body.style.overflow = 'hidden';
 });
 
 closeMenu.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
+  mobileMenu.classList.remove('active');
+  document.body.style.overflow = '';
 });
 
 document.addEventListener('click', (e) => {
-if (mobileMenu.classList.contains('active') &&
-!mobileMenu.contains(e.target) &&
-!hamburgerBtn.contains(e.target)) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
+  if (mobileMenu.classList.contains('active') &&
+      !mobileMenu.contains(e.target) &&
+      !hamburgerBtn.contains(e.target)) {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 });
 
 document.querySelectorAll('.mobile-menu a').forEach(link => {
-link.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-});
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  });
 });
 
 function handleResize() {
-if (window.innerWidth > 992) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
+  if (window.innerWidth > 992) {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 }
 window.addEventListener('resize', handleResize);
 </script>
