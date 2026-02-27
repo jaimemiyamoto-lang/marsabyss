@@ -1,1055 +1,1483 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mars Bee Facility - The Mars Abyss</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        /* === General Reset === */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Mars Bee Facility - The Mars Abyss</title>
+ <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+ <style>
+ /* === General Reset === */
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
 
-        body {
-            margin: 0;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            color: #f0e6d2;
-            background: url('images/the-bee-hive-storage-facility.jpg') no-repeat center center fixed;
-            background-size: cover;
-            transition: background-image 1s ease-in-out;
-            overflow-x: hidden;
-        }
+ body {
+ margin: 0;
+ font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+ color: #f0e6d2;
+ background: url('images/the-bee-hive-storage-facility.jpg') no-repeat center center fixed;
+ background-size: cover;
+ transition: background-image 1s ease-in-out;
+ overflow-x: hidden;
+ }
 
-        /* === STANDARD TOP MENU === */
-        nav.top-menu {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            background: rgba(17, 17, 17, 0.95);
-            padding: 0.6rem 0;
-            z-index: 1000;
-            gap: 2.5rem;
-            flex-wrap: nowrap;
-            backdrop-filter: blur(10px);
-            border-bottom: 3px solid #ffd700;
-        }
+ /* === STANDARD TOP MENU === */
+ nav.top-menu {
+ position: fixed;
+ top: 0;
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ background: rgba(17, 17, 17, 0.95);
+ padding: 0.6rem 0;
+ z-index: 1000;
+ gap: 2.5rem;
+ flex-wrap: nowrap;
+ backdrop-filter: blur(10px);
+ border-bottom: 3px solid #ffd700;
+ }
 
-        /* Mars Abyss Title */
-        .mars-abyss-title {
-            position: fixed;
-            top: 80px;
-            left: 30px;
-            z-index: 1002;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            color: #ffd700;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
+ /* Mars Abyss Title */
+ .mars-abyss-title {
+ position: fixed;
+ top: 80px;
+ left: 30px;
+ z-index: 1002;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.8rem;
+ color: #ffd700;
+ letter-spacing: 1px;
+ text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+ }
 
-        /* Navigation Links */
-        nav.top-menu a {
-            color: #ff91c1;
-            text-decoration: none;
-            font-size: 1.1rem;
-            padding: 0.5rem 0.8rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
+ /* Navigation Links */
+ nav.top-menu a {
+ color: #ff91c1;
+ text-decoration: none;
+ font-size: 1.1rem;
+ padding: 0.5rem 0.8rem;
+ border-radius: 4px;
+ transition: all 0.3s ease;
+ display: flex;
+ align-items: center;
+ }
 
-        nav.top-menu a:hover {
-            color: #ffd700;
-        }
+ nav.top-menu a:hover {
+ color: #ffd700;
+ }
 
-        /* Dropdown Styles */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
+ /* Dropdown Styles */
+ .dropdown {
+ position: relative;
+ display: inline-block;
+ }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background: rgba(26, 26, 26, 0.98);
-            min-width: 140px;
-            z-index: 1001;
-            border-radius: 4px;
-            border: 2px solid #ffd700;
-            top: 100%;
-            left: 0%;
-            backdrop-filter: blur(5px);
-            padding: 4px 0;
-        }
+ .dropdown-content {
+ display: none;
+ position: absolute;
+ background: rgba(26, 26, 26, 0.98);
+ min-width: 140px;
+ z-index: 1001;
+ border-radius: 4px;
+ border: 2px solid #ffd700;
+ top: 100%;
+ left: 0%;
+ backdrop-filter: blur(5px);
+ padding: 4px 0;
+ }
 
-        .dropdown-content a {
-            color: #ff91c1;
-            padding: 3px 5px;
-            text-decoration: none;
-            display: block;
-            transition: background-color 0.3s ease;
-            font-size: 0.8rem;
-            line-height: 1;
-        }
+ .dropdown-content a {
+ color: #ff91c1;
+ padding: 3px 5px;
+ text-decoration: none;
+ display: block;
+ transition: background-color 0.3s ease;
+ font-size: 0.8rem;
+ line-height: 1;
+ }
 
-        .dropdown-content a:hover {
-            background: rgba(255, 215, 0, 0.3);
-            color: #ffd700;
-        }
+ .dropdown-content a:hover {
+ background: rgba(255, 215, 0, 0.3);
+ color: #ffd700;
+ }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+ .dropdown:hover .dropdown-content {
+ display: block;
+ }
 
-        /* === Main Content === */
-        .main-content {
-            position: relative;
-            padding: 2rem 5%;
-            min-height: 100vh;
-            margin-top: 70px;
-            transition: opacity 0.5s ease;
-        }
+ /* === Main Content === */
+ .main-content {
+ position: relative;
+ padding: 2rem 5%;
+ min-height: 100vh;
+ margin-top: 70px;
+ transition: opacity 0.5s ease;
+ }
 
-        /* === Page Header === */
-        .header-title {
-            text-align: center;
-            padding: 3rem 1rem 1rem;
-            text-shadow: 0 0 12px #000;
-            background: rgba(0, 0, 0, 0.7);
-            margin: 2rem auto;
-            border-radius: 12px;
-            max-width: 800px;
-            border: 2px solid #ffd700;
-            transition: all 0.3s ease;
-        }
+ /* === Page Header === */
+ .header-title {
+ text-align: center;
+ padding: 3rem 1rem 1rem;
+ text-shadow: 0 0 12px #000;
+ background: rgba(0, 0, 0, 0.7);
+ margin: 2rem auto;
+ border-radius: 12px;
+ max-width: 800px;
+ border: 2px solid #ffd700;
+ transition: all 0.3s ease;
+ }
 
-        .header-title:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
-        }
+ .header-title:hover {
+ transform: translateY(-5px);
+ box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+ }
 
-        .header-title h1 {
-            display: none;
-        }
+ .header-title h1 {
+ display: none;
+ }
 
-        .header-title h2 {
-            font-size: 2.2rem;
-            color: #ffd700;
-            margin: 0;
-        }
+ .header-title h2 {
+ font-size: 2.2rem;
+ color: #ffd700;
+ margin: 0;
+ }
 
-        /* === Regent's Reflection Section === */
-        .reflection-box {
-            background-color: rgba(0, 0, 0, 0.7);
-            border: 2px solid #ff91c1;
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 2rem;
-            border-radius: 12px;
-            line-height: 1.7;
-            box-shadow: 0 0 25px rgba(255, 145, 193, 0.4);
-            font-size: 1.1rem;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        }
+ /* === Regent's Reflection Section === */
+ .reflection-box {
+ background-color: rgba(0, 0, 0, 0.7);
+ border: 2px solid #ff91c1;
+ max-width: 800px;
+ margin: 2rem auto;
+ padding: 2rem;
+ border-radius: 12px;
+ line-height: 1.7;
+ box-shadow: 0 0 25px rgba(255, 145, 193, 0.4);
+ font-size: 1.1rem;
+ backdrop-filter: blur(5px);
+ transition: all 0.3s ease;
+ }
 
-        .reflection-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(255, 145, 193, 0.6);
-        }
+ .reflection-box:hover {
+ transform: translateY(-5px);
+ box-shadow: 0 10px 25px rgba(255, 145, 193, 0.6);
+ }
 
-        .reflection-box h3 {
-            color: #ff91c1;
-            margin-bottom: 1rem;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 1.5rem;
-            text-align: center;
-        }
+ .reflection-box h3 {
+ color: #ff91c1;
+ margin-bottom: 1rem;
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ font-size: 1.5rem;
+ text-align: center;
+ }
 
-        /* === Video Section === */
-        .video-section {
-            text-align: center;
-            padding: 3rem 2rem;
-            margin: 3rem auto;
-            max-width: 1000px;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            border: 2px solid #ffb347;
-            border-radius: 12px;
-            position: relative;
-            box-shadow: 0 0 25px rgba(255, 179, 71, 0.4);
-            transition: all 0.3s ease;
-        }
+ /* === Video Section === */
+ .video-section {
+ text-align: center;
+ padding: 3rem 2rem;
+ margin: 3rem auto;
+ max-width: 1000px;
+ background: rgba(0, 0, 0, 0.7);
+ backdrop-filter: blur(10px);
+ border: 2px solid #ffb347;
+ border-radius: 12px;
+ position: relative;
+ box-shadow: 0 0 25px rgba(255, 179, 71, 0.4);
+ transition: all 0.3s ease;
+ }
 
-        .video-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(255, 179, 71, 0.6);
-        }
+ .video-section:hover {
+ transform: translateY(-5px);
+ box-shadow: 0 10px 25px rgba(255, 179, 71, 0.6);
+ }
 
-        .video-section h3 {
-            color: #ffb347;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(255, 179, 71, 0.3);
-        }
+ .video-section h3 {
+ color: #ffb347;
+ font-size: 1.8rem;
+ margin-bottom: 1rem;
+ text-shadow: 0 0 10px rgba(255, 179, 71, 0.3);
+ }
 
-        .video-container {
-            position: relative;
-            width: 100%;
-            height: 400px;
-            margin: 2rem 0;
-            overflow: hidden;
-            border-radius: 8px;
-            border: 2px solid #ffd700;
-        }
+ .video-container {
+ position: relative;
+ width: 100%;
+ height: 400px;
+ margin: 2rem 0;
+ overflow: hidden;
+ border-radius: 8px;
+ border: 2px solid #ffd700;
+ }
 
-        #bee-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+ #bee-video {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ }
 
-        .flying-bee {
-            position: absolute;
-            font-size: 3rem;
-            top: 50%;
-            left: 50%;
-            animation: flyAround 8s linear infinite;
-            pointer-events: none;
-            z-index: 10;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
-        }
+ .flying-bee {
+ position: absolute;
+ font-size: 3rem;
+ top: 50%;
+ left: 50%;
+ animation: flyAround 8s linear infinite;
+ pointer-events: none;
+ z-index: 10;
+ filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+ }
 
-        @keyframes flyAround {
-            0% { transform: translate(-50%, -50%) rotate(0deg) translateX(150px) rotate(0deg); }
-            25% { transform: translate(-50%, -50%) rotate(90deg) translateX(150px) rotate(-90deg); }
-            50% { transform: translate(-50%, -50%) rotate(180deg) translateX(150px) rotate(-180deg); }
-            75% { transform: translate(-50%, -50%) rotate(270deg) translateX(150px) rotate(-270deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg) translateX(150px) rotate(-360deg); }
-        }
+ @keyframes flyAround {
+ 0% { transform: translate(-50%, -50%) rotate(0deg) translateX(150px) rotate(0deg); }
+ 25% { transform: translate(-50%, -50%) rotate(90deg) translateX(150px) rotate(-90deg); }
+ 50% { transform: translate(-50%, -50%) rotate(180deg) translateX(150px) rotate(-180deg); }
+ 75% { transform: translate(-50%, -50%) rotate(270deg) translateX(150px) rotate(-270deg); }
+ 100% { transform: translate(-50%, -50%) rotate(360deg) translateX(150px) rotate(-360deg); }
+ }
 
-        .video-controls-panel {
-            margin-top: 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
+ .video-controls-panel {
+ margin-top: 1rem;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ gap: 1rem;
+ flex-wrap: wrap;
+ }
 
-        #beeVolume {
-            width: 100px;
-        }
+ #beeVolume {
+ width: 100px;
+ }
 
-        /* === Enhanced Thumbnail Section === */
-        .thumbnail-section {
-            text-align: center;
-            padding: 3rem 2rem;
-            margin: 3rem auto;
-            max-width: 1200px;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            border: 2px solid #ffb347;
-            border-radius: 12px;
-            position: relative;
-            box-shadow: 0 0 25px rgba(255, 179, 71, 0.4);
-            transition: all 0.3s ease;
-        }
+ /* === Enhanced Thumbnail Section === */
+ .thumbnail-section {
+ text-align: center;
+ padding: 3rem 2rem;
+ margin: 3rem auto;
+ max-width: 1200px;
+ background: rgba(0, 0, 0, 0.7);
+ backdrop-filter: blur(10px);
+ border: 2px solid #ffb347;
+ border-radius: 12px;
+ position: relative;
+ box-shadow: 0 0 25px rgba(255, 179, 71, 0.4);
+ transition: all 0.3s ease;
+ }
 
-        .thumbnail-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(255, 179, 71, 0.6);
-        }
+ .thumbnail-section:hover {
+ transform: translateY(-5px);
+ box-shadow: 0 10px 25px rgba(255, 179, 71, 0.6);
+ }
 
-        .thumbnail-section h3 {
-            color: #ffd700;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-        }
+ .thumbnail-section h3 {
+ color: #ffd700;
+ font-size: 1.8rem;
+ margin-bottom: 1rem;
+ text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+ }
 
-        .thumbnail-section > p {
-            color: #ffb347;
-            margin-bottom: 2rem;
-            font-style: italic;
-        }
+ .thumbnail-section > p {
+ color: #ffb347;
+ margin-bottom: 2rem;
+ font-style: italic;
+ }
 
-        /* Thumbnail Bar */
-        .thumbnail-bar {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin: 2rem auto;
-            max-width: 1000px;
-        }
+ /* Thumbnail Bar */
+ .thumbnail-bar {
+ display: flex;
+ justify-content: center;
+ flex-wrap: wrap;
+ gap: 1.5rem;
+ margin: 2rem auto;
+ max-width: 1000px;
+ }
 
-        .thumbnail-card {
-            width: 200px;
-            height: 140px;
-            border: 2px solid #ffd700;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-        }
+ .thumbnail-card {
+ width: 200px;
+ height: 140px;
+ border: 2px solid #ffd700;
+ border-radius: 8px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ background-size: cover;
+ background-position: center;
+ position: relative;
+ overflow: hidden;
+ }
 
-        /* Video thumbnail indicators */
-        .video-indicator {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #ffb347;
-            padding: 2px 6px;
-            border-radius: 50%;
-            font-size: 0.8rem;
-            z-index: 3;
-        }
+ /* Video thumbnail indicators */
+ .video-indicator {
+ position: absolute;
+ top: 5px;
+ right: 5px;
+ background: rgba(0, 0, 0, 0.7);
+ color: #ffb347;
+ padding: 2px 6px;
+ border-radius: 50%;
+ font-size: 0.8rem;
+ z-index: 3;
+ }
 
-        /* Video thumbnails */
-        .thumbnail-card[data-type="video"] {
-            border: 2px solid #ffb347;
-            box-shadow: 0 0 15px rgba(255, 179, 71, 0.3);
-        }
+ /* Video thumbnails */
+ .thumbnail-card[data-type="video"] {
+ border: 2px solid #ffb347;
+ box-shadow: 0 0 15px rgba(255, 179, 71, 0.3);
+ }
 
-        .thumbnail-card:hover {
-            transform: scale(1.1);
-            border-color: #ff91c1;
-            box-shadow: 0 0 20px rgba(255, 145, 193, 0.6);
-        }
+ .thumbnail-card:hover {
+ transform: scale(1.1);
+ border-color: #ff91c1;
+ box-shadow: 0 0 20px rgba(255, 145, 193, 0.6);
+ }
 
-        .thumbnail-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.3);
-            transition: background 0.3s ease;
-        }
+ .thumbnail-card::after {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ background: rgba(0, 0, 0, 0.3);
+ transition: background 0.3s ease;
+ }
 
-        .thumbnail-card:hover::after {
-            background: rgba(0, 0, 0, 0.1);
-        }
+ .thumbnail-card:hover::after {
+ background: rgba(0, 0, 0, 0.1);
+ }
 
-        /* Individual thumbnail backgrounds */
-        .thumb-1 { background-image: url('images/the-bee-hive-storage-facility.jpg'); }
-        .thumb-2 { background-image: url('images/the-bee-industrial-complex.jpg'); }
-        .thumb-3 { background-image: url('images/the-bee-shaped-vehicle.jpg'); }
-        .thumb-4 { background-image: url('images/the-bio-tech-gigantic-geometric-beehive.jpg'); }
-        .thumb-5 { background-image: url('images/bee-hive-interior.jpg'); }
-        .thumb-6 { background-image: url('images/industrial-bee-transport-vehicle.jpg'); }
-        .thumb-7 { background-image: url('images/honey-transport-bee.jpg'); }
-        .thumb-video-1 { background-image: url('images/greenhouse-dome.jpg'); }
-        .thumb-video-2 { background-image: url('images/group-of-scientists-testing-craft.jpg'); }
+ /* Individual thumbnail backgrounds */
+ .thumb-1 { background-image: url('images/the-bee-hive-storage-facility.jpg'); }
+ .thumb-2 { background-image: url('images/the-bee-industrial-complex.jpg'); }
+ .thumb-3 { background-image: url('images/the-bee-shaped-vehicle.jpg'); }
+ .thumb-4 { background-image: url('images/the-bio-tech-gigantic-geometric-beehive.jpg'); }
+ .thumb-5 { background-image: url('images/bee-hive-interior.jpg'); }
+ .thumb-6 { background-image: url('images/industrial-bee-transport-vehicle.jpg'); }
+ .thumb-7 { background-image: url('images/honey-transport-bee.jpg'); }
+ .thumb-video-1 { background-image: url('images/greenhouse-dome.jpg'); }
+ .thumb-video-2 { background-image: url('images/group-of-scientists-testing-craft.jpg'); }
 
-        /* Audio Controls */
-        .audio-controls {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 8px;
-            border: 1px solid #ffb347;
-        }
+ /* Audio Controls */
+ .audio-controls {
+ margin-top: 1.5rem;
+ padding: 1rem;
+ background: rgba(0, 0, 0, 0.5);
+ border-radius: 8px;
+ border: 1px solid #ffb347;
+ }
 
-        .audio-controls h4 {
-            color: #ffd700;
-            margin-bottom: 0.5rem;
-        }
+ .audio-controls h4 {
+ color: #ffd700;
+ margin-bottom: 0.5rem;
+ }
 
-        .audio-button, .video-control-button {
-            background: #ffb347;
-            color: #000;
-            border: none;
-            padding: 0.5rem 1rem;
-            margin: 0 0.5rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
+ .audio-button, .video-control-button {
+ background: #ffb347;
+ color: #000;
+ border: none;
+ padding: 0.5rem 1rem;
+ margin: 0 0.5rem;
+ border-radius: 20px;
+ cursor: pointer;
+ font-weight: bold;
+ transition: all 0.3s ease;
+ }
 
-        .audio-button:hover, .video-control-button:hover {
-            background: #ffd700;
-            transform: scale(1.05);
-        }
+ .audio-button:hover, .video-control-button:hover {
+ background: #ffd700;
+ transform: scale(1.05);
+ }
 
-        .volume-control {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            justify-content: center;
-        }
+ .volume-control {
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
+ margin-top: 0.5rem;
+ justify-content: center;
+ }
 
-        .volume-control label {
-            color: #ffd700;
-            font-size: 0.9rem;
-        }
+ .volume-control label {
+ color: #ffd700;
+ font-size: 0.9rem;
+ }
 
-        /* Video Controls */
-        .video-controls {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            z-index: 1002;
-            display: flex;
-            gap: 10px;
-        }
+ /* Video Controls */
+ .video-controls {
+ position: fixed;
+ bottom: 100px;
+ right: 20px;
+ z-index: 1002;
+ display: flex;
+ gap: 10px;
+ }
 
-        /* === Content States === */
-        body.background-focused .main-content {
-            opacity: 0;
-        }
+ /* === Content States === */
+ body.background-focused .main-content {
+ opacity: 0;
+ }
 
-        body.background-focused .main-content:hover {
-            opacity: 1;
-        }
+ body.background-focused .main-content:hover {
+ opacity: 1;
+ }
 
-        /* Ensure menu is always accessible */
-        nav.top-menu {
-            opacity: 1 !important;
-        }
+ /* Ensure menu is always accessible */
+ nav.top-menu {
+ opacity: 1 !important;
+ }
 
-        body.background-focused nav.top-menu {
-            opacity: 0.3;
-        }
+ body.background-focused nav.top-menu {
+ opacity: 0.3;
+ }
 
-        body.background-focused nav.top-menu:hover {
-            opacity: 1;
-        }
+ body.background-focused nav.top-menu:hover {
+ opacity: 1;
+ }
 
-        /* === Footer === */
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            padding: 0.6rem 0;
-            background: rgba(0, 0, 0, 0.8);
-            color: #ffd700;
-            font-family: 'Courier New', Courier, monospace;
-            z-index: 1000;
-            font-size: 0.9rem;
-            border-top: 2px solid #ffd700;
-            transition: opacity 0.5s ease;
-        }
+ /* ===== MOBILE HAMBURGER MENU – Gold/Orange/Pink Theme ===== */
+ .mobile-nav {
+ display: none;
+ position: fixed;
+ top: 15px;
+ left: 15px;
+ z-index: 1002;
+ }
 
-        body.background-focused footer {
-            opacity: 0;
-        }
+ .hamburger-btn {
+ background: rgba(17, 17, 17, 0.85);
+ backdrop-filter: blur(8px);
+ border: 2px solid #ffd700;
+ border-radius: 12px;
+ width: 54px;
+ height: 54px;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ cursor: pointer;
+ transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+ box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 215, 0, 0.2) inset;
+ }
 
-        body.background-focused footer:hover {
-            opacity: 1;
-        }
+ .hamburger-btn span {
+ display: block;
+ width: 28px;
+ height: 3px;
+ background: linear-gradient(90deg, #ffb347, #ffd700);
+ margin: 4px 0;
+ border-radius: 4px;
+ transition: all 0.4s ease;
+ box-shadow: 0 0 8px rgba(255, 179, 71, 0.6);
+ }
 
-        .content-spacer {
-            height: 120px;
-        }
+ .hamburger-btn:hover {
+ background: rgba(255, 179, 71, 0.25);
+ border-color: #ff91c1;
+ transform: scale(1.08);
+ box-shadow: 0 8px 25px rgba(255, 179, 71, 0.4);
+ }
 
-        /* Reset background button */
-        .reset-background {
-            position: fixed;
-            bottom: 60px;
-            right: 20px;
-            background: rgba(255, 215, 0, 0.9);
-            color: #000;
-            border: none;
-            padding: 0.8rem 1.2rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            z-index: 1001;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+ .hamburger-btn:hover span {
+ background: linear-gradient(90deg, #fff, #ff91c1);
+ box-shadow: 0 0 12px #ff91c1;
+ transform: scaleX(1.05);
+ }
 
-        body.background-focused .reset-background {
-            opacity: 1;
-        }
+ .mobile-menu {
+ position: fixed;
+ top: 0;
+ left: -100%;
+ width: 320px;
+ height: 100vh;
+ background: linear-gradient(145deg, #0b0b15 0%, #1a1a2a 100%);
+ border-right: 3px solid #ffd700;
+ padding: 25px 20px;
+ transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+ z-index: 1003;
+ overflow-y: auto;
+ box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8), 5px 0 25px rgba(255, 215, 0, 0.3);
+ backdrop-filter: blur(15px);
+ }
 
-        .reset-background:hover {
-            background: #ffd700;
-            transform: scale(1.05);
-        }
+ .mobile-menu.active {
+ left: 0;
+ }
 
-        /* Tagline with fade-in effect */
-        .tagline {
-            position: fixed;
-            bottom: 80px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            color: #ffd700;
-            font-style: italic;
-            font-size: 1.3rem;
-            text-shadow: 0 0 5px #000;
-            z-index: 999;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
+ .menu-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 20px;
+ padding-bottom: 15px;
+ border-bottom: 2px solid transparent;
+ border-image: linear-gradient(90deg, transparent, #ffd700, #ffb347, transparent) 1;
+ }
 
-        .tagline.visible {
-            opacity: 1;
-        }
+ .menu-header h3 {
+ color: #ffd700;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1rem;
+ margin: 0;
+ text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 179, 71, 0.4);
+ }
 
-        /* Video background styling */
-        #background-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-        }
-    </style>
+ .close-menu {
+ background: rgba(255, 215, 0, 0.1);
+ border: 1px solid rgba(255, 215, 0, 0.5);
+ color: #ffd700;
+ font-size: 1.8rem;
+ cursor: pointer;
+ width: 40px;
+ height: 40px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border-radius: 50%;
+ transition: all 0.3s ease;
+ box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+ text-shadow: 0 0 8px currentColor;
+ }
+
+ .close-menu:hover {
+ background: rgba(255, 179, 71, 0.3);
+ color: #fff;
+ transform: rotate(90deg) scale(1.1);
+ border-color: #ff91c1;
+ box-shadow: 0 0 25px #ffd700;
+ }
+
+ .menu-content {
+ margin-bottom: 25px;
+ }
+
+ .menu-content .menu-item {
+ margin-bottom: 8px;
+ transform: translateX(0);
+ transition: transform 0.3s ease;
+ }
+
+ .menu-content .menu-item a {
+ display: block;
+ color: #f0f0ff;
+ text-decoration: none;
+ padding: 8px 12px;
+ border-radius: 8px;
+ border-left: 3px solid transparent;
+ background: rgba(255, 255, 255, 0.02);
+ backdrop-filter: blur(2px);
+ transition: all 0.3s ease;
+ font-family: 'Segoe UI', sans-serif;
+ font-size: 0.9rem;
+ font-weight: 400;
+ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+ text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+ }
+
+ .menu-content .menu-item a:hover,
+ .menu-content .menu-item a.active {
+ border-left-color: #ffd700;
+ background: linear-gradient(90deg, rgba(255, 215, 0, 0.15), rgba(255, 179, 71, 0.05));
+ color: #ffd700;
+ box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+ text-shadow: 0 0 6px #ffd700;
+ padding-left: 16px;
+ }
+
+ .menu-footer {
+ margin-top: 20px;
+ padding-top: 15px;
+ border-top: 2px solid transparent;
+ border-image: linear-gradient(90deg, transparent, #ffd700, #ffb347, transparent) 1;
+ text-align: center;
+ color: #ffd700;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.8rem;
+ letter-spacing: 1px;
+ text-shadow: 0 0 6px #ffd700;
+ position: relative;
+ }
+
+ .pulse {
+ display: inline-block;
+ width: 8px;
+ height: 8px;
+ background-color: #ffd700;
+ border-radius: 50%;
+ margin-right: 8px;
+ box-shadow: 0 0 12px #ffb347;
+ animation: cosmic-pulse 1.8s infinite;
+ }
+
+ @keyframes cosmic-pulse {
+ 0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #ffd700; }
+ 50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 20px #ffb347, 0 0 40px #ffd700; }
+ 100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #ffd700; }
+ }
+
+ /* === Footer === */
+ footer {
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ text-align: center;
+ padding: 0.6rem 0;
+ background: rgba(0, 0, 0, 0.8);
+ color: #ffd700;
+ font-family: 'Courier New', Courier, monospace;
+ z-index: 1000;
+ font-size: 0.9rem;
+ border-top: 2px solid #ffd700;
+ transition: opacity 0.5s ease;
+ }
+
+ body.background-focused footer {
+ opacity: 0;
+ }
+
+ body.background-focused footer:hover {
+ opacity: 1;
+ }
+
+ .content-spacer {
+ height: 120px;
+ }
+
+ /* Reset background button */
+ .reset-background {
+ position: fixed;
+ bottom: 60px;
+ right: 20px;
+ background: rgba(255, 215, 0, 0.9);
+ color: #000;
+ border: none;
+ padding: 0.8rem 1.2rem;
+ border-radius: 25px;
+ cursor: pointer;
+ font-family: 'Courier New', monospace;
+ font-weight: bold;
+ z-index: 1001;
+ opacity: 0;
+ transition: opacity 0.3s ease;
+ }
+
+ body.background-focused .reset-background {
+ opacity: 1;
+ }
+
+ .reset-background:hover {
+ background: #ffd700;
+ transform: scale(1.05);
+ }
+
+ /* Tagline with fade-in effect */
+ .tagline {
+ position: fixed;
+ bottom: 80px;
+ left: 0;
+ width: 100%;
+ text-align: center;
+ color: #ffd700;
+ font-style: italic;
+ font-size: 1.3rem;
+ text-shadow: 0 0 5px #000;
+ z-index: 999;
+ pointer-events: none;
+ opacity: 0;
+ transition: opacity 1s ease-in-out;
+ }
+
+ .tagline.visible {
+ opacity: 1;
+ }
+
+ /* Video background styling */
+ #background-video {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ z-index: -1;
+ }
+
+ /* === MOBILE MEDIA QUERY – hide desktop menu, show hamburger === */
+ @media (max-width: 992px) {
+ nav.top-menu {
+ display: none;
+ }
+ .mobile-nav {
+ display: block;
+ }
+ .mars-abyss-title {
+ top: 70px;
+ left: 15px;
+ font-size: 1.4rem;
+ }
+ .audio-controls {
+ right: 20px;
+ bottom: 70px;
+ }
+ .reset-background {
+ bottom: 70px;
+ right: 15px;
+ }
+ }
+
+ @media (max-width: 768px) {
+ .header-title h2 {
+ font-size: 1.8rem;
+ }
+ .video-section {
+ padding: 2rem 1rem;
+ }
+ .video-container {
+ height: 250px;
+ }
+ .flying-bee {
+ font-size: 2rem;
+ }
+ .thumbnail-bar {
+ gap: 1rem;
+ }
+ .thumbnail-card {
+ width: 150px;
+ height: 105px;
+ }
+ }
+
+ @media (max-width: 480px) {
+ .mars-abyss-title {
+ font-size: 1.2rem;
+ top: 65px;
+ }
+ .main-content {
+ margin-top: 90px;
+ }
+ .video-container {
+ height: 200px;
+ }
+ }
+ </style>
 </head>
 
 <body>
-    <!-- Mars Abyss Title -->
-    <div class="mars-abyss-title">
-        The Mars Abyss
-    </div>
+ <!-- Mars Abyss Title -->
+ <div class="mars-abyss-title">
+ The Mars Abyss
+ </div>
 
-    <!-- Background Video Element (will be added dynamically) -->
-    <div id="background-video-container"></div>
+ <!-- Background Video Element (will be added dynamically) -->
+ <div id="background-video-container"></div>
 
-    <!-- Reset Background Button -->
-    <button class="reset-background" onclick="resetBackground()">Reset View</button>
+ <!-- Reset Background Button -->
+ <button class="reset-background" onclick="resetBackground()">Reset View</button>
 
-    <!-- Video Controls (will be added dynamically) -->
-    <div class="video-controls" style="display: none;"></div>
+ <!-- Video Controls (will be added dynamically) -->
+ <div class="video-controls" style="display: none;"></div>
 
-    <!-- CORRECTED TOP MENU -->
-    <nav class="top-menu">
-        <div class="dropdown">
-            <a href="index.html" class="dropbtn">Home</a>
-            <div class="dropdown-content">
-                <a href="why-this-world-matters.html">Why This World Matters</a>
-                <a href="homage-to-courage.html">Homage to Courage</a>
-                <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
-                <a href="the-migrant-initiative.html">The Migrant Initiative</a>
-                <a href="my-mission.html">My Mission</a>
-                <a href="martian-reading-revival.html">Martian Reading Revival</a>
-                <a href="why-mars-is-safer.html">Why Mars is Safer</a>
-                <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
-                <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
-            </div>
-        </div>
+ <!-- MOBILE HAMBURGER MENU -->
+<div class="mobile-nav">
+<button class="hamburger-btn" id="hamburgerBtn">
+🐝
+</button>
+<nav class="mobile-menu" id="mobileMenu">
+<div class="menu-header">
+<h3>THE MARS ABYSS</h3>
+<button class="close-menu" id="closeMenu">✕</button>
+</div>
+<div class="menu-content"></div>
+<div class="menu-footer">
+<span class="pulse"></span> MARS BEE FACILITY
+</div>
+</nav>
+</div>
 
-        <div class="dropdown">
-            <a href="story.html" class="dropbtn">Story</a>
-            <div class="dropdown-content">
-                <a href="characters.html">Characters</a>
-                <div class="dropdown">
-                    <a href="gallery.html" class="dropbtn">Gallery</a>
-                    <div class="dropdown-content">
-                        <a href="art-and-concepts.html">Art & Concepts</a>
-                        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
-                        <a href="technical-database.html">Technical Database</a>
-                        <a href="martian-edicts.html">The Martian Edicts</a>
-                        <a href="alien-transport-network.html">Alien Transport Network</a>
-                        <a href="martian-martial-arts.html">Martian Martial Arts</a>
-                        <a href="solar-system-explorer.html">Solar System Explorer</a>
-                        <a href="aliens-ufos.html">Aliens & UFOs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+ <!-- CORRECTED TOP MENU -->
+<nav class="top-menu">
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
+<a href="why-mars-is-safer.html">Why Mars is Safer</a>
+<a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
+<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+</div>
+</div>
 
-        <div class="dropdown">
-            <a href="martian-games.html" class="dropbtn">Martian Games</a>
-            <div class="dropdown-content">
-                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
-                <a href="martian-racer.html">Martian Racer</a>
-                <a href="red-planet-defense.html">Red Planet Defense</a>
-                <a href="the-regents-portal.html">The Regent's Portal</a>
-                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
-                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
-                <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
-                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
-            </div>
-        </div>
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="alien-transport-network.html">Alien Transport Network</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
 
-        <div class="dropdown">
-            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
-            <div class="dropdown-content">
-                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
-                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
-                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
-                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
-                <a href="earths-great-poets.html">Earth's Great Poets</a>
-                <a href="the-bohr-institute.html">The Bohr Institute</a>
-                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
-                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
-                <a href="the-bronx-dome.html">The Bronx Dome</a>
-            </div>
-        </div>
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
 
-        <div class="dropdown">
-            <a href="martian-news.html" class="dropbtn">Martian News</a>
-            <div class="dropdown-content">
-                <a href="martian-actualities.html">Martian Actualities</a>
-                <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
-                <a href="mars-bee-facility.html">Mars Bee Facility</a>
-                <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-                <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
-                <a href="house-of-health-secrets.html">The House of Health Secrets</a>
-                <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
-                <a href="martian-rest-areas.html">Martian Rest Areas</a>
-                <div class="dropdown">
-                    <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-                    <div class="dropdown-content">
-                        <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
-                        <a href="marvin.html">M.A.R.V.I.N.</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
 
-        <div class="dropdown">
-            <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
-            <div class="dropdown-content">
-                <a href="what-the-regent-misses.html">What the Regent Misses</a>
-                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
-                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
-                <a href="honor-the-fallen.html">Honor The Fallen</a>
-                <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
-                <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
-                <a href="salems-witching-hour.html">Salem's Witching Hour</a>
-                <a href="martian-critique-tron-ares.html">Martian Critique</a>
-                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
-                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
-                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
-            </div>
-        </div>
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn active">Martian News</a>
+<div class="dropdown-content">
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html" class="active">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
 
-        <div class="dropdown">
-            <a href="about.html" class="dropbtn">About</a>
-            <div class="dropdown-content">
-                <a href="about-the-project.html">About the Project</a>
-                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
-                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
-                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
-                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
-                <a href="the-pale-horse.html">The Pale Horse</a>
-                <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
-                <a href="arachne-labs.html">Arachne Labs</a>
-                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
-                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
-            </div>
-        </div>
+<div class="dropdown">
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html">What the Regent Misses</a>
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
 
-        <div class="dropdown">
-            <a href="support.html" class="dropbtn">Support</a>
-            <div class="dropdown-content">
-                <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
-                <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-                <a href="mars-food-district.html">Mars Food District</a>
-                <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
-                <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-                <a href="fund-martian-research.html">Fund Martian Research</a>               
-                <a href="martian-survival-manual.html">Martian Survival Manual</a>
-                <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
-            </div>
-        </div>
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
 
-        <a href="contact.html">Contact</a>
-    </nav>
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a> 
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Title -->
-        <section class="header-title">
-            <h1>Mars Bee Facility</h1>
-            <h2>Where Bees Thrive, Civilization Survives</h2>
-        </section>
+<a href="contact.html">Contact</a>
+</nav>
 
-        <!-- Regent's Reflection -->
-        <section class="reflection-box">
-            <h3>Mars Bee Facility</h3>
-            <p>The Regent gazed across the glimmering Martian agricultural domes — green spaces where by law, green spaces must be maintained at a minimum ratio of one colony per square meters of cultivated flora. The genetic diversity of Earth's apian species shall be preserved as a sacred trust.</p>
-            <p>"This," he began softly, "is what Mars colonists must take to heart — the Colony Protection Act is of the utmost importance to every Martian citizen, whether they are born here or elsewhere."</p>
-            <p>Unauthorized destruction of bee habitats is punishable by colony services, and if their determination is exile, make no mistake — this is not Earth.</p>
-        </section>
+ <!-- Main Content -->
+ <div class="main-content">
+ <!-- Title -->
+ <section class="header-title">
+ <h1>Mars Bee Facility</h1>
+ <h2>Where Bees Thrive, Civilization Survives</h2>
+ </section>
 
-        <!-- Video Section -->
-        <section class="video-section">
-            <h3>Bee Facility Operations</h3>
-            <div class="video-container">
-                <video id="bee-video" controls>
-                    <source src="videos/martian-industrial-transport-vehicle.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                <div class="flying-bee">🐝</div>
-            </div>
-            <div class="video-controls-panel">
-                <button class="video-control-button" onclick="toggleBeeVideo()">▶️ Play/Pause</button>
-                <button class="video-control-button" onclick="toggleBeeVideoMute()">🔇 Mute</button>
-                <div class="volume-control">
-                    <label for="beeVolume">Volume:</label>
-                    <input type="range" id="beeVolume" min="0" max="1" step="0.1" value="1" onchange="setBeeVolume(this.value)">
-                </div>
-            </div>
-        </section>
+ <!-- Regent's Reflection -->
+ <section class="reflection-box">
+ <h3>Mars Bee Facility</h3>
+ <p>The Regent gazed across the glimmering Martian agricultural domes — green spaces where by law, green spaces must be maintained at a minimum ratio of one colony per square meters of cultivated flora. The genetic diversity of Earth's apian species shall be preserved as a sacred trust.</p>
+ <p>"This," he began softly, "is what Mars colonists must take to heart — the Colony Protection Act is of the utmost importance to every Martian citizen, whether they are born here or elsewhere."</p>
+ <p>Unauthorized destruction of bee habitats is punishable by colony services, and if their determination is exile, make no mistake — this is not Earth.</p>
+ </section>
 
-        <!-- Thumbnails -->
-        <section class="thumbnail-section">
-            <h3>Explore The Importance of Bees</h3>
-            <p>Click any image to make it your background</p>
-            <div class="thumbnail-bar">
-                <!-- Image Backgrounds -->
-                <div class="thumbnail-card thumb-1"
-                    data-bg="url('images/the-bee-hive-storage-facility.jpg')"
-                    data-type="image"></div>
-                <div class="thumbnail-card thumb-2"
-                    data-bg="url('images/the-bee-industrial-complex.jpg')"
-                    data-type="image"></div>
-                <div class="thumbnail-card thumb-3"
-                    data-bg="url('images/the-bee-shaped-vehicle.jpg')"
-                    data-type="image"></div>
-                <div class="thumbnail-card thumb-4"
-                    data-bg="url('images/the-bio-tech-gigantic-geometric-beehive.jpg')"
-                    data-type="image"></div>
-                <div class="thumbnail-card thumb-5"
-                    data-bg="url('images/bee-hive-interior.jpg')"
-                    data-type="image"></div>
-                <div class="thumbnail-card thumb-6"
-                    data-bg="url('images/industrial-bee-transport-vehicle.jpg')"
-                    data-type="image"></div>
-                <div class="thumbnail-card thumb-7"
-                    data-bg="url('images/honey-transport-bee.jpg')"
-                    data-type="image"></div>
+ <!-- Video Section -->
+ <section class="video-section">
+ <h3>Bee Facility Operations</h3>
+ <div class="video-container">
+ <video id="bee-video" controls>
+ <source src="videos/martian-industrial-transport-vehicle.mp4" type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ <div class="flying-bee">🐝</div>
+ </div>
+ <div class="video-controls-panel">
+ <button class="video-control-button" onclick="toggleBeeVideo()">▶️ Play/Pause</button>
+ <button class="video-control-button" onclick="toggleBeeVideoMute()">🔇 Mute</button>
+ <div class="volume-control">
+ <label for="beeVolume">Volume:</label>
+ <input type="range" id="beeVolume" min="0" max="1" step="0.1" value="1" onchange="setBeeVolume(this.value)">
+ </div>
+ </div>
+ </section>
 
-                <!-- Video Backgrounds -->
-                <div class="thumbnail-card thumb-video-1"
-                    data-bg="videos/pr-2062-timelog.mp4"
-                    data-type="video"
-                    data-poster="videos/pr-2062-poster.jpg">
-                    <div class="video-indicator">🎥</div>
-                </div>
-                <div class="thumbnail-card thumb-video-2"
-                    data-bg="videos/coastal-saucers.mp4"
-                    data-type="video"
-                    data-poster="videos/coastal-saucers-poster.jpg">
-                    <div class="video-indicator">🎥</div>
-                </div>
-            </div>
+ <!-- Thumbnails -->
+ <section class="thumbnail-section">
+ <h3>Explore The Importance of Bees</h3>
+ <p>Click any image to make it your background</p>
+ <div class="thumbnail-bar">
+ <!-- Image Backgrounds -->
+ <div class="thumbnail-card thumb-1"
+ data-bg="url('images/the-bee-hive-storage-facility.jpg')"
+ data-type="image"></div>
+ <div class="thumbnail-card thumb-2"
+ data-bg="url('images/the-bee-industrial-complex.jpg')"
+ data-type="image"></div>
+ <div class="thumbnail-card thumb-3"
+ data-bg="url('images/the-bee-shaped-vehicle.jpg')"
+ data-type="image"></div>
+ <div class="thumbnail-card thumb-4"
+ data-bg="url('images/the-bio-tech-gigantic-geometric-beehive.jpg')"
+ data-type="image"></div>
+ <div class="thumbnail-card thumb-5"
+ data-bg="url('images/bee-hive-interior.jpg')"
+ data-type="image"></div>
+ <div class="thumbnail-card thumb-6"
+ data-bg="url('images/industrial-bee-transport-vehicle.jpg')"
+ data-type="image"></div>
+ <div class="thumbnail-card thumb-7"
+ data-bg="url('images/honey-transport-bee.jpg')"
+ data-type="image"></div>
 
-            <!-- Audio Controls -->
-            <div class="audio-controls">
-                <h4>Bee Ambient Sounds</h4>
-                <button class="audio-button" id="beesSound" onclick="toggleSound('bees')">🔄 Bees Buzzing</button>
-                <button class="audio-button" id="hiveSound" onclick="toggleSound('hive')">🔄 Hive Activity</button>
-                <button class="audio-button" onclick="stopAllSounds()">⏹️ Stop All Sounds</button>
-                <div class="volume-control">
-                    <label for="masterVolume">Master Volume:</label>
-                    <input type="range" id="masterVolume" min="0" max="1" step="0.1" value="1" onchange="setMasterVolume(this.value)">
-                </div>
-            </div>
-        </section>
-    </div>
+ <!-- Video Backgrounds -->
+ <div class="thumbnail-card thumb-video-1"
+ data-bg="videos/pr-2062-timelog.mp4"
+ data-type="video"
+ data-poster="videos/pr-2062-poster.jpg">
+ <div class="video-indicator">🎥</div>
+ </div>
+ <div class="thumbnail-card thumb-video-2"
+ data-bg="videos/coastal-saucers.mp4"
+ data-type="video"
+ data-poster="videos/coastal-saucers-poster.jpg">
+ <div class="video-indicator">🎥</div>
+ </div>
+ </div>
 
-    <!-- Content spacer for footer -->
-    <div class="content-spacer"></div>
+ <!-- Audio Controls -->
+ <div class="audio-controls">
+ <h4>Bee Ambient Sounds</h4>
+ <button class="audio-button" id="beesSound" onclick="toggleSound('bees')">🔄 Bees Buzzing</button>
+ <button class="audio-button" id="hiveSound" onclick="toggleSound('hive')">🔄 Hive Activity</button>
+ <button class="audio-button" onclick="stopAllSounds()">⏹️ Stop All Sounds</button>
+ <div class="volume-control">
+ <label for="masterVolume">Master Volume:</label>
+ <input type="range" id="masterVolume" min="0" max="1" step="0.1" value="1" onchange="setMasterVolume(this.value)">
+ </div>
+ </div>
+ </section>
+ </div>
 
-    <!-- Tagline -->
-    <div class="tagline">
-        <p>Where bees thrive, civilization survives — the foundation of Martian life</p>
-    </div>
+ <!-- Content spacer for footer -->
+ <div class="content-spacer"></div>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
-    </footer>
+ <!-- Tagline -->
+ <div class="tagline">
+ <p>Where bees thrive, civilization survives — the foundation of Martian life</p>
+ </div>
 
-    <script>
-        // Sound Management
-        const sounds = {
-            bees: null,
-            hive: null,
-            active: null
-        };
+ <!-- Footer -->
+ <footer>
+ <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+ </footer>
 
-        // Video Management
-        let currentVideo = null;
-        let beeVideo = null;
-        const originalBackground = "url('images/the-bee-hive-storage-facility.jpg')";
+ <script>
 
-        // Preload sounds
-        function preloadSounds() {
-            sounds.bees = new Audio('sounds/bees-82424.mp3');
-            sounds.bees.loop = true;
-            sounds.bees.volume = 1;
-            
-            sounds.hive = new Audio('sounds/ulq1je7dbdp-bee-sfx-5.mp3');
-            sounds.hive.loop = true;
-            sounds.hive.volume = 1;
-        }
+ // ===== VIDEO PROTECTION =====
+(function() {
+document.querySelectorAll('video').forEach(video => {
+video.setAttribute('controlslist', 'nodownload');
+video.addEventListener('contextmenu', (e) => e.preventDefault());
+video.addEventListener('dragstart', (e) => e.preventDefault());
+});
+document.addEventListener('keydown', (e) => {
+const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+e.preventDefault();
+}
+});
+})();
 
-        // Initialize bee video
-        function initBeeVideo() {
-            beeVideo = document.getElementById('bee-video');
-            if (beeVideo) {
-                beeVideo.volume = 1;
-            }
-        }
+// ===== MOBILE HAMBURGER MENU =====
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuContent = document.querySelector('.menu-content');
 
-        // Background change functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const thumbnailCards = document.querySelectorAll('.thumbnail-card');
-            preloadSounds();
-            initBeeVideo();
+function createMobileMenu() {
+if (!menuContent) return;
+menuContent.innerHTML = '';
 
-            thumbnailCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const bgUrl = this.getAttribute('data-bg');
-                    const bgType = this.getAttribute('data-type');
-                    const posterUrl = this.getAttribute('data-poster');
-                    
-                    // Stop any currently playing video
-                    stopCurrentVideo();
-                    
-                    if (bgType === 'video') {
-                        setVideoBackground(bgUrl, posterUrl);
-                    } else {
-                        setImageBackground(bgUrl);
-                    }
-                    
-                    document.body.classList.add('background-focused');
-                });
-            });
+const menuItems = [
+{ text: '🏠 Home', href: 'index.html' },
+{ text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+{ text: ' Homage to Courage', href: 'homage-to-courage.html' },
+{ text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+{ text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+{ text: ' My Mission', href: 'my-mission.html' },
+{ text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+{ text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+{ text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+{ text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
 
-            // Scroll detection for tagline
-            function checkScroll() {
-                const tagline = document.querySelector('.tagline');
-                const thumbnailSection = document.querySelector('.thumbnail-section');
-                if (thumbnailSection) {
-                    const thumbnailRect = thumbnailSection.getBoundingClientRect();
-                    if (thumbnailRect.bottom < window.innerHeight) {
-                        tagline.classList.add('visible');
-                    } else {
-                        tagline.classList.remove('visible');
-                    }
-                }
-            }
+{ text: '📖 Story', href: 'story.html' },
+{ text: ' Characters', href: 'characters.html' },
+{ text: ' Gallery', href: 'gallery.html' },
+{ text: ' Art & Concepts', href: 'art-and-concepts.html' },
+{ text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+{ text: ' Technical Database', href: 'technical-database.html' },
+{ text: ' The Martian Edicts', href: 'martian-edicts.html' },
+{ text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+{ text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+{ text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+{ text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
 
-            checkScroll();
-            window.addEventListener('scroll', checkScroll);
-        });
+{ text: '🎮 Martian Games', href: 'martian-games.html' },
+{ text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+{ text: ' Martian Racer', href: 'martian-racer.html' },
+{ text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+{ text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+{ text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+{ text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+{ text: ' Music Player', href: 'music-app.html' },
+{ text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
 
-        // Video background functions
-        function setVideoBackground(videoUrl, posterUrl) {
-            const existingVideo = document.querySelector('#background-video');
-            if (existingVideo) {
-                existingVideo.remove();
-            }
-            
-            const video = document.createElement('video');
-            video.id = 'background-video';
-            video.src = videoUrl;
-            video.poster = posterUrl;
-            video.autoplay = true;
-            video.loop = true;
-            video.muted = true;
-            video.playsInline = true;
-            video.style.position = 'fixed';
-            video.style.top = '0';
-            video.style.left = '0';
-            video.style.width = '100%';
-            video.style.height = '100%';
-            video.style.objectFit = 'cover';
-            video.style.zIndex = '-1';
-            
-            document.body.appendChild(video);
-            currentVideo = video;
-            addVideoControls();
-        }
+{ text: '🌍 Earth Codex', href: 'earth-codex.html' },
+{ text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+{ text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+{ text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+{ text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+{ text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+{ text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+{ text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+{ text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+{ text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
 
-        function setImageBackground(imageUrl) {
-            stopCurrentVideo();
-            document.body.style.backgroundImage = imageUrl;
-        }
+{ text: '📰 Martian News', href: 'martian-news.html' },
+{ text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+{ text: ' Martian Actualities', href: 'martian-actualities.html' },
+{ text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+{ text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+{ text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+{ text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+{ text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+{ text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+{ text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+{ text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+{ text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+{ text: ' M.A.R.V.I.N.', href: 'marvin.html' },
 
-        function stopCurrentVideo() {
-            if (currentVideo) {
-                currentVideo.pause();
-                currentVideo.currentTime = 0;
-                const videoElement = document.querySelector('#background-video');
-                if (videoElement) {
-                    videoElement.remove();
-                }
-                currentVideo = null;
-            }
-            
-            const controls = document.querySelector('.video-controls');
-            if (controls) controls.style.display = 'none';
-        }
+{ text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+{ text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+{ text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+{ text: ' Earthlings Beware', href: 'earthings-beware.html' },
+{ text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+{ text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+{ text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+{ text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+{ text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+{ text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+{ text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+{ text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
 
-        function addVideoControls() {
-            let controls = document.querySelector('.video-controls');
-            if (!controls) {
-                controls = document.createElement('div');
-                controls.className = 'video-controls';
-                controls.style.position = 'fixed';
-                controls.style.bottom = '100px';
-                controls.style.right = '20px';
-                controls.style.zIndex = '1002';
-                controls.style.display = 'flex';
-                controls.style.gap = '10px';
-                document.body.appendChild(controls);
-            } else {
-                controls.style.display = 'flex';
-            }
-            
-            controls.innerHTML = `
-                <button onclick="toggleVideoMute()" class="video-control-button">🔇 Mute</button>
-                <button onclick="toggleVideoPlay()" class="video-control-button">⏸️ Pause</button>
-            `;
-        }
+{ text: 'ℹ️ About', href: 'about.html' },
+{ text: ' About the Project', href: 'about-the-project.html' },
+{ text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+{ text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+{ text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+{ text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+{ text: ' The Pale Horse', href: 'the-pale-horse.html' },
+{ text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+{ text: ' Arachne Labs', href: 'arachne-labs.html' },
+{ text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+{ text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
 
-        function toggleVideoMute() {
-            if (currentVideo) {
-                currentVideo.muted = !currentVideo.muted;
-                const button = document.querySelector('.video-controls button:nth-child(1)');
-                button.textContent = currentVideo.muted ? '🔇 Mute' : '🔊 Unmute';
-            }
-        }
+{ text: '🤝 Support', href: 'support.html' },
+{ text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+{ text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+{ text: ' Mars Food District', href: 'mars-food-district.html' },
+{ text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+{ text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+{ text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+{ text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+{ text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
 
-        function toggleVideoPlay() {
-            if (currentVideo) {
-                if (currentVideo.paused) {
-                    currentVideo.play();
-                    document.querySelector('.video-controls button:nth-child(2)').textContent = '⏸️ Pause';
-                } else {
-                    currentVideo.pause();
-                    document.querySelector('.video-controls button:nth-child(2)').textContent = '▶️ Play';
-                }
-            }
-        }
+{ text: '📧 Contact', href: 'contact.html' },
+{ text: '🐝 Mars Bee Facility (current)', href: 'mars-bee-facility.html', active: true }
+];
 
-        // Bee video controls
-        function toggleBeeVideo() {
-            if (!beeVideo) beeVideo = document.getElementById('bee-video');
-            if (beeVideo.paused) {
-                beeVideo.play();
-            } else {
-                beeVideo.pause();
-            }
-        }
+menuItems.forEach(item => {
+const menuItem = document.createElement('div');
+menuItem.className = 'menu-item';
+const link = document.createElement('a');
+link.href = item.href;
+link.textContent = item.text;
+if (item.active) link.classList.add('active');
+menuItem.appendChild(link);
+menuContent.appendChild(menuItem);
+});
+}
 
-        function toggleBeeVideoMute() {
-            if (!beeVideo) beeVideo = document.getElementById('bee-video');
-            beeVideo.muted = !beeVideo.muted;
-            const button = document.querySelector('.video-controls-panel button:nth-child(2)');
-            button.textContent = beeVideo.muted ? '🔊 Unmute' : '🔇 Mute';
-        }
+createMobileMenu();
 
-        function setBeeVolume(volume) {
-            if (!beeVideo) beeVideo = document.getElementById('bee-video');
-            beeVideo.volume = volume;
-        }
+hamburgerBtn.addEventListener('click', () => {
+mobileMenu.classList.add('active');
+document.body.style.overflow = 'hidden';
+});
 
-        // Sound control functions
-        function toggleSound(soundType) {
-            if (sounds.active === sounds[soundType]) {
-                sounds.active.pause();
-                sounds.active.currentTime = 0;
-                sounds.active = null;
-            } else {
-                if (sounds.active) {
-                    sounds.active.pause();
-                    sounds.active.currentTime = 0;
-                }
-                sounds[soundType].play()
-                .then(() => {
-                    sounds.active = sounds[soundType];
-                    updateButtonStates();
-                })
-                .catch(error => {
-                    console.log('Audio play failed:', error);
-                });
-            }
-            updateButtonStates();
-        }
+closeMenu.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
 
-        function stopAllSounds() {
-            if (sounds.active) {
-                sounds.active.pause();
-                sounds.active.currentTime = 0;
-                sounds.active = null;
-            }
-            updateButtonStates();
-        }
+document.addEventListener('click', (e) => {
+if (mobileMenu.classList.contains('active') &&
+!mobileMenu.contains(e.target) &&
+!hamburgerBtn.contains(e.target)) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+});
 
-        function setMasterVolume(volume) {
-            if (sounds.bees) sounds.bees.volume = volume;
-            if (sounds.hive) sounds.hive.volume = volume;
-        }
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+link.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+});
 
-        function updateButtonStates() {
-            const beesButton = document.getElementById('beesSound');
-            const hiveButton = document.getElementById('hiveSound');
-            
-            if (beesButton) {
-                beesButton.textContent = sounds.active === sounds.bees ? '🔊 Bees Buzzing' : '🔄 Bees Buzzing';
-            }
-            
-            if (hiveButton) {
-                hiveButton.textContent = sounds.active === sounds.hive ? '🔊 Hive Activity' : '🔄 Hive Activity';
-            }
-        }
+function handleResize() {
+if (window.innerWidth > 992) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+}
+window.addEventListener('resize', handleResize);
 
-        // Reset background function
-        function resetBackground() {
-            stopCurrentVideo();
-            document.body.style.backgroundImage = originalBackground;
-            document.body.classList.remove('background-focused');
-            
-            if (sounds.active) {
-                sounds.active.pause();
-                sounds.active.currentTime = 0;
-                sounds.active = null;
-            }
-            
-            updateButtonStates();
-        }
+ // Sound Management
+ const sounds = {
+ bees: null,
+ hive: null,
+ active: null
+ };
 
-        // Auto-reset when clicking on faded content
-        document.querySelector('.main-content').addEventListener('click', (e) => {
-            if (document.body.classList.contains('background-focused') &&
-                (e.target.classList.contains('thumbnail-card') ||
-                 e.target.closest('.audio-controls') ||
-                 e.target.closest('.video-controls'))) {
-                return;
-            }
-            
-            if (document.body.classList.contains('background-focused')) {
-                resetBackground();
-            }
-        });
+ // Video Management
+ let currentVideo = null;
+ let beeVideo = null;
+ const originalBackground = "url('images/the-bee-hive-storage-facility.jpg')";
 
-        // Keyboard support
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && document.body.classList.contains('background-focused')) {
-                resetBackground();
-            }
-        });
-    </script>
+ // Preload sounds
+ function preloadSounds() {
+ sounds.bees = new Audio('sounds/bees-82424.mp3');
+ sounds.bees.loop = true;
+ sounds.bees.volume = 1;
+ 
+ sounds.hive = new Audio('sounds/ulq1je7dbdp-bee-sfx-5.mp3');
+ sounds.hive.loop = true;
+ sounds.hive.volume = 1;
+ }
+
+ // Initialize bee video
+ function initBeeVideo() {
+ beeVideo = document.getElementById('bee-video');
+ if (beeVideo) {
+ beeVideo.volume = 1;
+ }
+ }
+
+ // Background change functionality
+ document.addEventListener('DOMContentLoaded', function() {
+ const thumbnailCards = document.querySelectorAll('.thumbnail-card');
+ preloadSounds();
+ initBeeVideo();
+
+ thumbnailCards.forEach(card => {
+ card.addEventListener('click', function() {
+ const bgUrl = this.getAttribute('data-bg');
+ const bgType = this.getAttribute('data-type');
+ const posterUrl = this.getAttribute('data-poster');
+ 
+ // Stop any currently playing video
+ stopCurrentVideo();
+ 
+ if (bgType === 'video') {
+ setVideoBackground(bgUrl, posterUrl);
+ } else {
+ setImageBackground(bgUrl);
+ }
+ 
+ document.body.classList.add('background-focused');
+ });
+ });
+
+ // Scroll detection for tagline
+ function checkScroll() {
+ const tagline = document.querySelector('.tagline');
+ const thumbnailSection = document.querySelector('.thumbnail-section');
+ if (thumbnailSection) {
+ const thumbnailRect = thumbnailSection.getBoundingClientRect();
+ if (thumbnailRect.bottom < window.innerHeight) {
+ tagline.classList.add('visible');
+ } else {
+ tagline.classList.remove('visible');
+ }
+ }
+ }
+
+ checkScroll();
+ window.addEventListener('scroll', checkScroll);
+ });
+
+ // Video background functions
+ function setVideoBackground(videoUrl, posterUrl) {
+ const existingVideo = document.querySelector('#background-video');
+ if (existingVideo) {
+ existingVideo.remove();
+ }
+ 
+ const video = document.createElement('video');
+ video.id = 'background-video';
+ video.src = videoUrl;
+ video.poster = posterUrl;
+ video.autoplay = true;
+ video.loop = true;
+ video.muted = true;
+ video.playsInline = true;
+ video.style.position = 'fixed';
+ video.style.top = '0';
+ video.style.left = '0';
+ video.style.width = '100%';
+ video.style.height = '100%';
+ video.style.objectFit = 'cover';
+ video.style.zIndex = '-1';
+ 
+ document.body.appendChild(video);
+ currentVideo = video;
+ addVideoControls();
+ }
+
+ function setImageBackground(imageUrl) {
+ stopCurrentVideo();
+ document.body.style.backgroundImage = imageUrl;
+ }
+
+ function stopCurrentVideo() {
+ if (currentVideo) {
+ currentVideo.pause();
+ currentVideo.currentTime = 0;
+ const videoElement = document.querySelector('#background-video');
+ if (videoElement) {
+ videoElement.remove();
+ }
+ currentVideo = null;
+ }
+ 
+ const controls = document.querySelector('.video-controls');
+ if (controls) controls.style.display = 'none';
+ }
+
+ function addVideoControls() {
+ let controls = document.querySelector('.video-controls');
+ if (!controls) {
+ controls = document.createElement('div');
+ controls.className = 'video-controls';
+ controls.style.position = 'fixed';
+ controls.style.bottom = '100px';
+ controls.style.right = '20px';
+ controls.style.zIndex = '1002';
+ controls.style.display = 'flex';
+ controls.style.gap = '10px';
+ document.body.appendChild(controls);
+ } else {
+ controls.style.display = 'flex';
+ }
+ 
+ controls.innerHTML = `
+ <button onclick="toggleVideoMute()" class="video-control-button">🔇 Mute</button>
+ <button onclick="toggleVideoPlay()" class="video-control-button">⏸️ Pause</button>
+ `;
+ }
+
+ function toggleVideoMute() {
+ if (currentVideo) {
+ currentVideo.muted = !currentVideo.muted;
+ const button = document.querySelector('.video-controls button:nth-child(1)');
+ button.textContent = currentVideo.muted ? '🔇 Mute' : '🔊 Unmute';
+ }
+ }
+
+ function toggleVideoPlay() {
+ if (currentVideo) {
+ if (currentVideo.paused) {
+ currentVideo.play();
+ document.querySelector('.video-controls button:nth-child(2)').textContent = '⏸️ Pause';
+ } else {
+ currentVideo.pause();
+ document.querySelector('.video-controls button:nth-child(2)').textContent = '▶️ Play';
+ }
+ }
+ }
+
+ // Bee video controls
+ function toggleBeeVideo() {
+ if (!beeVideo) beeVideo = document.getElementById('bee-video');
+ if (beeVideo.paused) {
+ beeVideo.play();
+ } else {
+ beeVideo.pause();
+ }
+ }
+
+ function toggleBeeVideoMute() {
+ if (!beeVideo) beeVideo = document.getElementById('bee-video');
+ beeVideo.muted = !beeVideo.muted;
+ const button = document.querySelector('.video-controls-panel button:nth-child(2)');
+ button.textContent = beeVideo.muted ? '🔊 Unmute' : '🔇 Mute';
+ }
+
+ function setBeeVolume(volume) {
+ if (!beeVideo) beeVideo = document.getElementById('bee-video');
+ beeVideo.volume = volume;
+ }
+
+ // Sound control functions
+ function toggleSound(soundType) {
+ if (sounds.active === sounds[soundType]) {
+ sounds.active.pause();
+ sounds.active.currentTime = 0;
+ sounds.active = null;
+ } else {
+ if (sounds.active) {
+ sounds.active.pause();
+ sounds.active.currentTime = 0;
+ }
+ sounds[soundType].play()
+ .then(() => {
+ sounds.active = sounds[soundType];
+ updateButtonStates();
+ })
+ .catch(error => {
+ console.log('Audio play failed:', error);
+ });
+ }
+ updateButtonStates();
+ }
+
+ function stopAllSounds() {
+ if (sounds.active) {
+ sounds.active.pause();
+ sounds.active.currentTime = 0;
+ sounds.active = null;
+ }
+ updateButtonStates();
+ }
+
+ function setMasterVolume(volume) {
+ if (sounds.bees) sounds.bees.volume = volume;
+ if (sounds.hive) sounds.hive.volume = volume;
+ }
+
+ function updateButtonStates() {
+ const beesButton = document.getElementById('beesSound');
+ const hiveButton = document.getElementById('hiveSound');
+ 
+ if (beesButton) {
+ beesButton.textContent = sounds.active === sounds.bees ? '🔊 Bees Buzzing' : '🔄 Bees Buzzing';
+ }
+ 
+ if (hiveButton) {
+ hiveButton.textContent = sounds.active === sounds.hive ? '🔊 Hive Activity' : '🔄 Hive Activity';
+ }
+ }
+
+ // Reset background function
+ function resetBackground() {
+ stopCurrentVideo();
+ document.body.style.backgroundImage = originalBackground;
+ document.body.classList.remove('background-focused');
+ 
+ if (sounds.active) {
+ sounds.active.pause();
+ sounds.active.currentTime = 0;
+ sounds.active = null;
+ }
+ 
+ updateButtonStates();
+ }
+
+ // Auto-reset when clicking on faded content
+ document.querySelector('.main-content').addEventListener('click', (e) => {
+ if (document.body.classList.contains('background-focused') &&
+ (e.target.classList.contains('thumbnail-card') ||
+ e.target.closest('.audio-controls') ||
+ e.target.closest('.video-controls'))) {
+ return;
+ }
+ 
+ if (document.body.classList.contains('background-focused')) {
+ resetBackground();
+ }
+ });
+
+ // Keyboard support
+ document.addEventListener('keydown', (e) => {
+ if (e.key === 'Escape' && document.body.classList.contains('background-focused')) {
+ resetBackground();
+ }
+ });
+ </script>
 </body>
 </html>
