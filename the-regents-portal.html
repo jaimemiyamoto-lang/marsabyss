@@ -681,10 +681,10 @@ animation: cosmic-pulse 1.8s infinite;
 @media (max-width: 992px) {
  /* Hide desktop menu, show hamburger */
  nav.top-menu {
- display: none;
+ display: none !important;
  }
  .mobile-nav {
- display: block;
+ display: block !important;
  }
 
  /* Reposition fixed elements */
@@ -1405,7 +1405,22 @@ document.body.style.overflow = '';
 }
 }
 window.addEventListener('resize', handleResize);
-
+// Ensure mobile menu visibility match viewport width
+  function enforceMobileMenu() {
+    const mobileNav = document.querySelector('.mobile-nav');
+    const topMenu = document.querySelector('nav.top-menu');
+    if (!mobileNav || !topMenu) return;
+    if (window.innerWidth <= 992) {
+        topMenu.style.display = 'none';
+        mobileNav.style.display = 'block';
+    } else {
+        topMenu.style.display = ''; // revert to CSS default
+        mobileNav.style.display = '';
+    }
+}
+window.addEventListener('load', enforceMobileMenu);
+window.addEventListener('resize', enforceMobileMenu);
+enforceMobileMenu(); // call immediately
 </script>
 </body>
 </html>
