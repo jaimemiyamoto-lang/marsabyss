@@ -985,14 +985,17 @@ text-shadow: 0 0 6px #9370DB;
 position: relative;
 }
 
-/* ===== MOBILE RESPONSIVE ===== */
+/* Mobile & Tablet Styles – up to 992px */
 @media (max-width: 992px) {
+    /* Hide desktop menu, show hamburger */
     nav.top-menu {
         display: none;
     }
     .mobile-nav {
         display: block;
     }
+
+    /* Reposition fixed elements */
     .site-title-overlay {
         top: 70px;
         left: 15px;
@@ -1000,28 +1003,55 @@ position: relative;
     .site-title-overlay h1 {
         font-size: 1.4rem;
     }
-    .view-toggle {
-        top: 70px;
-        right: 15px;
-    }
+
     .audio-controls {
         bottom: 70px;
         right: 15px;
     }
-}
 
-@media (max-width: 768px) {
-    .comedy-hero h1 {
-        font-size: 2.5rem;
+    .hide-content-btn,
+    .view-toggle,
+    .content-toggle-container {
+        top: 70px;
+        right: 15px;
     }
-    .hero-subtitle {
-        font-size: 1.2rem;
+
+    /* Adjust main content top margin */
+    .main-content {
+        margin-top: 100px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
-    .comedians-grid {
-        grid-template-columns: 1fr;
+
+    /* Optional: make buttons a bit smaller */
+    .audio-btn,
+    .view-btn,
+    .toggle-button,
+    .hide-content-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        min-width: 100px;
     }
-    .viewing-scene {
-        grid-template-columns: 1fr;
+
+    /* Adjust temperature display if present */
+    .temperature-display {
+        top: 120px;
+        right: 10px;
+        width: 130px;
+        font-size: 0.7rem;
+    }
+
+    /* Calendar adjustments if present */
+    .calendar-wall-container {
+        top: 100px;
+        left: 10px;
+        right: 10px;
+        bottom: 70px; /* ensure above footer */
+    }
+
+    /* Hide resize handles on mobile (if any) */
+    .resize-handle {
+        display: none;
     }
 }
 
