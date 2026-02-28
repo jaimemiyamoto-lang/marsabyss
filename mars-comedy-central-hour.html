@@ -1070,6 +1070,40 @@ position: relative;
             font-size: 0.8rem;
             padding: 0.5rem;
             white-space: nowrap; /* prevents text wrapping if desired */
+            .viewing-scene {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+        }
+            /* Scale down the book cover */
+            .book-cover {
+                transform: scale(0.85);
+                margin: 0 auto;
+            }
+            /* Make audience reactions wrap and fit */
+            .martian-audience {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.8rem;
+            }
+            .audience-reaction {
+                width: 100%;
+                max-width: 280px:
+                margin: 0 auto;
+        }
+        .reaction-bubble {
+            font-size: 0.8rem;
+            padding: 0.5rem 0.8rem;
+            white-space: normal; /* allow text to wrap */
+            word-break: break-word;
+        }
+        /* Adjust the regent study and viewing window padding */
+        .regent-study,
+        .viewing-window {
+            padding: 1rem;
+        }
+        /* Make the dome projection text smaller */
+        .comedy-text {
+            font-size: 1.2rem;
         }
     }
     
