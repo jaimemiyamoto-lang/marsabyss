@@ -1062,6 +1062,16 @@ position: relative;
         -webkit-overflow-scrolling: touch;
         margin: 1rem 0;
     }
+    .sound-bites-container {
+        grid-template-columns: 1fr; /* Stack cards vertically */
+        gap: 1rem;
+    }
+
+    .sound-bite-card {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
 
     /* Optional: Adjust table cells for better mobile readability */
     @media (max-width: 768px) {
@@ -1105,7 +1115,18 @@ position: relative;
         .comedy-text {
             font-size: 1.2rem;
         }
+
+        .sound-bites-container {
+        grid-template-columns: 1fr; /* Stack cards vertically */
+        gap: 1rem;
     }
+
+    .sound-bite-card {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
     
 /* ===== FORCED OVERRIDE FOR THE REGENT QUOTE ===== */
 .regent-quote,
