@@ -677,14 +677,22 @@ animation: cosmic-pulse 1.8s infinite;
 100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
 }
 
+  .mobile-nav {
+   display: none;
+   position: fixed;
+   top: 15px;
+   left: 15px;
+   z-index: 1002;
+ }
+  
 /* Mobile & Tablet Styles – up to 992px */
 @media (max-width: 992px) {
  /* Hide desktop menu, show hamburger */
  nav.top-menu {
- display: none !important;
+ display: none;
  }
  .mobile-nav {
- display: block !important;
+ display: block;
  }
 
  /* Reposition fixed elements */
@@ -1421,20 +1429,6 @@ window.addEventListener('resize', handleResize);
 window.addEventListener('load', enforceMobileMenu);
 window.addEventListener('resize', enforceMobileMenu);
 enforceMobileMenu(); // call immediately
-
-  // Force mobile menu visibility on small screens
-  function enforceMobileMenu() {
-   if (window.innerWidth <= 992) {
-       document.querySelector('.mobile-nav').style.display = 'block';
-       document.querySelector('nav.top-menu').style.display = 'none';
-   } else {
-      document.querySelector('.mobile-nav').style.display = '';
-      document.querySelector('nav.top-menu').style.display = '';
-   }
-  }
-  window.addEventListener('load', enforceMobileMenu);
-  window.addEventListener('resize', enforceMobileMenu);
-  enforceMobileMenu();
 </script>
 </body>
 </html>
