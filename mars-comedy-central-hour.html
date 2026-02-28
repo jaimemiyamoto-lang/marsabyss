@@ -1058,7 +1058,7 @@ position: relative;
 /* Make table scrollable on mobile */
     .table-responsive {
         width: 100%;
-        overflow-x: auto;
+        font-size: 0.8rem;
         -webkit-overflow-scrolling: touch;
         margin: 1rem 0;
     }
@@ -1125,7 +1125,23 @@ position: relative;
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
+        padding: 1rem;
     }
+        .projection-schedule {
+            width: 100%;
+            overflow-x: visible; /* Remove scroll */
+        }
+            .schedule-table {
+                width: 100%;
+                table-layout: auto; /* or fixed, but auto allows wrapping */
+                font-sixe: 0.8rem;
+            }
+        .schedule-table th,
+        .scedule-table td {
+            white-space: normal; /* Allow text to wrap */
+            word-break: break-word;
+            padding: 0.5rem 0.3rem;
+        }           
 }
     
 /* ===== FORCED OVERRIDE FOR THE REGENT QUOTE ===== */
