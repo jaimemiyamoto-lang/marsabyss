@@ -620,153 +620,184 @@
             line-height: 1.6;
         }
 
-        /* ===== HAMBURGER MENU – Tron Blue Theme ===== */
+/* ===== MOBILE HAMBURGER MENU – Plasma Blue/Pink/Green Theme ===== */
 .mobile-nav {
- display: none;
- position: fixed;
- top: 15px;
- left: 15px;
- z-index: 1002;
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1002;
 }
 
 .hamburger-btn {
- background: rgba(17, 17, 17, 0.9);
- border: 2px solid #00ccff;
- border-radius: 4px;
- width: 50px;
- height: 50px;
- display: flex;
- flex-direction: column;
- justify-content: center;
- align-items: center;
- cursor: pointer;
- transition: all 0.3s ease;
- backdrop-filter: blur(5px);
+    background: rgba(10, 10, 20, 0.85);
+    backdrop-filter: blur(8px);
+    border: 2px solid #00ccff;
+    border-radius: 12px;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(0, 204, 255, 0.2) inset;
 }
 
 .hamburger-btn span {
- display: block;
- width: 25px;
- height: 2px;
- background: #00ccff;
- margin: 3px 0;
- transition: all 0.3s ease;
+    display: block;
+    width: 28px;
+    height: 3px;
+    background: linear-gradient(90deg, #00ccff, #4cc9f0);
+    margin: 4px 0;
+    border-radius: 4px;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 8px rgba(0, 204, 255, 0.6);
 }
 
 .hamburger-btn:hover {
- background: rgba(0, 204, 255, 0.9);
+    background: rgba(0, 204, 255, 0.25);
+    border-color: #ff3366;
+    transform: scale(1.08);
+    box-shadow: 0 8px 25px rgba(255, 51, 102, 0.4);
 }
 
 .hamburger-btn:hover span {
- background: #000;
+    background: linear-gradient(90deg, #fff, #ff3366);
+    box-shadow: 0 0 12px #ff3366;
+    transform: scaleX(1.05);
 }
 
 .mobile-menu {
- position: fixed;
- top: 0;
- left: -100%;
- width: 300px;
- height: 100vh;
- background: linear-gradient(145deg, #0a1a2a, #1a2a3a);
- border-right: 2px solid #00ccff;
- padding: 20px;
- transition: left 0.4s ease;
- z-index: 1003;
- overflow-y: auto;
- backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 320px;
+    height: 100vh;
+    background: linear-gradient(145deg, #0a1a2a 0%, #1a2a3a 100%);
+    border-right: 3px solid #00ccff;
+    padding: 25px 20px;
+    transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1003;
+    overflow-y: auto;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8), 5px 0 25px rgba(0, 204, 255, 0.3);
+    backdrop-filter: blur(15px);
 }
 
 .mobile-menu.active {
- left: 0;
+    left: 0;
 }
 
 .menu-header {
- display: flex;
- justify-content: space-between;
- align-items: center;
- margin-bottom: 20px;
- padding-bottom: 15px;
- border-bottom: 1px solid rgba(0, 204, 255, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, transparent, #00ccff, #ff3366, transparent) 1;
 }
 
 .menu-header h3 {
- color: #00ccff;
- font-family: 'Orbitron', sans-serif;
- font-size: 1rem;
- margin: 0;
+    color: #00ccff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(0, 204, 255, 0.8), 0 0 20px rgba(255, 51, 102, 0.4);
 }
 
 .close-menu {
- background: transparent;
- border: none;
- color: #00ccff;
- font-size: 1.5rem;
- cursor: pointer;
- width: 30px;
- height: 30px;
- display: flex;
- align-items: center;
- justify-content: center;
- border-radius: 50%;
- transition: all 0.3s ease;
+    background: rgba(0, 204, 255, 0.1);
+    border: 1px solid rgba(0, 204, 255, 0.5);
+    color: #00ccff;
+    font-size: 1.8rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+    text-shadow: 0 0 8px currentColor;
 }
 
 .close-menu:hover {
- background: rgba(0, 204, 255, 0.2);
+    background: rgba(255, 51, 102, 0.3);
+    color: #fff;
+    transform: rotate(90deg) scale(1.1);
+    border-color: #39ff14;
+    box-shadow: 0 0 25px #00ccff;
 }
 
 .menu-content {
- margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .menu-content .menu-item {
- margin-bottom: 10px;
+    margin-bottom: 8px;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
 }
 
 .menu-content .menu-item a {
- display: block;
- color: #fff;
- text-decoration: none;
- padding: 10px 15px;
- border-radius: 5px;
- border-left: 3px solid transparent;
- transition: all 0.3s ease;
- font-family: 'Segoe UI', sans-serif;
- font-size: 0.95rem;
+    display: block;
+    color: #f0f0ff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(2px);
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
 }
 
 .menu-content .menu-item a:hover,
 .menu-content .menu-item a.active {
- border-left-color: #00ccff;
- background: rgba(0, 204, 255, 0.15);
- color: #e1f5fe;
+    border-left-color: #00ccff;
+    background: linear-gradient(90deg, rgba(0, 204, 255, 0.15), rgba(255, 51, 102, 0.05));
+    color: #00ccff;
+    box-shadow: 0 4px 12px rgba(0, 204, 255, 0.3);
+    text-shadow: 0 0 6px #00ccff;
+    padding-left: 16px;
 }
 
 .menu-footer {
- margin-top: 20px;
- padding-top: 15px;
- border-top: 1px solid rgba(0, 204, 255, 0.3);
- text-align: center;
- color: #00ccff;
- font-family: 'Orbitron', sans-serif;
- font-size: 0.8rem;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid transparent;
+    border-image: linear-gradient(90deg, transparent, #00ccff, #39ff14, transparent) 1;
+    text-align: center;
+    color: #00ccff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-shadow: 0 0 6px #00ccff;
+    position: relative;
 }
 
 .pulse {
- display: inline-block;
- width: 8px;
- height: 8px;
- background-color: #00ccff;
- border-radius: 50%;
- margin-right: 8px;
- box-shadow: 0 0 12px #39ff14;
- animation: cosmic-pulse 1.8s infinite;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #00ccff;
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 12px #39ff14;
+    animation: cosmic-pulse 1.8s infinite;
 }
 
 @keyframes cosmic-pulse {
- 0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
- 50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 20px #39ff14, 0 0 40px #00ccff; }
- 100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
+    0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
+    50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 20px #39ff14, 0 0 40px #00ccff; }
+    100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
 }
 
 /* Mobile media query – hide desktop menu, show hamburger */
