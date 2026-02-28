@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Mars Travel Preparation - The Mars Abyss</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
@@ -60,7 +60,7 @@ z-index: 50;
 }
 
 .site-title-overlay h1 {
-color: rgba(0, 204, 255, 0.8); /* Tron blue */
+color: rgba(0, 204, 255, 0.8);
 font-family: 'Orbitron', sans-serif;
 font-size: 1.8rem;
 text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
@@ -71,7 +71,7 @@ letter-spacing: 2px;
 /* === COMPLETE TOP MENU === */
 nav.top-menu {
 position: fixed;
-top: 0;
+top: env(safe-area-inset-top, 0);
 width: 100%;
 display: flex;
 justify-content: center;
@@ -81,7 +81,7 @@ z-index: 1000;
 gap: 2.5rem;
 flex-wrap: nowrap;
 backdrop-filter: blur(10px);
-border-bottom: 2px solid #00ccff; /* Tron blue */
+border-bottom: 2px solid #00ccff;
 }
 
 nav.top-menu a {
@@ -113,7 +113,7 @@ background: rgba(26, 26, 26, 0.98);
 min-width: 140px;
 z-index: 1001;
 border-radius: 4px;
-border: 2px solid #00ccff; /* Tron blue */
+border: 2px solid #00ccff;
 top: 100%;
 left: 0%;
 backdrop-filter: blur(5px);
@@ -131,7 +131,7 @@ line-height: 1;
 }
 
 .dropdown-content a:hover {
-background: rgba(0, 204, 255, 0.3); /* Tron blue */
+background: rgba(0, 204, 255, 0.3);
 color: #fff;
 }
 
@@ -141,7 +141,7 @@ display: block;
 
 nav.top-menu a.active,
 nav.top-menu a:hover {
-color: #00ccff; /* Tron blue */
+color: #00ccff;
 background: transparent;
 text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
 }
@@ -150,12 +150,12 @@ text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
 .audio-controls {
 position: fixed;
 bottom: 80px;
-right: 41px; /* Matches other pages */
+right: 41px;
 z-index: 1000;
 }
 
 .audio-btn {
-background: rgba(0, 204, 255, 0.8); /* Tron blue */
+background: rgba(0, 40, 60, 0.8);
 border: 2px solid #00ccff;
 color: #fff;
 padding: 10px 15px;
@@ -171,18 +171,16 @@ background: rgba(0, 204, 255, 0.6);
 box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
 }
 
-/* === CONTENT VISIBILITY CONTROLS === */
+/* === CONTENT VISIBILITY CONTROLS (single button) === */
 .content-toggle-controls {
 position: fixed;
 top: 80px;
 right: 40px;
 z-index: 1000;
-display: flex;
-gap: 10px;
 }
 
 .toggle-btn {
-background: rgba(0, 204, 255, 0.8); /* Tron blue */
+background: rgba(0, 40, 60, 0.8);
 border: 2px solid #00ccff;
 color: #fff;
 padding: 8px 12px;
@@ -205,7 +203,7 @@ position: fixed;
 top: 0;
 left: 0;
 width: 100%;
-height: 100px; /* Top area for mouse detection */
+height: 100px;
 z-index: 999;
 cursor: pointer;
 }
@@ -237,7 +235,7 @@ color: white;
 position: relative;
 border-radius: 15px;
 margin-bottom: 2rem;
-border: 2px solid #00ccff; /* Tron blue */
+border: 2px solid #00ccff;
 }
 
 .prep-container {
@@ -279,7 +277,7 @@ margin: 3rem 0;
 
 .prep-category {
 background: rgba(0, 20, 40, 0.8);
-border: 2px solid #00ccff; /* Tron blue */
+border: 2px solid #00ccff;
 border-radius: 15px;
 padding: 2rem;
 transition: all 0.3s ease;
@@ -297,7 +295,7 @@ text-align: center;
 }
 
 .category-title {
-color: #00ccff; /* Tron blue */
+color: #00ccff;
 font-size: 1.5rem;
 margin-bottom: 1.5rem;
 text-align: center;
@@ -323,7 +321,7 @@ color: #39ff14;
 
 /* Timeline */
 .journey-timeline {
-background: rgba(255, 51, 102, 0.1); /* Martian red */
+background: rgba(255, 51, 102, 0.1);
 border: 2px solid #ff3366;
 border-radius: 15px;
 padding: 2rem;
@@ -339,7 +337,7 @@ align-items: center;
 .timeline-marker {
 width: 30px;
 height: 30px;
-background: #ff3366; /* Martian red */
+background: #ff3366;
 border-radius: 50%;
 display: flex;
 align-items: center;
@@ -383,7 +381,7 @@ margin: 3rem 0;
 
 .faq-item {
 background: rgba(0, 0, 0, 0.5);
-border: 1px solid #ff3366; /* Martian red */
+border: 1px solid #ff3366;
 border-radius: 10px;
 padding: 1.5rem;
 cursor: pointer;
@@ -395,7 +393,7 @@ background: rgba(255, 51, 102, 0.1);
 }
 
 .faq-question {
-color: #ff3366; /* Martian red */
+color: #ff3366;
 font-size: 1.2rem;
 margin-bottom: 1rem;
 display: flex;
@@ -414,7 +412,7 @@ display: block;
 
 /* Certification Badge */
 .certification {
-grid-column: 1 / -1;    
+grid-column: 1 / -1; 
 text-align: center;
 padding: 4rem 2rem;
 background: rgba(26, 26, 26, 0.8);
@@ -425,36 +423,223 @@ max-width: 1200px;
 backdrop-filter: blur(10px);
 }
 
-.certification-card h2 {
-    color: #ffd700 !important;
-    font-size: 2.5rem !important;
-    margin-bottom: 1.5rem !important;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-    grid-column: 1 / -1; /* This makes it span all columns */
-    text-align: center;
-    padding: 4rem 2rem;
+.certification h2 {
+color: #ffd700;
+font-size: 2.5rem;
+margin-bottom: 1.5rem;
+text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
 }
 
-.certification-card h3 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.certification-card p {
-    font-size: 1.5rem;
-    margin-bottom: 2rem !important;
-    color: #e0e0ff;
+.certification p {
+font-size: 1.5rem;
+margin-bottom: 2rem;
+color: #e0e0ff;
 }
 
 .certification div {
-    background: #ffd700 !important;
-    color: #000 !important;
-    padding: 1.5rem 3rem !important;
-    border-radius: 25px !important;
-    display: inline-block !important;
-    font-weight: bold !important;
-    font-size: 2rem !important;
-    box-shadow: 0 0  20px rgba(255, 215, 0, 0.7);
+background: #ffd700;
+color: #000;
+padding: 1.5rem 3rem;
+border-radius: 25px;
+display: inline-block;
+font-weight: bold;
+font-size: 2rem;
+box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+}
+
+/* ===== HAMBURGER MENU – Tron Blue Theme ===== */
+.mobile-nav {
+ display: none;
+ position: fixed;
+ top: 15px;
+ left: 15px;
+ z-index: 1002;
+}
+
+.hamburger-btn {
+ background: rgba(17, 17, 17, 0.9);
+ border: 2px solid #00ccff;
+ border-radius: 4px;
+ width: 50px;
+ height: 50px;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+}
+
+.hamburger-btn span {
+ display: block;
+ width: 25px;
+ height: 2px;
+ background: #00ccff;
+ margin: 3px 0;
+ transition: all 0.3s ease;
+}
+
+.hamburger-btn:hover {
+ background: rgba(0, 204, 255, 0.9);
+}
+
+.hamburger-btn:hover span {
+ background: #000;
+}
+
+.mobile-menu {
+ position: fixed;
+ top: 0;
+ left: -100%;
+ width: 300px;
+ height: 100vh;
+ background: linear-gradient(145deg, #0a1a2a, #1a2a3a);
+ border-right: 2px solid #00ccff;
+ padding: 20px;
+ transition: left 0.4s ease;
+ z-index: 1003;
+ overflow-y: auto;
+ backdrop-filter: blur(10px);
+}
+
+.mobile-menu.active {
+ left: 0;
+}
+
+.menu-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 20px;
+ padding-bottom: 15px;
+ border-bottom: 1px solid rgba(0, 204, 255, 0.3);
+}
+
+.menu-header h3 {
+ color: #00ccff;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1rem;
+ margin: 0;
+}
+
+.close-menu {
+ background: transparent;
+ border: none;
+ color: #00ccff;
+ font-size: 1.5rem;
+ cursor: pointer;
+ width: 30px;
+ height: 30px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border-radius: 50%;
+ transition: all 0.3s ease;
+}
+
+.close-menu:hover {
+ background: rgba(0, 204, 255, 0.2);
+}
+
+.menu-content {
+ margin-bottom: 20px;
+}
+
+.menu-content .menu-item {
+ margin-bottom: 10px;
+}
+
+.menu-content .menu-item a {
+ display: block;
+ color: #fff;
+ text-decoration: none;
+ padding: 10px 15px;
+ border-radius: 5px;
+ border-left: 3px solid transparent;
+ transition: all 0.3s ease;
+ font-family: 'Segoe UI', sans-serif;
+ font-size: 0.95rem;
+}
+
+.menu-content .menu-item a:hover,
+.menu-content .menu-item a.active {
+ border-left-color: #00ccff;
+ background: rgba(0, 204, 255, 0.15);
+ color: #e1f5fe;
+}
+
+.menu-footer {
+ margin-top: 20px;
+ padding-top: 15px;
+ border-top: 1px solid rgba(0, 204, 255, 0.3);
+ text-align: center;
+ color: #00ccff;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.8rem;
+}
+
+.pulse {
+ display: inline-block;
+ width: 8px;
+ height: 8px;
+ background-color: #00ccff;
+ border-radius: 50%;
+ margin-right: 8px;
+ box-shadow: 0 0 12px #39ff14;
+ animation: cosmic-pulse 1.8s infinite;
+}
+
+@keyframes cosmic-pulse {
+ 0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
+ 50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 20px #39ff14, 0 0 40px #00ccff; }
+ 100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
+}
+
+/* Mobile media query – hide desktop menu, show hamburger */
+@media (max-width: 992px) {
+ nav.top-menu {
+ display: none;
+ }
+ .mobile-nav {
+ display: block;
+ }
+ .site-title-overlay {
+ top: 70px;
+ left: 15px;
+ }
+ .site-title-overlay h1 {
+ font-size: 1.4rem;
+ }
+ .content-toggle-controls {
+ top: 70px;
+ right: 15px;
+ }
+ .audio-controls {
+ bottom: 70px;
+ right: 20px;
+ }
+}
+
+@media (max-width: 768px) {
+.content-toggle-controls {
+top: 70px;
+right: 20px;
+}
+.toggle-btn {
+font-size: 0.7rem;
+padding: 6px 10px;
+}
+}
+
+@media (max-width: 480px) {
+.main-title {
+ font-size: 2rem;
+}
+.toggle-btn {
+ min-width: 140px;
+ min-height: 45px;
+}
 }
 
 /* FOOTER */
@@ -475,19 +660,6 @@ border-top: 2px solid #ff9553;
 .content-spacer {
 height: 100px;
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-.content-toggle-controls {
-top: 70px;
-right: 20px;
-flex-direction: column;
-}
-.toggle-btn {
-font-size: 0.7rem;
-padding: 6px 10px;
-}
-}
 </style>
 </head>
 
@@ -506,10 +678,9 @@ Your browser does not support the video tag.
 <h1>The Mars Abyss</h1>
 </div>
 
-<!-- CONTENT VISIBILITY CONTROLS -->
+<!-- CONTENT VISIBILITY CONTROLS (single button) -->
 <div class="content-toggle-controls">
 <button class="toggle-btn" id="hideContentBtn">👁️ Hide Content</button>
-<button class="toggle-btn" id="showContentBtn">📖 Show Content</button>
 </div>
 
 <!-- MOUSE PROXIMITY SENSOR -->
@@ -520,8 +691,27 @@ Your browser does not support the video tag.
 <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
 
-<!-- COMPLETE TOP MENU -->
- <nav class="top-menu">
+<!-- MOBILE HAMBURGER MENU -->
+<div class="mobile-nav">
+<button class="hamburger-btn" id="hamburgerBtn">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<nav class="mobile-menu" id="mobileMenu">
+<div class="menu-header">
+<h3>THE MARS ABYSS</h3>
+<button class="close-menu" id="closeMenu">✕</button>
+</div>
+<div class="menu-content"></div>
+<div class="menu-footer">
+<span class="pulse"></span> MARS TRAVEL PREPARATION
+</div>
+</nav>
+</div>
+
+<!-- CORRECTED TOP MENU (full) -->
+<nav class="top-menu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn">Home</a>
 <div class="dropdown-content">
@@ -532,7 +722,7 @@ Your browser does not support the video tag.
 <a href="my-mission.html">My Mission</a>
 <a href="martian-reading-revival.html">Martian Reading Revival</a>
 <a href="why-mars-is-safer.html">Why Mars is Safer</a>
-<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
 <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
 </div>
 </div>
@@ -548,7 +738,7 @@ Your browser does not support the video tag.
 <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
 <a href="technical-database.html">Technical Database</a>
 <a href="martian-edicts.html">The Martian Edicts</a>
-<a href="alien-transport-network.html">Alien Transport Network</a>    
+<a href="alien-transport-network.html">Alien Transport Network</a>
 <a href="martian-martial-arts.html">Martian Martial Arts</a>
 <a href="solar-system-explorer.html">Solar System Explorer</a>
 <a href="aliens-ufos.html">Aliens & UFOs</a>
@@ -556,6 +746,7 @@ Your browser does not support the video tag.
 </div>
 </div>
 </div>
+
 <div class="dropdown">
 <a href="martian-games.html" class="dropbtn">Martian Games</a>
 <div class="dropdown-content">
@@ -569,6 +760,7 @@ Your browser does not support the video tag.
 <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
 </div>
 </div>
+
 <div class="dropdown">
 <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
 <div class="dropdown-content">
@@ -583,9 +775,11 @@ Your browser does not support the video tag.
 <a href="the-bronx-dome.html">The Bronx Dome</a>
 </div>
 </div>
+
 <div class="dropdown">
 <a href="martian-news.html" class="dropbtn active">Martian News</a>
 <div class="dropdown-content">
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
 <a href="martian-actualities.html">Martian Actualities</a>
 <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
 <a href="mars-bee-facility.html">Mars Bee Facility</a>
@@ -603,10 +797,11 @@ Your browser does not support the video tag.
 </div>
 </div>
 </div>
+
 <div class="dropdown">
-<a href="the-regents-scrolls.html" class="dropbtn">The Regent's Scrolls</a>
+<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
 <div class="dropdown-content">
-<a href="regents-longing.html">What the Regent Misses</a>    
+<a href="what-the-regent-misses.html">What the Regent Misses</a>
 <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
 <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
 <a href="honor-the-fallen.html">Honor The Fallen</a>
@@ -619,10 +814,11 @@ Your browser does not support the video tag.
 <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
 </div>
 </div>
+
 <div class="dropdown">
 <a href="about.html" class="dropbtn">About</a>
 <div class="dropdown-content">
-<a href="about-the-project.html">About the Project</a>   
+<a href="about-the-project.html">About the Project</a>
 <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
 <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
 <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
@@ -634,23 +830,25 @@ Your browser does not support the video tag.
 <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
 </div>
 </div>
+
 <div class="dropdown">
 <a href="support.html" class="dropbtn">Support</a>
 <div class="dropdown-content">
-<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
-<a href="martian-childrens-sanctuary.html">Children's Sanctuary</a>
+<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
 <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="fund-martian-research.html">Fund Martian Research</a> 
 <a href="martian-survival-manual.html">Martian Survival Manual</a>
 <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
 </div>
 </div>
+
 <a href="contact.html">Contact</a>
 </nav>
 
-<!-- Main Content -->
+<!-- Main Content (fully restored) -->
 <div class="main-content" id="mainContent">
 <div class="prep-container">
 <!-- Hero Section -->
@@ -725,60 +923,59 @@ Your browser does not support the video tag.
 
 <!-- Cultural Adaptation -->
 <div class="prep-category">
-    <div class="category-icon">🌍</div>
-    <h3 class="category-title">Cultural Adaptation</h3>
-    <ul class="requirement-list">
-        <li class="requirement-item">
-            <span class="requirement-check">✓</span>
-            Martian greeting customs and social protocols
-        </li>
-        <li class="requirement-item">
-            <span class="requirement-check">✓</span>
-            Dome-specific etiquette and behavioral guidelines
-        </li>
-        <li class="requirement-item">
-            <span class="requirement-check">✓</span>
-            Understanding Martian social hierarchy and respect customs
-        </li>
-        <li class="requirement-item">
-            <span class="requirement-check">✓</span>
-            Appropriate interaction with Martian AI systems and androids
-        </li>
-        <li class="requirement-item">
-            <span class="requirement-check">✓</span>
-            Cultural sensitivity training for interplanetary visitors
-        </li>
-    </ul>
+ <div class="category-icon">🌍</div>
+ <h3 class="category-title">Cultural Adaptation</h3>
+ <ul class="requirement-list">
+ <li class="requirement-item">
+ <span class="requirement-check">✓</span>
+ Martian greeting customs and social protocols
+ </li>
+ <li class="requirement-item">
+ <span class="requirement-check">✓</span>
+ Dome-specific etiquette and behavioral guidelines
+ </li>
+ <li class="requirement-item">
+ <span class="requirement-check">✓</span>
+ Understanding Martian social hierarchy and respect customs
+ </li>
+ <li class="requirement-item">
+ <span class="requirement-check">✓</span>
+ Appropriate interaction with Martian AI systems and androids
+ </li>
+ <li class="requirement-item">
+ <span class="requirement-check">✓</span>
+ Cultural sensitivity training for interplanetary visitors
+ </li>
+ </ul>
 </div>
 
 <!-- Emergency Preparedness -->
 <div class="prep-category">
-    <div class="category-icon">🆘</div>
-    <h3 class="category-title">Emergency Preparedness</h3>
-    <ul class="requirement-list">
-        <li class="requirement-item">
-            <span class="requirement-check">✓</span>
-            Atmospheric breach procedures and emergency shelter locations
-        </li>
-        <li class="requirement-item">
-            <span class="requirement-check">✓</span>
-            Martian emergency contact numbers and response protocols
-        </li>
-        <li class="requirement-item">
-            <span class="requirement-check">✓</span>
-            Basic first aid and low-gravity medical procedures
-        </li>
-        <li class="requirement-item">
-            <span class="requirement-check">✓</span>
-            Emergency communication devices and distress signals
-        </li>
-        <li class="requirement-item">
-            <span class="requirement-check">✓</span>
-            Evacuation routes and safe zone identification in each dome
-        </li>
-    </ul>
+ <div class="category-icon">🆘</div>
+ <h3 class="category-title">Emergency Preparedness</h3>
+ <ul class="requirement-list">
+ <li class="requirement-item">
+ <span class="requirement-check">✓</span>
+ Atmospheric breach procedures and emergency shelter locations
+ </li>
+ <li class="requirement-item">
+ <span class="requirement-check">✓</span>
+ Martian emergency contact numbers and response protocols
+ </li>
+ <li class="requirement-item">
+ <span class="requirement-check">✓</span>
+ Basic first aid and low-gravity medical procedures
+ </li>
+ <li class="requirement-item">
+ <span class="requirement-check">✓</span>
+ Emergency communication devices and distress signals
+ </li>
+ <li class="requirement-item">
+ <span class="requirement-check">✓</span>
+ Evacuation routes and safe zone identification in each dome
+ </li>
+ </ul>
 </div>
-
 
 <!-- Journey Timeline -->
 <section class="journey-timeline">
@@ -889,11 +1086,9 @@ Early return is possible but subject to seat availability on returning spacecraf
 
 <!-- Final Certification -->
 <section class="certification">
-<h2 style="color: #ffd700; margin-bottom: 1rem;">MAI TRAVEL READINESS CERTIFICATION</h2>
-<p style="font-size: 1.1rem; margin-bottom: 1rem;">This guide covers 100% of expected scenarios. Follow these preparations, and your Mars experience will be flawless.</p>
-<div style="background: #ffd700; color: #000; padding: 1rem 2rem; border-radius: 25px; display: inline-block; font-weight: bold;">
-✅ YOU ARE READY FOR MARS
-</div>
+<h2>MAI TRAVEL READINESS CERTIFICATION</h2>
+<p>This guide covers 100% of expected scenarios. Follow these preparations, and your Mars experience will be flawless.</p>
+<div>✅ YOU ARE READY FOR MARS</div>
 </section>
 </div>
 </div>
@@ -907,54 +1102,232 @@ Early return is possible but subject to seat availability on returning spacecraf
 </footer>
 
 <script>
-// Content Visibility Controls
+
+// ===== VIDEO PROTECTION =====
+(function() {
+document.querySelectorAll('video').forEach(video => {
+video.setAttribute('controlslist', 'nodownload');
+video.addEventListener('contextmenu', (e) => e.preventDefault());
+video.addEventListener('dragstart', (e) => e.preventDefault());
+});
+document.addEventListener('keydown', (e) => {
+const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+e.preventDefault();
+}
+});
+})();
+
+// ===== MOBILE HAMBURGER MENU =====
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuContent = document.querySelector('.menu-content');
+
+function createMobileMenu() {
+if (!menuContent) return;
+menuContent.innerHTML = '';
+
+const menuItems = [
+{ text: '🏠 Home', href: 'index.html' },
+{ text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+{ text: ' Homage to Courage', href: 'homage-to-courage.html' },
+{ text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+{ text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+{ text: ' My Mission', href: 'my-mission.html' },
+{ text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+{ text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+{ text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+{ text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+
+{ text: '📖 Story', href: 'story.html' },
+{ text: ' Characters', href: 'characters.html' },
+{ text: ' Gallery', href: 'gallery.html' },
+{ text: ' Art & Concepts', href: 'art-and-concepts.html' },
+{ text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+{ text: ' Technical Database', href: 'technical-database.html' },
+{ text: ' The Martian Edicts', href: 'martian-edicts.html' },
+{ text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+{ text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+{ text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+{ text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+
+{ text: '🎮 Martian Games', href: 'martian-games.html' },
+{ text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+{ text: ' Martian Racer', href: 'martian-racer.html' },
+{ text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+{ text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+{ text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+{ text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+{ text: ' Music Player', href: 'music-app.html' },
+{ text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+
+{ text: '🌍 Earth Codex', href: 'earth-codex.html' },
+{ text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+{ text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+{ text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+{ text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+{ text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+{ text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+{ text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+{ text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+{ text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+
+{ text: '📰 Martian News', href: 'martian-news.html' },
+{ text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+{ text: ' Martian Actualities', href: 'martian-actualities.html' },
+{ text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+{ text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+{ text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+{ text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+{ text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+{ text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+{ text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+{ text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+{ text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+{ text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+
+{ text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+{ text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+{ text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+{ text: ' Earthlings Beware', href: 'earthings-beware.html' },
+{ text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+{ text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+{ text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+{ text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+{ text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+{ text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+{ text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+{ text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+
+{ text: 'ℹ️ About', href: 'about.html' },
+{ text: ' About the Project', href: 'about-the-project.html' },
+{ text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+{ text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+{ text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+{ text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+{ text: ' The Pale Horse', href: 'the-pale-horse.html' },
+{ text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+{ text: ' Arachne Labs', href: 'arachne-labs.html' },
+{ text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+{ text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+
+{ text: '🤝 Support', href: 'support.html' },
+{ text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+{ text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+{ text: ' Mars Food District', href: 'mars-food-district.html' },
+{ text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+{ text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+{ text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+{ text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+{ text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+
+{ text: '📧 Contact', href: 'contact.html' },
+{ text: 'ᯓ ✈︎ Mars Travel Preparation (current)', href: 'mars-travel-preparation.html', active: true }
+];
+
+menuItems.forEach(item => {
+const menuItem = document.createElement('div');
+menuItem.className = 'menu-item';
+const link = document.createElement('a');
+link.href = item.href;
+link.textContent = item.text;
+if (item.active) link.classList.add('active');
+menuItem.appendChild(link);
+menuContent.appendChild(menuItem);
+});
+}
+
+createMobileMenu();
+
+hamburgerBtn.addEventListener('click', () => {
+mobileMenu.classList.add('active');
+document.body.style.overflow = 'hidden';
+});
+
+closeMenu.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+
+document.addEventListener('click', (e) => {
+if (mobileMenu.classList.contains('active') &&
+!mobileMenu.contains(e.target) &&
+!hamburgerBtn.contains(e.target)) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+});
+
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+link.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+});
+
+function handleResize() {
+if (window.innerWidth > 992) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+}
+window.addEventListener('resize', handleResize);
+
+// Content Visibility Controls – single button
 const mainContent = document.getElementById('mainContent');
 const hideContentBtn = document.getElementById('hideContentBtn');
-const showContentBtn = document.getElementById('showContentBtn');
 const mouseSensor = document.getElementById('mouseSensor');
 
 let contentVisible = true;
 let mouseSensorActive = false;
 
-// Button controls
 hideContentBtn.addEventListener('click', () => {
-    mainContent.classList.add('hidden');
-    contentVisible = false;
-    mouseSensorActive = true;
-});
-
-showContentBtn.addEventListener('click', () => {
-    mainContent.classList.remove('hidden');
-    contentVisible = true;
-    mouseSensorActive = false;
+ if (contentVisible) {
+   mainContent.classList.add('hidden');
+   contentVisible = false;
+   mouseSensorActive = true;
+   hideContentBtn.textContent = '👁️ Show Content';
+ } else {
+   mainContent.classList.remove('hidden');
+   contentVisible = true;
+   mouseSensorActive = false;
+   hideContentBtn.textContent = '👁️ Hide Content';
+ }
 });
 
 // Mouse sensor for showing content
 mouseSensor.addEventListener('mouseenter', () => {
-    if (mouseSensorActive) {
-        mainContent.classList.remove('hidden');
-        contentVisible = true;
-        // Auto-hide after 10 seconds if user doesn't interact
-        setTimeout(() => {
-            if (contentVisible && !isUserInteracting()) {
-                mainContent.classList.add('hidden');
-                contentVisible = false;
-            }
-        }, 10000);
-    }
+ if (mouseSensorActive) {
+   mainContent.classList.remove('hidden');
+   contentVisible = true;
+   mouseSensorActive = false;
+   hideContentBtn.textContent = '👁️ Hide Content';
+   // Auto-hide after 10 seconds if user doesn't interact
+   setTimeout(() => {
+     if (contentVisible && !isUserInteracting()) {
+       mainContent.classList.add('hidden');
+       contentVisible = false;
+       mouseSensorActive = true;
+       hideContentBtn.textContent = '👁️ Show Content';
+     }
+   }, 10000);
+ }
 });
 
 // Also allow showing content by moving mouse to top of screen
 document.addEventListener('mousemove', (e) => {
-    if (e.clientY < 100 && !contentVisible && mouseSensorActive) {
-        mainContent.classList.remove('hidden');
-        contentVisible = true;
-    }
+ if (e.clientY < 100 && !contentVisible && mouseSensorActive) {
+   mainContent.classList.remove('hidden');
+   contentVisible = true;
+   mouseSensorActive = false;
+   hideContentBtn.textContent = '👁️ Hide Content';
+ }
 });
 
 function isUserInteracting() {
-    // Check if user is actively scrolling or clicking
-    return mainContent.matches(':hover') || document.querySelector('.prep-container').matches(':hover');
+ // Check if user is actively scrolling or clicking
+ return mainContent.matches(':hover') || document.querySelector('.prep-container').matches(':hover');
 }
 
 // Background video loading
@@ -962,87 +1335,109 @@ const bgVideo = document.getElementById('marsTravelVideo');
 const staticBg = document.getElementById('staticBg');
 
 bgVideo.addEventListener('loadeddata', function() {
-    setTimeout(() => {
-        bgVideo.play();
-    }, 500);
+ setTimeout(() => {
+   bgVideo.play();
+ }, 500);
 });
 
 bgVideo.addEventListener('error', function() {
-    console.log('Background video failed to load, using static background');
+ console.log('Background video failed to load, using static background');
 });
 
-// Audio System
+// ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-    const sounds = [
-        { src: 'music/chasing-the-light.mp3', volume: 0.4 },
-        { src: 'sounds/spaceship-hum.mp3', volume: 0.2 },
-        { src: 'sounds/air-circulation.mp3', volume: 0.1 }
-    ];
+ const sounds = [
+ { src: 'music/chasing-the-light.mp3', volume: 0.5 },
+ { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+ { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+ ];
 
-    sounds.forEach(sound => {
-        const audio = new Audio(sound.src);
-        audio.volume = sound.volume;
-        audio.loop = true;
-        audio.muted = true;
-        audioElements.push(audio);
-    });
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
 
-    document.addEventListener('click', function unmuteAudio() {
-        if (!isMuted) {
-            audioElements.forEach(audio => {
-                audio.muted = false;
-                audio.play().catch(e => console.log('Audio play failed'));
-            });
-            isMuted = false;
-            muteBtn.textContent = "🔊 Mute Sounds";
-        }
-        document.removeEventListener('click', unmuteAudio);
-    }, { once: true });
+ const unmuteOnInteraction = function() {
+ if (isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => {
+ console.log('Audio play attempt failed:', e);
+ });
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 MUTE MUSIC";
+ }
+ document.removeEventListener('click', unmuteOnInteraction);
+ document.removeEventListener('keydown', unmuteOnInteraction);
+ };
+
+ document.addEventListener('click', unmuteOnInteraction);
+ document.addEventListener('keydown', unmuteOnInteraction);
+
+ setTimeout(() => {
+ audioElements.forEach(audio => {
+ audio.play().then(() => {
+ console.log('Audio autoplay succeeded.');
+ }).catch(e => {
+ console.log('Audio autoplay blocked.');
+ });
+ });
+ }, 1000);
 }
 
 muteBtn.addEventListener('click', function() {
-    isMuted = !isMuted;
-    audioElements.forEach(audio => {
-        audio.muted = isMuted;
-    });
-    muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+ if (audioElements.length === 0) {
+ initAudio();
+ return;
+ }
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ if (!isMuted) {
+ audio.play().catch(e => console.log('Playback resume failed'));
+ }
+ });
+ muteBtn.textContent = isMuted ? "🔇 UNMUTE MUSIC" : "🔊 MUTE MUSIC";
 });
-
-initAudio();
 
 // FAQ Toggle Function
 function toggleFAQ(element) {
-    element.classList.toggle('active');
-    const span = element.querySelector('.faq-question span');
-    span.textContent = element.classList.contains('active') ? '−' : '+';
+ element.classList.toggle('active');
+ const span = element.querySelector('.faq-question span');
+ span.textContent = element.classList.contains('active') ? '−' : '+';
 }
 
 // Initialize with first FAQ open
 document.addEventListener('DOMContentLoaded', function() {
-    const firstFAQ = document.querySelector('.faq-item');
-    if (firstFAQ) {
-        toggleFAQ(firstFAQ);
-    }
+ const firstFAQ = document.querySelector('.faq-item');
+ if (firstFAQ) {
+   toggleFAQ(firstFAQ);
+ }
 });
 
 // Keyboard shortcuts
 document.addEventListener('keydown', function(event) {
-    if (event.key === 'h' || event.key === 'H') {
-        // Toggle content visibility with 'H' key
-        if (contentVisible) {
-            mainContent.classList.add('hidden');
-            contentVisible = false;
-            mouseSensorActive = true;
-        } else {
-            mainContent.classList.remove('hidden');
-            contentVisible = true;
-            mouseSensorActive = false;
-        }
-    }
+ if (event.key === 'h' || event.key === 'H') {
+   if (contentVisible) {
+     mainContent.classList.add('hidden');
+     contentVisible = false;
+     mouseSensorActive = true;
+     hideContentBtn.textContent = '👁️ Show Content';
+   } else {
+     mainContent.classList.remove('hidden');
+     contentVisible = true;
+     mouseSensorActive = false;
+     hideContentBtn.textContent = '👁️ Hide Content';
+   }
+ }
 });
 </script>
 </body>
