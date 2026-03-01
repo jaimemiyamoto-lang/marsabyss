@@ -153,7 +153,6 @@ display: block;
     border-radius: 3px;
 }
 
-/* Ensure dropdowns appear above footer */
 .dropdown-content {
     z-index: 1003;
 }
@@ -710,6 +709,194 @@ animation: pulse 2s ease-in-out infinite;
 0%, 100% { opacity: 1; }
 50% { opacity: 0.7; }
 }
+
+/* ===== HAMBURGER MENU (Pink/Purple Theme) – FIXED ===== */
+.mobile-nav {
+    display: none; /* hidden on desktop */
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1002;
+}
+
+.hamburger-btn {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #FF69B4;
+    border-radius: 4px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: #FF69B4;
+    margin: 3px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
+}
+
+.hamburger-btn:hover {
+    background: rgba(147, 112, 219, 0.2);
+    border-color: #9370DB;
+}
+
+.hamburger-btn:hover span {
+    background: #9370DB;
+    box-shadow: 0 0 8px rgba(147, 112, 219, 0.8);
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 300px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.98);
+    border-right: 2px solid #FF69B4;
+    padding: 20px;
+    transition: left 0.4s ease;
+    z-index: 1003;
+    overflow-y: auto;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
+}
+
+.mobile-menu.active {
+    left: 0;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #FF69B4;
+}
+
+.menu-header h3 {
+    color: #FF69B4;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    margin: 0;
+    text-shadow: 0 0 8px rgba(255, 105, 180, 0.5);
+}
+
+.close-menu {
+    background: transparent;
+    border: none;
+    color: #FF69B4;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.close-menu:hover {
+    background: rgba(147, 112, 219, 0.2);
+    color: #9370DB;
+    transform: rotate(90deg);
+}
+
+.menu-content {
+    margin-bottom: 20px;
+}
+
+.menu-content .menu-item {
+    margin-bottom: 10px;
+}
+
+.menu-content .menu-item a {
+    display: block;
+    color: #e0e0e0;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.95rem;
+}
+
+.menu-content .menu-item a:hover,
+.menu-content .menu-item a.active {
+    border-left-color: #9370DB;
+    background: rgba(147, 112, 219, 0.1);
+    color: #9370DB;
+    text-shadow: 0 0 8px rgba(147, 112, 219, 0.3);
+}
+
+.menu-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #FF69B4;
+    text-align: center;
+    color: #FF69B4;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    text-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
+}
+
+/* renamed pulse to avoid conflict with hero */
+.menu-pulse {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #9370DB;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: blink 1.5s infinite;
+    box-shadow: 0 0 10px #9370DB;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* ===== FIXED MEDIA QUERY (shows hamburger on mobile) ===== */
+@media (max-width: 992px) {
+    nav.top-menu {
+        display: none;
+    }
+    .mobile-nav {
+        display: block;
+    }
+    .site-title-overlay {
+        top: 70px;
+        left: 15px;
+    }
+    .site-title-overlay h1 {
+        font-size: 1.4rem;
+    }
+    .audio-controls {
+        bottom: 70px;
+        right: 15px;
+    }
+    .view-toggle {
+        top: 70px;
+        right: 15px;
+    }
+    .main-content {
+        margin-top: 100px;
+    }
+}
+
 @media (max-width: 768px) {
 .showcase-container {
 grid-template-columns: 1fr;
@@ -719,163 +906,6 @@ grid-template-columns: 1fr;
 }
 .user-videos-grid {
 grid-template-columns: 1fr;
-}
-/* ===== HAMBURGER MENU (Pink/Purple Theme) ===== */
-.mobile-nav {
- display: none;
- position: fixed;
- top: 15px;
- left: 15px;
- z-index: 1002;
-}
-
-.hamburger-btn {
- background: rgba(0, 0, 0, 0.7);
- border: 2px solid #FF69B4;
- border-radius: 4px;
- width: 50px;
- height: 50px;
- display: flex;
- flex-direction: column;
- justify-content: center;
- align-items: center;
- cursor: pointer;
- transition: all 0.3s ease;
- backdrop-filter: blur(5px);
- box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
-}
-
-.hamburger-btn span {
- display: block;
- width: 25px;
- height: 2px;
- background: #FF69B4;
- margin: 3px 0;
- transition: all 0.3s ease;
- box-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
-}
-
-.hamburger-btn:hover {
- background: rgba(147, 112, 219, 0.2);
- border-color: #9370DB;
-}
-
-.hamburger-btn:hover span {
- background: #9370DB;
- box-shadow: 0 0 8px rgba(147, 112, 219, 0.8);
-}
-
-.mobile-menu {
- position: fixed;
- top: 0;
- left: -100%;
- width: 300px;
- height: 100vh;
- background: rgba(0, 0, 0, 0.98);
- border-right: 2px solid #FF69B4;
- padding: 20px;
- transition: left 0.4s ease;
- z-index: 1003;
- overflow-y: auto;
- backdrop-filter: blur(8px);
- box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
-}
-
-.mobile-menu.active {
- left: 0;
-}
-
-.menu-header {
- display: flex;
- justify-content: space-between;
- align-items: center;
- margin-bottom: 20px;
- padding-bottom: 15px;
- border-bottom: 1px solid #FF69B4;
-}
-
-.menu-header h3 {
- color: #FF69B4;
- font-family: 'Orbitron', sans-serif;
- font-size: 1rem;
- margin: 0;
- text-shadow: 0 0 8px rgba(255, 105, 180, 0.5);
-}
-
-.close-menu {
- background: transparent;
- border: none;
- color: #FF69B4;
- font-size: 1.5rem;
- cursor: pointer;
- width: 30px;
- height: 30px;
- display: flex;
- align-items: center;
- justify-content: center;
- border-radius: 50%;
- transition: all 0.3s ease;
-}
-
-.close-menu:hover {
- background: rgba(147, 112, 219, 0.2);
- color: #9370DB;
- transform: rotate(90deg);
-}
-
-.menu-content {
- margin-bottom: 20px;
-}
-
-.menu-content .menu-item {
- margin-bottom: 10px;
-}
-
-.menu-content .menu-item a {
- display: block;
- color: #e0e0e0;
- text-decoration: none;
- padding: 10px 15px;
- border-radius: 5px;
- border-left: 3px solid transparent;
- transition: all 0.3s ease;
- font-family: 'Segoe UI', sans-serif;
- font-size: 0.95rem;
-}
-
-.menu-content .menu-item a:hover,
-.menu-content .menu-item a.active {
- border-left-color: #9370DB;
- background: rgba(147, 112, 219, 0.1);
- color: #9370DB;
- text-shadow: 0 0 8px rgba(147, 112, 219, 0.3);
-}
-
-.menu-footer {
- margin-top: 20px;
- padding-top: 15px;
- border-top: 1px solid #FF69B4;
- text-align: center;
- color: #FF69B4;
- font-family: 'Orbitron', sans-serif;
- font-size: 0.8rem;
- text-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
-}
-
-.pulse {
- display: inline-block;
- width: 8px;
- height: 8px;
- background-color: #9370DB;
- border-radius: 50%;
- margin-right: 8px;
- animation: blink 1.5s infinite;
- box-shadow: 0 0 10px #9370DB;
-}
-
-@keyframes blink {
- 0%, 100% { opacity: 1; }
- 50% { opacity: 0.3; }
 }
 }
 </style>
@@ -897,6 +927,25 @@ Your browser does not support the video tag.
 <div class="audio-controls" id="audioControls">
 <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
+<!-- MOBILE HAMBURGER MENU (UPDATED) -->
+<div class="mobile-nav">
+<button class="hamburger-btn" id="hamburgerBtn">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<nav class="mobile-menu" id="mobileMenu">
+<div class="menu-header">
+<h3>THE MARS ABYSS</h3>
+<button class="close-menu" id="closeMenu">✕</button>
+</div>
+<div class="menu-content"></div>
+<div class="menu-footer">
+<span class="menu-pulse"></span> MARTIAN FASHION FRONTIER
+</div>
+</nav>
+</div>
+
 <nav class="top-menu" id="mainMenu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn">Home</a>
@@ -961,7 +1010,7 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="martian-news.html" class="dropbtn">Martian News</a>
 <div class="dropdown-content">
-<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>   
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>  
 <a href="martian-actualities.html">Martian Actualities</a>
 <a href="mars-bee-facility.html">Mars Bee Facility</a>
 <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
@@ -1340,6 +1389,7 @@ audioElements.push(audio);
 });
 }
 initAudio();
+
 const viewToggle = document.getElementById('viewToggle');
 const mainContent = document.getElementById('mainContent');
 const mainMenu = document.getElementById('mainMenu');
