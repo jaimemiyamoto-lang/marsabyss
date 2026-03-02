@@ -20,6 +20,7 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 --deep-space: #0a0a1a;
 --cyber-purple: #8a2be2;
 --matrix-green: #39ff14;
+--hunter-gold: #4cc9f0; /* added for consistency */
 }
 
 body {
@@ -208,21 +209,29 @@ right: 41px;
 z-index: 1000;
 }
 
-.audio-btn {
-background: rgba(76, 201, 240, 0.8);
-border: 2px solid #4cc9f0;
+/* === IMPROVED BUTTON STYLES (dark default, blue glow on hover) === */
+.audio-btn, .toggle-btn {
+background: rgba(0, 0, 0, 0.7);
+border: 2px solid #00ccff;
 color: #fff;
-padding: 10px 15px;
-border-radius: 25px;
-cursor: pointer;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 transition: all 0.3s ease;
+cursor: pointer;
 backdrop-filter: blur(5px);
-font-size: 0.9rem;
+font-weight: bold;
 }
 
-.audio-btn:hover {
-background: rgba(76, 201, 240, 0.6);
-box-shadow: 0 0 15px rgba(76, 201, 240, 0.7);
+.audio-btn:hover, .toggle-btn:hover {
+background: rgba(0, 150, 255, 0.25);
+border-color: #4cc9f0;
+box-shadow: 0 0 25px rgba(0, 100, 255, 0.8);
+transform: scale(1.05);
+}
+
+.audio-btn {
+padding: 10px 15px;
+border-radius: 25px;
+font-size: 0.9rem;
 }
 
 /* === CONTENT VISIBILITY CONTROLS === */
@@ -234,21 +243,9 @@ z-index: 1000;
 }
 
 .toggle-btn {
-background: rgba(0, 204, 255, 0.8);
-border: 2px solid #00ccff;
-color: #fff;
 padding: 8px 12px;
 border-radius: 20px;
-cursor: pointer;
-transition: all 0.3s ease;
-backdrop-filter: blur(5px);
 font-size: 0.8rem;
-font-weight: bold;
-}
-
-.toggle-btn:hover {
-background: rgba(0, 204, 255, 0.6);
-box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
 }
 
 /* Mouse proximity sensor area */
@@ -277,27 +274,35 @@ opacity: 0;
 pointer-events: none;
 }
 
+/* Hide top menu and footer as well */
+nav.top-menu.hidden,
+footer.hidden {
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.5s ease;
+}
+
 .breadcrumbs {
-    background: rgba(0, 0, 0, 0.7);
-    padding: 10px 20px;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    border-left: 4px solid var(--hunter-gold);
+background: rgba(0, 0, 0, 0.7);
+padding: 10px 20px;
+border-radius: 8px;
+margin-bottom: 2rem;
+border-left: 4px solid var(--hunter-gold);
 }
 
 .breadcrumbs a {
-    color: var(--tron-blue);
-    text-decoration: none;
-    transition: all 0.3s ease;
+color: var(--tron-blue);
+text-decoration: none;
+transition: all 0.3s ease;
 }
 
 .breadcrumbs a:hover {
-    color: var(--matrix-green);
-    text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+color: var(--matrix-green);
+text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
 }
 
 .breadcrumbs span {
-    color: var(--martian-orange);
+color: var(--martian-orange);
 }
 
 /* WARNING BANNER */
@@ -347,7 +352,7 @@ z-index: -1;
 }
 
 .mad-acronym {
-font-size: 4.5rem;
+font-size: clamp(2.5rem, 10vw, 4.5rem);
 font-weight: 900;
 background: linear-gradient(45deg, var(--tron-blue), var(--mars-red), var(--martian-orange));
 -webkit-background-clip: text;
@@ -625,23 +630,237 @@ border-top: 2px solid #ff9553;
 height: 100px;
 }
 
-/* Responsive */
+/* ===== MOBILE HAMBURGER MENU – Blue/Orange/Red Theme ===== */
+.mobile-nav {
+display: none; /* hidden on desktop */
+position: fixed;
+top: 15px;
+left: 15px;
+z-index: 1002;
+}
+
+.hamburger-btn {
+background: rgba(10, 20, 40, 0.95); /* deep navy */
+backdrop-filter: blur(8px);
+border: 2px solid #00ccff; /* tron blue */
+border-radius: 12px;
+width: 54px;
+height: 54px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(0, 204, 255, 0.2) inset;
+}
+
+.hamburger-btn span {
+display: block;
+width: 28px;
+height: 3px;
+background: linear-gradient(90deg, #00ccff, #ff9553); /* blue to orange */
+margin: 4px 0;
+border-radius: 4px;
+transition: all 0.4s ease;
+box-shadow: 0 0 8px rgba(0, 204, 255, 0.6);
+}
+
+.hamburger-btn:hover {
+background: rgba(0, 150, 255, 0.25);
+border-color: #ff9553;
+transform: scale(1.08);
+box-shadow: 0 8px 25px rgba(255, 149, 83, 0.4);
+}
+
+.hamburger-btn:hover span {
+background: linear-gradient(90deg, #fff, #ff9553);
+box-shadow: 0 0 12px #ff9553;
+transform: scaleX(1.05);
+}
+
+.mobile-menu {
+position: fixed;
+top: 0;
+left: -100%;
+width: 320px;
+height: 100vh;
+background: linear-gradient(145deg, #0a0f1f 0%, #1a1f2f 100%);
+border-right: 3px solid #00ccff; /* blue border */
+padding: 25px 20px;
+transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+z-index: 1003;
+overflow-y: auto;
+box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8), 5px 0 25px rgba(0, 204, 255, 0.3);
+backdrop-filter: blur(15px);
+}
+
+.mobile-menu.active {
+left: 0;
+}
+
+.menu-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 20px;
+padding-bottom: 15px;
+border-bottom: 2px solid transparent;
+border-image: linear-gradient(90deg, transparent, #00ccff, #ff9553, transparent) 1;
+}
+
+.menu-header h3 {
+color: #00ccff;
+font-family: 'Orbitron', sans-serif;
+font-size: 1rem;
+margin: 0;
+text-shadow: 0 0 10px rgba(0, 204, 255, 0.8), 0 0 20px rgba(255, 149, 83, 0.4);
+}
+
+.close-menu {
+background: rgba(0, 204, 255, 0.1);
+border: 1px solid rgba(0, 204, 255, 0.5);
+color: #00ccff;
+font-size: 1.8rem;
+cursor: pointer;
+width: 40px;
+height: 40px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%;
+transition: all 0.3s ease;
+box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+text-shadow: 0 0 8px currentColor;
+}
+
+.close-menu:hover {
+background: rgba(255, 149, 83, 0.3);
+color: #ff9553;
+transform: rotate(90deg) scale(1.1);
+border-color: #ff9553;
+box-shadow: 0 0 25px #ff9553;
+}
+
+.menu-content {
+margin-bottom: 25px;
+}
+
+.menu-content .menu-item {
+margin-bottom: 8px;
+transform: translateX(0);
+transition: transform 0.3s ease;
+}
+
+.menu-content .menu-item a {
+display: block;
+color: #f0f0ff;
+text-decoration: none;
+padding: 8px 12px;
+border-radius: 8px;
+border-left: 3px solid transparent;
+background: rgba(255, 255, 255, 0.02);
+backdrop-filter: blur(2px);
+transition: all 0.3s ease;
+font-family: 'Segoe UI', sans-serif;
+font-size: 0.9rem;
+font-weight: 400;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+.menu-content .menu-item a:hover,
+.menu-content .menu-item a.active {
+border-left-color: #ff9553; /* orange active marker */
+background: linear-gradient(90deg, rgba(255, 149, 83, 0.15), rgba(0, 204, 255, 0.05));
+color: #ff9553;
+box-shadow: 0 4px 12px rgba(255, 149, 83, 0.3);
+text-shadow: 0 0 6px #ff9553;
+padding-left: 16px;
+}
+
+.menu-footer {
+margin-top: 20px;
+padding-top: 15px;
+border-top: 2px solid transparent;
+border-image: linear-gradient(90deg, transparent, #00ccff, #ff9553, transparent) 1;
+text-align: center;
+color: #00ccff;
+font-family: 'Orbitron', sans-serif;
+font-size: 0.8rem;
+letter-spacing: 1px;
+text-shadow: 0 0 6px #00ccff;
+position: relative;
+}
+
+.pulse {
+display: inline-block;
+width: 8px;
+height: 8px;
+background-color: #00ccff;
+border-radius: 50%;
+margin-right: 8px;
+box-shadow: 0 0 12px #ff9553;
+animation: cosmic-pulse 1.8s infinite;
+}
+
+@keyframes cosmic-pulse {
+0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
+50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 20px #ff9553, 0 0 40px #00ccff; }
+100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+nav.top-menu {
+display: none;
+}
+.mobile-nav {
+display: block;
+}
+.site-title-overlay {
+top: 70px;
+left: 15px;
+}
+.site-title-overlay h1 {
+font-size: 1.4rem;
+}
+.content-toggle-controls {
+top: 70px;
+right: 15px;
+}
+.audio-controls {
+bottom: 70px;
+right: 20px;
+}
+}
+
 @media (max-width: 768px) {
 .mad-acronym {
 font-size: 3rem;
 }
-
 .mad-tagline {
 font-size: 1.3rem;
 }
-
 .operations-grid {
 grid-template-columns: 1fr;
 }
+}
 
-nav.top-menu {
-gap: 1rem;
-flex-wrap: wrap;
+@media (max-width: 480px) {
+.mad-acronym {
+font-size: 2.2rem;
+}
+.toggle-btn, .audio-btn {
+min-width: 140px;
+min-height: 45px;
+font-size: 0.8rem;
+}
+.stats-container {
+grid-template-columns: 1fr;
+}
+.main-title {
+font-size: 2rem;
 }
 }
 </style>
@@ -662,7 +881,26 @@ Your browser does not support the video tag.
 <!-- Animated Scan Lines -->
 <div class="scanlines"></div>
 
-<!-- COMPLETE TOP MENU - WITH CORRECTED NAVIGATION -->
+<!-- MOBILE HAMBURGER MENU -->
+<div class="mobile-nav">
+<button class="hamburger-btn" id="hamburgerBtn">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<nav class="mobile-menu" id="mobileMenu">
+<div class="menu-header">
+<h3>THE MARS ABYSS</h3>
+<button class="close-menu" id="closeMenu">✕</button>
+</div>
+<div class="menu-content"></div>
+<div class="menu-footer">
+<span class="pulse"></span> MAD UNIT
+</div>
+</nav>
+</div>
+
+<!-- DESKTOP TOP MENU -->
 <nav class="top-menu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn">Home</a>
@@ -674,7 +912,7 @@ Your browser does not support the video tag.
 <a href="my-mission.html">My Mission</a>
 <a href="martian-reading-revival.html">Martian Reading Revival</a>
 <a href="why-mars-is-safer.html">Why Mars is Safer</a>
-<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
 <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
 </div>
 </div>
@@ -689,7 +927,8 @@ Your browser does not support the video tag.
 <a href="art-and-concepts.html">Art & Concepts</a>
 <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
 <a href="technical-database.html">Technical Database</a>
-<a href="alien-transport-network.html">Alien Transport Network</a>   
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="alien-transport-network.html">Alien Transport Network</a>
 <a href="martian-martial-arts.html">Martian Martial Arts</a>
 <a href="solar-system-explorer.html">Solar System Explorer</a>
 <a href="aliens-ufos.html">Aliens & UFOs</a>
@@ -728,8 +967,9 @@ Your browser does not support the video tag.
 </div>
 
 <div class="dropdown">
-<a href="martian-news.html" class="dropbtn">Martian News</a>
+<a href="martian-news.html" class="dropbtn active">Martian News</a>
 <div class="dropdown-content">
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
 <a href="martian-actualities.html">Martian Actualities</a>
 <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
 <a href="mars-bee-facility.html">Mars Bee Facility</a>
@@ -738,9 +978,8 @@ Your browser does not support the video tag.
 <a href="house-of-health-secrets.html">The House of Health Secrets</a>
 <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
 <a href="martian-rest-areas.html">Martian Rest Areas</a>
-<!-- M.A.N.H.U.N.T.E.R. PARENT MENU -->
 <div class="dropdown">
-<a href="manhunter.html" class="dropbtn">M.A.N.H.U.N.T.E.R.</a>
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
 <div class="dropdown-content">
 <a href="mars-disinformation-unit.html" class="active">M.A.D. Unit</a>
 <a href="marvin.html">M.A.R.V.I.N.</a>
@@ -752,7 +991,7 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
 <div class="dropdown-content">
-<a href="regents-longing.html">What the Regent Misses</a>    
+<a href="what-the-regent-misses.html">What the Regent Misses</a>
 <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
 <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
 <a href="honor-the-fallen.html">Honor The Fallen</a>
@@ -769,7 +1008,7 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="about.html" class="dropbtn">About</a>
 <div class="dropdown-content">
-<a href="about-the-project.html">About the Project</a>    
+<a href="about-the-project.html">About the Project</a>
 <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
 <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
 <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
@@ -785,12 +1024,12 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="support.html" class="dropbtn">Support</a>
 <div class="dropdown-content">
-<a href="saint-claire-initiative.html">The Saint Claire Initiative</a>     
+<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
 <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-<a href="fund-martian-research.html">Fund Martian Research</a>
+<a href="fund-martian-research.html">Fund Martian Research</a> 
 <a href="martian-survival-manual.html">Martian Survival Manual</a>
 <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
 </div>
@@ -799,7 +1038,7 @@ Your browser does not support the video tag.
 <a href="contact.html">Contact</a>
 </nav>
 
-<!-- Site Title - Larger size -->
+<!-- Site Title -->
 <div class="site-title-overlay">
 <h1>The Mars Abyss</h1>
 </div>
@@ -826,10 +1065,10 @@ Your browser does not support the video tag.
 
 <!-- Navigation Breadcrumbs -->
 <div class="breadcrumbs">
-    <a href="martian-news.html">← Martian News</a>
-    <span> / </span>
-    <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-    <span> / M.A.D. Unit</span>
+<a href="martian-news.html">← Martian News</a>
+<span> / </span>
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<span> / M.A.D. Unit</span>
 </div>
 
 <!-- Hero Section -->
@@ -927,26 +1166,56 @@ disrupting hostile narratives that threaten interplanetary stability.
 </footer>
 
 <script>
-// Content Visibility Controls
+// ===== VIDEO PROTECTION =====
+(function() {
+document.querySelectorAll('video').forEach(video => {
+video.setAttribute('controlslist', 'nodownload');
+video.addEventListener('contextmenu', (e) => e.preventDefault());
+video.addEventListener('dragstart', (e) => e.preventDefault());
+});
+document.addEventListener('keydown', (e) => {
+const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+e.preventDefault();
+}
+});
+})();
+
+// Content Visibility Controls (includes top menu and footer)
 const mainContent = document.getElementById('mainContent');
 const hideContentBtn = document.getElementById('hideContentBtn');
 const mouseSensor = document.getElementById('mouseSensor');
+const topMenu = document.querySelector('nav.top-menu');
+const footer = document.querySelector('footer');
 
 let contentVisible = true;
 let mouseSensorActive = false;
 
 // Button controls
 hideContentBtn.addEventListener('click', () => {
+if (contentVisible) {
 mainContent.classList.add('hidden');
+if (topMenu) topMenu.classList.add('hidden');
+if (footer) footer.classList.add('hidden');
 contentVisible = false;
 mouseSensorActive = true;
 hideContentBtn.textContent = '📖 Content Hidden';
+} else {
+mainContent.classList.remove('hidden');
+if (topMenu) topMenu.classList.remove('hidden');
+if (footer) footer.classList.remove('hidden');
+contentVisible = true;
+mouseSensorActive = false;
+hideContentBtn.textContent = '👁️ Hide Content';
+}
 });
 
 // Mouse sensor for showing content
 mouseSensor.addEventListener('mouseenter', () => {
 if (mouseSensorActive) {
 mainContent.classList.remove('hidden');
+if (topMenu) topMenu.classList.remove('hidden');
+if (footer) footer.classList.remove('hidden');
 contentVisible = true;
 mouseSensorActive = false;
 hideContentBtn.textContent = '👁️ Hide Content';
@@ -957,15 +1226,13 @@ hideContentBtn.textContent = '👁️ Hide Content';
 document.addEventListener('mousemove', (e) => {
 if (e.clientY < 100 && !contentVisible && mouseSensorActive) {
 mainContent.classList.remove('hidden');
+if (topMenu) topMenu.classList.remove('hidden');
+if (footer) footer.classList.remove('hidden');
 contentVisible = true;
 mouseSensorActive = false;
 hideContentBtn.textContent = '👁️ Hide Content';
 }
 });
-
-function isUserInteracting() {
-return mainContent.matches(':hover') || document.querySelector('.mad-hero').matches(':hover');
-}
 
 // Video background loading
 const videoBg = document.getElementById('madVideo');
@@ -985,56 +1252,69 @@ videoBg.style.display = 'none';
 });
 }
 
-// Audio System
+// ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-// Create audio elements
-const ambientAudio = new Audio();
-ambientAudio.src = 'sounds/mad-ambient.mp3';
-ambientAudio.volume = 0.3;
-ambientAudio.loop = true;
-ambientAudio.muted = true;
-const dataAudio = new Audio();
-dataAudio.src = 'sounds/data-stream.mp3';
-dataAudio.volume = 0.1;
-dataAudio.loop = true;
-dataAudio.muted = true;
-audioElements = [ambientAudio, dataAudio];
+const sounds = [
+{ src: 'music/frankensteins-valentina-ext-v2.mp3', volume: 0.5 },
+{ src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+{ src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+];
 
-// Initial unmute on first user interaction
+sounds.forEach(sound => {
+const audio = new Audio(sound.src);
+audio.volume = sound.volume;
+audio.loop = true;
+audio.muted = true;
+audioElements.push(audio);
+});
+
 const unmuteOnInteraction = function() {
 if (isMuted) {
 audioElements.forEach(audio => {
 audio.muted = false;
 audio.play().catch(e => {
-console.log('Audio play failed');
+console.log('Audio play attempt failed:', e);
 });
 });
 isMuted = false;
-if (muteBtn) {
-muteBtn.textContent = "🔊 Mute Sounds";
-}
+muteBtn.textContent = "🔊 MUTE MUSIC";
 }
 document.removeEventListener('click', unmuteOnInteraction);
+document.removeEventListener('keydown', unmuteOnInteraction);
 };
-document.addEventListener('click', unmuteOnInteraction, { once: true });
+
+document.addEventListener('click', unmuteOnInteraction);
+document.addEventListener('keydown', unmuteOnInteraction);
+
+setTimeout(() => {
+audioElements.forEach(audio => {
+audio.play().then(() => {
+console.log('Audio autoplay succeeded.');
+}).catch(e => {
+console.log('Audio autoplay blocked.');
+});
+});
+}, 1000);
 }
 
-// Mute button functionality
-if (muteBtn) {
 muteBtn.addEventListener('click', function() {
+if (audioElements.length === 0) {
+initAudio();
+return;
+}
 isMuted = !isMuted;
 audioElements.forEach(audio => {
-if (audio) {
 audio.muted = isMuted;
+if (!isMuted) {
+audio.play().catch(e => console.log('Playback resume failed'));
 }
 });
-muteBtn.textContent = isMuted ? "🔈 Unmute Sounds" : "🔊 Mute Sounds";
+muteBtn.textContent = isMuted ? "🔇 UNMUTE MUSIC" : "🔊 MUTE MUSIC";
 });
-}
 
 // Initialize systems when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
@@ -1067,6 +1347,162 @@ console.log('Video play failed');
 });
 }
 });
+
+// ===== MOBILE HAMBURGER MENU =====
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuContent = document.querySelector('.menu-content');
+
+function createMobileMenu() {
+if (!menuContent) return;
+menuContent.innerHTML = '';
+
+const menuItems = [
+{ text: '🏠 Home', href: 'index.html' },
+{ text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+{ text: ' Homage to Courage', href: 'homage-to-courage.html' },
+{ text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+{ text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+{ text: ' My Mission', href: 'my-mission.html' },
+{ text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+{ text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+{ text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+{ text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+
+{ text: '📖 Story', href: 'story.html' },
+{ text: ' Characters', href: 'characters.html' },
+{ text: ' Gallery', href: 'gallery.html' },
+{ text: ' Art & Concepts', href: 'art-and-concepts.html' },
+{ text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+{ text: ' Technical Database', href: 'technical-database.html' },
+{ text: ' The Martian Edicts', href: 'martian-edicts.html' },
+{ text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+{ text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+{ text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+{ text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+
+{ text: '🎮 Martian Games', href: 'martian-games.html' },
+{ text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+{ text: ' Martian Racer', href: 'martian-racer.html' },
+{ text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+{ text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+{ text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+{ text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+{ text: ' Music Player', href: 'music-app.html' },
+{ text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+
+{ text: '🌍 Earth Codex', href: 'earth-codex.html' },
+{ text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+{ text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+{ text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+{ text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+{ text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+{ text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+{ text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+{ text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+{ text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+
+{ text: '📰 Martian News', href: 'martian-news.html' },
+{ text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+{ text: ' Martian Actualities', href: 'martian-actualities.html' },
+{ text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+{ text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+{ text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+{ text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+{ text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+{ text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+{ text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+{ text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+{ text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+{ text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+
+{ text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+{ text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+{ text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+{ text: ' Earthlings Beware', href: 'earthings-beware.html' },
+{ text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+{ text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+{ text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+{ text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+{ text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+{ text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+{ text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+{ text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+
+{ text: 'ℹ️ About', href: 'about.html' },
+{ text: ' About the Project', href: 'about-the-project.html' },
+{ text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+{ text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+{ text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+{ text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+{ text: ' The Pale Horse', href: 'the-pale-horse.html' },
+{ text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+{ text: ' Arachne Labs', href: 'arachne-labs.html' },
+{ text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+{ text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+
+{ text: '🤝 Support', href: 'support.html' },
+{ text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+{ text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+{ text: ' Mars Food District', href: 'mars-food-district.html' },
+{ text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+{ text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+{ text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+{ text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+{ text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+
+{ text: '📧 Contact', href: 'contact.html' },
+{ text: '😡 Mad (current)', href: 'mad.html', active: true }
+];
+
+menuItems.forEach(item => {
+const menuItem = document.createElement('div');
+menuItem.className = 'menu-item';
+const link = document.createElement('a');
+link.href = item.href;
+link.textContent = item.text;
+if (item.active) link.classList.add('active');
+menuItem.appendChild(link);
+menuContent.appendChild(menuItem);
+});
+}
+
+createMobileMenu();
+
+hamburgerBtn.addEventListener('click', () => {
+mobileMenu.classList.add('active');
+document.body.style.overflow = 'hidden';
+});
+
+closeMenu.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+
+document.addEventListener('click', (e) => {
+if (mobileMenu.classList.contains('active') &&
+!mobileMenu.contains(e.target) &&
+!hamburgerBtn.contains(e.target)) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+});
+
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+link.addEventListener('click', () => {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+});
+});
+
+function handleResize() {
+if (window.innerWidth > 992) {
+mobileMenu.classList.remove('active');
+document.body.style.overflow = '';
+}
+}
+window.addEventListener('resize', handleResize);
 </script>
 </body>
 </html>
