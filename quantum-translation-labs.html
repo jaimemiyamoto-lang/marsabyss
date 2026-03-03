@@ -720,7 +720,7 @@
  }
  
  .audio-controls {
- bottom: 90px;
+ bottom: 100px;
  right: 10px;
  }
  
@@ -791,6 +791,46 @@
  nav.top-menu {
  display: flex;
  }
+
+ /* UNIVERSAL FIX: Force mobile menu on all mobile devices */
+@media (max-width: 992px) {
+    nav.top-menu {
+        display: none !important;
+    }
+    .mobile-nav {
+        display: block !important;
+    }
+}
+
+/* EXTRA FIX: Specifically target landscape orientation on phones */
+@media (max-width: 992px) and (orientation: landscape) {
+    nav.top-menu {
+        display: none !important;
+    }
+    .mobile-nav {
+        display: block !important;
+    }
+    /* Optional: Adjust spacing for landscape */
+    .site-title-overlay {
+        top: 50px;
+    }
+    .content-toggle-controls {
+        top: 50px;
+    }
+    .audio-controls {
+        bottom: 70px;
+    }
+}
+
+/* EXTRA SAFETY: For very tall phones in landscape */
+@media (max-height: 500px) and (orientation: landscape) {
+    nav.top-menu {
+        display: none !important;
+    }
+    .mobile-nav {
+        display: block !important;
+    }
+}
  }
  </style>
 </head>
@@ -900,7 +940,7 @@
  <div class="dropdown">
  <a href="martian-news.html" class="dropbtn active">Martian News</a>
  <div class="dropdown-content">
- <a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a> 
+ <a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
  <a href="martian-actualities.html">Martian Actualities</a>
  <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
  <a href="mars-bee-facility.html">Mars Bee Facility</a>
@@ -955,7 +995,7 @@
  <div class="dropdown">
  <a href="support.html" class="dropbtn">Support</a>
  <div class="dropdown-content">
- <a href="silver's-sign-language-course.html">Silver's language Academy</a>
+ <a href="saint-claire-initiative.html">The Saint Claire Initiative</a>
  <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
  <a href="mars-food-district.html">Mars Food District</a>
  <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
@@ -965,8 +1005,8 @@
  <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
  </div>
  </div>
-  
- <a href="contact.html" class="dropbtn">Contact</a>
+
+ <a href="contact.html">Contact</a>
  </nav>
 
  <!-- TOGGLE & AUDIO CONTROLS -->
@@ -1100,6 +1140,23 @@
  </footer>
 
  <script>
+
+// ===== VIDEO PROTECTION =====
+(function() {
+ document.querySelectorAll('video').forEach(video => {
+   video.setAttribute('controlslist', 'nodownload');
+   video.addEventListener('contextmenu', (e) => e.preventDefault());
+   video.addEventListener('dragstart', (e) => e.preventDefault());
+ });
+ 
+ document.addEventListener('keydown', (e) => {
+   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+     e.preventDefault();
+   }
+ });
+})();
+
  // === INITIALIZATION ===
  document.addEventListener('DOMContentLoaded', function() {
  // Create animated channel grid
@@ -1196,6 +1253,30 @@
  }
  `;
  document.head.appendChild(style);
+
+// Force mobile menu on any screen width <= 992px
+function enforceMobileMenu() {
+    if (window.innerWidth <= 992) {
+        // Hide desktop menu
+        const desktopMenu = document.querySelector('nav.top-menu');
+        if (desktopMenu) desktopMenu.style.display = 'none';
+        
+        // Show mobile menu
+        const mobileNav = document.querySelector('.mobile-nav');
+        if (mobileNav) mobileNav.style.display = 'block';
+    } else {
+        // Show desktop menu
+        const desktopMenu = document.querySelector('nav.top-menu');
+        if (desktopMenu) desktopMenu.style.display = 'flex';
+        
+        // Hide mobile menu
+        const mobileNav = document.querySelector('.mobile-nav');
+        if (mobileNav) mobileNav.style.display = 'none';
+    }
+}
+
+// Run on page load
+enforceMobileMenu(); 
 
  // === NEW FULLSCREEN FUNCTION FOR VIDEO ===
  function toggleFullscreen(videoId) {
@@ -1349,7 +1430,6 @@ muteBtn.addEventListener('click', function() {
    
  // Create main menu items (simplified for mobile)
  const menuItems = [
-  // Home section
   { text: '🏠 Home', href: 'index.html' },
   { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
   { text: ' Homage to Courage', href: 'homage-to-courage.html' },
@@ -1360,8 +1440,7 @@ muteBtn.addEventListener('click', function() {
   { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
   { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
   { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
-  
-  // Story section
+
   { text: '📖 Story', href: 'story.html' },
   { text: ' Characters', href: 'characters.html' },
   { text: ' Gallery', href: 'gallery.html' },
@@ -1373,8 +1452,7 @@ muteBtn.addEventListener('click', function() {
   { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
   { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
   { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
-  
-  // Games section
+
   { text: '🎮 Martian Games', href: 'martian-games.html' },
   { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
   { text: ' Martian Racer', href: 'martian-racer.html' },
@@ -1384,8 +1462,7 @@ muteBtn.addEventListener('click', function() {
   { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
   { text: ' Music Player', href: 'music-app.html' },
   { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
-  
-  // Earth Codex section
+
   { text: '🌍 Earth Codex', href: 'earth-codex.html' },
   { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
   { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
@@ -1396,8 +1473,7 @@ muteBtn.addEventListener('click', function() {
   { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
   { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
   { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
-  
-  // Martian News section
+
   { text: '📰 Martian News', href: 'martian-news.html' },
   { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
   { text: ' Martian Actualities', href: 'martian-actualities.html' },
@@ -1411,8 +1487,7 @@ muteBtn.addEventListener('click', function() {
   { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
   { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
   { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
-  
-  // Regent's Scrolls section
+
   { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
   { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
   { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
@@ -1425,8 +1500,7 @@ muteBtn.addEventListener('click', function() {
   { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
   { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
   { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
-  
-  // About section
+
   { text: 'ℹ️ About', href: 'about.html' },
   { text: ' About the Project', href: 'about-the-project.html' },
   { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
@@ -1438,8 +1512,7 @@ muteBtn.addEventListener('click', function() {
   { text: ' Arachne Labs', href: 'arachne-labs.html' },
   { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
   { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
-  
-  // Support section
+
   { text: '🤝 Support', href: 'support.html' },
   { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
   { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
@@ -1449,11 +1522,10 @@ muteBtn.addEventListener('click', function() {
   { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
   { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
   { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
-  
-  // Contact
+
   { text: '📧 Contact', href: 'contact.html' },
-  { text: '🔬 Quantum Translation Lab (Current)', href: 'quantum-translation-lab.html', active: true }
-];
+  { text: '♾️ Quantum Translation Labs (current)', href: 'quantum-translation-labs.html', active: true }
+ ];
    
  // Add items to menu
  menuItems.forEach(item => {
