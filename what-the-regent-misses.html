@@ -199,7 +199,7 @@ nav.top-menu a:hover {
  text-decoration: none;
  display: block;
  transition: background-color 0.3s ease;
- font-size: 0.8rem;
+ font-size: 0.7rem;
  line-height: 1;
 }
 
@@ -249,7 +249,7 @@ nav.top-menu a:hover {
 }
 
 .audio-btn {
- background: rgba(0, 204, 255, 0.8);
+ background: rgba(5, 54, 66, 0.8);
  border: 2px solid #00ccff;
  color: #fff;
  padding: 10px 15px;
@@ -843,6 +843,73 @@ footer {
  border-radius: 20px;
  }
  
+/* Mobile dropdown styles */
+.mobile-dropdown {
+    width: 100%;
+}
+
+.mobile-dropbtn {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: #e0e0ff;
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 105, 180, 0.3);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+}
+
+.mobile-dropbtn:hover,
+.mobile-dropbtn.active {
+    color: #FF69B4;
+    background: rgba(255, 105, 180, 0.15);
+}
+
+.mobile-dropdown-content {
+    display: none;
+    padding-left: 20px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.mobile-dropdown.active .mobile-dropdown-content {
+    display: block;
+}
+
+.mobile-dropdown-content a {
+    font-size: 0.95rem;
+    padding: 12px 15px;
+    display: block;
+    color: #e0e0ff;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 105, 180, 0.1);
+}
+
+.mobile-dropdown-content a:hover {
+    color: #FF69B4;
+    background: rgba(255, 105, 180, 0.1);
+}
+
+.mobile-dropdown-sub {
+    display: none;
+    padding-left: 20px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.mobile-dropdown-sub.active {
+    display: block;
+}
+
+.mobile-dropdown-sub a {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+}
+
  /* CRITICAL FIX: Hide desktop menu completely on mobile */
  nav.top-menu {
  display: none !important;
@@ -964,18 +1031,157 @@ footer {
  </div>
 </div>
 
-<!-- MOBILE MENU OVERLAY -->
+<!-- MOBILE MENU OVERLAY - COMPLETE NAVIGATION -->
 <div class="mobile-menu-overlay" id="mobileMenu">
  <div class="mobile-nav">
- <a href="index.html">Home</a>
- <a href="story.html">Story</a>
- <a href="martian-games.html">Martian Games</a>
- <a href="earth-codex.html">Earth Codex</a>
- <a href="martian-news.html">Martian News</a>
- <a href="the-regents-scrolls.html" class="active">The Regent's Scrolls</a>
- <a href="about.html">About</a>
- <a href="support.html">Support</a>
- <a href="contact.html">Contact</a>
+   <!-- Home with dropdown -->
+   <div class="mobile-dropdown">
+     <a href="#" class="mobile-dropbtn" onclick="toggleMobileDropdown(this)">Home ▼</a>
+     <div class="mobile-dropdown-content">
+       <a href="index.html">Home Overview</a>
+       <a href="why-this-world-matters.html">Why This World Matters</a>
+       <a href="homage-to-courage.html">Homage to Courage</a>
+       <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+       <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+       <a href="my-mission.html">My Mission</a>
+       <a href="martian-reading-revival.html">Martian Reading Revival</a>
+       <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+       <a href="the-atlantis-library-of-mars.html">Atlantis Library</a>
+       <a href="mai-master-artificial-intelligence.html">MAI</a>
+     </div>
+   </div>
+   
+   <!-- Story with dropdown -->
+   <div class="mobile-dropdown">
+     <a href="#" class="mobile-dropbtn" onclick="toggleMobileDropdown(this)">Story ▼</a>
+     <div class="mobile-dropdown-content">
+       <a href="story.html">Story Hub</a>
+       <a href="characters.html">Characters</a>
+       <a href="#" onclick="toggleMobileDropdown(this, 'gallery-sub')">Gallery ▶</a>
+       <div class="mobile-dropdown-sub" id="gallery-sub">
+         <a href="art-and-concepts.html">Art & Concepts</a>
+         <a href="martian-entertainment-previews.html">Entertainment Previews</a>
+         <a href="technical-database.html">Technical Database</a>
+         <a href="martian-edicts.html">The Martian Edicts</a>
+         <a href="alien-transport-network.html">Alien Transport</a>
+         <a href="martian-martial-arts.html">Martial Arts</a>
+         <a href="solar-system-explorer.html">Solar Explorer</a>
+         <a href="aliens-ufos.html">Aliens & UFOs</a>
+       </div>
+     </div>
+   </div>
+   
+   <!-- Martian Games with dropdown -->
+   <div class="mobile-dropdown">
+     <a href="#" class="mobile-dropbtn" onclick="toggleMobileDropdown(this)">Martian Games ▼</a>
+     <div class="mobile-dropdown-content">
+       <a href="martian-games.html">Games Hub</a>
+       <a href="silvers-rescue-mission.html">Silver's Rescue</a>
+       <a href="martian-racer.html">Martian Racer</a>
+       <a href="red-planet-defense.html">Red Planet Defense</a>
+       <a href="the-regents-portal.html">Regent's Portal</a>
+       <a href="cast-your-vote-the-landing-party.html">Cast Your Vote</a>
+       <a href="the-knowledge-deck.html">Knowledge Deck</a>
+       <a href="music-app.html" style="color: #e0c68e;">🎵 Music Player</a>
+       <a href="martian-calender-conversion-chart.html" style="color: #81d4fa;">🗓️ Calendar</a>
+     </div>
+   </div>
+   
+   <!-- Earth Codex with dropdown -->
+   <div class="mobile-dropdown">
+     <a href="#" class="mobile-dropbtn" onclick="toggleMobileDropdown(this)">Earth Codex ▼</a>
+     <div class="mobile-dropdown-content">
+       <a href="earth-codex.html">Codex Hub</a>
+       <a href="puerto-rico-the-future-paradise.html">Puerto Rico</a>
+       <a href="puerto-rico-historical-timeline.html">PR Timeline</a>
+       <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio</a>
+       <a href="earths-greatest-minds.html">Earth's Minds</a>
+       <a href="earths-great-poets.html">Great Poets</a>
+       <a href="the-bohr-institute.html">Bohr Institute</a>
+       <a href="the-mars-cultural-initiative.html">Mars Cultural</a>
+       <a href="the-pharos-somniorum.html">Pharos Somniorum</a>
+       <a href="the-bronx-dome.html">The Bronx Dome</a>
+     </div>
+   </div>
+   
+   <!-- Martian News with dropdown -->
+   <div class="mobile-dropdown">
+     <a href="#" class="mobile-dropbtn" onclick="toggleMobileDropdown(this)">Martian News ▼</a>
+     <div class="mobile-dropdown-content">
+       <a href="martian-news.html">News Hub</a>
+       <a href="quantum-translation-labs.html" style="color: #FFD700;">🔭 Quantum Labs</a>
+       <a href="martian-actualities.html">Actualities</a>
+       <a href="the-martian-economic-vision.html" style="color: #00ff88;">⭐ Economic Vision</a>
+       <a href="mars-bee-facility.html">Bee Facility</a>
+       <a href="mars-travel-preparation.html">Travel Prep</a>
+       <a href="mars-dome-cities-tour.html">Dome Tour</a>
+       <a href="house-of-health-secrets.html">Health Secrets</a>
+       <a href="emergency-shelter-network.html">Shelter Network</a>
+       <a href="martian-rest-areas.html">Rest Areas</a>
+       <a href="#" onclick="toggleMobileDropdown(this, 'manhunter-sub')">MANHUNTER ▶</a>
+       <div class="mobile-dropdown-sub" id="manhunter-sub">
+         <a href="manhunter.html">MANHUNTER</a>
+         <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+         <a href="marvin.html">MARVIN</a>
+       </div>
+     </div>
+   </div>
+   
+   <!-- The Regent's Scrolls with dropdown -->
+   <div class="mobile-dropdown">
+     <a href="#" class="mobile-dropbtn active" onclick="toggleMobileDropdown(this)">The Regent's Scrolls ▼</a>
+     <div class="mobile-dropdown-content">
+       <a href="the-regents-scrolls.html">Scrolls Hub</a>
+       <a href="what-the-regent-misses.html" class="active">What the Regent Misses</a>
+       <a href="the-regents-motor-collection.html">Motor Collection</a>
+       <a href="earthings-beware.html">Earthlings Beware</a>
+       <a href="honor-the-fallen.html">Honor The Fallen</a>
+       <a href="magic-tricks-of-mars.html">Magic Tricks</a>
+       <a href="mars-comedy-central-hour.html">Comedy Central</a>
+       <a href="salems-witching-hour.html">Salem's Witching</a>
+       <a href="martian-critique-tron-ares.html">Critique</a>
+       <a href="the-regents-music-chamber.html">Music Chamber</a>
+       <a href="tharsis-scientific-lectures.html">Tharsis Lectures</a>
+       <a href="the-tharsis-laureates.html" style="color: #00ff88;">🏅 Laureates</a>
+     </div>
+   </div>
+   
+   <!-- About with dropdown -->
+   <div class="mobile-dropdown">
+     <a href="#" class="mobile-dropbtn" onclick="toggleMobileDropdown(this)">About ▼</a>
+     <div class="mobile-dropdown-content">
+       <a href="about.html">About Hub</a>
+       <a href="about-the-project.html">The Project</a>
+       <a href="meanwhile-on-earth.html">Meanwhile on Earth</a>
+       <a href="martian-fashion-frontier.html">Fashion Frontier</a>
+       <a href="professor-squeaks-academy.html">Squeaks' Academy</a>
+       <a href="the-martian-water-strolls.html">Water-Strolls</a>
+       <a href="the-pale-horse.html">The Pale Horse</a>
+       <a href="a-day-in-the-life-of.html">Day in the Life</a>
+       <a href="arachne-labs.html">Arachne Labs</a>
+       <a href="the-pioneers-promise.html">Pioneer's Promise</a>
+       <a href="the-fair-act-of-life.html" style="color: #9b30ff;">🌌 Fair Act</a>
+     </div>
+   </div>
+   
+   <!-- Support with dropdown -->
+   <div class="mobile-dropdown">
+     <a href="#" class="mobile-dropbtn" onclick="toggleMobileDropdown(this)">Support ▼</a>
+     <div class="mobile-dropdown-content">
+       <a href="support.html">Support Hub</a>
+       <a href="saint-claire-initiative.html">Saint Claire</a>
+       <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+       <a href="mars-food-district.html">Food District</a>
+       <a href="quantum-financial-transfer.html">Quantum Transfer</a>
+       <a href="support-earth-hospitals.html">Earth Hospitals</a>
+       <a href="fund-martian-research.html">Fund Research</a>
+       <a href="martian-survival-manual.html">Survival Manual</a>
+       <a href="weapon-free-mars.html" style="color: #FF69B4;">🛡️ Weapon-Free</a>
+     </div>
+   </div>
+   
+   <!-- Contact (no dropdown) -->
+   <a href="contact.html">Contact</a>
  </div>
 </div>
 
@@ -998,141 +1204,140 @@ footer {
 
 <!-- TOP MENU - DESKTOP VERSION -->
 <nav class="top-menu">
- <div class="dropdown">
- <a href="index.html" class="dropbtn">Home</a>
- <div class="dropdown-content">
- <a href="why-this-world-matters.html">Why This World Matters</a>
- <a href="homage-to-courage.html">Homage to Courage</a>
- <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
- <a href="the-migrant-initiative.html">The Migrant Initiative</a>
- <a href="my-mission.html">My Mission</a>
- <a href="martian-reading-revival.html">Martian Reading Revival</a>
+<div class="dropdown">
+<a href="index.html" class="dropbtn">Home</a>
+<div class="dropdown-content">
+<a href="why-this-world-matters.html">Why This World Matters</a>
+<a href="homage-to-courage.html">Homage to Courage</a>
+<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+<a href="the-migrant-initiative.html">The Migrant Initiative</a>
+<a href="my-mission.html">My Mission</a>
+<a href="martian-reading-revival.html">Martian Reading Revival</a>
 <a href="why-mars-is-safer.html">Why Mars is Safer</a>
-<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+<a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
 <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
- </div>
- </div>
+</div>
+</div>
 
- <div class="dropdown">
- <a href="story.html" class="dropbtn">Story</a>
- <div class="dropdown-content">
- <a href="characters.html">Characters</a>
- <div class="dropdown">
- <a href="gallery.html" class="dropbtn">Gallery</a>
- <div class="dropdown-content">
- <a href="art-and-concepts.html">Art & Concepts</a>
- <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
- <a href="technical-database.html">Technical Database</a>
- <a href="martian-edicts.html">The Martian Edicts</a>
- <a href="alien-transport-network.html">Alien Transport Network</a>
- <a href="martian-martial-arts.html">Martian Martial Arts</a>
- <a href="solar-system-explorer.html">Solar System Explorer</a>
- <a href="aliens-ufos.html">Aliens & UFOs</a>
- </div>
- </div>
- </div>
- </div>
+<div class="dropdown">
+<a href="story.html" class="dropbtn">Story</a>
+<div class="dropdown-content">
+<a href="characters.html">Characters</a>
+<div class="dropdown">
+<a href="gallery.html" class="dropbtn">Gallery</a>
+<div class="dropdown-content">
+<a href="art-and-concepts.html">Art & Concepts</a>
+<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+<a href="technical-database.html">Technical Database</a>
+<a href="martian-edicts.html">The Martian Edicts</a>
+<a href="alien-transport-network.html">Alien Transport Network</a>
+<a href="martian-martial-arts.html">Martian Martial Arts</a>
+<a href="solar-system-explorer.html">Solar System Explorer</a>
+<a href="aliens-ufos.html">Aliens & UFOs</a>
+</div>
+</div>
+</div>
+</div>
 
- <div class="dropdown">
- <a href="martian-games.html" class="dropbtn">Martian Games</a>
- <div class="dropdown-content">
- <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
- <a href="martian-racer.html">Martian Racer</a>
- <a href="red-planet-defense.html">Red Planet Defense</a>
- <a href="the-regents-portal.html">The Regent's Portal</a>
- <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
- <a href="the-knowledge-deck.html">The Knowledge Deck</a>
- <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
- <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
- </div>
- </div>
+<div class="dropdown">
+<a href="martian-games.html" class="dropbtn">Martian Games</a>
+<div class="dropdown-content">
+<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+<a href="martian-racer.html">Martian Racer</a>
+<a href="red-planet-defense.html">Red Planet Defense</a>
+<a href="the-regents-portal.html">The Regent's Portal</a>
+<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+<a href="the-knowledge-deck.html">The Knowledge Deck</a>
+<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+</div>
+</div>
 
- <div class="dropdown">
- <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
- <div class="dropdown-content">
- <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
- <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
- <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
- <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
- <a href="earths-great-poets.html">Earth's Great Poets</a>
- <a href="the-bohr-institute.html">The Bohr Institute</a>
- <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
- <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
- <a href="the-bronx-dome.html">The Bronx Dome</a>
- 
- </div>
- </div>
+<div class="dropdown">
+<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+<div class="dropdown-content">
+<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+<a href="earths-great-poets.html">Earth's Great Poets</a>
+<a href="the-bohr-institute.html">The Bohr Institute</a>
+<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+<a href="the-bronx-dome.html">The Bronx Dome</a>
+</div>
+</div>
 
- <div class="dropdown">
- <a href="martian-news.html" class="dropbtn">Martian News</a>
- <div class="dropdown-content">
- <a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>   
- <a href="martian-actualities.html">Martian Actualities</a>
- <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
- <a href="mars-bee-facility.html">Mars Bee Facility</a>
- <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
- <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
- <a href="house-of-health-secrets.html">The House of Health Secrets</a>
- <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
- <a href="martian-rest-areas.html">Martian Rest Areas</a>
- <div class="dropdown">
- <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
- <div class="dropdown-content">
- <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
- <a href="marvin.html">M.A.R.V.I.N.</a>
- </div>
- </div>
- </div>
- </div>
+<div class="dropdown">
+<a href="martian-news.html" class="dropbtn">Martian News</a>
+<div class="dropdown-content">
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
+<a href="martian-actualities.html">Martian Actualities</a>
+<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+<a href="mars-bee-facility.html">Mars Bee Facility</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+<a href="house-of-health-secrets.html">The House of Health Secrets</a>
+<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+<a href="martian-rest-areas.html">Martian Rest Areas</a>
+<div class="dropdown">
+<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+<div class="dropdown-content">
+<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+<a href="marvin.html">M.A.R.V.I.N.</a>
+</div>
+</div>
+</div>
+</div>
 
- <div class="dropdown">
- <a href="the-regents-scrolls.html" class="dropbtn active">The Regent's Scrolls</a>
- <div class="dropdown-content">
- <a href="what-the-regent-misses.html" class="active">What the Regent Misses</a>
- <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
- <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
- <a href="honor-the-fallen.html">Honor The Fallen</a>
- <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
- <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
- <a href="salems-witching-hour.html">Salem's Witching Hour</a>
- <a href="martian-critique-tron-ares.html">Martian Critique</a>
- <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
- <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
- <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
- </div>
- </div>
+<div class="dropdown">
+<a href="the-regents-scrolls.html" class="active">The Regent's Scrolls</a>
+<div class="dropdown-content">
+<a href="what-the-regent-misses.html" class="active">What the Regent Misses</a>
+<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+<a href="honor-the-fallen.html">Honor The Fallen</a>
+<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+<a href="salems-witching-hour.html">Salem's Witching Hour</a>
+<a href="martian-critique-tron-ares.html">Martian Critique</a>
+<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+</div>
+</div>
 
- <div class="dropdown">
- <a href="about.html" class="dropbtn">About</a>
- <div class="dropdown-content">
- <a href="about-the-project.html">About the Project</a>
- <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
- <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
- <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
- <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
- <a href="the-pale-horse.html">The Pale Horse</a>
- <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
- <a href="arachne-labs.html">Arachne Labs</a>
- <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
- <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
- </div>
- </div>
+<div class="dropdown">
+<a href="about.html" class="dropbtn">About</a>
+<div class="dropdown-content">
+<a href="about-the-project.html">About the Project</a>
+<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+<a href="the-pale-horse.html">The Pale Horse</a>
+<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+<a href="arachne-labs.html">Arachne Labs</a>
+<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+</div>
+</div>
 
- <div class="dropdown">
- <a href="support.html" class="dropbtn">Support</a>
- <div class="dropdown-content">
- <a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
- <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
- <a href="mars-food-district.html">Mars Food District</a>
- <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
- <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
- <a href="fund-martian-research.html">Fund Martian Research</a>
- <a href="martian-survival-manual.html">Martian Survival Manual</a>
- <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
- </div>
- </div>
+<div class="dropdown">
+<a href="support.html" class="dropbtn">Support</a>
+<div class="dropdown-content">
+<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+<a href="mars-food-district.html">Mars Food District</a>
+<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+<a href="fund-martian-research.html">Fund Martian Research</a> 
+<a href="martian-survival-manual.html">Martian Survival Manual</a>
+<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+</div>
+</div>
 
- <a href="contact.html">Contact</a>
+<a href="contact.html">Contact</a>
 </nav>
 
 <!-- Main Content -->
@@ -1233,6 +1438,23 @@ footer {
 </footer>
 
 <script>
+
+  // ===== VIDEO PROTECTION =====
+(function() {
+ document.querySelectorAll('video').forEach(video => {
+   video.setAttribute('controlslist', 'nodownload');
+   video.addEventListener('contextmenu', (e) => e.preventDefault());
+   video.addEventListener('dragstart', (e) => e.preventDefault());
+ });
+ 
+ document.addEventListener('keydown', (e) => {
+   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+     e.preventDefault();
+   }
+ });
+})();
+
 // Create starfield background
 function createStars() {
  const starsContainer = document.getElementById('starsBackground');
@@ -1266,6 +1488,41 @@ document.addEventListener('click', function(event) {
  hamburger.classList.remove('active');
  mobileMenu.classList.remove('active');
  }
+});
+
+// MOBILE DROPDOWN TOGGLE FUNCTION
+function toggleMobileDropdown(element, subId = null) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (subId) {
+        // Toggle sub-menu
+        const subMenu = document.getElementById(subId);
+        subMenu.classList.toggle('active');
+        element.innerHTML = subMenu.classList.contains('active') ? 
+            element.innerHTML.replace('▶', '▼') : 
+            element.innerHTML.replace('▼', '▶');
+    } else {
+        // Toggle main dropdown
+        const parentDropdown = element.closest('.mobile-dropdown');
+        parentDropdown.classList.toggle('active');
+    }
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(event) {
+    if (!hamburger.contains(event.target) && !mobileMenu.contains(event.target)) {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        
+        // Close all dropdowns when menu closes
+        document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+            dropdown.classList.remove('active');
+        });
+        document.querySelectorAll('.mobile-dropdown-sub').forEach(sub => {
+            sub.classList.remove('active');
+        });
+    }
 });
 
 // VIDEO DATABASE - Single source of truth for all videos
