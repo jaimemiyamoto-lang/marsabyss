@@ -750,7 +750,47 @@ footer {
         top: 70px;
         right: 20px;
     }
+    /* UNIVERSAL FIX: Force mobile menu on all mobile devices */
+@media (max-width: 992px) {
+    nav.top-menu {
+        display: none !important;
+    }
+    .mobile-nav {
+        display: block !important;
+    }
 }
+
+/* EXTRA FIX: Specifically target landscape orientation on phones */
+@media (max-width: 992px) and (orientation: landscape) {
+    nav.top-menu {
+        display: none !important;
+    }
+    .mobile-nav {
+        display: block !important;
+    }
+    /* Optional: Adjust spacing for landscape */
+    .site-title-overlay {
+        top: 50px;
+    }
+    .content-toggle-controls {
+        top: 50px;
+    }
+    .audio-controls {
+        bottom: 70px;
+    }
+}
+
+/* EXTRA SAFETY: For very tall phones in landscape */
+@media (max-height: 500px) and (orientation: landscape) {
+    nav.top-menu {
+        display: none !important;
+    }
+    .mobile-nav {
+        display: block !important;
+    }
+}
+}
+    
 </style>
 </head>
 
@@ -1048,6 +1088,30 @@ e.preventDefault();
 });
 })();
 
+// Force mobile menu on any screen width <= 992px
+function enforceMobileMenu() {
+    if (window.innerWidth <= 992) {
+        // Hide desktop menu
+        const desktopMenu = document.querySelector('nav.top-menu');
+        if (desktopMenu) desktopMenu.style.display = 'none';
+        
+        // Show mobile menu
+        const mobileNav = document.querySelector('.mobile-nav');
+        if (mobileNav) mobileNav.style.display = 'block';
+    } else {
+        // Show desktop menu
+        const desktopMenu = document.querySelector('nav.top-menu');
+        if (desktopMenu) desktopMenu.style.display = 'flex';
+        
+        // Hide mobile menu
+        const mobileNav = document.querySelector('.mobile-nav');
+        if (mobileNav) mobileNav.style.display = 'none';
+    }
+}
+
+// Run on page load
+enforceMobileMenu();
+    
 // ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
