@@ -850,7 +850,36 @@ display: none;
 nav.top-menu {
 display: flex;
 }
+
+// Force mobile menu on any screen width <= 992px
+function enforceMobileMenu() {
+    if (window.innerWidth <= 992) {
+        // Hide desktop menu
+        const desktopMenu = document.querySelector('nav.top-menu');
+        if (desktopMenu) desktopMenu.style.display = 'none';
+        
+        // Show mobile menu
+        const mobileNav = document.querySelector('.mobile-nav');
+        if (mobileNav) mobileNav.style.display = 'block';
+    } else {
+        // Show desktop menu
+        const desktopMenu = document.querySelector('nav.top-menu');
+        if (desktopMenu) desktopMenu.style.display = 'flex';
+        
+        // Hide mobile menu
+        const mobileNav = document.querySelector('.mobile-nav');
+        if (mobileNav) mobileNav.style.display = 'none';
+    }
 }
+
+// Run on page load
+enforceMobileMenu();
+
+// Run on resize and orientation change
+window.addEventListener('resize', enforceMobileMenu);
+window.addEventListener('orientationchange', enforceMobileMenu);    
+}
+}    
 </style>
 </head>
 
@@ -1458,7 +1487,34 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     });
 });
-  
+
+  // Force mobile menu on any screen width <= 992px
+function enforceMobileMenu() {
+    if (window.innerWidth <= 992) {
+        // Hide desktop menu
+        const desktopMenu = document.querySelector('nav.top-menu');
+        if (desktopMenu) desktopMenu.style.display = 'none';
+        
+        // Show mobile menu
+        const mobileNav = document.querySelector('.mobile-nav');
+        if (mobileNav) mobileNav.style.display = 'block';
+    } else {
+        // Show desktop menu
+        const desktopMenu = document.querySelector('nav.top-menu');
+        if (desktopMenu) desktopMenu.style.display = 'flex';
+        
+        // Hide mobile menu
+        const mobileNav = document.querySelector('.mobile-nav');
+        if (mobileNav) mobileNav.style.display = 'none';
+    }
+}
+
+// Run on page load
+enforceMobileMenu();
+
+// Run on resize and orientation change
+window.addEventListener('resize', enforceMobileMenu);
+window.addEventListener('orientationchange', enforceMobileMenu);  
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 anchor.addEventListener('click', function(e) {
