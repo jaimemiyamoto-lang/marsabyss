@@ -966,44 +966,69 @@ bgVideo.pause();
 }
 });
 
-// SIMPLE WORKING AUDIO SYSTEM
+ // ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-// Create audio element
-const audio = new Audio('music/echoes-of-the-abyss-news.mp3');
-audio.volume = 0.4;
-audio.loop = true;
-audio.muted = true;
-audioElements.push(audio);
+ const sounds = [
+ { src: 'music/depths-of-mystery.mp3', volume: 0.5 },
+ { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+ { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+ ];
 
-// Unmute on first click
-document.addEventListener('click', function unmuteAudio() {
-if (isMuted) {
-audioElements.forEach(a => {
-a.muted = false;
-a.play().catch(e => console.log('Audio play failed'));
-});
-isMuted = false;
-muteBtn.textContent = "🔊 Mute Sounds";
-}
-document.removeEventListener('click', unmuteAudio);
-}, { once: true });
+ sounds.forEach(sound => {
+ const audio = new Audio(sound.src);
+ audio.volume = sound.volume;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+ });
+
+ const unmuteOnInteraction = function() {
+ if (isMuted) {
+ audioElements.forEach(audio => {
+ audio.muted = false;
+ audio.play().catch(e => {
+ console.log('Audio play attempt failed:', e);
+ });
+ });
+ isMuted = false;
+ muteBtn.textContent = "🔊 MUTE LAB";
+ }
+ document.removeEventListener('click', unmuteOnInteraction);
+ document.removeEventListener('keydown', unmuteOnInteraction);
+ };
+
+ document.addEventListener('click', unmuteOnInteraction);
+ document.addEventListener('keydown', unmuteOnInteraction);
+
+ setTimeout(() => {
+ audioElements.forEach(audio => {
+ audio.play().then(() => {
+ console.log('Audio autoplay succeeded.');
+ }).catch(e => {
+ console.log('Audio autoplay blocked.');
+ });
+ });
+ }, 1000);
 }
 
-// Mute toggle
 muteBtn.addEventListener('click', function() {
-isMuted = !isMuted;
-audioElements.forEach(a => {
-a.muted = isMuted;
+ if (audioElements.length === 0) {
+ initAudio();
+ return;
+ }
+ isMuted = !isMuted;
+ audioElements.forEach(audio => {
+ audio.muted = isMuted;
+ if (!isMuted) {
+ audio.play().catch(e => console.log('Playback resume failed'));
+ }
+ });
+ muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
 });
-muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
-});
-
-// Initialize audio
-initAudio();
 
 // Site title hide on scroll
 let lastScrollTop = 0;
