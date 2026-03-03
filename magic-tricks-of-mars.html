@@ -1199,55 +1199,85 @@ The Martian children laugh with delight, their parents remembering Earthly magic
  });
 })();
 
-// Content Visibility Controls
+// Simple Content Visibility Controls
 const mainContent = document.getElementById('mainContent');
 const hideContentBtn = document.getElementById('hideContentBtn');
 const mouseSensor = document.getElementById('mouseSensor');
-const comingSoonOverlay = document.getElementById('comingSoonOverlay');
+const topMenu = document.querySelector('nav.top-menu');
+const footer = document.querySelector('footer');
 
 let contentVisible = true;
-let mouseSensorActive = false;
 
-// Button controls
-hideContentBtn.addEventListener('click', () => {
+// Function to hide content
+function hideAll() {
     mainContent.classList.add('hidden');
+    if (topMenu) topMenu.classList.add('hidden');
+    if (footer) footer.classList.add('hidden');
     contentVisible = false;
-    mouseSensorActive = true;
     hideContentBtn.textContent = '📖 Content Hidden';
-});
+}
 
-// Mouse sensor for showing content
-mouseSensor.addEventListener('mouseenter', () => {
-    if (mouseSensorActive) {
-        mainContent.classList.remove('hidden');
-        contentVisible = true;
-        mouseSensorActive = false;
-        hideContentBtn.textContent = '👁️ Hide Content';
-        // Auto-hide after 10 seconds if user doesn't interact
-        setTimeout(() => {
-            if (contentVisible && !isUserInteracting()) {
-                mainContent.classList.add('hidden');
-                contentVisible = false;
-                mouseSensorActive = true;
-                hideContentBtn.textContent = '📖 Content Hidden';
-            }
-        }, 10000);
+// Function to show content
+function showAll() {
+    mainContent.classList.remove('hidden');
+    if (topMenu) topMenu.classList.remove('hidden');
+    if (footer) footer.classList.remove('hidden');
+    contentVisible = true;
+    hideContentBtn.textContent = '👁️ Hide Content';
+}
+
+// Button controls - works for both click and touch
+hideContentBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (contentVisible) {
+        hideAll();
+    } else {
+        showAll();
     }
 });
+
+// Explicit touch support for mobile
+hideContentBtn.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (contentVisible) {
+        hideAll();
+    } else {
+        showAll();
+    }
+    }, { passive: false });
+
+    // Mouse sensor for showing content
+    mouseSensor.addEventListener('mouseenter', function() {
+        if (!contentVisible) {
+            showAll();
+        }
+    });
+
+    // Touch support for mouse sensor area (top of screen)
+mouseSensor.addEventListener('touchstart', function(e) {
+    if (!contentVisible) {
+        showAll();
+    }
+}, { passive: true });
 
 // Also allow showing content by moving mouse to top of screen
-document.addEventListener('mousemove', (e) => {
-    if (e.clientY < 100 && !contentVisible && mouseSensorActive) {
-        mainContent.classList.remove('hidden');
-        contentVisible = true;
-        mouseSensorActive = false;
-        hideContentBtn.textContent = '👁️ Hide Content';
+document.addEventListener('mousemove',  function(e) {
+    if (e.clientY < 100 && !contentVisible) {
+        showAll();
     }
 });
 
-function isUserInteracting() {
-    return mainContent.matches(':hover') || document.querySelector('.magic-hero').matches(':hover');
-}
+// For mobile: tap near top of screen
+document.addEventListener('touchstart', function(e) {
+    const touch = e.touches[0];
+    if (touch && touch.clientY < 100 && !contentVisible) {
+        showAll();
+    }
+}, { passive: true });
 
 // Coming Soon functionality
 function showComingSoon(trickName) {
