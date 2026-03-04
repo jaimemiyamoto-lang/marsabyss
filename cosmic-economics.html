@@ -1,316 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Economics | Aliens & UFOs | The Mars Abyss</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-    * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic Economics | Aliens & UFOs | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
 
-        body, html {
-            height: 100%;
-            width: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
-            overflow-x: hidden;
-            position: relative;
-            background: radial-gradient(ellipse at bottom, #1a1a1a 0%, #000 100%);
-        }
+body, html {
+height: 100%;
+width: 100%;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #fff;
+overflow-x: hidden;
+position: relative;
+background: radial-gradient(ellipse at bottom, #1a1a1a 0%, #000 100%);
+}
 
-        :root {
-            --mars-red: #ff3366;
-            --tron-blue: #00ccff;
-            --martian-orange: #ff9553;
-            --deep-space: #0a0a1a;
-            --cyber-purple: #8a2be2;
-            --matrix-green: #39ff14;
-            --hunter-gold: #e0c68e;
-            --cosmic-gold: #e0c68e;
-            --alien-purple: #9370DB;
-        }
+/* === TOP MENU - IDENTICAL TO YOUR SITE === */
+nav.top-menu {
+position: fixed;
+top: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background: rgba(17, 17, 17, 0.95);
+padding: 0.6rem 0;
+z-index: 1000;
+gap: 2.5rem;
+flex-wrap: nowrap;
+backdrop-filter: blur(10px);
+border-bottom: 2px solid #39ff14; /* Cosmic green instead of blue */
+}
 
-        footer.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
+nav.top-menu a {
+color: #f5f5f5;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 0.8rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+}
 
-        /* === TOP MENU - IDENTICAL TO YOUR SITE === */
-        nav.top-menu {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            background: rgba(17, 17, 17, 0.95);
-            padding: 0.6rem 0;
-            z-index: 1000;
-            gap: 2.5rem;
-            flex-wrap: nowrap;
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid #39ff14; /* Cosmic green instead of blue */
-        }
+nav.top-menu a.active,
+nav.top-menu a:hover {
+color: #39ff14;
+background: transparent;
+}
 
-        nav.top-menu a {
-            color: #f5f5f5;
-            text-decoration: none;
-            font-size: 1.1rem;
-            padding: 0.5rem 0.8rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
+.dropdown {
+position: relative;
+display: inline-block;
+}
 
-        nav.top-menu a.active,
-        nav.top-menu a:hover {
-            color: #39ff14;
-            background: transparent;
-        }
+.dropdown > a, .dropdown {
+display: flex;
+align-items: center;
+height: 100%;
+}
 
-        nav.top-menu.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
+.dropdown-content {
+display: none;
+position: absolute;
+background: rgba(26, 26, 26, 0.98);
+min-width: 140px;
+z-index: 1001;
+border-radius: 4px;
+border: 2px solid #39ff14;
+top: 100%;
+left: 0;
+backdrop-filter: blur(5px);
+padding: 4px 0;
+}
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
+.dropdown .dropdown .dropdown-content {
+position: absolute;
+left: 0;
+top: 100%;
+width: 100%;
+}
 
-        .dropdown > a, .dropdown {
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
+.dropdown-content a {
+color: #f5f5f5;
+padding: 3px 5px;
+text-decoration: none;
+display: block;
+transition: background-color 0.3s ease;
+font-size: 0.8rem;
+line-height: 1;
+}
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background: rgba(26, 26, 26, 0.98);
-            min-width: 140px;
-            z-index: 1001;
-            border-radius: 4px;
-            border: 2px solid #39ff14;
-            top: 100%;
-            left: 0;
-            backdrop-filter: blur(5px);
-            padding: 4px 0;
-        }
+.dropdown-content a:hover {
+background: rgba(57, 255, 20, 0.6);
+color: #fff;
+}
 
-        .dropdown .dropdown .dropdown-content {
-            position: absolute;
-            left: 0;
-            top: 100%;
-            width: 100%;
-        }
+.dropdown:hover .dropdown-content {
+display: block;
+}
 
-        .dropdown-content a {
-            color: #f5f5f5;
-            padding: 3px 5px;
-            text-decoration: none;
-            display: block;
-            transition: background-color 0.3s ease;
-            font-size: 0.7rem;
-            line-height: 1;
-        }
+/* === SITE TITLE === */
+.site-title-overlay {
+position: fixed;
+top: 80px;
+left: 30px;
+z-index: 50;
+transition: opacity 0.3s ease;
+}
 
-        .dropdown-content a:hover {
-            background: rgba(57, 255, 20, 0.6);
-            color: #fff;
-        }
+.site-title-overlay.hidden {
+opacity: 0;
+pointer-events: none;
+}
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+.site-title-overlay h1 {
+color: rgba(57, 255, 20, 0.7);
+font-family: 'Orbitron', sans-serif;
+font-size: 1.8rem;
+text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+font-weight: 300;
+letter-spacing: 2px;
+}
 
-        /* === SITE TITLE === */
-        .site-title-overlay {
-            position: fixed;
-            top: 80px;
-            left: 30px;
-            z-index: 50;
-            transition: opacity 0.3s ease;
-        }
+/* === AUDIO CONTROLS === */
+.audio-controls {
+position: fixed;
+bottom: 80px;
+right: 40px;
+z-index: 1000;
+}
 
-        .site-title-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+.audio-btn {
+background: rgba(20, 60, 20, 0.85);
+border: 2px solid #39ff14;
+color: #000;
+padding: 10px 15px;
+border-radius: 25px;
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+font-size: 0.9rem;
+font-weight: 600;
+}
 
-        .site-title-overlay h1 {
-            color: rgba(57, 255, 20, 0.7);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
-            font-weight: 300;
-            letter-spacing: 2px;
-        }
+.audio-btn:hover {
+background: rgba(57, 255, 20, 0.3);
+color: #000;
+}
 
-        /* === AUDIO CONTROLS === */
-        .audio-controls {
-            position: fixed;
-            bottom: 80px;
-            right: 40px;
-            z-index: 1000;
-        }
+/* === VIDEO BACKGROUND - LIKE ALIENS & UFOS === */
+.video-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 1;
+overflow: hidden;
+}
 
-        .audio-btn {
-            background: rgba(20, 60, 20, 0.85);
-            border: 2px solid #39ff14;
-            color: #000;
-            padding: 10px 15px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
+.cosmic-video {
+width: 100%;
+height: 100%;
+object-fit: cover;
+filter: brightness(0.7) contrast(1.2) saturate(1.3);
+}
 
-        .audio-btn:hover {
-            background: rgba(57, 255, 20, 0.3);
-            color: #000;
-        }
+.video-overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+}
 
-        .audio-btn.muted {
-            background: rgba(20, 60, 20, 0.85);
-        }
+/* === MAIN CONTENT === */
+.main-content {
+position: relative;
+z-index: 10;
+padding-top: 120px;
+max-width: 1200px;
+margin: 0 auto;
+padding-left: 20px;
+padding-right: 20px;
+}
 
-        .audio-btn.unmuted {
-            background: rgba(57, 255, 20, 0.3);
-        }
+.hero {
+text-align: center;
+padding: 2rem 1rem;
+}
 
-        /* === VIDEO BACKGROUND - LIKE ALIENS & UFOS === */
-        .video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            overflow: hidden;
-        }
+.hero h2 {
+font-size: 2.5rem;
+color: #39ff14;
+text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+text-align: center;
+margin-bottom: 1rem;
+}
 
-        .cosmic-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.7) contrast(1.2) saturate(1.3);
-        }
+.hero p {
+font-size: 1.2rem;
+max-width: 800px;
+margin: 1rem auto;
+color: #d4b87a;
+text-align: center;
+background: rgba(0, 0, 0, 0.7);
+backdrop-filter: blur(10px);
+padding: 1.2rem 2.2rem;
+border-radius: 15px;
+border: 2px solid rgba(212, 184, 122, 0.4);
+text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+font-weight: 600;
+}
 
-        .video-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            
-        }
+.content-toggle-container {
+position: fixed;
+top: 80px;
+right: 30px;
+z-index: 1000;
+text-align: center;
+margin: 0;
+padding: 0;
+}
 
-        /* === MAIN CONTENT === */
-        .main-content {
-            position: relative;
-            z-index: 10;
-            padding-top: 120px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-        
-        .hero {
-            text-align: center;
-            padding: 2rem 1rem;
-        }
+.toggle-button {
+background: rgba(20, 60, 20, 0.85);
+border: 2px solid #39ff14;
+color: #000;
+padding: 0.8rem 1.5rem;
+border-radius: 25px;
+cursor: pointer;
+font-family: 'Orbitron', sans-serif;
+font-weight: 600;
+font-size: 0.9rem;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+}
 
-        .hero h2 {
-            font-size: 2.5rem;
-            color: #39ff14;
-            text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
-            text-align: center;
-            margin-bottom: 1rem;
-        }
+.toggle-button:hover {
+background: rgba(57, 255, 20, 0.3);
+color: #000;
+transform: translateY(-2px);
+}
 
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 1rem auto;
-            color: #d4b87a;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 1.2rem 2.2rem;
-            border-radius: 15px;
-            border: 2px solid rgba(212, 184, 122, 0.4);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-            font-weight: 600;
-        }
+.hideable-content {
+transition: all 0.5s ease;
+}
 
-        .content-toggle-container {
-            position: fixed;
-            top: 80px;
-            right: 30px;
-            z-index: 1000;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
+.hidden {
+opacity: 0;
+max-height: 0;
+overflow: hidden;
+margin: 0;
+padding: 0;
+transform: scale(0.95);
+}
 
-        .toggle-button {
-            background: rgba(20, 60, 20, 0.85);
-            border: 2px solid #39ff14;
-            color: #000;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
+.visible {
+opacity: 1;
+max-height: 5000px;
+overflow: visible;
+}
 
-        .toggle-button:hover {
-            background: rgba(57, 255, 20, 0.3);
-            color: #000;
-            transform: translateY(-2px);  
-        }
-
-        .toggle-button.hidden-state {
-            background: rgba(11, 51, 6, 0.8);
-            border-color: #33ff81;
-        }
-
-        .toggle-button.visible-state {
-            background: rgba(20, 60, 20, 0.85);
-            border-color: #39ff14;
-        }
-
-        .hideable-content {
-            transition: all 0.5s ease;
-        }
-        .hidden {
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-            transform: scale(0.95);
-        }
-        .visible {
-            opacity: 1;
-            max-height: 5000px; /* Large enough to reveal content */
-            overflow: visible;
-        }
-
-        /* FOOTER */
+/* FOOTER */
 footer {
 position: fixed;
 bottom: 0;
@@ -327,419 +286,458 @@ border-top: 2px solid #39ff14;
 
 /* ===== MOBILE HAMBURGER MENU – GOLD THEME ===== */
 .mobile-nav {
-  display: none; /* hidden on desktop */
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  z-index: 1002;
+display: none; /* hidden on desktop */
+position: fixed;
+top: 15px;
+left: 15px;
+z-index: 1002;
 }
 
 .hamburger-btn {
-  background: rgba(10, 10, 20, 0.85);
-  backdrop-filter: blur(8px);
-  border: 2px solid #e0c68e;
-  border-radius: 12px;
-  width: 54px;
-  height: 54px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(224, 198, 142, 0.2) inset;
+background: rgba(10, 10, 20, 0.85);
+backdrop-filter: blur(8px);
+border: 2px solid #e0c68e;
+border-radius: 12px;
+width: 54px;
+height: 54px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(224, 198, 142, 0.2) inset;
 }
 
 .hamburger-btn span {
-  display: block;
-  width: 28px;
-  height: 3px;
-  background: linear-gradient(90deg, #e0c68e, #ffd966);
-  margin: 4px 0;
-  border-radius: 4px;
-  transition: all 0.4s ease;
-  box-shadow: 0 0 8px rgba(224, 198, 142, 0.6);
+display: block;
+width: 28px;
+height: 3px;
+background: linear-gradient(90deg, #e0c68e, #ffd966);
+margin: 4px 0;
+border-radius: 4px;
+transition: all 0.4s ease;
+box-shadow: 0 0 8px rgba(224, 198, 142, 0.6);
 }
 
 .hamburger-btn:hover {
-  background: rgba(224, 198, 142, 0.25);
-  border-color: #b8860b;
-  transform: scale(1.08);
-  box-shadow: 0 8px 25px rgba(224, 198, 142, 0.4);
+background: rgba(224, 198, 142, 0.25);
+border-color: #b8860b;
+transform: scale(1.08);
+box-shadow: 0 8px 25px rgba(224, 198, 142, 0.4);
 }
 
 .hamburger-btn:hover span {
-  background: linear-gradient(90deg, #fff, #e0c68e);
-  box-shadow: 0 0 12px #e0c68e;
-  transform: scaleX(1.05);
+background: linear-gradient(90deg, #fff, #e0c68e);
+box-shadow: 0 0 12px #e0c68e;
+transform: scaleX(1.05);
 }
 
 .mobile-menu {
-  position: fixed;
-  top: 0;
-  left: -100%;
-  width: 320px;
-  height: 100vh;
-  background: linear-gradient(145deg, #0b0b15 0%, #1a1a2a 100%);
-  border-right: 3px solid #e0c68e;
-  padding: 25px 20px;
-  transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  z-index: 1003;
-  overflow-y: auto;
-  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8), 5px 0 25px rgba(224, 198, 142, 0.3);
-  backdrop-filter: blur(15px);
+position: fixed;
+top: 0;
+left: -100%;
+width: 320px;
+height: 100vh;
+background: linear-gradient(145deg, #0b0b15 0%, #1a1a2a 100%);
+border-right: 3px solid #e0c68e;
+padding: 25px 20px;
+transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+z-index: 1003;
+overflow-y: auto;
+box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8), 5px 0 25px rgba(224, 198, 142, 0.3);
+backdrop-filter: blur(15px);
 }
 
 .mobile-menu.active {
-  left: 0;
+left: 0;
 }
 
 .menu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid transparent;
-  border-image: linear-gradient(90deg, transparent, #e0c68e, #b8860b, transparent) 1;
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 20px;
+padding-bottom: 15px;
+border-bottom: 2px solid transparent;
+border-image: linear-gradient(90deg, transparent, #e0c68e, #b8860b, transparent) 1;
 }
 
 .menu-header h3 {
-  color: #e0c68e;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1rem;
-  margin: 0;
-  text-shadow: 0 0 10px rgba(224, 198, 142, 0.8), 0 0 20px rgba(184, 134, 11, 0.4);
+color: #e0c68e;
+font-family: 'Orbitron', sans-serif;
+font-size: 1rem;
+margin: 0;
+text-shadow: 0 0 10px rgba(224, 198, 142, 0.8), 0 0 20px rgba(184, 134, 11, 0.4);
 }
 
 .close-menu {
-  background: rgba(224, 198, 142, 0.1);
-  border: 1px solid rgba(224, 198, 142, 0.5);
-  color: #e0c68e;
-  font-size: 1.8rem;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(224, 198, 142, 0.3);
-  text-shadow: 0 0 8px currentColor;
+background: rgba(224, 198, 142, 0.1);
+border: 1px solid rgba(224, 198, 142, 0.5);
+color: #e0c68e;
+font-size: 1.8rem;
+cursor: pointer;
+width: 40px;
+height: 40px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%;
+transition: all 0.3s ease;
+box-shadow: 0 0 15px rgba(224, 198, 142, 0.3);
+text-shadow: 0 0 8px currentColor;
 }
 
 .close-menu:hover {
-  background: rgba(224, 198, 142, 0.3);
-  color: #fff;
-  transform: rotate(90deg) scale(1.1);
-  border-color: #b8860b;
-  box-shadow: 0 0 25px #e0c68e;
+background: rgba(224, 198, 142, 0.3);
+color: #fff;
+transform: rotate(90deg) scale(1.1);
+border-color: #b8860b;
+box-shadow: 0 0 25px #e0c68e;
 }
 
 .menu-content {
-  margin-bottom: 25px;
+margin-bottom: 25px;
 }
 
 .menu-content .menu-item {
-  margin-bottom: 8px;
-  transform: translateX(0);
-  transition: transform 0.3s ease;
+margin-bottom: 8px;
+transform: translateX(0);
+transition: transform 0.3s ease;
 }
 
 .menu-content .menu-item a {
-  display: block;
-  color: #f0f0ff;
-  text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border-left: 3px solid transparent;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(2px);
-  transition: all 0.3s ease;
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 400;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+display: block;
+color: #f0f0ff;
+text-decoration: none;
+padding: 8px 12px;
+border-radius: 8px;
+border-left: 3px solid transparent;
+background: rgba(255, 255, 255, 0.02);
+backdrop-filter: blur(2px);
+transition: all 0.3s ease;
+font-family: 'Segoe UI', sans-serif;
+font-size: 0.9rem;
+font-weight: 400;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
 }
 
 .menu-content .menu-item a:hover,
 .menu-content .menu-item a.active {
-  border-left-color: #e0c68e;
-  background: linear-gradient(90deg, rgba(224, 198, 142, 0.15), rgba(184, 134, 11, 0.05));
-  color: #e0c68e;
-  box-shadow: 0 4px 12px rgba(224, 198, 142, 0.3);
-  text-shadow: 0 0 6px #e0c68e;
-  padding-left: 16px;
+border-left-color: #e0c68e;
+background: linear-gradient(90deg, rgba(224, 198, 142, 0.15), rgba(184, 134, 11, 0.05));
+color: #e0c68e;
+box-shadow: 0 4px 12px rgba(224, 198, 142, 0.3);
+text-shadow: 0 0 6px #e0c68e;
+padding-left: 16px;
 }
 
 .menu-footer {
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 2px solid transparent;
-  border-image: linear-gradient(90deg, transparent, #e0c68e, #b8860b, transparent) 1;
-  text-align: center;
-  color: #e0c68e;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
-  text-shadow: 0 0 6px #e0c68e;
-  position: relative;
+margin-top: 20px;
+padding-top: 15px;
+border-top: 2px solid transparent;
+border-image: linear-gradient(90deg, transparent, #e0c68e, #b8860b, transparent) 1;
+text-align: center;
+color: #e0c68e;
+font-family: 'Orbitron', sans-serif;
+font-size: 0.8rem;
+letter-spacing: 1px;
+text-shadow: 0 0 6px #e0c68e;
+position: relative;
 }
 
 .pulse {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: #e0c68e;
-  border-radius: 50%;
-  margin-right: 8px;
-  box-shadow: 0 0 12px #b8860b;
-  animation: cosmic-pulse 1.8s infinite;
+display: inline-block;
+width: 8px;
+height: 8px;
+background-color: #e0c68e;
+border-radius: 50%;
+margin-right: 8px;
+box-shadow: 0 0 12px #b8860b;
+animation: cosmic-pulse 1.8s infinite;
 }
 
 @keyframes cosmic-pulse {
-  0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #e0c68e; }
-  50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 20px #b8860b, 0 0 40px #e0c68e; }
-  100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #e0c68e; }
+0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #e0c68e; }
+50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 20px #b8860b, 0 0 40px #e0c68e; }
+100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #e0c68e; }
 }
 
-    </style>
-    <!-- YOUR ORIGINAL STYLES -->
-    <style>
-        /* Reuse Aliens & UFOs styles, plus these additions */
-        .cosmic-economics-section {
-            background: linear-gradient(135deg, rgba(20, 20, 40, 0.9), rgba(40, 10, 60, 0.9));
-            border: 2px solid #39ff14;
-            border-radius: 15px;
-            padding: 3rem 2rem;
-            margin: 3rem auto;
-            max-width: 1100px;
-            position: relative;
-            overflow: hidden;
-        }
-        .cosmic-economics-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 20px,
-                    rgba(57, 255, 20, 0.05) 20px,
-                    rgba(57, 255, 20, 0.05) 40px
-            );
-            pointer-events: none;
-        }
-        .economic-model {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        .model-card {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(255, 105, 180, 0.5);
-            border-radius: 12px;
-            padding: 2rem;
-            position: relative;
-            transition: all 0.4s ease;
-            min-height: 400px;
-            display: flex;
-            flex-direction: column;
-        }
-        .model-card:hover {
-            border-color: #FF69B4;
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.2);
-        }
-        .model-badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--badge-color);
-            color: black;
-            padding: 0.3rem 1rem;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            white-space: nowrap;
-        }
-        .model-icon {
-            font-size: 3rem;
-            text-align: center;
-            margin: 1rem 0;
-        }
-        .model-title {
-            color: var(--title-color);
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            font-weight: bold;
-        }
-        .model-flaw {
-            background: rgba(255, 51, 102, 0.1);
-            border-left: 3px solid #ff3366;
-            padding: 0.8rem;
-            margin: 1rem 0;
-            border-radius: 0 5px 5px 0;
-        }
-        .model-solution {
-            background: rgba(57, 255, 20, 0.1);
-            border-left: 3px solid #39ff14;
-            padding: 0.8rem;
-            margin: 1rem 0;
-            border-radius: 0 5px 5px 0;
-        }
-        .resource-flow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-        .flow-node {
-            background: rgba(0, 204, 255, 0.2);
-            border: 2px solid #00ccff;
-            border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            position: relative;
-        }
-        .flow-arrow {
-            color: #39ff14;
-            font-size: 1.5rem;
-        }
-        .economic-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 3rem 0;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .economic-table th {
-            background: rgba(57, 255, 20, 0.3);
-            color: white;
-            padding: 1.2rem;
-            text-align: left;
-            font-weight: bold;
-        }
-        .economic-table td {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            color: #e0e0ff;
-        }
-        .economic-table tr:last-child td {
-            border-bottom: none;
-        }
-        .table-earth { color: #ff3366; }
-        .table-mars { color: #4cc9f0; }
-        .table-alien { color: #39ff14; }
-        .currency-evolution {
-            background: rgba(147, 112, 219, 0.1);
-            border: 1px solid #9370DB;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-        }
-        .evolution-stage {
-            display: flex;
-            align-items: center;
-            margin: 1.5rem 0;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 8px;
-        }
-        .stage-number {
-            background: #9370DB;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-right: 1rem;
-            flex-shrink: 0;
-        }
-        @media (max-width: 768px) {
-            .economic-model {
-                grid-template-columns: 1fr;
-            }
-            .resource-flow {
-                flex-direction: column;
-            }
-            .flow-arrow {
-                transform: rotate(90deg);
-            }
+/* ===== ADDITIONAL STYLES FROM ALIENS & UFOS ===== */
+.cosmic-economics-section {
+background: linear-gradient(135deg, rgba(20, 20, 40, 0.9), rgba(40, 10, 60, 0.9));
+border: 2px solid #39ff14;
+border-radius: 15px;
+padding: 3rem 2rem;
+margin: 3rem auto;
+max-width: 1100px;
+position: relative;
+overflow: hidden;
+}
 
-        /* UNIVERSAL FIX: Force mobile menu on all mobile devices */
+.cosmic-economics-section::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+height: 100%;
+background: repeating-linear-gradient(
+90deg,
+transparent,
+transparent 20px,
+rgba(57, 255, 20, 0.05) 20px,
+rgba(57, 255, 20, 0.05) 40px
+);
+pointer-events: none;
+}
+
+.economic-model {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+margin: 3rem 0;
+}
+
+.model-card {
+background: rgba(0, 0, 0, 0.8);
+border: 1px solid rgba(255, 105, 180, 0.5);
+border-radius: 12px;
+padding: 2rem;
+position: relative;
+transition: all 0.4s ease;
+min-height: 400px;
+display: flex;
+flex-direction: column;
+}
+
+.model-card:hover {
+border-color: #FF69B4;
+transform: translateY(-8px);
+box-shadow: 0 15px 35px rgba(255, 105, 180, 0.2);
+}
+
+.model-badge {
+position: absolute;
+top: -12px;
+left: 50%;
+transform: translateX(-50%);
+background: var(--badge-color);
+color: black;
+padding: 0.3rem 1rem;
+border-radius: 15px;
+font-weight: bold;
+font-size: 0.9rem;
+white-space: nowrap;
+}
+
+.model-icon {
+font-size: 3rem;
+text-align: center;
+margin: 1rem 0;
+}
+
+.model-title {
+color: var(--title-color);
+font-size: 1.4rem;
+margin-bottom: 1rem;
+text-align: center;
+font-weight: bold;
+}
+
+.model-flaw {
+background: rgba(255, 51, 102, 0.1);
+border-left: 3px solid #ff3366;
+padding: 0.8rem;
+margin: 1rem 0;
+border-radius: 0 5px 5px 0;
+}
+
+.model-solution {
+background: rgba(57, 255, 20, 0.1);
+border-left: 3px solid #39ff14;
+padding: 0.8rem;
+margin: 1rem 0;
+border-radius: 0 5px 5px 0;
+}
+
+.resource-flow {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 1rem;
+margin: 2rem 0;
+flex-wrap: wrap;
+}
+
+.flow-node {
+background: rgba(0, 204, 255, 0.2);
+border: 2px solid #00ccff;
+border-radius: 50%;
+width: 80px;
+height: 80px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.5rem;
+position: relative;
+}
+
+.flow-arrow {
+color: #39ff14;
+font-size: 1.5rem;
+}
+
+/* === FIXED TABLE RESPONSIVE WRAPPER === */
+.table-responsive {
+width: 100%;
+overflow-x: auto;
+-webkit-overflow-scrolling: touch;
+margin: 1rem 0;
+border-radius: 8px;
+}
+
+.economic-table {
+min-width: 800px;
+width: 100%;
+border-collapse: collapse;
+background: rgba(0, 0, 0, 0.6);
+border-radius: 10px;
+}
+
+.economic-table th {
+background: rgba(57, 255, 20, 0.3);
+color: white;
+padding: 1.2rem;
+text-align: left;
+font-weight: bold;
+white-space: normal;
+word-break: break-word;
+}
+
+.economic-table td {
+padding: 1rem;
+border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+color: #e0e0ff;
+white-space: normal;
+word-break: break-word;
+}
+
+.economic-table tr:last-child td {
+border-bottom: none;
+}
+
+.table-earth { color: #ff3366; }
+.table-mars { color: #4cc9f0; }
+.table-alien { color: #39ff14; }
+
+.currency-evolution {
+background: rgba(147, 112, 219, 0.1);
+border: 1px solid #9370DB;
+border-radius: 10px;
+padding: 1.5rem;
+margin: 2rem 0;
+}
+
+.evolution-stage {
+display: flex;
+align-items: center;
+margin: 1.5rem 0;
+padding: 1rem;
+background: rgba(0, 0, 0, 0.5);
+border-radius: 8px;
+}
+
+.stage-number {
+background: #9370DB;
+color: white;
+width: 40px;
+height: 40px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: bold;
+margin-right: 1rem;
+flex-shrink: 0;
+}
+
+/* Responsive fixes */
+@media (max-width: 768px) {
+.economic-model {
+grid-template-columns: 1fr;
+}
+.resource-flow {
+flex-direction: column;
+}
+.flow-arrow {
+transform: rotate(90deg);
+}
+.economic-table th,
+.economic-table td {
+font-size: 0.9rem;
+padding: 0.75rem 0.5rem;
+}
+}
+
+@media (max-width: 480px) {
+.economic-table th,
+.economic-table td {
+font-size: 0.8rem;
+padding: 0.5rem 0.3rem;
+}
+}
+
+/* === UNIVERSAL MOBILE MENU FIXES === */
 @media (max-width: 992px) {
-    nav.top-menu {
-        display: none !important;
-    }
-    .mobile-nav {
-        display: block !important;
-    }
+nav.top-menu {
+display: none !important;
+}
+.mobile-nav {
+display: block !important;
+}
 }
 
-/* EXTRA FIX: Specifically target landscape orientation on phones */
 @media (max-width: 992px) and (orientation: landscape) {
-    nav.top-menu {
-        display: none !important;
-    }
-    .mobile-nav {
-        display: block !important;
-    }
-    /* Optional: Adjust spacing for landscape */
-    .site-title-overlay {
-        top: 50px;
-    }
-    .content-toggle-controls {
-        top: 50px;
-    }
-    .audio-controls {
-        bottom: 70px;
-    }
+nav.top-menu {
+display: none !important;
+}
+.mobile-nav {
+display: block !important;
+}
+.site-title-overlay {
+top: 50px;
+}
+.content-toggle-container {
+top: 50px;
+}
+.audio-controls {
+bottom: 70px;
+}
 }
 
-/* EXTRA SAFETY: For very tall phones in landscape */
 @media (max-height: 500px) and (orientation: landscape) {
-    nav.top-menu {
-        display: none !important;
-    }
-    .mobile-nav {
-        display: block !important;
-    }
-}    
-    }
+nav.top-menu {
+display: none !important;
+}
+.mobile-nav {
+display: block !important;
+}
+}
 </style>
 </head>
 <body>
-<!-- VIDEO BACKGROUND -->
-    <div class="video-container">
-        <video class="cosmic-video" autoplay muted loop id="cosmicVideo">
-            <!-- Replace with your Runway Gen-4.5 video -->
-            <source src="videos/cosmic-economic-bg.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="video-overlay"></div>
-    </div>
 
-    <!-- STANDARD TOP MENU -->
-    <nav class="top-menu">
+<!-- VIDEO BACKGROUND -->
+<div class="video-container">
+<video class="cosmic-video" autoplay muted loop id="cosmicVideo">
+<source src="videos/cosmic-economic-bg.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+<div class="video-overlay"></div>
+</div>
+<nav class="top-menu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn">Home</a>
 <div class="dropdown-content">
@@ -875,339 +873,339 @@ border-top: 2px solid #39ff14;
 
 <a href="contact.html">Contact</a>
 </nav>
-
-    <!-- SITE TITLE -->
-    <div class="site-title-overlay">
-        <h1>The Mars Abyss</h1>
-    </div>
-
-    <!-- AUDIO CONTROLS -->
-    <div class="audio-controls">
-        <button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
-    </div>
-
-    <!-- MOBILE HAMBURGER MENU -->
-<div class="mobile-nav">
-  <button class="hamburger-btn" id="hamburgerBtn">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-  <nav class="mobile-menu" id="mobileMenu">
-    <div class="menu-header">
-      <h3>THE MARS ABYSS</h3>
-      <button class="close-menu" id="closeMenu">✕</button>
-    </div>
-    <div class="menu-content"></div>
-    <div class="menu-footer">
-      <span class="pulse"></span> COSMIC ECONOMICS
-    </div>
-  </nav>
+<!-- SITE TITLE -->
+<div class="site-title-overlay">
+<h1>The Mars Abyss</h1>
 </div>
 
-    <!-- HIDE/CONTENT TOGGLE BUTTON -->
-    <div class="content-toggle-container">
-        <button class="toggle-button" id="toggleContent">Hide Content</button>
-    </div>
+<!-- AUDIO CONTROLS -->
+<div class="audio-controls">
+<button class="audio-btn" id="muteBtn">🔈 Unmute Sounds</button>
+</div>
 
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-        <!-- HERO -->
-        <section class="hero">
-            <h2 style="font-size: 2.5rem; color: #39ff14; text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);">
-                COSMIC ECONOMICS
-            </h2>
-            <p style="font-size: 1.2rem; max-width: 800px; margin: 1rem auto; color: #d4b87a;">
-                How Advanced Civilizations Manage Resources - And What It Means for Earth's Future
-            </p>
-        </section>
+<!-- MOBILE HAMBURGER MENU -->
+<div class="mobile-nav">
+<button class="hamburger-btn" id="hamburgerBtn">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<nav class="mobile-menu" id="mobileMenu">
+<div class="menu-header">
+<h3>THE MARS ABYSS</h3>
+<button class="close-menu" id="closeMenu">✕</button>
+</div>
+<div class="menu-content"></div>
+<div class="menu-footer">
+<span class="pulse"></span> COSMIC ECONOMICS
+</div>
+</nav>
+</div>
 
-        <!-- ALL HIDEABLE CONTENT WRAPPED IN A DIV -->
-        <div class="hideable-content visible" id="mainContent">
-            <!-- INTRODUCTION -->
-            <section class="cosmic-economics-section">
-                <h3 style="color: #39ff14; text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">
-                    BEYOND SCARCITY: ECONOMICS AS ECOSYSTEM DESIGN
-                </h3>
-                <p style="color: #e0e0ff; line-height: 1.7; margin-bottom: 2rem; text-align: center;">
-                    Earth's economics start from scarcity: "There's not enough, so we must compete."<br>
-                    Alien economics start from abundance: "Everything is available, so we must design elegant flows."
-                </p>
-                <div class="resource-flow">
-                    <div class="flow-node">🌍</div>
-                    <div class="flow-arrow">→</div>
-                    <div class="flow-node">🔴</div>
-                    <div class="flow-arrow">→</div>
-                    <div class="flow-node">👽</div>
-                </div>
-                <p style="color: #ff9553; text-align: center; font-style: italic; margin-top: 1rem;">
-                    Earth (Competition) → Mars (Cooperation) → Alien Civilizations (Conscious Co-Creation)
-                </p>
-            </section>
+<!-- HIDE/CONTENT TOGGLE BUTTON -->
+<div class="content-toggle-container">
+<button class="toggle-button" id="toggleContent">Hide Content</button>
+</div>
 
-            <!-- THREE ECONOMIC MODELS -->
-            <section style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
-                <h3 style="color: #00ccff; text-align: center; margin-bottom: 3rem; font-size: 1.6rem;">
-                    THE EVOLUTION OF ECONOMIC THINKING
-                </h3>
-                <div class="economic-model">
-                    <!-- EARTH MODEL -->
-                    <div class="model-card" style="--badge-color: #ff3366; --title-color: #ff3366;">
-                        <div class="model-badge" style="--badge-color: #ff3366;">🌍 EARTH'S MODEL</div>
-                        <div class="model-icon">💰</div>
-                        <div class="model-title">SCARCITY-BASED CAPITALISM</div>
-                        <p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6; flex-grow: 1;">
-                            Based on artificial scarcity, competitive accumulation, and growth-as-success metrics.
-                            Resources flow toward concentration rather than optimal utilization.
-                        </p>
-                        <div class="model-flaw">
-                            <strong style="color: #ff3366;">Fatal Flaw:</strong> Requires infinite growth on finite planet.
-                            Creates waste, inequality, and systemic instability.
-                        </div>
-                        <div class="model-solution">
-                            <strong style="color: #39ff14;">Mars Insight:</strong> Abundance engineering through
-                            closed-loop systems makes artificial scarcity unnecessary.
-                        </div>
-                    </div>
-                    <!-- MARS MODEL -->
-                    <div class="model-card" style="--badge-color: #4cc9f0; --title-color: #4cc9f0;">
-                        <div class="model-badge" style="--badge-color: #4cc9f0;">🔴 MARS TRANSITION</div>
-                        <div class="model-icon">♻️</div>
-                        <div class="model-title">CIRCULAR COOPERATIVE ECONOMY</div>
-                        <p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6; flex-grow: 1;">
-                            Needs-based allocation, transparent resource flows, and waste-as-input design.
-                            Success measured in system health and individual fulfillment.
-                        </p>
-                        <div class="model-flaw">
-                            <strong style="color: #ff3366;">Challenge:</strong> Breaking Earth's competitive mindset.
-                            Requires cultural reprogramming of centuries of conditioning.
-                        </div>
-                        <div class="model-solution">
-                            <strong style="color: #39ff14;">Implementation:</strong> MAI-managed resource allocation,
-                            stakeholder cooperatives, and real-time transparency dashboards.
-                            <a href="mars-dome-cities-tour.html#ares-prime-economics"
-                               style="color: #4cc9f0; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
-                                → See Ares Prime Economic Dashboard
-                            </a>
-                        </div>
-                    </div>
-                    <!-- ALIEN MODEL -->
-                    <div class="model-card" style="--badge-color: #39ff14; --title-color: #39ff14;">
-                        <div class="model-badge" style="--badge-color: #39ff14;">👽 ALIEN REALIZATION</div>
-                        <div class="model-icon">🌌</div>
-                        <div class="model-title">RESONANCE-BASED FLOW ECONOMICS</div>
-                        <p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6; flex-grow: 1;">
-                            Resources flow to where they create most resonance with consciousness needs.
-                            No currency, no ownership - only stewardship and elegant utilization.
-                        </p>
-                        <div class="model-flaw">
-                            <strong style="color: #ff3366;">Human Limitation:</strong> Requires collective consciousness
-                            development beyond current human capacity. Can't be imposed.
-                        </div>
-                        <div class="model-solution">
-                            <strong style="color: #39ff14;">Mars Bridge:</strong> Starting with Martian circular systems
-                            as training ground for resonance economics. Each dome city practices different aspects.
-                            <a href="the-fair-act-of-life.html"
-                               style="color: #39ff14; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
-                                → Learn Martian-Alien Parallels
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<!-- MAIN CONTENT -->
+<div class="main-content">
 
-            <!-- COMPREHENSIVE COMPARISON -->
-            <section style="padding: 2rem 1rem; max-width: 1200px; margin: 3rem auto;">
-                <h3 style="color: #ff9553; text-align: center; margin-bottom: 2rem; font-size: 1.5rem;">
-                    ECONOMIC PARADIGM COMPARISON
-                </h3>
-                <table class="economic-table">
-                    <thead>
-                    <tr>
-                        <th>ECONOMIC DIMENSION</th>
-                        <th>🌍 EARTH</th>
-                        <th>🔴 MARS</th>
-                        <th>👽 ALIEN</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td><strong>Fundamental Premise</strong></td>
-                        <td class="table-earth">Scarcity → Competition</td>
-                        <td class="table-mars">Abundance Engineering → Cooperation</td>
-                        <td class="table-alien">Consciousness Resonance → Co-Creation</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Success Metric</strong></td>
-                        <td class="table-earth">Profit, GDP Growth</td>
-                        <td class="table-mars">System Health, Fulfillment Index</td>
-                        <td class="table-alien">Consciousness Expansion, Harmony</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Resource Allocation</strong></td>
-                        <td class="table-earth">Market Prices, Wealth Concentration</td>
-                        <td class="table-mars">Needs-Based, Community Validated</td>
-                        <td class="table-alien">Resonance Flow, Instantaneous</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Waste Handling</strong></td>
-                        <td class="table-earth">Externalized Cost, Pollution</td>
-                        <td class="table-mars">Closed-Loop, Input for Next Process</td>
-                        <td class="table-alien">Non-Existent (All is Transformation)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Currency System</strong></td>
-                        <td class="table-earth">Fiat Money, Debt-Based</td>
-                        <td class="table-mars">Resource Credits, Energy Accounting</td>
-                        <td class="table-alien">None (Consciousness as Medium)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Decision Making</strong></td>
-                        <td class="table-earth">Hierarchical, Profit-Driven</td>
-                        <td class="table-mars">Participatory, AI-Assisted</td>
-                        <td class="table-alien">Collective Consciousness, Instant Consensus</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Time Perspective</strong></td>
-                        <td class="table-earth">Quarterly Reports</td>
-                        <td class="table-mars">Generational Planning</td>
-                        <td class="table-alien">Eternal Now, Multi-Dimensional</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </section>
+<!-- HERO -->
+<section class="hero">
+<h2>COSMIC ECONOMICS</h2>
+<p>How Advanced Civilizations Manage Resources - And What It Means for Earth's Future</p>
+</section>
 
-            <!-- CURRENCY EVOLUTION -->
-            <section class="currency-evolution">
-                <h4 style="color: #9370DB; text-align: center; margin-bottom: 2rem; font-size: 1.4rem;">
-                    THE EVOLUTION OF EXCHANGE: FROM MONEY TO MEANING
-                </h4>
-                <div class="evolution-stage">
-                    <div class="stage-number">1</div>
-                    <div>
-                        <h5 style="color: #ff3366; margin-bottom: 0.5rem;">🌍 EARTH: Commodity Money → Fiat Currency</h5>
-                        <p style="color: #e0e0ff; font-size: 0.95rem;">
-                            Gold → Paper → Digital numbers with no intrinsic value. Creates artificial scarcity
-                            and debt-based systems that require perpetual growth.
-                        </p>
-                    </div>
-                </div>
-                <div class="evolution-stage">
-                    <div class="stage-number">2</div>
-                    <div>
-                        <h5 style="color: #4cc9f0; margin-bottom: 0.5rem;">🔴 MARS: Resource Credits → Energy Accounting</h5>
-                        <p style="color: #e0e0ff; font-size: 0.95rem;">
-                            Each credit represents actual resources (energy, water, oxygen, habitat space).
-                            Transparent blockchain tracking of all resource flows. No interest, no debt.
-                            <a href="mars-travel-preparation.html#martian-economics"
-                               style="color: #4cc9f0; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
-                                → See Martian Resource Credit System
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="evolution-stage">
-                    <div class="stage-number">3</div>
-                    <div>
-                        <h5 style="color: #39ff14; margin-bottom: 0.5rem;">👽 ALIEN: Consciousness Resonance → Need Fulfillment</h5>
-                        <p style="color: #e0e0ff; font-size: 0.95rem;">
-                            No currency. Resources flow to where consciousness resonance indicates optimal use.
-                            Individual needs recognized and fulfilled by collective intelligence before being consciously articulated.
-                        </p>
-                    </div>
-                </div>
-                <div class="evolution-stage">
-                    <div class="stage-number">4</div>
-                    <div>
-                        <h5 style="color: #FF69B4; margin-bottom: 0.5rem;">🌟 COSMIC: Co-Creation with Universal Abundance</h5>
-                        <p style="color: #e0e0ff; font-size: 0.95rem;">
-                            Advanced civilizations co-create resources from quantum field as needed.
-                            Scarcity is recognized as consciousness limitation, not physical reality.
-                            Economics becomes ecosystem design art.
-                        </p>
-                    </div>
-                </div>
-            </section>
+<!-- ALL HIDEABLE CONTENT WRAPPED IN A DIV -->
+<div class="hideable-content visible" id="mainContent">
 
-            <!-- THE MARTIAN EXPERIMENT -->
-            <section style="text-align: center; padding: 3rem 1rem; background: rgba(0, 204, 255, 0.1);
-                       border-radius: 15px; margin: 3rem auto; max-width: 800px; border: 1px solid #00ccff;">
-                <h4 style="color: #00ccff; margin-bottom: 1.5rem; font-size: 1.4rem;">
-                    WHY MARS IS THE PERFECT ECONOMIC LABORATORY
-                </h4>
-                <p style="color: #e0e0ff; line-height: 1.7; margin-bottom: 2rem;">
-                    Mars starts with nothing but rocks, ice, and sunlight. Every resource must be created
-                    or recycled. This forces efficiency and innovation that Earth's "resource buffet" never demanded.<br><br>
-                    <strong>The Martian economic experiment:</strong> Can humans voluntarily adopt cooperative,
-                    transparent, circular systems when starting from scratch?<br><br>
-                    Early results: Yes, when survival depends on cooperation, competition becomes collaboration.
-                    When every resource is precious, waste becomes design flaw. When everyone sees the system,
-                    corruption becomes impossible.
-                </p>
-                <div style="background: rgba(0, 0, 0, 0.5); padding: 1.5rem; border-radius: 10px; margin: 2rem 0;">
-                    <p style="color: #ff9553; font-style: italic; line-height: 1.7;">
-                        "Earth's economics asks: 'How do we distribute scarcity?'<br>
-                        Mars's economics asks: 'How do we design abundance?'<br>
-                        Alien economics shows: 'Abundance was always here - we just needed eyes to see it.'"
-                    </p>
-                </div>
-            </section>
+<!-- INTRODUCTION -->
+<section class="cosmic-economics-section">
+<h3 style="color: #39ff14; text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">
+BEYOND SCARCITY: ECONOMICS AS ECOSYSTEM DESIGN
+</h3>
+<p style="color: #e0e0ff; line-height: 1.7; margin-bottom: 2rem; text-align: center;">
+Earth's economics start from scarcity: "There's not enough, so we must compete."<br>
+Alien economics start from abundance: "Everything is available, so we must design elegant flows."
+</p>
+<div class="resource-flow">
+<div class="flow-node">🌍</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node">🔴</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node">👽</div>
+</div>
+<p style="color: #ff9553; text-align: center; font-style: italic; margin-top: 1rem;">
+Earth (Competition) → Mars (Cooperation) → Alien Civilizations (Conscious Co-Creation)
+</p>
+</section>
 
-            <!-- NAVIGATION -->
-            <section style="text-align: center; margin: 3rem auto; max-width: 800px;">
-                <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
-                    <a href="aliens-ufos.html"
-                       style="background: linear-gradient(45deg, #9370DB, #4cc9f0);
-                          color: white; padding: 0.9rem 1.8rem; border-radius: 25px;
-                          text-decoration: none; font-weight: 600; transition: all 0.3s ease;"
-                       onmouseover="this.style.transform='translateY(-3px)'"
-                       onmouseout="this.style.transform='translateY(0)'">
-                        ← BACK TO ALIENS & UFOS
-                    </a>
-                    <a href="alien-transport-network.html"
-                       style="background: linear-gradient(45deg, #39ff14, #00ccff);
-                          color: white; padding: 0.9rem 1.8rem; border-radius: 25px;
-                          text-decoration: none; font-weight: 600; transition: all 0.3s ease;"
-                       onmouseover="this.style.transform='translateY(-3px)'"
-                       onmouseout="this.style.transform='translateY(0)'">
-                        NEXT: ALIEN TRANSPORT NETWORKS →
-                    </a>
-                </div>
-                <p style="color: #e0e0ff; margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
-                    Continue exploring how alien principles transform human systems
-                </p>
-            </section>
-        </div> <!-- End of hideable content div -->
-    </div>
+<!-- THREE ECONOMIC MODELS -->
+<section style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+<h3 style="color: #00ccff; text-align: center; margin-bottom: 3rem; font-size: 1.6rem;">
+THE EVOLUTION OF ECONOMIC THINKING
+</h3>
+<div class="economic-model">
 
-    <!-- CONTENT SPACER -->
-    <div class="content-spacer"></div>
+<!-- EARTH MODEL -->
+<div class="model-card" style="--badge-color: #ff3366; --title-color: #ff3366;">
+<div class="model-badge" style="background: #ff3366;">🌍 EARTH'S MODEL</div>
+<div class="model-icon">💰</div>
+<div class="model-title">SCARCITY-BASED CAPITALISM</div>
+<p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6; flex-grow: 1;">
+Based on artificial scarcity, competitive accumulation, and growth-as-success metrics.
+Resources flow toward concentration rather than optimal utilization.
+</p>
+<div class="model-flaw">
+<strong style="color: #ff3366;">Fatal Flaw:</strong> Requires infinite growth on finite planet.
+Creates waste, inequality, and systemic instability.
+</div>
+<div class="model-solution">
+<strong style="color: #39ff14;">Mars Insight:</strong> Abundance engineering through
+closed-loop systems makes artificial scarcity unnecessary.
+</div>
+</div>
 
-    <!-- FOOTER -->
-    <footer>
-        <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
-    </footer>
+<!-- MARS MODEL -->
+<div class="model-card" style="--badge-color: #4cc9f0; --title-color: #4cc9f0;">
+<div class="model-badge" style="background: #4cc9f0;">🔴 MARS TRANSITION</div>
+<div class="model-icon">♻️</div>
+<div class="model-title">CIRCULAR COOPERATIVE ECONOMY</div>
+<p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6; flex-grow: 1;">
+Needs-based allocation, transparent resource flows, and waste-as-input design.
+Success measured in system health and individual fulfillment.
+</p>
+<div class="model-flaw">
+<strong style="color: #ff3366;">Challenge:</strong> Breaking Earth's competitive mindset.
+Requires cultural reprogramming of centuries of conditioning.
+</div>
+<div class="model-solution">
+<strong style="color: #39ff14;">Implementation:</strong> MAI-managed resource allocation,
+stakeholder cooperatives, and real-time transparency dashboards.
+<a href="mars-dome-cities-tour.html#ares-prime-economics"
+style="color: #4cc9f0; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+→ See Ares Prime Economic Dashboard
+</a>
+</div>
+</div>
 
-    <!-- AUDIO SCRIPT -->
-    <script>
+<!-- ALIEN MODEL -->
+<div class="model-card" style="--badge-color: #39ff14; --title-color: #39ff14;">
+<div class="model-badge" style="background: #39ff14;">👽 ALIEN REALIZATION</div>
+<div class="model-icon">🌌</div>
+<div class="model-title">RESONANCE-BASED FLOW ECONOMICS</div>
+<p style="color: #e0e0ff; font-size: 0.95rem; line-height: 1.6; flex-grow: 1;">
+Resources flow to where they create most resonance with consciousness needs.
+No currency, no ownership - only stewardship and elegant utilization.
+</p>
+<div class="model-flaw">
+<strong style="color: #ff3366;">Human Limitation:</strong> Requires collective consciousness
+development beyond current human capacity. Can't be imposed.
+</div>
+<div class="model-solution">
+<strong style="color: #39ff14;">Mars Bridge:</strong> Starting with Martian circular systems
+as training ground for resonance economics. Each dome city practices different aspects.
+<a href="the-fair-act-of-life.html"
+style="color: #39ff14; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+→ Learn Martian-Alien Parallels
+</a>
+</div>
+</div>
+</div>
+</section>
 
-    // ===== VIDEO PROTECTION =====
+<!-- COMPREHENSIVE COMPARISON (FIXED WITH RESPONSIVE WRAPPER) -->
+<section style="padding: 2rem 1rem; max-width: 1200px; margin: 3rem auto;">
+<h3 style="color: #ff9553; text-align: center; margin-bottom: 2rem; font-size: 1.5rem;">
+ECONOMIC PARADIGM COMPARISON
+</h3>
+<div class="table-responsive">
+<table class="economic-table">
+<thead>
+<tr>
+<th>ECONOMIC DIMENSION</th>
+<th>🌍 EARTH</th>
+<th>🔴 MARS</th>
+<th>👽 ALIEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fundamental Premise</strong></td>
+<td class="table-earth">Scarcity → Competition</td>
+<td class="table-mars">Abundance Engineering → Cooperation</td>
+<td class="table-alien">Consciousness Resonance → Co-Creation</td>
+</tr>
+<tr>
+<td><strong>Success Metric</strong></td>
+<td class="table-earth">Profit, GDP Growth</td>
+<td class="table-mars">System Health, Fulfillment Index</td>
+<td class="table-alien">Consciousness Expansion, Harmony</td>
+</tr>
+<tr>
+<td><strong>Resource Allocation</strong></td>
+<td class="table-earth">Market Prices, Wealth Concentration</td>
+<td class="table-mars">Needs-Based, Community Validated</td>
+<td class="table-alien">Resonance Flow, Instantaneous</td>
+</tr>
+<tr>
+<td><strong>Waste Handling</strong></td>
+<td class="table-earth">Externalized Cost, Pollution</td>
+<td class="table-mars">Closed-Loop, Input for Next Process</td>
+<td class="table-alien">Non-Existent (All is Transformation)</td>
+</tr>
+<tr>
+<td><strong>Currency System</strong></td>
+<td class="table-earth">Fiat Money, Debt-Based</td>
+<td class="table-mars">Resource Credits, Energy Accounting</td>
+<td class="table-alien">None (Consciousness as Medium)</td>
+</tr>
+<tr>
+<td><strong>Decision Making</strong></td>
+<td class="table-earth">Hierarchical, Profit-Driven</td>
+<td class="table-mars">Participatory, AI-Assisted</td>
+<td class="table-alien">Collective Consciousness, Instant Consensus</td>
+</tr>
+<tr>
+<td><strong>Time Perspective</strong></td>
+<td class="table-earth">Quarterly Reports</td>
+<td class="table-mars">Generational Planning</td>
+<td class="table-alien">Eternal Now, Multi-Dimensional</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- CURRENCY EVOLUTION -->
+<section class="currency-evolution">
+<h4 style="color: #9370DB; text-align: center; margin-bottom: 2rem; font-size: 1.4rem;">
+THE EVOLUTION OF EXCHANGE: FROM MONEY TO MEANING
+</h4>
+<div class="evolution-stage">
+<div class="stage-number">1</div>
+<div>
+<h5 style="color: #ff3366; margin-bottom: 0.5rem;">🌍 EARTH: Commodity Money → Fiat Currency</h5>
+<p style="color: #e0e0ff; font-size: 0.95rem;">
+Gold → Paper → Digital numbers with no intrinsic value. Creates artificial scarcity
+and debt-based systems that require perpetual growth.
+</p>
+</div>
+</div>
+<div class="evolution-stage">
+<div class="stage-number">2</div>
+<div>
+<h5 style="color: #4cc9f0; margin-bottom: 0.5rem;">🔴 MARS: Resource Credits → Energy Accounting</h5>
+<p style="color: #e0e0ff; font-size: 0.95rem;">
+Each credit represents actual resources (energy, water, oxygen, habitat space).
+Transparent blockchain tracking of all resource flows. No interest, no debt.
+<a href="mars-travel-preparation.html#martian-economics"
+style="color: #4cc9f0; font-size: 0.85rem; display: block; margin-top: 0.3rem;">
+→ See Martian Resource Credit System
+</a>
+</p>
+</div>
+</div>
+<div class="evolution-stage">
+<div class="stage-number">3</div>
+<div>
+<h5 style="color: #39ff14; margin-bottom: 0.5rem;">👽 ALIEN: Consciousness Resonance → Need Fulfillment</h5>
+<p style="color: #e0e0ff; font-size: 0.95rem;">
+No currency. Resources flow to where consciousness resonance indicates optimal use.
+Individual needs recognized and fulfilled by collective intelligence before being consciously articulated.
+</p>
+</div>
+</div>
+<div class="evolution-stage">
+<div class="stage-number">4</div>
+<div>
+<h5 style="color: #FF69B4; margin-bottom: 0.5rem;">🌟 COSMIC: Co-Creation with Universal Abundance</h5>
+<p style="color: #e0e0ff; font-size: 0.95rem;">
+Advanced civilizations co-create resources from quantum field as needed.
+Scarcity is recognized as consciousness limitation, not physical reality.
+Economics becomes ecosystem design art.
+</p>
+</div>
+</div>
+</section>
+
+<!-- THE MARTIAN EXPERIMENT -->
+<section style="text-align: center; padding: 3rem 1rem; background: rgba(0, 204, 255, 0.1);
+border-radius: 15px; margin: 3rem auto; max-width: 800px; border: 1px solid #00ccff;">
+<h4 style="color: #00ccff; margin-bottom: 1.5rem; font-size: 1.4rem;">
+WHY MARS IS THE PERFECT ECONOMIC LABORATORY
+</h4>
+<p style="color: #e0e0ff; line-height: 1.7; margin-bottom: 2rem;">
+Mars starts with nothing but rocks, ice, and sunlight. Every resource must be created
+or recycled. This forces efficiency and innovation that Earth's "resource buffet" never demanded.<br><br>
+<strong>The Martian economic experiment:</strong> Can humans voluntarily adopt cooperative,
+transparent, circular systems when starting from scratch?<br><br>
+Early results: Yes, when survival depends on cooperation, competition becomes collaboration.
+When every resource is precious, waste becomes design flaw. When everyone sees the system,
+corruption becomes impossible.
+</p>
+<div style="background: rgba(0, 0, 0, 0.5); padding: 1.5rem; border-radius: 10px; margin: 2rem 0;">
+<p style="color: #ff9553; font-style: italic; line-height: 1.7;">
+"Earth's economics asks: 'How do we distribute scarcity?'<br>
+Mars's economics asks: 'How do we design abundance?'<br>
+Alien economics shows: 'Abundance was always here - we just needed eyes to see it.'"
+</p>
+</div>
+</section>
+
+<!-- NAVIGATION -->
+<section style="text-align: center; margin: 3rem auto; max-width: 800px;">
+<div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+<a href="aliens-ufos.html"
+style="background: linear-gradient(45deg, #9370DB, #4cc9f0);
+color: white; padding: 0.9rem 1.8rem; border-radius: 25px;
+text-decoration: none; font-weight: 600; transition: all 0.3s ease;"
+onmouseover="this.style.transform='translateY(-3px)'"
+onmouseout="this.style.transform='translateY(0)'">
+← BACK TO ALIENS & UFOS
+</a>
+<a href="alien-transport-network.html"
+style="background: linear-gradient(45deg, #39ff14, #00ccff);
+color: white; padding: 0.9rem 1.8rem; border-radius: 25px;
+text-decoration: none; font-weight: 600; transition: all 0.3s ease;"
+onmouseover="this.style.transform='translateY(-3px)'"
+onmouseout="this.style.transform='translateY(0)'">
+NEXT: ALIEN TRANSPORT NETWORKS →
+</a>
+</div>
+<p style="color: #e0e0ff; margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
+Continue exploring how alien principles transform human systems
+</p>
+</section>
+
+</div> <!-- End of hideable content div -->
+</div> <!-- End of main-content -->
+
+<!-- CONTENT SPACER -->
+<div class="content-spacer"></div>
+
+<!-- FOOTER -->
+<footer>
+<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+</footer>
+
+<script>
+// ===== VIDEO PROTECTION =====
 (function() {
- document.querySelectorAll('video').forEach(video => {
-   video.setAttribute('controlslist', 'nodownload');
-   video.addEventListener('contextmenu', (e) => e.preventDefault());
-   video.addEventListener('dragstart', (e) => e.preventDefault());
- });
- 
- document.addEventListener('keydown', (e) => {
-   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
-   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
-     e.preventDefault();
-   }
- });
+document.querySelectorAll('video').forEach(video => {
+video.setAttribute('controlslist', 'nodownload');
+video.addEventListener('contextmenu', (e) => e.preventDefault());
+video.addEventListener('dragstart', (e) => e.preventDefault());
+});
+document.addEventListener('keydown', (e) => {
+const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+e.preventDefault();
+}
+});
 })();
 
- // ===== AUDIO SYSTEM =====
+// ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
@@ -1270,44 +1268,32 @@ muteBtn.addEventListener('click', function() {
  });
  muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
 });
-    
-        // HIDE CONTENT TOGGLE SCRIPT
-        const toggleButton = document.getElementById('toggleContent');
-        const mainContent = document.getElementById('mainContent');
-        const heroTitle = document.querySelector('.hero h2');
-        const heroSubtitle = document.querySelector('.hero p');
-        const topMenu = document.querySelector('nav.top-menu');
-        const footer = document.querySelector('footer');
 
-        toggleButton.addEventListener('click', function() {
-            const isHidden = mainContent.classList.contains('hidden');
+// HIDE CONTENT TOGGLE
+const toggleButton = document.getElementById('toggleContent');
+const hideableContent = document.getElementById('mainContent');
+const heroTitle = document.querySelector('.hero h2');
+const heroSubtitle = document.querySelector('.hero p');
 
-            if (isHidden) {
-                // Show content
-                mainContent.classList.remove('hidden');
-                mainContent.classList.add('visible');
-                if (topMenu) topMenu.classList.remove('hidden');
-                if (footer) footer.classList.remove('hidden');
-                heroTitle.style.display = 'block';
-                heroSubtitle.style.display = 'block';
-                toggleButton.textContent = 'Hide Content';
-                toggleButton.classList.add('visible-state');
-                toggleButton.classList.remove('hidden-state');
-            } else {
-                // Hide everything except audio and hamburger
-                mainContent.classList.remove('visible');
-                mainContent.classList.add('hidden');
-                if (topMenu) topMenu.classList.add('hidden');
-                if (footer) footer.classList.add('hidden');
-                heroTitle.style.display = 'none';
-                heroSubtitle.style.display = 'none';
-                toggleButton.textContent = 'Show Content';
-                toggleButton.classList.add('hidden-state');
-                toggleButton.classList.remove('visible-state');
-            }
-        });
+toggleButton.addEventListener('click', function() {
+const isHidden = hideableContent.classList.contains('hidden');
 
- // ===== MOBILE HAMBURGER MENU =====
+if (isHidden) {
+hideableContent.classList.remove('hidden');
+hideableContent.classList.add('visible');
+heroTitle.style.display = 'block';
+heroSubtitle.style.display = 'block';
+toggleButton.textContent = 'Hide Content';
+} else {
+hideableContent.classList.remove('visible');
+hideableContent.classList.add('hidden');
+heroTitle.style.display = 'none';
+heroSubtitle.style.display = 'none';
+toggleButton.textContent = 'Show Content';
+}
+});
+
+// ===== MOBILE HAMBURGER MENU =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const closeMenu = document.getElementById('closeMenu');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -1318,101 +1304,101 @@ if (!menuContent) return;
 menuContent.innerHTML = '';
 
 const menuItems = [
- { text: '🏠 Home', href: 'index.html' },
- { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
- { text: ' Homage to Courage', href: 'homage-to-courage.html' },
- { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
- { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
- { text: ' My Mission', href: 'my-mission.html' },
- { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
- { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
- { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
- { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+{ text: '🏠 Home', href: 'index.html' },
+{ text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+{ text: ' Homage to Courage', href: 'homage-to-courage.html' },
+{ text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+{ text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+{ text: ' My Mission', href: 'my-mission.html' },
+{ text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+{ text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+{ text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+{ text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
 
- { text: '📖 Story', href: 'story.html' },
- { text: ' Characters', href: 'characters.html' },
- { text: ' Gallery', href: 'gallery.html' },
- { text: ' Art & Concepts', href: 'art-and-concepts.html' },
- { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
- { text: ' Technical Database', href: 'technical-database.html' },
- { text: ' The Martian Edicts', href: 'martian-edicts.html' },
- { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
- { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
- { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
- { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+{ text: '📖 Story', href: 'story.html' },
+{ text: ' Characters', href: 'characters.html' },
+{ text: ' Gallery', href: 'gallery.html' },
+{ text: ' Art & Concepts', href: 'art-and-concepts.html' },
+{ text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+{ text: ' Technical Database', href: 'technical-database.html' },
+{ text: ' The Martian Edicts', href: 'martian-edicts.html' },
+{ text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+{ text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+{ text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+{ text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
 
- { text: '🎮 Martian Games', href: 'martian-games.html' },
- { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
- { text: ' Martian Racer', href: 'martian-racer.html' },
- { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
- { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
- { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
- { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
- { text: ' Music Player', href: 'music-app.html' },
- { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+{ text: '🎮 Martian Games', href: 'martian-games.html' },
+{ text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+{ text: ' Martian Racer', href: 'martian-racer.html' },
+{ text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+{ text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+{ text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+{ text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+{ text: ' Music Player', href: 'music-app.html' },
+{ text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
 
- { text: '🌍 Earth Codex', href: 'earth-codex.html' },
- { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
- { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
- { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
- { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
- { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
- { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
- { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
- { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
- { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+{ text: '🌍 Earth Codex', href: 'earth-codex.html' },
+{ text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+{ text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+{ text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+{ text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+{ text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+{ text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+{ text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+{ text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+{ text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
 
- { text: '📰 Martian News', href: 'martian-news.html' },
- { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
- { text: ' Martian Actualities', href: 'martian-actualities.html' },
- { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
- { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
- { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
- { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
- { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
- { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
- { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
- { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
- { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
- { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+{ text: '📰 Martian News', href: 'martian-news.html' },
+{ text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+{ text: ' Martian Actualities', href: 'martian-actualities.html' },
+{ text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+{ text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+{ text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+{ text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+{ text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+{ text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+{ text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+{ text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+{ text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+{ text: ' M.A.R.V.I.N.', href: 'marvin.html' },
 
- { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
- { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
- { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
- { text: ' Earthlings Beware', href: 'earthings-beware.html' },
- { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
- { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
- { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
- { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
- { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
- { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
- { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
- { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+{ text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+{ text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+{ text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+{ text: ' Earthlings Beware', href: 'earthings-beware.html' },
+{ text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+{ text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+{ text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+{ text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+{ text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+{ text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+{ text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+{ text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
 
- { text: 'ℹ️ About', href: 'about.html' },
- { text: ' About the Project', href: 'about-the-project.html' },
- { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
- { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
- { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
- { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
- { text: ' The Pale Horse', href: 'the-pale-horse.html' },
- { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
- { text: ' Arachne Labs', href: 'arachne-labs.html' },
- { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
- { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+{ text: 'ℹ️ About', href: 'about.html' },
+{ text: ' About the Project', href: 'about-the-project.html' },
+{ text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+{ text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+{ text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+{ text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+{ text: ' The Pale Horse', href: 'the-pale-horse.html' },
+{ text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+{ text: ' Arachne Labs', href: 'arachne-labs.html' },
+{ text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+{ text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
 
- { text: '🤝 Support', href: 'support.html' },
- { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
- { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
- { text: ' Cosmic Economics', href: 'cosmic-economics.html' },
- { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
- { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
- { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
- { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
- { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+{ text: '🤝 Support', href: 'support.html' },
+{ text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+{ text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+{ text: ' Cosmic Economics', href: 'cosmic-economics.html' },
+{ text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+{ text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+{ text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+{ text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+{ text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
 
- { text: '📧 Contact', href: 'contact.html' },
- { text: '🌠 Cosmic Economics (current)', href: 'cosmic-economics.html', active: true }
+{ text: '📧 Contact', href: 'contact.html' },
+{ text: '🌠 Cosmic Economics (current)', href: 'cosmic-economics.html', active: true }
 ];
 
 menuItems.forEach(item => {
@@ -1462,7 +1448,6 @@ document.body.style.overflow = '';
 }
 }
 window.addEventListener('resize', handleResize);
-
 </script>
 </body>
 </html>
