@@ -166,7 +166,7 @@ padding: 3px 5px;
 text-decoration: none;
 display: block;
 transition: background-color 0.3s ease;
-font-size: 0.8rem;
+font-size: 0.7rem;
 line-height: 1;
 }
 
@@ -650,7 +650,7 @@ background: rgba(255, 68, 68, 0.3);
 color: black;
 }
 
-/* ===== MOBILE HAMBURGER MENU – Pink/Purple THEME ===== */
+/* ===== MOBILE HAMBURGER MENU – Orange/Pink/red THEME ===== */
 .mobile-nav {
 display: none; /* hidden on desktop */
 position: fixed;
@@ -660,9 +660,9 @@ z-index: 1002;
 }
 
 .hamburger-btn {
-background: rgba(10, 10, 20, 0.85); 
+background: rgba(20, 10, 5, 0.95); 
 backdrop-filter: blur(8px);
-border: 2px solid #ff6fe5; 
+border: 2px solid #ff9553; 
 border-radius: 12px;
 width: 54px;
 height: 54px;
@@ -672,14 +672,18 @@ justify-content: center;
 align-items: center;
 cursor: pointer;
 transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 111, 229, 0.2) inset;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 149, 83, 0.2) inset;
+font-size: 2rem;
+color: #ff9553;
+line-height: 1;
 }
 
 .hamburger-btn:hover {
-background: rgba(255, 68, 68, 0.25);
-border-color: #ff9553;
+background: rgba(255, 111, 229, 0.25);
+border-color: #ff4444;
 transform: scale(1.08);
-box-shadow: 0 8px 25px rgba(255, 149, 83, 0.4);
+box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4);
+color: #ff4444;
 }
 
 .mobile-menu {
@@ -688,7 +692,7 @@ top: 0;
 left: -100%;
 width: 320px;
 height: 100vh;
-background: linear-gradient(145deg, #0b0b15 0%, #1a1a2a 100%);
+background: linear-gradient(145deg, #1a0f0a 0%, #2a0f1a 100%);
 border-right: 3px solid #ff6fe5;
 padding: 25px 20px;
 transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
@@ -987,7 +991,7 @@ Your browser does not support the video tag.
 <!-- MOBILE HAMBURGER MENU -->
 <div class="mobile-nav">
 <button class="hamburger-btn" id="hamburgerBtn">
-  🍔
+  🚘
 </button>
 <nav class="mobile-menu" id="mobileMenu">
 <div class="menu-header">
@@ -1126,7 +1130,7 @@ Your browser does not support the video tag.
 <div class="dropdown-content">
 <a href="silver's-sign-language-course.html">Silver's language Academy</a> 
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-<a href="mars-food-district.html">Mars Food District</a>
+<a href="cosmic-economics.html">Cosmic Economics</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
 <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
 <a href="fund-martian-research.html">Fund Martian Research</a>
@@ -1392,6 +1396,23 @@ As the Regent often says: <span class="mission-highlight">"A child's potential s
 </div>
 
 <script>
+
+// ===== VIDEO PROTECTION =====
+(function() {
+ document.querySelectorAll('video').forEach(video => {
+   video.setAttribute('controlslist', 'nodownload');
+   video.addEventListener('contextmenu', (e) => e.preventDefault());
+   video.addEventListener('dragstart', (e) => e.preventDefault());
+ });
+ 
+ document.addEventListener('keydown', (e) => {
+   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+     e.preventDefault();
+   }
+ });
+})();
+
 // HIDE CONTENT FUNCTIONALITY
 const hideContentBtn = document.getElementById('hideContentBtn');
 const mainContent = document.getElementById('mainContent');
@@ -1854,7 +1875,7 @@ const menuItems = [
 { text: '🤝 Support', href: 'support.html' },
 { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
 { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
-{ text: ' Mars Food District', href: 'mars-food-district.html' },
+{ text: ' Cosmic Economics', href: 'cosmic-economics.html' },
 { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
 { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
 { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
