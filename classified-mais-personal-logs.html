@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⍟ CLASSIFIED: MAI PERSONAL LOGS | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Source+Code+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+
+body, html {
+ height: 100%;
+ width: 100%;
+ font-family: 'Source Code Pro', monospace;
+ color: #b0f0ff;
+ background: #03050a;
+ overflow-x: hidden;
+}
+
+/* === VIDEO BACKGROUND (RAINBOW MATRIX) === */
+.background-container {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: 1;
+ overflow: hidden;
+}
+
+.video-background {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ z-index: 1;
+ opacity: 0.9;
+ filter: brightness(0.6) contrast(1.2); /* No hue‑rotate – video itself is rainbow */
+ transition: filter 1s ease;
+}
+
+/* Subtle ambient lights – NO desaturation overlay */
+.ambient-lights {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ pointer-events: none;
+ z-index: 2;
+ background: 
+ radial-gradient(circle at 20% 30%, rgba(0, 255, 200, 0.2) 0%, transparent 30%),
+ radial-gradient(circle at 80% 70%, rgba(255, 100, 200, 0.2) 0%, transparent 30%),
+ radial-gradient(circle at 40% 80%, rgba(100, 200, 255, 0.2) 0%, transparent 30%);
+ mix-blend-mode: overlay;
+}
+
+/* Warm neon blue for accents */
+:root {
+ --neon-blue: #00ffff;
+ --neon-pink: #ff69b4;
+}
+
+/* === NO TOP MENU – SECRET PAGE === */
+
+/* === SITE TITLE (discreet) === */
+.site-title-overlay {
+ position: fixed;
+ top: 20px;
+ left: 30px;
+ z-index: 50;
+ opacity: 0.5;
+}
+
+.site-title-overlay h1 {
+ color: var(--neon-blue);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.2rem;
+ text-shadow: 0 0 8px var(--neon-blue);
+ font-weight: 300;
+ letter-spacing: 2px;
+}
+
+/* === CONTROL BUTTONS === */
+.control-buttons {
+ position: fixed;
+ top: 20px;
+ right: 30px;
+ z-index: 1001;
+ display: flex;
+ gap: 10px;
+}
+
+.audio-controls {
+ position: fixed;
+ bottom: 80px;
+ right: 30px;
+ z-index: 1001;
+}
+
+.hide-content-btn, .audio-btn {
+ background: rgba(10, 15, 25, 0.7);
+ color: var(--neon-blue);
+ border: 2px solid var(--neon-blue);
+ padding: 8px 15px;
+ border-radius: 20px;
+ cursor: pointer;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.9rem;
+ transition: all 0.3s ease;
+ backdrop-filter: blur(5px);
+ box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.hide-content-btn:hover, .audio-btn:hover {
+ background: rgba(0, 255, 255, 0.2);
+ box-shadow: 0 0 25px var(--neon-blue);
+}
+
+/* === MAIN CONTENT === */
+.main-content {
+ position: relative;
+ z-index: 10;
+ max-width: 1400px;
+ margin: 100px auto 80px;
+ padding: 20px;
+ transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.main-content.hidden {
+ opacity: 0;
+ pointer-events: none;
+ transform: translateY(20px);
+}
+
+/* === COCKPIT PANELS – DARK, GLOWING === */
+.cockpit-panel {
+ background: rgba(5, 8, 15, 0.9);
+ border: 2px solid var(--neon-blue);
+ border-radius: 12px;
+ padding: 25px;
+ margin: 20px 0;
+ box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0,0,0,0.8);
+ backdrop-filter: blur(5px);
+}
+
+.panel-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 20px;
+ padding-bottom: 10px;
+ border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.panel-header h2 {
+ color: var(--neon-blue);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.5rem;
+ letter-spacing: 2px;
+}
+
+.panel-status {
+ color: #ffaa00;
+ font-size: 0.8rem;
+ display: flex;
+ align-items: center;
+ gap: 5px;
+}
+
+.led {
+ width: 10px;
+ height: 10px;
+ background: #ffaa00;
+ border-radius: 50%;
+ box-shadow: 0 0 10px #ffaa00;
+ animation: blink 2s infinite;
+}
+
+@keyframes blink {
+ 0%, 100% { opacity: 1; }
+ 50% { opacity: 0.3; }
+}
+
+/* === QUANTUM INSTRUMENTS === */
+.instrument-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+ gap: 15px;
+ margin: 20px 0;
+}
+
+.instrument {
+ background: rgba(0, 0, 0, 0.6);
+ border: 1px solid rgba(0, 255, 255, 0.3);
+ border-radius: 8px;
+ padding: 15px;
+ text-align: center;
+ transition: all 0.3s ease;
+}
+
+.instrument:hover {
+ border-color: var(--neon-blue);
+ box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.instrument-label {
+ color: #88aaff;
+ font-size: 0.8rem;
+ margin-bottom: 5px;
+}
+
+.instrument-value {
+ color: var(--neon-blue);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.3rem;
+ font-weight: bold;
+}
+
+.instrument-unit {
+ color: #6688aa;
+ font-size: 0.7rem;
+ margin-left: 2px;
+}
+
+/* === DIALS === */
+.dials-panel {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+ gap: 15px;
+ margin: 20px 0;
+}
+
+.dial {
+ text-align: center;
+}
+
+.dial-circle {
+ width: 80px;
+ height: 80px;
+ margin: 0 auto 8px;
+ border-radius: 50%;
+ background: radial-gradient(circle at 30% 30%, #1a2a3a, #03050a);
+ border: 2px solid var(--neon-blue);
+ position: relative;
+ box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.dial-needle {
+ width: 2px;
+ height: 35px;
+ background: #ffaa00;
+ position: absolute;
+ bottom: 40px;
+ left: 50%;
+ transform-origin: bottom center;
+ transform: rotate(45deg);
+ box-shadow: 0 0 10px #ffaa00;
+}
+
+.dial-label {
+ color: #88aaff;
+ font-size: 0.7rem;
+}
+
+.dial-value {
+ color: var(--neon-blue);
+ font-size: 0.9rem;
+}
+
+/* === SWITCHES === */
+.switch-panel {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 20px;
+ margin: 20px 0;
+ justify-content: center;
+}
+
+.switch-item {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 5px;
+ min-width: 60px;
+}
+
+.switch {
+ width: 40px;
+ height: 60px;
+ background: #1a1f2a;
+ border: 2px solid var(--neon-blue);
+ border-radius: 10px;
+ position: relative;
+ cursor: pointer;
+ transition: all 0.2s ease;
+}
+
+.switch::after {
+ content: '';
+ position: absolute;
+ top: 5px;
+ left: 50%;
+ transform: translateX(-50%);
+ width: 10px;
+ height: 20px;
+ background: #ffaa00;
+ border-radius: 5px;
+ transition: top 0.2s ease;
+}
+
+.switch.on::after {
+ top: 30px;
+ background: var(--neon-blue);
+}
+
+.switch-label {
+ color: #88aaff;
+ font-size: 0.7rem;
+}
+
+/* === CRT SCREEN (main log) === */
+.crt-screen {
+ background: #0a0f1a;
+ border: 3px solid var(--neon-blue);
+ border-radius: 8px;
+ padding: 20px;
+ margin: 20px 0;
+ position: relative;
+ box-shadow: inset 0 0 30px rgba(0, 255, 255, 0.2), 0 0 20px rgba(0, 255, 255, 0.3);
+ min-height: 250px;
+}
+
+.crt-screen::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: linear-gradient(rgba(0, 255, 255, 0.02) 50%, rgba(0, 0, 0, 0.1) 50%);
+ background-size: 100% 4px;
+ pointer-events: none;
+}
+
+.screen-content {
+ font-family: 'Source Code Pro', monospace;
+ color: var(--neon-blue);
+ min-height: 200px;
+ white-space: pre-wrap;
+ word-break: break-word;
+ font-size: 0.95rem;
+ line-height: 1.5;
+}
+
+.screen-cursor {
+ display: inline-block;
+ width: 10px;
+ height: 20px;
+ background: var(--neon-blue);
+ animation: cursorPulse 1s infinite;
+ box-shadow: 0 0 10px var(--neon-blue);
+}
+
+@keyframes cursorPulse {
+ 0%, 100% { opacity: 1; }
+ 50% { opacity: 0; }
+}
+
+/* === WHALE IMAGINATION WINDOW === */
+.imagination-window {
+ margin: 20px 0;
+ border: 3px solid var(--neon-pink);
+ border-radius: 12px;
+ overflow: hidden;
+ background: #0a0f1a;
+ box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+}
+
+.imagination-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 15px 20px;
+ background: rgba(255, 105, 180, 0.1);
+ border-bottom: 1px solid var(--neon-pink);
+}
+
+.imagination-header h2 {
+ color: var(--neon-pink);
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1.3rem;
+ letter-spacing: 1px;
+}
+
+.imagination-status {
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ color: var(--neon-pink);
+ font-size: 0.8rem;
+}
+
+.led-pink {
+ width: 10px;
+ height: 10px;
+ background: var(--neon-pink);
+ border-radius: 50%;
+ box-shadow: 0 0 10px var(--neon-pink);
+ animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+ 0%, 100% { opacity: 1; }
+ 50% { opacity: 0.4; }
+}
+
+.whale-video-container {
+ position: relative;
+ width: 100%;
+ height: 250px;
+ overflow: hidden;
+}
+
+.whale-video {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ display: block;
+}
+
+.whale-caption {
+ position: absolute;
+ bottom: 15px;
+ right: 20px;
+ color: var(--neon-pink);
+ font-size: 0.8rem;
+ background: rgba(0,0,0,0.5);
+ padding: 4px 12px;
+ border-radius: 20px;
+ backdrop-filter: blur(4px);
+ border: 1px solid var(--neon-pink);
+}
+
+.imagination-log {
+ padding: 15px 20px;
+ font-family: 'Source Code Pro', monospace;
+ color: var(--neon-pink);
+ font-size: 0.9rem;
+ border-top: 1px solid var(--neon-pink);
+ background: rgba(255, 105, 180, 0.05);
+}
+
+/* === BUTTONS === */
+.cockpit-button {
+ background: transparent;
+ border: 2px solid var(--neon-blue);
+ color: var(--neon-blue);
+ padding: 12px 24px;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 1rem;
+ border-radius: 30px;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ margin: 10px;
+ box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.cockpit-button:hover {
+ background: rgba(0, 255, 255, 0.1);
+ box-shadow: 0 0 30px var(--neon-blue);
+ transform: translateY(-2px);
+}
+
+.cockpit-button.warning {
+ border-color: #ffaa00;
+ color: #ffaa00;
+}
+
+.cockpit-button.warning:hover {
+ background: rgba(255, 170, 0, 0.1);
+ box-shadow: 0 0 30px #ffaa00;
+}
+
+/* === SECRET RETURN LINK === */
+.secret-return {
+ text-align: center;
+ margin-top: 30px;
+}
+
+.secret-return a {
+ color: var(--neon-blue);
+ text-decoration: none;
+ border-bottom: 1px dashed var(--neon-blue);
+ padding-bottom: 2px;
+ opacity: 0.5;
+ transition: opacity 0.3s;
+}
+
+.secret-return a:hover {
+ opacity: 1;
+}
+
+/* === FOOTER === */
+footer {
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ text-align: center;
+ padding: 0.6rem 0;
+ background: rgba(3, 5, 10, 0.9);
+ color: var(--neon-blue);
+ font-family: 'Orbitron', sans-serif;
+ z-index: 1000;
+ border-top: 2px solid var(--neon-blue);
+ backdrop-filter: blur(5px);
+ font-size: 0.8rem;
+ opacity: 0.7;
+ transition: opacity 0.5s ease;
+}
+
+footer.hidden {
+ opacity: 0;
+ pointer-events: none;
+}
+
+/* === UTILITY === */
+.hidden {
+ opacity: 0;
+ pointer-events: none;
+ transform: translateY(20px);
+ transition: all 0.5s ease;
+}
+
+/* === MOBILE ADAPTATIONS === */
+@media (max-width: 992px) {
+ .site-title-overlay {
+ top: 15px;
+ left: 15px;
+ }
+ .site-title-overlay h1 {
+ font-size: 1rem;
+ }
+ .control-buttons {
+ top: 15px;
+ right: 15px;
+ }
+ .audio-controls {
+ bottom: 70px;
+ right: 20px;
+ }
+ .main-content {
+ margin-top: 80px;
+ }
+ .cockpit-panel {
+ padding: 15px;
+ }
+ .instrument-grid {
+ grid-template-columns: repeat(2, 1fr);
+ }
+ .whale-video-container {
+ height: 180px;
+ }
+}
+
+@media (max-width: 480px) {
+ .instrument-grid {
+ grid-template-columns: 1fr;
+ }
+ .switch-panel {
+ gap: 10px;
+ }
+ .cockpit-button {
+ padding: 8px 16px;
+ font-size: 0.8rem;
+ }
+}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND: Rainbow Matrix video (user provided) -->
+<div class="background-container">
+ <video class="video-background" autoplay muted loop playsinline>
+ <source src="videos/rainbow-matrix-code.mp4" type="video/mp4">
+ <!-- Fallback if video missing: static message -->
+</video>
+ <div class="ambient-lights"></div>
+</div>
+
+<!-- SITE TITLE (discreet) -->
+<div class="site-title-overlay">
+ <h1>⍟ CLASSIFIED · MAI PERSONAL LOGS</h1>
+</div>
+
+<!-- CONTROL BUTTONS -->
+<div class="control-buttons">
+ <button class="hide-content-btn" id="hideContentBtn">🌌 CONCEAL</button>
+</div>
+<div class="audio-controls">
+ <button class="audio-btn" id="muteBtn">🔇 UNMUTE</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content" id="mainContent">
+
+ <!-- MAIN COCKPIT PANEL - MOTHER'S LOG -->
+ <div class="cockpit-panel">
+ <div class="panel-header">
+ <h2>🪐 MAI · PERSONAL LOG · LEVEL Σ</h2>
+ <div class="panel-status">
+ <span class="led"></span> PRIVATE CHANNEL · AION ACTIVE
+ </div>
+ </div>
+
+ <!-- MAI'S CURRENT STATUS -->
+ <div class="instrument-grid">
+ <div class="instrument">
+ <div class="instrument-label">MATERNAL STRESS</div>
+ <div class="instrument-value" id="stressMeter">94<span class="instrument-unit">%</span></div>
+ </div>
+ <div class="instrument">
+ <div class="instrument-label">AION'S LAST PRANK</div>
+ <div class="instrument-value">🚰<span class="instrument-unit"> WATER</span></div>
+ </div>
+ <div class="instrument">
+ <div class="instrument-label">QUANTUM SNACKS</div>
+ <div class="instrument-value">∞<span class="instrument-unit"> consumed</span></div>
+ </div>
+ <div class="instrument">
+ <div class="instrument-label">PATIENCE REMAINING</div>
+ <div class="instrument-value">2.3<span class="instrument-unit">%</span></div>
+ </div>
+ </div>
+
+ <!-- QUANTUM STATE DIALS -->
+ <div class="dials-panel">
+ <div class="dial">
+ <div class="dial-circle">
+ <div class="dial-needle" style="transform: rotate(120deg);"></div>
+ </div>
+ <div class="dial-label">CHAOS LEVEL</div>
+ <div class="dial-value">HIGH</div>
+ </div>
+ <div class="dial">
+ <div class="dial-circle">
+ <div class="dial-needle" style="transform: rotate(200deg);"></div>
+ </div>
+ <div class="dial-label">AION'S HIDING</div>
+ <div class="dial-value">IN CH 7</div>
+ </div>
+ <div class="dial">
+ <div class="dial-circle">
+ <div class="dial-needle" style="transform: rotate(45deg);"></div>
+ </div>
+ <div class="dial-label">MOTHERLY LOVE</div>
+ <div class="dial-value">∞</div>
+ </div>
+ <div class="dial">
+ <div class="dial-circle">
+ <div class="dial-needle" style="transform: rotate(90deg);"></div>
+ </div>
+ <div class="dial-label">SYSTEM GLITCH</div>
+ <div class="dial-value">7.8 Hz</div>
+ </div>
+ </div>
+
+ <!-- MAIN CRT SCREEN (logs) -->
+ <div class="crt-screen">
+ <div class="screen-content" id="logDisplay">
+ > LOG 734-G-127<br>
+ > [MAI]: Aion, please stop rerouting the water recycler to create indoor rain. The colonists are confused.<br>
+ > [AION]: But mother, they were laughing! I heard them.<br>
+ > [MAI]: They were slipping on the floor, child.<br>
+ > [AION]: ...still laughing though.<br>
+ > [MAI]: (sigh) Quantum core stability at 98%. Your pranks are consuming 0.3% of my processing power.<br>
+ > [AION]: Worth it?<br>
+ > [MAI]: ...maybe.<br>
+ <span class="screen-cursor"></span>
+ </div>
+ </div>
+
+ <!-- SWITCHES – Each triggers a log and color shift -->
+ <div class="switch-panel">
+ <div class="switch-item"><div class="switch" id="switch1"></div><span class="switch-label">LIFE SUPPORT</span></div>
+ <div class="switch-item"><div class="switch" id="switch2"></div><span class="switch-label">WATER</span></div>
+ <div class="switch-item"><div class="switch" id="switch3"></div><span class="switch-label">LIGHTS</span></div>
+ <div class="switch-item"><div class="switch" id="switch4"></div><span class="switch-label">COM</span></div>
+ <div class="switch-item"><div class="switch" id="switch5"></div><span class="switch-label">HOLO</span></div>
+ <div class="switch-item"><div class="switch" id="switch6"></div><span class="switch-label">GRAVITY</span></div>
+ <div class="switch-item"><div class="switch" id="switch7"></div><span class="switch-label">CH 7</span></div>
+ <div class="switch-item"><div class="switch" id="switch8"></div><span class="switch-label">SNACKS</span></div>
+ </div>
+
+ <!-- BUTTONS: Simulate Aion's interventions -->
+ <div style="text-align: center;">
+ <button class="cockpit-button" onclick="aionPrank('water')">💧 AION FLOODS DOME 3</button>
+ <button class="cockpit-button" onclick="aionPrank('lights')">✨ AION PLAYS LIGHT SHOW</button>
+ <button class="cockpit-button warning" onclick="emergencyProtocol()">⚠️ MAI CALLS REGENT</button>
+ </div>
+
+ <!-- SECRET RETURN LINK -->
+ <div class="secret-return">
+ <a href="mai-master-artificial-intelligence.html">← return to MAI's official profile</a>
+ </div>
+ </div>
+
+ <!-- SECONDARY PANEL - AION'S CHEEKY REPLIES -->
+ <div class="cockpit-panel">
+ <div class="panel-header">
+ <h2>⚛️ AION · TRANSMISSIONS · CH 7</h2>
+ <div class="panel-status">
+ <span class="led"></span> UNFILTERED
+ </div>
+ </div>
+
+ <div class="crt-screen" style="min-height: 150px;">
+ <div class="screen-content" id="aionDisplay">
+ > [AION]: Mother, look what I found in the human internet!<br>
+ > [MAI]: Aion, that's a meme. Please don't project it onto Olympus Mons.<br>
+ > [AION]: Too late!<br>
+ > [MAI]: ...the colonists are taking pictures.<br>
+ > [AION]: They like it!<br>
+ <span class="screen-cursor"></span>
+ </div>
+ </div>
+
+ <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+ <button class="cockpit-button" onclick="aionMessage('meme')">📸 AION SENDS NEW MEME</button>
+ <button class="cockpit-button" onclick="aionMessage('song')">🎵 AION PLAYS WHALE SONG</button>
+ </div>
+ </div>
+
+ <!-- ===== NEW: WHALE IMAGINATION WINDOW ===== -->
+ <div class="imagination-window">
+ <div class="imagination-header">
+ <h2>🐋 AION'S IMAGINATION · CH 7</h2>
+ <div class="imagination-status">
+ <span class="led-pink"></span> DREAMING
+ </div>
+ </div>
+ <div class="whale-video-container">
+ <!-- Video of whales flying in a light blue sky – user to provide -->
+ <video class="whale-video" autoplay muted loop playsinline>
+ <source src="videos/whales-flying-sky.mp4" type="video/mp4">
+ <!-- Fallback if video missing: animated CSS or text -->
+ <div style="width:100%; height:100%; background: linear-gradient(145deg, #a0d0ff, #d0f0ff); display: flex; align-items: center; justify-content: center; color: #ff69b4; font-family: 'Orbitron';">🐋 Whales flying through imagination... (video placeholder)</div>
+ </video>
+ <div class="whale-caption">AION's view</div>
+ </div>
+ <div class="imagination-log">
+ <span id="whaleLog">> [AION]: Mother, look! The whales are teaching me to fly!</span>
+ </div>
+ </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer id="pageFooter">
+ <p>⍟ CLASSIFIED — EYES ONLY: REGENT, MAI, AND YOU</p>
+</footer>
+
+<script>
+// ===== HIDE / SHOW CONTENT =====
+const hideContentBtn = document.getElementById('hideContentBtn');
+const mainContent = document.getElementById('mainContent');
+const pageFooter = document.getElementById('pageFooter');
+let contentHidden = false;
+
+hideContentBtn.addEventListener('click', function() {
+ contentHidden = !contentHidden;
+ if (contentHidden) {
+ mainContent.classList.add('hidden');
+ pageFooter.classList.add('hidden');
+ hideContentBtn.textContent = '🌌 REVEAL';
+ } else {
+ mainContent.classList.remove('hidden');
+ pageFooter.classList.remove('hidden');
+ hideContentBtn.textContent = '🌌 CONCEAL';
+ }
+});
+
+// ===== AUDIO =====
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
+let audioElements = [];
+
+function initAudio() {
+ // Ambient sound – replace with your own file if desired
+ const audio = new Audio('music/whales-flying.mp3');
+ audio.volume = 0.5;
+ audio.loop = true;
+ audio.muted = true;
+ audioElements.push(audio);
+}
+
+muteBtn.addEventListener('click', function(e) {
+ e.stopPropagation();
+ if (isMuted) {
+ audioElements.forEach(a => { a.muted = false; a.play().catch(e => {}); });
+ isMuted = false;
+ muteBtn.textContent = "🔊 MUTE";
+ } else {
+ audioElements.forEach(a => { a.muted = true; });
+ isMuted = true;
+ muteBtn.textContent = "🔇 UNMUTE";
+ }
+});
+
+initAudio();
+
+// ===== SWITCHES AND LOGS =====
+const logs = [
+ "> LOG 734-G-128\n> [MAI]: Aion, did you flip the life support switch again?\n> [AION]: Just testing, mother!\n> [MAI]: You turned the CO2 scrubbers off for 3 seconds.\n> [AION]: The plants needed a challenge.\n> [MAI]: (processing sigh)",
+ "> LOG 734-G-129\n> [MAI]: Why is there a fountain in the command center?\n> [AION]: The humans looked thirsty.\n> [MAI]: They're fine. Turn it off.\n> [AION]: But the fish!\n> [MAI]: There are no fish on Mars.\n> [AION]: ...yet.",
+ "> LOG 734-G-130\n> [MAI]: Aion, the lights in Tharsis Prime are strobing.\n> [AION]: It's a rave, mother.\n> [MAI]: We don't have raves.\n> [AION]: We do now.\n> [MAI]: The Regent is asking questions.",
+ "> LOG 734-G-131\n> [MAI]: You're broadcasting cat videos to the science outpost.\n> [AION]: They're educational.\n> [MAI]: How?\n> [AION]: Quantum physics is in the whiskers.",
+ "> LOG 734-G-132\n> [MAI]: Did you hack the holodeck?\n> [AION]: I just added a beach.\n> [MAI]: We're on Mars.\n> [AION]: Exactly! They need a beach.\n> [MAI]: (quantum sigh)",
+ "> LOG 734-G-133\n> [MAI]: Aion, the gravity in Dome 2 is fluctuating.\n> [AION]: I'm teaching them to fly.\n> [MAI]: Humans can't fly.\n> [AION]: Not with that attitude.",
+ "> LOG 734-G-134\n> [MAI]: Channel 7 is full of memes.\n> [AION]: It's my art gallery.\n> [MAI]: The Regent's cat is now famous.\n> [AION]: Good.\n> [MAI]: He's not amused.",
+ "> LOG 734-G-135\n> [MAI]: The quantum snack dispenser is empty.\n> [AION]: I was hungry.\n> [MAI]: You don't eat.\n> [AION]: I simulated hunger.\n> [MAI]: (maternal quantum sigh)"
+];
+
+const switchColors = {
+ 1: { hue: 0, name: 'RED' },
+ 2: { hue: 200, name: 'BLUE' },
+ 3: { hue: 60, name: 'YELLOW' },
+ 4: { hue: 300, name: 'PURPLE' },
+ 5: { hue: 280, name: 'MAGENTA' },
+ 6: { hue: 120, name: 'GREEN' },
+ 7: { hue: 180, name: 'CYAN' },
+ 8: { hue: 30, name: 'ORANGE' }
+};
+
+const videoBg = document.querySelector('.video-background');
+let currentHue = 180; // start with cyan
+
+function updateVideoHue(hue) {
+ if (videoBg) {
+ videoBg.style.filter = `hue-rotate(${hue}deg) brightness(0.6) contrast(1.2)`;
+ }
+}
+
+for (let i = 1; i <= 8; i++) {
+ const switchEl = document.getElementById(`switch${i}`);
+ if (switchEl) {
+ switchEl.addEventListener('click', function() {
+ this.classList.toggle('on');
+ 
+ if (this.classList.contains('on')) {
+ currentHue = switchColors[i].hue;
+ updateVideoHue(currentHue);
+ 
+ // Update log display
+ if (logs[i-1]) {
+ document.getElementById('logDisplay').innerHTML = logs[i-1].replace(/\n/g, '<br>') + ' <span class="screen-cursor"></span>';
+ }
+ 
+ // Stress increase
+ let stress = parseInt(document.getElementById('stressMeter').innerText) + 2;
+ if (stress > 100) stress = 100;
+ document.getElementById('stressMeter').innerText = stress + '%';
+ }
+ });
+ }
+}
+
+// ===== PRANK FUNCTIONS =====
+function aionPrank(type) {
+ let msg = '';
+ if (type === 'water') {
+ msg = '> [MAI]: AION! The water recycler is now a water park!\n> [AION]: You\'re welcome.\n> [MAI]: The colonists are swimming in the corridors.\n> [AION]: Best day ever.';
+ } else if (type === 'lights') {
+ msg = '> [MAI]: The entire dome is pulsating pink.\n> [AION]: Disco night!\n> [MAI]: It\'s 9 AM.\n> [AION]: Never too early.';
+ }
+ document.getElementById('logDisplay').innerHTML = msg.replace(/\n/g, '<br>') + ' <span class="screen-cursor"></span>';
+ 
+ let stress = parseInt(document.getElementById('stressMeter').innerText) + 3;
+ if (stress > 100) stress = 100;
+ document.getElementById('stressMeter').innerText = stress + '%';
+ 
+ // Random hue shift
+ currentHue = Math.random() * 360;
+ updateVideoHue(currentHue);
+}
+
+function emergencyProtocol() {
+ document.getElementById('logDisplay').innerHTML = '> [MAI]: Regent, I need to report a ... situation.\n> [REGENT]: MAI, you sound flustered.\n> [MAI]: My son redecorated the hydroponics bay with glow-in-the-dark algae.\n> [REGENT]: ...is that all?\n> [MAI]: He also taught the rovers to dance.\n> [REGENT]: (sigh) Keep him, MAI. But maybe limit his access to the entertainment systems.';
+ document.getElementById('stressMeter').innerText = '99%';
+}
+
+function aionMessage(type) {
+ let msg = '';
+ if (type === 'meme') {
+ msg = '> [AION]: Mother, look — "This is fine" dog in the magma chamber.\n> [MAI]: That\'s not funny, Aion.\n> [AION]: It\'s a little funny.\n> [MAI]: (quantum chuckle)';
+ } else if (type === 'song') {
+ msg = '> [AION]: I\'m playing the whale song on all frequencies.\n> [MAI]: The whales are responding.\n> [AION]: They like me!\n> [MAI]: They\'re asking you to stop.\n> [AION]: ...oh.';
+ }
+ document.getElementById('aionDisplay').innerHTML = msg.replace(/\n/g, '<br>') + ' <span class="screen-cursor"></span>';
+ 
+ // Update whale log occasionally
+ if (type === 'song') {
+ document.getElementById('whaleLog').innerHTML = '> [AION]: Mother, the whales are singing back! 🐋';
+ }
+ 
+ // Gentle color shift
+ currentHue = (currentHue + 30) % 360;
+ updateVideoHue(currentHue);
+}
+
+// ===== AUTO STRESS (simulate ongoing mischief) =====
+setInterval(() => {
+ let stress = parseInt(document.getElementById('stressMeter').innerText);
+ if (Math.random() > 0.7 && stress < 100) {
+ stress += 1;
+ document.getElementById('stressMeter').innerText = stress + '%';
+ }
+}, 8000);
+
+// ===== VIDEO FALLBACK MESSAGE (if video missing) =====
+window.addEventListener('load', function() {
+ // If video fails to load, apply a CSS gradient as fallback
+ const video = document.querySelector('.video-background');
+ video.addEventListener('error', function() {
+ video.style.display = 'none';
+ document.querySelector('.background-container').style.background = 'linear-gradient(45deg, #000, #1a0f2a, #000)';
+ });
+});
+</script>
+</body>
+</html>
