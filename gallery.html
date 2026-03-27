@@ -318,8 +318,8 @@ nav.top-menu a:hover {
 
 .modal-content {
  position: relative;
- width: 80%;
- max-width: 900px;
+ width: auto;
+ max-width: 90vw;
  background: #000;
  border-radius: 12px;
  overflow: hidden;
@@ -331,6 +331,7 @@ nav.top-menu a:hover {
  width: 100%;
  height: auto;
  display: block;
+ max-height: 80vh;
 }
 
 .modal-close {
@@ -619,6 +620,7 @@ Your browser does not support the video tag.
 Your browser does not support the video tag.
 </video>
 <div class="modal-title" id="modalTitle"></div>
+<div class="modal-attribution" id="modalAttribution" style="padding: 8px 15px; font-size: 0.8rem; text-align: center; color: #aaa; border-top: 1px solid #333;"></div>
 </div>
 </div>
 
@@ -816,6 +818,15 @@ Your browser does not support the video tag.
 <div class="card-title">Nighttime Lights</div>
 </div>
 
+<div class="card" 
+     onclick="openVideo('videos/dying-slave-sculpture.mp4', 'Quantum Echo: Michelangelo’s Dying Slave', 'Michelangelo’s *Dying Slave* by Jörg Bittner Unna / CC BY‑SA 3.0')"
+     title="Michelangelo’s Dying Slave by Jörg Bittner Unna / CC BY‑SA 3.0 – Video based on public domain artwork">
+    <video class="card-video" muted loop playsinline>
+        <source src="videos/dying-slave-sculpture.mp4" type="video/mp4">
+    </video>
+    <div class="card-title">Quantum Echo: Michelangelo’s Dying Slave</div>
+</div>
+ 
 <div class="card" onclick="openVideo('videos/twilight-singers-2.mp4', 'Twilight Singers')">
 <video class="card-video" muted loop playsinline>
 <source src="videos/twilight-singers-2.mp4" type="video/mp4">
@@ -940,22 +951,35 @@ const modalVideo = document.getElementById('modalVideo');
 const modalTitle = document.getElementById('modalTitle');
 const modalClose = document.getElementById('modalClose');
 
-// Make openVideo function globally available
-window.openVideo = function(videoSrc, title) {
-    console.log('Opening video:', videoSrc, title); // Debug log
+window.openVideo = function(videoSrc, title, attribution) {
+    console.log("openVideo called with", videoSrc, title, attribution); // debug
+    const modalVideo = document.getElementById('modalVideo');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalAttribution = document.getElementById('modalAttribution');
+    const videoModal = document.getElementById('videoModal');
     
-    // Set video source
+    if (!modalVideo || !modalTitle || !videoModal) {
+        console.error("Modal elements not found");
+        return;
+    }
+    
     modalVideo.src = videoSrc;
+    modalVideo.load(); // This forces reload
     modalTitle.textContent = title;
     
-    // Show modal
+    if (modalAttribution) {
+        if (attribution) {
+            modalAttribution.innerHTML = attribution + ' | <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" style="color: #4cc9f0;">License</a>';
+        } else {
+            modalAttribution.innerHTML = '';
+        }
+    }
+    
     videoModal.classList.add('active');
     
-    // Try to play with a small delay to ensure loading
+    // Small delay to allow load to start
     setTimeout(() => {
-        modalVideo.play().catch(e => {
-            console.log('Video play requires user interaction');
-        });
+        modalVideo.play().catch(e => console.log("Play failed:", e));
     }, 100);
 };
 
