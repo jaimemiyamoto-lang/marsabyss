@@ -1,963 +1,1137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Martian Zodiac – The Mars Abyss</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html {
-            height: 100%; width: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #e0e0ff; overflow-x: hidden;
-            position: relative; background: #0a0a1a;
-        }
-
-        /* Video background (will be overwritten by zodiac themes) */
-        .video-background {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover; z-index: 1;
-            transition: opacity 0.5s ease;
-        }
-        .video-overlay {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: transparent;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        /* Top menu (dark theme) */
-        nav.top-menu {
-            position: fixed; top: 0; width: 100%; left: 0;
-            display: flex; justify-content: center;
-            background: rgba(17,17,17,0.95);
-            background-blend-mode: overlay;
-            padding: 0.6rem 0;
-            z-index: 1000; gap: 2.5rem; flex-wrap: nowrap;
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid #4cc9f0;
-            box-sizing: border-box;
-        }
-        nav.top-menu a {
-            color: #f5f5f5; text-decoration: none; font-size: 1.1rem;
-            padding: 0.4rem 0.8rem; border-radius: 4px;
-            transition: all 0.3s ease; display: flex;
-            align-items: center; font-weight: 500;
-        }
-        nav.top-menu a.active, nav.top-menu a:hover { color: #4cc9f0; }
-        .dropdown { position: relative; display: inline-block; }
-        .dropdown > a, .dropdown { display: flex; align-items: center; height: 100%; }
-        .dropdown-content {
-            display: none; position: absolute;
-            background: rgba(26,26,26,0.98);
-            min-width: 200px; z-index: 1001;
-            border-radius: 4px; border: 2px solid #4cc9f0;
-            top: 100%; left: 0;
-            backdrop-filter: blur(5px); padding: 8px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .dropdown .dropdown .dropdown-content { position: absolute; left: 0; top: 100%; width: 100%; }
-        .dropdown-content a {
-            color: #f5f5f5; padding: 10px 15px; text-decoration: none;
-            display: block; transition: background-color 0.3s ease;
-            font-size: 0.9rem; line-height: 1.2;
-        }
-        .dropdown-content a:hover { background: rgba(76,201,240,0.3); color: #fff; }
-        .dropdown:hover .dropdown-content { display: block; }
-
-        /* Site title overlay */
-        .site-title-overlay {
-            position: fixed; top: 80px; left: 30px; z-index: 50;
-            transition: opacity 0.3s ease;
-        }
-        .site-title-overlay.hidden { opacity: 0; pointer-events: none; }
-        .site-title-overlay h1 {
-            color: #4cc9f0; font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem; font-weight: 300; letter-spacing: 2px; opacity: 0.8;
-        }
-
-        /* Audio & toggle controls */
-        .audio-controls, .content-toggle {
-            position: fixed; z-index: 1000;
-        }
-        .audio-controls { bottom: 80px; right: 20px; }
-        .content-toggle { top: 80px; right: 20px; }
-        .audio-btn, .toggle-btn {
-            background: rgba(0,204,255,0.8); border: 2px solid #4cc9f0;
-            color: #fff; padding: 10px 15px; border-radius: 25px;
-            cursor: pointer; transition: all 0.3s ease;
-            backdrop-filter: blur(5px); font-size: 0.9rem; font-weight: 600;
-        }
-        .audio-btn:hover, .toggle-btn:hover { background: rgba(0,204,255,0.6); transform: scale(1.05); }
-
-        /* Main content container (zodiac content) */
-        .content-container {
-            position: relative; z-index: 10; max-width: 1200px;
-            margin: 120px auto 50px; padding: 2rem;
-            background: rgba(10,10,26,0.7);
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-            border: 2px solid #4cc9f0;
-            box-shadow: 0 10px 40px rgba(76,201,240,0.15);
-            transition: opacity 0.5s ease;
-        }
-        .content-container.hidden { opacity: 0; }
-
-        /* Zodiac specific styles */
-        h1, h2, h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: #4cc9f0;
-            margin-bottom: 1rem;
-        }
-        h1 { font-size: 2.5rem; text-align: center; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
-        .subhead { text-align: center; font-style: italic; color: #ffd700; margin-bottom: 2rem; }
-        .card {
-            background: rgba(10,10,30,0.8);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid #4cc9f0;
-            backdrop-filter: blur(5px);
-        }
-        .sign-selector {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-        }
-        .sign-btn {
-            background: rgba(0,0,0,0.6);
-            border: 1px solid #4cc9f0;
-            color: #e0e0ff;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.8rem;
-        }
-        .sign-btn:hover, .sign-btn.active {
-            background: #4cc9f0;
-            color: #000;
-            border-color: #ffd700;
-        }
-        .converter {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            align-items: flex-end;
-            justify-content: center;
-            margin: 1.5rem 0;
-        }
-        .converter label, .zodiac-finder label { font-weight: bold; color: #ffd700; }
-        .converter input, .zodiac-finder input {
-            background: rgba(0,0,0,0.6);
-            border: 1px solid #4cc9f0;
-            color: #fff;
-            padding: 0.5rem;
-            border-radius: 5px;
-        }
-        .converter button, .zodiac-finder button {
-            background: #4cc9f0;
-            border: none;
-            color: #000;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .converter button:hover, .zodiac-finder button:hover {
-            background: #ffd700;
-            box-shadow: 0 0 10px #ffd700;
-        }
-        .result {
-            background: rgba(0,0,0,0.5);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            text-align: center;
-            font-size: 1.2rem;
-            border-left: 4px solid #ffd700;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-        }
-        th, td {
-            border: 1px solid #4cc9f0;
-            padding: 0.8rem;
-            text-align: left;
-        }
-        th {
-            background: rgba(76,201,240,0.2);
-            color: #ffd700;
-        }
-        .sol-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.5rem;
-            background: rgba(0,0,0,0.5);
-            padding: 1rem;
-            border-radius: 8px;
-        }
-        .sol-cell {
-            background: rgba(76,201,240,0.1);
-            padding: 0.5rem;
-            text-align: center;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.9rem;
-        }
-        .reading-box {
-            background: rgba(0,0,0,0.5);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            margin-top: 1rem;
-        }
-        .reading-text {
-            font-size: 1.3rem;
-            font-style: italic;
-            color: #ffd700;
-            margin: 1rem 0;
-        }
-        .disclaimer {
-            font-size: 0.8rem;
-            text-align: center;
-            color: #aaa;
-            margin-top: 1rem;
-            border-top: 1px solid #4cc9f0;
-            padding-top: 1rem;
-        }
-        .quote {
-            font-style: italic;
-            border-left: 4px solid #ffd700;
-            padding-left: 1rem;
-            margin: 1rem 0;
-            color: #ccc;
-        }
-        @media (max-width: 768px) {
-            .sol-grid { grid-template-columns: repeat(4, 1fr); }
-            table, thead, tbody, th, td, tr { display: block; }
-            th { display: none; }
-            td {
-                border: none;
-                border-bottom: 1px solid #4cc9f0;
-                position: relative;
-                padding-left: 50%;
-            }
-            td:before {
-                content: attr(data-label);
-                position: absolute;
-                left: 1rem;
-                font-weight: bold;
-                color: #ffd700;
-            }
-        }
-
-        /* Footer */
-        footer {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            text-align: center; padding: 0.6rem 0;
-            background: rgba(0,0,0,0.8);
-            color: #4cc9f0;
-            font-family: 'Orbitron', sans-serif; z-index: 1000;
-            border-top: 2px solid #4cc9f0;
-            transition: opacity 0.5s ease;
-        }
-        footer.hidden { opacity: 0; }
-        .content-spacer { height: 100px; }
-
-        /* Mobile hamburger menu (plasma effect) */
-        .mobile-nav {
-            display: none; position: fixed; top: 15px; left: 15px; z-index: 1002;
-        }
-        .hamburger-btn {
-            background: rgba(0,0,0,0.7); border: 2px solid #4cc9f0;
-            border-radius: 4px; width: 50px; height: 50px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            cursor: pointer; transition: all 0.3s ease; backdrop-filter: blur(5px);
-            animation: plasmaPulse 3s infinite ease-in-out;
-        }
-        @keyframes plasmaPulse {
-            0% { box-shadow: 0 0 5px #4cc9f0; }
-            50% { box-shadow: 0 0 20px #4cc9f0, 0 0 30px #00aaff; }
-            100% { box-shadow: 0 0 5px #4cc9f0; }
-        }
-        .hamburger-btn span {
-            display: block; width: 25px; height: 2px;
-            background: #4cc9f0; margin: 3px 0; transition: all 0.3s ease;
-        }
-        .hamburger-btn:hover { background: rgba(76,201,240,0.2); }
-        .hamburger-btn:hover span { background: #fff; }
-        .mobile-menu {
-            position: fixed; top: 0; left: -100%; width: 300px; height: 100vh;
-            background: linear-gradient(145deg, #0a0a1a, #1a1a2a);
-            border-right: 2px solid #4cc9f0; padding: 20px;
-            transition: left 0.4s ease; z-index: 1003; overflow-y: auto;
-            backdrop-filter: blur(10px);
-        }
-        .mobile-menu.active { left: 0; }
-        .menu-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 20px; padding-bottom: 15px;
-            border-bottom: 1px solid #4cc9f0;
-        }
-        .menu-header h3 { color: #4cc9f0; font-family: 'Orbitron', sans-serif; font-size: 1rem; margin: 0; }
-        .close-menu {
-            background: transparent; border: none; color: #4cc9f0; font-size: 1.5rem;
-            cursor: pointer; width: 30px; height: 30px; border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        .close-menu:hover { background: rgba(76,201,240,0.2); }
-        .menu-content .menu-item { margin-bottom: 10px; }
-        .menu-content .menu-item a {
-            display: block; color: #e0e0ff; text-decoration: none;
-            padding: 10px 15px; border-radius: 5px; border-left: 3px solid transparent;
-            transition: all 0.3s ease; font-size: 0.95rem;
-        }
-        .menu-content .menu-item a:hover, .menu-content .menu-item a.active {
-            border-left-color: #4cc9f0; background: rgba(76,201,240,0.1); color: #4cc9f0;
-        }
-        .menu-footer {
-            margin-top: 20px; padding-top: 15px; border-top: 1px solid #4cc9f0;
-            text-align: center; color: #4cc9f0; font-size: 0.8rem;
-        }
-        .pulse {
-            display: inline-block; width: 8px; height: 8px;
-            background-color: #4cc9f0; border-radius: 50%; margin-right: 8px;
-            animation: blink 1.5s infinite;
-        }
-        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-        @media (max-width: 992px) {
-            nav.top-menu { display: none; }
-            .mobile-nav { display: block; }
-            .site-title-overlay { top: 70px; left: 15px; }
-            .site-title-overlay h1 { font-size: 1.4rem; }
-            .content-toggle { top: 70px; right: 15px; }
-            .audio-controls { bottom: 70px; right: 20px; }
-        }
-    </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Martian Zodiac – The Mars Abyss</title>
+ <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+ <style>
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body, html {
+ height: 100%; width: 100%;
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ color: #e0e0ff; overflow-x: hidden;
+ position: relative; background: #0a0a1a;
+ }
+ .video-background {
+ position: fixed; top: 0; left: 0;
+ width: 100%; height: 100%;
+ object-fit: cover; z-index: 1;
+ transition: opacity 0.5s ease;
+ }
+ .video-overlay {
+ position: fixed; top: 0; left: 0;
+ width: 100%; height: 100%;
+ background: transparent;
+ z-index: 2;
+ pointer-events: none;
+ }
+ nav.top-menu {
+ position: fixed; top: 0; width: 100%; left: 0;
+ display: flex; justify-content: center;
+ background: rgba(0, 0, 0, 0.85);
+ background-blend-mode: overlay;
+ padding: 0.6rem 0;
+ z-index: 1000; gap: 2.5rem; flex-wrap: nowrap;
+ backdrop-filter: blur(10px);
+ box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+ border-bottom: 2px solid rgba(79, 195, 247, 0.5);
+ box-sizing: border-box;
+ }
+ nav.top-menu a {
+ color: #81d4fa; text-decoration: none; font-size: 1.1rem;
+ padding: 0.4rem 0.8rem; border-radius: 4px;
+ transition: all 0.3s ease; display: flex;
+ align-items: center; font-weight: 500;
+ }
+ nav.top-menu a.active, nav.top-menu a:hover { color: #4fc3f7; background: rgba(79, 195, 247, 0.1);
+ text-shadow: 0 0 10px rgba(79, 195, 247, 0.7); }
+ .dropdown { position: relative; display: inline-block; }
+ .dropdown > a, .dropdown { display: flex; align-items: center; height: 100%; }
+ .dropdown-content {
+ display: none; position: absolute;
+ background: rgba(0, 0, 0, 0.95);
+ min-width: 200px; z-index: 1001;
+ border-radius: 4px; border: 2px solid rgba(79, 195, 247, 0.5);
+ top: 100%; left: 0;
+ backdrop-filter: blur(5px); padding: 8px 0;
+ box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+ }
+ .dropdown .dropdown .dropdown-content { position: absolute; left: 0; top: 100%; width: 100%; }
+ .dropdown-content a {
+ color: #81d4fa; padding: 10px 15px; text-decoration: none;
+ display: block; transition: background-color 0.3s ease;
+ font-size: 0.9rem; line-height: 1.2;
+ }
+ .dropdown-content a:hover { background: rgba(76,201,240,0.3); color: #fff; }
+ .dropdown:hover .dropdown-content { display: block; }
+ .site-title-overlay {
+ position: fixed; top: 80px; left: 30px; z-index: 1000;
+ transition: opacity 0.3s ease;
+ }
+ .site-title-overlay.hidden { opacity: 0; pointer-events: none; }
+ .site-title-overlay h1 {
+ color: #81d4fa; font-family: 'Orbitron', sans-serif;
+ font-size: 1.8rem; font-weight: 300; letter-spacing: 2px; opacity: 0.8;
+ }
+ .audio-controls, .content-toggle {
+ position: fixed; z-index: 1000;
+ }
+ .audio-controls { bottom: 80px; right: 20px; }
+ .content-toggle { top: 80px; right: 20px; }
+ .audio-btn, .toggle-btn {
+ background: rgba(0, 0, 0, 0.7); border: 2px solid rgba(79, 195, 247, 0.5);
+ color: #81d4fa; padding: 8px 15px; border-radius: 20px;
+ cursor: pointer; transition: all 0.3s ease;
+ backdrop-filter: blur(5px); font-size: 0.85rem; font-weight: 600;
+ gap: 8px;
+ transition: opacity 0.5s ease;
+ }
+ .audio-btn:hover, .toggle-btn:hover { background: rgba(79, 195, 247, 0.2);
+ color: #e1f5fe;transform: scale(1.05); }
+ .content-container {
+ position: relative; z-index: 10; max-width: 1200px;
+ margin: 120px auto 50px; padding: 2rem;
+ background: rgba(10,10,26,0.7);
+ border-radius: 20px;
+ backdrop-filter: blur(5px);
+ border: 2px solid #4cc9f0;
+ box-shadow: 0 10px 40px rgba(76,201,240,0.15);
+ transition: opacity 0.5s ease;
+ }
+ .content-container.hidden { opacity: 0; }
+ h1, h2, h3 {
+ font-family: 'Orbitron', sans-serif;
+ color: #4cc9f0;
+ margin-bottom: 1rem;
+ }
+ h1 { font-size: 2.5rem; text-align: center; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
+ .subhead { text-align: center; font-style: italic; color: #ffd700; margin-bottom: 2rem; }
+ .card {
+ background: rgba(10,10,30,0.8);
+ border-radius: 15px;
+ padding: 1.5rem;
+ margin-bottom: 2rem;
+ border: 1px solid #4cc9f0;
+ backdrop-filter: blur(5px);
+ }
+ .sign-selector {
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: center;
+ gap: 0.5rem;
+ margin-bottom: 2rem;
+ }
+ .sign-btn {
+ background: rgba(0,0,0,0.6);
+ border: 1px solid #4cc9f0;
+ color: #e0e0ff;
+ padding: 0.5rem 1rem;
+ border-radius: 20px;
+ cursor: pointer;
+ transition: all 0.3s;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 0.8rem;
+ }
+ .sign-btn:hover, .sign-btn.active {
+ background: #4cc9f0;
+ color: #000;
+ border-color: #ffd700;
+ }
+ .converter {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 1rem;
+ align-items: flex-end;
+ justify-content: center;
+ margin: 1.5rem 0;
+ }
+ .converter label, .zodiac-finder label { font-weight: bold; color: #ffd700; }
+ .converter input, .zodiac-finder input {
+ background: rgba(0,0,0,0.6);
+ border: 1px solid #4cc9f0;
+ color: #fff;
+ padding: 0.5rem;
+ border-radius: 5px;
+ }
+ .converter button, .zodiac-finder button {
+ background: #4cc9f0;
+ border: none;
+ color: #000;
+ padding: 0.5rem 1rem;
+ border-radius: 5px;
+ font-weight: bold;
+ cursor: pointer;
+ transition: all 0.3s;
+ }
+ .converter button:hover, .zodiac-finder button:hover {
+ background: #ffd700;
+ box-shadow: 0 0 10px #ffd700;
+ }
+ .result {
+ background: rgba(0,0,0,0.5);
+ padding: 1rem;
+ border-radius: 8px;
+ margin-top: 1rem;
+ text-align: center;
+ font-size: 1.2rem;
+ border-left: 4px solid #ffd700;
+ }
+ table {
+ width: 100%;
+ border-collapse: collapse;
+ margin: 1rem 0;
+ }
+ th, td {
+ border: 1px solid #4cc9f0;
+ padding: 0.8rem;
+ text-align: left;
+ }
+ th {
+ background: rgba(76,201,240,0.2);
+ color: #ffd700;
+ }
+ .sol-grid {
+ display: grid;
+ grid-template-columns: repeat(7, 1fr);
+ gap: 0.5rem;
+ background: rgba(0,0,0,0.5);
+ padding: 1rem;
+ border-radius: 8px;
+ }
+ .sol-cell {
+ background: rgba(76,201,240,0.1);
+ padding: 0.5rem;
+ text-align: center;
+ border-radius: 4px;
+ font-family: monospace;
+ font-size: 0.9rem;
+ }
+ .reading-box {
+ background: rgba(0,0,0,0.5);
+ border-radius: 12px;
+ padding: 1.5rem;
+ text-align: center;
+ margin-top: 1rem;
+ }
+ .reading-text {
+ font-size: 1.3rem;
+ font-style: italic;
+ color: #ffd700;
+ margin: 1rem 0;
+ }
+ .disclaimer {
+ font-size: 0.8rem;
+ text-align: center;
+ color: #aaa;
+ margin-top: 1rem;
+ border-top: 1px solid #4cc9f0;
+ padding-top: 1rem;
+ }
+ .quote {
+ font-style: italic;
+ border-left: 4px solid #ffd700;
+ padding-left: 1rem;
+ margin: 1rem 0;
+ color: #ccc;
+ }
+ @media (max-width: 768px) {
+ .sol-grid { grid-template-columns: repeat(4, 1fr); }
+ table, thead, tbody, th, td, tr { display: block; }
+ th { display: none; }
+ td {
+ border: none;
+ border-bottom: 1px solid #4cc9f0;
+ position: relative;
+ padding-left: 50%;
+ }
+ td:before {
+ content: attr(data-label);
+ position: absolute;
+ left: 1rem;
+ font-weight: bold;
+ color: #ffd700;
+ }
+ }
+ footer {
+ position: fixed; bottom: 0; left: 0; width: 100%;
+ text-align: center; padding: 0.6rem 0;
+ background: rgba(0,0,0,0.8);
+ color: #81d4fa;
+ font-family: 'Orbitron', sans-serif; z-index: 1000;
+ border-top: 2px solid #81d4fa;
+ transition: opacity 0.5s ease;
+ }
+ footer.hidden { opacity: 0; }
+ .content-spacer { height: 100px; }
+ .mobile-nav {
+ display: none; position: fixed; top: 15px; left: 15px; z-index: 1002;
+ }
+ .hamburger-btn {
+ background: rgba(0,0,0,0.7); border: 2px solid #4cc9f0;
+ border-radius: 4px; width: 50px; height: 50px;
+ display: flex; flex-direction: column; justify-content: center; align-items: center;
+ cursor: pointer; transition: all 0.3s ease; backdrop-filter: blur(5px);
+ animation: plasmaPulse 3s infinite ease-in-out;
+ }
+ @keyframes plasmaPulse {
+ 0% { box-shadow: 0 0 5px #4cc9f0; }
+ 50% { box-shadow: 0 0 20px #4cc9f0, 0 0 30px #00aaff; }
+ 100% { box-shadow: 0 0 5px #4cc9f0; }
+ }
+ .hamburger-btn span {
+ display: block; width: 25px; height: 2px;
+ background: #4cc9f0; margin: 3px 0; transition: all 0.3s ease;
+ }
+ .hamburger-btn:hover { background: rgba(76,201,240,0.2); }
+ .hamburger-btn:hover span { background: #fff; }
+ .mobile-menu {
+ position: fixed; top: 0; left: -100%; width: 300px; height: 100vh;
+ background: linear-gradient(145deg, #0a0a1a, #1a1a2a);
+ border-right: 2px solid #4cc9f0; padding: 20px;
+ transition: left 0.4s ease; z-index: 1003; overflow-y: auto;
+ backdrop-filter: blur(10px);
+ }
+ .mobile-menu.active { left: 0; }
+ .menu-header {
+ display: flex; justify-content: space-between; align-items: center;
+ margin-bottom: 20px; padding-bottom: 15px;
+ border-bottom: 1px solid #4cc9f0;
+ }
+ .menu-header h3 { color: #4cc9f0; font-family: 'Orbitron', sans-serif; font-size: 1rem; margin: 0; }
+ .close-menu {
+ background: transparent; border: none; color: #4cc9f0; font-size: 1.5rem;
+ cursor: pointer; width: 30px; height: 30px; border-radius: 50%;
+ transition: all 0.3s ease;
+ }
+ .close-menu:hover { background: rgba(76,201,240,0.2); }
+ .menu-content .menu-item { margin-bottom: 10px; }
+ .menu-content .menu-item a {
+ display: block; color: #e0e0ff; text-decoration: none;
+ padding: 10px 15px; border-radius: 5px; border-left: 3px solid transparent;
+ transition: all 0.3s ease; font-size: 0.95rem;
+ }
+ .menu-content .menu-item a:hover, .menu-content .menu-item a.active {
+ border-left-color: #4cc9f0; background: rgba(76,201,240,0.1); color: #4cc9f0;
+ }
+ .menu-footer {
+ margin-top: 20px; padding-top: 15px; border-top: 1px solid #4cc9f0;
+ text-align: center; color: #4cc9f0; font-size: 0.8rem;
+ }
+ .pulse {
+ display: inline-block; width: 8px; height: 8px;
+ background-color: #4cc9f0; border-radius: 50%; margin-right: 8px;
+ animation: blink 1.5s infinite;
+ }
+ @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+ @media (max-width: 992px) {
+ nav.top-menu { display: none; }
+ .mobile-nav { display: block; }
+ .site-title-overlay { top: 70px; left: 15px; }
+ .site-title-overlay h1 { font-size: 1.4rem; }
+ .content-toggle { top: 70px; right: 15px; }
+ .audio-controls { bottom: 70px; right: 20px; }
+ }
+ </style>
 </head>
 <body>
-    <video id="bgVideo" class="video-background" autoplay muted loop playsinline>
-        <source src="videos/martian-zodiac-default.mp4" type="video/mp4">
-    </video>
-    <div class="video-overlay"></div>
+ <video id="bgVideo" class="video-background" autoplay muted loop playsinline>
+ <source src="videos/martian-zodiac-default.mp4" type="video/mp4">
+ </video>
+ <div class="video-overlay"></div>
 
-    <!-- Top menu (copy of your site menu, active set on Martian Games -> Calendar) -->
-    <nav class="top-menu">
-        <div class="dropdown">
-            <a href="index.html" class="dropbtn">Home</a>
-            <div class="dropdown-content">
-                <a href="why-this-world-matters.html">Why This World Matters</a>
-                <a href="homage-to-courage.html">Homage to Courage</a>
-                <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
-                <a href="the-migrant-initiative.html">The Migrant Initiative</a>
-                <a href="my-mission.html">My Mission</a>
-                <a href="martian-reading-revival.html">Martian Reading Revival</a>
-                <a href="why-mars-is-safer.html">Why Mars is Safer</a>
-                <a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
-                <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
-            </div>
-        </div>
-        <div class="dropdown">
-            <a href="story.html" class="dropbtn">Story</a>
-            <div class="dropdown-content">
-                <a href="characters.html">Characters</a>
-                <div class="dropdown">
-                    <a href="gallery.html" class="dropbtn">Gallery</a>
-                    <div class="dropdown-content">
-                        <a href="art-and-concepts.html">Art & Concepts</a>
-                        <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
-                        <a href="technical-database.html">Technical Database</a>
-                        <a href="martian-edicts.html">The Martian Edicts</a>
-                        <a href="alien-transport-network.html">Alien Transport Network</a>
-                        <a href="martian-martial-arts.html">Martian Martial Arts</a>
-                        <a href="solar-system-explorer.html">Solar System Explorer</a>
-                        <a href="aliens-ufos.html">Aliens & UFOs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="dropdown">
-            <a href="martian-games.html" class="dropbtn">Martian Games</a>
-            <div class="dropdown-content">
-                <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
-                <a href="martian-racer.html">Martian Racer</a>
-                <a href="red-planet-defense.html">Red Planet Defense</a>
-                <a href="the-regents-portal.html">The Regent's Portal</a>
-                <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
-                <a href="the-knowledge-deck.html">The Knowledge Deck</a>
-                <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
-                <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
-                <a href="the-martian-zodiac.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;" class="active">🌌 The Martian Zodiac</a>
-            </div>
-        </div>
-        <div class="dropdown">
-            <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
-            <div class="dropdown-content">
-                <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
-                <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
-                <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
-                <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
-                <a href="earths-great-poets.html">Earth's Great Poets</a>
-                <a href="the-bohr-institute.html">The Bohr Institute</a>
-                <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
-                <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
-                <a href="the-bronx-dome.html">The Bronx Dome</a>
-            </div>
-        </div>
-        <div class="dropdown">
-            <a href="martian-news.html" class="dropbtn">Martian News</a>
-            <div class="dropdown-content">
-                <a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
-                <a href="martian-actualities.html">Martian Actualities</a>
-                <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
-                <a href="mars-bee-facility.html">Mars Bee Facility</a>
-                <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-                <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
-                <a href="house-of-health-secrets.html">The House of Health Secrets</a>
-                <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
-                <a href="martian-rest-areas.html">Martian Rest Areas</a>
-                <div class="dropdown">
-                    <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-                    <div class="dropdown-content">
-                        <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
-                        <a href="marvin.html">M.A.R.V.I.N.</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="dropdown">
-            <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
-            <div class="dropdown-content">
-                <a href="what-the-regent-misses.html">What the Regent Misses</a>
-                <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
-                <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
-                <a href="honor-the-fallen.html">Honor The Fallen</a>
-                <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
-                <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
-                <a href="salems-witching-hour.html">Salem's Witching Hour</a>
-                <a href="martian-critique-tron-ares.html">Martian Critique</a>
-                <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
-                <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
-                <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
-            </div>
-        </div>
-        <div class="dropdown">
-            <a href="about.html" class="dropbtn">About</a>
-            <div class="dropdown-content">
-                <a href="about-the-project.html">About the Project</a>
-                <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
-                <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
-                <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
-                <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
-                <a href="the-pale-horse.html">The Pale Horse</a>
-                <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
-                <a href="arachne-labs.html">Arachne Labs</a>
-                <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
-                <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
-            </div>
-        </div>
-        <div class="dropdown">
-            <a href="support.html" class="dropbtn">Support</a>
-            <div class="dropdown-content">
-                <a href="silver's-sign-language-course.html">Silver's language Academy</a>
-                <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-                <a href="cosmic-economics.html">Cosmic Economics</a>
-                <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
-                <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-                <a href="fund-martian-research.html">Fund Martian Research</a>
-                <a href="martian-survival-manual.html">Martian Survival Manual</a>
-                <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
-            </div>
-        </div>
-        <a href="contact.html">Contact</a>
-    </nav>
+ <!-- Top menu (full navigation) -->
+ <nav class="top-menu">
+ <div class="dropdown">
+ <a href="index.html" class="dropbtn">Home</a>
+ <div class="dropdown-content">
+ <a href="why-this-world-matters.html">Why This World Matters</a>
+ <a href="homage-to-courage.html">Homage to Courage</a>
+ <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+ <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+ <a href="my-mission.html">My Mission</a>
+ <a href="martian-reading-revival.html">Martian Reading Revival</a>
+ <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+ <a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
+ <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+ </div>
+ </div>
+ <div class="dropdown">
+ <a href="story.html" class="dropbtn">Story</a>
+ <div class="dropdown-content">
+ <a href="characters.html">Characters</a>
+ <div class="dropdown">
+ <a href="gallery.html" class="dropbtn">Gallery</a>
+ <div class="dropdown-content">
+ <a href="art-and-concepts.html">Art & Concepts</a>
+ <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+ <a href="technical-database.html">Technical Database</a>
+ <a href="martian-edicts.html">The Martian Edicts</a>
+ <a href="alien-transport-network.html">Alien Transport Network</a>
+ <a href="martian-martial-arts.html">Martian Martial Arts</a>
+ <a href="solar-system-explorer.html">Solar System Explorer</a>
+ <a href="aliens-ufos.html">Aliens & UFOs</a>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="dropdown">
+ <a href="martian-games.html" class="dropbtn">Martian Games</a>
+ <div class="dropdown-content">
+ <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+ <a href="martian-racer.html">Martian Racer</a>
+ <a href="red-planet-defense.html">Red Planet Defense</a>
+ <a href="the-regents-portal.html">The Regent's Portal</a>
+ <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+ <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+ <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+ <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+ <a href="the-martian-zodiac.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;" class="active">🌌 The Martian Zodiac</a>
+ </div>
+ </div>
+ <div class="dropdown">
+ <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+ <div class="dropdown-content">
+ <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+ <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+ <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+ <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+ <a href="earths-great-poets.html">Earth's Great Poets</a>
+ <a href="the-bohr-institute.html">The Bohr Institute</a>
+ <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+ <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+ <a href="the-bronx-dome.html">The Bronx Dome</a>
+ </div>
+ </div>
+ <div class="dropdown">
+ <a href="martian-news.html" class="dropbtn">Martian News</a>
+ <div class="dropdown-content">
+ <a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
+ <a href="martian-actualities.html">Martian Actualities</a>
+ <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+ <a href="mars-bee-facility.html">Mars Bee Facility</a>
+ <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+ <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+ <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+ <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+ <a href="martian-rest-areas.html">Martian Rest Areas</a>
+ <div class="dropdown">
+ <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+ <div class="dropdown-content">
+ <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+ <a href="marvin.html">M.A.R.V.I.N.</a>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="dropdown">
+ <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+ <div class="dropdown-content">
+ <a href="what-the-regent-misses.html">What the Regent Misses</a>
+ <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+ <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+ <a href="honor-the-fallen.html">Honor The Fallen</a>
+ <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+ <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+ <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+ <a href="martian-critique-tron-ares.html">Martian Critique</a>
+ <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+ <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+ <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+ </div>
+ </div>
+ <div class="dropdown">
+ <a href="about.html" class="dropbtn">About</a>
+ <div class="dropdown-content">
+ <a href="about-the-project.html">About the Project</a>
+ <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+ <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+ <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+ <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+ <a href="the-pale-horse.html">The Pale Horse</a>
+ <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+ <a href="arachne-labs.html">Arachne Labs</a>
+ <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+ <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+ </div>
+ </div>
+ <div class="dropdown">
+ <a href="support.html" class="dropbtn">Support</a>
+ <div class="dropdown-content">
+ <a href="silver's-sign-language-course.html">Silver's language Academy</a>
+ <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+ <a href="cosmic-economics.html">Cosmic Economics</a>
+ <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+ <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+ <a href="fund-martian-research.html">Fund Martian Research</a>
+ <a href="martian-survival-manual.html">Martian Survival Manual</a>
+ <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+ </div>
+ </div>
+ <a href="contact.html">Contact</a>
+ </nav>
 
-    <div class="site-title-overlay" id="siteTitle">
-        <h1>The Mars Abyss</h1>
-    </div>
+ <div class="site-title-overlay" id="siteTitle"><h1>The Mars Abyss</h1></div>
+ <div class="content-toggle"><button class="toggle-btn" id="toggleContent">🫣 Hide Content</button></div>
+ <div class="audio-controls"><button class="audio-btn" id="muteBtn">🎵 Play Music</button></div>
 
-    <div class="content-toggle">
-        <button class="toggle-btn" id="toggleContent">🌌 Hide Content</button>
-    </div>
+ <div class="mobile-nav">
+ <button class="hamburger-btn" id="hamburgerBtn"><span></span><span></span><span></span></button>
+ <nav class="mobile-menu" id="mobileMenu">
+ <div class="menu-header"><h3>THE MARS ABYSS</h3><button class="close-menu" id="closeMenu">✕</button></div>
+ <div class="menu-content"></div>
+ <div class="menu-footer"><span class="pulse"></span> MARTIAN ZODIAC</div>
+ </nav>
+ </div>
 
-    <div class="audio-controls">
-        <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
-    </div>
+ <div class="content-container" id="mainContent">
+ <h1>The Martian Zodiac</h1>
+ <div class="subhead">The Circle of Mars – Where Earth Dates Meet Martian Destiny</div>
 
-    <div class="mobile-nav">
-        <button class="hamburger-btn" id="hamburgerBtn"><span></span><span></span><span></span></button>
-        <nav class="mobile-menu" id="mobileMenu">
-            <div class="menu-header"><h3>THE MARS ABYSS</h3><button class="close-menu" id="closeMenu">✕</button></div>
-            <div class="menu-content"></div>
-            <div class="menu-footer"><span class="pulse"></span> MARTIAN ZODIAC</div>
-        </nav>
-    </div>
+ <div class="sign-selector" id="signSelector"></div>
 
-    <div class="content-container" id="mainContent">
-        <h1>The Martian Zodiac</h1>
-        <div class="subhead">The Circle of Mars – Where Earth Dates Meet Martian Destiny</div>
+ <div class="card">
+ <h2>🪐 Understanding the Martian Year</h2>
+ <p>A Martian year lasts <strong>687 sols</strong> (Martian days). One sol is about 24 hours 39 minutes — slightly longer than an Earth day. The calendar is divided into <strong>12 signs</strong>, each spanning 57 sols (approximately 58.6 Earth days).</p>
+ <p>The Martian year begins on the Spring Equinox in the Northern Hemisphere. For easy reference, the table below shows the approximate Earth date ranges for each sign.</p>
+ </div>
 
-        <!-- Sign selector -->
-        <div class="sign-selector" id="signSelector"></div>
+ <div class="card">
+ <h2>📅 Earth Date to Martian Sign</h2>
+ <div class="converter">
+ <div><label for="birthday">Enter your Earth birthday:</label><input type="date" id="birthday"></div>
+ <button onclick="convertBirthday()">Find My Sign</button>
+ </div>
+ <div id="birthdayResult" class="result" style="display: none;"></div>
+ </div>
 
-        <!-- Understanding the Martian Year -->
-        <div class="card">
-            <h2>🪐 Understanding the Martian Year</h2>
-            <p>A Martian year lasts <strong>687 sols</strong> (Martian days). One sol is about 24 hours 39 minutes — slightly longer than an Earth day. The calendar is divided into <strong>12 signs</strong>, each spanning 57 sols (approximately 58.6 Earth days).</p>
-            <p>The Martian year begins on the Spring Equinox in the Northern Hemisphere. For easy reference, the table below shows the approximate Earth date ranges for each sign.</p>
-        </div>
+ <div class="card">
+ <h2>🌟 The 12 Signs of the Martian Zodiac</h2>
+ <table id="signs-table"><thead><tr><th>Sign</th><th>Emoji</th><th>Sol Range</th><th>Earth Date Range</th><th>Traits</th></tr></thead><tbody></tbody></table>
+ <p class="quote">“Earthlings, welcome to the Circle of Mars. Here, your solar birth is not merely a number—it resonates with the pulse of the Red Planet. Find your sign, understand your destiny, and remember: only the vigilant thrive beneath the red skies.”<br>— The Regent</p>
+ </div>
 
-        <!-- Earth Date to Martian Sign Converter -->
-        <div class="card">
-            <h2>📅 Earth Date to Martian Sign</h2>
-            <div class="converter">
-                <div><label for="birthday">Enter your Earth birthday:</label><input type="date" id="birthday"></div>
-                <button onclick="convertBirthday()">Find My Sign</button>
-            </div>
-            <div id="birthdayResult" class="result" style="display: none;"></div>
-        </div>
+ <div class="card">
+ <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+ <button id="prevMonth" style="background: #4cc9f0; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">◀ Previous</button>
+ <h2 id="monthName" style="margin: 0;">PRIMUS</h2>
+ <button id="nextMonth" style="background: #4cc9f0; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Next ▶</button>
+ </div>
+ <div id="monthInfo" class="subhead" style="margin-top: 1rem;"></div>
+ <div id="solGrid" class="sol-grid"></div>
+ </div>
 
-        <!-- Zodiac Table -->
-        <div class="card">
-            <h2>🌟 The 12 Signs of the Martian Zodiac</h2>
-            <table id="signs-table"><thead><tr><th>Sign</th><th>Emoji</th><th>Sol Range</th><th>Earth Date Range</th><th>Traits</th></tr></thead><tbody></tbody></table>
-            <p class="quote">“Earthlings, welcome to the Circle of Mars. Here, your solar birth is not merely a number—it resonates with the pulse of the Red Planet. Find your sign, understand your destiny, and remember: only the vigilant thrive beneath the red skies.”<br>— The Regent</p>
-        </div>
+ <div class="card">
+ <h2>✨ Today’s Reading</h2>
+ <div class="reading-box">
+ <div id="selectedSignDisplay" style="font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;"></div>
+ <div id="dailyReadingText" class="reading-text">Select a sign to receive your daily guidance.</div>
+ <div class="disclaimer">“These readings are not prophecy…<br>Only reflections. Interpret them wisely.”<br>— The Regent</div>
+ </div>
+ </div>
+ </div>
 
-        <!-- Monthly Calendar -->
-        <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                <button id="prevMonth" style="background: #4cc9f0; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">◀ Previous</button>
-                <h2 id="monthName" style="margin: 0;">PRIMUS</h2>
-                <button id="nextMonth" style="background: #4cc9f0; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Next ▶</button>
-            </div>
-            <div id="monthInfo" class="subhead" style="margin-top: 1rem;"></div>
-            <div id="solGrid" class="sol-grid"></div>
-        </div>
+ <div class="content-spacer"></div>
+ <footer id="pageFooter"><p>© 2025 The Mars Abyss – The Martian Zodiac | Based on astronomical data</p></footer>
 
-        <!-- Daily Reading -->
-        <div class="card">
-            <h2>✨ Today’s Reading</h2>
-            <div class="reading-box">
-                <div id="selectedSignDisplay" style="font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;"></div>
-                <div id="dailyReadingText" class="reading-text">Select a sign to receive your daily guidance.</div>
-                <div class="disclaimer">“These readings are not prophecy…<br>Only reflections. Interpret them wisely.”<br>— The Regent</div>
-            </div>
-        </div>
-    </div>
+ <script>
+ // ----- DATA -----
+ const months = [
+ { name: "PRIMUS", days: 56, season: "Early Spring", temp: "18°C / 64°F" },
+ { name: "SECUNDUS", days: 56, season: "Mid Spring", temp: "22°C / 72°F" },
+ { name: "TERTIUS", days: 56, season: "Late Spring", temp: "26°C / 79°F" },
+ { name: "QUARTUS", days: 56, season: "Early Summer", temp: "28°C / 82°F" },
+ { name: "QUINTUS", days: 56, season: "Mid Summer", temp: "30°C / 86°F" },
+ { name: "SEXTUS", days: 56, season: "Late Summer", temp: "28°C / 82°F" },
+ { name: "SEPTIMUS", days: 56, season: "Early Autumn", temp: "22°C / 72°F" },
+ { name: "OCTAVUS", days: 56, season: "Mid Autumn", temp: "18°C / 64°F" },
+ { name: "NONUS", days: 56, season: "Late Autumn", temp: "12°C / 54°F" },
+ { name: "DECIMUS", days: 56, season: "Early Winter", temp: "5°C / 41°F" },
+ { name: "UNDECIMUS", days: 56, season: "Mid Winter", temp: "-2°C / 28°F" },
+ { name: "DUODECIMUS", days: 56, season: "Late Winter", temp: "-8°C / 18°F" }
+ ];
 
-    <div class="content-spacer"></div>
-    <footer id="pageFooter"><p>© 2025 The Mars Abyss – The Martian Zodiac | Based on astronomical data</p></footer>
+ const signs = [
+ { name: "The Shield", emoji: "🛡️🪐", start: 1, end: 58, traits: "Protective, quick to act, loyal. The guardians of the dome.", dateRange: "Mar 20 – May 17" },
+ { name: "The Seeker", emoji: "🔍🧭", start: 59, end: 115, traits: "Curious, analytical, drawn to mysteries. The archivists and scientists.", dateRange: "May 18 – Jul 15" },
+ { name: "The Giant", emoji: "🌋🏔️", start: 116, end: 171, traits: "Ambitious, resilient, commanding. The architects and leaders.", dateRange: "Jul 16 – Sep 12" },
+ { name: "The Frost", emoji: "❄️🌬️", start: 172, end: 228, traits: "Reserved, contemplative, emotionally deep. The artists and dreamers.", dateRange: "Sep 13 – Nov 9" },
+ { name: "The Wanderer", emoji: "🚀🌠", start: 229, end: 285, traits: "Independent, unpredictable, silent observer. The spies and solo explorers.", dateRange: "Nov 10 – Jan 6" },
+ { name: "The Garden", emoji: "🌱🌸", start: 286, end: 342, traits: "Nurturing, hopeful, persistent. The healers and teachers.", dateRange: "Jan 7 – Mar 5" },
+ { name: "The Storm", emoji: "🌪️⛈️", start: 343, end: 399, traits: "Passionate, transformative, leaves a mark. The revolutionaries and reformers.", dateRange: "Mar 6 – May 2" },
+ { name: "The Bridge", emoji: "🌉🤝", start: 400, end: 456, traits: "Diplomatic, adaptable, connects opposites. The negotiators and peacemakers.", dateRange: "May 3 – Jun 29" },
+ { name: "The Veil", emoji: "🎭🌌", start: 457, end: 513, traits: "Mysterious, intuitive, protective of others. The strategists and guardians of secrets.", dateRange: "Jun 30 – Aug 26" },
+ { name: "The Anvil", emoji: "⚒️🔨", start: 514, end: 570, traits: "Persistent, practical, builds slowly. The engineers and builders.", dateRange: "Aug 27 – Oct 23" },
+ { name: "The Mirror", emoji: "🪞🎨", start: 571, end: 627, traits: "Reflective, artistic, sees multiple sides. The curators and artists.", dateRange: "Oct 24 – Dec 20" },
+ { name: "The Echo", emoji: "🔊📜", start: 628, end: 684, traits: "Nostalgic, loyal, haunted by the past, seeks closure. The historians and storytellers.", dateRange: "Dec 21 – Mar 19" }
+ ];
 
-    <script>
-        // ----- DATA -----
-        const months = [
-            { name: "PRIMUS", days: 56, season: "Early Spring", temp: "18°C / 64°F" },
-            { name: "SECUNDUS", days: 56, season: "Mid Spring", temp: "22°C / 72°F" },
-            { name: "TERTIUS", days: 56, season: "Late Spring", temp: "26°C / 79°F" },
-            { name: "QUARTUS", days: 56, season: "Early Summer", temp: "28°C / 82°F" },
-            { name: "QUINTUS", days: 56, season: "Mid Summer", temp: "30°C / 86°F" },
-            { name: "SEXTUS", days: 56, season: "Late Summer", temp: "28°C / 82°F" },
-            { name: "SEPTIMUS", days: 56, season: "Early Autumn", temp: "22°C / 72°F" },
-            { name: "OCTAVUS", days: 56, season: "Mid Autumn", temp: "18°C / 64°F" },
-            { name: "NONUS", days: 56, season: "Late Autumn", temp: "12°C / 54°F" },
-            { name: "DECIMUS", days: 56, season: "Early Winter", temp: "5°C / 41°F" },
-            { name: "UNDECIMUS", days: 56, season: "Mid Winter", temp: "-2°C / 28°F" },
-            { name: "DUODECIMUS", days: 56, season: "Late Winter", temp: "-8°C / 18°F" }
-        ];
+ // Unique daily readings for each sign (30 messages each, based on sign traits)
+ const readings = {
+   "The Shield": [
+     "Your vigilance protects the vulnerable today.", "A sudden challenge tests your resilience.", "Trust your instincts; they are sharper than usual.",
+     "A small act of courage inspires others.", "The shield you carry also guards your own heart.", "Someone looks to you for safety. Be present.",
+     "A quiet threat passes unnoticed by others. You see it.", "Today, patience is your strongest armor.", "A past decision is validated by today's events.",
+     "Your loyalty earns unexpected trust.", "A boundary you set is respected.", "The horizon holds no immediate danger; rest.",
+     "A friend needs your steady presence.", "Your quick action prevents a minor incident.", "A memory of protection comes back to you.",
+     "Today, you are the calm in someone else's storm.", "A small victory goes unnoticed but matters.", "Your protective nature brings someone relief.",
+     "A risk you take is calculated and safe.", "The shield is not a burden; it is a gift.", "Someone thanks you silently.",
+     "Your alertness catches a detail others miss.", "A moment of hesitation passes; act now.", "The weight of responsibility feels lighter.",
+     "A past wound heals slightly today.", "Your presence reassures a nervous companion.", "A challenge becomes an opportunity.",
+     "The day ends with a sense of accomplishment.", "Tomorrow brings new chances to protect.", "Your steadiness anchors those around you."
+   ],
+   "The Seeker": [
+     "A hidden clue emerges; follow it.", "Your curiosity leads to a valuable discovery.", "Patience reveals what haste would miss.",
+     "An old mystery reopens.", "The path of knowledge is never straight.", "Today, ask the question others avoid.",
+     "A small detail holds the key.", "Your analytical mind solves a puzzle.", "Seek understanding before action.",
+     "A forgotten fact resurfaces.", "The answer is closer than you think.", "A stranger offers unexpected insight.",
+     "Your research pays off.", "A pattern you noticed becomes significant.", "Trust your intuition in matters of fact.",
+     "A book or record contains what you need.", "The seeker finds what was lost.", "Today, follow the evidence.",
+     "A question you had is answered.", "Your patience earns respect.", "A hidden connection reveals itself.",
+     "The truth is not comfortable but necessary.", "A small step forward is still progress.", "Listen more than you speak.",
+     "A mystery deepens, but so does your understanding.", "Your notes hold the solution.", "A colleague shares a useful perspective.",
+     "The seeker's path is long; rest when needed.", "Today's discovery plants a seed for tomorrow.", "What you seek is also seeking you."
+   ],
+   "The Giant": [
+     "Your presence inspires without words.", "A burden shared is lighter.", "Today, lead with quiet confidence.",
+     "A challenge tests your endurance; you prevail.", "The giant's strength is patience.", "Your influence ripples further than you know.",
+     "A decision you make today affects many.", "Stand firm, but not alone.", "A rival's move is not a threat.",
+     "Your resilience is your legacy.", "A small kindness from you means a lot.", "Today, let others stand beside you.",
+     "The mountain does not hurry; neither should you.", "Your ambition serves the colony.", "A moment of rest is preparation.",
+     "Your words carry weight; use them wisely.", "A past success supports today's effort.", "The giant listens before acting.",
+     "A foundation you built holds strong.", "Today, your presence calms a tense situation.", "A step back gives perspective.",
+     "Your reputation opens a door.", "A heavy task feels lighter with help.", "The giant's shadow shelters others.",
+     "A long‑term goal inches forward.", "Your resilience inspires a younger person.", "A challenge becomes a teaching moment.",
+     "The day ends with quiet satisfaction.", "Tomorrow, the giant rests.", "Your steadiness builds the future."
+   ],
+   "The Frost": [
+     "Stillness reveals what noise hides.", "A deep emotion surfaces; acknowledge it.", "The cold preserves what is precious.",
+     "Today, solitude is not loneliness.", "A memory brings clarity.", "Your reserve is a form of strength.",
+     "Patience with yourself heals old wounds.", "The frost protects the seed within.", "A quiet gesture speaks volumes.",
+     "Your contemplation yields insight.", "A dream from last night carries meaning.", "The ice cracks; new growth begins.",
+     "Silence is a language you speak fluently.", "A moment of stillness today will guide you.", "What is frozen can be thawed with care.",
+     "Your emotional depth surprises even you.", "A gentle word melts a tense situation.", "The frost's beauty is in its fragility.",
+     "Today, allow yourself to feel without judgment.", "A memory you revisit brings comfort.", "The cold sharpens your focus.",
+     "Your patience with others is noticed.", "A hidden warmth beneath the surface emerges.", "The frost teaches endurance.",
+     "A creative idea forms in the quiet.", "Your reserve protects your energy.", "The ice reflects a truth you needed.",
+     "Today, a slow step is still progress.", "The frost retreats, making way for spring.", "Your inner calm is a gift to those around you."
+   ],
+   "The Wanderer": [
+     "A change of scenery refreshes your spirit.", "Today, follow an unexpected impulse.", "The open road calls; listen.",
+     "Your independence is your strength.", "A chance encounter alters your path.", "Wandering is not losing; it is searching.",
+     "Trust the detour.", "A familiar place feels new today.", "Your adaptability serves you well.",
+     "A piece of advice from a stranger proves valuable.", "The wanderer finds home in movement.",
+     "Today, let go of a plan that no longer fits.", "A memory of travel brings a smile.", "Your solitude is a source of creativity.",
+     "A small risk leads to a rewarding discovery.", "The journey matters more than the destination.",
+     "Your unpredictable nature is a gift.", "A quiet path reveals a hidden view.", "Today, pack light, emotionally and physically.",
+     "A story you heard long ago returns to you.", "The wanderer's rest is well earned.",
+     "A familiar road holds a new surprise.", "Your freedom inspires someone close.",
+     "A moment of uncertainty becomes an adventure.", "The stars guide your steps tonight.",
+     "Your resilience in change is admirable.", "A short journey clears your mind.",
+     "The wanderer returns, changed for the better.", "Today, trust your feet to know the way."
+   ],
+   "The Garden": [
+     "A seed you planted long ago begins to sprout.", "Today, nurture someone who needs encouragement.",
+     "Your patience with growth is rewarded.", "A small act of care creates a ripple.",
+     "The garden thrives with steady attention.", "A flower you almost gave up on blooms.",
+     "Your hopeful nature inspires a despondent friend.", "Today, water your own roots first.",
+     "A pest becomes a lesson in resilience.", "The harvest is not yet, but the green is promising.",
+     "Your nurturing spirit heals a hidden wound.", "A weed you remove makes space for beauty.",
+     "The garden teaches that rest is part of growth.", "A companion shares a tool you needed.",
+     "Your persistence turns poor soil to rich ground.", "A sudden rain answers a long dry spell.",
+     "The scent of growth lifts your mood.", "A seedling you nearly missed surprises you.",
+     "Your garden is a mirror of your inner state.", "Today, share a cutting with a neighbor.",
+     "The sun and the storm both serve the roots.", "Your hope is a beacon in a gray day.",
+     "A butterfly lands where you least expect it.", "The garden asks nothing but your presence.",
+     "Your patience with slow growth builds character.", "A fallen bloom becomes compost for new life.",
+     "The garden's quiet abundance is a gift.", "Today, simply sit and watch; the garden works."
+   ],
+   "The Storm": [
+     "A turbulent emotion seeks release; let it safely.", "Today, your passion is a force for change.",
+     "The storm clears the air.", "A confrontation you feared becomes clarifying.",
+     "Your intensity draws others to you.", "After the thunder, a calm insight arrives.",
+     "A disagreement may lead to a deeper bond.", "The storm's energy is creative, not destructive.",
+     "Your raw honesty is refreshing.", "A broken pattern finally shatters.",
+     "The lightning illuminates a hidden truth.", "Your passionate defense of someone earns respect.",
+     "A storm passes; what remains is stronger.", "Today, your anger is a signal, not a weapon.",
+     "The rain washes away old resentments.", "Your transformative power surprises you.",
+     "A heated discussion clears the air.", "The storm teaches that destruction can be renewal.",
+     "Your courage to speak out inspires others.", "A sudden change of plans leads to a better outcome.",
+     "The storm's eye holds a moment of peace.", "Your intensity is a gift when channeled.",
+     "A tempest inside you finds release in art.", "The thunder reminds you of your own power.",
+     "After the storm, a rainbow of hope.", "Your passion ignites a stalled project.",
+     "The storm's energy can be harvested.", "Today, let the storm pass without clinging.",
+     "Your resilience after a crisis is remarkable."
+   ],
+   "The Bridge": [
+     "Today, connect two people who need each other.", "A misunderstanding you heal becomes a bond.",
+     "Your diplomatic skill resolves a lingering tension.", "A bridge you build today will be used for years.",
+     "Listen to both sides before speaking.", "A compromise you broker benefits everyone.",
+     "Your adaptability helps a group find common ground.", "A gesture of goodwill opens a closed door.",
+     "The bridge holds even under pressure.", "Today, you are the link between ideas and action.",
+     "A conversation you facilitate leads to a breakthrough.", "Your patience with disagreement is a gift.",
+     "A path you clear allows others to follow.", "The bridge teaches that connection requires effort.",
+     "Your neutral stance earns trust.", "A small act of mediation prevents a larger conflict.",
+     "The bridge is not a side; it is a way across.", "Today, your words carry weight; choose them carefully.",
+     "A shared meal bridges a gap.", "Your ability to see multiple sides is rare.",
+     "A bridge you repair becomes stronger than before.", "The fog clears; you see the way forward.",
+     "Your diplomatic touch smooths a rough transition.",
+     "A bridge built in haste still holds.", "Today, be the calm in the middle of the storm.",
+     "A connection you forge today will last."
+   ],
+   "The Veil": [
+     "Something hidden today seeks to be seen.", "Your intuition is stronger than usual.",
+     "A secret you keep is a burden; share it wisely.", "The veil parts for those who look with patience.",
+     "A mystery you've pondered begins to unravel.", "Your protective nature shields someone unseen.",
+     "A dream holds a message.", "The veil teaches that not all is as it appears.",
+     "Your silence today is more powerful than words.",
+     "A hidden ally reveals themselves.", "The fog of confusion lifts slightly.",
+     "Your ability to sense danger is accurate.",
+     "A whisper you catch changes your direction.",
+     "The veil's mystery is not a threat but a gift.",
+     "Your intuition guides a decision.",
+     "A secret you discover today is not yours to tell.",
+     "The veil between worlds is thin; pay attention.",
+     "Your protective instincts shield a vulnerable person.",
+     "A hidden opportunity appears in plain sight.",
+     "The veil's shadows hold lessons, not monsters.",
+     "Your quiet observation reveals a plot.",
+     "A mystery solved brings relief.",
+     "The veil's purpose is to filter, not to hide.",
+     "Today, trust what you cannot explain.",
+     "A hidden talent of yours emerges."
+   ],
+   "The Anvil": [
+     "A task that seemed impossible becomes doable.", "Your persistence wears down the hardest obstacle.",
+     "Today, slow and steady wins the race.", "A repetitive chore yields unexpected satisfaction.",
+     "The anvil shapes what is placed upon it.",
+     "Your practicality solves a problem others overthink.",
+     "A small improvement today compounds over time.",
+     "The anvil teaches that pressure creates strength.",
+     "Your patience with a tedious job is admirable.",
+     "A tool you maintain serves you well.",
+     "The anvil does not tire; neither should you.",
+     "Today, a routine becomes a ritual.",
+     "Your stubbornness serves a worthy goal.",
+     "A foundation you reinforce holds against strain.",
+     "The anvil's weight is its gift.",
+     "Your endurance inspires a coworker.",
+     "A repetitive task becomes meditative.",
+     "The anvil proves that force can be precise.",
+     "Your practical mind saves resources.",
+     "A small crack in the anvil warns of a larger issue.",
+     "Your persistence pays off today.",
+     "The anvil's song is the sound of progress.",
+     "A long effort nears its end.",
+     "Your steady hand crafts a masterpiece.",
+     "The anvil does not complain; it shapes."
+   ],
+   "The Mirror": [
+     "Today, a reflection shows you a truth about yourself.",
+     "Your artistic eye sees beauty where others see none.",
+     "The mirror does not judge; it shows.",
+     "A creative project you start today flows easily.",
+     "Your self‑awareness is your greatest tool.",
+     "A criticism you receive reflects a hidden strength.",
+     "The mirror teaches that seeing yourself is an act of courage.",
+     "Your ability to see multiple perspectives resolves a conflict.",
+     "A reflection in water catches your attention.",
+     "Your art speaks what you cannot say.",
+     "The mirror's surface is truth, not flattery.",
+     "A portrait you admire reveals a secret about the artist.",
+     "Your reflective nature helps a friend see clearly.",
+     "A mirror cracked still shows an image.",
+     "Your creativity is a gift to share.",
+     "The mirror's reverse image is not wrong; it is different.",
+     "A glimpse of yourself in a stranger's eyes surprises you.",
+     "Your artistic vision inspires a collaborator.",
+     "A mirror in an unexpected place shows you what you needed.",
+     "Your self‑reflection today leads to a breakthrough.",
+     "The mirror's patience is infinite."
+   ],
+   "The Echo": [
+     "A voice from your past offers wisdom today.",
+     "Your loyalty is tested and found strong.",
+     "The echo repeats, but you can choose a new response.",
+     "A memory you revisit brings peace.",
+     "Your nostalgia is a bridge, not a cage.",
+     "A story you tell echoes through generations.",
+     "The echo teaches that words have lasting power.",
+     "Your loyalty to a cause inspires others.",
+     "A forgotten sound returns to guide you.",
+     "Your ability to listen deeply is a gift.",
+     "The echo's delay allows reflection.",
+     "A past mistake echoes; learn from it.",
+     "Your nostalgic nature appreciates the present.",
+     "A song from long ago lifts your spirits.",
+     "The echo's repetition can become a chant.",
+     "Your loyalty to a friend is rewarded.",
+     "A whispered promise echoes loudly.",
+     "Your memory of a place changes how you see it now.",
+     "The echo's softness is not weakness.",
+     "A voice from a recording surprises you.",
+     "Your commitment to the past shapes the future.",
+     "The echo's fading reminds you to speak now.",
+     "A message you left behind is finally heard.",
+     "Your nostalgic heart finds beauty in old things.",
+     "The echo's final whisper is a new beginning."
+   ]
+ };
 
-        const signs = [
-            { name: "The Shield", emoji: "🛡️🪐", start: 1, end: 58, traits: "Protective, quick to act, loyal. The guardians of the dome.", dateRange: "Mar 20 – May 17" },
-            { name: "The Seeker", emoji: "🔍🧭", start: 59, end: 115, traits: "Curious, analytical, drawn to mysteries. The archivists and scientists.", dateRange: "May 18 – Jul 15" },
-            { name: "The Giant", emoji: "🌋🏔️", start: 116, end: 171, traits: "Ambitious, resilient, commanding. The architects and leaders.", dateRange: "Jul 16 – Sep 12" },
-            { name: "The Frost", emoji: "❄️🌬️", start: 172, end: 228, traits: "Reserved, contemplative, emotionally deep. The artists and dreamers.", dateRange: "Sep 13 – Nov 9" },
-            { name: "The Wanderer", emoji: "🚀🌠", start: 229, end: 285, traits: "Independent, unpredictable, silent observer. The spies and solo explorers.", dateRange: "Nov 10 – Jan 6" },
-            { name: "The Garden", emoji: "🌱🌸", start: 286, end: 342, traits: "Nurturing, hopeful, persistent. The healers and teachers.", dateRange: "Jan 7 – Mar 5" },
-            { name: "The Storm", emoji: "🌪️⛈️", start: 343, end: 399, traits: "Passionate, transformative, leaves a mark. The revolutionaries and reformers.", dateRange: "Mar 6 – May 2" },
-            { name: "The Bridge", emoji: "🌉🤝", start: 400, end: 456, traits: "Diplomatic, adaptable, connects opposites. The negotiators and peacemakers.", dateRange: "May 3 – Jun 29" },
-            { name: "The Veil", emoji: "🎭🌌", start: 457, end: 513, traits: "Mysterious, intuitive, protective of others. The strategists and guardians of secrets.", dateRange: "Jun 30 – Aug 26" },
-            { name: "The Anvil", emoji: "⚒️🔨", start: 514, end: 570, traits: "Persistent, practical, builds slowly. The engineers and builders.", dateRange: "Aug 27 – Oct 23" },
-            { name: "The Mirror", emoji: "🪞🎨", start: 571, end: 627, traits: "Reflective, artistic, sees multiple sides. The curators and artists.", dateRange: "Oct 24 – Dec 20" },
-            { name: "The Echo", emoji: "🔊📜", start: 628, end: 684, traits: "Nostalgic, loyal, haunted by the past, seeks closure. The historians and storytellers.", dateRange: "Dec 21 – Mar 19" }
-        ];
+ // Ensure each sign has 30 entries (they already do, but just in case)
+ for (let sign of signs) {
+   if (!readings[sign.name]) readings[sign.name] = ["Reflect on your place in the Circle of Mars."];
+   while (readings[sign.name].length < 30) readings[sign.name].push("The stars whisper a truth you already know.");
+ }
 
-        // Daily readings (30 messages per sign – you can expand later)
-        const defaultReadings = [
-            "The stars whisper a truth you already know. Listen.",
-            "A quiet moment today reveals what noise conceals.",
-            "Trust the rhythm of the day; it knows your pace.",
-            "An unexpected encounter may shift your perspective.",
-            "What you seek is already within reach."
-        ];
-        const readings = {};
-        signs.forEach(sign => { readings[sign.name] = defaultReadings; });
+ const themes = {
+ "The Shield": { video: "videos/zodiac/shield.mp4" },
+ "The Seeker": { video: "videos/zodiac/seeker.mp4" },
+ "The Giant": { video: "videos/zodiac/giant.mp4" },
+ "The Frost": { video: "videos/zodiac/frost.mp4" },
+ "The Wanderer": { video: "videos/zodiac/wanderer.mp4" },
+ "The Garden": { video: "videos/zodiac/garden.mp4" },
+ "The Storm": { video: "videos/zodiac/storm.mp4" },
+ "The Bridge": { video: "videos/zodiac/bridge.mp4" },
+ "The Veil": { video: "videos/zodiac/veil.mp4" },
+ "The Anvil": { video: "videos/zodiac/anvil.mp4" },
+ "The Mirror": { video: "videos/zodiac/mirror.mp4" },
+ "The Echo": { video: "videos/zodiac/echo.mp4" }
+ };
+ const defaultThemeVideo = "videos/martian-zodiac-default.mp4";
 
-        // Video themes per sign
-        const themes = {
-            "The Shield": { video: "videos/zodiac/shield.mp4" },
-            "The Seeker": { video: "videos/zodiac/seeker.mp4" },
-            "The Giant": { video: "videos/zodiac/giant.mp4" },
-            "The Frost": { video: "videos/zodiac/frost.mp4" },
-            "The Wanderer": { video: "videos/zodiac/wanderer.mp4" },
-            "The Garden": { video: "videos/zodiac/garden.mp4" },
-            "The Storm": { video: "videos/zodiac/storm.mp4" },
-            "The Bridge": { video: "videos/zodiac/bridge.mp4" },
-            "The Veil": { video: "videos/zodiac/veil.mp4" },
-            "The Anvil": { video: "videos/zodiac/anvil.mp4" },
-            "The Mirror": { video: "videos/zodiac/mirror.mp4" },
-            "The Echo": { video: "videos/zodiac/echo.mp4" }
-        };
-        const defaultThemeVideo = "videos/martian-zodiac-default.mp4";
+ function getDayOfYear(date) {
+   const start = new Date(date.getFullYear(), 0, 0);
+   const diff = date - start;
+   return Math.floor(diff / 86400000);
+ }
 
-        function setActiveSign(signName) {
-            // Update button active state
-            document.querySelectorAll('.sign-btn').forEach(btn => {
-                if (btn.innerText === signName) btn.classList.add('active');
-                else btn.classList.remove('active');
-            });
-            // Highlight table row
-            const rows = document.querySelectorAll('#signs-table tbody tr');
-            rows.forEach(row => {
-                const signCell = row.cells[0];
-                if (signCell.innerText === signName) row.style.background = 'rgba(255,215,0,0.2)';
-                else row.style.background = '';
-            });
-            // Update daily reading
-            const readingList = readings[signName] || defaultReadings;
-            const dayOfYear = getDayOfYear(new Date());
-            const index = dayOfYear % readingList.length;
-            document.getElementById('selectedSignDisplay').innerHTML = signName;
-            document.getElementById('dailyReadingText').innerHTML = readingList[index];
-            // Change video background
-            const video = document.getElementById('bgVideo');
-            const newSrc = (themes[signName] && themes[signName].video) || defaultThemeVideo;
-            if (video && video.querySelector('source') && video.querySelector('source').src !== newSrc) {
-                const source = document.createElement('source');
-                source.src = newSrc;
-                source.type = 'video/mp4';
-                video.innerHTML = '';
-                video.appendChild(source);
-                video.load();
-                video.play().catch(e => console.log('Video autoplay prevented'));
-            }
-        }
+ function setActiveSign(signName) {
+   document.querySelectorAll('.sign-btn').forEach(btn => btn.classList.remove('active'));
+   if (!signName) {
+     const defaultBtn = document.querySelector('.default-btn');
+     if (defaultBtn) defaultBtn.classList.add('active');
+     document.querySelectorAll('#signs-table tbody tr').forEach(row => row.style.background = '');
+     document.getElementById('selectedSignDisplay').innerHTML = 'The Circle of Mars';
+     document.getElementById('dailyReadingText').innerHTML = 'Select a sign to receive your daily guidance.';
+     const video = document.getElementById('bgVideo');
+     if (video && video.querySelector('source') && video.querySelector('source').src !== defaultThemeVideo) {
+       const source = document.createElement('source');
+       source.src = defaultThemeVideo;
+       source.type = 'video/mp4';
+       video.innerHTML = '';
+       video.appendChild(source);
+       video.load();
+       video.play().catch(e => console.log('Video autoplay prevented'));
+     }
+     return;
+   }
+   const activeBtn = Array.from(document.querySelectorAll('.sign-btn')).find(btn => btn.innerText === signName);
+   if (activeBtn) activeBtn.classList.add('active');
+   document.querySelectorAll('#signs-table tbody tr').forEach(row => {
+     const signCell = row.cells[0];
+     if (signCell.innerText === signName) row.style.background = 'rgba(255,215,0,0.2)';
+     else row.style.background = '';
+   });
+   const readingList = readings[signName];
+   const dayOfYear = getDayOfYear(new Date());
+   const index = dayOfYear % readingList.length;
+   document.getElementById('selectedSignDisplay').innerHTML = signName;
+   document.getElementById('dailyReadingText').innerHTML = readingList[index];
+   const video = document.getElementById('bgVideo');
+   const newSrc = (themes[signName] && themes[signName].video) || defaultThemeVideo;
+   if (video && video.querySelector('source') && video.querySelector('source').src !== newSrc) {
+     const source = document.createElement('source');
+     source.src = newSrc;
+     source.type = 'video/mp4';
+     video.innerHTML = '';
+     video.appendChild(source);
+     video.load();
+     video.play().catch(e => console.log('Video autoplay prevented'));
+   }
+ }
 
-        function getDayOfYear(date) {
-            const start = new Date(date.getFullYear(), 0, 0);
-            const diff = date - start;
-            return Math.floor(diff / 86400000);
-        }
+ function getSignByDate(date) {
+   const dayOfYear = getDayOfYear(date);
+   for (let sign of signs) {
+     if (dayOfYear >= sign.start && dayOfYear <= sign.end) return sign;
+   }
+   return signs[0];
+ }
 
-        function getSignByDate(date) {
-            const dayOfYear = getDayOfYear(date);
-            for (let sign of signs) {
-                if (dayOfYear >= sign.start && dayOfYear <= sign.end) return sign;
-            }
-            return signs[0];
-        }
+ function convertBirthday() {
+   const input = document.getElementById('birthday').value;
+   const resultDiv = document.getElementById('birthdayResult');
+   if (!input) { resultDiv.style.display = 'block'; resultDiv.innerHTML = 'Please enter a date.'; return; }
+   const date = new Date(input);
+   if (isNaN(date)) { resultDiv.style.display = 'block'; resultDiv.innerHTML = 'Invalid date.'; return; }
+   const sign = getSignByDate(date);
+   resultDiv.style.display = 'block';
+   resultDiv.innerHTML = `<strong>${sign.name} ${sign.emoji}</strong><br>${sign.traits}`;
+   setActiveSign(sign.name);
+ }
 
-        function convertBirthday() {
-            const input = document.getElementById('birthday').value;
-            const resultDiv = document.getElementById('birthdayResult');
-            if (!input) { resultDiv.style.display = 'block'; resultDiv.innerHTML = 'Please enter a date.'; return; }
-            const date = new Date(input);
-            if (isNaN(date)) { resultDiv.style.display = 'block'; resultDiv.innerHTML = 'Invalid date.'; return; }
-            const sign = getSignByDate(date);
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = `<strong>${sign.name} ${sign.emoji}</strong><br>${sign.traits}`;
-            setActiveSign(sign.name);
-        }
+ function buildUI() {
+   const selector = document.getElementById('signSelector');
+   selector.innerHTML = '';
+   const defaultBtn = document.createElement('div');
+   defaultBtn.className = 'sign-btn default-btn';
+   defaultBtn.innerText = '🌌 Zodiac Home';
+   defaultBtn.addEventListener('click', () => setActiveSign(null));
+   selector.appendChild(defaultBtn);
+   signs.forEach(sign => {
+     const btn = document.createElement('div');
+     btn.className = 'sign-btn';
+     btn.innerText = sign.name;
+     btn.addEventListener('click', () => setActiveSign(sign.name));
+     selector.appendChild(btn);
+   });
+   const tbody = document.querySelector('#signs-table tbody');
+   tbody.innerHTML = '';
+   signs.forEach(sign => {
+     const row = tbody.insertRow();
+     row.insertCell(0).innerText = sign.name;
+     row.insertCell(1).innerText = sign.emoji;
+     row.insertCell(2).innerText = `${sign.start}–${sign.end}`;
+     row.insertCell(3).innerText = sign.dateRange;
+     row.insertCell(4).innerText = sign.traits;
+     for (let i = 0; i < row.cells.length; i++) {
+       const headers = ['Sign', 'Emoji', 'Sol Range', 'Earth Date Range', 'Traits'];
+       row.cells[i].setAttribute('data-label', headers[i]);
+     }
+   });
+ }
 
-        // Build UI
-        function buildUI() {
-            // Sign buttons
-            const selector = document.getElementById('signSelector');
-            selector.innerHTML = '';
-            signs.forEach(sign => {
-                const btn = document.createElement('div');
-                btn.className = 'sign-btn';
-                btn.innerText = sign.name;
-                btn.addEventListener('click', () => setActiveSign(sign.name));
-                selector.appendChild(btn);
-            });
-            // Table rows
-            const tbody = document.querySelector('#signs-table tbody');
-            tbody.innerHTML = '';
-            signs.forEach(sign => {
-                const row = tbody.insertRow();
-                row.insertCell(0).innerText = sign.name;
-                row.insertCell(1).innerText = sign.emoji;
-                row.insertCell(2).innerText = `${sign.start}–${sign.end}`;
-                row.insertCell(3).innerText = sign.dateRange;
-                row.insertCell(4).innerText = sign.traits;
-                for (let i = 0; i < row.cells.length; i++) {
-                    const headers = ['Sign', 'Emoji', 'Sol Range', 'Earth Date Range', 'Traits'];
-                    row.cells[i].setAttribute('data-label', headers[i]);
-                }
-            });
-        }
+ let currentMonth = 0;
+ function renderMonth() {
+   const month = months[currentMonth];
+   document.getElementById('monthName').innerHTML = month.name;
+   document.getElementById('monthInfo').innerHTML = `${month.season} • ${month.days} sols • ${month.temp}`;
+   const grid = document.getElementById('solGrid');
+   grid.innerHTML = '';
+   for (let i = 1; i <= month.days; i++) {
+     const cell = document.createElement('div');
+     cell.className = 'sol-cell';
+     cell.textContent = `Sol ${i}`;
+     grid.appendChild(cell);
+   }
+ }
 
-        // Calendar
-        let currentMonth = 0;
-        function renderMonth() {
-            const month = months[currentMonth];
-            document.getElementById('monthName').innerHTML = month.name;
-            document.getElementById('monthInfo').innerHTML = `${month.season} • ${month.days} sols • ${month.temp}`;
-            const grid = document.getElementById('solGrid');
-            grid.innerHTML = '';
-            for (let i = 1; i <= month.days; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'sol-cell';
-                cell.textContent = `Sol ${i}`;
-                grid.appendChild(cell);
-            }
-        }
+ buildUI();
+ renderMonth();
+ document.getElementById('prevMonth').addEventListener('click', () => { if (currentMonth > 0) { currentMonth--; renderMonth(); } });
+ document.getElementById('nextMonth').addEventListener('click', () => { if (currentMonth < months.length-1) { currentMonth++; renderMonth(); } });
+ setActiveSign(null);
+ </script>
 
-        // Initialization
-        buildUI();
-        renderMonth();
-        document.getElementById('prevMonth').addEventListener('click', () => { if (currentMonth > 0) { currentMonth--; renderMonth(); } });
-        document.getElementById('nextMonth').addEventListener('click', () => { if (currentMonth < months.length-1) { currentMonth++; renderMonth(); } });
+ <script>
+ (function() {
+   document.querySelectorAll('video').forEach(v => { v.setAttribute('controlslist', 'nodownload'); v.addEventListener('contextmenu', (e) => e.preventDefault()); v.addEventListener('dragstart', (e) => e.preventDefault()); });
+   document.addEventListener('keydown', (e) => { const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video'); if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) e.preventDefault(); });
+ })();
 
-        // Set default active sign based on today's date
-        const today = new Date();
-        const defaultSign = getSignByDate(today);
-        setActiveSign(defaultSign.name);
-    </script>
+ const toggleBtn = document.getElementById('toggleContent');
+ const mainContent = document.getElementById('mainContent');
+ const pageFooter = document.getElementById('pageFooter');
+ const siteTitle = document.getElementById('siteTitle');
+ const mainMenu = document.querySelector('nav.top-menu');
+ const bgVideo = document.getElementById('bgVideo');
+ let contentVisible = true;
+ toggleBtn.addEventListener('click', () => {
+   contentVisible = !contentVisible;
+   mainContent.classList.toggle('hidden');
+   pageFooter.classList.toggle('hidden');
+   siteTitle.classList.toggle('hidden');
+   mainMenu.classList.toggle('hidden');
+   if (contentVisible) { toggleBtn.textContent = '🫣 Hide Content'; bgVideo.play(); }
+   else { toggleBtn.textContent = '📄 Show Content'; bgVideo.pause(); }
+ });
 
-    <!-- Standard site scripts (audio, hide content, mobile menu) -->
-    <script>
-        (function() { // video protection
-            document.querySelectorAll('video').forEach(video => {
-                video.setAttribute('controlslist', 'nodownload');
-                video.addEventListener('contextmenu', (e) => e.preventDefault());
-                video.addEventListener('dragstart', (e) => e.preventDefault());
-            });
-            document.addEventListener('keydown', (e) => {
-                const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
-                if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) e.preventDefault();
-            });
-        })();
+ const muteBtn = document.getElementById('muteBtn');
+ let isMuted = true;
+ let audioElements = [];
+ function initAudio() {
+   const sounds = [
+     { src: 'music/frankensteins-valentina-ext-v2.mp3', volume: 0.5 },
+     { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+     { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+   ];
+   sounds.forEach(sound => {
+     const audio = new Audio(sound.src);
+     audio.volume = sound.volume;
+     audio.loop = true;
+     audio.muted = true;
+     audioElements.push(audio);
+   });
+   const unmute = function() {
+     if (isMuted) {
+       audioElements.forEach(a => { a.muted = false; a.play().catch(e => console.log('Audio play failed')); });
+       isMuted = false;
+       muteBtn.textContent = "🔊 Mute Music";
+     }
+     document.removeEventListener('click', unmute);
+     document.removeEventListener('keydown', unmute);
+   };
+   document.addEventListener('click', unmute);
+   document.addEventListener('keydown', unmute);
+   setTimeout(() => { audioElements.forEach(a => a.play().catch(()=>{})); }, 1000);
+ }
+ muteBtn.addEventListener('click', () => {
+   if (!audioElements.length) initAudio();
+   isMuted = !isMuted;
+   audioElements.forEach(a => { a.muted = isMuted; if (!isMuted) a.play().catch(()=>{}); });
+   muteBtn.textContent = isMuted ? "🔇 Unmute Music" : "🔊 Play Music";
+ });
+ initAudio();
 
-        // Content toggle
-        const toggleBtn = document.getElementById('toggleContent');
-        const mainContent = document.getElementById('mainContent');
-        const pageFooter = document.getElementById('pageFooter');
-        const siteTitle = document.getElementById('siteTitle');
-        const mainMenu = document.querySelector('nav.top-menu');
-        const bgVideo = document.getElementById('bgVideo');
-        let contentVisible = true;
-        toggleBtn.addEventListener('click', () => {
-            contentVisible = !contentVisible;
-            mainContent.classList.toggle('hidden');
-            pageFooter.classList.toggle('hidden');
-            siteTitle.classList.toggle('hidden');
-            mainMenu.classList.toggle('hidden');
-            if (contentVisible) { toggleBtn.textContent = '🌌 Hide Content'; bgVideo.play(); }
-            else { toggleBtn.textContent = '📄 Show Content'; bgVideo.pause(); }
-        });
+ let lastScroll = 0;
+ window.addEventListener('scroll', () => {
+   let st = window.pageYOffset;
+   if (st > lastScroll && st > 50) siteTitle.classList.add('hidden');
+   else siteTitle.classList.remove('hidden');
+   lastScroll = st;
+ });
 
-        // Audio
-        const muteBtn = document.getElementById('muteBtn');
-        let isMuted = true;
-        let audioElements = [];
-        function initAudio() {
-            const sounds = [
-                { src: 'music/frankensteins-valentina-ext-v2.mp3', volume: 0.5 },
-                { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
-                { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
-            ];
-            sounds.forEach(sound => {
-                const audio = new Audio(sound.src);
-                audio.volume = sound.volume;
-                audio.loop = true;
-                audio.muted = true;
-                audioElements.push(audio);
-            });
-            const unmute = function() {
-                if (isMuted) {
-                    audioElements.forEach(a => { a.muted = false; a.play().catch(e => console.log('Audio play failed')); });
-                    isMuted = false;
-                    muteBtn.textContent = "🔊 MUTE MUSIC";
-                }
-                document.removeEventListener('click', unmute);
-                document.removeEventListener('keydown', unmute);
-            };
-            document.addEventListener('click', unmute);
-            document.addEventListener('keydown', unmute);
-            setTimeout(() => { audioElements.forEach(a => a.play().catch(()=>{})); }, 1000);
-        }
-        muteBtn.addEventListener('click', () => {
-            if (!audioElements.length) initAudio();
-            isMuted = !isMuted;
-            audioElements.forEach(a => { a.muted = isMuted; if (!isMuted) a.play().catch(()=>{}); });
-            muteBtn.textContent = isMuted ? "🔇 UNMUTE MUSIC" : "🔊 MUTE MUSIC";
-        });
-        initAudio();
+ let timer;
+ function resetTimer() {
+   clearTimeout(timer);
+   timer = setTimeout(() => {
+     if (contentVisible) {
+       siteTitle.classList.add('hidden');
+       document.querySelector('.content-toggle').style.opacity = '0.3';
+       document.querySelector('.audio-controls').style.opacity = '0.3';
+     }
+   }, 5000);
+ }
+ document.addEventListener('mousemove', resetTimer);
+ document.addEventListener('click', resetTimer);
+ resetTimer();
+ [document.querySelector('.content-toggle'), document.querySelector('.audio-controls')].forEach(el => {
+   if (el) {
+     el.addEventListener('mouseenter', () => el.style.opacity = '1');
+     el.addEventListener('mouseleave', () => { if (contentVisible) el.style.opacity = '0.3'; });
+   }
+ });
+ document.addEventListener('click', () => { if (bgVideo.paused) bgVideo.play().catch(()=>{}); });
 
-        // Site title hide on scroll
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            let st = window.pageYOffset;
-            if (st > lastScroll && st > 50) siteTitle.classList.add('hidden');
-            else siteTitle.classList.remove('hidden');
-            lastScroll = st;
-        });
-
-        // Auto-hide controls
-        let timer;
-        function resetTimer() {
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-                if (contentVisible) {
-                    siteTitle.classList.add('hidden');
-                    document.querySelector('.content-toggle').style.opacity = '0.3';
-                    document.querySelector('.audio-controls').style.opacity = '0.3';
-                }
-            }, 5000);
-        }
-        document.addEventListener('mousemove', resetTimer);
-        document.addEventListener('click', resetTimer);
-        resetTimer();
-        [document.querySelector('.content-toggle'), document.querySelector('.audio-controls')].forEach(el => {
-            if (el) {
-                el.addEventListener('mouseenter', () => el.style.opacity = '1');
-                el.addEventListener('mouseleave', () => { if (contentVisible) el.style.opacity = '0.3'; });
-            }
-        });
-
-        // Ensure video plays on user interaction
-        document.addEventListener('click', () => { if (bgVideo.paused) bgVideo.play().catch(()=>{}); });
-
-        // Mobile menu
-        const hamburger = document.getElementById('hamburgerBtn');
-        const closeMenu = document.getElementById('closeMenu');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const menuContent = document.querySelector('.menu-content');
-        function createMobileMenu() {
-            if (!menuContent) return;
-            menuContent.innerHTML = '';
-            const menuItems = [
-    { text: '🏠 Home', href: 'index.html' },
-    { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
-    { text: ' Homage to Courage', href: 'homage-to-courage.html' },
-    { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
-    { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
-    { text: ' My Mission', href: 'my-mission.html' },
-    { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
-    { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
-    { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
-    { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
-    { text: '📖 Story', href: 'story.html' },
-    { text: ' Characters', href: 'characters.html' },
-    { text: ' Gallery', href: 'gallery.html' },
-    { text: ' Art & Concepts', href: 'art-and-concepts.html' },
-    { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
-    { text: ' Technical Database', href: 'technical-database.html' },
-    { text: ' The Martian Edicts', href: 'martian-edicts.html' },
-    { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
-    { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
-    { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
-    { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
-    { text: '🎮 Martian Games', href: 'martian-games.html' },
-    { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
-    { text: ' Martian Racer', href: 'martian-racer.html' },
-    { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
-    { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
-    { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
-    { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
-    { text: ' Music Player', href: 'music-app.html' },
-    { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
-    { text: ' The Martian Zodiac', href: 'the-martian-zodiac.html', active: true },
-    { text: '🌍 Earth Codex', href: 'earth-codex.html' },
-    { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
-    { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
-    { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
-    { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
-    { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
-    { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
-    { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
-    { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
-    { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
-    { text: '📰 Martian News', href: 'martian-news.html' },
-    { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
-    { text: ' Martian Actualities', href: 'martian-actualities.html' },
-    { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
-    { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
-    { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
-    { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
-    { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
-    { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
-    { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
-    { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
-    { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
-    { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
-    { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
-    { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
-    { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
-    { text: ' Earthlings Beware', href: 'earthings-beware.html' },
-    { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
-    { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
-    { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
-    { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
-    { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
-    { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
-    { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
-    { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
-    { text: 'ℹ️ About', href: 'about.html' },
-    { text: ' About the Project', href: 'about-the-project.html' },
-    { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
-    { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
-    { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
-    { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
-    { text: ' The Pale Horse', href: 'the-pale-horse.html' },
-    { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
-    { text: ' Arachne Labs', href: 'arachne-labs.html' },
-    { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
-    { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
-    { text: '🤝 Support', href: 'support.html' },
-    { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
-    { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
-    { text: ' Cosmic Economics', href: 'cosmic-economics.html' },
-    { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
-    { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
-    { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
-    { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
-    { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
-    { text: '📧 Contact', href: 'contact.html' },
-    { text: ' The Martian Zodiac (current)', href: 'the-martian-zodiac.html', active: true }
-];
-            items.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'menu-item';
-                const a = document.createElement('a');
-                a.href = item.href;
-                a.textContent = item.text;
-                if (item.active) a.classList.add('active');
-                div.appendChild(a);
-                menuContent.appendChild(div);
-            });
-        }
-        createMobileMenu();
-        hamburger.addEventListener('click', () => { mobileMenu.classList.add('active'); document.body.style.overflow = 'hidden'; });
-        closeMenu.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = ''; });
-        document.addEventListener('click', (e) => {
-            if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
-                mobileMenu.classList.remove('active'); document.body.style.overflow = '';
-            }
-        });
-        window.addEventListener('resize', () => { if (window.innerWidth > 992) mobileMenu.classList.remove('active'); });
-    </script>
+ const hamburger = document.getElementById('hamburgerBtn');
+ const closeMenu = document.getElementById('closeMenu');
+ const mobileMenu = document.getElementById('mobileMenu');
+ const menuContent = document.querySelector('.menu-content');
+ function createMobileMenu() {
+   if (!menuContent) return;
+   menuContent.innerHTML = '';
+   const menuItems = [
+     { text: '🏠 Home', href: 'index.html' },
+     { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
+     { text: ' Homage to Courage', href: 'homage-to-courage.html' },
+     { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
+     { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
+     { text: ' My Mission', href: 'my-mission.html' },
+     { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
+     { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
+     { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
+     { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+     { text: '📖 Story', href: 'story.html' },
+     { text: ' Characters', href: 'characters.html' },
+     { text: ' Gallery', href: 'gallery.html' },
+     { text: ' Art & Concepts', href: 'art-and-concepts.html' },
+     { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
+     { text: ' Technical Database', href: 'technical-database.html' },
+     { text: ' The Martian Edicts', href: 'martian-edicts.html' },
+     { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
+     { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
+     { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
+     { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
+     { text: '🎮 Martian Games', href: 'martian-games.html' },
+     { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
+     { text: ' Martian Racer', href: 'martian-racer.html' },
+     { text: ' Red Planet Defense', href: 'red-planet-defense.html' },
+     { text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
+     { text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
+     { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
+     { text: ' Music Player', href: 'music-app.html' },
+     { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
+     { text: ' The Martian Zodiac', href: 'the-martian-zodiac.html', active: true },
+     { text: '🌍 Earth Codex', href: 'earth-codex.html' },
+     { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
+     { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
+     { text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
+     { text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
+     { text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
+     { text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
+     { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
+     { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
+     { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
+     { text: '📰 Martian News', href: 'martian-news.html' },
+     { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+     { text: ' Martian Actualities', href: 'martian-actualities.html' },
+     { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+     { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+     { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+     { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+     { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+     { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+     { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+     { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+     { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+     { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+     { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+     { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
+     { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
+     { text: ' Earthlings Beware', href: 'earthings-beware.html' },
+     { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
+     { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
+     { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
+     { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
+     { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
+     { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
+     { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
+     { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
+     { text: 'ℹ️ About', href: 'about.html' },
+     { text: ' About the Project', href: 'about-the-project.html' },
+     { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
+     { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+     { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+     { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+     { text: ' The Pale Horse', href: 'the-pale-horse.html' },
+     { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
+     { text: ' Arachne Labs', href: 'arachne-labs.html' },
+     { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+     { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
+     { text: '🤝 Support', href: 'support.html' },
+     { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
+     { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
+     { text: ' Cosmic Economics', href: 'cosmic-economics.html' },
+     { text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
+     { text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
+     { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
+     { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
+     { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
+     { text: '📧 Contact', href: 'contact.html' },
+     { text: ' The Martian Zodiac (current)', href: 'the-martian-zodiac.html', active: true }
+   ];
+   menuItems.forEach(item => {
+     const div = document.createElement('div');
+     div.className = 'menu-item';
+     const a = document.createElement('a');
+     a.href = item.href;
+     a.textContent = item.text;
+     if (item.active) a.classList.add('active');
+     div.appendChild(a);
+     menuContent.appendChild(div);
+   });
+ }
+ createMobileMenu();
+ hamburger.addEventListener('click', () => { mobileMenu.classList.add('active'); document.body.style.overflow = 'hidden'; });
+ closeMenu.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = ''; });
+ document.addEventListener('click', (e) => {
+   if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+     mobileMenu.classList.remove('active'); document.body.style.overflow = '';
+   }
+ });
+ window.addEventListener('resize', () => { if (window.innerWidth > 992) mobileMenu.classList.remove('active'); });
+ </script>
 </body>
 </html>
