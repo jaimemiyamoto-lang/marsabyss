@@ -553,19 +553,19 @@
  ];
 
  const signs = [
- { name: "The Shield", emoji: "🛡️🪐", start: 1, end: 58, traits: "Protective, quick to act, loyal. The guardians of the dome.", dateRange: "Mar 20 – May 17" },
- { name: "The Seeker", emoji: "🔍🧭", start: 59, end: 115, traits: "Curious, analytical, drawn to mysteries. The archivists and scientists.", dateRange: "May 18 – Jul 15" },
- { name: "The Giant", emoji: "🌋🏔️", start: 116, end: 171, traits: "Ambitious, resilient, commanding. The architects and leaders.", dateRange: "Jul 16 – Sep 12" },
- { name: "The Frost", emoji: "❄️🌬️", start: 172, end: 228, traits: "Reserved, contemplative, emotionally deep. The artists and dreamers.", dateRange: "Sep 13 – Nov 9" },
- { name: "The Wanderer", emoji: "🚀🌠", start: 229, end: 285, traits: "Independent, unpredictable, silent observer. The spies and solo explorers.", dateRange: "Nov 10 – Jan 6" },
- { name: "The Garden", emoji: "🌱🌸", start: 286, end: 342, traits: "Nurturing, hopeful, persistent. The healers and teachers.", dateRange: "Jan 7 – Mar 5" },
- { name: "The Storm", emoji: "🌪️⛈️", start: 343, end: 399, traits: "Passionate, transformative, leaves a mark. The revolutionaries and reformers.", dateRange: "Mar 6 – May 2" },
- { name: "The Bridge", emoji: "🌉🤝", start: 400, end: 456, traits: "Diplomatic, adaptable, connects opposites. The negotiators and peacemakers.", dateRange: "May 3 – Jun 29" },
- { name: "The Veil", emoji: "🎭🌌", start: 457, end: 513, traits: "Mysterious, intuitive, protective of others. The strategists and guardians of secrets.", dateRange: "Jun 30 – Aug 26" },
- { name: "The Anvil", emoji: "⚒️🔨", start: 514, end: 570, traits: "Persistent, practical, builds slowly. The engineers and builders.", dateRange: "Aug 27 – Oct 23" },
- { name: "The Mirror", emoji: "🪞🎨", start: 571, end: 627, traits: "Reflective, artistic, sees multiple sides. The curators and artists.", dateRange: "Oct 24 – Dec 20" },
- { name: "The Echo", emoji: "🔊📜", start: 628, end: 684, traits: "Nostalgic, loyal, haunted by the past, seeks closure. The historians and storytellers.", dateRange: "Dec 21 – Mar 19" }
- ];
+    { name: "The Shield", emoji: "🛡️🪐", start: 0, end: 56, traits: "Protective, quick to act, loyal. Guardians of the dome.", dateRange: "Mar 20 – Apr 18" },
+    { name: "The Seeker", emoji: "🔍🧭", start: 57, end: 113, traits: "Curious, analytical, drawn to mysteries.", dateRange: "Apr 19 – May 18" },
+    { name: "The Storm", emoji: "🌪️⛈️", start: 114, end: 170, traits: "Passionate, transformative, powerful force of change.", dateRange: "May 19 – Jun 17" },
+    { name: "The Bridge", emoji: "🌉🤝", start: 171, end: 227, traits: "Diplomatic, adaptable, unites opposites.", dateRange: "Jun 18 – Jul 17" },
+    { name: "The Giant", emoji: "🌋🏔️", start: 228, end: 284, traits: "Ambitious, resilient, natural leaders.", dateRange: "Jul 18 – Aug 22" },
+    { name: "The Veil", emoji: "🎭🌌", start: 285, end: 341, traits: "Mysterious, intuitive, guardians of secrets.", dateRange: "Aug 23 – Sep 21" },
+    { name: "The Anvil", emoji: "⚒️🔨", start: 342, end: 398, traits: "Persistent, practical, builders of reality.", dateRange: "Sep 22 – Oct 21" },
+    { name: "The Mirror", emoji: "🪞🎨", start: 399, end: 455, traits: "Reflective, artistic, sees truth from all sides.", dateRange: "Oct 22 – Nov 20" },
+    { name: "The Wanderer", emoji: "🚀🌠", start: 456, end: 512, traits: "Independent, unpredictable, explorers of the unknown.", dateRange: "Nov 21 – Dec 20" },
+    { name: "The Echo", emoji: "🔊📜", start: 513, end: 569, traits: "Nostalgic, loyal, voices of memory and history.", dateRange: "Dec 21 – Jan 19" },
+    { name: "The Garden", emoji: "🌱🌸", start: 570, end: 626, traits: "Nurturing, hopeful, cultivators of life.", dateRange: "Jan 20 – Feb 18" },
+    { name: "The Frost", emoji: "❄️🌬️", start: 627, end: 683, traits: "Reserved, deep, emotionally perceptive.", dateRange: "Feb 19 – Mar 19" }
+];
 
  // Unique daily readings for each sign (30 messages each, based on sign traits)
  const readings = {
@@ -853,12 +853,27 @@
  }
 
  function getSignByDate(date) {
-   const dayOfYear = getDayOfYear(date);
-   for (let sign of signs) {
-     if (dayOfYear >= sign.start && dayOfYear <= sign.end) return sign;
-   }
-   return signs[0];
- }
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+
+  let signName;
+
+  if ((m === 3 && d >= 20) || (m === 4 && d <= 18)) signName = "The Shield";
+  else if ((m === 4 && d >= 19) || (m === 5 && d <= 18)) signName = "The Seeker";
+  else if ((m === 5 && d >= 19) || (m === 6 && d <= 17)) signName = "The Storm";
+  else if ((m === 6 && d >= 18) || (m === 7 && d <= 17)) signName = "The Bridge";
+  else if ((m === 7 && d >= 18) || (m === 8 && d <= 22)) signName = "The Giant";
+  else if ((m === 8 && d >= 23) || (m === 9 && d <= 21)) signName = "The Veil";
+  else if ((m === 9 && d >= 22) || (m === 10 && d <= 21)) signName = "The Anvil";
+  else if ((m === 10 && d >= 22) || (m === 11 && d <= 20)) signName = "The Mirror";
+  else if ((m === 11 && d >= 21) || (m === 12 && d <= 20)) signName = "The Wanderer";
+  else if ((m === 12 && d >= 21) || (m === 1 && d <= 19)) signName = "The Echo";
+  else if ((m === 1 && d >= 20) || (m === 2 && d <= 18)) signName = "The Garden";
+  else if ((m === 2 && d >= 19) || (m === 3 && d <= 19)) signName = "The Frost";
+
+  // 🔥 THIS is the key fix:
+  return signs.find(s => s.name === signName);
+}
 
  function convertBirthday() {
    const input = document.getElementById('birthday').value;
