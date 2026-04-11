@@ -477,26 +477,15 @@ display: block;
 video[controls] {
     cursor: pointer;
 }
-
-.video-overlay {
-position: absolute;
-top: 50%;
-left: 50%0;
-transform: translate(-50%, -50%);
-z-index: 5;
-width: 100%;
-height: 100%;
-background: linear-gradient(10deg,
-rgba(10, 26, 42, 0.7) 0%,
-rgba(79, 195, 247, 0.2) 100%);
-padding: 1rem 2rem;
-border-radius: 10px;
-border: 2px solid #4fc3f7;
-pointer-events: none;
-display: flex;
-align-items: center;
-justify-content: center;
-}
+/* Force no filters on video elements */
+.quantum-video-container,
+.quantum-video-container video,
+.quantum-video {
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-filter: none !important;
+    transform: translateZ(0); /* otional, ensures GPU rendering without blur */
+}    
 
 .video-label {
 color: #e1f5fe;
@@ -1352,7 +1341,6 @@ opacity: 0.8;
 <source src="videos/futuristic-ai-master-arrival.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
-<div class="video-overlay">
 </div>
 </div>
 
