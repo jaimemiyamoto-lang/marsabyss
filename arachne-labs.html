@@ -52,7 +52,7 @@ object-fit: cover;
 z-index: 2;
 }
 
-/* SITE TITLE OVERLAY - WITH FADE */
+/* SITE TITLE OVERLAY */
 .site-title-overlay {
 position: fixed;
 top: 80px;
@@ -75,7 +75,7 @@ font-weight: 300;
 letter-spacing: 2px;
 }
 
-/* TOP MENU - WITH FADE */
+/* TOP MENU */
 nav.top-menu {
 position: fixed;
 top: 0;
@@ -164,18 +164,12 @@ color: #fff;
 display: block;
 }
 
-/* AUDIO CONTROLS - WITH FADE */
+/* AUDIO CONTROLS (always visible) */
 .audio-controls {
 position: fixed;
 bottom: 80px;
 right: 40px;
 z-index: 1000;
-transition: opacity 0.3s ease;
-}
-
-.audio-controls.hidden {
-opacity: 0;
-pointer-events: none;
 }
 
 .audio-btn {
@@ -192,6 +186,28 @@ font-size: 0.9rem;
 
 .audio-btn:hover {
 background: rgba(157, 78, 221, 0.6);
+}
+
+/* HIDE CONTENT BUTTON (manual toggle) */
+.hide-content-btn {
+position: fixed;
+top: 80px;
+right: 120px;
+z-index: 1000;
+background: rgba(138, 43, 226, 0.8);
+border: 2px solid #9d4edd;
+color: #fff;
+padding: 8px 15px;
+border-radius: 20px;
+cursor: pointer;
+font-family: 'Orbitron', sans-serif;
+font-size: 0.85rem;
+transition: all 0.3s ease;
+backdrop-filter: blur(5px);
+}
+
+.hide-content-btn:hover {
+background: rgba(157, 78, 221, 0.9);
 }
 
 /* CONTENT STYLING */
@@ -218,6 +234,12 @@ color: #9d4edd;
 max-width: 1200px;
 margin: 0 auto;
 padding: 2rem;
+transition: opacity 0.5s ease;
+}
+
+.content-container.hidden {
+opacity: 0;
+pointer-events: none;
 }
 
 .scene-container {
@@ -228,12 +250,6 @@ padding: 2.5rem;
 margin: 2rem 0;
 backdrop-filter: blur(10px);
 transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.scene-container.hidden {
-opacity: 0;
-transform: translateY(-20px);
-pointer-events: none;
 }
 
 .dialogue {
@@ -298,7 +314,7 @@ font-size: 2rem;
 opacity: 0.3;
 }
 
-/* ===== VIDEO CONTAINER STYLES ===== */
+/* VIDEO CONTAINER */
 .video-container {
 margin: 2rem 0;
 border-radius: 12px;
@@ -322,7 +338,7 @@ color: #9d4edd;
 font-size: 0.9rem;
 }
 
-/* ===== HAMBURGER MENU (PURPLE THEME) ===== */
+/* HAMBURGER MENU */
 .mobile-nav {
  display: none;
  position: fixed;
@@ -488,6 +504,10 @@ font-size: 0.9rem;
  bottom: 70px;
  right: 20px;
  }
+ .hide-content-btn {
+ top: 70px;
+ right: 15px;
+ }
 }
 
 /* Responsive adjustments */
@@ -500,6 +520,17 @@ font-size: 0.9rem;
  }
  .hero p {
  font-size: 1rem;
+ }
+ .content-container, .hero, .scene-container, .research-section {
+ max-width: 100%;
+ overflow-x: hidden;
+ word-wrap: break-word;
+ padding: 15px;
+ box-sizing: border-box;
+ }
+ img, video {
+ max-width: 100%;
+ height: auto;
  }
 }
 
@@ -517,6 +548,12 @@ font-family: 'Segoe UI', sans-serif;
 z-index: 1000;
 border-top: 2px solid #8a2be2;
 margin-top: 2rem;
+transition: opacity 0.5s ease;
+}
+
+footer.hidden {
+opacity: 0;
+pointer-events: none;
 }
 
 /* WEB ANIMATION */
@@ -534,7 +571,6 @@ animation: sway 8s infinite ease-in-out;
 75% { transform: translateX(-5px) rotate(-1deg); }
 }
 
-/* Spider animation */
 .spider {
 position: absolute;
 width: 40px;
@@ -584,7 +620,10 @@ content: '🕷️';
  <h1>The Mars Abyss</h1>
 </div>
 
-<!-- AUDIO CONTROLS -->
+<!-- HIDE CONTENT BUTTON (manual toggle) -->
+<button class="hide-content-btn" id="hideContentBtn">🕷️ Hide Content</button>
+
+<!-- AUDIO CONTROLS (always visible) -->
 <div class="audio-controls" id="audioControls">
  <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
@@ -608,9 +647,8 @@ content: '🕷️';
  </nav>
 </div>
 
-<!-- MENU (will disappear/reappear on hover) -->
+<!-- DESKTOP MENU (full) -->
 <nav class="top-menu" id="topMenu">
-
 <div class="dropdown">
 <a href="index.html" class="dropbtn">Home</a>
 <div class="dropdown-content">
@@ -625,7 +663,6 @@ content: '🕷️';
 <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
 </div>
 </div>
-
 <div class="dropdown">
 <a href="story.html" class="dropbtn">Story</a>
 <div class="dropdown-content">
@@ -675,7 +712,7 @@ content: '🕷️';
 <div class="dropdown">
 <a href="martian-news.html" class="dropbtn">Martian News</a>
 <div class="dropdown-content">
-<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a> 
+<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
 <a href="martian-actualities.html">Martian Actualities</a>
 <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
 <a href="mars-bee-facility.html">Mars Bee Facility</a>
@@ -693,7 +730,6 @@ content: '🕷️';
 </div>
 </div>
 </div>
-
 <div class="dropdown">
 <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
 <div class="dropdown-content">
@@ -728,7 +764,7 @@ content: '🕷️';
 <div class="dropdown">
 <a href="support.html" class="dropbtn">Support</a>
 <div class="dropdown-content">
-<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+<a href="silver's-sign-language-course.html">Silver's language Academy</a>
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="cosmic-economics.html">Cosmic Economics</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
@@ -747,23 +783,33 @@ content: '🕷️';
  <p>Arachne Labs - Where Science Meets Solace</p>
 </section>
 
-<div class="content-container">
+<div class="content-container" id="mainContent">
+ <!-- CREDIT SECTION FOR DOME ADAPTATIONS (with improved readability) -->
+ <div class="research-section" style="border-color: #8a2be2; background: rgba(20, 5, 35, 0.85); backdrop-filter: blur(10px); text-align: center;">
+   <h2 style="color: #ffd700;">🏆 Martian Dome Innovation Award</h2>
+   <p style="font-size: 1.2rem;">The adaptive dome technologies that respond to changing weather and hostile environments were developed by <strong>Zora Kováčová</strong> (Arachne Labs) and her sister, <strong>the Beekeeper of Mars</strong> (Mars Bee Facility).</p>
+   <p>Their biomimetic systems – spider‑silk atmospheric sensors and bee‑hive structural redundancy – have been adopted across all Martian domes, reducing failure rates by 73%.</p>
+   <div style="margin: 1.5rem 0;">
+     <a href="tharsis-scientific-lectures.html" style="color: #4cc9f0; text-decoration: none; border-bottom: 2px solid #4cc9f0;">📖 Watch the Tharsis Scientific Lecture on these innovations →</a>
+   </div>
+ </div>
+
  <div class="scene-container spider-web" id="regentsVisit">
  <h2 style="color: #9d4edd;">🕷️ The Regent's Visit</h2>
  <div class="lab-description">
  <div>
- <p>The Arachne Laboratories hummed with controlled life. In the low-gravity environment, spiders of Earth descent spun webs of incredible complexity, their patterns altered by the Martian conditions. Dr. Elara Vance moved between the habitats, her movements graceful despite the weight in her heart.</p>
+ <p>The Arachne Laboratories hummed with controlled life. In the low-gravity environment, spiders of Earth descent spun webs of incredible complexity, their patterns altered by the Martian conditions. <strong>Zora Kováčová</strong> moved between the habitats, her movements graceful despite the weight in her heart.</p>
  <p>The Regent found her staring at a particularly intricate web, tears tracing paths down her cheeks.</p>
  </div>
  </div>
 
  <div class="dialogue">
  <div class="character">THE REGENT</div>
- <p>"Elara? Your biometrics indicated distress. The spiders thrive, but their caretaker withers."</p>
+ <p>"Zora? Your biometrics indicated distress. The spiders thrive, but their caretaker withers."</p>
  </div>
 
  <div class="dialogue">
- <div class="character">DR. ELARA VANCE</div>
+ <div class="character">ZORA KOVÁČOVÁ</div>
  <p>"They adapt so beautifully to this world. Their webs become mathematical poetry in low gravity. I just wish... I could adapt as well."</p>
  </div>
 
@@ -773,7 +819,7 @@ content: '🕷️';
  </div>
 
  <div class="dialogue">
- <div class="character">DR. ELARA VANCE</div>
+ <div class="character">ZORA KOVÁČOVÁ</div>
  <p>"Can I... would a hug be inappropriate protocol?"</p>
  </div>
 
@@ -783,20 +829,20 @@ content: '🕷️';
  </div>
 
  <div style="margin: 2rem 0;">
- <p>As they separated, Elara's eyes darted to movement in the corner.</p>
+ <p>As they separated, Zora's eyes darted to movement in the corner.</p>
  </div>
 
- <!-- VIDEO 1: Elara making the heart gesture -->
+ <!-- VIDEO 1: Heart gesture -->
  <div class="video-container">
  <video controls playsinline>
  <source src="videos/woman-forming-heart-2.mp4" type="video/mp4">
  Your browser does not support the video tag.
  </video>
- <div class="video-caption">Elara's silent gesture – the moment that softened even the Regent</div>
+ <div class="video-caption">Zora's silent gesture – the moment that softened even the Regent</div>
  </div>
 
  <div class="dialogue">
- <div class="character">DR. ELARA VANCE</div>
+ <div class="character">ZORA KOVÁČOVÁ</div>
  <p>"Arachne, no! Back to your web. And you, Cleopatra - he's not prey. Both of you, return to habitats."</p>
  </div>
 
@@ -810,7 +856,7 @@ content: '🕷️';
  </div>
 
  <div class="dialogue">
- <div class="character">DR. ELARA VANCE</div>
+ <div class="character">ZORA KOVÁČOVÁ</div>
  <p>"Arachne is a Martian orb-weaver - harmless but curious. Cleopatra is a modified black widow. Her venom could drop a grown man in seconds. But they both understand I'm their alpha."</p>
  </div>
  </div>
@@ -838,7 +884,7 @@ content: '🕷️';
  <p style="color: #ffd700;">— Signed, The Regent</p>
  </div>
 
- <!-- VIDEO 2: Mars Spider concept (placeholder for AI-generated video) -->
+ <!-- VIDEO 2: Mars Spider concept -->
  <div class="video-container">
  <video controls playsinline>
  <source src="videos/mars-spider-concept.mp4" type="video/mp4">
@@ -853,23 +899,20 @@ content: '🕷️';
  </div>
  </div>
 
- <!-- 🕸️ FLAGSHIP PROJECT: THE FRANKINCENSE DOME -->
-<div class="research-section" style="border-color: #8a2be2; background: rgba(20, 5, 35, 0.85);
-backdrop-filter: blur(10px);
-border-radius: 12px;
-padding: 2.5rem;">
+ <!-- FLAGSHIP PROJECT: FRANKINCENSE DOME -->
+<div class="research-section" style="border-color: #8a2be2; background: rgba(20, 5, 35, 0.85); backdrop-filter: blur(10px); border-radius: 12px; padding: 2.5rem;">
  <h2 style="color: #8a2be2;">🌿 The Frankincense Dome: A Living Sanctuary</h2>
  
  <div class="lab-description">
  <div>
  <p>The most vital application of Arachne Labs' research lies in <strong>Dome 47</strong>. Here, the laboratory's theoretical work becomes a matter of interplanetary preservation.</p>
  
- <p>Dr. Vance's genetically engineered <strong>Martian Orb-Weavers</strong> have been deployed to protect the colony's most precious ecological archive: the last living groves of Earth's Boswellia trees. Their nano-silk is spun into vast, protective canopies that shield the ancient frankincense trees from harmful radiation while allowing optimal light for photosynthesis.</p>
+ <p>Zora Kováčová's genetically engineered <strong>Martian Orb-Weavers</strong> have been deployed to protect the colony's most precious ecological archive: the last living groves of Earth's Boswellia trees. Their nano-silk is spun into vast, protective canopies that shield the ancient frankincense trees from harmful radiation while allowing optimal light for photosynthesis.</p>
  </div>
  </div>
 
  <div class="dialogue" style="border-left-color: #4cc9f0;">
- <div class="character">DR. ELARA VANCE (Research Log, Sol 298)</div>
+ <div class="character">ZORA KOVÁČOVÁ (Research Log, Sol 298)</div>
  <p>"The spiders understand their purpose. Their webs are not just structures; they are sensory networks. Each strand monitors humidity, detects microscopic pest invasions 48 hours before visible signs appear, and alerts MAI to dispatch healing nanites. They are the silent, intelligent guardians of a heritage we nearly lost on Earth."</p>
  </div>
 
@@ -883,27 +926,27 @@ padding: 2.5rem;">
  
  <div class="spider-type venomous" style="border-color: #8a2be2; background: rgba(138, 43, 226, 0.1);">
  <h3>🔬 Symbiotic Research</h3>
- <p><strong>Partnership:</strong> Joint operation with the <em>Mars Bee Facility</em>.<br>
+ <p><strong>Partnership:</strong> Joint operation with the <em>Mars Bee Facility</em> (the Beekeeper's lab).<br>
  <strong>Objective:</strong> Create a closed, resilient ecosystem where spiders, bees, and trees mutually thrive.<br>
  <strong>Outcome:</strong> 0% tree loss since project inception.</p>
  </div>
  </div>
 
- <!-- VIDEO 3: The heart gesture video (same as background) to introduce the Dome -->
+ <!-- VIDEO 3: Garden robot (placeholder) -->
  <div class="video-container">
  <video controls playsinline>
  <source src="videos/garden robot.mp4" type="video/mp4">
  Your browser does not support the video tag.
  </video>
- <div class="video-caption">Elara's love for life – extended to every tree in the Frankincense Dome</div>
+ <div class="video-caption">Zora's love for life – extended to every tree in the Frankincense Dome</div>
  </div>
 
- <!-- THE CRITICAL CALL-TO-ACTION LINK -->
+ <!-- CALL TO ACTION -->
  <div style="text-align: center; margin-top: 2.5rem; padding: 1.5rem; background: rgba(138, 43, 226, 0.1); border-radius: 8px; border: 2px dashed #8a2be2;">
  <p style="color: #9d4edd; font-size: 1.1rem; margin-bottom: 1rem;">
  <strong>This is where laboratory science meets Martian stewardship.</strong>
  </p>
- <a href="the-frankincense-dome.html" 
+ <a href="the-frankincense-dome.html"
  style="display: inline-block; background: linear-gradient(135deg, rgba(138, 43, 226, 0.9), rgba(76, 201, 240, 0.9)); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: bold; border: 2px solid #fff; box-shadow: 0 0 15px rgba(138, 43, 226, 0.6); transition: all 0.3s ease;">
  🕸️ Visit The Frankincense Dome 🪐
  </a>
@@ -914,132 +957,72 @@ padding: 2.5rem;">
 </div>
 </div>
 
-<footer>
+<footer id="pageFooter">
  <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
 
 <script>
-// Video handling
+// Video background handling
 const videoBg = document.getElementById('labVideo');
-const staticBg = document.getElementById('staticBg');
-
-videoBg.addEventListener('loadeddata', function() {
- console.log('Video loaded successfully');
-});
-
 videoBg.addEventListener('error', function() {
  console.log('Video failed to load, using static background');
 });
 
-// WORKING AUDIO SYSTEM
+// AUDIO SYSTEM (simple)
 const muteBtn = document.getElementById('muteBtn');
-let isMuted = true;
-let audioElements = [];
+const audio = new Audio('music/we-are-going-home.mp3');
+audio.loop = true;
+audio.volume = 0.5;
+audio.muted = true;
+let audioPlaying = false;
 
-function initAudio() {
- const sounds = [
- { src: 'music/we-are-going-home.mp3', volume: 0.5 }
- ];
-
- sounds.forEach(sound => {
- const audio = new Audio(sound.src);
- audio.volume = sound.volume;
- audio.loop = true;
- audio.muted = true;
- audioElements.push(audio);
- });
-
- document.addEventListener('click', function unmuteAudio() {
- if (!isMuted) {
- audioElements.forEach(audio => {
- audio.muted = false;
- audio.play().catch(e => console.log('Audio play failed'));
- });
- isMuted = false;
- muteBtn.textContent = "🔊 Mute Sounds";
+muteBtn.addEventListener('click', () => {
+ if (audioPlaying) {
+  audio.pause();
+  audioPlaying = false;
+  muteBtn.textContent = '🔇 Unmute Sounds';
+ } else {
+  audio.play().catch(e => console.log('Audio play failed:', e));
+  audioPlaying = true;
+  muteBtn.textContent = '🔊 Mute Sounds';
  }
- document.removeEventListener('click', unmuteAudio);
- }, { once: true });
-}
-
-muteBtn.addEventListener('click', function() {
- isMuted = !isMuted;
- audioElements.forEach(audio => {
- audio.muted = isMuted;
- });
- muteBtn.textContent = isMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
 });
 
-initAudio();
+// Auto‑play attempt (user interaction needed)
+document.addEventListener('click', function initAudio() {
+ if (!audioPlaying && audio.muted) {
+  audio.muted = false;
+  audio.play().catch(() => {});
+  audioPlaying = true;
+  muteBtn.textContent = '🔊 Mute Sounds';
+ }
+ document.removeEventListener('click', initAudio);
+}, { once: true });
 
-// DISAPPEARING HEADERS SYSTEM (the feature you liked)
+// ===== SIMPLE HIDE CONTENT (manual only) =====
+const hideBtn = document.getElementById('hideContentBtn');
 const siteTitle = document.getElementById('siteTitle');
 const topMenu = document.getElementById('topMenu');
-const audioControls = document.getElementById('audioControls');
-const regentsVisit = document.getElementById('regentsVisit');
+const mainContent = document.getElementById('mainContent');
+const footer = document.getElementById('pageFooter');
+let contentHidden = false;
 
-let lastScrollTop = 0;
-let hideTimeout;
-let regentsVisitTimer;
-
-// Function to hide header elements
-function hideHeaderElements() {
- siteTitle.classList.add('hidden');
- topMenu.classList.add('hidden');
- audioControls.classList.add('hidden');
-}
-
-// Function to show header elements AND the Regent's Visit section
-function showHeaderElements() {
- siteTitle.classList.remove('hidden');
- topMenu.classList.remove('hidden');
- audioControls.classList.remove('hidden');
- regentsVisit.classList.remove('hidden'); // ALSO SHOW THE SECTION
- startRegentsVisitTimer(); // Restart the reading timer
-}
-
-// Auto-hide headers after delay
-function startHeaderHideTimer() {
- clearTimeout(hideTimeout);
- hideTimeout = setTimeout(hideHeaderElements, 3000); // Hide after 3 seconds
-}
-
-// Hide Regent's Visit section after longer delay (for reading)
-function startRegentsVisitTimer() {
- clearTimeout(regentsVisitTimer);
- regentsVisitTimer = setTimeout(() => {
- regentsVisit.classList.add('hidden');
- }, 10000); // Hide after 10 seconds (enough time to read)
-}
-
-// Show headers when mouse is near top
-function checkMousePosition(e) {
- if (e.clientY < 150) { // If mouse is near top of screen
- showHeaderElements();
- startHeaderHideTimer(); // Restart the hide timer
- }
-}
-
-// Scroll handling for headers
-window.addEventListener('scroll', function() {
- let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
- if (scrollTop > lastScrollTop && scrollTop > 50) {
- // Scrolling down - let the timer handle hiding
+hideBtn.addEventListener('click', () => {
+ contentHidden = !contentHidden;
+ if (contentHidden) {
+  siteTitle.classList.add('hidden');
+  topMenu.classList.add('hidden');
+  mainContent.classList.add('hidden');
+  footer.classList.add('hidden');
+  hideBtn.textContent = '🕸️ Show Content';
  } else {
- // Scrolling up - show headers AND the section
- showHeaderElements();
- startHeaderHideTimer();
+  siteTitle.classList.remove('hidden');
+  topMenu.classList.remove('hidden');
+  mainContent.classList.remove('hidden');
+  footer.classList.remove('hidden');
+  hideBtn.textContent = '🕷️ Hide Content';
  }
- lastScrollTop = scrollTop;
 });
-
-// Mouse movement handling
-document.addEventListener('mousemove', function(e) {
- checkMousePosition(e);
-});
-
-// Show headers AND section when hovering over menu area
-topMenu.addEventListener('mouseenter', showHeaderElements);
 
 // ===== MOBILE HAMBURGER MENU =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -1050,7 +1033,6 @@ const menuContent = document.querySelector('.menu-content');
 function createMobileMenu() {
 if (!menuContent) return;
 menuContent.innerHTML = '';
-
 const menuItems = [
  { text: '🏠 Home', href: 'index.html' },
  { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
@@ -1062,7 +1044,6 @@ const menuItems = [
  { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
  { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
  { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
-
  { text: '📖 Story', href: 'story.html' },
  { text: ' Characters', href: 'characters.html' },
  { text: ' Gallery', href: 'gallery.html' },
@@ -1074,7 +1055,6 @@ const menuItems = [
  { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
  { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
  { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
-
  { text: '🎮 Martian Games', href: 'martian-games.html' },
  { text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
  { text: ' Martian Racer', href: 'martian-racer.html' },
@@ -1084,7 +1064,7 @@ const menuItems = [
  { text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
  { text: ' Music Player', href: 'music-app.html' },
  { text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
-
+ { text: ' The Martian Zodiac', href: 'the-martian-zodiac.html' },
  { text: '🌍 Earth Codex', href: 'earth-codex.html' },
  { text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
  { text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
@@ -1095,7 +1075,6 @@ const menuItems = [
  { text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
  { text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
  { text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
-
  { text: '📰 Martian News', href: 'martian-news.html' },
  { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
  { text: ' Martian Actualities', href: 'martian-actualities.html' },
@@ -1109,7 +1088,6 @@ const menuItems = [
  { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
  { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
  { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
-
  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
  { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
  { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
@@ -1122,7 +1100,6 @@ const menuItems = [
  { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
  { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
  { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
-
  { text: 'ℹ️ About', href: 'about.html' },
  { text: ' About the Project', href: 'about-the-project.html' },
  { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
@@ -1134,7 +1111,6 @@ const menuItems = [
  { text: ' Arachne Labs', href: 'arachne-labs.html' },
  { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
  { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
-
  { text: '🤝 Support', href: 'support.html' },
  { text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
  { text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
@@ -1144,62 +1120,45 @@ const menuItems = [
  { text: ' Fund Martian Research', href: 'fund-martian-research.html' },
  { text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
  { text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
-
  { text: '📧 Contact', href: 'contact.html' },
  { text: '🕷 Arachne Labs (current)', href: 'arachne-labs.html', active: true }
 ];
-
 menuItems.forEach(item => {
-const menuItem = document.createElement('div');
-menuItem.className = 'menu-item';
-const link = document.createElement('a');
-link.href = item.href;
-link.textContent = item.text;
-if (item.active) link.classList.add('active');
-menuItem.appendChild(link);
-menuContent.appendChild(menuItem);
+ const div = document.createElement('div');
+ div.className = 'menu-item';
+ const a = document.createElement('a');
+ a.href = item.href;
+ a.textContent = item.text;
+ if (item.active) a.classList.add('active');
+ div.appendChild(a);
+ menuContent.appendChild(div);
 });
 }
 
 createMobileMenu();
-
 hamburgerBtn.addEventListener('click', () => {
-mobileMenu.classList.add('active');
-document.body.style.overflow = 'hidden';
+ mobileMenu.classList.add('active');
+ document.body.style.overflow = 'hidden';
 });
-
 closeMenu.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
+ mobileMenu.classList.remove('active');
+ document.body.style.overflow = '';
 });
-
 document.addEventListener('click', (e) => {
-if (mobileMenu.classList.contains('active') &&
-!mobileMenu.contains(e.target) &&
-!hamburgerBtn.contains(e.target)) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
+ if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+  mobileMenu.classList.remove('active');
+  document.body.style.overflow = '';
+ }
 });
-
 document.querySelectorAll('.mobile-menu a').forEach(link => {
-link.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
+ link.addEventListener('click', () => {
+  mobileMenu.classList.remove('active');
+  document.body.style.overflow = '';
+ });
 });
+window.addEventListener('resize', () => {
+ if (window.innerWidth > 992) mobileMenu.classList.remove('active');
 });
-
-function handleResize() {
-if (window.innerWidth > 992) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
-}
-window.addEventListener('resize', handleResize);
-
-// Start the initial timers
-startHeaderHideTimer();
-startRegentsVisitTimer();
 </script>
 </body>
 </html>
