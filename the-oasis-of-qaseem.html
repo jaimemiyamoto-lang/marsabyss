@@ -589,26 +589,36 @@ footer {
 }
 
 @keyframes plasmaPulse {
-    0% { box-shadow: 0 0 5px #c9a343; }
-    50% { box-shadow: 0 0 20px #c9a343; }
-    100% { box-shadow: 0 0 5px #c9a343; }
+    0% { box-shadow: 0 0 5px #c9a343, 0 4px 15px rgba(0, 0, 0, 0.5); 
+    border-color: #c9a343;
+}
+    50% { box-shadow: 0 0 20px #c9a343, 0 0 30px #c9a343, 0 4px 15px rgba(0, 0, 0, 0.5);
+    border-color: #ffd700;
+ }
+    100% { box-shadow: 0 0 5px #c9a343, 0 4px 15px rgba(0, 0, 0, 0.5);
+    border-color: #c9a343, 0 4px 15px rgba(0, 0, 0, 0.5);
+ }
 }
 
 .hamburger-btn span {
     display: block;
-    width: 25px;
-    height: 2px;
-    background: #c9a343;
-    margin: 3px 0;
-    transition: all 0.3s ease;
+    width: 28px;
+    height: 3px;
+    background: linear-gradient(900deg, #c9a343, #f5e6b3);
+    margin: 4px 0;
+    border-radius: 4px;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 8px rgba(201, 163, 67, 0.6);
 }
 
 .hamburger-btn:hover {
     background: linear-gradient(135deg, #c9a343, #b58a2e);
+    transform: scale(1.05);
 }
 
 .hamburger-btn:hover span {
-    background: #006c53;
+    background: linear-gradient(135deg, #006c35, #004d26);
+    box-shadow: 0 0 12px #006c35;
 }
 
 .mobile-menu {
@@ -743,7 +753,23 @@ footer {
 }
 
 @media (max-width: 768px) {
-    .episode-card h2 {
+    .button-stack {
+        top: 120px; 
+        right: 15px;
+    }
+    .site-title-overlay {
+        top: 15px;
+        left: 15px;
+    }
+    .site-title-overlay h1 {
+        font-size: 1.2rem;  
+        max-width: 60%;
+    }
+    .audio-controls {
+        bottom: 70px;
+        right: 20px;
+    }
+        .episode-card h2 {
         font-size: 1.5rem;
     }
     .scripture-text {
