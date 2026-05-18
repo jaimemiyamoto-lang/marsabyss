@@ -884,6 +884,23 @@ Your browser does not support the video tag.
 </footer>
 
 <script>
+
+ // ==== VIDEO PROTECTION === 
+(function() {
+    document.querySelectorAll(videoBg).forEach(video => {
+        video.setAttribute('controlsList', 'nodownload nofullscreen noremoteplayback');
+        video.addEventListener('contextmenu', e => e.preventDefault());
+        video.addEventListener('dragstart', e => e.preventDefault());
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I', 'C', 'J'].includes(e.key))) {
+            e.preventDefault();
+            alert('Developer tools are disabled to protect our content. Please enjoy the experience!');
+        }
+    });
+})();
+  
 // VIDEO BACKGROUND
 const videoBg = document.getElementById('videoBg');
 const muteBtn = document.getElementById('muteBtn');
