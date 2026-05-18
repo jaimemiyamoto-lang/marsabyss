@@ -796,14 +796,22 @@ Your browser does not support the video tag.
 <h2>🎩 THE REGENT'S SIGNATURE LOOK</h2>
 <p>At home, The Regent prefers the comfort and familiarity of Earth-inspired attire</p>
 <div class="style-display">
-<div class="hat-animation"></div>
+<video
+poster="images/Silver walking with the Regent.jpg"
+controls
+controlslist="nodownload"
+style="width: 100%; height: 100%;" object-fit="cover;"
+autoplay muted loop playsinline>
+<source src="videos/Silvers joke.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
 </div>
 <div style="margin-top: 1rem;">
-<h4>ESSENTIAL ELEMENTS:</h4>
-<p>• <strong>Dust Hat:</strong> Black with gold embroidery, believed to deflect cosmic rays</p>
-<p>• <strong>Vest & Rolled Sleeves:</strong> Practical for Mars' temperature-controlled environments</p>
-<p>• <strong>Dome Wear:</strong> Old Earth pioneer-inspired pieces for comfort and style</p>
-<p>• <strong>Earth Textures:</strong> Natural fabrics that remind him of home</p>
+<h4>ESSENTIAL ELEMENTS FOR ANY OCCASION:</h4>
+<p>• <strong>Something regal.</strong> Ceremonial coat, vest, dark or white shirt - whatever says "I belong here. Because you do." (Black with gold embroidery — believed to deflect cosmic rays.) Practical for Mars' temperature-controlled environments</p>
+<p>• <strong>Silver beside you.</strong> A companion who laughs at your jokes and questions your choices — when you laugh at hers. 😉</p>
+<p>• <strong>A necklace that means something.</strong> Or doesn't. Your call. Just old Earth pioneer-inspired pieces for comfort and style.</p>
+<p>• <strong>That's it.</strong> As long as you're not walking naked, you're good. "Au naturel" here means natural fabrics that remind you of home. ☺️"</p>
 </div>
 </div>
 
@@ -887,7 +895,7 @@ Your browser does not support the video tag.
 
  // ==== VIDEO PROTECTION === 
 (function() {
-    document.querySelectorAll(videoBg).forEach(video => {
+    document.querySelectorAll('video').forEach(video => {
         video.setAttribute('controlsList', 'nodownload nofullscreen noremoteplayback');
         video.addEventListener('contextmenu', e => e.preventDefault());
         video.addEventListener('dragstart', e => e.preventDefault());
