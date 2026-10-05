@@ -963,24 +963,28 @@ const fallbackHeadlines = [
   '🐋 Whale sanctuary becomes top tourist attraction'
 ];
 
-// Load real space news from NASA's RSS feed
-const RSS_URL = 'https://www.nasa.gov/rss/dyn/breaking_news.rss';
-const RSS_API = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(RSS_URL);
+// Load real space news from multiple RSS feeds
+const feeds = [
+  'https://www.nasa.gov/news-release/feed/',
+  'https://www.space.com/feeds/all',
+  'https://phys.org/rss-feed/space-news/'
+];
 
-fetch(RSS_API)
-  .then(response => response.json())
-  .then(data => {
-    if (data.status === 'ok' && data.items && data.items.length > 0) {
-      const headlines = data.items.slice(0, 8).map(item => '🛰 ' + item.title);
-      renderTicker(headlines);
-    } else {
-      renderTicker(fallbackHeadlines);
-    }
-  })
-  .catch(error => {
-    console.log('RSS fetch failed, using fallback headlines');
-    renderTicker(fallbackHeadlines);
-  });
+Promise.all(
+  feeds.map(url =>
+    fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url))
+      .then(r => r.json())
+      .then(d => (d.status === 'ok' ? d.items.map(i => i.title) : []))
+      .catch(() => [])
+  )
+).then(results => {
+  const allHeadlines = results.flat().slice(0, 12).map(t => '🛰 ' + t);
+  renderTicker(allHeadlines.length ? allHeadlines : fallbackHeadlines);
+})
+.catch(error => {
+  console.log('All RSS feeds failed, using fallback headlines');
+  renderTicker(fallbackHeadlines);
+});
 
 function renderTicker(headlines) {
   // Double the list so the animation loops seamlessly
