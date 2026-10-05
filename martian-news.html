@@ -656,7 +656,7 @@ body {
   }
 
   /* Sub-pages - dimmer, smaller, indented to show they belong above */
-  .main-content .menu-item.sub-page a {
+  .menu-content .menu-item.sub-page a {
     color: #b8b8d0;
     font-weight: 400;
     font-size: 0.9rem;
@@ -1142,6 +1142,7 @@ function createMobileMenu() {
     menuContent.appendChild(div);
   });
 }
+  createMobileMenu();
 
 hamburgerBtn.addEventListener('click', () => {
   mobileMenu.classList.add('active');
