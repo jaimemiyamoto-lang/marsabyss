@@ -644,9 +644,26 @@ body {
 .video-background {
  will-change: transform;
 }
+  /* Main section titles - bold, brighter, with a background tint */
+  .menu-content .menu-item.main-title a {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    background: rgba(74, 103, 150, 0.15);
+    border-left: 3px solid #4A6796;
+    margin-top: 8px;
+  }
+
+  /* Sub-pages - dimmer, smaller, indented to show they belong above */
+  .main-content .menu-item.sub-page a {
+    color: #b8b8d0;
+    font-weight: 400;
+    font-size: 0.9rem;
+    padding-left: 28px;
+  }
 </style>
 </head>
-
 <body>
 
 <!-- HAMBURGER MENU (new) -->
@@ -932,42 +949,79 @@ Your browser does not support the video tag.
 // ===== TICKER =====
 const ticker = document.getElementById('breakingTicker');
 const tickerContent = document.getElementById('tickerContent');
-const newsItems = Array.from(tickerContent.children).map(span => span.textContent);
 
-tickerContent.innerHTML = newsItems.concat(newsItems).map(text =>
- `<span class="ticker-item">${text}</span>`
-).join('');
+// Fallback headlines (used if the feed is slow or down)
+const fallbackHeadlines = [
+  '🔭 Europa Crisis: NASA discovers 18-mile thick ice trapping Martian tanker',
+  '📰 Regent authorizes rescue mission for trapped Delta-7 crew',
+  '🔬 Water discovery in Valles Marineris could support colony expansion',
+  '🎉 First Martian-born generation reaches adulthood',
+  '🌌 New entertainment dome opens in New Shanghai',
+  '🤝 Earth delegation arrives for trade talks',
+  '⚡ AI weather system prevents dust storm disaster',
+  '🍷 Martian wine harvest exceeds expectations',
+  '🐋 Whale sanctuary becomes top tourist attraction'
+];
 
-ticker.addEventListener('click', function() {
- const modal = document.createElement('div');
- modal.style.cssText = `
- position: fixed;
- top: 50%;
- left: 50%;
- transform: translate(-50%, -50%);
- width: 80%;
- max-width: 500px;
- background: rgba(20, 20, 30, 0.98);
- border: 3px solid #ff4b4b;
- border-radius: 10px;
- padding: 20px;
- z-index: 10000;
- color: white;
- font-family: 'Orbitron', sans-serif;
- box-shadow: 0 0 50px rgba(255, 75, 75, 0.5);
- backdrop-filter: blur(10px);
- `;
- 
- modal.innerHTML = `
- <h3 style="color: #ff4b4b; margin-bottom: 15px;">📰 BREAKING NEWS</h3>
- <ul style="list-style: none; max-height: 300px; overflow-y: auto; padding-right: 10px;">
- ${newsItems.map((item, i) => `<li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);" onclick="alert('Story ${i+1} would open here')">${item}</li>`).join('')}
- </ul>
- <button style="margin-top: 15px; padding: 8px 15px; background: #ff4b4b; border: none; color: white; border-radius: 5px; cursor: pointer; width: 100%;" onclick="this.parentElement.remove()">CLOSE</button>
- `;
- 
- document.body.appendChild(modal);
-});
+// Load real space news from NASA's RSS feed
+const RSS_URL = 'https://www.nasa.gov/rss/dyn/breaking_news.rss';
+const RSS_API = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(RSS_URL);
+
+fetch(RSS_API)
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'ok' && data.items && data.items.length > 0) {
+      const headlines = data.items.slice(0, 8).map(item => '🛰 ' + item.title);
+      renderTicker(headlines);
+    } else {
+      renderTicker(fallbackHeadlines);
+    }
+  })
+  .catch(error => {
+    console.log('RSS fetch failed, using fallback headlines');
+    renderTicker(fallbackHeadlines);
+  });
+
+function renderTicker(headlines) {
+  // Double the list so the animation loops seamlessly
+  const doubled = headlines.concat(headlines);
+  tickerContent.innerHTML = doubled
+    .map(text => `<span class="ticker-item">${text}</span>`)
+    .join('');
+
+  ticker.addEventListener('click', function() {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      max-width: 500px;
+      background: rgba(20, 20, 30, 0.98);
+      border: 3px solid #ff4b4b;
+      border-radius: 10px;
+      padding: 20px;
+      z-index: 10000;
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+      box-shadow: 0 0 50px rgba(255, 75, 75, 0.5);
+      backdrop-filter: blur(10px);
+    `;
+
+    modal.innerHTML = `
+      <h3 style="color: #ff4b4b; margin-bottom: 15px;">📰 SPACE NEWS</h3>
+      <ul style="list-style: none; max-height: 300px; overflow-y: auto; padding-right: 10px;">
+        ${headlines.map(item =>
+          `<li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">${item}</li>`
+        ).join('')}
+      </ul>
+      <button style="margin-top: 15px; padding: 8px 15px; background: #ff4b4b; border: none; color: white; border-radius: 5px; cursor: pointer; width: 100%;" onclick="this.parentElement.remove()">CLOSE</button>
+    `;
+
+    document.body.appendChild(modal);
+  });
+}
 
 // ===== AUDIO =====
 const muteBtn = document.getElementById('muteBtn');
