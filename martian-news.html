@@ -1050,67 +1050,81 @@ const mobileMenu = document.getElementById('mobileMenu');
 const menuContent = document.querySelector('.menu-content');
 
 function createMobileMenu() {
-if (!menuContent) return;
-menuContent.innerHTML = '';
+  if (!menuContent) return;
+  menuContent.innerHTML = '';
 
-const menuItems = [
-  { text: '🏠 Home', href: 'index.html' },
-  { text: '📰 Martian News', href: 'martian-news.html', active: true },
-  { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
-  { text: ' Martian Actualities', href: 'martian-actualities.html' },
-  { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
-  { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
-  { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
-  { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
-  { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
-  { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
-  { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
-  { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
-  { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
-  { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
-  { text: '📖 Story', href: 'story.html' },
-  { text: '🎮 Martian Games', href: 'martian-games.html' },
-  { text: '🌍 Earth Codex', href: 'earth-codex.html' },
-  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
-  { text: 'ℹ️ About', href: 'about.html' },
-  { text: '🤝 Support', href: 'support.html' },
-  { text: '📧 Contact', href: 'contact.html' }
-];
+  const menuItems = [
+    { text: '🏠 Home', href: 'index.html' },
+    { text: '📰 Martian News', href: 'martian-news.html', active: true },
+    { text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
+    { text: ' Martian Actualities', href: 'martian-actualities.html' },
+    { text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
+    { text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
+    { text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
+    { text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
+    { text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
+    { text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
+    { text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
+    { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
+    { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
+    { text: ' M.A.R.V.I.N.', href: 'marvin.html' },
+    { text: '📖 Story', href: 'story.html' },
+    { text: '🎮 Martian Games', href: 'martian-games.html' },
+    { text: '🌍 Earth Codex', href: 'earth-codex.html' },
+    { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+    { text: 'ℹ️ About', href: 'about.html' },
+    { text: '🤝 Support', href: 'support.html' },
+    { text: '📧 Contact', href: 'contact.html' }
+  ];
+
+  menuItems.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'menu-item';
+    const a = document.createElement('a');
+    a.href = item.href;
+    a.textContent = item.text;
+    if (item.active) a.classList.add('active');
+    div.appendChild(a);
+    menuContent.appendChild(div);
+  });
+}
 
 createMobileMenu();
 
 hamburgerBtn.addEventListener('click', () => {
-mobileMenu.classList.add('active');
-document.body.style.overflow = 'hidden';
+  mobileMenu.classList.add('active');
+  document.body.style.overflow = 'hidden';
 });
 
 closeMenu.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
+  mobileMenu.classList.remove('active');
+  document.body.style.overflow = '';
 });
 
 document.addEventListener('click', (e) => {
-if (mobileMenu.classList.contains('active') &&
-!mobileMenu.contains(e.target) &&
-!hamburgerBtn.contains(e.target)) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
+  if (mobileMenu.classList.contains('active') &&
+      !mobileMenu.contains(e.target) &&
+      !hamburgerBtn.contains(e.target)) {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 });
 
 document.querySelectorAll('.mobile-menu a').forEach(link => {
-link.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  });
 });
 
 function handleResize() {
-if (window.innerWidth > 992) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
+  if (window.innerWidth > 992) {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 }
 window.addEventListener('resize', handleResize);
+
 
 // ===== METEORS =====
 function createMeteor() {
