@@ -4,1184 +4,1166 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mars Abyss Disinformation Unit | The Mars Abyss</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
---mars-red: #ff3366;
---tron-blue: #00ccff;
---martian-orange: #ff9553;
---deep-space: #0a0a1a;
---cyber-purple: #8a2be2;
---matrix-green: #39ff14;
---hunter-gold: #4cc9f0; /* added for consistency */
+  --warm-void: #0a0806;
+  --warm-panel: #14100c;
+  --parchment: #ede4d3;
+  --cream: #d9cbb3;
+  --gold: #e0c68e;
+  --gold-deep: #b8945a;
+  --signal: #4cc9f0;
+  --signal-deep: #1e7a9c;
+  --alert: #c44536;
+  --amber: #e0a73e;
+  --green: #86efac;
+  --steel: #8a7f6c;
+  --ash: #3a332a;
 }
 
 body {
-background: var(--deep-space);
-color: #e0e0ff;
-overflow-x: hidden;
-min-height: 100vh;
+  font-family: 'EB Garamond', Georgia, serif;
+  color: var(--parchment);
+  background: var(--warm-void);
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* VIDEO BACKGROUND */
+/* ===== BROADCAST CHYRON (top strip) ===== */
+.broadcast-chyron {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 28px;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold), var(--gold-deep));
+  z-index: 1002;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--warm-void);
+}
+.chyron-track {
+  display: flex;
+  animation: chyron-scroll 40s linear infinite;
+  white-space: nowrap;
+  font-family: 'Courier New', monospace;
+  font-size: 0.72rem;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: var(--warm-void);
+  text-transform: uppercase;
+}
+.chyron-track span {
+  padding: 0 3rem;
+}
+.chyron-track span::before {
+  content: '●';
+  margin-right: 1rem;
+  color: var(--alert);
+}
+@keyframes chyron-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ===== VIDEO BACKGROUND ===== */
 .background-container {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-z-index: -3;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -3;
 }
-
 .static-background {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background:
-linear-gradient(rgba(10, 10, 26, 0.9), rgba(10, 10, 26, 0.95)),
-url('images/mad-background-fallback.jpg') no-repeat center center / cover;
-z-index: 1;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background:
+    linear-gradient(rgba(10, 8, 6, 0.92), rgba(10, 8, 6, 0.97)),
+    url('images/mad-background-fallback.jpg') no-repeat center center / cover;
+  z-index: 1;
 }
-
 .video-background {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-object-fit: cover;
-z-index: 2;
-opacity: 0;
-transition: opacity 1s ease-in-out;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  filter: sepia(0.25) saturate(0.9) contrast(1.05);
+}
+.video-background.loaded { opacity: 0.4; }
+
+/* ===== SIGNAL GRID (broadcast frequency look) ===== */
+.signal-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.5;
+  background:
+    linear-gradient(0deg, transparent 0%, transparent 49.5%, rgba(224, 198, 142, 0.06) 49.5%, rgba(224, 198, 142, 0.06) 50%, transparent 50%, transparent 100%),
+    linear-gradient(90deg, transparent 0%, transparent 49.5%, rgba(224, 198, 142, 0.06) 49.5%, rgba(224, 198, 142, 0.06) 50%, transparent 50%, transparent 100%);
+  background-size: 80px 80px;
 }
 
-.video-background.loaded {
-opacity: 0.8;
-}
-
-/* Grid Background */
-body::before {
-content: '';
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background:
-repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(0, 100, 255, 0.1) 50px, rgba(0, 100, 255, 0.1) 51px),
-repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0, 100, 255, 0.1) 50px, rgba(0, 100, 255, 0.1) 51px);
-z-index: -2;
-pointer-events: none;
-}
-
-/* Animated Scan Lines */
-.scanlines {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: linear-gradient(
-to bottom,
-transparent 50%,
-rgba(0, 204, 255, 0.03) 50%
-);
-background-size: 100% 4px;
-z-index: -1;
-pointer-events: none;
-animation: scanMove 20s linear infinite;
-}
-
-@keyframes scanMove {
-0% { transform: translateY(0px); }
-100% { transform: translateY(1000px); }
-}
-
-/* === COMPLETE TOP MENU - MATCHING OTHER PAGES === */
+/* ===== TOP MENU ===== */
 nav.top-menu {
-position: fixed;
-top: 0;
-width: 100%;
-display: flex;
-justify-content: center;
-background: rgba(17, 17, 17, 0.95);
-padding: 0.6rem 0;
-z-index: 1000;
-gap: 2.5rem;
-flex-wrap: nowrap;
-backdrop-filter: blur(10px);
-border-bottom: 2px solid #4cc9f0;
+  position: fixed;
+  top: 28px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: rgba(10, 8, 6, 0.96);
+  padding: 0.6rem 0;
+  z-index: 1000;
+  gap: 2.5rem;
+  flex-wrap: nowrap;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(224, 198, 142, 0.35);
 }
-
 nav.top-menu a {
-color: #f5f5f5;
-text-decoration: none;
-font-size: 1.1rem;
-padding: 0.5rem 0.8rem;
-border-radius: 4px;
-transition: all 0.3s ease;
-display: flex;
-align-items: center;
+  color: var(--parchment);
+  text-decoration: none;
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  padding: 0.5rem 0.8rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
 }
-
-.dropdown {
-position: relative;
-display: inline-block;
-}
-
-.dropdown > a, .dropdown {
-display: flex;
-align-items: center;
-height: 100%;
-}
-
+.dropdown { position: relative; display: inline-block; }
+.dropdown > a, .dropdown { display: flex; align-items: center; height: 100%; }
 .dropdown-content {
-display: none;
-position: absolute;
-background: rgba(26, 26, 26, 0.98);
-min-width: 140px;
-z-index: 1001;
-border-radius: 4px;
-border: 2px solid #4cc9f0;
-top: 100%;
-left: 0%;
-backdrop-filter: blur(5px);
-padding: 4px 0;
+  display: none;
+  position: absolute;
+  background: rgba(20, 16, 12, 0.99);
+  min-width: 200px;
+  z-index: 1001;
+  border: 1px solid var(--gold);
+  top: 100%;
+  left: 0;
+  padding: 6px 0;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
 }
-
 .dropdown-content a {
-color: #f5f5f5;
-padding:3px 5px;
-text-decoration: none;
-display: block;
-transition: background-color 0.3s ease;
-font-size: 0.8rem;
-line-height: 1;
+  color: var(--cream);
+  padding: 8px 14px;
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
 }
-
 .dropdown-content a:hover {
-background: rgba(76, 201, 240, 0.3);
-color: #fff;
+  background: rgba(224, 198, 142, 0.12);
+  color: var(--gold);
+  padding-left: 20px;
+}
+.dropdown:hover .dropdown-content { display: block; }
+nav.top-menu a.active, nav.top-menu a:hover {
+  color: var(--gold);
+  background: transparent;
 }
 
-.dropdown:hover .dropdown-content {
-display: block;
-}
-
-nav.top-menu a.active,
-nav.top-menu a:hover {
-color: #4cc9f0;
-background: transparent;
-text-shadow: 0 0 10px rgba(76, 201, 240, 0.7);
-}
-
-/* Site Title - Larger size */
+/* ===== SITE TITLE ===== */
 .site-title-overlay {
-position: fixed;
-top: 80px;
-left: 30px;
-z-index: 50;
+  position: fixed;
+  top: 110px;
+  left: 30px;
+  z-index: 50;
 }
-
 .site-title-overlay h1 {
-color: rgba(76, 201, 240, 0.8);
-font-family: 'Orbitron', sans-serif;
-font-size: 1.8rem;
-text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
-font-weight: 300;
-letter-spacing: 2px;
+  color: rgba(224, 198, 142, 0.75);
+  font-family: 'EB Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 4px;
+  font-style: italic;
+  text-shadow: 0 0 12px rgba(224, 198, 142, 0.3);
+}
+.site-title-overlay .sub {
+  color: var(--steel);
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  margin-top: 4px;
+  text-transform: uppercase;
 }
 
-/* Audio Controls */
+/* ===== LANGUAGE SELECTOR ===== */
+.language-selector {
+  position: fixed;
+  top: 110px;
+  right: 180px;
+  z-index: 1001;
+  display: flex;
+  gap: 5px;
+}
+.lang-btn {
+  background: rgba(20, 16, 12, 0.9);
+  border: 1px solid var(--gold-deep);
+  color: var(--gold);
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  transition: all 0.3s ease;
+  font-family: 'Courier New', monospace;
+}
+.lang-btn:hover { background: rgba(224, 198, 142, 0.15); }
+.lang-btn.active {
+  background: var(--gold);
+  color: var(--warm-void);
+  border-color: var(--gold);
+  font-weight: bold;
+}
+
+/* ===== BUTTONS ===== */
+.audio-controls, .content-toggle-controls {
+  transition: opacity 0.5s ease;
+  opacity: 1;
+}
+body.loaded .audio-controls,
+body.loaded .content-toggle-controls { opacity: 0.35; }
+.audio-controls:hover, .content-toggle-controls:hover { opacity: 1 !important; }
+
 .audio-controls {
-position: fixed;
-bottom: 80px;
-right: 41px;
-z-index: 1000;
+  position: fixed;
+  bottom: 80px;
+  right: 41px;
+  z-index: 1000;
 }
-
-/* === IMPROVED BUTTON STYLES (dark default, blue glow on hover) === */
-.audio-btn, .toggle-btn {
-background: rgba(0, 0, 0, 0.7);
-border: 2px solid #00ccff;
-color: #fff;
-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-transition: all 0.3s ease;
-cursor: pointer;
-backdrop-filter: blur(5px);
-font-weight: bold;
-}
-
-.audio-btn:hover, .toggle-btn:hover {
-background: rgba(0, 150, 255, 0.25);
-border-color: #4cc9f0;
-box-shadow: 0 0 25px rgba(0, 100, 255, 0.8);
-transform: scale(1.05);
-}
-
 .audio-btn {
-padding: 10px 15px;
-border-radius: 25px;
-font-size: 0.9rem;
+  background: rgba(20, 16, 12, 0.9);
+  border: 1px solid var(--gold-deep);
+  color: var(--cream);
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  font-size: 0.8rem;
+  letter-spacing: 1.5px;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+}
+.audio-btn:hover {
+  background: rgba(224, 198, 142, 0.15);
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
-/* === CONTENT VISIBILITY CONTROLS === */
 .content-toggle-controls {
-position: fixed;
-top: 80px;
-right: 40px;
-z-index: 1000;
+  position: fixed;
+  top: 110px;
+  right: 40px;
+  z-index: 1000;
 }
-
 .toggle-btn {
-padding: 8px 12px;
-border-radius: 20px;
-font-size: 0.8rem;
+  background: rgba(20, 16, 12, 0.9);
+  border: 1px solid var(--gold-deep);
+  color: var(--cream);
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  font-size: 0.78rem;
+  letter-spacing: 1.5px;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+}
+.toggle-btn:hover {
+  background: rgba(224, 198, 142, 0.15);
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
-/* Mouse proximity sensor area */
 .mouse-sensor {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100px;
-z-index: 999;
-cursor: pointer;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100px;
+  z-index: 999;
+  cursor: pointer;
 }
 
-/* Main Content with Fade Effects */
+/* ===== MAIN CONTENT ===== */
 .main-content {
-position: relative;
-padding: 2rem 5%;
-min-height: 100vh;
-margin-top: 70px;
-opacity: 1;
-transition: opacity 0.5s ease-in-out;
+  position: relative;
+  padding: 2rem 5%;
+  min-height: 100vh;
+  margin-top: 100px;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+.main-content.hidden { opacity: 0; pointer-events: none; }
+nav.top-menu.hidden, footer.hidden {
+  opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
 }
 
-.main-content.hidden {
-opacity: 0;
-pointer-events: none;
+/* ===== PRESS MASTHEAD ===== */
+.press-masthead {
+  max-width: 1100px;
+  margin: 2rem auto 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 3px double var(--gold-deep);
+  text-align: center;
+  position: relative;
+}
+.press-kicker {
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 6px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.press-kicker::before,
+.press-kicker::after {
+  content: '';
+  flex: 1;
+  max-width: 100px;
+  height: 1px;
+  background: var(--gold-deep);
+}
+.press-acronym {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2.5rem, 9vw, 5rem);
+  font-weight: 700;
+  letter-spacing: 12px;
+  color: var(--parchment);
+  margin-bottom: 0.8rem;
+  text-shadow: 0 0 30px rgba(224, 198, 142, 0.25);
+  word-break: break-word;
+}
+.press-acronym .dot {
+  color: var(--gold);
+  text-shadow: 0 0 20px var(--gold-deep);
+}
+.press-fullname {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--cream);
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+.press-volume {
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 4px;
+  color: var(--steel);
+  text-transform: uppercase;
 }
 
-/* Hide top menu and footer as well */
-nav.top-menu.hidden,
-footer.hidden {
-opacity: 0;
-pointer-events: none;
-transition: opacity 0.5s ease;
+/* ===== PUBLIC STATEMENT (mission) ===== */
+.public-statement {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 3rem 3rem 3.5rem;
+  background: rgba(20, 16, 12, 0.7);
+  border-top: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  position: relative;
+}
+.public-statement::before,
+.public-statement::after {
+  content: '';
+  position: absolute;
+  width: 24px; height: 24px;
+  border-color: var(--gold);
+  border-style: solid;
+  pointer-events: none;
+}
+.public-statement::before {
+  top: 8px; left: 8px;
+  border-width: 1px 0 0 1px;
+}
+.public-statement::after {
+  bottom: 8px; right: 8px;
+  border-width: 0 1px 1px 0;
 }
 
-.breadcrumbs {
-background: rgba(0, 0, 0, 0.7);
-padding: 10px 20px;
-border-radius: 8px;
-margin-bottom: 2rem;
-border-left: 4px solid var(--hunter-gold);
+.statement-label {
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  color: var(--gold);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.statement-headline {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  color: var(--parchment);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  line-height: 1.4;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(224, 198, 142, 0.2);
 }
 
-.breadcrumbs a {
-color: var(--tron-blue);
-text-decoration: none;
-transition: all 0.3s ease;
+.statement-body {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--parchment);
+  letter-spacing: 0.3px;
+}
+.statement-body p {
+  margin-bottom: 1.5rem;
+  text-indent: 2rem;
+}
+.statement-body p:first-of-type::first-letter {
+  font-family: 'EB Garamond', serif;
+  font-size: 3.5rem;
+  float: left;
+  line-height: 0.9;
+  margin-right: 0.5rem;
+  margin-top: 0.3rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+.statement-body em {
+  color: var(--gold);
+  font-style: italic;
 }
 
-.breadcrumbs a:hover {
-color: var(--matrix-green);
-text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+.statement-signoff {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(224, 198, 142, 0.2);
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--cream);
+  text-align: right;
+}
+.statement-signoff .name {
+  display: block;
+  color: var(--gold);
+  font-style: normal;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+  font-size: 0.78rem;
+  margin-top: 0.4rem;
+  text-transform: uppercase;
 }
 
-.breadcrumbs span {
-color: var(--martian-orange);
+/* ===== SERVICE DEPARTMENTS (operations) ===== */
+.departments {
+  max-width: 1100px;
+  margin: 4rem auto;
+}
+.dept-heading {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.dept-heading h2 {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 1.8rem;
+  color: var(--parchment);
+  letter-spacing: 2px;
+  margin-bottom: 0.6rem;
+}
+.dept-heading .sub {
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  color: var(--steel);
+  text-transform: uppercase;
+}
+.dept-heading .sub::before,
+.dept-heading .sub::after {
+  content: ' — ';
+  color: var(--gold-deep);
 }
 
-/* WARNING BANNER */
-.warning-banner {
-text-align: center;
-padding: 1rem;
-background: linear-gradient(90deg, var(--mars-red), var(--martian-orange));
-margin-bottom: 2rem;
-border-radius: 8px;
-animation: warningPulse 2s ease-in-out infinite;
+.dept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0;
+  border-top: 1px solid rgba(224, 198, 142, 0.25);
+  border-left: 1px solid rgba(224, 198, 142, 0.25);
+}
+.dept {
+  padding: 2.5rem 2rem;
+  border-right: 1px solid rgba(224, 198, 142, 0.25);
+  border-bottom: 1px solid rgba(224, 198, 142, 0.25);
+  position: relative;
+  transition: all 0.4s ease;
+  background: rgba(20, 16, 12, 0.35);
+}
+.dept:hover {
+  background: rgba(224, 198, 142, 0.05);
+}
+.dept::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 0.5s ease;
+}
+.dept:hover::before { width: 100%; }
+
+.dept-num {
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 3px;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+}
+.dept-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  filter: sepia(0.6);
+}
+.dept-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.15rem;
+  color: var(--parchment);
+  letter-spacing: 2px;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+}
+.dept-desc {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--cream);
+  font-style: italic;
 }
 
-@keyframes warningPulse {
-0%, 100% { opacity: 0.8; }
-50% { opacity: 1; }
+/* ===== SIGNAL BROADCAST (threat level) ===== */
+.broadcast-band {
+  max-width: 900px;
+  margin: 4rem auto;
+  padding: 3rem 2.5rem;
+  background: rgba(20, 16, 12, 0.85);
+  border: 1px solid rgba(224, 198, 142, 0.35);
+  position: relative;
+  text-align: center;
+}
+.broadcast-band::before {
+  content: 'LIVE FEED';
+  position: absolute;
+  top: -10px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--warm-void);
+  padding: 0 14px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 4px;
+  color: var(--alert);
+  text-transform: uppercase;
+}
+.broadcast-band h2 {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--parchment);
+  letter-spacing: 3px;
+  margin-bottom: 2rem;
 }
 
-.warning-banner h2 {
-color: white;
-font-size: 1.2rem;
-font-weight: bold;
-letter-spacing: 3px;
+.signal-bars {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 8px;
+  height: 80px;
+  margin-bottom: 2rem;
+}
+.signal-bar {
+  width: 22px;
+  background: linear-gradient(180deg, var(--gold), var(--gold-deep));
+  border-radius: 2px 2px 0 0;
+  opacity: 0.2;
+  position: relative;
+  transition: all 0.3s ease;
+}
+.signal-bar.active { opacity: 1; box-shadow: 0 0 12px rgba(224, 198, 142, 0.5); }
+.signal-bar.b1 { height: 25%; }
+.signal-bar.b2 { height: 45%; }
+.signal-bar.b3 { height: 65%; }
+.signal-bar.b4 { height: 85%; }
+.signal-bar.b5 { height: 100%; }
+
+.signal-label {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+  letter-spacing: 3px;
+}
+.signal-reading {
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  color: var(--cream);
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+}
+.signal-desc {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  color: var(--steel);
+  font-size: 0.95rem;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.7;
 }
 
-/* Hero Section */
-.mad-hero {
-text-align: center;
-padding: 4rem 2rem;
-margin-bottom: 3rem;
-background: rgba(10, 10, 26, 0.7);
-border-radius: 20px;
-border: 2px solid var(--tron-blue);
-backdrop-filter: blur(10px);
-position: relative;
-overflow: hidden;
+/* ===== PUBLIC ADVISORIES (case files) ===== */
+.advisories {
+  max-width: 1100px;
+  margin: 4rem auto;
+}
+.advisories-heading {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.advisories-heading h2 {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 1.8rem;
+  color: var(--parchment);
+  letter-spacing: 2px;
+  margin-bottom: 0.6rem;
+}
+.advisories-heading .sub {
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  color: var(--steel);
+  text-transform: uppercase;
 }
 
-.mad-hero::before {
-content: '';
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: radial-gradient(circle at center, rgba(255, 51, 102, 0.1) 0%, transparent 70%);
-z-index: -1;
+.advisory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.advisory {
+  display: grid;
+  grid-template-columns: 140px 1fr 180px;
+  gap: 2rem;
+  padding: 2rem 1.5rem;
+  border-top: 1px solid rgba(224, 198, 142, 0.2);
+  align-items: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.advisory:last-child { border-bottom: 1px solid rgba(224, 198, 142, 0.2); }
+.advisory:hover {
+  background: rgba(224, 198, 142, 0.04);
+  padding-left: 2rem;
+}
+.advisory-ref {
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--steel);
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+.advisory-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.15rem;
+  color: var(--parchment);
+  letter-spacing: 3px;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+.advisory-desc {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--cream);
+  line-height: 1.6;
+}
+.advisory-status {
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 3px;
+  padding: 6px 10px;
+  text-align: center;
+  text-transform: uppercase;
+  border: 1px solid currentColor;
+}
+.advisory-status.active { color: var(--alert); }
+.advisory-status.monitoring { color: var(--signal); }
+.advisory-status.contained { color: var(--green); }
+
+/* ===== FOOTNOTE (the small tell) ===== */
+.footnote {
+  max-width: 700px;
+  margin: 5rem auto 3rem;
+  text-align: center;
+  padding: 2rem 1rem;
+  border-top: 1px solid rgba(224, 198, 142, 0.15);
+}
+.footnote p {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--steel);
+  letter-spacing: 1px;
+  line-height: 1.8;
+}
+.footnote .asterisk {
+  color: var(--gold);
+  font-size: 1.4rem;
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
-.mad-acronym {
-font-size: clamp(2.5rem, 10vw, 4.5rem);
-font-weight: 900;
-background: linear-gradient(45deg, var(--tron-blue), var(--mars-red), var(--martian-orange));
--webkit-background-clip: text;
-background-clip: text;
--webkit-text-fill-color: transparent;
-margin-bottom: 1rem;
-text-shadow: 0 0 30px rgba(0, 204, 255, 0.5);
-letter-spacing: 3px;
-}
-
-.mad-full-name {
-font-size: 1.4rem;
-color: var(--tron-blue);
-margin-bottom: 2rem;
-font-style: italic;
-}
-
-.mad-tagline {
-font-size: 1.6rem;
-color: #e0e0ff;
-max-width: 800px;
-margin: 0 auto;
-line-height: 1.6;
-}
-
-.mad-tagline span {
-color: var(--matrix-green);
-font-weight: bold;
-text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
-}
-
-/* Mission Statement */
-.mission-statement {
-background: rgba(20, 20, 40, 0.8);
-padding: 3rem;
-margin: 3rem auto;
-border-radius: 15px;
-border: 1px solid var(--martian-orange);
-max-width: 1000px;
-backdrop-filter: blur(10px);
-box-shadow: 0 0 30px rgba(255, 149, 83, 0.3);
-}
-
-.mission-statement h2 {
-color: var(--martian-orange);
-font-size: 2.2rem;
-margin-bottom: 1.5rem;
-text-align: center;
-text-shadow: 0 0 15px rgba(255, 149, 83, 0.5);
-}
-
-.mission-text {
-font-size: 1.1rem;
-line-height: 1.7;
-color: #e0e0e0;
-margin-bottom: 1.5rem;
-}
-
-.mission-highlight {
-color: var(--matrix-green);
-font-weight: 500;
-}
-
-/* Operations Grid */
-.operations-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-gap: 2rem;
-margin: 4rem auto;
-max-width: 1200px;
-}
-
-.operation-card {
-background: rgba(20, 20, 40, 0.9);
-border-radius: 15px;
-padding: 2rem;
-text-align: center;
-border: 2px solid var(--tron-blue);
-transition: all 0.4s ease;
-backdrop-filter: blur(10px);
-position: relative;
-overflow: hidden;
-cursor: pointer;
-}
-
-.operation-card::before {
-content: '';
-position: absolute;
-top: 0;
-left: -100%;
-width: 100%;
-height: 100%;
-background: linear-gradient(90deg, transparent, rgba(0, 204, 255, 0.1), transparent);
-transition: left 0.6s ease;
-}
-
-.operation-card:hover::before {
-left: 100%;
-}
-
-.operation-card:hover {
-transform: translateY(-10px);
-box-shadow: 0 20px 40px rgba(0, 204, 255, 0.3);
-border-color: var(--mars-red);
-}
-
-.op-icon {
-font-size: 3rem;
-margin-bottom: 1.5rem;
-}
-
-.operation-card h3 {
-color: var(--tron-blue);
-font-size: 1.5rem;
-margin-bottom: 1rem;
-transition: all 0.4s ease;
-}
-
-.operation-card:hover h3 {
-color: var(--mars-red);
-}
-
-.operation-card p {
-color: #e0e0ff;
-line-height: 1.6;
-}
-
-/* Current Threats */
-.current-threats {
-background: rgba(30, 15, 50, 0.8);
-padding: 3rem;
-margin: 4rem auto;
-border-radius: 15px;
-border: 2px solid var(--mars-red);
-max-width: 1000px;
-backdrop-filter: blur(10px);
-text-align: center;
-}
-
-.current-threats h2 {
-color: var(--mars-red);
-font-size: 2.2rem;
-margin-bottom: 2rem;
-text-shadow: 0 0 15px rgba(255, 51, 102, 0.5);
-}
-
-.threat-meter {
-height: 30px;
-background: rgba(0, 0, 0, 0.5);
-border-radius: 15px;
-margin: 2rem 0;
-overflow: hidden;
-border: 1px solid var(--tron-blue);
-position: relative;
-}
-
-.threat-fill {
-height: 100%;
-background: linear-gradient(90deg, var(--matrix-green), var(--martian-orange), var(--mars-red));
-width: 0%;
-border-radius: 15px;
-transition: width 2s ease;
-position: relative;
-}
-
-.threat-fill::after {
-content: '';
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-animation: threatPulse 2s infinite;
-}
-
-@keyframes threatPulse {
-0%, 100% { opacity: 0.5; }
-50% { opacity: 1; }
-}
-
-.threat-reading {
-font-size: 1.5rem;
-color: var(--martian-orange);
-font-weight: bold;
-margin-top: 1rem;
-}
-
-/* Case Files */
-.case-files {
-margin: 4rem auto;
-max-width: 1200px;
-}
-
-.case-files h2 {
-color: var(--tron-blue);
-font-size: 2.2rem;
-margin-bottom: 2rem;
-text-align: center;
-text-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
-}
-
-.case-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-gap: 2rem;
-}
-
-.case-file {
-background: rgba(20, 20, 40, 0.9);
-border-radius: 15px;
-padding: 2rem;
-border: 1px solid var(--martian-orange);
-transition: all 0.4s ease;
-backdrop-filter: blur(10px);
-}
-
-.case-file:hover {
-transform: translateY(-5px);
-box-shadow: 0 15px 30px rgba(255, 149, 83, 0.2);
-border-color: var(--tron-blue);
-}
-
-.case-file h3 {
-color: var(--martian-orange);
-font-size: 1.3rem;
-margin-bottom: 1rem;
-}
-
-.case-file p {
-color: #e0e0ff;
-line-height: 1.6;
-margin-bottom: 1rem;
-}
-
-.case-status {
-display: inline-block;
-padding: 5px 12px;
-border-radius: 20px;
-font-size: 0.8rem;
-font-weight: bold;
-}
-
-.status-active {
-background: var(--matrix-green);
-color: #000;
-}
-
-.status-monitoring {
-background: var(--tron-blue);
-color: #000;
-}
-
-.status-contained {
-background: var(--martian-orange);
-color: #000;
-}
-
-/* FOOTER */
+/* ===== FOOTER ===== */
 footer {
-position: fixed;
-bottom: 0;
-left: 0;
-width: 100%;
-text-align: center;
-padding: 0.6rem 0;
-background: rgba(0, 0, 0, 0.8);
-color: #ccc;
-font-family: 'Segoe UI', sans-serif;
-z-index: 1000;
-border-top: 2px solid #ff9553;
+  position: fixed;
+  bottom: 0; left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 0.6rem 0;
+  background: rgba(10, 8, 6, 0.96);
+  color: var(--steel);
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  z-index: 1000;
+  border-top: 1px solid var(--gold-deep);
 }
+.content-spacer { height: 100px; }
 
-.content-spacer {
-height: 100px;
-}
-
-/* ===== MOBILE HAMBURGER MENU – Blue/Orange/Red Theme ===== */
+/* ===== HAMBURGER ===== */
 .mobile-nav {
-display: none; /* hidden on desktop */
-position: fixed;
-top: 15px;
-left: 15px;
-z-index: 1002;
+  display: none;
+  position: fixed;
+  top: 42px; left: 15px;
+  z-index: 1002;
 }
-
 .hamburger-btn {
-background: rgba(10, 20, 40, 0.95); /* deep navy */
-backdrop-filter: blur(8px);
-border: 2px solid #00ccff; /* tron blue */
-border-radius: 12px;
-width: 54px;
-height: 54px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-cursor: pointer;
-transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(0, 204, 255, 0.2) inset;
+  background: rgba(10, 8, 6, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  width: 54px; height: 54px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
 }
-
 .hamburger-btn span {
-display: block;
-width: 28px;
-height: 3px;
-background: linear-gradient(90deg, #00ccff, #ff9553); /* blue to orange */
-margin: 4px 0;
-border-radius: 4px;
-transition: all 0.4s ease;
-box-shadow: 0 0 8px rgba(0, 204, 255, 0.6);
+  display: block;
+  width: 28px; height: 2px;
+  background: var(--gold);
+  margin: 4px 0;
+  border-radius: 0;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 6px rgba(224, 198, 142, 0.5);
 }
-
 .hamburger-btn:hover {
-background: rgba(0, 150, 255, 0.25);
-border-color: #ff9553;
-transform: scale(1.08);
-box-shadow: 0 8px 25px rgba(255, 149, 83, 0.4);
+  background: rgba(224, 198, 142, 0.1);
+  box-shadow: 0 0 20px rgba(224, 198, 142, 0.3);
 }
-
-.hamburger-btn:hover span {
-background: linear-gradient(90deg, #fff, #ff9553);
-box-shadow: 0 0 12px #ff9553;
-transform: scaleX(1.05);
-}
+.hamburger-btn:hover span { width: 32px; }
 
 .mobile-menu {
-position: fixed;
-top: 0;
-left: -100%;
-width: 320px;
-height: 100vh;
-background: linear-gradient(145deg, #0a0f1f 0%, #1a1f2f 100%);
-border-right: 3px solid #00ccff; /* blue border */
-padding: 25px 20px;
-transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-z-index: 1003;
-overflow-y: auto;
-box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8), 5px 0 25px rgba(0, 204, 255, 0.3);
-backdrop-filter: blur(15px);
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 320px;
+  height: 100vh;
+  background: linear-gradient(180deg, var(--warm-void) 0%, #1a1208 100%);
+  border-right: 2px solid var(--gold);
+  padding: 25px 20px;
+  transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 1003;
+  overflow-y: auto;
+  box-shadow: 10px 0 40px rgba(0, 0, 0, 0.9);
 }
-
-.mobile-menu.active {
-left: 0;
-}
+.mobile-menu.active { left: 0; }
 
 .menu-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 20px;
-padding-bottom: 15px;
-border-bottom: 2px solid transparent;
-border-image: linear-gradient(90deg, transparent, #00ccff, #ff9553, transparent) 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--gold-deep);
 }
-
 .menu-header h3 {
-color: #00ccff;
-font-family: 'Orbitron', sans-serif;
-font-size: 1rem;
-margin: 0;
-text-shadow: 0 0 10px rgba(0, 204, 255, 0.8), 0 0 20px rgba(255, 149, 83, 0.4);
+  color: var(--gold);
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  letter-spacing: 3px;
+  margin: 0;
 }
-
 .close-menu {
-background: rgba(0, 204, 255, 0.1);
-border: 1px solid rgba(0, 204, 255, 0.5);
-color: #00ccff;
-font-size: 1.8rem;
-cursor: pointer;
-width: 40px;
-height: 40px;
-display: flex;
-align-items: center;
-justify-content: center;
-border-radius: 50%;
-transition: all 0.3s ease;
-box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
-text-shadow: 0 0 8px currentColor;
+  background: transparent;
+  border: 1px solid var(--gold-deep);
+  color: var(--gold);
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 36px; height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
 }
-
 .close-menu:hover {
-background: rgba(255, 149, 83, 0.3);
-color: #ff9553;
-transform: rotate(90deg) scale(1.1);
-border-color: #ff9553;
-box-shadow: 0 0 25px #ff9553;
+  border-color: var(--gold);
+  background: rgba(224, 198, 142, 0.1);
 }
 
-.menu-content {
-margin-bottom: 25px;
-}
-
-.menu-content .menu-item {
-margin-bottom: 8px;
-transform: translateX(0);
-transition: transform 0.3s ease;
-}
+.menu-content { margin-bottom: 25px; }
+.menu-content .menu-item { margin-bottom: 4px; }
 
 .menu-content .menu-item a {
-display: block;
-color: #f0f0ff;
-text-decoration: none;
-padding: 8px 12px;
-border-radius: 8px;
-border-left: 3px solid transparent;
-background: rgba(255, 255, 255, 0.02);
-backdrop-filter: blur(2px);
-transition: all 0.3s ease;
-font-family: 'Segoe UI', sans-serif;
-font-size: 0.9rem;
-font-weight: 400;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+  display: block;
+  color: var(--parchment);
+  text-decoration: none;
+  padding: 9px 12px;
+  border-left: 2px solid transparent;
+  transition: all 0.3s ease;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
 }
-
 .menu-content .menu-item a:hover,
 .menu-content .menu-item a.active {
-border-left-color: #ff9553; /* orange active marker */
-background: linear-gradient(90deg, rgba(255, 149, 83, 0.15), rgba(0, 204, 255, 0.05));
-color: #ff9553;
-box-shadow: 0 4px 12px rgba(255, 149, 83, 0.3);
-text-shadow: 0 0 6px #ff9553;
-padding-left: 16px;
+  border-left-color: var(--gold);
+  background: rgba(224, 198, 142, 0.08);
+  color: var(--gold);
+  padding-left: 18px;
+}
+.menu-content .menu-item.main-title a {
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 3px;
+  background: rgba(224, 198, 142, 0.06);
+  border-left: 2px solid var(--gold);
+  margin-top: 10px;
+  font-style: italic;
+  text-transform: uppercase;
+}
+.menu-content .menu-item.sub-page a {
+  color: var(--cream);
+  font-weight: 400;
+  font-size: 0.85rem;
+  padding-left: 28px;
+  letter-spacing: 0.5px;
+  font-style: italic;
 }
 
 .menu-footer {
-margin-top: 20px;
-padding-top: 15px;
-border-top: 2px solid transparent;
-border-image: linear-gradient(90deg, transparent, #00ccff, #ff9553, transparent) 1;
-text-align: center;
-color: #00ccff;
-font-family: 'Orbitron', sans-serif;
-font-size: 0.8rem;
-letter-spacing: 1px;
-text-shadow: 0 0 6px #00ccff;
-position: relative;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid var(--gold-deep);
+  text-align: center;
+  color: var(--gold);
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
 }
-
 .pulse {
-display: inline-block;
-width: 8px;
-height: 8px;
-background-color: #00ccff;
-border-radius: 50%;
-margin-right: 8px;
-box-shadow: 0 0 12px #ff9553;
-animation: cosmic-pulse 1.8s infinite;
+  display: inline-block;
+  width: 6px; height: 6px;
+  background-color: var(--gold);
+  border-radius: 50%;
+  margin-right: 8px;
+  box-shadow: 0 0 10px var(--gold);
+  animation: pulse-fade 2s infinite;
+}
+@keyframes pulse-fade {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
 }
 
-@keyframes cosmic-pulse {
-0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
-50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 20px #ff9553, 0 0 40px #00ccff; }
-100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #00ccff; }
-}
-
-/* Responsive Styles */
-@media (max-width: 992px) {
-nav.top-menu {
-display: none;
-}
-.mobile-nav {
-display: block;
-}
-.site-title-overlay {
-top: 70px;
-left: 15px;
-}
-.site-title-overlay h1 {
-font-size: 1.4rem;
-}
-.content-toggle-controls {
-top: 70px;
-right: 15px;
-}
-.audio-controls {
-bottom: 70px;
-right: 20px;
-}
-}
-
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-.mad-acronym {
-font-size: 3rem;
+  .language-selector { top: 95px !important; right: 15px; z-index: 1002; }
+  .site-title-overlay { top: 100px; left: 15px; }
+  .site-title-overlay h1 { font-size: 1.2rem; letter-spacing: 3px; }
+  .content-toggle-controls { top: 95px; right: 15px; }
+  .audio-controls { bottom: 70px; right: 20px; }
+  .press-acronym { letter-spacing: 6px; }
+  .public-statement { padding: 2rem 1.5rem; }
+  .advisory { grid-template-columns: 1fr; gap: 0.8rem; padding: 1.5rem 1rem; }
+  .advisory-status { justify-self: flex-start; }
 }
-.mad-tagline {
-font-size: 1.3rem;
-}
-.operations-grid {
-grid-template-columns: 1fr;
-}
-}
-
 @media (max-width: 480px) {
-.mad-acronym {
-font-size: 2.2rem;
+  .language-selector { top: 92px !important; right: 10px; }
+  .site-title-overlay { top: 96px; }
+  .press-acronym { font-size: 2rem; letter-spacing: 4px; }
+  .statement-body { font-size: 0.98rem; }
+  .dept { padding: 1.8rem 1.2rem; }
 }
-.toggle-btn, .audio-btn {
-min-width: 140px;
-min-height: 45px;
-font-size: 0.8rem;
-}
-.stats-container {
-grid-template-columns: 1fr;
-}
-.main-title {
-font-size: 2rem;
-}
+@media (max-width: 992px) {
+  nav.top-menu { display: none; }
+  .mobile-nav { display: block; }
 }
 </style>
 </head>
 
 <body>
 
+<!-- BROADCAST CHYRON -->
+<div class="broadcast-chyron">
+  <div class="chyron-track">
+    <span>M.A.D. PUBLIC INFORMATION SERVICE</span>
+    <span>BROADCAST 24/7</span>
+    <span>ALL CHANNELS · ALL SECTORS</span>
+    <span>MARTIAN SOVEREIGNTY · VERIFIED INFORMATION</span>
+    <span>M.A.D. PUBLIC INFORMATION SERVICE</span>
+    <span>BROADCAST 24/7</span>
+    <span>ALL CHANNELS · ALL SECTORS</span>
+    <span>MARTIAN SOVEREIGNTY · VERIFIED INFORMATION</span>
+  </div>
+</div>
+
 <!-- VIDEO BACKGROUND -->
 <div class="background-container">
-<div class="static-background" id="staticBg"></div>
-<video class="video-background" id="madVideo" muted loop playsinline preload="auto">
-<source src="videos/mars-mad.mp4" type="video/mp4">
-<source src="videos/information-warfare.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
+  <div class="static-background" id="staticBg"></div>
+  <video class="video-background" id="madVideo" muted loop playsinline preload="auto">
+    <source src="videos/mars-mad.mp4" type="video/mp4">
+    <source src="videos/information-warfare.mp4" type="video/mp4">
+  </video>
 </div>
 
-<!-- Animated Scan Lines -->
-<div class="scanlines"></div>
+<div class="signal-grid"></div>
 
-<!-- MOBILE HAMBURGER MENU -->
+<!-- MOBILE HAMBURGER -->
 <div class="mobile-nav">
-<button class="hamburger-btn" id="hamburgerBtn">
-<span></span>
-<span></span>
-<span></span>
-</button>
-<nav class="mobile-menu" id="mobileMenu">
-<div class="menu-header">
-<h3>THE MARS ABYSS</h3>
-<button class="close-menu" id="closeMenu">✕</button>
-</div>
-<div class="menu-content"></div>
-<div class="menu-footer">
-<span class="pulse"></span> MAD UNIT
-</div>
-</nav>
+  <button class="hamburger-btn" id="hamburgerBtn">
+    <span></span><span></span><span></span>
+  </button>
+  <nav class="mobile-menu" id="mobileMenu">
+    <div class="menu-header">
+      <h3>THE MARS ABYSS</h3>
+      <button class="close-menu" id="closeMenu">✕</button>
+    </div>
+    <div class="menu-content"></div>
+    <div class="menu-footer">
+      <span class="pulse"></span> M.A.D. BROADCASTING
+    </div>
+  </nav>
 </div>
 
 <!-- DESKTOP TOP MENU -->
 <nav class="top-menu">
-<div class="dropdown">
-<a href="index.html" class="dropbtn">Home</a>
-<div class="dropdown-content">
-<a href="why-this-world-matters.html">Why This World Matters</a>
-<a href="homage-to-courage.html">Homage to Courage</a>
-<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
-<a href="the-migrant-initiative.html">The Migrant Initiative</a>
-<a href="my-mission.html">My Mission</a>
-<a href="martian-reading-revival.html">Martian Reading Revival</a>
-<a href="why-mars-is-safer.html">Why Mars is Safer</a>
-<a href="the-atlantis-library-of-mars.html">The Atlantis Library of Mars</a>
-<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="story.html" class="dropbtn">Story</a>
-<div class="dropdown-content">
-<a href="characters.html">Characters</a>
-<div class="dropdown">
-<a href="gallery.html" class="dropbtn">Gallery</a>
-<div class="dropdown-content">
-<a href="art-and-concepts.html">Art & Concepts</a>
-<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
-<a href="technical-database.html">Technical Database</a>
-<a href="martian-edicts.html">The Martian Edicts</a>
-<a href="alien-transport-network.html">Alien Transport Network</a>
-<a href="martian-martial-arts.html">Martian Martial Arts</a>
-<a href="solar-system-explorer.html">Solar System Explorer</a>
-<a href="aliens-ufos.html">Aliens & UFOs</a>
-</div>
-</div>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="martian-games.html" class="dropbtn">Martian Games</a>
-<div class="dropdown-content">
-<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
-<a href="martian-racer.html">Martian Racer</a>
-<a href="red-planet-defense.html">Red Planet Defense</a>
-<a href="the-regents-portal.html">The Regent's Portal</a>
-<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
-<a href="the-knowledge-deck.html">The Knowledge Deck</a>
-<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
-<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
-<div class="dropdown-content">
-<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
-<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
-<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
-<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
-<a href="earths-great-poets.html">Earth's Great Poets</a>
-<a href="the-bohr-institute.html">The Bohr Institute</a>
-<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
-<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
-<a href="the-bronx-dome.html">The Bronx Dome</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="martian-news.html" class="dropbtn active">Martian News</a>
-<div class="dropdown-content">
-<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
-<a href="martian-actualities.html">Martian Actualities</a>
-<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
-<a href="mars-bee-facility.html">Mars Bee Facility</a>
-<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
-<a href="house-of-health-secrets.html">The House of Health Secrets</a>
-<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
-<a href="martian-rest-areas.html">Martian Rest Areas</a>
-<div class="dropdown">
-<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-<div class="dropdown-content">
-<a href="mars-disinformation-unit.html" class="active">M.A.D. Unit</a>
-<a href="marvin.html">M.A.R.V.I.N.</a>
-</div>
-</div>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
-<div class="dropdown-content">
-<a href="what-the-regent-misses.html">What the Regent Misses</a>
-<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
-<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
-<a href="honor-the-fallen.html">Honor The Fallen</a>
-<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
-<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
-<a href="salems-witching-hour.html">Salem's Witching Hour</a>
-<a href="martian-critique-tron-ares.html">Martian Critique</a>
-<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
-<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
-<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="about.html" class="dropbtn">About</a>
-<div class="dropdown-content">
-<a href="about-the-project.html">About the Project</a>
-<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
-<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
-<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
-<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
-<a href="the-pale-horse.html">The Pale Horse</a>
-<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
-<a href="arachne-labs.html">Arachne Labs</a>
-<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
-<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="support.html" class="dropbtn">Support</a>
-<div class="dropdown-content">
-<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
-<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-<a href="mars-food-district.html">Mars Food District</a>
-<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
-<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-<a href="fund-martian-research.html">Fund Martian Research</a> 
-<a href="martian-survival-manual.html">Martian Survival Manual</a>
-<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
-</div>
-</div>
-
-<a href="contact.html">Contact</a>
+  <!-- PASTE YOUR TOP MENU HERE -->
 </nav>
 
-<!-- Site Title -->
+<!-- SITE TITLE -->
 <div class="site-title-overlay">
-<h1>The Mars Abyss</h1>
+  <h1>The Mars Abyss</h1>
+  <div class="sub">PUBLIC BROADCAST DIVISION</div>
 </div>
 
-<!-- CONTENT VISIBILITY CONTROLS -->
+<!-- LANGUAGE SELECTOR -->
+<div class="language-selector">
+  <button class="lang-btn active" data-lang="en">EN</button>
+  <button class="lang-btn" data-lang="es">ES</button>
+  <button class="lang-btn" data-lang="zh">中文</button>
+</div>
+
 <div class="content-toggle-controls">
-<button class="toggle-btn" id="hideContentBtn">👁️ Hide Content</button>
+  <button class="toggle-btn" id="hideContentBtn">Hide Content</button>
 </div>
 
-<!-- MOUSE PROXIMITY SENSOR -->
-<div class="mouse-sensor" id="mouseSensor" title="Move mouse here to show content"></div>
+<div class="mouse-sensor" id="mouseSensor"></div>
 
-<!-- Audio Controls -->
 <div class="audio-controls">
-<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+  <button class="audio-btn" id="muteBtn">🔇 Unmute</button>
 </div>
 
-<!-- Main Content -->
+<!-- MAIN CONTENT -->
 <div class="main-content" id="mainContent">
-<!-- Warning Banner -->
-<div class="warning-banner">
-<h2>⚠️ OFFICIAL MARTIAN DISINFORMATION UNIT - PUBLIC ACCESS</h2>
+
+  <!-- MASTHEAD -->
+  <section class="press-masthead">
+    <div class="press-kicker" data-i18n="masthead_kicker">OFFICIAL MARTIAN PUBLIC INFORMATION SERVICE</div>
+    <h1 class="press-acronym">M<span class="dot">.</span>A<span class="dot">.</span>D<span class="dot">.</span></h1>
+    <div class="press-fullname" data-i18n="masthead_fullname">Mars Abyss Disinformation Unit</div>
+    <div class="press-volume" data-i18n="masthead_volume">BROADCAST 47 · CYCLE 219 · ALL SECTORS</div>
+  </section>
+
+  <!-- PUBLIC STATEMENT -->
+  <section class="public-statement">
+    <div class="statement-label" data-i18n="stmt_label">PUBLIC STATEMENT</div>
+    <h2 class="statement-headline" data-i18n="stmt_headline">On the Protection of Martian Citizens From Coordinated Information Threats</h2>
+
+    <div class="statement-body">
+      <p data-i18n="stmt_p1">The Mars Abyss Disinformation Unit is the public-facing defense of Martian sovereignty in the information domain. We exist to ensure that every citizen of Mars has access to verified information, and to counter the coordinated campaigns — foreign and domestic — that seek to undermine the colony's stability through deception.</p>
+
+      <p data-i18n="stmt_p2">Our work is conducted at the intersection of intelligence analysis, strategic communication, and cyber defense. We monitor information channels, verify sources, and publish factual counter-narratives when false ones are identified. We do not silence speech. We do not police opinion. We counter <em>coordination</em> — the organized, industrial-scale production of lies.</p>
+
+      <p data-i18n="stmt_p3">This broadcast is updated continuously. Citizens are encouraged to verify information through official channels and to report suspicious activity to their local dome authority. A well-informed colony is a resilient one.</p>
+    </div>
+
+    <div class="statement-signoff">
+      <span data-i18n="stmt_sig">Published by order of the</span>
+      <span class="name" data-i18n="stmt_sig_name">MARS ABYSS DISINFORMATION UNIT · PUBLIC BROADCAST DIVISION</span>
+    </div>
+  </section>
+
+  <!-- DEPARTMENTS -->
+  <section class="departments">
+    <div class="dept-heading">
+      <h2 data-i18n="dept_head">Public Services</h2>
+      <div class="sub" data-i18n="dept_sub">FOUR DEPARTMENTS · ONE MANDATE</div>
+    </div>
+    <div class="dept-grid">
+      <div class="dept">
+        <div class="dept-num">01 · MONITORING</div>
+        <div class="dept-icon">🔍</div>
+        <div class="dept-title" data-i18n="dept1_title">Threat Detection</div>
+        <div class="dept-desc" data-i18n="dept1_desc">Continuous monitoring of Martian and interplanetary information channels to identify emerging disinformation campaigns and coordinated inauthentic behavior.</div>
+      </div>
+      <div class="dept">
+        <div class="dept-num">02 · VERIFICATION</div>
+        <div class="dept-icon">📊</div>
+        <div class="dept-title" data-i18n="dept2_title">Analysis & Verification</div>
+        <div class="dept-desc" data-i18n="dept2_desc">Rigorous examination of information patterns, source authentication, and impact assessment for every identified disinformation operation.</div>
+      </div>
+      <div class="dept">
+        <div class="dept-num">03 · RESPONSE</div>
+        <div class="dept-icon">🛡️</div>
+        <div class="dept-title" data-i18n="dept3_title">Counter-Operations</div>
+        <div class="dept-desc" data-i18n="dept3_desc">Strategic deployment of verified counter-narratives and factual information to neutralize hostile disinformation campaigns at their source.</div>
+      </div>
+      <div class="dept">
+        <div class="dept-num">04 · EDUCATION</div>
+        <div class="dept-icon">🌐</div>
+        <div class="dept-title" data-i18n="dept4_title">Public Education</div>
+        <div class="dept-desc" data-i18n="dept4_desc">Ongoing initiatives to strengthen Martian citizens' media literacy and critical thinking skills against coordinated deception.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BROADCAST BAND (threat level) -->
+  <section class="broadcast-band">
+    <h2 data-i18n="band_head">Signal Assessment</h2>
+    <div class="signal-bars">
+      <div class="signal-bar b1 active"></div>
+      <div class="signal-bar b2 active"></div>
+      <div class="signal-bar b3 active"></div>
+      <div class="signal-bar b4 active"></div>
+      <div class="signal-bar b5"></div>
+    </div>
+    <div class="signal-label" data-i18n="band_label">LEVEL 6.5 — ELEVATED ACTIVITY</div>
+    <div class="signal-reading" data-i18n="band_reading">CURRENT CYCLE ASSESSMENT · ALL SECTORS</div>
+    <div class="signal-desc" data-i18n="band_desc">Increased coordinated disinformation activity detected targeting Martian resource allocation policies. Citizens are advised to verify all claims through official channels.</div>
+  </section>
+
+  <!-- PUBLIC ADVISORIES -->
+  <section class="advisories">
+    <div class="advisories-heading">
+      <h2 data-i18n="adv_head">Public Advisories</h2>
+      <div class="sub" data-i18n="adv_sub">ACTIVE CASE FILES · APPROVED FOR CITIZEN REVIEW</div>
+    </div>
+
+    <div class="advisory-list">
+
+      <div class="advisory">
+        <div class="advisory-ref">ADV-001<br>ENV / SECTOR 3</div>
+        <div>
+          <div class="advisory-title" data-i18n="adv1_title">TRUTH BEACON</div>
+          <div class="advisory-desc" data-i18n="adv1_desc">Countering false narratives concerning Martian environmental systems and life support sustainability.</div>
+        </div>
+        <div class="advisory-status active" data-i18n="adv1_status">ACTIVE ENGAGEMENT</div>
+      </div>
+
+      <div class="advisory">
+        <div class="advisory-ref">ADV-002<br>TECH / SECTOR 7</div>
+        <div>
+          <div class="advisory-title" data-i18n="adv2_title">DATA SHIELD</div>
+          <div class="advisory-desc" data-i18n="adv2_desc">Protecting Martian technological advancements from corporate espionage campaigns originating beyond colony borders.</div>
+        </div>
+        <div class="advisory-status monitoring" data-i18n="adv2_status">CONTINUOUS MONITORING</div>
+      </div>
+
+      <div class="advisory">
+        <div class="advisory-ref">ADV-003<br>GOV / ALL SECTORS</div>
+        <div>
+          <div class="advisory-title" data-i18n="adv3_title">NARRATIVE DEFENSE</div>
+          <div class="advisory-desc" data-i18n="adv3_desc">Addressing coordinated campaigns spreading misinformation about Martian governance and civic institutions.</div>
+        </div>
+        <div class="advisory-status active" data-i18n="adv3_status">STRATEGIC RESPONSE</div>
+      </div>
+
+      <div class="advisory">
+        <div class="advisory-ref">ADV-004<br>NET / ALL SECTORS</div>
+        <div>
+          <div class="advisory-title" data-i18n="adv4_title">SOURCE VERIFICATION</div>
+          <div class="advisory-desc" data-i18n="adv4_desc">Validating and authenticating information sources across Martian communication networks.</div>
+        </div>
+        <div class="advisory-status contained" data-i18n="adv4_status">SITUATION CONTAINED</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTNOTE (the small tell) -->
+  <section class="footnote">
+    <span class="asterisk">*</span>
+    <p data-i18n="footnote">M.A.D. publishes only those operations authorized for public review. Additional case files are maintained by the M.A.N.H.U.N.T.E.R. division and are not released to civilian channels. Citizens seeking further information should contact their local dome authority.</p>
+  </section>
+
 </div>
 
-<!-- Navigation Breadcrumbs -->
-<div class="breadcrumbs">
-<a href="martian-news.html">← Martian News</a>
-<span> / </span>
-<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-<span> / M.A.D. Unit</span>
-</div>
-
-<!-- Hero Section -->
-<section class="mad-hero">
-<div class="mad-acronym">M.A.D.</div>
-<div class="mad-full-name">Mars Abyss Disinformation Unit</div>
-<p class="mad-tagline">Protecting Martian Sovereignty Through <span>Strategic Information Operations</span></p>
-</section>
-
-<!-- Mission Statement -->
-<section class="mission-statement">
-<h2>OFFICIAL MISSION STATEMENT</h2>
-<p class="mission-text">
-The <span class="mission-highlight">Mars Abyss Disinformation Unit (M.A.D.)</span> is Mars' premier defense against information warfare,
-psychological operations, and coordinated disinformation campaigns targeting Martian interests.
-</p>
-<p class="mission-text">
-We operate at the intersection of <span class="mission-highlight">intelligence analysis</span>, <span class="mission-highlight">strategic communication</span>,
-and <span class="mission-highlight">cyber defense</span> to identify, analyze, and counter threats to Martian sovereignty in the information domain.
-</p>
-<p class="mission-text">
-Our mission is to ensure that Martian citizens receive <span class="mission-highlight">accurate information</span> while simultaneously
-disrupting hostile narratives that threaten interplanetary stability.
-</p>
-</section>
-
-<!-- Operations Grid -->
-<div class="operations-grid">
-<div class="operation-card">
-<div class="op-icon">🔍</div>
-<h3>Threat Detection</h3>
-<p>Advanced monitoring of information channels to identify emerging disinformation campaigns and coordinated inauthentic behavior.</p>
-</div>
-<div class="operation-card">
-<div class="op-icon">📊</div>
-<h3>Analysis & Verification</h3>
-<p>Comprehensive analysis of information patterns, source verification, and impact assessment of disinformation operations.</p>
-</div>
-<div class="operation-card">
-<div class="op-icon">🛡️</div>
-<h3>Counter-Operations</h3>
-<p>Strategic deployment of counter-narratives and factual information to neutralize hostile disinformation campaigns.</p>
-</div>
-<div class="operation-card">
-<div class="op-icon">🌐</div>
-<h3>Public Education</h3>
-<p>Educational initiatives to enhance Martian citizens' media literacy and critical thinking skills against disinformation.</p>
-</div>
-</div>
-
-<!-- Current Threats -->
-<section class="current-threats">
-<h2>CURRENT THREAT ASSESSMENT</h2>
-<div class="threat-meter">
-<div class="threat-fill"></div>
-</div>
-<div class="threat-reading">LEVEL 6.5 - ELEVATED ACTIVITY</div>
-<p>Increased disinformation activity detected targeting Martian resource allocation policies</p>
-</section>
-
-<!-- Case Files -->
-<section class="case-files">
-<h2>ACTIVE CASE FILES</h2>
-<div class="case-grid">
-<div class="case-file">
-<h3>Operation: TRUTH BEACON</h3>
-<p>Countering false narratives about Martian environmental systems and life support sustainability.</p>
-<span class="case-status status-active">ACTIVE ENGAGEMENT</span>
-</div>
-<div class="case-file">
-<h3>Operation: DATA SHIELD</h3>
-<p>Protecting Martian technological advancements from corporate espionage campaigns.</p>
-<span class="case-status status-monitoring">CONTINUOUS MONITORING</span>
-</div>
-<div class="case-file">
-<h3>Operation: NARRATIVE DEFENSE</h3>
-<p>Addressing coordinated campaigns spreading misinformation about Martian governance.</p>
-<span class="case-status status-active">STRATEGIC RESPONSE</span>
-</div>
-<div class="case-file">
-<h3>Operation: SOURCE VERIFICATION</h3>
-<p>Validating and authenticating information sources across Martian communication networks.</p>
-<span class="case-status status-contained">SITUATION CONTAINED</span>
-</div>
-</div>
-</section>
-</div>
-
-<!-- Content spacer for footer -->
 <div class="content-spacer"></div>
 
-<!-- Footer -->
 <footer>
-<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+  <p>© 2025 The Mars Abyss · M.A.D. Public Broadcast Division</p>
 </footer>
 
 <script>
 // ===== VIDEO PROTECTION =====
 (function() {
-document.querySelectorAll('video').forEach(video => {
-video.setAttribute('controlslist', 'nodownload');
-video.addEventListener('contextmenu', (e) => e.preventDefault());
-video.addEventListener('dragstart', (e) => e.preventDefault());
-});
-document.addEventListener('keydown', (e) => {
-const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
-if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
-e.preventDefault();
-}
-});
+  document.querySelectorAll('video').forEach(video => {
+    video.setAttribute('controlslist', 'nodownload');
+    video.addEventListener('contextmenu', (e) => e.preventDefault());
+    video.addEventListener('dragstart', (e) => e.preventDefault());
+  });
+  document.addEventListener('keydown', (e) => {
+    const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+    if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+      e.preventDefault();
+    }
+  });
 })();
 
-// Content Visibility Controls (includes top menu and footer)
+// ===== CONTENT VISIBILITY =====
 const mainContent = document.getElementById('mainContent');
 const hideContentBtn = document.getElementById('hideContentBtn');
 const mouseSensor = document.getElementById('mouseSensor');
@@ -1191,318 +1173,297 @@ const footer = document.querySelector('footer');
 let contentVisible = true;
 let mouseSensorActive = false;
 
-// Button controls
-hideContentBtn.addEventListener('click', () => {
-if (contentVisible) {
-mainContent.classList.add('hidden');
-if (topMenu) topMenu.classList.add('hidden');
-if (footer) footer.classList.add('hidden');
-contentVisible = false;
-mouseSensorActive = true;
-hideContentBtn.textContent = '📖 Content Hidden';
-} else {
-mainContent.classList.remove('hidden');
-if (topMenu) topMenu.classList.remove('hidden');
-if (footer) footer.classList.remove('hidden');
-contentVisible = true;
-mouseSensorActive = false;
-hideContentBtn.textContent = '👁️ Hide Content';
+function setVisible(v) {
+  contentVisible = v;
+  [mainContent, topMenu, footer].forEach(el => {
+    if (!el) return;
+    if (v) el.classList.remove('hidden');
+    else el.classList.add('hidden');
+  });
+  hideContentBtn.textContent = v ? 'Hide Content' : 'Show Content';
+  mouseSensorActive = !v;
 }
-});
 
-// Mouse sensor for showing content
-mouseSensor.addEventListener('mouseenter', () => {
-if (mouseSensorActive) {
-mainContent.classList.remove('hidden');
-if (topMenu) topMenu.classList.remove('hidden');
-if (footer) footer.classList.remove('hidden');
-contentVisible = true;
-mouseSensorActive = false;
-hideContentBtn.textContent = '👁️ Hide Content';
-}
-});
-
-// Also allow showing content by moving mouse to top of screen
+hideContentBtn.addEventListener('click', () => setVisible(!contentVisible));
+mouseSensor.addEventListener('mouseenter', () => { if (mouseSensorActive) setVisible(true); });
 document.addEventListener('mousemove', (e) => {
-if (e.clientY < 100 && !contentVisible && mouseSensorActive) {
-mainContent.classList.remove('hidden');
-if (topMenu) topMenu.classList.remove('hidden');
-if (footer) footer.classList.remove('hidden');
-contentVisible = true;
-mouseSensorActive = false;
-hideContentBtn.textContent = '👁️ Hide Content';
-}
+  if (e.clientY < 100 && !contentVisible && mouseSensorActive) setVisible(true);
 });
 
-// Video background loading
+// ===== VIDEO BACKGROUND =====
 const videoBg = document.getElementById('madVideo');
 if (videoBg) {
-videoBg.addEventListener('loadeddata', function() {
-videoBg.classList.add('loaded');
-setTimeout(() => {
-videoBg.play().catch(e => {
-console.log('Video autoplay prevented');
-});
-}, 500);
-});
-
-videoBg.addEventListener('error', function() {
-console.log('Video failed to load');
-videoBg.style.display = 'none';
-});
+  videoBg.addEventListener('loadeddata', function() {
+    videoBg.classList.add('loaded');
+    setTimeout(() => videoBg.play().catch(() => {}), 500);
+  });
+  videoBg.addEventListener('error', () => { videoBg.style.display = 'none'; });
 }
+document.addEventListener('click', function() {
+  if (videoBg && videoBg.paused) videoBg.play().catch(() => {});
+});
 
-// ===== AUDIO SYSTEM =====
+// ===== AUDIO =====
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
-const sounds = [
-{ src: 'music/frankensteins-valentina-ext-v2.mp3', volume: 0.5 },
-{ src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
-{ src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
-];
-
-sounds.forEach(sound => {
-const audio = new Audio(sound.src);
-audio.volume = sound.volume;
-audio.loop = true;
-audio.muted = true;
-audioElements.push(audio);
-});
-
-const unmuteOnInteraction = function() {
-if (isMuted) {
-audioElements.forEach(audio => {
-audio.muted = false;
-audio.play().catch(e => {
-console.log('Audio play attempt failed:', e);
-});
-});
-isMuted = false;
-muteBtn.textContent = "🔊 MUTE MUSIC";
-}
-document.removeEventListener('click', unmuteOnInteraction);
-document.removeEventListener('keydown', unmuteOnInteraction);
-};
-
-document.addEventListener('click', unmuteOnInteraction);
-document.addEventListener('keydown', unmuteOnInteraction);
-
-setTimeout(() => {
-audioElements.forEach(audio => {
-audio.play().then(() => {
-console.log('Audio autoplay succeeded.');
-}).catch(e => {
-console.log('Audio autoplay blocked.');
-});
-});
-}, 1000);
+  const sounds = [
+    { src: 'music/frankensteins-valentina-ext-v2.mp3', volume: 0.5 },
+    { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+    { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+  ];
+  sounds.forEach(sound => {
+    const audio = new Audio(sound.src);
+    audio.volume = sound.volume;
+    audio.loop = true;
+    audio.muted = true;
+    audioElements.push(audio);
+  });
+  const unlock = function() {
+    if (isMuted) {
+      audioElements.forEach(a => { a.muted = false; a.play().catch(() => {}); });
+      isMuted = false;
+      muteBtn.textContent = '🔊 Mute';
+    }
+    document.removeEventListener('click', unlock);
+    document.removeEventListener('keydown', unlock);
+  };
+  document.addEventListener('click', unlock);
+  document.addEventListener('keydown', unlock);
 }
 
 muteBtn.addEventListener('click', function() {
-if (audioElements.length === 0) {
+  if (audioElements.length === 0) { initAudio(); return; }
+  isMuted = !isMuted;
+  audioElements.forEach(a => {
+    a.muted = isMuted;
+    if (!isMuted) a.play().catch(() => {});
+  });
+  muteBtn.textContent = isMuted ? '🔇 Unmute' : '🔊 Mute';
+});
 initAudio();
-return;
+
+window.addEventListener('load', () => document.body.classList.add('loaded'));
+
+// ===== TRANSLATIONS =====
+const translations = {
+  en: {
+    masthead_kicker: "OFFICIAL MARTIAN PUBLIC INFORMATION SERVICE",
+    masthead_fullname: "Mars Abyss Disinformation Unit",
+    masthead_volume: "BROADCAST 47 · CYCLE 219 · ALL SECTORS",
+    stmt_label: "PUBLIC STATEMENT",
+    stmt_headline: "On the Protection of Martian Citizens From Coordinated Information Threats",
+    stmt_p1: "The Mars Abyss Disinformation Unit is the public-facing defense of Martian sovereignty in the information domain. We exist to ensure that every citizen of Mars has access to verified information, and to counter the coordinated campaigns — foreign and domestic — that seek to undermine the colony's stability through deception.",
+    stmt_p2: "Our work is conducted at the intersection of intelligence analysis, strategic communication, and cyber defense. We monitor information channels, verify sources, and publish factual counter-narratives when false ones are identified. We do not silence speech. We do not police opinion. We counter coordination — the organized, industrial-scale production of lies.",
+    stmt_p3: "This broadcast is updated continuously. Citizens are encouraged to verify information through official channels and to report suspicious activity to their local dome authority. A well-informed colony is a resilient one.",
+    stmt_sig: "Published by order of the",
+    stmt_sig_name: "MARS ABYSS DISINFORMATION UNIT · PUBLIC BROADCAST DIVISION",
+    dept_head: "Public Services",
+    dept_sub: "FOUR DEPARTMENTS · ONE MANDATE",
+    dept1_title: "Threat Detection",
+    dept1_desc: "Continuous monitoring of Martian and interplanetary information channels to identify emerging disinformation campaigns and coordinated inauthentic behavior.",
+    dept2_title: "Analysis & Verification",
+    dept2_desc: "Rigorous examination of information patterns, source authentication, and impact assessment for every identified disinformation operation.",
+    dept3_title: "Counter-Operations",
+    dept3_desc: "Strategic deployment of verified counter-narratives and factual information to neutralize hostile disinformation campaigns at their source.",
+    dept4_title: "Public Education",
+    dept4_desc: "Ongoing initiatives to strengthen Martian citizens' media literacy and critical thinking skills against coordinated deception.",
+    band_head: "Signal Assessment",
+    band_label: "LEVEL 6.5 — ELEVATED ACTIVITY",
+    band_reading: "CURRENT CYCLE ASSESSMENT · ALL SECTORS",
+    band_desc: "Increased coordinated disinformation activity detected targeting Martian resource allocation policies. Citizens are advised to verify all claims through official channels.",
+    adv_head: "Public Advisories",
+    adv_sub: "ACTIVE CASE FILES · APPROVED FOR CITIZEN REVIEW",
+    adv1_title: "TRUTH BEACON",
+    adv1_desc: "Countering false narratives concerning Martian environmental systems and life support sustainability.",
+    adv1_status: "ACTIVE ENGAGEMENT",
+    adv2_title: "DATA SHIELD",
+    adv2_desc: "Protecting Martian technological advancements from corporate espionage campaigns originating beyond colony borders.",
+    adv2_status: "CONTINUOUS MONITORING",
+    adv3_title: "NARRATIVE DEFENSE",
+    adv3_desc: "Addressing coordinated campaigns spreading misinformation about Martian governance and civic institutions.",
+    adv3_status: "STRATEGIC RESPONSE",
+    adv4_title: "SOURCE VERIFICATION",
+    adv4_desc: "Validating and authenticating information sources across Martian communication networks.",
+    adv4_status: "SITUATION CONTAINED",
+    footnote: "M.A.D. publishes only those operations authorized for public review. Additional case files are maintained by the M.A.N.H.U.N.T.E.R. division and are not released to civilian channels. Citizens seeking further information should contact their local dome authority."
+  },
+  es: {
+    masthead_kicker: "SERVICIO OFICIAL DE INFORMACIÓN PÚBLICA MARCIANA",
+    masthead_fullname: "Unidad de Desinformación del Abismo de Marte",
+    masthead_volume: "TRANSMISIÓN 47 · CICLO 219 · TODOS LOS SECTORES",
+    stmt_label: "DECLARACIÓN PÚBLICA",
+    stmt_headline: "Sobre la Protección de los Ciudadanos Marcianos Contra Amenazas Informativas Coordinadas",
+    stmt_p1: "La Unidad de Desinformación del Abismo de Marte es la defensa pública de la soberanía marciana en el dominio de la información. Existimos para garantizar que cada ciudadano de Marte tenga acceso a información verificada, y para contrarrestar las campañas coordinadas — extranjeras y nacionales — que buscan socavar la estabilidad de la colonia mediante el engaño.",
+    stmt_p2: "Nuestro trabajo se realiza en la intersección del análisis de inteligencia, la comunicación estratégica y la defensa cibernética. Monitoreamos canales de información, verificamos fuentes y publicamos contra-narrativas fácticas cuando se identifican las falsas. No silenciamos el discurso. No vigilamos la opinión. Contrarrestamos la coordinación — la producción organizada e industrial de mentiras.",
+    stmt_p3: "Esta transmisión se actualiza continuamente. Se alienta a los ciudadanos a verificar la información a través de canales oficiales y a reportar actividades sospechosas a su autoridad de domo local. Una colonia bien informada es una colonia resiliente.",
+    stmt_sig: "Publicado por orden de la",
+    stmt_sig_name: "UNIDAD DE DESINFORMACIÓN DEL ABISMO DE MARTE · DIVISIÓN DE TRANSMISIÓN PÚBLICA",
+    dept_head: "Servicios Públicos",
+    dept_sub: "CUATRO DEPARTAMENTOS · UN MANDATO",
+    dept1_title: "Detección de Amenazas",
+    dept1_desc: "Monitoreo continuo de canales de información marcianos e interplanetarios para identificar campañas de desinformación emergentes y comportamiento inauténtico coordinado.",
+    dept2_title: "Análisis y Verificación",
+    dept2_desc: "Examen riguroso de patrones de información, autenticación de fuentes y evaluación de impacto para cada operación de desinformación identificada.",
+    dept3_title: "Contra-Operaciones",
+    dept3_desc: "Despliegue estratégico de contra-narrativas verificadas e información fáctica para neutralizar campañas hostiles de desinformación en su origen.",
+    dept4_title: "Educación Pública",
+    dept4_desc: "Iniciativas continuas para fortalecer la alfabetización mediática y el pensamiento crítico de los ciudadanos marcianos contra el engaño coordinado.",
+    band_head: "Evaluación de Señal",
+    band_label: "NIVEL 6.5 — ACTIVIDAD ELEVADA",
+    band_reading: "EVALUACIÓN DEL CICLO ACTUAL · TODOS LOS SECTORES",
+    band_desc: "Se ha detectado una mayor actividad de desinformación coordinada dirigida a las políticas de asignación de recursos marcianos. Se aconseja a los ciudadanos verificar todas las afirmaciones a través de canales oficiales.",
+    adv_head: "Avisos Públicos",
+    adv_sub: "EXPEDIENTES ACTIVOS · APROBADOS PARA REVISIÓN CIUDADANA",
+    adv1_title: "FARO DE VERDAD",
+    adv1_desc: "Contrarrestar narrativas falsas sobre los sistemas ambientales marcianos y la sostenibilidad del soporte vital.",
+    adv1_status: "COMPROMISO ACTIVO",
+    adv2_title: "ESCUDO DE DATOS",
+    adv2_desc: "Proteger los avances tecnológicos marcianos de campañas de espionaje corporativo originadas más allá de las fronteras de la colonia.",
+    adv2_status: "MONITOREO CONTINUO",
+    adv3_title: "DEFENSA NARRATIVA",
+    adv3_desc: "Abordar campañas coordinadas que difunden información errónea sobre el gobierno marciano y las instituciones cívicas.",
+    adv3_status: "RESPUESTA ESTRATÉGICA",
+    adv4_title: "VERIFICACIÓN DE FUENTES",
+    adv4_desc: "Validar y autenticar fuentes de información en las redes de comunicación marcianas.",
+    adv4_status: "SITUACIÓN CONTENIDA",
+    footnote: "M.A.D. publica solo aquellas operaciones autorizadas para revisión pública. Los expedientes adicionales son mantenidos por la división M.A.N.H.U.N.T.E.R. y no se liberan a canales civiles. Los ciudadanos que busquen más información deben contactar a su autoridad de domo local."
+  },
+  zh: {
+    masthead_kicker: "火星官方公共信息服务",
+    masthead_fullname: "火星深渊反虚假信息单位",
+    masthead_volume: "广播 47 · 周期 219 · 全扇区",
+    stmt_label: "公开声明",
+    stmt_headline: "关于保护火星公民免受协同信息威胁的声明",
+    stmt_p1: "火星深渊反虚假信息单位是火星在信息领域主权的面向公众的防御力量。我们存在是为了确保每一位火星公民都能获取经过核实的信息，并打击试图通过欺骗破坏殖民地稳定的协同宣传活动——无论来自境外还是境内。",
+    stmt_p2: "我们的工作处于情报分析、战略传播与网络防御的交汇点。我们监控信息渠道，核实来源，并在发现虚假信息时发布事实性反击叙事。我们不压制言论。我们不监管观点。我们对抗的是协同——有组织、工业规模的谎言生产。",
+    stmt_p3: "本广播持续更新。鼓励公民通过官方渠道核实信息，并向当地穹顶当局报告可疑活动。一个信息充分的殖民地就是一个有韧性的殖民地。",
+    stmt_sig: "由以下单位发布",
+    stmt_sig_name: "火星深渊反虚假信息单位 · 公共广播部",
+    dept_head: "公共服务",
+    dept_sub: "四个部门 · 一项使命",
+    dept1_title: "威胁侦测",
+    dept1_desc: "持续监控火星及行星际信息渠道，以识别新兴的虚假信息宣传与协同的不真实行为。",
+    dept2_title: "分析与核实",
+    dept2_desc: "对每一个已识别的虚假信息行动进行严格的信息模式审查、来源认证与影响评估。",
+    dept3_title: "反击行动",
+    dept3_desc: "战略部署经过核实的事实性反击叙事，在源头瓦解敌对虚假信息宣传活动。",
+    dept4_title: "公众教育",
+    dept4_desc: "持续推进相关举措，加强火星公民面对协同欺骗的媒体素养与批判性思维能力。",
+    band_head: "信号评估",
+    band_label: "级别 6.5 — 活动加剧",
+    band_reading: "当前周期评估 · 全扇区",
+    band_desc: "检测到针对火星资源分配政策的协同虚假信息活动增加。建议公民通过官方渠道核实所有声明。",
+    adv_head: "公共通告",
+    adv_sub: "活跃档案 · 已批准供公民查阅",
+    adv1_title: "真相信标",
+    adv1_desc: "反制有关火星环境系统与生命维持可持续性的虚假叙事。",
+    adv1_status: "积极介入",
+    adv2_title: "数据护盾",
+    adv2_desc: "保护火星技术进步免受源自殖民地边界之外的企业间谍活动影响。",
+    adv2_status: "持续监控",
+    adv3_title: "叙事防御",
+    adv3_desc: "应对散布有关火星治理与公民机构错误信息的协同宣传活动。",
+    adv3_status: "战略响应",
+    adv4_title: "来源核实",
+    adv4_desc: "在火星通信网络中验证并认证信息来源。",
+    adv4_status: "局势已控",
+    footnote: "M.A.D. 仅发布经授权可供公众查阅的行动。其他档案由 M.A.N.H.U.N.T.E.R. 部门保管，不向民用渠道发布。寻求进一步信息的公民应联系其当地穹顶当局。"
+  }
+};
+
+let currentLang = localStorage.getItem('preferredLang') || 'en';
+
+function applyLanguage(lang) {
+  const t = translations[lang];
+  if (!t) return;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) el.textContent = t[key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  localStorage.setItem('preferredLang', lang);
+  currentLang = lang;
 }
-isMuted = !isMuted;
-audioElements.forEach(audio => {
-audio.muted = isMuted;
-if (!isMuted) {
-audio.play().catch(e => console.log('Playback resume failed'));
-}
-});
-muteBtn.textContent = isMuted ? "🔇 UNMUTE MUSIC" : "🔊 MUTE MUSIC";
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
 });
 
-// Initialize systems when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-// Initialize audio
-initAudio();
-// Animate threat meter
-setTimeout(() => {
-const threatFill = document.querySelector('.threat-fill');
-if (threatFill) {
-threatFill.style.width = '65%';
-}
-}, 500);
-// Add click effects to operation cards
-const operationCards = document.querySelectorAll('.operation-card');
-operationCards.forEach(card => {
-card.addEventListener('click', function() {
-this.style.transform = 'translateY(-10px) scale(1.02)';
-setTimeout(() => {
-this.style.transform = 'translateY(-10px)';
-}, 150);
-});
-});
-});
+applyLanguage(currentLang);
 
-// Ensure video plays on user interaction
-document.addEventListener('click', function() {
-if (videoBg && videoBg.paused) {
-videoBg.play().catch(e => {
-console.log('Video play failed');
-});
-}
-});
-
-// ===== MOBILE HAMBURGER MENU =====
+// ===== MOBILE HAMBURGER — TRIMMED FOR M.A.D. PAGE =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const closeMenu = document.getElementById('closeMenu');
 const mobileMenu = document.getElementById('mobileMenu');
 const menuContent = document.querySelector('.menu-content');
 
 function createMobileMenu() {
-if (!menuContent) return;
-menuContent.innerHTML = '';
+  if (!menuContent) return;
+  menuContent.innerHTML = '';
 
-const menuItems = [
-{ text: '🏠 Home', href: 'index.html' },
-{ text: ' Why This World Matters', href: 'why-this-world-matters.html' },
-{ text: ' Homage to Courage', href: 'homage-to-courage.html' },
-{ text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
-{ text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
-{ text: ' My Mission', href: 'my-mission.html' },
-{ text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
-{ text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
-{ text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
-{ text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+  const menuItems = [
+    { text: '🏠 Home', href: 'index.html', type: 'main' },
+    { text: '📖 Story', href: 'story.html', type: 'main' },
+    { text: '🎮 Martian Games', href: 'martian-games.html', type: 'main' },
+    { text: '🌍 Earth Codex', href: 'earth-codex.html', type: 'main' },
+    { text: '📰 Martian News', href: 'martian-news.html', type: 'main' },
+    { text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html', type: 'sub' },
+    { text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html', type: 'sub', active: true },
+    { text: ' M.A.R.V.I.N.', href: 'marvin.html', type: 'sub' },
+    { text: "📜 Regent's Scrolls", href: 'the-regents-scrolls.html', type: 'main' },
+    { text: 'ℹ️ About', href: 'about.html', type: 'main' },
+    { text: '🤝 Support', href: 'support.html', type: 'main' },
+    { text: '📧 Contact', href: 'contact.html', type: 'main' }
+  ];
 
-{ text: '📖 Story', href: 'story.html' },
-{ text: ' Characters', href: 'characters.html' },
-{ text: ' Gallery', href: 'gallery.html' },
-{ text: ' Art & Concepts', href: 'art-and-concepts.html' },
-{ text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
-{ text: ' Technical Database', href: 'technical-database.html' },
-{ text: ' The Martian Edicts', href: 'martian-edicts.html' },
-{ text: ' Alien Transport Network', href: 'alien-transport-network.html' },
-{ text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
-{ text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
-{ text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
-
-{ text: '🎮 Martian Games', href: 'martian-games.html' },
-{ text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
-{ text: ' Martian Racer', href: 'martian-racer.html' },
-{ text: ' Red Planet Defense', href: 'red-planet-defense.html' },
-{ text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
-{ text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
-{ text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
-{ text: ' Music Player', href: 'music-app.html' },
-{ text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
-
-{ text: '🌍 Earth Codex', href: 'earth-codex.html' },
-{ text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
-{ text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
-{ text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
-{ text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
-{ text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
-{ text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
-{ text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
-{ text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
-{ text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
-
-{ text: '📰 Martian News', href: 'martian-news.html' },
-{ text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
-{ text: ' Martian Actualities', href: 'martian-actualities.html' },
-{ text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
-{ text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
-{ text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
-{ text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
-{ text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
-{ text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
-{ text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
-{ text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
-{ text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
-{ text: ' M.A.R.V.I.N.', href: 'marvin.html' },
-
-{ text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
-{ text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
-{ text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
-{ text: ' Earthlings Beware', href: 'earthings-beware.html' },
-{ text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
-{ text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
-{ text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
-{ text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
-{ text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
-{ text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
-{ text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
-{ text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
-
-{ text: 'ℹ️ About', href: 'about.html' },
-{ text: ' About the Project', href: 'about-the-project.html' },
-{ text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
-{ text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
-{ text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
-{ text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
-{ text: ' The Pale Horse', href: 'the-pale-horse.html' },
-{ text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
-{ text: ' Arachne Labs', href: 'arachne-labs.html' },
-{ text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
-{ text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
-
-{ text: '🤝 Support', href: 'support.html' },
-{ text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
-{ text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
-{ text: ' Mars Food District', href: 'mars-food-district.html' },
-{ text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
-{ text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
-{ text: ' Fund Martian Research', href: 'fund-martian-research.html' },
-{ text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
-{ text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
-
-{ text: '📧 Contact', href: 'contact.html' },
-{ text: '😡 Mad (current)', href: 'mad.html', active: true }
-];
-
-menuItems.forEach(item => {
-const menuItem = document.createElement('div');
-menuItem.className = 'menu-item';
-const link = document.createElement('a');
-link.href = item.href;
-link.textContent = item.text;
-if (item.active) link.classList.add('active');
-menuItem.appendChild(link);
-menuContent.appendChild(menuItem);
-});
+  menuItems.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'menu-item ' + (item.type === 'main' ? 'main-title' : 'sub-page');
+    const a = document.createElement('a');
+    a.href = item.href;
+    a.textContent = item.text;
+    if (item.active) a.classList.add('active');
+    div.appendChild(a);
+    menuContent.appendChild(div);
+  });
 }
-
 createMobileMenu();
 
 hamburgerBtn.addEventListener('click', () => {
-mobileMenu.classList.add('active');
-document.body.style.overflow = 'hidden';
+  mobileMenu.classList.add('active');
+  document.body.style.overflow = 'hidden';
 });
-
 closeMenu.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
+  mobileMenu.classList.remove('active');
+  document.body.style.overflow = '';
 });
-
 document.addEventListener('click', (e) => {
-if (mobileMenu.classList.contains('active') &&
-!mobileMenu.contains(e.target) &&
-!hamburgerBtn.contains(e.target)) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
+  if (mobileMenu.classList.contains('active') &&
+      !mobileMenu.contains(e.target) &&
+      !hamburgerBtn.contains(e.target)) {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 });
-
 document.querySelectorAll('.mobile-menu a').forEach(link => {
-link.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  });
 });
-});
-
 function handleResize() {
-if (window.innerWidth > 992) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
+  if (window.innerWidth > 992) {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 }
 window.addEventListener('resize', handleResize);
 </script>
 </body>
 </html>
+
