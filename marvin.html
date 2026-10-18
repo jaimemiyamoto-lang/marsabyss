@@ -852,6 +852,24 @@ footer {
         </div>
         <div class="op-status tracking" data-i18n="mv_op2_status">TRACKING</div>
       </div>
+      <div class="op-item">
+  <div class="op-id">ARV-003</div>
+  <div>
+    <div class="op-name" data-i18n="mv_op3_title">SHIELD WALL</div>
+    <div class="op-desc" data-i18n="mv_op3_desc">Protecting critical infrastructure from coordinated information attacks. Continuous operation.</div>
+  </div>
+  <div class="op-status critical" data-i18n="mv_op3_status">DEFENSE</div>
+</div>
+
+<div class="op-item">
+  <div class="op-id">ARV-004</div>
+  <div>
+    <div class="op-name" data-i18n="mv_op4_title">TRUTH SEED</div>
+    <div class="op-desc" data-i18n="mv_op4_desc">Strategic placement of verified data within hostile information ecosystems. Slow, patient, unreported.</div>
+  </div>
+  <div class="op-status contained" data-i18n="mv_op4_status">DEPLOYED</div>
+</div>
+
     </div>
   </section>
 
@@ -870,6 +888,7 @@ footer {
 </footer>
 
 <script>
+// ===== VIDEO PROTECTION =====
 (function() {
   document.querySelectorAll('video').forEach(video => {
     video.setAttribute('controlslist', 'nodownload');
@@ -878,29 +897,40 @@ footer {
   });
 })();
 
+// ===== CONTENT VISIBILITY =====
 const mainContent = document.getElementById('mainContent');
 const hideContentBtn = document.getElementById('hideContentBtn');
 const mouseSensor = document.getElementById('mouseSensor');
 const topMenu = document.querySelector('nav.top-menu');
 const footer = document.querySelector('footer');
-const languageSelector = document.querySelector('.language-selector');
+const langSelector = document.querySelector('.language-selector');
 
 let contentVisible = true;
+
 function setVisible(v) {
   contentVisible = v;
-  const languageSelector = document.querySelector('.language-selector');
-  [mainContent, topMenu, footer, languageSelector].forEach(el => {
+  
+  // Hides content, menu, footer, AND language buttons. Leaves audio button alone.
+  [mainContent, topMenu, footer, langSelector].forEach(el => {
     if (!el) return;
     if (v) el.classList.remove('hidden');
     else el.classList.add('hidden');
   });
+  
   hideContentBtn.textContent = v ? 'HIDE CONTENT' : 'SHOW CONTENT';
 }
 
-hideContentBtn.addEventListener('click', () => setVisible(!contentVisible));
-mouseSensor.addEventListener('mouseenter', () => { if (!contentVisible) setVisible(true); });
-document.addEventListener('mousemove', (e) => { if (e.clientY < 100 && !contentVisible) setVisible(true); });
+if (hideContentBtn) {
+  hideContentBtn.addEventListener('click', () => setVisible(!contentVisible));
+}
+if (mouseSensor) {
+  mouseSensor.addEventListener('mouseenter', () => { if (!contentVisible) setVisible(true); });
+}
+document.addEventListener('mousemove', (e) => { 
+  if (e.clientY < 100 && !contentVisible) setVisible(true); 
+});
 
+// ===== VIDEO BACKGROUND =====
 const videoBg = document.getElementById('marvinVideo');
 if (videoBg) {
   videoBg.addEventListener('loadeddata', function() {
@@ -912,6 +942,7 @@ document.addEventListener('click', function() {
   if (videoBg && videoBg.paused) videoBg.play().catch(() => {});
 });
 
+// ===== AUDIO =====
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
@@ -936,19 +967,22 @@ function initAudio() {
   document.addEventListener('click', unlock);
 }
 
-muteBtn.addEventListener('click', function() {
-  if (audioElements.length === 0) { initAudio(); return; }
-  isMuted = !isMuted;
-  audioElements.forEach(a => {
-    a.muted = isMuted;
-    if (!isMuted) a.play().catch(() => {});
+if (muteBtn) {
+  muteBtn.addEventListener('click', function() {
+    if (audioElements.length === 0) { initAudio(); return; }
+    isMuted = !isMuted;
+    audioElements.forEach(a => {
+      a.muted = isMuted;
+      if (!isMuted) a.play().catch(() => {});
+    });
+    muteBtn.textContent = isMuted ? 'UNMUTE' : 'MUTE';
   });
-  muteBtn.textContent = isMuted ? 'UNMUTE' : 'MUTE';
-});
+}
 initAudio();
 
 window.addEventListener('load', () => document.body.classList.add('loaded'));
 
+// ===== TRANSLATIONS =====
 let currentLang = localStorage.getItem('preferredLang') || 'en';
 
 function applyLanguage(lang) {
@@ -970,6 +1004,7 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
 });
 applyLanguage(currentLang);
 
+// ===== MOBILE HAMBURGER =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const closeMenu = document.getElementById('closeMenu');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -1018,5 +1053,6 @@ if (closeMenu) {
   });
 }
 </script>
+
 </body>
 </html>
