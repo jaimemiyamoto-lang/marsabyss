@@ -1127,6 +1127,7 @@ footer {
   <button class="lang-btn active" data-lang="en">EN</button>
   <button class="lang-btn" data-lang="es">ES</button>
   <button class="lang-btn" data-lang="zh">中文</button>
+  <button class="lang-btn" data-lang="pt">PT</button>
 </div>
 
 <div class="content-toggle-controls">
@@ -1279,7 +1280,7 @@ footer {
 <footer>
   <p>© 2025 The Mars Abyss · M.A.D. Public Broadcast Division</p>
 </footer>
-
+<script src="js/translations.js"></script>
 <script>
 // ===== VIDEO PROTECTION =====
 (function() {
@@ -1380,136 +1381,15 @@ initAudio();
 
 window.addEventListener('load', () => document.body.classList.add('loaded'));
 
-// ===== TRANSLATIONS =====
-const translations = {
-  en: {
-    masthead_kicker: "OFFICIAL MARTIAN PUBLIC INFORMATION SERVICE",
-    masthead_fullname: "Mars Abyss Disinformation Unit",
-    masthead_volume: "BROADCAST 47 · CYCLE 219 · ALL SECTORS",
-    stmt_label: "PUBLIC STATEMENT",
-    stmt_headline: "On the Protection of Martian Citizens From Coordinated Information Threats",
-    stmt_p1: "The Mars Abyss Disinformation Unit is the public-facing defense of Martian sovereignty in the information domain. We exist to ensure that every citizen of Mars has access to verified information, and to counter the coordinated campaigns — foreign and domestic — that seek to undermine the colony's stability through deception.",
-    stmt_p2: "Our work is conducted at the intersection of intelligence analysis, strategic communication, and cyber defense. We monitor information channels, verify sources, and publish factual counter-narratives when false ones are identified. We do not silence speech. We do not police opinion. We counter coordination — the organized, industrial-scale production of lies.",
-    stmt_p3: "This broadcast is updated continuously. Citizens are encouraged to verify information through official channels and to report suspicious activity to their local dome authority. A well-informed colony is a resilient one.",
-    stmt_sig: "Published by order of the",
-    stmt_sig_name: "MARS ABYSS DISINFORMATION UNIT · PUBLIC BROADCAST DIVISION",
-    dept_head: "Public Services",
-    dept_sub: "FOUR DEPARTMENTS · ONE MANDATE",
-    dept1_title: "Threat Detection",
-    dept1_desc: "Continuous monitoring of Martian and interplanetary information channels to identify emerging disinformation campaigns and coordinated inauthentic behavior.",
-    dept2_title: "Analysis & Verification",
-    dept2_desc: "Rigorous examination of information patterns, source authentication, and impact assessment for every identified disinformation operation.",
-    dept3_title: "Counter-Operations",
-    dept3_desc: "Strategic deployment of verified counter-narratives and factual information to neutralize hostile disinformation campaigns at their source.",
-    dept4_title: "Public Education",
-    dept4_desc: "Ongoing initiatives to strengthen Martian citizens' media literacy and critical thinking skills against coordinated deception.",
-    band_head: "Signal Assessment",
-    band_label: "LEVEL 6.5 — ELEVATED ACTIVITY",
-    band_reading: "CURRENT CYCLE ASSESSMENT · ALL SECTORS",
-    band_desc: "Increased coordinated disinformation activity detected targeting Martian resource allocation policies. Citizens are advised to verify all claims through official channels.",
-    adv_head: "Public Advisories",
-    adv_sub: "ACTIVE CASE FILES · APPROVED FOR CITIZEN REVIEW",
-    adv1_title: "TRUTH BEACON",
-    adv1_desc: "Countering false narratives concerning Martian environmental systems and life support sustainability.",
-    adv1_status: "ACTIVE ENGAGEMENT",
-    adv2_title: "DATA SHIELD",
-    adv2_desc: "Protecting Martian technological advancements from corporate espionage campaigns originating beyond colony borders.",
-    adv2_status: "CONTINUOUS MONITORING",
-    adv3_title: "NARRATIVE DEFENSE",
-    adv3_desc: "Addressing coordinated campaigns spreading misinformation about Martian governance and civic institutions.",
-    adv3_status: "STRATEGIC RESPONSE",
-    adv4_title: "SOURCE VERIFICATION",
-    adv4_desc: "Validating and authenticating information sources across Martian communication networks.",
-    adv4_status: "SITUATION CONTAINED",
-    footnote: "M.A.D. publishes only those operations authorized for public review. Additional case files are maintained by the M.A.N.H.U.N.T.E.R. division and are not released to civilian channels. Citizens seeking further information should contact their local dome authority."
-  },
-  es: {
-    masthead_kicker: "SERVICIO OFICIAL DE INFORMACIÓN PÚBLICA MARCIANA",
-    masthead_fullname: "Unidad de Desinformación del Abismo de Marte",
-    masthead_volume: "TRANSMISIÓN 47 · CICLO 219 · TODOS LOS SECTORES",
-    stmt_label: "DECLARACIÓN PÚBLICA",
-    stmt_headline: "Sobre la Protección de los Ciudadanos Marcianos Contra Amenazas Informativas Coordinadas",
-    stmt_p1: "La Unidad de Desinformación del Abismo de Marte es la defensa pública de la soberanía marciana en el dominio de la información. Existimos para garantizar que cada ciudadano de Marte tenga acceso a información verificada, y para contrarrestar las campañas coordinadas — extranjeras y nacionales — que buscan socavar la estabilidad de la colonia mediante el engaño.",
-    stmt_p2: "Nuestro trabajo se realiza en la intersección del análisis de inteligencia, la comunicación estratégica y la defensa cibernética. Monitoreamos canales de información, verificamos fuentes y publicamos contra-narrativas fácticas cuando se identifican las falsas. No silenciamos el discurso. No vigilamos la opinión. Contrarrestamos la coordinación — la producción organizada e industrial de mentiras.",
-    stmt_p3: "Esta transmisión se actualiza continuamente. Se alienta a los ciudadanos a verificar la información a través de canales oficiales y a reportar actividades sospechosas a su autoridad de domo local. Una colonia bien informada es una colonia resiliente.",
-    stmt_sig: "Publicado por orden de la",
-    stmt_sig_name: "UNIDAD DE DESINFORMACIÓN DEL ABISMO DE MARTE · DIVISIÓN DE TRANSMISIÓN PÚBLICA",
-    dept_head: "Servicios Públicos",
-    dept_sub: "CUATRO DEPARTAMENTOS · UN MANDATO",
-    dept1_title: "Detección de Amenazas",
-    dept1_desc: "Monitoreo continuo de canales de información marcianos e interplanetarios para identificar campañas de desinformación emergentes y comportamiento inauténtico coordinado.",
-    dept2_title: "Análisis y Verificación",
-    dept2_desc: "Examen riguroso de patrones de información, autenticación de fuentes y evaluación de impacto para cada operación de desinformación identificada.",
-    dept3_title: "Contra-Operaciones",
-    dept3_desc: "Despliegue estratégico de contra-narrativas verificadas e información fáctica para neutralizar campañas hostiles de desinformación en su origen.",
-    dept4_title: "Educación Pública",
-    dept4_desc: "Iniciativas continuas para fortalecer la alfabetización mediática y el pensamiento crítico de los ciudadanos marcianos contra el engaño coordinado.",
-    band_head: "Evaluación de Señal",
-    band_label: "NIVEL 6.5 — ACTIVIDAD ELEVADA",
-    band_reading: "EVALUACIÓN DEL CICLO ACTUAL · TODOS LOS SECTORES",
-    band_desc: "Se ha detectado una mayor actividad de desinformación coordinada dirigida a las políticas de asignación de recursos marcianos. Se aconseja a los ciudadanos verificar todas las afirmaciones a través de canales oficiales.",
-    adv_head: "Avisos Públicos",
-    adv_sub: "EXPEDIENTES ACTIVOS · APROBADOS PARA REVISIÓN CIUDADANA",
-    adv1_title: "FARO DE VERDAD",
-    adv1_desc: "Contrarrestar narrativas falsas sobre los sistemas ambientales marcianos y la sostenibilidad del soporte vital.",
-    adv1_status: "COMPROMISO ACTIVO",
-    adv2_title: "ESCUDO DE DATOS",
-    adv2_desc: "Proteger los avances tecnológicos marcianos de campañas de espionaje corporativo originadas más allá de las fronteras de la colonia.",
-    adv2_status: "MONITOREO CONTINUO",
-    adv3_title: "DEFENSA NARRATIVA",
-    adv3_desc: "Abordar campañas coordinadas que difunden información errónea sobre el gobierno marciano y las instituciones cívicas.",
-    adv3_status: "RESPUESTA ESTRATÉGICA",
-    adv4_title: "VERIFICACIÓN DE FUENTES",
-    adv4_desc: "Validar y autenticar fuentes de información en las redes de comunicación marcianas.",
-    adv4_status: "SITUACIÓN CONTENIDA",
-    footnote: "M.A.D. publica solo aquellas operaciones autorizadas para revisión pública. Los expedientes adicionales son mantenidos por la división M.A.N.H.U.N.T.E.R. y no se liberan a canales civiles. Los ciudadanos que busquen más información deben contactar a su autoridad de domo local."
-  },
-  zh: {
-    masthead_kicker: "火星官方公共信息服务",
-    masthead_fullname: "火星深渊反虚假信息单位",
-    masthead_volume: "广播 47 · 周期 219 · 全扇区",
-    stmt_label: "公开声明",
-    stmt_headline: "关于保护火星公民免受协同信息威胁的声明",
-    stmt_p1: "火星深渊反虚假信息单位是火星在信息领域主权的面向公众的防御力量。我们存在是为了确保每一位火星公民都能获取经过核实的信息，并打击试图通过欺骗破坏殖民地稳定的协同宣传活动——无论来自境外还是境内。",
-    stmt_p2: "我们的工作处于情报分析、战略传播与网络防御的交汇点。我们监控信息渠道，核实来源，并在发现虚假信息时发布事实性反击叙事。我们不压制言论。我们不监管观点。我们对抗的是协同——有组织、工业规模的谎言生产。",
-    stmt_p3: "本广播持续更新。鼓励公民通过官方渠道核实信息，并向当地穹顶当局报告可疑活动。一个信息充分的殖民地就是一个有韧性的殖民地。",
-    stmt_sig: "由以下单位发布",
-    stmt_sig_name: "火星深渊反虚假信息单位 · 公共广播部",
-    dept_head: "公共服务",
-    dept_sub: "四个部门 · 一项使命",
-    dept1_title: "威胁侦测",
-    dept1_desc: "持续监控火星及行星际信息渠道，以识别新兴的虚假信息宣传与协同的不真实行为。",
-    dept2_title: "分析与核实",
-    dept2_desc: "对每一个已识别的虚假信息行动进行严格的信息模式审查、来源认证与影响评估。",
-    dept3_title: "反击行动",
-    dept3_desc: "战略部署经过核实的事实性反击叙事，在源头瓦解敌对虚假信息宣传活动。",
-    dept4_title: "公众教育",
-    dept4_desc: "持续推进相关举措，加强火星公民面对协同欺骗的媒体素养与批判性思维能力。",
-    band_head: "信号评估",
-    band_label: "级别 6.5 — 活动加剧",
-    band_reading: "当前周期评估 · 全扇区",
-    band_desc: "检测到针对火星资源分配政策的协同虚假信息活动增加。建议公民通过官方渠道核实所有声明。",
-    adv_head: "公共通告",
-    adv_sub: "活跃档案 · 已批准供公民查阅",
-    adv1_title: "真相信标",
-    adv1_desc: "反制有关火星环境系统与生命维持可持续性的虚假叙事。",
-    adv1_status: "积极介入",
-    adv2_title: "数据护盾",
-    adv2_desc: "保护火星技术进步免受源自殖民地边界之外的企业间谍活动影响。",
-    adv2_status: "持续监控",
-    adv3_title: "叙事防御",
-    adv3_desc: "应对散布有关火星治理与公民机构错误信息的协同宣传活动。",
-    adv3_status: "战略响应",
-    adv4_title: "来源核实",
-    adv4_desc: "在火星通信网络中验证并认证信息来源。",
-    adv4_status: "局势已控",
-    footnote: "M.A.D. 仅发布经授权可供公众查阅的行动。其他档案由 M.A.N.H.U.N.T.E.R. 部门保管，不向民用渠道发布。寻求进一步信息的公民应联系其当地穹顶当局。"
-  }
-};
-
 let currentLang = localStorage.getItem('preferredLang') || 'en';
 
 function applyLanguage(lang) {
+  // Safety net:  If translations.js fails to load, do not crash the page!
+  if (typeof window.MARS_TRANSLATIONS === 'underfined') {
+    console.warn('Translation file missing or failed to load.');
+    return;
+  }
+  
   const t = translations[lang];
   if (!t) return;
   document.querySelectorAll('[data-i18n]').forEach(el => {
