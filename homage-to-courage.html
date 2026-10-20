@@ -376,7 +376,76 @@ height: 100px;
   border-left-color: #4A6796;
 }
 
- 
+/* === HALL OF COURAGE CAROUSEL === */
+.carousel-section {
+    margin: 4rem 0;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(74, 103, 150, 0.3);
+}
+
+.carousel-container {
+    width: 100%;
+    height: 300px;
+    perspective: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: grab;
+}
+.carousel-container:active { cursor: grabbing; }
+
+.carousel {
+    position: relative;
+    width: 160px;
+    height: 220px;
+    transform-style: preserve-3d;
+    transition: transform 0.1s linear;
+}
+
+.carousel-panel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 20, 0.9);
+    border: 2px solid #4A6796;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Math to space them in a circle */
+    transform: rotateY(calc(var(--i) * 72deg)) translateZ(250px);
+    box-shadow: 0 0 15px rgba(76, 201, 240, 0.2);
+    transition: border-color 0.3s ease;
+}
+
+.carousel-panel:hover {
+    border-color: #ffc107;
+}
+
+.carousel-panel img {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+}
+
+.carousel-panel h4 {
+    color: #4cc9f0;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.placeholder-icon {
+    font-size: 4rem;
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+
 /* ===== HAMBURGER MENU (purple/blue theme) ===== */
 .mobile-nav {
   display: none;
@@ -570,11 +639,12 @@ flex-wrap: wrap;
 </head>
 
 <body>
+  <canvas id="emberCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none;"></canvas>
 <!-- VIDEO BACKGROUND WITH STATIC FALLBACK -->
 <div class="background-container">
 <div class="static-background" id="staticBg"></div>
 <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
-<source src="videos/vatican.trimmed" type="video/mp4">
+<source src="videos/vatican-city.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
 </div>
@@ -738,7 +808,7 @@ Your browser does not support the video tag.
 <div class="dropdown-content">
 <a href="silver's-sign-language-course.html">Silver's language Academy</a> 
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-<a href="cosmic-economics.html">Cosmic Economics</a>
+<a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
 <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
 <a href="fund-martian-research.html">Fund Martian Research</a>
@@ -780,7 +850,43 @@ December 17, 1936 — April 21, 2025
 <div class="signature">
 — With respect from the Martian Frontier
 </div>
+
+<!-- HALL OF COURAGE CAROUSEL -->
+<div class="carousel-section">
+    <h3 style="color: #ffc107; text-align: center; font-family: 'Orbitron', sans-serif; margin-bottom: 2rem;">The Hall of Courage</h3>
+    
+    <div class="carousel-container">
+        <div class="carousel" id="courageCarousel">
+            <!-- Panel 1 -->
+            <div class="carousel-panel" style="--i:0;">
+                <img src="images/pope-francis-tribute.jpg" alt="Pope Francis">
+                <h4>Pope Francis</h4>
+            </div>
+            <!-- Panel 2 -->
+            <div class="carousel-panel" style="--i:1;">
+                <div class="placeholder-icon">🕊️</div>
+                <h4>Coming Soon</h4>
+            </div>
+            <!-- Panel 3 -->
+            <div class="carousel-panel" style="--i:2;">
+                <div class="placeholder-icon">⭐</div>
+                <h4>Coming Soon</h4>
+            </div>
+            <!-- Panel 4 -->
+            <div class="carousel-panel" style="--i:3;">
+                <div class="placeholder-icon">🛡️</div>
+                <h4>Coming Soon</h4>
+            </div>
+            <!-- Panel 5 -->
+            <div class="carousel-panel" style="--i:4;">
+                <div class="placeholder-icon">🌍</div>
+                <h4>Coming Soon</h4>
+            </div>
+        </div>
+    </div>
+    <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 1rem;">Drag to rotate</p>
 </div>
+</div> <!-- End of tribute-container -->
 
 <div class="content-spacer"></div>
 
@@ -789,23 +895,6 @@ December 17, 1936 — April 21, 2025
 </footer>
 
 <script>
-
-// ===== VIDEO PROTECTION =====
-(function() {
- document.querySelectorAll('video').forEach(video => {
-   video.setAttribute('controlslist', 'nodownload');
-   video.addEventListener('contextmenu', (e) => e.preventDefault());
-   video.addEventListener('dragstart', (e) => e.preventDefault());
- });
- 
- document.addEventListener('keydown', (e) => {
-   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
-   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
-     e.preventDefault();
-   }
- });
-})();
- 
 // VIDEO BACKGROUND WITH FADE
 const videoBg = document.getElementById('videoBg');
 const staticBg = document.getElementById('staticBg');
@@ -914,6 +1003,59 @@ console.log('Video loading timeout, falling back to static background');
 }
 }, 5000);
 
+// === 3D CAROUSEL DRAG LOGIC ===
+const carousel = document.getElementById('courageCarousel');
+if (carousel) {
+    let isDragging = false;
+    let startX = 0;
+    let currentRotation = 0;
+    let rotationSpeed = 0;
+
+    carousel.parentElement.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const deltaX = e.clientX - startX;
+        rotationSpeed = deltaX * 0.5;
+        currentRotation += rotationSpeed;
+        carousel.style.transform = `rotateY(${currentRotation}deg)`;
+        startX = e.clientX;
+    });
+
+    window.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
+    // Auto-spin slowly if not interacting
+    setInterval(() => {
+        if (!isDragging) {
+            currentRotation -= 0.2; // Slow automatic rotation
+            carousel.style.transform = `rotateY(${currentRotation}deg)`;
+        }
+    }, 30);
+
+    // Touch support for mobile
+    carousel.parentElement.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+    });
+
+    window.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const deltaX = e.touches[0].clientX - startX;
+        currentRotation += deltaX * 0.5;
+        carousel.style.transform = `rotateY(${currentRotation}deg)`;
+        startX = e.touches[0].clientX;
+    });
+
+    window.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+}
+
 // ===== MOBILE HAMBURGER MENU =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const closeMenu = document.getElementById('closeMenu');
@@ -962,6 +1104,7 @@ function createMobileMenu() {
     });
 }
 
+
 createMobileMenu();
 
 hamburgerBtn.addEventListener('click', () => {
@@ -998,6 +1141,62 @@ document.body.style.overflow = '';
 }
 window.addEventListener('resize', handleResize);
 
+// === CANDLELIGHT EMBERS CANVAS ===
+const emberCanvas = document.getElementById('emberCanvas');
+const eCtx = emberCanvas.getContext('2d');
+let embers = [];
+let eWidth = emberCanvas.width = window.innerWidth;
+let eHeight = emberCanvas.height = window.innerHeight;
+
+window.addEventListener('resize', () => {
+    eWidth = emberCanvas.width = window.innerWidth;
+    eHeight = emberCanvas.height = window.innerHeight;
+});
+
+class Ember {
+    constructor() {
+        this.reset();
+        this.y = Math.random() * eHeight; // Start randomly on load
+    }
+    reset() {
+        this.x = Math.random() * eWidth;
+        this.y = eHeight + 10;
+        this.size = Math.random() * 2 + 1;
+        this.speedY = Math.random() * 1.5 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.alpha = Math.random() * 0.5 + 0.2;
+        // Gold and Cyan colors
+        this.color = Math.random() > 0.3 ? `rgba(255, 193, 7, ${this.alpha})` : `rgba(76, 201, 240, ${this.alpha})`;
+    }
+    draw() {
+        eCtx.beginPath();
+        eCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        eCtx.fillStyle = this.color;
+        eCtx.fill();
+    }
+    update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        // Fade out as it rises
+        this.alpha -= 0.003;
+        if (this.alpha <= 0 || this.y < 0) {
+            this.reset();
+        }
+        this.draw();
+    }
+}
+
+for (let i = 0; i < 50; i++) embers.push(new Ember());
+
+function animateEmbers() {
+    eCtx.clearRect(0, 0, eWidth, eHeight);
+    embers.forEach(ember => ember.update());
+    requestAnimationFrame(animateEmbers);
+}
+animateEmbers();
+
+
 </script>
 </body>
 </html>
+
