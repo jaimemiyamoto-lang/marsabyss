@@ -198,6 +198,36 @@ position: relative;
 overflow: hidden;
 }
 
+/* The Video Element */
+.card-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.4s ease;
+    z-index: 1;
+    filter: grayscale(100%) contrast(150%); /* Matches static image start */
+}
+
+/* Show video and remove grayscale on hover */
+.card:hover .card-video {
+    opacity: 1;
+    filter: grayscale(0%) contrast(100%);
+}
+
+/* Make sure the label stays on top of the video */
+.card-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2; /* Added this */
+    /* ... rest of your label styles ... */
+}
+
 .card:hover {
 filter: grayscale(0%) contrast(100%);
 transform: scale(1.05);
@@ -219,6 +249,22 @@ border-bottom-left-radius: 8px;
 border-bottom-right-radius: 8px;
 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 font-weight: bold;
+}
+
+/* Indented sub-items in mobile menu */
+.menu-content .menu-item a.sub-item {
+    padding-left: 35px !important; /* Pushes text to the right */
+    font-size: 0.85rem; /* Slightly smaller text */
+    color: #d4b87a; /* Slightly dimmer gold to show it's a sub-page */
+    border-left: 1px solid rgba(179, 0, 0, 0.5); /* Smaller red indicator line */
+    margin-left: 15px; /* Indents the whole link block */
+    margin-bottom: 5px;
+}
+
+.menu-content .menu-item a.sub-item:hover {
+    border-left-color: #b30000;
+    background: rgba(179, 0, 0, 0.2);
+    color: #e0c68e;
 }
 
 /* ARROWS */
@@ -809,6 +855,7 @@ height: 100px;
 <div class="card-label">Winter Sound</div>
 </div>
 <div class="card" style="background-image: url('images/-new-support-one.jpg');" onclick="openPoem('blade-quill')">
+    <video class="card-video" src="videos/ronin-two-vs-ninja.mp4" muted loop playsinline></video>
 <div class="card-label">Blade & Quill</div>
 </div>
 <div class="card" style="background-image: url('images/1-Japanese influencer.jpg');" onclick="openPoem('red-dust-haiku')">
@@ -1133,7 +1180,7 @@ The future's machine, with Taino eyes.
 <!-- NEW REGENT'S LOG SECTION GOES RIGHT HERE -->
 <section class="regent-log" id="regent-log">
   <h3 style="text-align: center; color: #d4b87a; margin-bottom: 2rem; border-bottom: 2px solid #b30000; padding-bottom: 1rem;">
-    📜 The Regent's Log
+    📜 The Regent's Logs
   </h3>
   
   <div class="log-entry">
@@ -1188,6 +1235,33 @@ The future's machine, with Taino eyes.
       <em>Signed,<br>The Regent of Mars</em>
     </div>
   </div>
+
+  <!-- Spacer/Divider between logs -->
+<div style="border-top: 1px dashed rgba(179, 0, 0, 0.4); margin: 2.5rem 0;"></div>
+
+<!-- Second Log Entry -->
+<div class="log-entry">
+  <div class="log-header">
+    <span class="log-date">Martian Cycle 234</span>
+    <span class="log-subject">The Weight of the Crown</span>
+  </div>
+ 
+  <div class="log-content">
+    <div class="log-content">
+  <p>Today I walked the lower agricultural domes without my guard. I wanted to feel the soil.</p>
+  <p>A child asked me if I was afraid of the rebels on Earth.</p>
+  <p>I told her the truth: "I am not afraid of Earth's weapons. I am afraid of making a mistake that costs us our future."</p>
+  <p>She looked at me, confused, and said, "But you're the Regent. You don't make mistakes."</p>
+  <p>I smiled and told her that is exactly why I fear them.</p>
+  <p>Later, MAI noted my elevated heart rate and asked if I needed a physiological reset. I declined. I told her that the fear of failure is what keeps me considerate. It reminds me that I am human, even while I must govern as a Martian.</p>
+  <p>She paused, processing this duality. "Like two races in one," she said.</p>
+  <p>"Exactly," I replied. "The heart of a human, the duty of a Martian."</p>
+</div>
+ 
+  <div class="log-footer">
+    <em>Signed,<br>The Regent of Mars</em>
+  </div>
+</div>
 </section>
 
 <!-- This spacer prevents footer overlap -->
@@ -1214,6 +1288,24 @@ selectedPoem.style.display = 'block';
 selectedPoem.scrollIntoView({ behavior: 'smooth' });
 }
 }
+
+// === VIDEO ON HOVER EFFECT FOR CARDS ===
+document.querySelectorAll('.card').forEach(card => {
+    const video = card.querySelector('.card-video');
+    
+    if (video) {
+        card.addEventListener('mouseenter', () => {
+            // Play video on hover
+            video.play().catch(e => console.log("Video play prevented:", e));
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            // Pause and reset video when mouse leaves
+            video.pause();
+            video.currentTime = 0;
+        });
+    }
+});
 
 // CARD SCROLLING FUNCTION
 function scrollCards(direction) {
@@ -1341,42 +1433,50 @@ const mobileMenu = document.getElementById('mobileMenu');
 const menuContent = document.querySelector('.menu-content');
 
 function createMobileMenu() {
-if (!menuContent) return;
-menuContent.innerHTML = '';
+    if (!menuContent) return;
+    menuContent.innerHTML = '';
 
-const menuItems = [
-  { text: '🏠 Home', href: 'index.html' },
-  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html', active: true },
-  { text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
-  { text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
-  { text: ' Earthlings Beware', href: 'earthings-beware.html' },
-  { text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
-  { text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
-  { text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
-  { text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
-  { text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
-  { text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
-  { text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
-  { text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
-  { text: '📖 Story', href: 'story.html' },
-  { text: '🎮 Martian Games', href: 'martian-games.html' },
-  { text: '🌍 Earth Codex', href: 'earth-codex.html' },
-  { text: '📰 Martian News', href: 'martian-news.html' },
-  { text: 'ℹ️ About', href: 'about.html' },
-  { text: '🤝 Support', href: 'support.html' },
-  { text: '📧 Contact', href: 'contact.html' }
-];
+    // Your exact array, but I removed the manual spaces from the text 
+    // and added "isSub: true" to the sub-pages so CSS can indent them.
+    const menuItems = [
+      { text: '🏠 Home', href: 'index.html' },
+      
+      { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html', active: true },
+      { text: 'What the Regent Misses', href: 'what-the-regent-misses.html', isSub: true },
+      { text: 'The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html', isSub: true },
+      { text: 'Earthlings Beware', href: 'earthings-beware.html', isSub: true },
+      { text: 'Honor The Fallen', href: 'honor-the-fallen.html', isSub: true },
+      { text: 'Magic Tricks of Mars', href: 'magic-tricks-of-mars.html', isSub: true },
+      { text: 'Mars Comedy Central', href: 'mars-comedy-central-hour.html', isSub: true },
+      { text: 'Salem\'s Witching Hour', href: 'salems-witching-hour.html', isSub: true },
+      { text: 'Martian Critique', href: 'martian-critique-tron-ares.html', isSub: true },
+      { text: 'The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html', isSub: true },
+      { text: 'Tharsis Lectures', href: 'tharsis-scientific-lectures.html', isSub: true },
+      { text: 'The Tharsis Laureates', href: 'the-tharsis-laureates.html', isSub: true },
+      
+      { text: '📖 Story', href: 'story.html' },
+      { text: '🎮 Martian Games', href: 'martian-games.html' },
+      { text: '🌍 Earth Codex', href: 'earth-codex.html' },
+      { text: '📰 Martian News', href: 'martian-news.html' },
+      { text: 'ℹ️ About', href: 'about.html' },
+      { text: '🤝 Support', href: 'support.html' },
+      { text: '📧 Contact', href: 'contact.html' }
+    ];
 
-menuItems.forEach(item => {
-const menuItem = document.createElement('div');
-menuItem.className = 'menu-item';
-const link = document.createElement('a');
-link.href = item.href;
-link.textContent = item.text;
-if (item.active) link.classList.add('active');
-menuItem.appendChild(link);
-menuContent.appendChild(menuItem);
-});
+    menuItems.forEach(item => {
+        const menuItem = document.createElement('div');
+        menuItem.className = 'menu-item';
+        
+        const link = document.createElement('a');
+        link.href = item.href;
+        link.textContent = item.text;
+        
+        if (item.active) link.classList.add('active');
+        if (item.isSub) link.classList.add('sub-item'); // This triggers the CSS indent
+
+        menuItem.appendChild(link);
+        menuContent.appendChild(menuItem);
+    });
 }
 
 createMobileMenu();
