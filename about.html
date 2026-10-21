@@ -65,7 +65,7 @@
             gap: 2.5rem;
             flex-wrap: nowrap;
             backdrop-filter: blur(10px);
-            border-bottom: 2px solid #9370DB;
+            border-bottom: 2px solid #D4AF37; /* Changed from #9370DB to Gold */
         }
 
         nav.top-menu a {
@@ -81,7 +81,7 @@
 
         nav.top-menu a.active,
         nav.top-menu a:hover {
-            color: #9370DB;
+            color: #D4AF37;
             background: transparent;
         }
 
@@ -103,7 +103,7 @@
             min-width: 140px;
             z-index: 1001;
             border-radius: 4px;
-            border: 2px solid #9370DB;
+            border: 2px solid #D4AF37; /* Changed from #9370DB to Gold */
             top: 100%;
             left: 0;
             backdrop-filter: blur(5px);
@@ -128,7 +128,7 @@
         }
 
         .dropdown-content a:hover {
-            background: rgba(147, 112, 218, 0.6);
+            background: rgba(212, 175, 55, 0.6);
             color: #fff;
         }
 
@@ -151,10 +151,10 @@
         }
 
         .site-title-overlay h1 {
-            color: rgba(147, 112, 219, 0.7);
+            color: rgba(0, 191, 255, 0.9);
             font-family: 'Orbitron', sans-serif;
             font-size: 1.8rem;
-            text-shadow: 0 0 10px rgba(147, 112, 219, 0.5);
+            text-shadow: 0 0 10px rgba(0, 191, 255, 0.8);
             font-weight: 300;
             letter-spacing: 2px;
         }
@@ -168,7 +168,7 @@
             width: 80%;
             max-width: 800px;
             background: rgba(0, 0, 0, 0.7);
-            border: 2px solid #9370DB;
+            border: 2px solid #D4AF37; /* Changed from #9370DB to Gold */
             border-radius: 12px;
             padding: 2rem;
             backdrop-filter: blur(10px);
@@ -183,7 +183,7 @@
         }
 
         .about-content h2 {
-            color: #9370DB;
+            color: #D4AF37; /* Changed from #9370DB to Gold */      
             margin-bottom: 1.5rem;
             font-size: 2rem;
             text-align: center;
@@ -204,8 +204,8 @@
         }
 
         .audio-btn {
-            background: rgba(147, 112, 219, 0.8);
-            border: 2px solid #9370DB;
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid #D4AF37; /* Changed from #9370DB to Gold */   
             color: #fff;
             padding: 10px 15px;
             border-radius: 25px;
@@ -216,7 +216,7 @@
         }
 
         .audio-btn:hover {
-            background: rgba(147, 112, 219, 0.3);
+            background: rgba(212, 175, 55, 0.3);
         }
 
         /* VIEW TOGGLE BUTTON */
@@ -228,8 +228,8 @@
         }
 
         .view-btn {
-            background: rgba(147, 112, 219, 0.8);
-            border: 2px solid #9370DB;
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid #D4AF37;
             color: #fff;
             padding: 10px 15px;
             border-radius: 25px;
@@ -242,11 +242,33 @@
         }
 
         .view-btn:hover {
-            background: rgba(147, 112, 219, 0.3);
-            box-shadow: 0 0 15px rgba(255, 193, 7, 0.7);
-        }
+            background: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
+        }   
         
         /* ===== HAMBURGER MENU (lavender theme) ===== */
+.mobile-submenu {
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-left: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.mobile-submenu a {
+    color: #b0b0b0 !important;
+    font-size: 0.85rem !important;
+    padding: 6px 15px !important;
+    border-left: none !important;
+}
+
+.mobile-submenu a:hover {
+    color: #D4AF37 !important;
+    background: transparent !important;
+}
+
+
 .mobile-nav {
   display: none;
   position: fixed;
@@ -257,7 +279,7 @@
 
 .hamburger-btn {
   background: rgba(0, 0, 0, 0.7);
-  border: 2px solid #9370DB;
+  border: 2px solid #D4AF37; /* Changed from #9370DB to Gold */ 
   border-radius: 4px;
   width: 50px;
   height: 50px;
@@ -268,21 +290,21 @@
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(5px);
-  box-shadow: 0 0 10px rgba(147, 112, 219, 0.3);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 .hamburger-btn span {
   display: block;
   width: 25px;
   height: 2px;
-  background: #9370DB;
+  background: #D4AF37; /* Changed from #9370DB to Gold */   
   margin: 3px 0;
   transition: all 0.3s ease;
-  box-shadow: 0 0 5px rgba(147, 112, 219, 0.5);
+  box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
 }
 
 .hamburger-btn:hover {
-  background: rgba(147, 112, 219, 0.2);
+  background: rgba(212, 175, 55, 0.2);
   border-color: #ffffff;
 }
 
@@ -298,13 +320,13 @@
   width: 300px;
   height: 100vh;
   background: rgba(0, 0, 0, 0.95);
-  border-right: 3px solid #9370DB;
+  border-right: 3px solid #D4AF37; /* Changed from #9370DB to Gold */
   padding: 20px;
   transition: left 0.4s ease;
   z-index: 1003;
   overflow-y: auto;
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(147, 112, 219, 0.2);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
 }
 
 .mobile-menu.active {
@@ -317,21 +339,21 @@
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #9370DB;
+  border-bottom: 1px solid #D4AF37; 
 }
 
 .menu-header h3 {
-  color: #9370DB;
+  color: #D4AF37;
   font-family: 'Orbitron', sans-serif;
   font-size: 1rem;
   margin: 0;
-  text-shadow: 0 0 8px rgba(147, 112, 219, 0.5);
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
 }
 
 .close-menu {
   background: transparent;
   border: none;
-  color: #9370DB;
+  color: #D4AF37;
   font-size: 1.5rem;
   cursor: pointer;
   width: 30px;
@@ -344,7 +366,7 @@
 }
 
 .close-menu:hover {
-  background: rgba(147, 112, 219, 0.2);
+  background: rgba(212, 175, 55, 0.2);
   color: #ffffff;
   transform: rotate(90deg);
 }
@@ -371,32 +393,32 @@
 
 .menu-content .menu-item a:hover,
 .menu-content .menu-item a.active {
-  border-left-color: #9370DB;
-  background: rgba(147, 112, 219, 0.1);
-  color: #9370DB;
-  text-shadow: 0 0 8px rgba(147, 112, 219, 0.3);
+  border-left-color: #D4AF37; /* Changed from #9370DB to Gold */
+  background: rgba(212, 175, 55, 0.1);
+  color: #D4AF37;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
 }
 
 .menu-footer {
   margin-top: 20px;
   padding-top: 15px;
-  border-top: 1px solid #9370DB;
+  border-top: 1px solid #D4AF37; /* Changed from #9370DB to Gold */
   text-align: center;
-  color: #9370DB;
+  color: #D4AF37;
   font-family: 'Orbitron', sans-serif;
   font-size: 0.8rem;
-  text-shadow: 0 0 5px rgba(147, 112, 219, 0.5);
+  text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
 }
 
 .pulse {
   display: inline-block;
   width: 8px;
   height: 8px;
-  background-color: #9370DB;
+  background-color: #D4AF37; /* Changed from #9370DB to Gold */ 
   border-radius: 50%;
   margin-right: 8px;
   animation: blink 1.5s infinite;
-  box-shadow: 0 0 10px #9370DB;
+  box-shadow: 0 0 10px #D4AF37;
 }
 
 @keyframes blink {
@@ -437,11 +459,11 @@
             width: 100%;
             text-align: center;
             padding: 0.6rem 0;
-            background: rgba(0, 0, 0, 0.8);
-            color: #ccc;
+            background: rgba(0, 0, 0, 0.85);
+            color: #E0E0E0;
             font-family: 'Segoe UI', sans-serif;
             z-index: 1000;
-            border-top: 2px solid #9370DB;
+            border-top: 2px solid #D4AF37; /* Changed from #9370DB to Gold */           
             transition: opacity 0.5s ease;
         }
 
@@ -457,8 +479,8 @@
     <div class="background-container">
         <div class="static-background" id="staticBg"></div>
         <video class="video-background" id="videoBg" muted loop playsinline preload="auto">
-            <source src="videos/female-astronaut.mp4" type="video/mp4">
-            <source src="videos/female-astronaut.webm" type="video/webm">
+            <source src="videos/Volkswagon on Mars.mp4" type="video/mp4">
+            <source src="videos/Volkswagon on Mars.webm" type="video/webm">
         </video>
     </div>
 
@@ -593,7 +615,7 @@
 <div class="dropdown-content">
 <a href="silver's-sign-language-course.html">Silver's language Academy</a> 
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-<a href="cosmic-economics.html">Cosmic Economics</a>
+<a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
 <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
 <a href="fund-martian-research.html">Fund Martian Research</a> 
@@ -746,52 +768,79 @@
         // Initialize audio when page loads
         initAudio();
 
-        // ===== MOBILE HAMBURGER MENU =====
+        // ===== MOBILE HAMBURGER MENU (9 CATEGORIES + CURRENT PAGE DROPDOWN) =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const closeMenu = document.getElementById('closeMenu');
 const mobileMenu = document.getElementById('mobileMenu');
 const menuContent = document.querySelector('.menu-content');
 
-function createMobileMenu() {
-if (!menuContent) return;
-menuContent.innerHTML = '';
-
-const menuItems = [
-  { text: '🏠 Home', href: 'index.html' },
-  { text: 'ℹ️ About', href: 'about.html', active: true },
-  { text: ' About the Project', href: 'about-the-project.html' },
-  { text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
-  { text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
-  { text: ' Spaghetti Martian Clothing', href: 'spaghetti-martian-clothing.html' },
-  { text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
-  { text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
-  { text: ' The Pale Horse', href: 'the-pale-horse.html' },
-  { text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
-  { text: ' Arachne Labs', href: 'arachne-labs.html' },
-  { text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
-  { text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
-  { text: '📖 Story', href: 'story.html' },
-  { text: '🎮 Martian Games', href: 'martian-games.html' },
-  { text: '🌍 Earth Codex', href: 'earth-codex.html' },
-  { text: '📰 Martian News', href: 'martian-news.html' },
-  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
-  { text: '🤝 Support', href: 'support.html' },
-  { text: '📧 Contact', href: 'contact.html' }
+// 1. The 9 main categories (these act as links to the main pages)
+const mainCategories = [
+    { text: 'Home', href: 'index.html' },
+    { text: 'Story', href: 'story.html' },
+    { text: 'Martian Games', href: 'martian-games.html' },
+    { text: 'Earth Codex', href: 'earth-codex.html' },
+    { text: 'Martian News', href: 'martian-news.html' },
+    { text: 'The Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
+    { text: 'About', href: 'about.html', active: true }, // We are on the About page
+    { text: 'Support', href: 'support.html' },
+    { text: 'Contact', href: 'contact.html' }
 ];
 
-menuItems.forEach(item => {
-const menuItem = document.createElement('div');
-menuItem.className = 'menu-item';
-const link = document.createElement('a');
-link.href = item.href;
-link.textContent = item.text;
-if (item.active) link.classList.add('active');
-menuItem.appendChild(link);
-menuContent.appendChild(menuItem);
-});
+// 2. The sub-links for the CURRENT page (About)
+const currentPageSubLinks = [
+    { text: 'About the Project', href: 'about-the-project.html' },
+    { text: 'Meanwhile on Earth...', href: 'meanwhile-on-earth.html' },
+    { text: 'Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
+    { text: 'Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
+    { text: 'The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
+    { text: 'The Pale Horse', href: 'the-pale-horse.html' },
+    { text: 'A Day in the Life Of...', href: 'a-day-in-the-life-of.html' },
+    { text: 'Arachne Labs', href: 'arachne-labs.html' },
+    { text: 'The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
+    { text: 'The Fair Act of Life', href: 'the-fair-act-of-life.html' }
+];
+
+function createMobileMenu() {
+    if (!menuContent) return;
+    menuContent.innerHTML = '';
+
+    // Build the 9 main categories
+    mainCategories.forEach(category => {
+        const div = document.createElement('div');
+        div.className = 'menu-item';
+        
+        const a = document.createElement('a');
+        a.href = category.href;
+        a.textContent = category.text;
+        
+        // If it's the active page, highlight it and add the sub-links below it
+        if (category.active) {
+            a.classList.add('active');
+            div.appendChild(a);
+            
+            // Create the sub-menu container for the active page
+            const subContainer = document.createElement('div');
+            subContainer.className = 'mobile-submenu';
+            
+            currentPageSubLinks.forEach(subLink => {
+                const subA = document.createElement('a');
+                subA.href = subLink.href;
+                subA.textContent = '— ' + subLink.text;
+                subContainer.appendChild(subA);
+            });
+            
+            div.appendChild(subContainer);
+        } else {
+            div.appendChild(a);
+        }
+        
+        menuContent.appendChild(div);
+    });
 }
 
 createMobileMenu();
+
 
 hamburgerBtn.addEventListener('click', () => {
 mobileMenu.classList.add('active');
