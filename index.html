@@ -7,354 +7,363 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Default Theme Colors (Will be modified dynamically by JS per video) */
+    --theme-primary: #ff9553;
+    --theme-accent: #ff4444;
+    --theme-glow: rgba(255, 68, 68, 0.5);
 }
 
 body, html {
-height: 100%;
-width: 100%;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-color: #fff;
-overflow-x: hidden;
-position: relative;
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    background: #000;
 }
 
-/* MARTIAN BACKGROUND WITH RUMBLE EFFECT */
+/* === BACKGROUND SYSTEM (DUAL VIDEO) === */
 .background-container {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-z-index: -2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 2;
 }
 
-.static-background {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: url('images/mars-background-bg.jpg') no-repeat center center / cover;
-z-index: 1;
+/* Dual Background Video System */
+.bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 2.5s ease-in-out; /* The Seamless Crossfade */
+    will-change: opacity;
+    z-index: 1;
 }
 
-.video-background {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-object-fit: cover;
-z-index: 2;
-transform: translateX(0) translateY(0);
+.bg-video.is-active {
+    opacity: 1;
+    z-index: 2;
 }
 
-/* RUMBLE ANIMATION */
-@keyframes meteorRumble {
-0% { transform: translateX(0) translateY(0); }
-10% { transform: translateX(-2px) translateY(1px); }
-20% { transform: translateX(1px) translateY(-1px); }
-30% { transform: translateX(-1px) translateY(2px); }
-40% { transform: translateX(2px) translateY(-2px); }
-50% { transform: translateX(-3px) translateY(1px); }
-60% { transform: translateX(1px) translateY(-3px); }
-70% { transform: translateX(-2px) translateY(2px); }
-80% { transform: translateX(3px) translateY(-1px); }
-90% { transform: translateX(-1px) translateY(3px); }
-100% { transform: translateX(0) translateY(0); }
+.bg-video {
+    object-fit: cover;
+    object-position: center center;
 }
 
-.rumble-active {
-animation: meteorRumble 0.8s ease-out;
+/* Camera Rumble Effect */
+@keyframes cameraRumble {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-2px, 1px); }
+    50% { transform: translate(2px, -1px); }
+    75% { transform: translate(-1px, -2px); }
+    100% { transform: translate(1px, 2px); }
+}
+
+.bg-video.rumble-active {
+    animation: cameraRumble 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
 }
 
 /* DUST OVERLAY EFFECT */
 .dust-overlay {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(139, 69, 19, 0.1);
-z-index: 3;
-opacity: 0;
-pointer-events: none;
-transition: opacity 1.5s ease;
+    position: absolute;
+    inset: 0;
+    background: rgba(139, 69, 19, 0.1);
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
 }
 
-.dust-active {
-opacity: 0.4;
+.dust-overlay.dust-active {
+    opacity: 0.4;
+}
+
+/* METEOR FLASH EFFECT */
+.meteor-flash {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 100, 0, 0.3);
+    z-index: 4;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.flash-active {
+    animation: meteorFlash 0.3s ease-out;
+}
+
+@keyframes meteorFlash {
+    0% { opacity: 0; }
+    50% { opacity: 0.6; }
+    100% { opacity: 0; }
 }
 
 /* === TOP MENU (DESKTOP) === */
 nav.top-menu {
-position: fixed;
-top: 0;
-width: 100%;
-display: flex;
-justify-content: center;
-background: rgba(17, 17, 17, 0.95);
-padding: 0.6rem 0;
-z-index: 1000;
-gap: 2.5rem;
-flex-wrap: nowrap;
-backdrop-filter: blur(10px);
-border-bottom: 2px solid #ff9553;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--theme-primary);
+    transition: border-color 0.5s ease;
 }
 
 nav.top-menu a {
-color: #f5f5f5;
-text-decoration: none;
-font-size: 1.1rem;
-padding: 0.5rem 0.8rem;
-border-radius: 4px;
-transition: all 0.3s ease;
-display: flex;
-align-items: center;
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
 }
 
 nav.top-menu a.active,
 nav.top-menu a:hover {
-color: #ff4444;
-background: transparent;
+    color: var(--theme-accent);
+    background: transparent;
 }
 
-.dropdown {
-position: relative;
-display: inline-block;
-}
-
-.dropdown > a, .dropdown {
-display: flex;
-align-items: center;
-height: 100%;
-}
+.dropdown { position: relative; display: inline-block; }
+.dropdown > a, .dropdown { display: flex; align-items: center; height: 100%; }
 
 .dropdown-content {
-display: none;
-position: absolute;
-background: rgba(26, 26, 26, 0.98);
-min-width: 140px;
-z-index: 1001;
-border-radius: 4px;
-border: 2px solid #ff9553;
-top: 100%;
-left: 0;
-backdrop-filter: blur(5px);
-padding: 4px 0;
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140px;
+    z-index: 1001;
+    border-radius: 4px;
+    border: 2px solid var(--theme-primary);
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
 }
 
-.dropdown .dropdown .dropdown-content {
-position: absolute;
-left: 0;
-top: 100%;
-width: 100%;
-}
+.dropdown .dropdown .dropdown-content { position: absolute; left: 0; top: 100%; width: 100%; }
 
 .dropdown-content a {
-color: #f5f5f5;
-padding: 3px 5px;
-text-decoration: none;
-display: block;
-transition: background-color 0.3s ease;
-font-size: 0.7rem;
-line-height: 1;
+    color: #f5f5f5;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.7rem;
+    line-height: 1;
 }
 
-.dropdown-content a:hover {
-background: rgba(255, 68, 68, 0.6);
-color: #fff;
-}
-
-.dropdown:hover .dropdown-content {
-display: block;
-}
+.dropdown-content a:hover { background: rgba(255, 68, 68, 0.6); color: #fff; }
+.dropdown:hover .dropdown-content { display: block; }
 
 /* SITE TITLE OVERLAY */
 .site-title-overlay {
-position: fixed;
-top: 80px;
-left: 30px;
-z-index: 50;
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
+    transition: opacity 0.5s ease;
 }
 
 .site-title-overlay h1 {
-color: #ff9553;
-font-family: 'Orbitron', sans-serif;
-font-size: 1.8rem;
-text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
-font-weight: 300;
-letter-spacing: 2px;
+    color: var(--theme-primary);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px var(--theme-glow);
+    font-weight: 300;
+    letter-spacing: 2px;
+    transition: all 0.8s ease;
 }
 
 .site-title-overlay h1 sup {
-font-size: 0.6em;
-vertical-align: super;
-color: rgba(255, 105, 180, 0.9);
-text-shadow: 0 0 8px rgba(255, 105, 180, 0.7);
-margin-left: 2px;
+    font-size: 0.6em;
+    vertical-align: super;
+    color: var(--theme-accent);
+    text-shadow: 0 0 8px var(--theme-glow);
+    margin-left: 2px;
+    transition: all 0.8s ease;
 }
 
 /* HIDE CONTENT BUTTON */
 .hide-content-btn {
-position: fixed;
-top: 80px;
-right: 30px;
-background: rgba(0, 0, 0, 0.7);
-color: #ff4444;
-border: 2px solid #ff9553;
-padding: 8px 12px;
-border-radius: 15px;
-cursor: pointer;
-z-index: 1001;
-font-size: 0.9rem;
-transition: all 0.3s ease;
-backdrop-filter: blur(3px);
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--theme-accent);
+    border: 2px solid var(--theme-primary);
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: 0.9rem;
+    transition: all 0.8s ease;
+    backdrop-filter: blur(3px);
 }
-
-.hide-content-btn:hover {
-background: rgba(255, 68, 68, 0.3);
-}
+.hide-content-btn:hover { background: rgba(255, 68, 68, 0.3); }
 
 /* AUDIO CONTROLS */
-.audio-controls {
-position: fixed;
-bottom: 80px;
-right: 40px;
-z-index: 1000;
-}
+.audio-controls { position: fixed; bottom: 80px; right: 40px; z-index: 1000; }
 
 .audio-btn {
-background: rgba(255, 68, 68, 0.8);
-border: 2px solid #ff9553;
-color: #fff;
-padding: 10px 15px;
-border-radius: 25px;
-cursor: pointer;
-transition: all 0.3s ease;
-backdrop-filter: blur(5px);
-font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--theme-primary);
+    color: var(--theme-accent);
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.8s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
 }
-
-.audio-btn:hover {
-background: rgba(255, 68, 68, 0.3);
-}
+.audio-btn:hover { background: rgba(255, 68, 68, 0.3); }
 
 /* HERO SECTION */
 .hero {
-position: absolute;
-top: 44%;
-left: 50%;
-transform: translate(-50%, -50%);
-text-align: center;
-pointer-events: none;
-z-index: 5;
-width: 100%;
+    position: absolute;
+    overflow: hidden;
+    top: 44%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    z-index: 5;
+    width: 100%;
+    transition: opacity 0.8s ease;
 }
 
+.hero.fade-out { opacity: 0; }
+
 .hero-title {
-font-size: clamp(24px, 5vw, 110px);
-font-weight: 800;
-letter-spacing: 0.04em;
-line-height: 1;
-opacity: 0;
-text-transform: uppercase;
-text-shadow:
-2px 2px 4px rgba(0, 0, 0, 0.7),
-0 0 8px rgba(255, 235, 205, 0.85),
-0 0 18px rgba(255, 90, 70, 0.65),
-0 0 40px rgba(255, 0, 0, 0.45);
-animation: titleFade 2.75s ease-out 0.5s forwards;
-margin-bottom: 5px;
+    font-size: clamp(24px, 5vw, 110px);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000,
+     0px 2px 4px rgba(0, 0, 0, 0.5);
+    transition: color 0.8s ease, text-shadow 0.8s ease;
 }
 
 .hero-subtitle {
-font-size: clamp(14px, 2.5vw, 35px);
-font-weight: normal;
-font-style: italic;
-color: #f5f5dc;
-opacity: 0;
-animation: titleFade 2.75s ease-out 1s forwards;
-margin-top: 4px;
-text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8),
-0 0 10px rgba(255, 255, 255, 0.4);
-position: relative;
-z-index: 6;
+    font-size: clamp(14px, 2.5vw, 35px);
+    font-weight: normal;
+    font-style: italic;
+    color: #f5f5dc;
+    margin-top: 4px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    position: absolute;
+    z-index: 6;
 }
 
-@keyframes titleFade {
-from { opacity: 0; }
-to { opacity: 1; }
+.hero-video {
+    position: absolute;
+    inset: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
+    pointer-events: none;
 }
-
+.hero-video.is-active { opacity: 1; }
+#hero-title, #hero-subtitle { 
+    position: absolute;
+    z-index: 2;
+}
 /* SCROLLABLE CARD STRIP */
 .card-section {
-position: absolute;
-bottom: 8%;
-width: 100%;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 0.8rem;
-z-index: 10;
+    position: absolute;
+    bottom: 8%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    z-index: 10;
+    transition: opacity 0.5s ease;
 }
 
 .card-container {
-display: flex;
-overflow-x: auto;
-scroll-behavior: smooth;
-gap: 1.5rem;
-padding: 1rem;
-max-width: 80%;
-box-shadow: 0 0 30px rgba(255, 149, 83, 0.3);
-border-radius: 12px;
-background: rgba(0, 0, 0, 0.2);
-backdrop-filter: blur(5px);
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1.5rem;
+    padding: 1rem;
+    max-width: 80%;
+    box-shadow: 0 0 30px var(--theme-glow);
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    transition: box-shadow 0.8s ease;
 }
 
-.card-container::-webkit-scrollbar {
-display: none;
-}
+.card-container::-webkit-scrollbar { display: none; }
 
 .card {
-flex: 0 0 auto;
-width: 150px;
-height: 220px;
-background: gray;
-background-size: cover;
-background-position: center;
-filter: grayscale(100%);
-transition: filter 0.4s ease, transform 0.4s ease;
-border-radius: 8px;
-cursor: pointer;
-box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    flex: 0 0 auto;
+    width: 150px;
+    height: 220px;
+    background: gray;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(100%);
+    transition: filter 0.4s ease, transform 0.4s ease, box-shadow 0.8s ease;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
 .card:hover {
-filter: grayscale(0%);
-transform: scale(1.05);
-box-shadow: 0 0 20px rgba(255, 149, 83, 0.5);
+    filter: grayscale(0%);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--theme-primary);
 }
 
 /* ARROWS */
 .arrow {
-font-size: 2.5rem;
-cursor: pointer;
-padding: 0.5rem;
-background: rgba(0, 0, 0, 0.5);
-border-radius: 50%;
-transition: background 0.3s ease;
--webkit-user-select: none;
-user-select: none;
-z-index: 11;
+    font-size: 2.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    transition: background 0.3s ease;
+    user-select: none;
+    z-index: 11;
 }
-
-.arrow:hover {
-background: rgba(255, 0, 0, 0.6);
-}
+.arrow:hover { background: rgba(255, 0, 0, 0.6); }
 
 .card-story { background-image: url('images/story-bg.jpg');}
 .card-characters { background-image: url('images/warlock.jpg');}
@@ -371,252 +380,157 @@ background: rgba(255, 0, 0, 0.6);
 
 /* FOOTER */
 footer {
-position: fixed;
-bottom: 0;
-left: 0;
-width: 100%;
-text-align: center;
-padding: 0.6rem 0;
-background: rgba(0, 0, 0, 0.8);
-color: #ccc;
-font-family: 'Segoe UI', sans-serif;
-z-index: 1000;
-border-top: 2px solid #ff9553;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ccc;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid var(--theme-primary);
+    transition: opacity 0.5s ease, border-color 0.8s ease;
 }
 
-/* METEOR FLASH EFFECT */
-.meteor-flash {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(255, 100, 0, 0.3);
-z-index: 4;
-opacity: 0;
-pointer-events: none;
-}
-
-.flash-active {
-animation: meteorFlash 0.3s ease-out;
-}
-
-@keyframes meteorFlash {
-0% { opacity: 0; }
-50% { opacity: 0.6; }
-100% { opacity: 0; }
-}
-
-/* ===== HAMBURGER MENU (from Quantum Lab, adapted to red/orange) ===== */
-.mobile-nav {
-display: none;
-position: fixed;
-top: 15px;
-left: 15px;
-z-index: 1002;
-}
+/* ===== HAMBURGER MENU ===== */
+.mobile-nav { display: none; position: fixed; top: 15px; left: 15px; z-index: 1002; }
 
 .hamburger-btn {
-background: rgba(17, 17, 17, 0.9);
-border: 2px solid #ff9553; /* changed to red/orange */
-border-radius: 4px;
-width: 50px;
-height: 50px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-cursor: pointer;
-transition: all 0.3s ease;
-backdrop-filter: blur(5px);
+    background: rgba(17, 17, 17, 0.9);
+    border: 2px solid var(--theme-primary);
+    border-radius: 4px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
 }
 
 .hamburger-btn span {
-display: block;
-width: 25px;
-height: 2px;
-background: #ff9553; /* changed */
-margin: 3px 0;
-transition: all 0.3s ease;
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: var(--theme-primary);
+    margin: 3px 0;
+    transition: all 0.3s ease;
 }
 
-.hamburger-btn:hover {
-background: rgba(255, 68, 68, 0.9); /* red hover */
-}
-
-.hamburger-btn:hover span {
-background: #000;
-}
+.hamburger-btn:hover { background: rgba(255, 68, 68, 0.9); }
+.hamburger-btn:hover span { background: #000; }
 
 .mobile-menu {
-position: fixed;
-top: 0;
-left: -100%;
-width: 300px;
-height: 100vh;
-background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(17, 17, 17, 0.9));
-border-right: 2px solid #ff9553;
-padding: 20px;
-transition: left 0.4s ease;
-z-index: 1003;
-overflow-y: auto;
-backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 300px;
+    height: 100vh;
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(17, 17, 17, 0.9));
+    border-right: 2px solid var(--theme-primary);
+    padding: 20px;
+    transition: left 0.4s ease;
+    z-index: 1003;
+    overflow-y: auto;
+    backdrop-filter: blur(10px);
 }
 
-.mobile-menu.active {
-left: 0;
-}
+.mobile-menu.active { left: 0; }
 
 .menu-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 20px;
-padding-bottom: 15px;
-border-bottom: 1px solid rgba(255, 149, 83, 0.3); /* adjusted */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 149, 83, 0.3);
 }
 
-.menu-header h3 {
-color: #ff9553;
-font-family: 'Orbitron', sans-serif;
-font-size: 1rem;
-margin: 0;
+.menu-header h3 { color: var(--theme-primary); font-family: 'Orbitron', sans-serif; font-size: 1rem; margin: 0; }
+.close-menu { background: transparent; border: none; color: var(--theme-primary); font-size: 1.5rem; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s ease; }
+.close-menu:hover { background: rgba(255, 149, 83, 0.2); }
+
+.menu-content { margin-bottom: 20px; }
+.menu-content .menu-item { margin-bottom: 0; }
+
+/* Hierarchical Menu Styles */
+.menu-content .menu-item.main-title a {
+    display: block; color: #ffffff; text-decoration: none;
+    font-weight: 700; font-size: 1.05rem; letter-spacing: 0.5px;
+    background: rgba(255, 149, 83, 0.15); border-left: 3px solid var(--theme-primary);
+    margin-top: 8px; padding: 10px 15px; border-radius: 5px; transition: all 0.3s ease;
+}
+.menu-content .menu-item.sub-page a {
+    display: block; color: #ffccaa; text-decoration: none;
+    font-weight: 400; font-size: 0.9rem; padding: 8px 15px 8px 28px;
+    border-left: 1px solid rgba(255, 149, 83, 0.3); margin-left: 12px;
+    border-radius: 0 5px 5px 0; transition: all 0.3s ease;
+}
+.menu-content .menu-item.main-title a:hover,
+.menu-content .menu-item.main-title a.active {
+    background: rgba(255, 149, 83, 0.4); border-left-color: var(--theme-accent);
+}
+.menu-content .menu-item.sub-page a:hover,
+.menu-content .menu-item.sub-page a.active {
+    color: #ffffff; background: rgba(255, 149, 83, 0.2); border-left-color: var(--theme-primary);
 }
 
-.close-menu {
-background: transparent;
-border: none;
-color: #ff9553;
-font-size: 1.5rem;
-cursor: pointer;
-width: 30px;
-height: 30px;
-display: flex;
-align-items: center;
-justify-content: center;
-border-radius: 50%;
-transition: all 0.3s ease;
-}
+.menu-footer { margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255, 149, 83, 0.3); text-align: center; color: var(--theme-primary); font-family: 'Orbitron', sans-serif; font-size: 0.8rem; }
+.pulse { display: inline-block; width: 8px; height: 8px; background-color: var(--theme-primary); border-radius: 50%; margin-right: 8px; animation: blink 1.5s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-.close-menu:hover {
-background: rgba(255, 149, 83, 0.2);
-}
-
-.menu-content {
-margin-bottom: 20px;
-}
-
-.menu-content .menu-item {
-margin-bottom: 10px;
-}
-
-.menu-content .menu-item a {
-display: block;
-color: #fff;
-text-decoration: none;
-padding: 10px 15px;
-border-radius: 5px;
-border-left: 3px solid transparent;
-transition: all 0.3s ease;
-font-family: 'Segoe UI', sans-serif;
-font-size: 0.95rem;
-}
-
-.menu-content .menu-item a:hover,
-.menu-content .menu-item a.active {
-border-left-color: #ff9553;
-background: rgba(255, 149, 83, 0.1);
-color: #ff9553;
-}
-
-.menu-footer {
-margin-top: 20px;
-padding-top: 15px;
-border-top: 1px solid rgba(255, 149, 83, 0.3);
-text-align: center;
-color: #ff9553;
-font-family: 'Orbitron', sans-serif;
-font-size: 0.8rem;
-}
-
-.pulse {
-display: inline-block;
-width: 8px;
-height: 8px;
-background-color: #ff9553;
-border-radius: 50%;
-margin-right: 8px;
-animation: blink 1.5s infinite;
-}
-
-@keyframes blink {
-0%, 100% { opacity: 1; }
-50% { opacity: 0.3; }
-}
-
-/* ===== MOBILE MEDIA QUERY (show hamburger, hide desktop menu) ===== */
+/* MEDIA QUERIES */
 @media (max-width: 992px) {
-nav.top-menu {
-display: none;
+    nav.top-menu { display: none; }
+    .mobile-nav { display: block; }
+    .site-title-overlay { top: 70px; left: 15px; }
+    .site-title-overlay h1 { font-size: 1.4rem; }
+    .hide-content-btn { top: 70px; right: 15px; }
+    .audio-controls { bottom: 70px; right: 20px; }
+    .card-section { bottom: 10%; }
+    .card-container { max-width: 90%; }
+    .card { width: 110px; height: 160px; }
 }
-.mobile-nav {
-display: block;
-}
-/* adjust site title and buttons for mobile */
-.site-title-overlay {
-top: 70px;
-left: 15px;
-}
-.site-title-overlay h1 {
-font-size: 1.4rem;
-}
-.hide-content-btn {
-top: 70px;
-right: 15px;
-}
-.audio-controls {
-bottom: 70px;
-right: 20px;
-}
-.card-section {
-bottom: 10%;
-}
-.card-container {
-max-width: 90%;
-}
-.card {
-width: 110px;
-height: 160px;
-}
+@media (max-width: 480px) {
+    .card { width: 95px; height: 140px; }
+    .arrow { font-size: 1.5rem; padding: 0.4rem; }
 }
 
-@media (max-width: 480px) {
-.card {
-width: 95px;
-height: 140px;
+/* Hide Body Content Mode */
+.hero.hidden,
+.card-section.hidden, 
+footer.hidden, 
+nav.top-menu.hidden,
+.site-title-overlay.hidden,
+.mobile-nav.hidden {
+    opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
 }
-.arrow {
-font-size: 1.5rem;
-padding: 0.4rem;
-}
+body.content-hidden .site-title-overlay,
+body.content-hidden .mobile-nav {
+    opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
 }
 </style>
 </head>
 <body>
-<!-- MARTIAN BACKGROUND WITH RUMBLE EFFECTS -->
-<div class="background-container">
-<div class="static-background" id="staticBg"></div>
-<video class="video-background" id="marsVideo" muted loop playsinline>
-<source src="videos/martian-landscape.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
-<div class="dust-overlay" id="dustOverlay"></div>
-<div class="meteor-flash" id="meteorFlash"></div>
+
+<!-- Background System with Dual-Video Buffer -->
+<div class="background-container" id="bgContainer">
+    <!-- Dual video elements for seamless crossfade -->
+    <video id="videoA" class="hero-video" autoplay muted playsinline></video>
+    <video id="videoB" class="hero-video" autoplay muted playsinline></video>
+
+    <!-- Atmospheric and Meteor Overlays -->
+    <div class="dust-overlay" id="dustOverlay"></div>
+    <div class="meteor-flash" id="meteorFlash"></div>
 </div>
 
 <!-- SITE TITLE OVERLAY -->
-<div class="site-title-overlay">
-<h1>The Mars Abyss<sup>™</sup></h1>
+<div class="site-title-overlay" id="siteTitle">
+    <h1>The Mars Abyss<sup>™</sup></h1>
 </div>
 
 <!-- HIDE CONTENT BUTTON -->
@@ -624,430 +538,605 @@ Your browser does not support the video tag.
 
 <!-- AUDIO CONTROLS -->
 <div class="audio-controls">
-<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+    <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
 
 <!-- MOBILE HAMBURGER MENU -->
 <div class="mobile-nav">
-<button class="hamburger-btn" id="hamburgerBtn">
-<span></span>
-<span></span>
-<span></span>
-</button>
-<nav class="mobile-menu" id="mobileMenu">
-<div class="menu-header">
-<h3>THE MARS ABYSS</h3>
-<button class="close-menu" id="closeMenu">✕</button>
-</div>
-<div class="menu-content">
-<!-- Menu items will be generated by JavaScript -->
-</div>
-<div class="menu-footer">
-<span class="pulse"></span> MARTIAN SAGA
-</div>
-</nav>
+    <button class="hamburger-btn" id="hamburgerBtn">
+        <span></span><span></span><span></span>
+    </button>
+    <nav class="mobile-menu" id="mobileMenu">
+        <div class="menu-header">
+            <h3>THE MARS ABYSS</h3>
+            <button class="close-menu" id="closeMenu">✕</button>
+        </div>
+        <div class="menu-content"></div>
+        <div class="menu-footer">
+            <span class="pulse"></span> MARTIAN SAGA
+        </div>
+    </nav>
 </div>
 
-<!-- DESKTOP TOP MENU (unchanged, will be hidden on mobile) -->
+<!-- DESKTOP TOP MENU -->
 <nav class="top-menu">
-<div class="dropdown">
-<a href="index.html" class="dropbtn active">Home</a>
-<div class="dropdown-content">
-<a href="why-this-world-matters.html">Why This World Matters</a>
-<a href="homage-to-courage.html">Homage to Courage</a>
-<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
-<a href="the-migrant-initiative.html">The Migrant Initiative</a>
-<a href="my-mission.html">My Mission</a>
-<a href="martian-reading-revival.html">Martian Reading Revival</a>
-<a href="why-mars-is-safer.html">Why Mars is Safer</a>
-<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
-<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="story.html" class="dropbtn">Story</a>
-<div class="dropdown-content">
-<a href="characters.html">Characters</a>
-<div class="dropdown">
-<a href="gallery.html" class="dropbtn">Gallery</a>
-<div class="dropdown-content">
-<a href="art-and-concepts.html">Art & Concepts</a>
-<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
-<a href="technical-database.html">Technical Database</a>
-<a href="martian-edicts.html">The Martian Edicts</a>
-<a href="alien-transport-network.html">Alien Transport Network</a>
-<a href="martian-martial-arts.html">Martian Martial Arts</a>
-<a href="solar-system-explorer.html">Solar System Explorer</a>
-<a href="aliens-ufos.html">Aliens & UFOs</a>
-</div>
-</div>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="martian-games.html" class="dropbtn">Martian Games</a>
-<div class="dropdown-content">
-<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
-<a href="martian-racer.html">Martian Racer</a>
-<a href="red-planet-defense.html">Red Planet Defense</a>
-<a href="the-regents-portal.html">The Regent's Portal</a>
-<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
-<a href="the-knowledge-deck.html">The Knowledge Deck</a>
-<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
-<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
-<div class="dropdown-content">
-<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
-<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
-<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
-<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
-<a href="earths-great-poets.html">Earth's Great Poets</a>
-<a href="the-bohr-institute.html">The Bohr Institute</a>
-<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
-<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
-<a href="the-bronx-dome.html">The Bronx Dome</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="martian-news.html" class="dropbtn">Martian News</a>
-<div class="dropdown-content">
-<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
-<a href="martian-actualities.html">Martian Actualities</a>
-<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
-<a href="mars-bee-facility.html">Mars Bee Facility</a>
-<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
-<a href="house-of-health-secrets.html">The House of Health Secrets</a>
-<a href="emergency-shelter-network.html">Emergency Shelter Network</a>
-<a href="martian-rest-areas.html">Martian Rest Areas</a>
-<div class="dropdown">
-<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-<div class="dropdown-content">
-<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
-<a href="marvin.html">M.A.R.V.I.N.</a>
-</div>
-</div>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
-<div class="dropdown-content">
-<a href="what-the-regent-misses.html">What the Regent Misses</a>
-<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
-<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
-<a href="honor-the-fallen.html">Honor The Fallen</a>
-<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
-<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
-<a href="salems-witching-hour.html">Salem's Witching Hour</a>
-<a href="martian-critique-tron-ares.html">Martian Critique</a>
-<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
-<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
-<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="about.html" class="dropbtn">About</a>
-<div class="dropdown-content">
-<a href="about-the-project.html">About the Project</a>
-<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
-<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
-<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
-<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
-<a href="the-pale-horse.html">The Pale Horse</a>
-<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
-<a href="arachne-labs.html">Arachne Labs</a>
-<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
-<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="support.html" class="dropbtn">Support</a>
-<div class="dropdown-content">
-<a href="silver's-sign-language-course.html">Silver's Language Academy</a> 
-<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-<a href="cosmic-economics.html">Cosmic Economics</a>
-<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
-<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-<a href="fund-martian-research.html">Fund Martian Research</a> 
-<a href="martian-survival-manual.html">Martian Survival Manual</a>
-<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
-</div>
-</div>
-
-<a href="contact.html">Contact</a>
+    <!-- ... (Your exact dropdown menus remain here, they are unchanged) ... -->
+    <div class="dropdown">
+        <a href="index.html" class="dropbtn active">Home</a>
+        <div class="dropdown-content">
+            <a href="why-this-world-matters.html">Why This World Matters</a>
+            <a href="homage-to-courage.html">Homage to Courage</a>
+            <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+            <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+            <a href="my-mission.html">My Mission</a>
+            <a href="martian-reading-revival.html">Martian Reading Revival</a>
+            <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+            <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+            <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="alien-transport-network.html">Alien Transport Network</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+        <div class="dropdown-content">
+            <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+            <a href="earths-great-poets.html">Earth's Great Poets</a>
+            <a href="the-bohr-institute.html">The Bohr Institute</a>
+            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+            <a href="the-bronx-dome.html">The Bronx Dome</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn">Martian News</a>
+        <div class="dropdown-content">
+            <a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+            <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+            <a href="martian-rest-areas.html">Martian Rest Areas</a>
+            <div class="dropdown">
+                <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                <div class="dropdown-content">
+                    <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                    <a href="marvin.html">M.A.R.V.I.N.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+        <div class="dropdown-content">
+            <a href="what-the-regent-misses.html">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a>
+            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="support.html" class="dropbtn">Support</a>
+        <div class="dropdown-content">
+            <a href="silver's-sign-language-course.html">Silver's Language Academy</a>
+            <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+            <a href="cosmic-economics.html">Cosmic Economics</a>
+            <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+            <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+            <a href="fund-martian-research.html">Fund Martian Research</a>
+            <a href="martian-survival-manual.html">Martian Survival Manual</a>
+            <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+        </div>
+    </div>
+    <a href="contact.html">Contact</a>
 </nav>
 
 <!-- HERO SECTION -->
-<div class="hero">
-<h1 class="hero-title">THE MARS ABYSS</h1>
-<h2 class="hero-subtitle">A Martian Saga</h2>
+<div class="hero" id="heroSection">
+    <h1 class="hero-title" id="heroTitle">THE MARS ABYSS</h1>
+    <h2 class="hero-subtitle" id="heroSubtitle">A Martian Saga</h2>
 </div>
 
 <!-- SCROLLABLE CARDS -->
-<div class="card-section">
-<div class="arrow" onclick="scrollCards(-1)">🖖</div>
-<div class="card-container" id="cards">
-<div class="card card-story" onclick="openPage('story.html')"></div>
-<div class="card card-characters" onclick="openPage('characters.html')"></div>
-<div class="card card-gallery" onclick="openPage('gallery.html')"></div>
-<div class="card card-about" onclick="openPage('about.html')"></div>
-<div class="card card-news" onclick="openPage('martian-news.html')"></div>
-<div class="card card-support" onclick="openPage('support.html')"></div>
-<div class="card card-contact" onclick="openPage('contact.html')"></div>
-<div class="card card-laws" onclick="openPage('martian-edicts.html')"></div>
-<div class="card card-earthcodex" onclick="openPage('earth-codex.html')"></div>
-<div class="card card-tech" onclick="openPage('technical-database.html')"></div>
-<div class="card card-martian-martial-arts" onclick="openPage('martian-martial-arts.html')"></div>
-<div class="card card-solar-system-explorer" onclick="openPage('solar-system-explorer.html')"></div>
-</div>
-<div class="arrow" onclick="scrollCards(1)">🖖</div>
+<div class="card-section" id="cardSection">
+    <div class="arrow" onclick="scrollCards(-1)">🖖</div>
+    <div class="card-container" id="cards">
+        <div class="card card-story" onclick="openPage('story.html')"></div>
+        <div class="card card-characters" onclick="openPage('characters.html')"></div>
+        <div class="card card-gallery" onclick="openPage('gallery.html')"></div>
+        <div class="card card-about" onclick="openPage('about.html')"></div>
+        <div class="card card-news" onclick="openPage('martian-news.html')"></div>
+        <div class="card card-support" onclick="openPage('support.html')"></div>
+        <div class="card card-contact" onclick="openPage('contact.html')"></div>
+        <div class="card card-laws" onclick="openPage('martian-edicts.html')"></div>
+        <div class="card card-earthcodex" onclick="openPage('earth-codex.html')"></div>
+        <div class="card card-tech" onclick="openPage('technical-database.html')"></div>
+        <div class="card card-martian-martial-arts" onclick="openPage('martian-martial-arts.html')"></div>
+        <div class="card card-solar-system-explorer" onclick="openPage('solar-system-explorer.html')"></div>
+    </div>
+    <div class="arrow" onclick="scrollCards(1)">🖖</div>
 </div>
 
-<footer>
-<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+<footer id="pageFooter">
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
 
 <script>
-
 // ===== VIDEO PROTECTION =====
 (function() {
- document.querySelectorAll('video').forEach(video => {
-   video.setAttribute('controlslist', 'nodownload');
-   video.addEventListener('contextmenu', (e) => e.preventDefault());
-   video.addEventListener('dragstart', (e) => e.preventDefault());
- });
- 
- document.addEventListener('keydown', (e) => {
-   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
-   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
-     e.preventDefault();
-   }
- });
+    document.querySelectorAll('video').forEach(video => {
+        video.setAttribute('controlslist', 'nodownload');
+        video.addEventListener('contextmenu', (e) => e.preventDefault());
+        video.addEventListener('dragstart', (e) => e.preventDefault());
+    });
 })();
- 
-// SYNCHRONIZED VIDEO BACKGROUND WITH METEOR EFFECTS
-const videoBg = document.getElementById('marsVideo');
-const staticBg = document.getElementById('staticBg');
+
+// ===== DYNAMIC SCREENSAVER PLAYLIST WITH DUAL BUFFER =====
+const videoA = document.getElementById('videoA');
+const videoB = document.getElementById('videoB');
+const heroSection = document.getElementById('heroSection');
+const heroTitle = document.getElementById('heroTitle');
+const heroSubtitle = document.getElementById('heroSubtitle');
 const dustOverlay = document.getElementById('dustOverlay');
 const meteorFlash = document.getElementById('meteorFlash');
 
-let videoReady = false;
-let effectsStarted = false;
+// Video playlist with theme colors for UI buttons
+const promos = [
+    {
+        src: 'videos/ink-art-of-the-mars-abyss.mp4',
+        title: 'THE MARS ABYSS',
+        subtitle: 'A Martian Saga',
+        isMeteor: false,
+        theme: {
+            primary: '#FFA500', // Neon Orange
+            accent: '#FFD700', // Gold
+            glow: 'rgba(255, 165, 0, 0.6)'
+        }
+    },
+    {
+        src: 'videos/woman-smiling-warmly-2.mp4',
+        title: 'WHY THIS WORLD MATTERS',
+        subtitle: 'The Vision of a New Beginning',
+        isMeteor: false,
+        theme: {
+            primary: '#00E676', // Emerald Green
+            accent: '#E0FFE5', // Soft Mint
+            glow: 'rgba(0, 230, 118, 0.6)'
+        }
+    },
+    {
+        src: 'videos/robot-walking-river.mp4',
+        title: 'THE LANDING PARTY',
+        subtitle: 'An In-House Series',
+        isMeteor: false,
+        theme: {
+            primary: '#00E5FF', // High-tech Cyan
+            accent: '#D0F7FF', // Pale Ice Blue
+            glow: 'rgba(0, 229, 255, 0.6)'
+        }
+    },
+    {
+        src: 'videos/gargoyle-on-mars.mp4',
+        title: 'GARGOYLE OF MARS',
+        subtitle: 'Where Life Can Be A Soap Opera',
+        isMeteor: false,
+        theme: {
+            primary: '#B22222', // Deep Crimson (Gargoyle stone/blood)
+            accent: '#FFDAB9', // Peach Puff
+            glow: 'rgba(178, 34, 34, 0.6)'
+        }
+    },
+    {
+        src: 'videos/green-and-purple-paris-mars-scene.mp4',
+        title: 'THE EIFFEL TOWER OF MARS',
+        subtitle: 'Life Continues Elsewhere...',
+        isMeteor: false,
+        theme: {
+            primary: '#9D4EDD', // Royal Purple
+            accent: '#E0AAFF', // Light Lavender
+            glow: 'rgba(157, 78, 221, 0.6)'
+        }
+    },
+    {
+        src: 'videos/yellow-sad-robot.mp4',
+        title: 'Reflections of a Martian Robot',
+        subtitle: 'A Journey of Self-Discovery',
+        isMeteor: false,
+        theme: {
+            primary: '#FFCA28', // Amber/Yellow
+            accent: '#FFF8E1', // Soft Cream
+            glow: 'rgba(255, 202, 40, 0.6)'
+        }
+    },
+    {
+        src: 'videos/two-martian-scenes-as-one.mp4',
+        title: 'THE MARTIAN CAFÉ',
+        subtitle: 'The Walk Of Life',
+        isMeteor: false,
+        theme: {
+            primary: '#D4A373', // Warm Coffee/Tan
+            accent: '#FAEDCD', // Cream
+            glow: 'rgba(212, 163, 115, 0.6)'
+        }
+    },
+    {
+        src: 'videos/the-noir-zone.mp4',
+        title: 'THE MARTIAN NOIR ZONE',
+        subtitle: 'A Mystery Space Drama',
+        isMeteor: false,
+        theme: {
+            primary: '#8A8A8A', // Ash Gray
+            accent: '#F5F5F5', // Stark White
+            glow: 'rgba(138, 138, 138, 0.6)'
+        }
+    },
+    {
+        src: 'videos/olympia-formerly-olympus-metro-2.mp4',
+        title: 'OLYMPIA: THE MARTIAN HADRON COLLIDER (MHC)',
+        subtitle: 'Martian City of the Future',
+        isMeteor: false,
+        theme: {
+            primary: '#00B4D8', // Ocean Blue
+            accent: '#CAF0F8', // Ice Blue
+            glow: 'rgba(0, 180, 216, 0.6)'
+        }
+    },
+    {
+        src: 'videos/islamic-style-on-mars.mp4',
+        title: 'THE ILLUMINATION OF MARS',
+        subtitle: 'A Cultural Series',
+        isMeteor: false,
+        theme: {
+            primary: '#FF69B4', // Hot Pink (Tiles)
+            accent: '#E0FFFF', // Light Cyan
+            glow: 'rgba(255, 105, 180, 0.6)'
+        }
+    },
+    {
+        src: 'videos/mars-abyss-tren.mp4',
+        title: 'THE SOUND OF NOSTALGIA',
+        subtitle: 'A Martian Dream',
+        isMeteor: false,
+        theme: {
+            primary: '#8B0000', // Dark Red
+            accent: '#FFC0CB', // Pink
+            glow: 'rgba(139, 0, 0, 0.6)'
+        }
+    },
+    {
+        src: 'videos/ronin-two-vs-ninja.mp4',
+        title: 'THE ORIGIN OF SHOGUNMAN',
+        subtitle: 'A Martian Action Series',
+        isMeteor: false,
+        theme: {
+            primary: '#C0C0C0', // Silver/Steel
+            accent: '#8B0000', // Blood Red
+            glow: 'rgba(192, 192, 192, 0.6)'
+        }
+    }
+];
 
-videoBg.addEventListener('loadeddata', function() {
-videoReady = true;
-videoBg.play().then(() => {
-setTimeout(() => {
-startMeteorEffects();
-effectsStarted = true;
-}, 1000);
-}).catch(e => {
-console.log('Video autoplay failed, starting effects anyway');
-if (!effectsStarted) startMeteorEffects();
-});
-});
+const CROSSFADE_MS = 1200;
 
-videoBg.addEventListener('error', function() {
-console.log('Video failed to load, using static background with effects');
-if (!effectsStarted) startMeteorEffects();
-});
+let currentIndex = 0;
+let isAudioMuted = true;
+let activeVideo = videoA;
+let bufferVideo = videoB;
+let transitionInProgress = false;
+let meteorTimeout = null;
+let meteorIsActive = false;
 
-setTimeout(() => {
-if (!effectsStarted) {
-console.log('Video timeout - starting effects anyway');
-startMeteorEffects();
+function initHero() {
+    currentIndex = 0;
+    transitionInProgress = false;
+
+    const initial = promos[0];
+
+    applyThemeColors(initial.theme);
+
+    heroTitle.textContent = initial.title;
+    heroSubtitle.textContent = initial.subtitle;
+
+    activeVideo.classList.add('is-active');
+    bufferVideo.classList.remove('is-active');
+
+    activeVideo.src = initial.src;
+    activeVideo.muted = true;
+    activeVideo.playsInline = true;
+    activeVideo.preload = 'auto';
+    activeVideo.load();
+
+    activeVideo.play().catch(err => {
+        console.warn('Initial autoplay deferred:', err);
+    });
+
+    preloadNextVideo(1);
+    attachTransitionEvents(activeVideo);
+
+    if (initial.isMeteor) {
+        startMeteorEffects();
+    }
 }
-}, 5000);
 
+function preloadNextVideo(index) {
+    bufferVideo.pause();
+    bufferVideo.classList.remove('is-active');
+
+    bufferVideo.src = promos[index].src;
+    bufferVideo.muted = true;
+    bufferVideo.playsInline = true;
+    bufferVideo.preload = 'auto';
+    bufferVideo.load();
+}
+
+function attachTransitionEvents(video) {
+    video.ontimeupdate = () => {
+        if (
+            !transitionInProgress &&
+            Number.isFinite(video.duration) &&
+            video.duration > 0 &&
+            video.duration - video.currentTime <= CROSSFADE_MS / 1000
+        ) {
+            transitionToNext();
+        }
+    };
+
+    // Fallback in case the timeupdate threshold is missed.
+    video.onended = transitionToNext;
+}
+
+async function transitionToNext() {
+    if (transitionInProgress) return;
+
+    transitionInProgress = true;
+
+    const outgoing = activeVideo;
+    const incoming = bufferVideo;
+
+    // Prevent the outgoing video's ended event from triggering
+    // another transition while the crossfade is underway.
+    outgoing.ontimeupdate = null;
+    outgoing.onended = null;
+
+    stopMeteorEffects();
+
+    try {
+        // Wait for the incoming video's first frame to be available.
+        if (incoming.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
+            await new Promise((resolve, reject) => {
+                const cleanup = () => {
+                    incoming.removeEventListener('loadeddata', ready);
+                    incoming.removeEventListener('error', failed);
+                };
+
+                const ready = () => {
+                    cleanup();
+                    resolve();
+                };
+
+                const failed = () => {
+                    cleanup();
+                    reject(new Error('Next video failed to load.'));
+                };
+
+                incoming.addEventListener('loadeddata', ready, { once: true });
+                incoming.addEventListener('error', failed, { once: true });
+
+                // Account for the video becoming ready just before
+                // the event listeners were attached.
+                if (incoming.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+                    cleanup();
+                    resolve();
+                }
+            });
+        }
+
+        incoming.currentTime = 0;
+        incoming.muted = true;
+
+        await incoming.play();
+
+        // Start the incoming video before fading out the old one.
+        incoming.classList.add('is-active');
+        outgoing.classList.remove('is-active');
+
+        currentIndex = (currentIndex + 1) % promos.length;
+        const nextPromo = promos[currentIndex];
+
+        applyThemeColors(nextPromo.theme);
+        heroTitle.textContent = nextPromo.title;
+        heroSubtitle.textContent = nextPromo.subtitle;
+
+        // Swap the two video buffers.
+        activeVideo = incoming;
+        bufferVideo = outgoing;
+
+        // Stop the old video after the opacity transition completes.
+        setTimeout(() => {
+            outgoing.pause();
+            outgoing.currentTime = 0;
+            preloadNextVideo((currentIndex + 1) % promos.length);
+        }, CROSSFADE_MS + 100);
+
+        attachTransitionEvents(activeVideo);
+
+        if (nextPromo.isMeteor) {
+            startMeteorEffects();
+        }
+
+        // Allow the next transition only after this one has begun
+        // and the active video has advanced beyond its opening frame.
+        setTimeout(() => {
+            transitionInProgress = false;
+        }, 250);
+
+    } catch (err) {
+        console.error('Video transition failed:', err);
+        transitionInProgress = false;
+
+        // If loading failed, try again when the outgoing video ends.
+        outgoing.onended = transitionToNext;
+    }
+}
+
+// Dynamically sets CSS custom properties for the whole page UI
+function applyThemeColors(theme) {
+    document.documentElement.style.setProperty('--theme-primary', theme.primary);
+    document.documentElement.style.setProperty('--theme-accent', theme.accent);
+    document.documentElement.style.setProperty('--theme-glow', theme.glow);
+}
+
+// ===== METEOR & ATMOSPHERE LOGIC =====
 function startMeteorEffects() {
-triggerMeteorStrike(2000);
-setInterval(() => {
-const nextStrike = Math.random() * 15000 + 8000;
-setTimeout(triggerMeteorStrike, nextStrike);
-}, 1000);
+    stopMeteorEffects();
+    dustOverlay.classList.add('dust-active');
+    meteorTimeout = setTimeout(() => {
+        triggerMeteorStrike();
+        scheduleNextMeteor();
+    }, 2500);
 }
 
-function triggerMeteorStrike(duration = 1800) {
-meteorFlash.classList.add('flash-active');
-videoBg.classList.add('rumble-active');
-setTimeout(() => {
-dustOverlay.classList.add('dust-active');
-}, 300);
-setTimeout(() => {
-playMeteorSound();
-}, 500);
-setTimeout(() => {
-meteorFlash.classList.remove('flash-active');
-}, 800);
-setTimeout(() => {
-videoBg.classList.remove('rumble-active');
-}, duration);
-setTimeout(() => {
-dustOverlay.classList.remove('dust-active');
-}, duration + 2000);
+function scheduleNextMeteor() {
+    const delay = Math.random() * 10000 + 8000;
+    meteorTimeout = setTimeout(() => {
+        triggerMeteorStrike();
+        scheduleNextMeteor();
+    }, delay);
+}
+
+function triggerMeteorStrike() {
+    meteorFlash.classList.add('flash-active');
+    activeVideo.classList.add('rumble-active');
+    setTimeout(() => meteorFlash.classList.remove('flash-active'), 800);
+    setTimeout(() => activeVideo.classList.remove('rumble-active'), 1400);
+}
+
+function stopMeteorEffects() {
+    clearTimeout(meteorTimeout);
+    meteorFlash.classList.remove('flash-active');
+    dustOverlay.classList.remove('dust-active');
+    activeVideo.classList.remove('rumble-active');
 }
 
 // ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
-let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
- const sounds = [
- { src: 'music/depths-of-mystery.mp3', volume: 0.5 },
- { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
- { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
- ];
+    const sounds = [{ src: 'music/depths-of-mystery.mp3', volume: 0.5 }];
+    sounds.forEach(sound => {
+        const audio = new Audio(sound.src);
+        audio.volume = sound.volume;
+        audio.loop = true;
+        audio.muted = true;
+        audioElements.push(audio);
+    });
+    playAudio();
+}
 
- sounds.forEach(sound => {
- const audio = new Audio(sound.src);
- audio.volume = sound.volume;
- audio.loop = true;
- audio.muted = true;
- audioElements.push(audio);
- });
-
- const unmuteOnInteraction = function() {
- if (isMuted) {
- audioElements.forEach(audio => {
- audio.muted = false;
- audio.play().catch(e => {
- console.log('Audio play attempt failed:', e);
- });
- });
- isMuted = false;
- muteBtn.textContent = "🔊 MUTE LAB";
- }
- document.removeEventListener('click', unmuteOnInteraction);
- document.removeEventListener('keydown', unmuteOnInteraction);
- };
-
- document.addEventListener('click', unmuteOnInteraction);
- document.addEventListener('keydown', unmuteOnInteraction);
-
- setTimeout(() => {
- audioElements.forEach(audio => {
- audio.play().then(() => {
- console.log('Audio autoplay succeeded.');
- }).catch(e => {
- console.log('Audio autoplay blocked.');
- });
- });
- }, 1000);
+function playAudio() {
+    audioElements.forEach(audio => {
+        audio.muted = isAudioMuted;
+        audio.play().catch(e => console.log('Audio play failed:', e));
+    });
 }
 
 muteBtn.addEventListener('click', function() {
- if (audioElements.length === 0) {
- initAudio();
- return;
- }
- isMuted = !isMuted;
- audioElements.forEach(audio => {
- audio.muted = isMuted;
- if (!isMuted) {
- audio.play().catch(e => console.log('Playback resume failed'));
- }
- });
- muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
+    if (audioElements.length === 0) {
+        initAudio();
+        return;
+    }
+    isAudioMuted = !isAudioMuted;
+    audioElements.forEach(audio => {
+        audio.muted = isAudioMuted;
+        if (!isAudioMuted) audio.play().catch(e => console.log('Resume failed'));
+    });
+    muteBtn.textContent = isAudioMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds"; 
 });
 
-// Card navigation functions
-function openPage(url) {
-window.location.href = url;
-}
-
+// ===== UI FUNCTIONS =====
+function openPage(url) { window.location.href = url; }
 function scrollCards(direction) {
-const container = document.querySelector(".card-container");
-const scrollAmount = 200;
-container.scrollBy({
-left: direction * scrollAmount,
-behavior: "smooth"
-});
+    document.querySelector(".card-container").scrollBy({ left: direction * 200, behavior: "smooth" });
 }
 
-// Mobile touch for cards
-document.querySelectorAll('.card').forEach(card => {
-card.addEventListener('touchstart', function(e) {
-e.preventDefault();
-this.style.transform = 'scale(1.02)';
-this.style.filter = 'grayscale(0%)';
-});
-
-card.addEventListener('touchend', function(e) {
-this.style.transform = '';
-this.style.filter = '';
-
-const onclickAttr = this.getAttribute('onclick');
-if (onclickAttr && onclickAttr.includes("openPage('")) {
-const url = onclickAttr.match(/openPage\('([^']+)'\)/)[1];
-if (url) {
-window.location.href = url;
-}
-}
-});
-});
-
-// Touch swipe for cards
-let touchStartX = 0;
-let touchEndX = 0;
-const cardContainer = document.querySelector('.card-container');
-
-cardContainer.addEventListener('touchstart', e => {
-touchStartX = e.changedTouches[0].screenX;
-});
-
-cardContainer.addEventListener('touchend', e => {
-touchEndX = e.changedTouches[0].screenX;
-const diff = touchStartX - touchEndX;
-if (Math.abs(diff) > 50) {
-scrollCards(diff > 0 ? 1 : -1);
-}
-});
-
-// HIDE CONTENT BUTTON
 const hideContentBtn = document.getElementById('hideContentBtn');
 const pageFooter = document.querySelector('footer');
 const topMenu = document.querySelector('nav.top-menu');
 const siteTitle = document.querySelector('.site-title-overlay');
 const cardSection = document.querySelector('.card-section');
-const mobileNav = document.querySelector('.mobile-nav'); // also hide mobile button when content hidden
+const mobileNav = document.querySelector('.mobile-nav'); 
 let contentHidden = false;
 
 if (hideContentBtn) {
-hideContentBtn.addEventListener('click', function() {
-contentHidden = !contentHidden;
-const elements = [pageFooter, topMenu, siteTitle, cardSection, mobileNav];
-elements.forEach(el => {
-if (el) {
-el.classList.toggle('hidden', contentHidden);
-}
-});
-hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
-});
-}
-
-// Add hidden class style
-if (!document.querySelector('style[data-hidden]')) {
-const hiddenStyle = document.createElement('style');
-hiddenStyle.setAttribute('data-hidden', '');
-hiddenStyle.textContent = `
-.hidden {
-opacity: 0;
-pointer-events: none;
-transform: translateY(20px);
-transition: opacity 0.5s ease, transform 0.5s ease;
-}
-`;
-document.head.appendChild(hiddenStyle);
+    hideContentBtn.addEventListener('click', function() {
+        contentHidden = !contentHidden;
+        const elements = [pageFooter, topMenu, siteTitle, cardSection, mobileNav, heroSection];
+        elements.forEach(el => {
+            if (el) {
+                el.classList.toggle('hidden', contentHidden);
+            }
+        });
+        hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
+    });
 }
 
 // ===== MOBILE HAMBURGER MENU =====
@@ -1057,77 +1146,65 @@ const mobileMenu = document.getElementById('mobileMenu');
 const menuContent = document.querySelector('.menu-content');
 
 function createMobileMenu() {
-if (!menuContent) return;
-menuContent.innerHTML = '';
+    if (!menuContent) return;
+    menuContent.innerHTML = '';
 
-const menuItems = [
-  { text: '🏠 Home', href: 'index.html', active: true },
-  { text: ' Why This World Matters', href: 'why-this-world-matters.html' },
-  { text: ' Homage to Courage', href: 'homage-to-courage.html' },
-  { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
-  { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
-  { text: ' My Mission', href: 'my-mission.html' },
-  { text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
-  { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
-  { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
-  { text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
-  { text: '📖 Story', href: 'story.html' },
-  { text: '🎮 Martian Games', href: 'martian-games.html' },
-  { text: '🌍 Earth Codex', href: 'earth-codex.html' },
-  { text: '📰 Martian News', href: 'martian-news.html' },
-  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
-  { text: 'ℹ️ About', href: 'about.html' },
-  { text: '🤝 Support', href: 'support.html' },
-  { text: '📧 Contact', href: 'contact.html' }
-];
+    const menuItems = [
+        { text: '🏠 Home', href: 'index.html', type: 'main', active: true },
+        { text: 'Why This World Matters', href: 'why-this-world-matters.html', type: 'sub' },
+        { text: 'Homage to Courage', href: 'homage-to-courage.html', type: 'sub' },
+        { text: 'The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html', type: 'sub' },
+        { text: 'The Migrant Initiative', href: 'the-migrant-initiative.html', type: 'sub' },
+        { text: 'My Mission', href: 'my-mission.html', type: 'sub' },
+        { text: 'Martian Reading Revival', href: 'martian-reading-revival.html', type: 'sub' },
+        { text: 'Why Mars is Safer', href: 'why-mars-is-safer.html', type: 'sub' },
+        { text: 'Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html', type: 'sub' },
+        { text: 'MAI', href: 'mai-master-artificial-intelligence.html', type: 'sub' },
+        { text: '📖 Story', href: 'story.html', type: 'main' },
+        { text: '🎮 Martian Games', href: 'martian-games.html', type: 'main' },
+        { text: '🌍 Earth Codex', href: 'earth-codex.html', type: 'main' },
+        { text: '📰 Martian News', href: 'martian-news.html', type: 'main' },
+        { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html', type: 'main' },
+        { text: 'ℹ️ About', href: 'about.html', type: 'main' },
+        { text: '🤝 Support', href: 'support.html', type: 'main' },
+        { text: '📧 Contact', href: 'contact.html', type: 'main' }
+    ];
 
-menuItems.forEach(item => {
-const menuItem = document.createElement('div');
-menuItem.className = 'menu-item';
-const link = document.createElement('a');
-link.href = item.href;
-link.textContent = item.text;
-if (item.active) link.classList.add('active');
-menuItem.appendChild(link);
-menuContent.appendChild(menuItem);
-});
+    menuItems.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'menu-item ' + (item.type === 'main' ? 'main-title' : 'sub-page');
+        const a = document.createElement('a');
+        a.href = item.href;
+        a.textContent = item.text;
+        if (item.active) a.classList.add('active');
+        div.appendChild(a);
+        menuContent.appendChild(div);
+    });
 }
 
 createMobileMenu();
 
 hamburgerBtn.addEventListener('click', () => {
-mobileMenu.classList.add('active');
-document.body.style.overflow = 'hidden';
+    mobileMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
 });
 
 closeMenu.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
 });
 
 document.addEventListener('click', (e) => {
-if (mobileMenu.classList.contains('active') &&
-!mobileMenu.contains(e.target) &&
-!hamburgerBtn.contains(e.target)) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
+    if (mobileMenu.classList.contains('active') &&
+        !mobileMenu.contains(e.target) &&
+        !hamburgerBtn.contains(e.target)) {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 });
 
-document.querySelectorAll('.mobile-menu a').forEach(link => {
-link.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-});
-});
-
-function handleResize() {
-if (window.innerWidth > 992) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
-}
-window.addEventListener('resize', handleResize);
+// Start everything
+document.addEventListener('DOMContentLoaded', initHero);
 </script>
 </body>
 </html>
