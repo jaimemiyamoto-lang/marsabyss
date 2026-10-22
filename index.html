@@ -6,66 +6,35 @@
 <title>The Mars Abyss</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    /* Default Theme Colors (Will be modified dynamically by JS per video) */
     --theme-primary: #ff9553;
     --theme-accent: #ff4444;
     --theme-glow: rgba(255, 68, 68, 0.5);
 }
 
 body, html {
-    height: 100%;
-    width: 100%;
+    height: 100%; width: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #fff;
-    overflow-x: hidden;
-    position: relative;
-    background: #000;
+    color: #fff; overflow-x: hidden; position: relative; background: #000;
 }
 
-/* === BACKGROUND SYSTEM (DUAL VIDEO) === */
+/* === BACKGROUND SYSTEM === */
 .background-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    z-index: 2;
-}
-
-/* Dual Background Video System */
-.bg-video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 2.5s ease-in-out; /* The Seamless Crossfade */
-    will-change: opacity;
-    z-index: 1;
-}
-
-.bg-video.is-active {
-    opacity: 1;
-    z-index: 2;
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    overflow: hidden; z-index: 2;
 }
 
 .bg-video {
-    object-fit: cover;
-    object-position: center center;
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center center;
+    opacity: 0; pointer-events: none; transition: opacity 2.5s ease-in-out;
+    will-change: opacity; z-index: 1;
 }
 
-/* Camera Rumble Effect */
+.bg-video.is-active { opacity: 1; z-index: 2; }
+
 @keyframes cameraRumble {
     0% { transform: translate(0, 0); }
     25% { transform: translate(-2px, 1px); }
@@ -74,174 +43,84 @@ body, html {
     100% { transform: translate(1px, 2px); }
 }
 
-.bg-video.rumble-active {
-    animation: cameraRumble 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
-}
+.bg-video.rumble-active { animation: cameraRumble 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite; }
 
-/* DUST OVERLAY EFFECT */
 .dust-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(139, 69, 19, 0.1);
-    z-index: 3;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1.5s ease;
+    position: absolute; inset: 0; background: rgba(139, 69, 19, 0.1);
+    z-index: 3; opacity: 0; pointer-events: none; transition: opacity 1.5s ease;
 }
+.dust-overlay.dust-active { opacity: 0.4; }
 
-.dust-overlay.dust-active {
-    opacity: 0.4;
-}
-
-/* METEOR FLASH EFFECT */
 .meteor-flash {
-    position: fixed;
-    inset: 0;
-    background: rgba(255, 100, 0, 0.3);
-    z-index: 4;
-    opacity: 0;
-    pointer-events: none;
+    position: fixed; inset: 0; background: rgba(255, 100, 0, 0.3);
+    z-index: 4; opacity: 0; pointer-events: none;
 }
+.flash-active { animation: meteorFlash 0.3s ease-out; }
+@keyframes meteorFlash { 0% { opacity: 0; } 50% { opacity: 0.6; } 100% { opacity: 0; } }
 
-.flash-active {
-    animation: meteorFlash 0.3s ease-out;
-}
-
-@keyframes meteorFlash {
-    0% { opacity: 0; }
-    50% { opacity: 0.6; }
-    100% { opacity: 0; }
-}
-
-/* === TOP MENU (DESKTOP) === */
+/* === TOP MENU === */
 nav.top-menu {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background: rgba(17, 17, 17, 0.95);
-    padding: 0.6rem 0;
-    z-index: 1000;
-    gap: 2.5rem;
-    flex-wrap: nowrap;
-    backdrop-filter: blur(10px);
-    border-bottom: 2px solid var(--theme-primary);
-    transition: border-color 0.5s ease;
+    position: fixed; top: 0; width: 100%; display: flex; justify-content: center;
+    background: rgba(17, 17, 17, 0.95); padding: 0.6rem 0; z-index: 1000;
+    gap: 2.5rem; flex-wrap: nowrap; backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--theme-primary); transition: border-color 0.5s ease;
 }
 
 nav.top-menu a {
-    color: #f5f5f5;
-    text-decoration: none;
-    font-size: 1.1rem;
-    padding: 0.5rem 0.8rem;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
+    color: #f5f5f5; text-decoration: none; font-size: 1.1rem; padding: 0.5rem 0.8rem;
+    border-radius: 4px; transition: all 0.3s ease; display: flex; align-items: center;
 }
-
-nav.top-menu a.active,
-nav.top-menu a:hover {
-    color: var(--theme-accent);
-    background: transparent;
-}
+nav.top-menu a.active, nav.top-menu a:hover { color: var(--theme-accent); background: transparent; }
 
 .dropdown { position: relative; display: inline-block; }
 .dropdown > a, .dropdown { display: flex; align-items: center; height: 100%; }
 
 .dropdown-content {
-    display: none;
-    position: absolute;
-    background: rgba(26, 26, 26, 0.98);
-    min-width: 140px;
-    z-index: 1001;
-    border-radius: 4px;
-    border: 2px solid var(--theme-primary);
-    top: 100%;
-    left: 0;
-    backdrop-filter: blur(5px);
-    padding: 4px 0;
+    display: none; position: absolute; background: rgba(26, 26, 26, 0.98);
+    min-width: 140px; z-index: 1001; border-radius: 4px;
+    border: 2px solid var(--theme-primary); top: 100%; left: 0;
+    backdrop-filter: blur(5px); padding: 4px 0;
 }
-
 .dropdown .dropdown .dropdown-content { position: absolute; left: 0; top: 100%; width: 100%; }
-
 .dropdown-content a {
-    color: #f5f5f5;
-    padding: 3px 5px;
-    text-decoration: none;
-    display: block;
-    transition: background-color 0.3s ease;
-    font-size: 0.7rem;
-    line-height: 1;
+    color: #f5f5f5; padding: 3px 5px; text-decoration: none; display: block;
+    transition: background-color 0.3s ease; font-size: 0.7rem; line-height: 1;
 }
-
 .dropdown-content a:hover { background: rgba(255, 68, 68, 0.6); color: #fff; }
 .dropdown:hover .dropdown-content { display: block; }
 
 /* SITE TITLE OVERLAY */
 .site-title-overlay {
-    position: fixed;
-    top: 80px;
-    left: 30px;
-    z-index: 50;
-    transition: opacity 0.5s ease;
+    position: fixed; top: 80px; left: 30px; z-index: 50; transition: opacity 0.5s ease;
 }
-
 .site-title-overlay h1 {
-    color: var(--theme-primary);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
-    text-shadow: 0 0 10px var(--theme-glow);
-    font-weight: 300;
-    letter-spacing: 2px;
-    transition: all 0.8s ease;
+    color: var(--theme-primary); font-family: 'Orbitron', sans-serif; font-size: 1.8rem;
+    text-shadow: 0 0 10px var(--theme-glow); font-weight: 300; letter-spacing: 2px; transition: all 0.8s ease;
 }
-
 .site-title-overlay h1 sup {
-    font-size: 0.6em;
-    vertical-align: super;
-    color: var(--theme-accent);
-    text-shadow: 0 0 8px var(--theme-glow);
-    margin-left: 2px;
-    transition: all 0.8s ease;
+    font-size: 0.6em; vertical-align: super; color: var(--theme-accent);
+    text-shadow: 0 0 8px var(--theme-glow); margin-left: 2px; transition: all 0.8s ease;
 }
 
 /* HIDE CONTENT BUTTON */
 .hide-content-btn {
-    position: fixed;
-    top: 80px;
-    right: 30px;
-    background: rgba(0, 0, 0, 0.7);
-    color: var(--theme-accent);
-    border: 2px solid var(--theme-primary);
-    padding: 8px 12px;
-    border-radius: 15px;
-    cursor: pointer;
-    z-index: 1001;
-    font-size: 0.9rem;
-    transition: all 0.8s ease;
-    backdrop-filter: blur(3px);
+    position: fixed; top: 80px; right: 30px; background: rgba(0, 0, 0, 0.7);
+    color: var(--theme-accent); border: 2px solid var(--theme-primary);
+    padding: 8px 12px; border-radius: 15px; cursor: pointer; z-index: 1001;
+    font-size: 0.9rem; transition: all 0.8s ease; backdrop-filter: blur(3px);
 }
 .hide-content-btn:hover { background: rgba(255, 68, 68, 0.3); }
 
 /* AUDIO CONTROLS */
 .audio-controls { position: fixed; bottom: 80px; right: 40px; z-index: 1000; }
-
 .audio-btn {
-    background: rgba(0, 0, 0, 0.7);
-    border: 2px solid var(--theme-primary);
-    color: var(--theme-accent);
-    padding: 10px 15px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.8s ease;
-    backdrop-filter: blur(5px);
-    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.7); border: 2px solid var(--theme-primary);
+    color: var(--theme-accent); padding: 10px 15px; border-radius: 25px;
+    cursor: pointer; transition: all 0.8s ease; backdrop-filter: blur(5px); font-size: 0.9rem;
 }
 .audio-btn:hover { background: rgba(255, 68, 68, 0.3); }
 
-/* HERO SECTION */
+/* === HERO SECTION (Fixed by ChatGPT) === */
 .hero {
     position: absolute;
     overflow: hidden;
@@ -252,36 +131,7 @@ nav.top-menu a:hover {
     pointer-events: none;
     z-index: 5;
     width: 100%;
-    transition: opacity 0.8s ease;
-}
-
-.hero.fade-out { opacity: 0; }
-
-.hero-title {
-    font-size: clamp(24px, 5vw, 110px);
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    line-height: 1;
-    text-transform: uppercase;
-    color: #ffffff;
-    text-shadow:
-    -1px -1px 0 #000,
-     1px -1px 0 #000,
-    -1px 1px 0 #000,
-     1px 1px 0 #000,
-     0px 2px 4px rgba(0, 0, 0, 0.5);
-    transition: color 0.8s ease, text-shadow 0.8s ease;
-}
-
-.hero-subtitle {
-    font-size: clamp(14px, 2.5vw, 35px);
-    font-weight: normal;
-    font-style: italic;
-    color: #f5f5dc;
-    margin-top: 4px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-    position: absolute;
-    z-index: 6;
+    height: 100vh; /* Needed for absolute centering */
 }
 
 .hero-video {
@@ -298,70 +148,84 @@ nav.top-menu a:hover {
     transition: opacity 1.2s ease-in-out;
     pointer-events: none;
 }
-.hero-video.is-active { opacity: 1; }
-#hero-title, #hero-subtitle { 
-    position: absolute;
-    z-index: 2;
+
+.hero-video.is-active { 
+    opacity: 1; 
 }
-/* SCROLLABLE CARD STRIP */
-.card-section {
+
+.hero-title-layer {
     position: absolute;
-    bottom: 8%;
-    width: 100%;
+    inset: 0;
+    z-index: 3; /* Sits above the videos */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.8rem;
-    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.2s ease-in-out;
+}
+
+.hero-title-layer.is-active {
+    opacity: 1;
+}
+
+.hero-title {
+    font-size: clamp(24px, 5vw, 110px);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0px 2px 4px rgba(0, 0, 0, 0.5);
+    transition: color 0.8s ease, text-shadow 0.8s ease;
+}
+
+.hero-subtitle {
+    font-size: clamp(14px, 2.5vw, 35px);
+    font-weight: normal;
+    font-style: italic;
+    color: #f5f5dc;
+    margin-top: 4px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Shrink Olympia title */
+.hero-title .long-title {
+    display: block;
+    font-size: 0.55em;
+    line-height: 1.1;
+    margin-top: 10px;
+    margin: 6px auto 0;
+    overflow-wrap: anywhere;
+    max-width: 95%;
+    text-align: center;
+}
+
+
+/* SCROLLABLE CARD STRIP */
+.card-section {
+    position: absolute; bottom: 8%; width: 100%; display: flex;
+    align-items: center; justify-content: center; gap: 0.8rem; z-index: 10;
     transition: opacity 0.5s ease;
 }
-
 .card-container {
-    display: flex;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    gap: 1.5rem;
-    padding: 1rem;
-    max-width: 80%;
-    box-shadow: 0 0 30px var(--theme-glow);
-    border-radius: 12px;
-    background: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(5px);
+    display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 1.5rem;
+    padding: 1rem; max-width: 80%; box-shadow: 0 0 30px var(--theme-glow);
+    border-radius: 12px; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(5px);
     transition: box-shadow 0.8s ease;
 }
-
 .card-container::-webkit-scrollbar { display: none; }
-
 .card {
-    flex: 0 0 auto;
-    width: 150px;
-    height: 220px;
-    background: gray;
-    background-size: cover;
-    background-position: center;
-    filter: grayscale(100%);
+    flex: 0 0 auto; width: 150px; height: 220px; background: gray;
+    background-size: cover; background-position: center; filter: grayscale(100%);
     transition: filter 0.4s ease, transform 0.4s ease, box-shadow 0.8s ease;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    border-radius: 8px; cursor: pointer; box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
-
-.card:hover {
-    filter: grayscale(0%);
-    transform: scale(1.05);
-    box-shadow: 0 0 20px var(--theme-primary);
-}
-
-/* ARROWS */
+.card:hover { filter: grayscale(0%); transform: scale(1.05); box-shadow: 0 0 20px var(--theme-primary); }
 .arrow {
-    font-size: 2.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    transition: background 0.3s ease;
-    user-select: none;
-    z-index: 11;
+    font-size: 2.5rem; cursor: pointer; padding: 0.5rem; background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%; transition: background 0.3s ease; user-select: none; z-index: 11;
 }
 .arrow:hover { background: rgba(255, 0, 0, 0.6); }
 
@@ -380,234 +244,144 @@ nav.top-menu a:hover {
 
 /* FOOTER */
 footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding: 0.6rem 0;
-    background: rgba(0, 0, 0, 0.8);
-    color: #ccc;
-    font-family: 'Segoe UI', sans-serif;
-    z-index: 1000;
-    border-top: 2px solid var(--theme-primary);
-    transition: opacity 0.5s ease, border-color 0.8s ease;
+    position: absolute; bottom: 0; left: 0; width: 100%; text-align: center;
+    padding: 0.6rem 0; background: rgba(0, 0, 0, 0.8); color: #ccc;
+    font-family: 'Segoe UI', sans-serif; z-index: 1000;
+    border-top: 2px solid var(--theme-primary); transition: opacity 0.5s ease, border-color 0.8s ease;
 }
 
 /* ===== HAMBURGER MENU ===== */
 .mobile-nav { display: none; position: fixed; top: 15px; left: 15px; z-index: 1002; }
-
 .hamburger-btn {
-    background: rgba(17, 17, 17, 0.9);
-    border: 2px solid var(--theme-primary);
-    border-radius: 4px;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
+    background: rgba(17, 17, 17, 0.9); border: 2px solid var(--theme-primary);
+    border-radius: 4px; width: 50px; height: 50px; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s ease; backdrop-filter: blur(5px);
 }
-
-.hamburger-btn span {
-    display: block;
-    width: 25px;
-    height: 2px;
-    background: var(--theme-primary);
-    margin: 3px 0;
-    transition: all 0.3s ease;
-}
-
+.hamburger-btn span { display: block; width: 25px; height: 2px; background: var(--theme-primary); margin: 3px 0; transition: all 0.3s ease; }
 .hamburger-btn:hover { background: rgba(255, 68, 68, 0.9); }
 .hamburger-btn:hover span { background: #000; }
 
 .mobile-menu {
-    position: fixed;
-    top: 0;
-    left: -100%;
-    width: 300px;
-    height: 100vh;
+    position: fixed; top: 0; left: -100%; width: 300px; height: 100vh;
     background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(17, 17, 17, 0.9));
-    border-right: 2px solid var(--theme-primary);
-    padding: 20px;
-    transition: left 0.4s ease;
-    z-index: 1003;
-    overflow-y: auto;
-    backdrop-filter: blur(10px);
+    border-right: 2px solid var(--theme-primary); padding: 20px; transition: left 0.4s ease;
+    z-index: 1003; overflow-y: auto; backdrop-filter: blur(10px);
 }
-
 .mobile-menu.active { left: 0; }
-
-.menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 149, 83, 0.3);
-}
-
+.menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 149, 83, 0.3); }
 .menu-header h3 { color: var(--theme-primary); font-family: 'Orbitron', sans-serif; font-size: 1rem; margin: 0; }
 .close-menu { background: transparent; border: none; color: var(--theme-primary); font-size: 1.5rem; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s ease; }
 .close-menu:hover { background: rgba(255, 149, 83, 0.2); }
-
 .menu-content { margin-bottom: 20px; }
 .menu-content .menu-item { margin-bottom: 0; }
-
-/* Hierarchical Menu Styles */
-.menu-content .menu-item.main-title a {
-    display: block; color: #ffffff; text-decoration: none;
-    font-weight: 700; font-size: 1.05rem; letter-spacing: 0.5px;
-    background: rgba(255, 149, 83, 0.15); border-left: 3px solid var(--theme-primary);
-    margin-top: 8px; padding: 10px 15px; border-radius: 5px; transition: all 0.3s ease;
-}
-.menu-content .menu-item.sub-page a {
-    display: block; color: #ffccaa; text-decoration: none;
-    font-weight: 400; font-size: 0.9rem; padding: 8px 15px 8px 28px;
-    border-left: 1px solid rgba(255, 149, 83, 0.3); margin-left: 12px;
-    border-radius: 0 5px 5px 0; transition: all 0.3s ease;
-}
-.menu-content .menu-item.main-title a:hover,
-.menu-content .menu-item.main-title a.active {
-    background: rgba(255, 149, 83, 0.4); border-left-color: var(--theme-accent);
-}
-.menu-content .menu-item.sub-page a:hover,
-.menu-content .menu-item.sub-page a.active {
-    color: #ffffff; background: rgba(255, 149, 83, 0.2); border-left-color: var(--theme-primary);
-}
-
+.menu-content .menu-item.main-title a { display: block; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.5px; background: rgba(255, 149, 83, 0.15); border-left: 3px solid var(--theme-primary); margin-top: 8px; padding: 10px 15px; border-radius: 5px; transition: all 0.3s ease; }
+.menu-content .menu-item.sub-page a { display: block; color: #ffccaa; text-decoration: none; font-weight: 400; font-size: 0.9rem; padding: 8px 15px 8px 28px; border-left: 1px solid rgba(255, 149, 83, 0.3); margin-left: 12px; border-radius: 0 5px 5px 0; transition: all 0.3s ease; }
+.menu-content .menu-item.main-title a:hover, .menu-content .menu-item.main-title a.active { background: rgba(255, 149, 83, 0.4); border-left-color: var(--theme-accent); }
+.menu-content .menu-item.sub-page a:hover, .menu-content .menu-item.sub-page a.active { color: #ffffff; background: rgba(255, 149, 83, 0.2); border-left-color: var(--theme-primary); }
 .menu-footer { margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255, 149, 83, 0.3); text-align: center; color: var(--theme-primary); font-family: 'Orbitron', sans-serif; font-size: 0.8rem; }
 .pulse { display: inline-block; width: 8px; height: 8px; background-color: var(--theme-primary); border-radius: 50%; margin-right: 8px; animation: blink 1.5s infinite; }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-/* MEDIA QUERIES */
+/* === MEDIA QUERIES (MOBILE & TABLET ONLY) === */
+
 @media (max-width: 992px) {
-    nav.top-menu { display: none; }
-    .mobile-nav { display: block; }
-    .site-title-overlay { top: 70px; left: 15px; }
-    .site-title-overlay h1 { font-size: 1.4rem; }
-    .hide-content-btn { top: 70px; right: 15px; }
-    .audio-controls { bottom: 70px; right: 20px; }
-    .card-section { bottom: 10%; }
-    .card-container { max-width: 90%; }
-    .card { width: 110px; height: 160px; }
-}
-@media (max-width: 480px) {
-    .card { width: 95px; height: 140px; }
-    .arrow { font-size: 1.5rem; padding: 0.4rem; }
-}
-
-/* Mobile & Tablet Fixes for Hero Title and Cards */
-    @media (max-width: 992px) {
-
-        /* 1. Raise the title so it sits above the cards */
-        .hero {
-            top: 38%; /* Was 44%, moving it p slightly */
-        }
-
-        /* 2. Make the card container background invisible so it blends perfectly */
-        .card-container {
-            background: transparent;
-            box-shadow: none; /* Removes the glowing box outline */
-            backdrop-filter: none; /* Removes the blur effect */
-            padding: 0.5rem; /* Gives a little breathing room */
-        }
-
-        /* Optional: Add a slight text shadow to the title so it pops against the video */
-        .hero-title {
-            text-shadow {
-                -1px -1px 0 #000,
-                 1px -1px 0 #000,
-                -1px  1px 0 #000,
-                 1px  1px 0 #000,
-                 0px  4px 15px rgba(0,0,0,0.8);
-            }
-        }
-
-/* Fix for horizontal (landscape) orientation on mobile and tablet */
-@media (orientation: landscape) and (max-height: 700px) {
-
-    /* 1. Push the title up */
-    .hero {
-        top: 35%;
+    nav.top-menu {
+        display: none;
     }
 
+    .mobile-nav {
+        display: block;
+    }
 
-    /* 2. Push the cards down */
+    .site-title-overlay {
+        top: 70px;
+        left: 15px;
+    }
+
+    .site-title-overlay h1 {
+        font-size: 1.4rem;
+    }
+
+    .hide-content-btn {
+        top: 70px;
+        right: 15px;
+    }
+
+    .audio-controls {
+        bottom: 70px;
+        right: 20px;
+    }
+
+    /* Cards stay exactly where you had them */
     .card-section {
-        bottom: 2%;
+        bottom: 10%;
     }
-    
-    /* 3. Make the card background transparent so it doesn't block the title */
+
     .card-container {
-        background: transparent;
-        box-shadow: none;
-        backdrop-filter: none;
-        padding: 0.5rem;
+        max-width: 90%;
     }
 
-    /* 4. Make the cards a bit shorter in landscape so they fit */
     .card {
-        height: 120px;
-        width: 80px;
+        width: 110px;
+        height: 160px;
     }
 
-    /* Added the shadow here so it's guaranteed to show in landscape */
+    /* Move the text area up so it doesn't crash into the cards */
+    .hero {
+        top: 38%;
+    }
+
+    /* Shrink the main title so it fits on a phone */
     .hero-title {
-        text-shadow:
-            -1px -1px 0 #000,
-             1px -1px 0 #000,
-            -1px  1px 0 #000,
-             1px  1px 0 #000,
-             0px  4px  15px rgba(0,0,0,0.8);
+        font-size: 8vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 95px;
+        height: 140px;
+    }
+
+    .arrow {
+        font-size: 1.5rem;
+        padding: 0.4rem;
+    }
+
+    .hero-title {
+        font-size: 10vw;
     }
 }
 
 /* Hide Body Content Mode */
-.hero.hidden,
-.card-section.hidden, 
-footer.hidden, 
-nav.top-menu.hidden,
-.site-title-overlay.hidden,
-.mobile-nav.hidden {
+.hero.hidden, .card-section.hidden, footer.hidden, nav.top-menu.hidden, .site-title-overlay.hidden, .mobile-nav.hidden {
     opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
 }
-body.content-hidden .site-title-overlay,
-body.content-hidden .mobile-nav {
+body.content-hidden .site-title-overlay, body.content-hidden .mobile-nav {
     opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
 }
+
 </style>
 </head>
 <body>
 
-<!-- Background System with Dual-Video Buffer -->
 <div class="background-container" id="bgContainer">
-    <!-- Dual video elements for seamless crossfade -->
-    <video id="videoA" class="hero-video" autoplay muted playsinline></video>
-    <video id="videoB" class="hero-video" autoplay muted playsinline></video>
-
-    <!-- Atmospheric and Meteor Overlays -->
+    <video id="videoA" class="bg-video" autoplay muted playsinline></video>
+    <video id="videoB" class="bg-video" autoplay muted playsinline></video>
     <div class="dust-overlay" id="dustOverlay"></div>
     <div class="meteor-flash" id="meteorFlash"></div>
 </div>
 
-<!-- SITE TITLE OVERLAY -->
 <div class="site-title-overlay" id="siteTitle">
     <h1>The Mars Abyss<sup>™</sup></h1>
 </div>
 
-<!-- HIDE CONTENT BUTTON -->
 <button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
 
-<!-- AUDIO CONTROLS -->
 <div class="audio-controls">
     <button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
 </div>
 
-<!-- MOBILE HAMBURGER MENU -->
 <div class="mobile-nav">
     <button class="hamburger-btn" id="hamburgerBtn">
         <span></span><span></span><span></span>
@@ -624,9 +398,7 @@ body.content-hidden .mobile-nav {
     </nav>
 </div>
 
-<!-- DESKTOP TOP MENU -->
 <nav class="top-menu">
-    <!-- ... (Your exact dropdown menus remain here, they are unchanged) ... -->
     <div class="dropdown">
         <a href="index.html" class="dropbtn active">Home</a>
         <div class="dropdown-content">
@@ -757,11 +529,22 @@ body.content-hidden .mobile-nav {
 
 <!-- HERO SECTION -->
 <div class="hero" id="heroSection">
-    <h1 class="hero-title" id="heroTitle">THE MARS ABYSS</h1>
-    <h2 class="hero-subtitle" id="heroSubtitle">A Martian Saga</h2>
+    <!-- Video backgrounds moved inside the hero container -->
+    <video id="videoA" class="hero-video is-active" autoplay muted playsinline></video>
+    <video id="videoB" class="hero-video" muted playsinline></video>
+
+    <!-- Title overlays -->
+    <div class="hero-title-layer is-active" id="titleLayer1">
+        <h1 class="hero-title" id="heroTitleA">THE MARS ABYSS</h1>
+        <h2 class="hero-subtitle" id="heroSubtitleA">A Martian Saga</h2>
+    </div>
+
+    <div class="hero-title-layer" id="titleLayer2">
+        <h1 class="hero-title" id="heroTitleB"></h1>
+        <h2 class="hero-subtitle" id="heroSubtitleB"></h2>
+    </div>
 </div>
 
-<!-- SCROLLABLE CARDS -->
 <div class="card-section" id="cardSection">
     <div class="arrow" onclick="scrollCards(-1)">🖖</div>
     <div class="card-container" id="cards">
@@ -786,7 +569,6 @@ body.content-hidden .mobile-nav {
 </footer>
 
 <script>
-// ===== VIDEO PROTECTION =====
 (function() {
     document.querySelectorAll('video').forEach(video => {
         video.setAttribute('controlslist', 'nodownload');
@@ -795,287 +577,133 @@ body.content-hidden .mobile-nav {
     });
 })();
 
-// ===== DYNAMIC SCREENSAVER PLAYLIST WITH DUAL BUFFER =====
 const videoA = document.getElementById('videoA');
 const videoB = document.getElementById('videoB');
-const heroSection = document.getElementById('heroSection');
-const heroTitle = document.getElementById('heroTitle');
-const heroSubtitle = document.getElementById('heroSubtitle');
 const dustOverlay = document.getElementById('dustOverlay');
 const meteorFlash = document.getElementById('meteorFlash');
 
-// Video playlist with theme colors for UI buttons
+// DOM elements for the double text layers
+const titleLayer1 = document.getElementById('titleLayer1');
+const titleLayer2 = document.getElementById('titleLayer2');
+const heroTitleA = document.getElementById('heroTitleA');
+const heroSubtitleA = document.getElementById('heroSubtitleA');
+const heroTitleB = document.getElementById('heroTitleB');
+const heroSubtitleB = document.getElementById('heroSubtitleB');
+
 const promos = [
-    {
-        src: 'videos/ink-art-of-the-mars-abyss.mp4',
-        title: 'THE MARS ABYSS',
-        subtitle: 'A Martian Saga',
-        isMeteor: false,
-        theme: {
-            primary: '#FFA500', // Neon Orange
-            accent: '#FFD700', // Gold
-            glow: 'rgba(255, 165, 0, 0.6)'
-        }
-    },
-    {
-        src: 'videos/woman-smiling-warmly-2.mp4',
-        title: 'WHY THIS WORLD MATTERS',
-        subtitle: 'The Vision of a New Beginning',
-        isMeteor: false,
-        theme: {
-            primary: '#00E676', // Emerald Green
-            accent: '#E0FFE5', // Soft Mint
-            glow: 'rgba(0, 230, 118, 0.6)'
-        }
-    },
-    {
-        src: 'videos/robot-walking-river.mp4',
-        title: 'THE LANDING PARTY',
-        subtitle: 'An In-House Series',
-        isMeteor: false,
-        theme: {
-            primary: '#00E5FF', // High-tech Cyan
-            accent: '#D0F7FF', // Pale Ice Blue
-            glow: 'rgba(0, 229, 255, 0.6)'
-        }
-    },
-    {
-        src: 'videos/gargoyle-on-mars.mp4',
-        title: 'GARGOYLE OF MARS',
-        subtitle: 'Where Life Can Be A Soap Opera',
-        isMeteor: false,
-        theme: {
-            primary: '#B22222', // Deep Crimson (Gargoyle stone/blood)
-            accent: '#FFDAB9', // Peach Puff
-            glow: 'rgba(178, 34, 34, 0.6)'
-        }
-    },
-    {
-        src: 'videos/green-and-purple-paris-mars-scene.mp4',
-        title: 'THE EIFFEL TOWER OF MARS',
-        subtitle: 'Life Continues Elsewhere...',
-        isMeteor: false,
-        theme: {
-            primary: '#9D4EDD', // Royal Purple
-            accent: '#E0AAFF', // Light Lavender
-            glow: 'rgba(157, 78, 221, 0.6)'
-        }
-    },
-    {
-        src: 'videos/yellow-sad-robot.mp4',
-        title: 'Reflections of a Martian Robot',
-        subtitle: 'A Journey of Self-Discovery',
-        isMeteor: false,
-        theme: {
-            primary: '#FFCA28', // Amber/Yellow
-            accent: '#FFF8E1', // Soft Cream
-            glow: 'rgba(255, 202, 40, 0.6)'
-        }
-    },
-    {
-        src: 'videos/two-martian-scenes-as-one.mp4',
-        title: 'THE MARTIAN CAFÉ',
-        subtitle: 'The Walk Of Life',
-        isMeteor: false,
-        theme: {
-            primary: '#D4A373', // Warm Coffee/Tan
-            accent: '#FAEDCD', // Cream
-            glow: 'rgba(212, 163, 115, 0.6)'
-        }
-    },
-    {
-        src: 'videos/the-noir-zone.mp4',
-        title: 'THE MARTIAN NOIR ZONE',
-        subtitle: 'A Mystery Space Drama',
-        isMeteor: false,
-        theme: {
-            primary: '#8A8A8A', // Ash Gray
-            accent: '#F5F5F5', // Stark White
-            glow: 'rgba(138, 138, 138, 0.6)'
-        }
-    },
-    {
-        src: 'videos/olympia-formerly-olympus-metro-2.mp4',
-        title: 'OLYMPIA: THE MARTIAN HADRON COLLIDER (MHC)',
-        subtitle: 'Martian City of the Future',
-        isMeteor: false,
-        theme: {
-            primary: '#00B4D8', // Ocean Blue
-            accent: '#CAF0F8', // Ice Blue
-            glow: 'rgba(0, 180, 216, 0.6)'
-        }
-    },
-    {
-        src: 'videos/islamic-style-on-mars.mp4',
-        title: 'THE ILLUMINATION OF MARS',
-        subtitle: 'A Cultural Series',
-        isMeteor: false,
-        theme: {
-            primary: '#FF69B4', // Hot Pink (Tiles)
-            accent: '#E0FFFF', // Light Cyan
-            glow: 'rgba(255, 105, 180, 0.6)'
-        }
-    },
-    {
-        src: 'videos/mars-abyss-tren.mp4',
-        title: 'THE SOUND OF NOSTALGIA',
-        subtitle: 'A Martian Dream',
-        isMeteor: false,
-        theme: {
-            primary: '#8B0000', // Dark Red
-            accent: '#FFC0CB', // Pink
-            glow: 'rgba(139, 0, 0, 0.6)'
-        }
-    },
-    {
-        src: 'videos/ronin-two-vs-ninja.mp4',
-        title: 'THE ORIGIN OF SHOGUNMAN',
-        subtitle: 'A Martian Action Series',
-        isMeteor: false,
-        theme: {
-            primary: '#C0C0C0', // Silver/Steel
-            accent: '#8B0000', // Blood Red
-            glow: 'rgba(192, 192, 192, 0.6)'
-        }
-    }
+    { src: 'videos/ink-art-of-the-mars-abyss.mp4', title: 'THE MARS ABYSS', subtitle: 'A Martian Saga', isMeteor: false, theme: { primary: '#FFA500', accent: '#FFD700', glow: 'rgba(255, 165, 0, 0.6)' } },
+    { src: 'videos/woman-smiling-warmly-2.mp4', title: 'WHY THIS WORLD MATTERS', subtitle: 'The Vision of a New Beginning', isMeteor: false, theme: { primary: '#00E676', accent: '#E0FFE5', glow: 'rgba(0, 230, 118, 0.6)' } },
+    { src: 'videos/robot-walking-river.mp4', title: 'THE LANDING PARTY', subtitle: 'An In-House Series', isMeteor: false, theme: { primary: '#00E5FF', accent: '#D0F7FF', glow: 'rgba(0, 229, 255, 0.6)' } },
+    { src: 'videos/gargoyle-on-mars.mp4', title: 'GARGOYLE OF MARS', subtitle: 'Where Life Can Be A Soap Opera', isMeteor: false, theme: { primary: '#B22222', accent: '#FFDAB9', glow: 'rgba(178, 34, 34, 0.6)' } },
+    { src: 'videos/green-and-purple-paris-mars-scene.mp4', title: 'THE EIFFEL TOWER OF MARS', subtitle: 'Life Continues Elsewhere...', isMeteor: false, theme: { primary: '#9D4EDD', accent: '#E0AAFF', glow: 'rgba(157, 78, 221, 0.6)' } },
+    { src: 'videos/yellow-sad-robot.mp4', title: 'Reflections of a Martian Robot', subtitle: 'A Journey of Self-Discovery', isMeteor: false, theme: { primary: '#FFCA28', accent: '#FFF8E1', glow: 'rgba(255, 202, 40, 0.6)' } },
+    { src: 'videos/two-martian-scenes-as-one.mp4', title: 'THE MARTIAN CAFÉ', subtitle: 'The Walk Of Life', isMeteor: false, theme: { primary: '#D4A373', accent: '#FAEDCD', glow: 'rgba(212, 163, 115, 0.6)' } },
+    { src: 'videos/the-noir-zone.mp4', title: 'THE MARTIAN NOIR ZONE', subtitle: 'A Mystery Space Drama', isMeteor: false, theme: { primary: '#8A8A8A', accent: '#F5F5F5', glow: 'rgba(138, 138, 138, 0.6)' } },
+    { src: 'videos/olympia-formerly-olympus-metro-2.mp4', title: 'OLYMPIA: <span class="long-title">THE MARTIAN HADRON COLLIDER (MHC)</span>', subtitle: 'Where Science Becomes Magic', isMeteor: false, theme: { primary: '#00B4D8', accent: '#CAF0F8', glow: 'rgba(0, 180, 216, 0.6)' } },
+    { src: 'videos/islamic-style-on-mars.mp4', title: 'THE ILLUMINATION OF MARS', subtitle: 'A Cultural Series', isMeteor: false, theme: { primary: '#FF69B4', accent: '#E0FFFF', glow: 'rgba(255, 105, 180, 0.6)' } },
+    { src: 'videos/mars-abyss-tren.mp4', title: 'THE SOUND OF NOSTALGIA', subtitle: 'A Martian Dream', isMeteor: false, theme: { primary: '#8B0000', accent: '#FFC0CB', glow: 'rgba(139, 0, 0, 0.6)' } },
+    { src: 'videos/ronin-two-vs-ninja.mp4', title: 'THE ORIGIN OF SHOGUNMAN', subtitle: 'A Martian Action Series', isMeteor: false, theme: { primary: '#C0C0C0', accent: '#8B0000', glow: 'rgba(192, 192, 192, 0.6)' } }
 ];
 
 const CROSSFADE_MS = 1200;
-
 let currentIndex = 0;
-let isAudioMuted = true;
 let activeVideo = videoA;
 let bufferVideo = videoB;
 let transitionInProgress = false;
 let meteorTimeout = null;
-let meteorIsActive = false;
+let activeLayer = 1;
 
 function initHero() {
-    currentIndex = 0;
-    transitionInProgress = false;
-
     const initial = promos[0];
-
     applyThemeColors(initial.theme);
-
-    heroTitle.textContent = initial.title;
-    heroSubtitle.textContent = initial.subtitle;
+    
+    heroTitleA.innerHTML = initial.title;
+    heroSubtitleA.textContent = initial.subtitle;
+    titleLayer1.classList.add('is-active');
+    titleLayer2.classList.remove('is-active');
 
     activeVideo.classList.add('is-active');
-    bufferVideo.classList.remove('is-active');
-
     activeVideo.src = initial.src;
     activeVideo.muted = true;
-    activeVideo.playsInline = true;
-    activeVideo.preload = 'auto';
-    activeVideo.load();
-
-    activeVideo.play().catch(err => {
-        console.warn('Initial autoplay deferred:', err);
-    });
+    activeVideo.play().catch(err => console.warn(err));
 
     preloadNextVideo(1);
     attachTransitionEvents(activeVideo);
-
-    if (initial.isMeteor) {
-        startMeteorEffects();
-    }
 }
 
 function preloadNextVideo(index) {
     bufferVideo.pause();
     bufferVideo.classList.remove('is-active');
-
     bufferVideo.src = promos[index].src;
     bufferVideo.muted = true;
-    bufferVideo.playsInline = true;
-    bufferVideo.preload = 'auto';
     bufferVideo.load();
 }
 
 function attachTransitionEvents(video) {
     video.ontimeupdate = () => {
-        if (
-            !transitionInProgress &&
-            Number.isFinite(video.duration) &&
-            video.duration > 0 &&
-            video.duration - video.currentTime <= CROSSFADE_MS / 1000
-        ) {
+        if (!transitionInProgress && Number.isFinite(video.duration) && video.duration - video.currentTime <= CROSSFADE_MS / 1000) {
             transitionToNext();
         }
     };
-
-    // Fallback in case the timeupdate threshold is missed.
     video.onended = transitionToNext;
 }
 
 async function transitionToNext() {
     if (transitionInProgress) return;
-
     transitionInProgress = true;
 
     const outgoing = activeVideo;
     const incoming = bufferVideo;
-
-    // Prevent the outgoing video's ended event from triggering
-    // another transition while the crossfade is underway.
     outgoing.ontimeupdate = null;
     outgoing.onended = null;
 
     stopMeteorEffects();
 
     try {
-        // Wait for the incoming video's first frame to be available.
         if (incoming.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
             await new Promise((resolve, reject) => {
+                const ready = () => { cleanup(); resolve(); };
+                const failed = () => { cleanup(); reject(); };
                 const cleanup = () => {
                     incoming.removeEventListener('loadeddata', ready);
                     incoming.removeEventListener('error', failed);
                 };
-
-                const ready = () => {
-                    cleanup();
-                    resolve();
-                };
-
-                const failed = () => {
-                    cleanup();
-                    reject(new Error('Next video failed to load.'));
-                };
-
                 incoming.addEventListener('loadeddata', ready, { once: true });
                 incoming.addEventListener('error', failed, { once: true });
-
-                // Account for the video becoming ready just before
-                // the event listeners were attached.
-                if (incoming.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-                    cleanup();
-                    resolve();
-                }
+                if (incoming.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) { cleanup(); resolve(); }
             });
         }
 
         incoming.currentTime = 0;
-        incoming.muted = true;
-
         await incoming.play();
 
-        // Start the incoming video before fading out the old one.
+        // Start the video crossfade
         incoming.classList.add('is-active');
         outgoing.classList.remove('is-active');
 
         currentIndex = (currentIndex + 1) % promos.length;
         const nextPromo = promos[currentIndex];
 
-        applyThemeColors(nextPromo.theme);
-        heroTitle.textContent = nextPromo.title;
-        heroSubtitle.textContent = nextPromo.subtitle;
+        // Trigger the text crossfade safely
+if (activeLayer === 1) {
+    heroTitleB.innerHTML = nextPromo.title;
+    heroSubtitleB.textContent = nextPromo.subtitle;
+    applyThemeColors(nextPromo.theme); 
+    titleLayer1.classList.remove('is-active');
+    titleLayer2.classList.add('is-active');
+    activeLayer = 2;
+} else {
+    heroTitleA.innerHTML = nextPromo.title;
+    heroSubtitleA.textContent = nextPromo.subtitle;
+    applyThemeColors(nextPromo.theme); 
+    titleLayer2.classList.remove('is-active');
+    titleLayer1.classList.add('is-active');
+    activeLayer = 1;
+}
 
-        // Swap the two video buffers.
         activeVideo = incoming;
         bufferVideo = outgoing;
 
-        // Stop the old video after the opacity transition completes.
         setTimeout(() => {
             outgoing.pause();
             outgoing.currentTime = 0;
@@ -1084,33 +712,23 @@ async function transitionToNext() {
 
         attachTransitionEvents(activeVideo);
 
-        if (nextPromo.isMeteor) {
-            startMeteorEffects();
-        }
+        if (nextPromo.isMeteor) { startMeteorEffects(); }
 
-        // Allow the next transition only after this one has begun
-        // and the active video has advanced beyond its opening frame.
-        setTimeout(() => {
-            transitionInProgress = false;
-        }, 250);
+        setTimeout(() => { transitionInProgress = false; }, 250);
 
     } catch (err) {
         console.error('Video transition failed:', err);
         transitionInProgress = false;
-
-        // If loading failed, try again when the outgoing video ends.
         outgoing.onended = transitionToNext;
     }
 }
 
-// Dynamically sets CSS custom properties for the whole page UI
 function applyThemeColors(theme) {
     document.documentElement.style.setProperty('--theme-primary', theme.primary);
     document.documentElement.style.setProperty('--theme-accent', theme.accent);
     document.documentElement.style.setProperty('--theme-glow', theme.glow);
 }
 
-// ===== METEOR & ATMOSPHERE LOGIC =====
 function startMeteorEffects() {
     stopMeteorEffects();
     dustOverlay.classList.add('dust-active');
@@ -1142,9 +760,9 @@ function stopMeteorEffects() {
     activeVideo.classList.remove('rumble-active');
 }
 
-// ===== AUDIO SYSTEM =====
 const muteBtn = document.getElementById('muteBtn');
 let audioElements = [];
+let isAudioMuted = true;
 
 function initAudio() {
     const sounds = [{ src: 'music/depths-of-mystery.mp3', volume: 0.5 }];
@@ -1166,10 +784,7 @@ function playAudio() {
 }
 
 muteBtn.addEventListener('click', function() {
-    if (audioElements.length === 0) {
-        initAudio();
-        return;
-    }
+    if (audioElements.length === 0) { initAudio(); return; }
     isAudioMuted = !isAudioMuted;
     audioElements.forEach(audio => {
         audio.muted = isAudioMuted;
@@ -1178,7 +793,6 @@ muteBtn.addEventListener('click', function() {
     muteBtn.textContent = isAudioMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds"; 
 });
 
-// ===== UI FUNCTIONS =====
 function openPage(url) { window.location.href = url; }
 function scrollCards(direction) {
     document.querySelector(".card-container").scrollBy({ left: direction * 200, behavior: "smooth" });
@@ -1190,22 +804,18 @@ const topMenu = document.querySelector('nav.top-menu');
 const siteTitle = document.querySelector('.site-title-overlay');
 const cardSection = document.querySelector('.card-section');
 const mobileNav = document.querySelector('.mobile-nav'); 
+const heroSection = document.querySelector('.hero');
 let contentHidden = false;
 
 if (hideContentBtn) {
     hideContentBtn.addEventListener('click', function() {
         contentHidden = !contentHidden;
         const elements = [pageFooter, topMenu, siteTitle, cardSection, mobileNav, heroSection];
-        elements.forEach(el => {
-            if (el) {
-                el.classList.toggle('hidden', contentHidden);
-            }
-        });
+        elements.forEach(el => { if (el) el.classList.toggle('hidden', contentHidden); });
         hideContentBtn.textContent = contentHidden ? 'Show Content' : 'Hide Content';
     });
 }
 
-// ===== MOBILE HAMBURGER MENU =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const closeMenu = document.getElementById('closeMenu');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -1214,7 +824,6 @@ const menuContent = document.querySelector('.menu-content');
 function createMobileMenu() {
     if (!menuContent) return;
     menuContent.innerHTML = '';
-
     const menuItems = [
         { text: '🏠 Home', href: 'index.html', type: 'main', active: true },
         { text: 'Why This World Matters', href: 'why-this-world-matters.html', type: 'sub' },
@@ -1235,7 +844,6 @@ function createMobileMenu() {
         { text: '🤝 Support', href: 'support.html', type: 'main' },
         { text: '📧 Contact', href: 'contact.html', type: 'main' }
     ];
-
     menuItems.forEach(item => {
         const div = document.createElement('div');
         div.className = 'menu-item ' + (item.type === 'main' ? 'main-title' : 'sub-page');
@@ -1261,15 +869,12 @@ closeMenu.addEventListener('click', () => {
 });
 
 document.addEventListener('click', (e) => {
-    if (mobileMenu.classList.contains('active') &&
-        !mobileMenu.contains(e.target) &&
-        !hamburgerBtn.contains(e.target)) {
+    if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
         mobileMenu.classList.remove('active');
         document.body.style.overflow = '';
     }
 });
 
-// Start everything
 document.addEventListener('DOMContentLoaded', initHero);
 </script>
 </body>
