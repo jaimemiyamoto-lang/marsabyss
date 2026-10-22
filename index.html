@@ -500,6 +500,72 @@ footer {
     .arrow { font-size: 1.5rem; padding: 0.4rem; }
 }
 
+/* Mobile & Tablet Fixes for Hero Title and Cards */
+    @media (max-width: 992px) {
+
+        /* 1. Raise the title so it sits above the cards */
+        .hero {
+            top: 38%; /* Was 44%, moving it p slightly */
+        }
+
+        /* 2. Make the card container background invisible so it blends perfectly */
+        .card-container {
+            background: transparent;
+            box-shadow: none; /* Removes the glowing box outline */
+            backdrop-filter: none; /* Removes the blur effect */
+            padding: 0.5rem; /* Gives a little breathing room */
+        }
+
+        /* Optional: Add a slight text shadow to the title so it pops against the video */
+        .hero-title {
+            text-shadow {
+                -1px -1px 0 #000,
+                 1px -1px 0 #000,
+                -1px  1px 0 #000,
+                 1px  1px 0 #000,
+                 0px  4px 15px rgba(0,0,0,0.8);
+            }
+        }
+
+/* Fix for horizontal (landscape) orientation on mobile and tablet */
+@media (orientation: landscape) and (max-height: 700px) {
+
+    /* 1. Push the title up */
+    .hero {
+        top: 35%;
+    }
+
+
+    /* 2. Push the cards down */
+    .card-section {
+        bottom: 2%;
+    }
+    
+    /* 3. Make the card background transparent so it doesn't block the title */
+    .card-container {
+        background: transparent;
+        box-shadow: none;
+        backdrop-filter: none;
+        padding: 0.5rem;
+    }
+
+    /* 4. Make the cards a bit shorter in landscape so they fit */
+    .card {
+        height: 120px;
+        width: 80px;
+    }
+
+    /* Added the shadow here so it's guaranteed to show in landscape */
+    .hero-title {
+        text-shadow:
+            -1px -1px 0 #000,
+             1px -1px 0 #000,
+            -1px  1px 0 #000,
+             1px  1px 0 #000,
+             0px  4px  15px rgba(0,0,0,0.8);
+    }
+}
+
 /* Hide Body Content Mode */
 .hero.hidden,
 .card-section.hidden, 
