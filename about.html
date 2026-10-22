@@ -706,41 +706,30 @@
             lastScrollTop = scrollTop;
         });
 
-        // Audio system
-        const muteBtn = document.getElementById('muteBtn');
-        let isMuted = true;
-        let audioElements = [];
+        // Audio Control for the Background Video
+const muteBtn = document.getElementById('muteBtn');
+let isMuted = true;
 
-        function initAudio() {
-            const sounds = [
-                { src: 'music/Drifting in Dreams.mp3', volume: 0.4 },
-            ];
-            sounds.forEach(sound => {
-                const audio = new Audio(sound.src);
-                audio.volume = sound.volume;
-                audio.loop = true;
-                audio.muted = true;
-                audioElements.push(audio);
-            });
-        }
-        initAudio();
+// Set the initial volume level of the video (0.0 to 1.0)
+videoBg.volume = 0.5; 
 
-        muteBtn.addEventListener('click', function() {
-            if (isMuted) {
-                audioElements.forEach(audio => {
-                    audio.muted = false;
-                    audio.play().catch(e => console.log('Audio play failed:', e));
-                });
-                isMuted = false;
-                muteBtn.textContent = "🔊 Mute Sounds";
-            } else {
-                audioElements.forEach(audio => {
-                    audio.muted = true;
-                }); 
-                isMuted = true; 
-                muteBtn.textContent = "🔈 Unmute Sounds";
-            }
-        });
+muteBtn.addEventListener('click', function() {
+    if (isMuted) {
+        // Unmute the video
+        videoBg.muted = false;
+        
+        // Some browsers pause video with sound until interacted with
+        videoBg.play().catch(e => console.log('Video play failed:', e));
+        
+        isMuted = false;
+        muteBtn.textContent = "🔊 Mute Sounds";
+    } else {
+        // Mute the video
+        videoBg.muted = true;
+        isMuted = true; 
+        muteBtn.textContent = "🔈 Unmute Sounds";
+    }
+});
 
         // ===== MOBILE HAMBURGER MENU =====
         // NOTE: Renamed 'closeMenu' to 'closeMenuBtn' to prevent browser conflicts
