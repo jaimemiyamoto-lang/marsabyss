@@ -322,13 +322,13 @@ footer {
     }
 
     .card {
-        width: 110px;
-        height: 160px;
+        width: 140px;
+        height: 180px;
     }
 
     /* Move the text area up so it doesn't crash into the cards */
     .hero {
-        top: 38%;
+        top: 42%;
     }
 
     /* Shrink the main title so it fits on a phone */
@@ -339,8 +339,8 @@ footer {
 
 @media (max-width: 480px) {
     .card {
-        width: 95px;
-        height: 140px;
+        width: 110px;
+        height: 190px;
     }
 
     .arrow {
@@ -351,6 +351,23 @@ footer {
     .hero-title {
         font-size: 10vw;
     }
+
+    /* Fix for TABLETS in landscape mode ONLY */
+    @media (orientation: landscape) and (max-height: 900px) and (min-width: 768px) {
+        /* Shrink the massive titles so they don't cover the actors/characters */
+        .hero-title {
+            font-size: 6vw;
+        }
+        /* Ensure the text sits comfortably in the middle */
+        .hero {
+            top: 42%;
+        }
+
+        /* This makes the video shrink to fit the width, showing the whole scene */
+        .hero-video {
+            object-fit: contain;
+            background: #000; /* Fills the empty space above/below with black */
+        }
 }
 
 /* Hide Body Content Mode */
