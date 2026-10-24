@@ -1862,6 +1862,56 @@ if (hideContentBtn) {
     });
 }
 
+function openPage(url) {
+    window.location.href = url;
+}
+
+function scrollCards(direction) {
+    const container = document.querySelector(".card-container");
+    const scrollAmount = 200;
+    container.scrollBy({
+        left: direction * scrollAmount,
+        behavior: "smooth"
+    });
+}
+
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        this.style.transform = 'scale(1.02)';
+        this.style.filter = 'grayscale(0%)';
+    });
+
+    card.addEventListener('touchend', function(e) {
+        this.style.transform = '';
+        this.style.filter = '';
+
+        const onclickAttr = this.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes("openPage('")) {
+            const url = onclickAttr.match(/openPage\('([^']+)'\)/)[1];
+            if (url) {
+                window.location.href = url;
+            }
+        }
+    });
+});
+
+let touchStartX = 0;
+let touchEndX = 0;
+const cardContainer = document.querySelector('.card-container');
+
+cardContainer.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+cardContainer.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 50) {
+        scrollCards(diff > 0 ? 1 : -1);
+    }
+});    
+
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const closeMenu = document.getElementById('closeMenu');
 const mobileMenu = document.getElementById('mobileMenu');
