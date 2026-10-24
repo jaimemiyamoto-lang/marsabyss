@@ -503,6 +503,33 @@ footer {
     .hero { bottom: 28%; }
 }
 
+ /* Resolution fixes for TV / Short Screens */
+/* Fix 1: Stop the menu from wrapping to two lines on smaller screens */
+@media (min-width: 1500px) and (max-width: 1850px) {
+    nav.top-menu {
+        gap: 1.5rem; /* Bring the menu items closer together */
+    }
+
+    nav.top.menu a {
+        font-size: 0.95rem; /* Shrink the font slightly */
+    }
+
+    .card {
+        width: 105px; /* Smaller so they fit better */
+        height: 155px;
+    }
+
+    /* Make sure the container doesn't stretch past the screen */
+    .card-container {
+        max-width: 95%;
+        gap: 1rem;
+    }
+    /* bring the text down slightly closer together */
+    .hero {
+        top: 42%;
+    }
+}   
+
 </style>
 </head>
 <body>
