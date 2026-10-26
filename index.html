@@ -510,7 +510,15 @@ footer {
  .card { width: 85px; height: 125px; }
  .hero { bottom: 28%; }
 }
-
+/* Hide promotional titles only on short mobile/tablet landscape screens */
+@media screen and (max-width: 992px)
+       and (orientation: landscape)
+       and (max-height: 700px) {
+    .hero-title-layer {
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+}
 </style>
 </head>
 <body>
