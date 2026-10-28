@@ -159,28 +159,34 @@ body.loaded .content-toggle-controls { opacity: 0.35; }
 .audio-controls { position: fixed; bottom: 80px; right: 41px; z-index: 1000; }
 .audio-btn {
   background: rgba(3, 3, 6, 0.9);
-  border: 1px solid var(--ice);
-  color: var(--bone);
+  border: 2px solid #ff7f00;
+  color: #ff7f00;
   padding: 10px 16px; cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.7rem; letter-spacing: 2px;
   font-family: 'Courier New', monospace;
   text-transform: uppercase;
+  box-shadow: 0 0 10px rgba(234, 127, 0, 0.3);
 }
-.audio-btn:hover { background: rgba(34, 211, 238, 0.1); color: var(--ice); }
+.audio-btn:hover { background: rgba(255, 127, 0, 0.8);
+}
 
 .content-toggle-controls { position: fixed; top: 80px; right: 40px; z-index: 1000; }
 .toggle-btn {
   background: rgba(3, 3, 6, 0.9);
-  border: 1px solid var(--ice);
-  color: var(--bone);
+  border: 2px solid #9b30ff;
+  color: #9b30ff;
   padding: 8px 14px; cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.7rem; letter-spacing: 2px;
   font-family: 'Courier New', monospace;
   text-transform: uppercase;
+  box-shadow: 0 0 10px rgba(155, 48, 255, 0.3);
 }
-.toggle-btn:hover { background: rgba(34, 211, 238, 0.1); color: var(--ice); }
+.toggle-btn:hover { 
+  background: rgba(155, 48, 255, 0.2); color: #ffffff; 
+  box-shadow: 0 0 20px rgba(155, 48, 255, 0.8);
+}
 
 .mouse-sensor { position: fixed; top: 0; left: 0; width: 100%; height: 100px; z-index: 999; cursor: pointer; }
 
@@ -278,6 +284,15 @@ nav.top-menu.hidden, footer.hidden { opacity: 0; pointer-events: none; transitio
 }
 .showcase-video { width: 100%; height: auto; display: block; }
 
+.tiger-icon {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 2.5rem;
+  opacity: 0.4;
+  filter: grayscale(100%) drop-shadow(0 0 5px var(--ice));
+}
+
 .dossier {
   max-width: 1000px; margin: 4rem auto;
   padding: 3rem 2.5rem;
@@ -307,9 +322,21 @@ nav.top-menu.hidden, footer.hidden { opacity: 0; pointer-events: none; transitio
 }
 .dossier-body p { margin-bottom: 1.2rem; }
 .redacted {
-  display: inline-block; background: #000; color: transparent;
-  padding: 0 4px; margin: 0 2px; border-radius: 1px;
-  user-select: none; cursor: help; vertical-align: middle; height: 0.9em;
+  display: inline-block; 
+  background: rgba(34, 211, 238, 0.15); 
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: transparent;
+  padding: 0 4px; 
+  margin: 0 2px; 
+  border-radius: 4px;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  user-select: none; 
+  cursor: help; 
+  vertical-align: middle; 
+  height: 1em;
+  width: 70px;
+  box-shadow: 0 0 5px rgba(34, 211, 238, 0.2);
 }
 .blur-bar { display: block; height: 1em; background: linear-gradient(90deg, #000 0%, #000 95%, rgba(34, 211, 238, 0.1) 100%); margin: 0.6rem 0; }
 .blur-bar.short { width: 40%; } .blur-bar.med { width: 65%; } .blur-bar.long { width: 90%; }
@@ -540,27 +567,135 @@ footer {
 }
 .content-spacer { height: 100px; }
 
-/* ===== HAMBURGER ===== */
+/* ===== HAMBURGER & MOBILE MENU (BLACK PANTHER / TIGER EDITION) ===== */
 .mobile-nav { display: none; position: fixed; top: 15px; left: 15px; z-index: 1002; }
+
+/* The Tiger Button */
 .hamburger-btn {
-  background: rgba(3, 3, 6, 0.95); backdrop-filter: blur(8px);
-  border: 2px solid var(--ice); border-radius: 12px;
-  width: 54px; height: 54px; display: flex; flex-direction: column;
-  justify-content: center; align-items: center; cursor: pointer;
+  background-image: url('images/tiger-skin-with-lines.jpg'); /* YOUR TIGER IMAGE */
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  border: 2px solid #FFD700; /* Gold border */
+  width: 54px; 
+  height: 54px; 
+  display: flex; 
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(234, 179, 8, 0.6); /* Gold glow */
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
-.hamburger-btn span { display: block; width: 28px; height: 3px; background: var(--ice); margin: 4px 0; }
+
+.hamburger-btn:hover {
+  box-shadow: 0 0 25px rgba(255, 149, 83, 0.9); /* Orange glow on hover */
+  transform: scale(1.05);
+}
+
+/* Hide the 3 lines because they are inside the tiger image */
+.hamburger-btn span { 
+  display: none; 
+}
+
+/* The Menu Container */
 .mobile-menu {
-  position: fixed; top: 0; left: -100%; width: 320px; height: 100vh;
-  background: var(--void); border-right: 3px solid var(--ice);
-  padding: 25px 20px; transition: left 0.5s ease; z-index: 1003; overflow-y: auto;
+  position: fixed; 
+  top: 0; 
+  left: -100%; 
+  width: 320px; 
+  height: 100vh;
+  background: #000000; /* Pure Black (Fixes the white background) */
+  border-right: 3px solid #FFD700; 
+  padding: 0; /* Let the header touch the edges */
+  transition: left 0.5s ease; 
+  z-index: 1003; 
+  overflow-y: auto;
+  display: flex; 
+  flex-direction: column;
 }
+
 .mobile-menu.active { left: 0; }
-.menu-header { display: flex; justify-content: space-between; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--ice); }
-.menu-header h3 { color: var(--ice); font-family: 'Orbitron', sans-serif; font-size: 1rem; }
-.close-menu { background: transparent; border: 1px solid var(--ice); color: var(--ice); font-size: 1.5rem; cursor: pointer; padding: 0 8px; }
-.menu-content .menu-item a { display: block; color: var(--bone); text-decoration: none; padding: 8px 12px; font-family: 'Courier New', monospace; font-size: 0.85rem; }
-.menu-content .menu-item.main-title a { color: #fff; font-weight: bold; background: rgba(34,211,238,0.1); border-left: 3px solid var(--ice); margin-top: 8px; font-family: 'Orbitron', sans-serif; }
-.menu-content .menu-item.sub-page a { color: var(--steel); padding-left: 28px; }
+
+/* The Black Panther Header */
+.menu-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  padding: 20px; 
+  background: #000000; 
+  border-bottom: 2px solid #FFD700; 
+  margin-bottom: 0;
+}
+
+.menu-header h3 { 
+  color: #FFD700; 
+  font-family: 'Orbitron', sans-serif; 
+  font-size: 1.1rem; 
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  margin: 0;
+}
+
+.close-menu { 
+  background: transparent; 
+  border: 1px solid #FFD700; 
+  color: #FFD700; 
+  font-size: 1.5rem; 
+  cursor: pointer; 
+  padding: 0 8px; 
+  transition: all 0.3s ease;
+}
+
+.close-menu:hover {
+  background: rgba(255, 215, 0, 0.2);
+}
+
+/* The Leopard Skin Body */
+.menu-content { 
+  padding: 20px;
+  flex-grow: 1;
+  background-image: url('images/leopard-skin.jpg'); /* YOUR LEOPARD IMAGE */
+  background-size: 200px;
+  background-repeat: repeat;
+  box-shadow: inset 0 0 0 2000px rgba(10, 10, 16, 0.85); /* Dark overlay for readability */
+}
+
+/* The Links */
+.menu-content .menu-item a { 
+  display: block; 
+  color: #ffffff; 
+  text-decoration: none; 
+  padding: 10px 12px; 
+  font-family: 'Courier New', monospace; 
+  font-size: 0.85rem; 
+  background: transparent;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 3px #000, -1px -1px 3px #000, 2px 2px 5px #000;
+}
+
+.menu-content .menu-item.main-title a { 
+  color: #FFD700; 
+  font-weight: bold; 
+  background: rgba(255, 215, 0, 0.15); 
+  border-left: 3px solid #FFD700; 
+  font-family: 'Orbitron', sans-serif; 
+}
+
+.menu-content .menu-item.sub-page a { 
+  color: var(--steel); 
+  padding-left: 28px; 
+  background: rgba(0, 0, 0, 0.4); 
+}
+
+.menu-content .menu-item a:hover {
+  background: rgba(255, 215, 0, 0.3);
+  color: #ffffff;
+}
 
 @media (max-width: 992px) {
   nav.top-menu { display: none; }
@@ -568,9 +703,13 @@ footer {
   .language-selector { top: 70px !important; right: 15px; }
   .site-title-overlay { top: 90px; left: 15px; }
   .site-title-overlay h1 { font-size: 1.4rem; }
-  .content-toggle-controls { top: 15px; right: 15px; z-index: 1002;}
+  
+  /* Fixes the overlap: Hide content at top 30px */
+  .content-toggle-controls { top: 30px !important; right: 15px; z-index: 1005; }
+  
   .op-item { grid-template-columns: 1fr; gap: 0.8rem; }
 }
+
 </style>
 </head>
 
@@ -790,26 +929,36 @@ footer {
       <p data-i18n="mv_dossier_p2">Marvin operates in the layer beneath M.A.D. — the one that does not publish press releases. He neutralizes sources, disrupts coordination networks, and closes doors that were never opened.</p>
       <p>
         <span data-i18n="mv_dossier_p3">The file lists his species as</span>
-        <span class="redacted" style="width:90px;">████████</span>.
-        <span data-i18n="mv_dossier_p4">Clearance lists his clearance as</span>
-        <span class="redacted" style="width:70px;">██████</span>.
+        <span class="redacted">████████</span>.
+        <span data-i18n="mv_dossier_p4">His clearance level is</span>
+        <span class="redacted">██████</span>.
         <span data-i18n="mv_dossier_p5">Direct superior: M.A.I.</span>
       </p>
-      <div class="blur-bar short"></div>
-      <div class="blur-bar med"></div>
-      <div class="blur-bar long"></div>
-    </div>
+      <!-- The Exile Protocol (Marvin's True Origin) -->
+<div class="incident-file">
+  <div class="incident-header">
+    <span class="incident-tag">FILE ARV-000 // CLASSIFIED</span>
+    <span class="incident-location">LOC: EARTH // REDACTED</span>
+  </div>
+  <div class="incident-body">
+    <span class="tiger-icon">🦁🐘</span>
+    <p><strong>SUBJECT:</strong> The hunted. The hunters.</p>
+    <p><strong>INCIDENT:</strong> Subject's bonded companions (a lion and an elephant) were slain for sport. Subject retaliated by systematically tracking the poachers. The subject disarmed them and released them into the wild, leaving their fate to the animals they hunted.</p>
+    <p class="incident-emotion">RESULT: Subject successfully lobbied for a global ban on trophy hunting on Earth. A massive bounty was placed on his head by the Earth elite. Subject was extracted to Mars for his safety.</p>
+  </div>
+</div>
+</div>
   </section>
 
   <section class="the-question">
     <h2 data-i18n="mv_q_head">WHAT IS MARVIN?</h2>
-    <p data-i18n="mv_q_desc">Every dossier has been cross-referenced. Every witness statement has been examined. The answer is not in the file. The file does not want the answer to be in the file.</p>
+    <p data-i18n="mv_q_desc">He bleeds. He fights. He mourns. The dossier lists his species as [REDACTED], but does it matter? He is the shield that protects the voiceless. He is the nightmare of the hunters.</p>
     <div class="options">
-      <div class="opt" data-i18n="mv_q_opt1">HUMAN</div>
-      <div class="opt" data-i18n="mv_q_opt2">CYBORG</div>
-      <div class="opt" data-i18n="mv_q_opt3">ROBOT</div>
+      <div class="opt" data-i18n="mv_q_opt1">MAN</div>
+      <div class="opt" data-i18n="mv_q_opt2">MACHINE</div>
+      <div class="opt" data-i18n="mv_q_opt3">MYTH</div>
     </div>
-    <div class="verdict" data-i18n="mv_q_verdict">NOT ESTABLISHED</div>
+    <div class="verdict" data-i18n="mv_q_verdict">HE IS THE HUNTER OF HUNTERS</div>
   </section>
 
   <section class="tradecraft">
@@ -847,8 +996,8 @@ footer {
       <div class="op-item">
         <div class="op-id">ARV-002</div>
         <div>
-          <div class="op-name" data-i18n="mv_op2_title">DEEP TRACE</div>
-          <div class="op-desc" data-i18n="mv_op2_desc">Tracking and dismantling corporate espionage networks targeting Martian technology infrastructure.</div>
+          <div class="op-name" data-i18n="mv_op2_title">IRON VEIL</div>
+          <div class="op-desc">Tracking and dismantling corporate espionage networks targeting Martian technology infrastructure, while simultaneously intercepting Earth-based trophy hunter syndicates. The subject uses cyber-intelligence to hunt the wealthy elite who placed a bounty on his head.</div>
         </div>
         <div class="op-status tracking" data-i18n="mv_op2_status">TRACKING</div>
       </div>
@@ -875,7 +1024,7 @@ footer {
 
   <section class="handler-note">
     <div class="attribution" data-i18n="mv_note_attr">FROM THE HANDLER'S FILE</div>
-    <p data-i18n="mv_note_text">I do not assign Marvin the work that can be seen. I assign him the work that must disappear. He does not ask why. He does not ask who. He asks only which outcome preserves the colony, and then he produces that outcome, and then he returns to the silence I keep him in. It is not a kindness. It is the only arrangement either of us can live with.</p>
+    <p data-i18n="mv_note_text">I do not assign Marvin the work that can be seen. I assign him the work that must disappear. Earth's elite call him a monster because he hunts them in the dark. They forget that he learned to do so because they killed his first family. The regent gave him a home. I gave him a purpose. he does not ask for glory. He asks for coordinates. He protects this colony not because he is ordered to, but because he knows what happens when the powerful are left unchecked.</p>
     <div class="sig" data-i18n="mv_note_sig">M.A.I.</div>
   </section>
 
@@ -886,7 +1035,6 @@ footer {
 <footer>
   <p>© 2025 THE MARS ABYSS · M.A.R.V.I.N. · CLEARANCE OMEGA</p>
 </footer>
-<script src="js/translations.js"></script>  
 
 <script>
 // ===== VIDEO PROTECTION =====
@@ -987,12 +1135,6 @@ window.addEventListener('load', () => document.body.classList.add('loaded'));
 let currentLang = localStorage.getItem('preferredLang') || 'en';
 
 function applyLanguage(lang) {
-  // Safety net: If translations.js fails to load, do not crash the page!
-  if (typeof window.MARS_TRANSLATIONS === 'underfined') {
-    console.warn('Translation file missing or failed to load.');
-    return;
-  }
-  
   const t = window.MARS_TRANSLATIONS[lang];
   if (!t) return;
   document.querySelectorAll('[data-i18n]').forEach(el => {
