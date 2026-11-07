@@ -965,6 +965,103 @@ footer {
   word-break: break-word;
   font-size: 1rem !important; /* Slightly smaller font to fit */
 }
+
+  /* ===== MOBILE & TABLET FIXES FOR ALL TEXT SECTIONS ===== */
+
+@media (max-width: 992px) {
+  /* Fixes Doctrine & Capabilities */
+  .doctrine, .capabilities, .situation, .field-reports {
+    padding: 2rem 1rem;
+    margin: 2rem auto;
+  }
+  
+  .precept-row {
+    grid-template-columns: 1fr; /* Stacks the 3 columns into 1 */
+    gap: 1rem;
+  }
+
+  /* Fixes the Channel List Sprawling */
+  .channel {
+    grid-template-columns: 1fr; /* Forces everything into one column */
+    text-align: center;
+    gap: 0.5rem;
+    padding: 1.5rem 1rem;
+  }
+  
+  .channel:hover {
+    padding-left: 1rem; /* Stops the weird jump on mobile */
+  }
+
+  .channel-name, 
+  .channel-desc, 
+  .precept-desc {
+    word-break: break-word; /* Forces long words to wrap */
+    overflow-wrap: break-word;
+  }
+
+  /* Fixes the Mission Briefing */
+  .briefing-body {
+    padding: 1.5rem 1rem;
+  }
+  
+  .briefing-meta, 
+  .briefing-footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .briefing-signoff {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+
+  .signoff-line {
+    margin: 0 auto 0.6rem;
+  }
+
+  /* Fixes the Radar & Situation Readout */
+  .radar-wrap {
+    gap: 2rem;
+  }
+  
+  .situation-readout {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .readout-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  /* Fixes the Field Reports Header */
+  .report-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .report-meta {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Make the radar smaller on very small phones */
+  .radar {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .unit-acronym {
+    white-space: normal; /* Allows the title to wrap on tiny screens */
+  }
+}
+
 </style>
 </head>
 
