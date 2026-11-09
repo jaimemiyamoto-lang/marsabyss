@@ -7,925 +7,1171 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body, html {
-height: 100%;
-width: 100%;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-color: #fff;
-overflow-x: hidden;
-position: relative;
-background: #000;
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    background: #000;
 }
 
 /* SITE TITLE OVERLAY */
 .site-title-overlay {
-position: fixed;
-top: 80px;
-left: 30px;
-z-index: 50;
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    z-index: 50;
 }
 
 .site-title-overlay h1 {
-color: #ff9553;
-font-family: 'Orbitron', sans-serif;
-font-size: 1.8rem;
-text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
-font-weight: 300;
-letter-spacing: 2px;
+    color: #ff9553;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+    font-weight: 300;
+    letter-spacing: 2px;
 }
 
 .site-title-overlay h1 sup {
-font-size: 0.6em;
-vertical-align: super;
-color: rgba(255, 105, 180, 0.9);
-text-shadow: 0 0 8px rgba(255, 105, 180, 0.7);
-margin-left: 2px;
+    font-size: 0.6em;
+    vertical-align: super;
+    color: rgba(255, 105, 180, 0.9);
+    text-shadow: 0 0 8px rgba(255, 105, 180, 0.7);
+    margin-left: 2px;
 }
 
 /* HIDE CONTENT BUTTON */
 .hide-content-btn {
-position: fixed;
-top: 80px;
-right: 30px;
-background: rgba(0, 0, 0, 0.7);
-border: 2px solid #ff9553;
-color: #fff;
-padding: 8px 12px;
-border-radius: 15px;
-cursor: pointer;
-z-index: 1001;
-font-size: clamp(0.7rem, 2vw, 0.8rem);
-transition: all 0.3s ease;
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #ff9553;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    transition: all 0.3s ease;
 }
 
 .hide-content-btn:hover {
-background: rgba(255, 68, 68, 0.3);
-color: black;
+    background: rgba(255, 68, 68, 0.3);
+    color: black;
 }
 
 /* VIDEO BACKGROUND */
 .video-background {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-object-fit: cover;
-z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
 }
 
 .video-overlay {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(10, 10, 26, 0.4);
-z-index: 2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 26, 0.4);
+    z-index: 2;
 }
 
 /* === FIXED TOP MENU === */
 nav.top-menu {
-position: fixed;
-top: 0;
-width: 100%;
-display: flex;
-justify-content: center;
-background: rgba(17, 17, 17, 0.95);
-padding: 0.6rem 0;
-z-index: 1000;
-gap: 2.5rem;
-flex-wrap: nowrap;
-backdrop-filter: blur(10px);
-border-bottom: 2px solid #ff9553;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 0.6rem 0;
+    z-index: 1000;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #ff9553;
 }
 
 nav.top-menu.hidden {
-opacity: 0;
-pointer-events: none;
-transform: translateY(-20px);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-20px);
 }
 
 nav.top-menu a {
-color: #f5f5f5;
-text-decoration: none;
-font-size: 1.1rem;
-padding: 0.5rem 0.8rem;
-border-radius: 4px;
-transition: all 0.3s ease;
-display: flex;
-align-items: center;
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
 }
 
 nav.top-menu a.active,
 nav.top-menu a:hover {
-color: #ff4444;
-background: transparent;
+    color: #ff4444;
+    background: transparent;
 }
 
 .dropdown {
-position: relative;
-display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .dropdown > a, .dropdown {
-display: flex;
-align-items: center;
-height: 100%;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 .dropdown-content {
-display: none;
-position: absolute;
-background: rgba(26, 26, 26, 0.98);
-min-width: 140px;
-z-index: 5000;
-border-radius: 4px;
-border: 2px solid #ff9553;
-top: 100%;
-left: 0;
-backdrop-filter: blur(5px);
-padding: 4px 0;
+    display: none;
+    position: absolute;
+    background: rgba(26, 26, 26, 0.98);
+    min-width: 140px;
+    z-index: 5000;
+    border-radius: 4px;
+    border: 2px solid #ff9553;
+    top: 100%;
+    left: 0;
+    backdrop-filter: blur(5px);
+    padding: 4px 0;
 }
 
 .dropdown .dropdown .dropdown-content {
-position: absolute;
-left: 0;
-top: 100%;
-width: 100%;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
 }
 
 .dropdown-content a {
-color: #f5f5f5;
-padding: 3px 5px;
-text-decoration: none;
-display: block;
-transition: background-color 0.3s ease;
-font-size: 0.7rem;
-line-height: 1;
+    color: #f5f5f5;
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 0.7rem;
+    line-height: 1;
 }
 
 .dropdown-content a:hover {
-background: rgba(255, 68, 68, 0.6);
-color: #fff;
+    background: rgba(255, 68, 68, 0.6);
+    color: #fff;
 }
 
-/* Desktop hover behavior */
 .dropdown:hover .dropdown-content {
-display: block;
+    display: block;
 }
 
-/* Mobile active state - FIXED */
 .dropdown.active .dropdown-content {
-display: block;
+    display: block;
 }
 
 /* MAIN CONTENT */
 .main-content {
-position: relative;
-padding: 2rem 5%;
-min-height: 100vh;
-margin-top: 70px;
-padding-bottom: 100px;
-transition: all 0.5s ease;
-z-index: 10;
+    position: relative;
+    padding: 2rem 5%;
+    min-height: 100vh;
+    margin-top: 70px;
+    padding-bottom: 100px;
+    transition: all 0.5s ease;
+    z-index: 10;
 }
 
 .main-content.hidden {
-opacity: 0;
-pointer-events: none;
-transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
 }
 
 /* HERO SECTION */
 .hero-section {
-text-align: center;
-margin: 2rem auto 4rem auto;
-background: rgba(0, 0, 0, 0.7);
-padding: 3rem 2rem;
-border-radius: 15px;
-border: 2px solid #ff4d4d;
-max-width: 1000px;
+    text-align: center;
+    margin: 2rem auto 4rem auto;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 3rem 2rem;
+    border-radius: 15px;
+    border: 2px solid #ff4d4d;
+    max-width: 1000px;
 }
 
 .hero-title {
-font-size: 3.5rem;
-color: #ffd700;
-margin-bottom: 1rem;
-text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-font-family: 'Orbitron', sans-serif;
+    font-size: 3.5rem;
+    color: #ffd700;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    font-family: 'Orbitron', sans-serif;
 }
 
 .hero-subtitle {
-font-size: 1.4rem;
-color: #ff6fe5;
-font-style: italic;
-margin-bottom: 2rem;
+    font-size: 1.4rem;
+    color: #ff6fe5;
+    font-style: italic;
+    margin-bottom: 2rem;
 }
 
 .hero-stats {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-gap: 1.5rem;
-margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
 }
 
 .stat-card {
-background: rgba(255, 111, 229, 0.1);
-padding: 1.5rem;
-border-radius: 10px;
-border: 1px solid #ff6fe5;
+    background: rgba(255, 111, 229, 0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #ff6fe5;
 }
 
 .stat-number {
-font-size: 2.5rem;
-color: #ffd700;
-font-family: 'Orbitron', sans-serif;
-margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    color: #ffd700;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 0.5rem;
 }
 
 .stat-label {
-color: #ff91c1;
-font-size: 1rem;
+    color: #ff91c1;
+    font-size: 1rem;
 }
 
 /* ========== CENTERED VIDEO SECTION ========== */
 .video-section {
-text-align: center;
-margin: 4rem auto;
-max-width: 1200px;
-padding: 2rem;
-background: rgba(20, 20, 40, 0.8);
-border-radius: 15px;
-border: 3px solid #00ccff;
+    text-align: center;
+    margin: 4rem auto;
+    max-width: 1200px;
+    padding: 2rem;
+    background: rgba(20, 20, 40, 0.8);
+    border-radius: 15px;
+    border: 3px solid #00ccff;
 }
 
 .video-title {
-color: #00ccff;
-font-size: 2.5rem;
-margin-bottom: 2rem;
-font-family: 'Orbitron', sans-serif;
-text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+    color: #00ccff;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
 }
 
 /* Centered Video Container with Custom Controls */
 .video-container {
-position: relative;
-max-width: 854px;
-margin: 2rem auto;
-border-radius: 12px;
-overflow: hidden;
-border: 3px solid #ff9553;
-box-shadow: 0 0 30px rgba(255, 149, 83, 0.4);
-background: #000;
+    position: relative;
+    max-width: 854px;
+    margin: 2rem auto;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid #ff9553;
+    box-shadow: 0 0 30px rgba(255, 149, 83, 0.4);
+    background: #000;
 }
 
 #hovercraftVideo {
-width: 100%;
-height: auto;
-display: block;
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 .video-controls {
-position: absolute;
-bottom: 0;
-left: 0;
-right: 0;
-background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-padding: 1rem;
-display: flex;
-justify-content: space-between;
-align-items: center;
-opacity: 0;
-transition: opacity 0.3s ease;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .video-container:hover .video-controls {
-opacity: 1;
+    opacity: 1;
+}
+
+#vwVideo, #frVideo {
+    width: 100%;
+    height: 480px;
+    object-fit: contain;
+    display: block;
+    border-radius: 12px;
+    background: #000;
 }
 
 .control-btn {
-background: rgba(0, 204, 255, 0.8);
-border: 2px solid #00ccff;
-color: white;
-padding: 8px 16px;
-border-radius: 25px;
-cursor: pointer;
-font-family: 'Orbitron', sans-serif;
-font-size: 0.9rem;
-margin: 0 5px;
-transition: all 0.3s ease;
+    background: rgba(0, 204, 255, 0.8);
+    border: 2px solid #00ccff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    margin: 0 5px;
+    transition: all 0.3s ease;
 }
 
 .control-btn:hover {
-background: rgba(0, 204, 255, 0.6);
-transform: scale(1.05);
+    background: rgba(0, 204, 255, 0.6);
+    transform: scale(1.05);
 }
 
 .video-mute-btn {
-background: rgba(255, 68, 68, 0.8);
-border: 2px solid #ff4444;
+    background: rgba(255, 68, 68, 0.8);
+    border: 2px solid #ff4444;
 }
 
 .video-expand-btn {
-background: rgba(255, 149, 83, 0.8);
-border: 2px solid #ff9553;
+    background: rgba(255, 149, 83, 0.8);
+    border: 2px solid #ff9553;
 }
 
 .control-group {
-display: flex;
-align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .video-caption {
-color: #aaa;
-font-size: 0.9rem;
-margin-top: 0.5rem;
-text-align: center;
-font-style: italic;
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    text-align: center;
+    font-style: italic;
 }
 /* ========== END VIDEO SECTION ========== */
 
 /* CAR GALLERY */
 .car-gallery {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-gap: 2.5rem;
-margin: 3rem auto;
-max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem;
+    margin: 3rem auto;
+    max-width: 1200px;
 }
 
 .car-card {
-background: rgba(20, 20, 40, 0.82);
-border-radius: 15px;
-overflow: hidden;
-transition: all 0.4s ease;
-border: 2px solid #4cc9f0;
-position: relative;
-cursor: pointer;
+    background: rgba(20, 20, 40, 0.82);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    border: 2px solid #4cc9f0;
+    position: relative;
+    cursor: pointer;
 }
 
 .car-card:hover {
-transform: translateY(-8px);
-border-color: #ffd700;
-box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+    transform: translateY(-8px);
+    border-color: #ffd700;
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
 }
 
 .car-image {
-width: 100%;
-height: 250px;
-object-fit: cover;
-border-bottom: 2px solid #4cc9f0;
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-bottom: 2px solid #4cc9f0;
 }
 
 .car-info {
-padding: 1.8rem;
+    padding: 1.8rem;
 }
 
 .car-auction-badge {
-background: #ff4d4d;
-color: white;
-padding: 5px 12px;
-border-radius: 15px;
-font-size: 0.8rem;
-display: inline-block;
-margin-bottom: 12px;
-font-weight: bold;
+    background: #ff4d4d;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    display: inline-block;
+    margin-bottom: 12px;
+    font-weight: bold;
 }
 
 .car-title {
-color: #ffd700;
-font-size: 1.5rem;
-margin-bottom: 10px;
-font-family: 'Orbitron', sans-serif;
+    color: #ffd700;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-family: 'Orbitron', sans-serif;
 }
 
 .car-specs {
-color: #4cc9f0;
-font-size: 0.9rem;
-margin-bottom: 12px;
-font-style: italic;
+    color: #4cc9f0;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    font-style: italic;
 }
 
 .car-description {
-color: #e0e0e0;
-line-height: 1.6;
-margin-bottom: 15px;
-font-size: 0.95rem;
+    color: #e0e0e0;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+/* Add this to make videos behave exactly like the images*/
+.car-image,
+.impact-image,
+.car-video,
+.impact-item video {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-bottom: 2px solid #4cc9f0;
+    display: block;
+}
+
+.impact-item video {
+    border-bottom: 2px solid #ff6fe5;
 }
 
 .charity-impact {
-background: rgba(255, 215, 0, 0.1);
-padding: 12px;
-border-radius: 8px;
-border-left: 3px solid #ffd700;
-margin-top: 12px;
+    background: rgba(255, 215, 0, 0.1);
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 3px solid #ffd700;
+    margin-top: 12px;
 }
 
 .impact-title {
-color: #ffd700;
-font-weight: bold;
-margin-bottom: 5px;
+    color: #ffd700;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .impact-details {
-color: #e0e0e0;
-font-size: 0.9rem;
+    color: #e0e0e0;
+    font-size: 0.9rem;
 }
 
 /* MISSION SECTION */
 .mission-section {
-background: rgba(10, 10, 30, 0.85);
-padding: 4rem 2rem;
-margin: 4rem auto;
-text-align: center;
-border: 2px solid #ff6fe5;
-border-radius: 15px;
-max-width: 1000px;
+    background: rgba(10, 10, 30, 0.85);
+    padding: 4rem 2rem;
+    margin: 4rem auto;
+    text-align: center;
+    border: 2px solid #ff6fe5;
+    border-radius: 15px;
+    max-width: 1000px;
 }
 
 .mission-title {
-color: #ff6fe5;
-font-size: 2.5rem;
-margin-bottom: 2rem;
-font-family: 'Orbitron', sans-serif;
+    color: #ff6fe5;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    font-family: 'Orbitron', sans-serif;
 }
 
 .mission-content {
-max-width: 800px;
-margin: 0 auto;
-text-align: left;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
 }
 
 .mission-text {
-font-size: 1.1rem;
-line-height: 1.7;
-color: #e0e0e0;
-margin-bottom: 1.5rem;
-text-align: justify;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #e0e0e0;
+    margin-bottom: 1.5rem;
+    text-align: justify;
 }
 
 .mission-highlight {
-color: #ffd700;
-font-weight: 500;
-font-style: italic;
+    color: #ffd700;
+    font-weight: 500;
+    font-style: italic;
 }
 
 /* UPDATED IMPACT GRID WITH IMAGES */
 .impact-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-gap: 2rem;
-margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
 }
 
 .impact-item {
-background: rgba(255, 255, 255, 0.1);
-border-radius: 15px;
-overflow: hidden;
-transition: all 0.4s ease;
-cursor: pointer;
-border: 2px solid #ff6fe5;
-position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    border: 2px solid #ff6fe5;
+    position: relative;
 }
 
 .impact-item:hover {
-transform: translateY(-8px);
-border-color: #ffd700;
-box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+    transform: translateY(-8px);
+    border-color: #ffd700;
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
 }
 
 .impact-image {
-width: 100%;
-height: 200px;
-object-fit: cover;
-border-bottom: 2px solid #ff6fe5;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #ff6fe5;
 }
 
 .impact-content {
-padding: 1.5rem;
+    padding: 1.5rem;
 }
 
 .impact-item h3 {
-color: #ff6fe5;
-margin-bottom: 10px;
-font-size: 1.4rem;
-font-family: 'Orbitron', sans-serif;
+    color: #ff6fe5;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    font-family: 'Orbitron', sans-serif;
 }
 
 .impact-item p {
-color: #e0e0e0;
-line-height: 1.6;
-font-size: 0.95rem;
+    color: #e0e0e0;
+    line-height: 1.6;
+    font-size: 0.95rem;
 }
+
+/* ========== REGENT'S MINIATURES SECTION ========== */
+.miniatures-section {
+    background: rgba(20, 15, 25, 0.85);
+    padding: 4rem 2rem;
+    margin: 4rem auto;
+    text-align: center;
+    border: 2px solid #ff9553;
+    border-radius: 15px;
+    max-width: 1000px;
+}
+
+.miniatures-title {
+    color: #ff9553;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.miniatures-desc {
+    color: #e0e0e0;
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.miniatures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.mini-card {
+    background: rgba(255, 149, 83, 0.05);
+    border: 1px solid rgba(255, 149, 83, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.mini-card:hover {
+    background: rgba(255, 149, 83, 0.15);
+    border-color: #ff9553;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255, 149, 83, 0.2);
+}
+
+/* The container that holds the video or 3D model */
+.mini-media-container {
+    width: 100%;
+    height: 180px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border: 1px solid #ff9553;
+    background: #000;
+    overflow: hidden;
+    position: relative;
+}
+
+.mini-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mini-card h3 {
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.mini-card p {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.mini-btn {
+    background: transparent;
+    color: #ff9553;
+    border: 1px solid #ff9553;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-top: auto;
+}
+
+.mini-btn:hover {
+    background: #ff9553;
+    color: #000;
+}
+
+/* ========== GALLA BROCHURE STYLING ========== */
+.mini-card {
+    background: linear-gradient(
+        135deg,
+        rgba(30, 20, 15, 0.9),
+        rgba(10, 5, 5, 0.95)
+    );
+    border: 1px solid #d4a574;
+    box-shadow: 
+        0 0 0 3px rgba(20, 15, 10, 0.9),
+        0 0 0 4px #d4a574;
+    border-radius: 4px;
+    padding: 1rem;
+    transition: all 0.4s ease;
+}
+
+.mini-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+        0 15px 30px rgba(212, 165, 116, 0.3),
+        0 0 0 3px rgba(20, 15, 10, 0.9),
+        0 0 0 4px #d4a574;
+}
+
+.mini-card h3 {
+    font-family: 'Times New Roman', Times, serif;
+    color: #f5e9d8;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    margin-top: 1rem;
+}
+
+.mini-card p {
+    font-family: 'Times New Roman', Times, serif;
+    color: #d4a574;
+    font-style: italic;
+}
+
+.mini-btn {
+    background: #d4a574;
+    color: #1a0f0a;
+    border: none;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 2px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+
+.mini-btn:hover {
+    background: #f5e9d8;
+    box-shadow: 0 0 15px rgba(212, 165, 116, 0.5);
+}
+
+/* ========== CUSTOM GALA MODAL ========== */
+.gala-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+}
+
+.gala-modal.active {
+    display: flex;
+}
+
+.gala-modal-content {
+    background: linear-gradient(
+        145deg,
+        #1a0f0a,
+        #0a0505
+    );
+    border: 2px solid #d4a574;
+    border-radius: 8px;
+    padding: 3rem;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 50px rgba(212, 165, 116, 0.3);
+    animation: modalFadeIn 0.4s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.gala-modal-content h3 {
+    color: #d4a574;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+}
+
+.gala-modal-content p {
+    color: #f5e9d8;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.gala-modal-close {
+    background: transparent;
+    border: 1px solid #d4a574;
+    color: #d4a574;
+    padding: 10px 25px;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gala-modal-close:hover {
+    background: #d4a574;
+    color: #1a0f0a;
+}
+
+
+/* ========== END MINIATURES ========== */
 
 /* MODAL STYLES */
 .modal {
-display: none;
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.95);
-z-index: 2000;
-backdrop-filter: blur(10px);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    backdrop-filter: blur(10px);
 }
 
 .modal-content {
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-max-width: 90%;
-max-height: 90%;
-background: rgba(20, 20, 40, 0.95);
-border-radius: 20px;
-overflow: hidden;
-border: 3px solid #ffd700;
-box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    background: rgba(20, 20, 40, 0.95);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 3px solid #ffd700;
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
 }
 
 .modal-image {
-width: 100%;
-max-height: 60vh;
-object-fit: contain;
+    width: 100%;
+    max-height: 60vh;
+    object-fit: contain;
 }
 
 .modal-info {
-padding: 2rem;
-max-width: 600px;
+    padding: 2rem;
+    max-width: 600px;
 }
 
 .modal-title {
-color: #ffd700;
-font-size: 2rem;
-margin-bottom: 1rem;
-font-family: 'Orbitron', sans-serif;
+    color: #ffd700;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-family: 'Orbitron', sans-serif;
 }
 
 .modal-description {
-color: #e0e0e0;
-line-height: 1.6;
-font-size: 1.1rem;
-margin-bottom: 1.5rem;
+    color: #e0e0e0;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
 }
 
 .modal-specs {
-color: #4cc9f0;
-font-style: italic;
-margin-bottom: 1rem;
+    color: #4cc9f0;
+    font-style: italic;
+    margin-bottom: 1rem;
 }
 
 .close-modal {
-position: absolute;
-top: 15px;
-right: 20px;
-color: #ff6fe5;
-font-size: 2.5rem;
-cursor: pointer;
-background: none;
-border: none;
-z-index: 2001;
-transition: all 0.3s ease;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #ff6fe5;
+    font-size: 2.5rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 2001;
+    transition: all 0.3s ease;
 }
 
 .close-modal:hover {
-color: #ffd700;
-transform: scale(1.2);
+    color: #ffd700;
+    transform: scale(1.2);
 }
 
 /* FOOTER */
 footer {
-position: fixed;
-bottom: 0;
-left: 0;
-width: 100%;
-text-align: center;
-padding: 0.6rem 0;
-background: rgba(0, 0, 0, 0.8);
-color: #ccc;
-font-family: 'Segoe UI', sans-serif;
-z-index: 1000;
-border-top: 2px solid #ff9553;
-transition: all 0.5s ease;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ccc;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+    border-top: 2px solid #ff9553;
+    transition: all 0.5s ease;
 }
 
 footer.hidden {
-opacity: 0;
-pointer-events: none;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .content-spacer {
-height: 100px;
+    height: 100px;
 }
 
 /* AUDIO CONTROLS */
 .audio-controls {
-position: fixed;
-bottom: 80px;
-right: 40px;
-z-index: 1000;
+    position: fixed;
+    bottom: 80px;
+    right: 40px;
+    z-index: 1000;
 }
 
 .audio-btn {
-background: rgba(0, 0, 0, 0.7);
-border: 2px solid #ff9553;
-color: #fff;
-padding: 10px 15px;
-border-radius: 25px;
-cursor: pointer;
-transition: all 0.3s ease;
-backdrop-filter: blur(5px);
-font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #ff9553;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
 }
 
 .audio-btn:hover {
-background: rgba(255, 68, 68, 0.3);
-color: black;
+    background: rgba(255, 68, 68, 0.3);
+    color: black;
 }
 
 /* ===== MOBILE HAMBURGER MENU – Orange/Pink/red THEME ===== */
 .mobile-nav {
-display: none; /* hidden on desktop */
-position: fixed;
-top: 15px;
-left: 15px;
-z-index: 1002;
+    display: none; /* hidden on desktop */
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1002;
 }
 
 .hamburger-btn {
-background: rgba(20, 10, 5, 0.95); 
-backdrop-filter: blur(8px);
-border: 2px solid #ff9553; 
-border-radius: 12px;
-width: 54px;
-height: 54px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-cursor: pointer;
-transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 149, 83, 0.2) inset;
-font-size: 2rem;
-color: #ff9553;
-line-height: 1;
+    background: rgba(20, 10, 5, 0.95);
+    backdrop-filter: blur(8px);
+    border: 2px solid #ff9553;
+    border-radius: 12px;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 149, 83, 0.2) inset;
+    font-size: 2rem;
+    color: #ff9553;
+    line-height: 1;
 }
 
 .hamburger-btn:hover {
-background: rgba(255, 111, 229, 0.25);
-border-color: #ff4444;
-transform: scale(1.08);
-box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4);
-color: #ff4444;
+    background: rgba(255, 111, 229, 0.25);
+    border-color: #ff4444;
+    transform: scale(1.08);
+    box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4);
+    color: #ff4444;
 }
 
 .mobile-menu {
-position: fixed;
-top: 0;
-left: -100%;
-width: 320px;
-height: 100vh;
-background: linear-gradient(145deg, #1a0f0a 0%, #2a0f1a 100%);
-border-right: 3px solid #ff6fe5;
-padding: 25px 20px;
-transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-z-index: 1003;
-overflow-y: auto;
-box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8), 5px 0 25px rgba(255, 111, 229, 0.3);
-backdrop-filter: blur(15px);
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 320px;
+    height: 100vh;
+    background: linear-gradient(145deg, #1a0f0a 0%, #2a0f1a 100%);
+    border-right: 3px solid #ff6fe5;
+    padding: 25px 20px;
+    transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1003;
+    overflow-y: auto;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8), 5px 0 25px rgba(255, 111, 229, 0.3);
+    backdrop-filter: blur(15px);
 }
 
 .mobile-menu.active {
-left: 0;
+    left: 0;
 }
 
 .menu-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 20px;
-padding-bottom: 15px;
-border-bottom: 2px solid transparent;
-border-image: linear-gradient(90deg, transparent, #ff6fe5, #9370DB, transparent) 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, transparent, #ff6fe5, #9370DB, transparent) 1;
 }
 
 .menu-header h3 {
-color: #ff6fe5;
-font-family: 'Orbitron', sans-serif;
-font-size: 1rem;
-margin: 0;
-text-shadow: 0 0 10px rgba(255, 111, 229, 0.8), 0 0 20px rgba(147, 112, 219, 0.4);
+    color: #ff6fe5;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(255, 111, 229, 0.8), 0 0 20px rgba(147, 112, 219, 0.4);
 }
 
 .close-menu {
-background: rgba(255, 111, 229, 0.1);
-border: 1px solid rgba(255, 111, 229, 0.5);
-color: #ff6fe5;
-font-size: 1.8rem;
-cursor: pointer;
-width: 40px;
-height: 40px;
-display: flex;
-align-items: center;
-justify-content: center;
-border-radius: 50%;
-transition: all 0.3s ease;
-box-shadow: 0 0 15px rgba(255, 111, 229, 0.3);
-text-shadow: 0 0 8px currentColor;
+    background: rgba(255, 111, 229, 0.1);
+    border: 1px solid rgba(255, 111, 229, 0.5);
+    color: #ff6fe5;
+    font-size: 1.8rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(255, 111, 229, 0.3);
+    text-shadow: 0 0 8px currentColor;
 }
 
 .close-menu:hover {
-background: rgba(255, 68, 68, 0.3);
-color: #fff;
-transform: rotate(90deg) scale(1.1);
-border-color: #ff9553;
-box-shadow: 0 0 25px #ff6fe5;
+    background: rgba(255, 68, 68, 0.3);
+    color: #fff;
+    transform: rotate(90deg) scale(1.1);
+    border-color: #ff9553;
+    box-shadow: 0 0 25px #ff6fe5;
 }
 
 .menu-content {
-margin-bottom: 25px;
+    margin-bottom: 25px;
 }
 
 .menu-content .menu-item {
-margin-bottom: 8px;
-transform: translateX(0);
-transition: transform 0.3s ease;
+    margin-bottom: 0; /* Adjusted for hierarchy */
+    transform: translateX(0);
+    transition: transform 0.3s ease;
 }
 
+/* Base link styling */
 .menu-content .menu-item a {
-display: block;
-color: #f0f0ff;
-text-decoration: none;
-padding: 8px 12px;
-border-radius: 8px;
-border-left: 3px solid transparent;
-background: rgba(255, 255, 255, 0.02);
-backdrop-filter: blur(2px);
-transition: all 0.3s ease;
-font-family: 'Segoe UI', sans-serif;
-font-size: 0.9rem;
-font-weight: 400;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+    display: block;
+    color: #f0f0ff;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(2px);
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
 }
 
-.menu-content .menu-item a:hover,
-.menu-content .menu-item a.active {
-border-left-color: #ff6fe5;
-background: linear-gradient(90deg, rgba(255, 111, 229, 0.15), rgba(147, 112, 219, 0.05));
-color: #ff6fe5;
-box-shadow: 0 4px 12px rgba(255, 111, 229, 0.3);
-text-shadow: 0 0 6px #ff6fe5;
-padding-left: 16px;
+/* Hierarchical Main Titles */
+.menu-content .menu-item.main-title a {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1rem;
+    background: rgba(255, 149, 83, 0.15);
+    border-left: 3px solid #ff9553;
+    margin-top: 12px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Hierarchical Sub Pages */
+.menu-content .menu-item.sub-page a {
+    color: #ff91c1;
+    font-weight: 400;
+    font-size: 0.85rem;
+    padding: 8px 15px 8px 28px;
+    border-left: 1px solid rgba(255, 149, 83, 0.3);
+    margin-left: 12px;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Hover states */
+.menu-content .menu-item.main-title a:hover,
+.menu-content .menu-item.main-title a.active {
+    background: rgba(255, 149, 83, 0.4);
+    border-left-color: #ff4444;
+    color: #fff;
+}
+
+.menu-content .menu-item.sub-page a:hover,
+.menu-content .menu-item.sub-page a.active {
+    color: #ffffff;
+    background: rgba(255, 149, 83, 0.2);
+    border-left-color: #ff9553;
+    padding-left: 32px; /* Slight slide effect */
+    box-shadow: 0 4px 12px rgba(255, 149, 83, 0.2);
+    text-shadow: 0 0 6px #ff9553;
 }
 
 .menu-footer {
-margin-top: 20px;
-padding-top: 15px;
-border-top: 2px solid transparent;
-border-image: linear-gradient(90deg, transparent, #9370DB, #ff6fe5, transparent) 1;
-text-align: center;
-color: #9370DB;
-font-family: 'Orbitron', sans-serif;
-font-size: 0.8rem;
-letter-spacing: 1px;
-text-shadow: 0 0 6px #9370DB;
-position: relative;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid transparent;
+    border-image: linear-gradient(90deg, transparent, #9370DB, #ff6fe5, transparent) 1;
+    text-align: center;
+    color: #9370DB;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-shadow: 0 0 6px #9370DB;
+    position: relative;
 }
 
 .pulse {
-display: inline-block;
-width: 8px;
-height: 8px;
-background-color: #9370DB;
-border-radius: 50%;
-margin-right: 8px;
-box-shadow: 0 0 12px #ff6fe5;
-animation: cosmic-pulse 1.8s infinite;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #9370DB;
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 12px #ff6fe5;
+    animation: cosmic-pulse 1.8s infinite;
 }
 
 @keyframes cosmic-pulse {
-0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #ff6fe5; }
-50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 20px #9370DB, 0 0 40px #ff6fe5; }
-100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #ff6fe5; }
+    0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #ff6fe5; }
+    50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 20px #9370DB, 0 0 40px #ff6fe5; }
+    100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 8px #ff6fe5; }
 }
 
-/* ========== TABLET & MOBILE MENU FIXES (REPAIRED) ========== */
-
-/* Tablet + Mobile */
+/* ========== TABLET & MOBILE MENU FIXES ========== */
 @media (max-width: 1024px) {
     nav.top-menu {
         display: none !important;
-        gap: 0.8rem;
-        padding: 0.5rem 1rem;
-        justify-content: flex-start;
-        overflow-x: auto;
-        overflow-y: visible;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        flex-wrap: nowrap;
     }
-
-    nav.top-menu::-webkit-scrollbar {
-        display: none;
-    }
-
-    nav.top-menu a {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.6rem;
-        flex-shrink: 0;
-    }
-
     .mobile-nav {
         display: block !important;
     }
-
-    /* 🔑 CRITICAL MOBILE FIX */
-    /* Disable hover entirely on touch */
     .dropdown:hover .dropdown-content {
         display: none;
     }
-
-    /* Dropdown opens ONLY when tapped */
-    .dropdown > a {
-        pointer-events: auto;
-    }
-
     .dropdown.active > .dropdown-content {
         display: block;
     }
-
     .main-content {
         margin-top: 100px;
     }
-
     .site-title-overlay {
         top: 70px;
         left: 20px;
     }
-
     .site-title-overlay h1 {
         font-size: 1.4rem;
     }
-
     .hide-content-btn {
         top: 70px;
         right: 20px;
         padding: 6px 10px;
     }
-
     .hero-title {
         font-size: 2.5rem;
     }
-
     .video-title {
         font-size: 2rem;
     }
-
     .video-controls {
-        opacity: 1; /* Always show controls on tablet/mobile */
+        opacity: 1;
         padding: 0.8rem;
     }
-
     .control-btn {
         padding: 6px 12px;
         font-size: 0.8rem;
     }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
     .car-gallery,
-    .impact-grid {
+    .impact-grid,
+    .miniatures-grid {
         grid-template-columns: 1fr;
     }
-
     .hero-stats {
         grid-template-columns: 1fr;
     }
-
     .mission-title {
         font-size: 2rem;
     }
-
     .modal-content {
         max-width: 95%;
     }
-
     .video-container {
         margin: 1rem auto;
     }
 }
 
-/* Landscape orientation fix */
 @media (max-width: 1024px) and (orientation: landscape) {
     .mobile-nav {
         display: block !important;
@@ -940,48 +1186,31 @@ animation: cosmic-pulse 1.8s infinite;
         top: 50px;
     }
 }
-/* Very small phones */
+
 @media (max-width: 480px) {
-    nav.top-menu {
-        gap: 0.5rem;
-        padding: 0.4rem 0.8rem;
-    }
-
-    nav.top-menu a {
-        font-size: 0.8rem;
-        padding: 0.3rem 0.5rem;
-    }
-
     .site-title-overlay {
         top: 65px;
         left: 15px;
     }
-
     .site-title-overlay h1 {
         font-size: 1.2rem;
     }
-
     .hide-content-btn {
         top: 65px;
         right: 15px;
         font-size: 0.7rem;
     }
-
     .hero-title {
         font-size: 2rem;
     }
-
     .video-title {
         font-size: 1.8rem;
     }
-
     .control-btn {
         padding: 5px 10px;
         font-size: 0.7rem;
     }
 }
-/* ========== END TABLET/MOBILE FIXES ========== */
-
 </style>
 </head>
 
@@ -989,7 +1218,7 @@ animation: cosmic-pulse 1.8s infinite;
 
 <!-- Video Background -->
 <video class="video-background" id="galleryVideo" autoplay muted loop poster="images/car-gallery-fallback.jpg">
-<source src="videos/robotic-veyron-car.mp4" type="video/mp4">
+<source src="videos/the-mars-abyss-auction.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
 <div class="video-overlay"></div>
@@ -1004,7 +1233,7 @@ Your browser does not support the video tag.
 
 <!-- AUDIO CONTROLS -->
 <div class="audio-controls">
-<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+<button class="audio-btn" id="muteBtn">🔇 Music Off</button>
 </div>
 
 <!-- MOBILE HAMBURGER MENU -->
@@ -1024,7 +1253,8 @@ Your browser does not support the video tag.
 </nav>
 </div>
 
-<nav class="top-menu">
+<!-- DESKTOP TOP MENU -->
+<nav class="top-menu" id="topMenu">
 <div class="dropdown">
 <a href="index.html" class="dropbtn">Home</a>
 <div class="dropdown-content">
@@ -1051,7 +1281,7 @@ Your browser does not support the video tag.
 <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
 <a href="technical-database.html">Technical Database</a>
 <a href="martian-edicts.html">The Martian Edicts</a>
-<a href="alien-transport-network.html">Alien Transport Network</a> 
+<a href="alien-transport-network.html">Alien Transport Network</a>
 <a href="martian-martial-arts.html">Martian Martial Arts</a>
 <a href="solar-system-explorer.html">Solar System Explorer</a>
 <a href="aliens-ufos.html">Aliens & UFOs</a>
@@ -1147,7 +1377,7 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="support.html" class="dropbtn">Support</a>
 <div class="dropdown-content">
-<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+<a href="silver's-sign-language-course.html">Silver's language Academy</a>
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
 <a href="cosmic-economics.html">Cosmic Economics</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
@@ -1159,6 +1389,7 @@ Your browser does not support the video tag.
 </div>
 <a href="contact.html">Contact</a>
 </nav>
+
 
 <!-- MAIN CONTENT -->
 <div class="main-content" id="mainContent">
@@ -1189,8 +1420,8 @@ Your browser does not support the video tag.
 
 <!-- Centered Video Container -->
 <div class="video-container">
-<video id="hovercraftVideo" loop playsinline>
-<source src="videos/Impala.mp4" type="video/mp4">
+<video id="hovercraftVideo" autoplay muted playsinline>
+<source src="videos/german-hovercraft-2.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
 <div class="video-controls">
@@ -1207,12 +1438,71 @@ Your browser does not support the video tag.
 </section>
 <!-- ========== END VIDEO SECTION ========== -->
 
+ <!-- ========= Secondary Video Section ========== -->
+  <section class="video-section" style="border-color: #ff9553; margin-top: 2rem;">
+    <h2 class="video-title" style="color: #ff9553; text-shadow: 0 0 10px rgba(255, 149, 83, 0.05);">THE EARTH ARCHIVE: VOLKSWAGEN</h2>
+    
+    <div class="video-container" style="border-color: #00ccff; box-shadow: 0 0 30px rgba(0, 204, 255, 0.4);">
+      <video id="vwVideo" autoplay muted loop playsinline poster="images/volky-on-mars.jpg">
+        <source src="videos/volkswagon-on-mars-2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      
+      <div class="video-controls">
+        <div class="control-group">
+          <button class="control-btn" id="regentVideoPlayPause">⏸️ Pause</button>
+          <button class="control-btn video-mute-btn" id="regentVideoMute">🔇 Enable Audio</button>
+        </div>
+        <div class="control-group">
+          <button class="control-btn video-expand-btn" id="regentVideoExpand">⛶ Fullscreen</button>
+        </div>
+      </div>
+    </div> 
+
+    <p class="video-caption">A classic Earth Volkswagen, fully restored and retrofitted with Martian anti-gravity thrusters. Preserved from the early colonization era, now part of the Regent's private heritage collection, each with a story to tell.</p>
+</section>
+<!-- ========= End Secondary Video Section ========== -->
+
+
+<!-- ========== MARTIAN INFRASTRUCTURE SECTION ========== -->
+<section class="video-section" style="border-color: #ff4444; margin-top: 2rem;">
+    <h2 class="video-title" style="color: #f5f1e8; text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 255, 255, 0.4);">
+        MARTIAN INFRASTRUCTURE
+    </h2>
+    <p style="color: #aaa; font-style: italic; margin-bottom: 1rem;">The unsung heroes of the Red Planet.</p>
+
+    <div class="video-container" style="border-color: #ff4444; box-shadow: 0 0 30px rgba(255, 68, 68, 0.4);">
+        <video id="frVideo" autoplay muted loop playsinline poster="images/fire-and-rescue-hovercraft.jpg">
+            <source src="videos/mars-fire-and-rescue.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <div class="video-controls">
+            <div class="control-group">
+                <button class="control-btn" id="frVideoPlayPause">⏸️ Pause</button>
+                <button class="control-btn video-mute-btn" id="frVideoMute">🔇 Enable Audio</button>
+            </div>
+            <div class="control-group">
+                <button class="control-btn video-expand-btn" id="frVideoExpand">⛶ Fullscreen</button>
+            </div>
+        </div>
+    </div>
+
+    <p class="video-caption">
+        When a dome breach occurs or a quantum reactor overheats, these heavy-duty hovering engines arrive first. Equipped with suppressant foam and emergency atmospheric seals.
+    </p>
+</section>
+<!-- ========== END MARTIAN INFRASTRUCTURE ========== -->
+
+
 <!-- CAR GALLERY -->
 <section class="car-gallery">
 
 <!-- Car 1 -->
 <div class="car-card" onclick="openModal('quantum-courier')">
-<img src="images/the-quantum-courier.jpg" alt="Quantum Courier" class="car-image">
+    <video autoplay muted loop playsinline poster="images/the-quantum-courier.jpg" class="car-image">
+     <source src="videos/the-quantum-courier.mp4" type="video/mp4">
+    </video>
 <div class="car-info">
 <span class="car-auction-badge">CHARITY AUCTION</span>
 <h3 class="car-title">Quantum Courier</h3>
@@ -1227,7 +1517,9 @@ Your browser does not support the video tag.
 
 <!-- Car 2 -->
 <div class="car-card" onclick="openModal('crimson-cruiser')">
-<img src="images/the-crimson-cruiser.jpg" alt="Crimson Cruiser" class="car-image">
+    <video autoplay muted loop playsinline poster="images/the-crimson-cruiser.jpg" class="car-image">
+     <source src="videos/the-crimson-cruiser.mp4" type="video/mp4">
+    </video>
 <div class="car-info">
 <span class="car-auction-badge">CHARITY AUCTION</span>
 <h3 class="car-title">Crimson Cruiser</h3>
@@ -1242,7 +1534,9 @@ Your browser does not support the video tag.
 
 <!-- Car 3 -->
 <div class="car-card" onclick="openModal('nebula-nomad')">
-<img src="images/the-nebula-nomad.jpg" alt="Nebula Nomad" class="car-image">
+    <video autoplay muted loop playsinline poster="images/the-nebula-nomad.jpg" class="car-image">
+     <source src="videos/the-nebula-nomad.mp4" type="video/mp4">
+    </video>
 <div class="car-info">
 <span class="car-auction-badge">CHARITY AUCTION</span>
 <h3 class="car-title">Nebula Nomad</h3>
@@ -1258,7 +1552,9 @@ Your browser does not support the video tag.
 <!-- ========== HOVERCRAFT VEHICLES ========== -->
 <!-- Hovercraft 1 -->
 <div class="car-card" onclick="openModal('impala-voiliner-hovercraft')">
-<img src="images/impala-voidliner.jpg" alt="Impala-class Hovercraft" class="car-image">
+    <video autoplay muted loop playsinline poster="images/impala-voidliner.jpg" class="car-image">
+     <source src="videos/impala-voiliner.mp4" type="video/mp4">
+    </video>
 <div class="car-info">
 <span class="car-auction-badge" style="background: #00ccff;">MARTIAN FLEET</span>
 <h3 class="car-title">Impala-class Hovercraft</h3>
@@ -1273,7 +1569,9 @@ Your browser does not support the video tag.
 
 <!-- Hovercraft 2 -->
 <div class="car-card" onclick="openModal('monte-astra-hovercraft')">
-<img src="images/monte-astra.jpg" alt="Monte-astra-class Hovercraft" class="car-image">
+    <video autoplay muted loop playsinline poster="images/monte-astra.jpg" class="car-image">
+     <source src="videos/monte-astra.mp4" type="video/mp4">
+    </video>
 <div class="car-info">
 <span class="car-auction-badge" style="background: #00ccff;">MARTIAN FLEET</span>
 <h3 class="car-title">Monte-Astra-class Hovercraft</h3>
@@ -1288,7 +1586,9 @@ Your browser does not support the video tag.
 
 <!-- Hovercraft 3 -->
 <div class="car-card" onclick="openModal('charger-ion-rex-hovercraft')">
-<img src="images/charger.jpg" alt="Charger-Ion-Rex-class Hovercraft" class="car-image">
+    <video autoplay muted loop playsinline poster="images/charger.jpg" class="car-image">
+     <source src="videos/charger-ion-rex.mp4" type="video/mp4">
+    </video>
 <div class="car-info">
 <span class="car-auction-badge" style="background: #00ccff;">MARTIAN FLEET</span>
 <h3 class="car-title">Charger-Ion-Rex-class Hovercraft</h3>
@@ -1303,7 +1603,9 @@ Your browser does not support the video tag.
 
 <!-- Hovercraft 4 -->
 <div class="car-card" onclick="openModal('phantom-mustang-hovercraft')">
-<img src="images/ford-mustang.jpg" alt="Phantom-mustang-class Hovercraft" class="car-image">
+    <video autoplay muted loop playsinline poster="images/ford-mustang.jpg" class="car-image">
+     <source src="videos/phantom-mustang.mp4" type="video/mp4">
+    </video>
 <div class="car-info">
 <span class="car-auction-badge" style="background: #00ccff;">MARTIAN FLEET</span>
 <h3 class="car-title">Phantom-Mustang-class Hovercraft</h3>
@@ -1318,7 +1620,9 @@ Your browser does not support the video tag.
 
 <!-- Hovercraft 5 -->
 <div class="car-card" onclick="openModal('vintage-camaro-code-name-whisper-hovercraft')">
-<img src="images/vintage-camaro-code-name-whisper.jpg" alt="Vintage-Camaro-class Hovercraft" class="car-image">
+    <video autoplay muted loop playsinline poster="images/vintage-camaro-code-name-whisper.jpg" class="car-image">
+     <source src="videos/whisper-camaro.mp4" type="video/mp4">
+    </video>
 <div class="car-info">
 <span class="car-auction-badge" style="background: #00ccff;">MARTIAN FLEET</span>
 <h3 class="car-title">Whisper-Camaro-class Hovercraft</h3>
@@ -1333,7 +1637,9 @@ Your browser does not support the video tag.
 
 <!-- Hovercraft 6 -->
 <div class="car-card" onclick="openModal('golden-retriever-charger-hovercraft')">
-<img src="images/golden-retriever.jpg" alt="golden-retriever Hovercraft" class="car-image">
+    <video autoplay muted loop playsinline poster="images/golden-retriever.jpg" class="car-image">
+     <source src="videos/golden-charger.mp4" type="video/mp4">
+    </video>
 <div class="car-info">
 <span class="car-auction-badge" style="background: #00ccff;">MARTIAN FLEET</span>
 <h3 class="car-title">Golden-Charger-class Hovercraft</h3>
@@ -1367,21 +1673,21 @@ As the Regent often says: <span class="mission-highlight">"A child's potential s
 <!-- UPDATED IMPACT GRID WITH IMAGES -->
 <div class="impact-grid">
 <div class="impact-item" onclick="openModal('medical-center')">
-<img src="images/advanced-pediatric-center.jpg" alt="Futuristic Medical Center" class="impact-image">
+<img src="images/red-martian-dome.jpg" alt="Futuristic Medical Center" class="impact-image">
 <div class="impact-content">
 <h3>Medical Centers</h3>
 <p>Advanced pediatric care facilities with Martian healing technology and zero-gravity rehabilitation chambers.</p>
 </div>
 </div>
 <div class="impact-item" onclick="openModal('science-hub')">
-<img src="images/medical-industrial-complex.jpg" alt="Martian Science Hub" class="impact-image">
+<img src="images/Institute-of-advance-humans-studies.jpg" alt="Martian Science Hub" class="impact-image">
 <div class="impact-content">
 <h3>Science Hubs</h3>
 <p>Robotics and technology learning centers with holographic classrooms and AI-assisted learning systems.</p>
 </div>
 </div>
 <div class="impact-item" onclick="openModal('global-reach')">
-<img src="images/puerto-rico-welcoming-dome.jpg" alt="Puerto Rico Welcoming-Dome" class="impact-image">
+<img src="images/global-reach.jpg" alt="Mars Welcoming-Dome" class="impact-image">
 <div class="impact-content">
 <h3>Global Reach</h3>
 <p>Children from all nations welcomed as one single human race in interplanetary education facilities.</p>
@@ -1389,15 +1695,72 @@ As the Regent often says: <span class="mission-highlight">"A child's potential s
 </div>
 </div>
 </section>
-</div>
 
-<!-- CONTENT SPACER -->
-<div class="content-spacer"></div>
+<!-- ========== REGENT'S MINIATURES SECTION ========== -->
+<section class="miniatures-section">
+    <h2 class="miniatures-title">THE REGENT'S MINIATURES</h2>
+    <p class="miniatures-desc">
+        After losing the original models to the charity auctions, the Regent personally authorized the creation of exact-scale miniature replicas.
+        Every purchase directly funds the Martian Children's Sanctuary and Earth-side adoption initiatives.
+        Handcrafted and hand-finished, these models allow you to hold a piece of the Regent's legacy.
+    </p>
+   
+    <div class="miniatures-grid">
+        <!-- Mini 1 -->
+        <div class="mini-card">
+            <div class="mini-media-container">
+                <video autoplay muted loop playsinline poster="images/the-quantum-courier.jpg" class="mini-video">
+                    <source src="videos/quantum-courier-turntable.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h3>Plate I: Quantum Courier</h3>
+            <p>1:64 Scale • Hand-Finished Resin</p>
+            <button class="mini-btn" onclick="openGalaModal()">Reserve Yours</button>
+        </div>
+       
+        <!-- Mini 2 -->
+        <div class="mini-card">
+            <div class="mini-media-container">
+                <video autoplay muted loop playsinline poster="images/impala-voidliner.jpg" class="mini-video">
+                    <source src="videos/impala-turntable.mp4" type="video/mp4">
+                </video>
+            </div>  
+            <h3>Plate II: Impala-class</h3>
+            <p>1:64 Scale • Hand-Finished Resin</p>
+            <button class="mini-btn" onclick="openGalaModal()">Reserve Yours</button>
+        </div>
+       
+        <!-- Mini 3 -->
+        <div class="mini-card">
+            <div class="mini-media-container">
+                <video autoplay muted loop playsinline poster="images/golden-retriever.jpg" class="mini-video">
+                    <source src="videos/mini-golden-charger-turntable.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h3>Plate III: Golden-Charger</h3>
+            <p>1:64 Scale • Hand-Finished Resin</p>
+            <button class="mini-btn" onclick="openGalaModal()">Reserve Yours</button>
+        </div>
+    </div>
+</section>
+<!-- ========== END MINIATURES SECTION ========== -->
+
+</div> <!-- This closes the main-content div -->
+
+<!-- The Coming Soon Modal (Placed outside main-content) -->
+<div id="galaModal" class="gala-modal">
+    <div class="gala-modal-content">
+        <h3>The Grand Unveiling</h3>
+        <p>The Regent's Miniatures are currently being prepared for their debut. Soon, you will be able to rotate, examine, and reserve your very own piece of the legacy. Every purchase will support the Martian Children's Sanctuary.</p>
+        <button class="gala-modal-close" onclick="closeGalaModal()">Return to the Gala</button>
+    </div>
+</div>
 
 <!-- FOOTER -->
 <footer id="pageFooter">
-<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
+
 
 <!-- MODAL POPUPS -->
 <div id="modal" class="modal">
@@ -1405,6 +1768,7 @@ As the Regent often says: <span class="mission-highlight">"A child's potential s
 <button class="close-modal" onclick="closeModal()">&times;</button>
 <div id="modalImageContainer">
 <img id="modalImage" src="" alt="" class="modal-image">
+<video id="modalVideo" controls autoplay muted loop playsinline style="display: none; width: 100%; max-height: 60vh; object-fit: contain;"></video>
 </div>
 <div class="modal-info">
 <h2 id="modalTitle" class="modal-title"></h2>
@@ -1415,146 +1779,131 @@ As the Regent often says: <span class="mission-highlight">"A child's potential s
 </div>
 
 <script>
-
 // ===== VIDEO PROTECTION =====
 (function() {
- document.querySelectorAll('video').forEach(video => {
-   video.setAttribute('controlslist', 'nodownload');
-   video.addEventListener('contextmenu', (e) => e.preventDefault());
-   video.addEventListener('dragstart', (e) => e.preventDefault());
- });
- 
- document.addEventListener('keydown', (e) => {
-   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
-   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
-     e.preventDefault();
-   }
- });
+    document.querySelectorAll('video').forEach(video => {
+        video.setAttribute('controlslist', 'nodownload');
+        video.addEventListener('contextmenu', (e) => e.preventDefault());
+        video.addEventListener('dragstart', (e) => e.preventDefault());
+    });
+   
+    document.addEventListener('keydown', (e) => {
+        const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
+        if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+            e.preventDefault();
+        }
+    });
 })();
 
 // HIDE CONTENT FUNCTIONALITY
 const hideContentBtn = document.getElementById('hideContentBtn');
 const mainContent = document.getElementById('mainContent');
 const pageFooter = document.getElementById('pageFooter');
-const topMenu = document.getElementById('topMenu');
+const topMenu = document.getElementById('topMenu'); 
 let contentHidden = false;
 
-hideContentBtn.addEventListener('click', function() {
-contentHidden = !contentHidden;
+if (hideContentBtn) {
+    hideContentBtn.addEventListener('click', function() {
+        contentHidden = !contentHidden;
 
-if (contentHidden) {
-mainContent.classList.add('hidden');
-pageFooter.classList.add('hidden');
-topMenu.classList.add('hidden');
-hideContentBtn.textContent = 'Show Content';
-} else {
-mainContent.classList.remove('hidden');
-pageFooter.classList.remove('hidden');
-topMenu.classList.remove('hidden');
-hideContentBtn.textContent = 'Hide Content';
+        if (contentHidden) {
+            mainContent.classList.add('hidden');
+            pageFooter.classList.add('hidden');
+            if (topMenu) topMenu.classList.add('hidden');
+            hideContentBtn.textContent = 'Show Content';
+        } else {
+            mainContent.classList.remove('hidden');
+            pageFooter.classList.remove('hidden');
+            if (topMenu) topMenu.classList.remove('hidden');
+            hideContentBtn.textContent = 'Hide Content';
+        }
+    });
 }
-});
 
-// ========== FIXED VIDEO CONTROLS ==========
+// ========== FIXED VIDEO CONTROLS (Top Video) ==========
 const hovercraftVideo = document.getElementById('hovercraftVideo');
 const videoPlayPause = document.getElementById('videoPlayPause');
 const videoMute = document.getElementById('videoMute');
 const videoExpand = document.getElementById('videoExpand');
-let isVideoPlaying = false; // Video starts paused
+let isVideoPlaying = false;
 let isVideoAudioEnabled = false;
 
-// Initialize video controls
 function initVideo() {
-    // Video starts muted and paused
     hovercraftVideo.muted = true;
-    hovercraftVideo.pause();
+    
     videoPlayPause.textContent = '▶️ Play';
     videoMute.textContent = '🔇 Enable Audio';
-    
-    // Show controls on hover
+   
     const videoContainer = document.querySelector('.video-container');
-    videoContainer.addEventListener('mouseenter', () => {
-        document.querySelector('.video-controls').style.opacity = '1';
-    });
-    videoContainer.addEventListener('mouseleave', () => {
-        if (isVideoPlaying) {
-            document.querySelector('.video-controls').style.opacity = '0';
-        }
-    });
+    if (videoContainer) {
+        videoContainer.addEventListener('mouseenter', () => {
+            const controls = document.querySelector('.video-controls');
+            if (controls) controls.style.opacity = '1';
+        });
+        videoContainer.addEventListener('mouseleave', () => {
+            if (isVideoPlaying) {
+                const controls = document.querySelector('.video-controls');
+                if (controls) controls.style.opacity = '0';
+            }
+        });
+    }
 }
 
-// Play/Pause toggle
-videoPlayPause.addEventListener('click', function() {
-    if (isVideoPlaying) {
-        hovercraftVideo.pause();
-        videoPlayPause.textContent = '▶️ Play';
-    } else {
-        // If audio hasn't been enabled yet, enable it on first play
-        if (!isVideoAudioEnabled) {
+if (hovercraftVideo) {
+    videoPlayPause.addEventListener('click', function() {
+        if (isVideoPlaying) {
+            hovercraftVideo.pause();
+            videoPlayPause.textContent = '▶️ Play';
+        } else {
+            if (!isVideoAudioEnabled) {
+                hovercraftVideo.muted = false;
+                hovercraftVideo.volume = 0.7;
+                isVideoAudioEnabled = true;
+                videoMute.textContent = '🔊 Mute Audio';
+            }
+           
+            hovercraftVideo.play()
+                .then(() => { videoPlayPause.textContent = '⏸️ Pause'; })
+                .catch(e => { console.log('Video play failed:', e); });
+        }
+        isVideoPlaying = !isVideoPlaying;
+    });
+
+    videoMute.addEventListener('click', function() {
+        if (isVideoAudioEnabled) {
+            hovercraftVideo.muted = !hovercraftVideo.muted;
+            videoMute.textContent = hovercraftVideo.muted ? '🔇 Enable Audio' : '🔊 Mute Audio';
+        } else {
             hovercraftVideo.muted = false;
             hovercraftVideo.volume = 0.7;
             isVideoAudioEnabled = true;
             videoMute.textContent = '🔊 Mute Audio';
+           
+            if (isVideoPlaying) {
+                hovercraftVideo.currentTime = 0;
+                hovercraftVideo.play();
+            }
         }
-        
-        hovercraftVideo.play()
-            .then(() => {
-                videoPlayPause.textContent = '⏸️ Pause';
-            })
-            .catch(e => {
-                console.log('Video play failed:', e);
-            });
-    }
-    isVideoPlaying = !isVideoPlaying;
-});
+    });
 
-// Mute toggle for video audio
-videoMute.addEventListener('click', function() {
-    if (isVideoAudioEnabled) {
-        hovercraftVideo.muted = !hovercraftVideo.muted;
-        videoMute.textContent = hovercraftVideo.muted ? '🔇 Enable Audio' : '🔊 Mute Audio';
-    } else {
-        // First time clicking - enable audio
-        hovercraftVideo.muted = false;
-        hovercraftVideo.volume = 0.7;
-        isVideoAudioEnabled = true;
-        videoMute.textContent = '🔊 Mute Audio';
-        
-        // If video is playing, restart to apply audio
-        if (isVideoPlaying) {
-            hovercraftVideo.currentTime = 0;
-            hovercraftVideo.play();
+    videoExpand.addEventListener('click', function() {
+        const videoContainer = document.querySelector('.video-container');
+        if (!document.fullscreenElement) {
+            if (videoContainer.requestFullscreen) videoContainer.requestFullscreen();
+            else if (videoContainer.webkitRequestFullscreen) videoContainer.webkitRequestFullscreen();
+            else if (videoContainer.msRequestFullscreen) videoContainer.msRequestFullscreen();
+        } else {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
         }
-    }
-});
+    });
 
-// Fullscreen toggle
-videoExpand.addEventListener('click', function() {
-    const videoContainer = document.querySelector('.video-container');
-    if (!document.fullscreenElement) {
-        if (videoContainer.requestFullscreen) {
-            videoContainer.requestFullscreen();
-        } else if (videoContainer.webkitRequestFullscreen) {
-            videoContainer.webkitRequestFullscreen();
-        } else if (videoContainer.msRequestFullscreen) {
-            videoContainer.msRequestFullscreen();
-        }
-    } else {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-        }
-    }
-});
-
-// Update play/pause button when video ends
-hovercraftVideo.addEventListener('ended', function() {
-    isVideoPlaying = false;
-    videoPlayPause.textContent = '▶️ Play';
-});
+    hovercraftVideo.addEventListener('ended', function() {
+        isVideoPlaying = false;
+        videoPlayPause.textContent = '▶️ Play';
+    });
+}
 
 // ========== FIXED AUDIO SYSTEM ==========
 const muteBtn = document.getElementById('muteBtn');
@@ -1562,108 +1911,57 @@ let isBackgroundAudioMuted = true;
 let backgroundAudio = null;
 
 function initAudio() {
-    // Create audio element but don't start playing
-    backgroundAudio = new Audio('music/hold-me-close.mp3');
-    backgroundAudio.volume = 0.4;
+    backgroundAudio = new Audio('music/bailando-caribe.mp3');
+    backgroundAudio.volume = 0.3;
     backgroundAudio.loop = true;
-    backgroundAudio.muted = true; // Start muted
-    
-    // Set button text correctly
-    muteBtn.textContent = "🔇 Unmute Sounds";
-    
-    // When user clicks mute button, start audio
+    backgroundAudio.muted = true;
+   
+    muteBtn.textContent = "🔇 Music Off";
+   
     muteBtn.addEventListener('click', function() {
         if (isBackgroundAudioMuted) {
-            // First unmute
             backgroundAudio.muted = false;
-            // Try to play
-            backgroundAudio.play().then(() => {
-                console.log('Background audio started');
-                isBackgroundAudioMuted = false;
-                muteBtn.textContent = "🔊 Mute Sounds";
-            }).catch(e => {
-                console.log('Audio play failed:', e);
-                // If play fails (usually due to autoplay policy), 
-                // at least unmute for next attempt
-                isBackgroundAudioMuted = false;
-                muteBtn.textContent = "🔊 Mute Sounds";
-            });
+            backgroundAudio.play().catch(e => console.log("Play failed:", e));
+            muteBtn.textContent = "🔊 Music On";
+
+            isBackgroundAudioMuted = false;
         } else {
-            // Toggle mute
-            backgroundAudio.muted = !backgroundAudio.muted;
-            isBackgroundAudioMuted = backgroundAudio.muted;
-            muteBtn.textContent = isBackgroundAudioMuted ? "🔇 Unmute Sounds" : "🔊 Mute Sounds";
+            backgroundAudio.muted = true;
+            muteBtn.textContent = "🔇 Music Off";
+            isBackgroundAudioMuted = true;
         }
     });
-    
-    // Also allow any click on the page to start audio (common workaround)
-    const startAudioOnInteraction = function() {
-        if (isBackgroundAudioMuted) {
-            backgroundAudio.muted = false;
-            backgroundAudio.play().catch(e => {
-                // Silently fail - user will use button
-            });
-            isBackgroundAudioMuted = false;
-            muteBtn.textContent = "🔊 Mute Sounds";
-        }
-        document.removeEventListener('click', startAudioOnInteraction);
-    };
-    
-    document.addEventListener('click', startAudioOnInteraction, { once: true });
 }
 
 // ========== FIXED DROPDOWN MENUS ==========
-// Only apply mobile dropdown behavior on mobile devices
 function initDropdowns() {
-    // Function to check if we're on mobile
-    function isMobile() {
-        return window.innerWidth <= 1024;
-    }
-    
-    // Handle dropdown clicks
+    function isMobile() { return window.innerWidth <= 1024; }
+   
     document.querySelectorAll('.dropdown > a').forEach(link => {
         link.addEventListener('click', function (e) {
-            // Only apply mobile behavior on mobile
             if (isMobile()) {
                 const parent = this.parentElement;
-                
-                // If dropdown exists, toggle instead of navigating
                 if (parent.querySelector('.dropdown-content')) {
                     e.preventDefault();
-                    
-                    // Close other dropdowns
-                    document.querySelectorAll('.dropdown.active')
-                        .forEach(d => d !== parent && d.classList.remove('active'));
-                    
+                    document.querySelectorAll('.dropdown.active').forEach(d => d !== parent && d.classList.remove('active'));
                     parent.classList.toggle('active');
                 }
             }
-            // On desktop, let the link work normally - CSS hover will handle dropdowns
         });
     });
-    
-    // Close menus when tapping outside (mobile only)
+   
     document.addEventListener('click', function (e) {
-        if (isMobile()) {
-            if (!e.target.closest('.top-menu')) {
-                document.querySelectorAll('.dropdown.active')
-                    .forEach(d => d.classList.remove('active'));
-            }
+        if (isMobile() && !e.target.closest('.top-menu')) {
+            document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
         }
     });
-    
-    // Handle window resize - close dropdowns when switching from mobile to desktop
+   
     let lastWidth = window.innerWidth;
     window.addEventListener('resize', function() {
         const currentWidth = window.innerWidth;
-        
-        // If switching from mobile to desktop (width increased past 1024)
         if (lastWidth <= 1024 && currentWidth > 1024) {
-            // Close all dropdowns when switching to desktop
-            document.querySelectorAll('.dropdown.active')
-                .forEach(d => d.classList.remove('active'));
+            document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
         }
-        
         lastWidth = currentWidth;
     });
 }
@@ -1671,287 +1969,348 @@ function initDropdowns() {
 // MODAL FUNCTIONALITY
 const modal = document.getElementById('modal');
 const modalImage = document.getElementById('modalImage');
+const modalVideo = document.getElementById('modalVideo');
 const modalTitle = document.getElementById('modalTitle');
 const modalSpecs = document.getElementById('modalSpecs');
 const modalDescription = document.getElementById('modalDescription');
 
-// Modal data for different items
 const modalData = {
-'quantum-courier': {
-image: 'images/cars/quantum-courier.jpg',
-title: 'Quantum Courier',
-specs: '2125 Model • Gravity-Defying • AI-Navigated • 0-60mph: 1.2s',
-description: 'The Quantum Courier represents the pinnacle of Martian automotive engineering. Its revolutionary anti-gravity technology allows for short-range atmospheric flight, making it the first production vehicle capable of transitioning seamlessly from road to air. The AI navigation system can predict traffic patterns 5 minutes in advance, ensuring optimal routing through Martian dome cities.'
+    'quantum-courier': { image: 'images/cars/quantum-courier.jpg', video: 'videos/the-quantum-courier.mp4', title: 'Quantum Courier', specs: '2125 Model • Gravity-Defying • AI-Navigated • 0-60mph: 1.2s', description: 'The Quantum Courier represents the pinnacle of Martian automotive engineering...' },
+    'crimson-cruiser': { image: 'images/cars/crimson-courier.jpg', video: 'videos/the-crimson-cruiser.mp4', title: 'Crimson Cruiser', specs: '2130 Model • Solar-Powered • Mars-Terrain • Range: 2,000km', description: 'Specifically engineered for the harsh Martian environment...' },
+    'nebula-nomad': { image: 'images/cars/nebula-nomad.jpg', video: 'videos/the-nebula-nomad.mp4', title: 'Nebula Nomad', specs: '2128 Model • Holographic Interface • Self-Healing • Bio-Regenerative', description: 'A marvel of Martian material science...' },
+    'medical-center': { image: 'images/buildings/futuristic-medical-center.jpg', video: 'videos/medical-centers.mp4', title: 'Martian Pediatric Medical Center', specs: 'Location: New San Juan, Puerto Rico • Capacity: 500 patients', description: 'This state-of-the-art medical facility was funded entirely through the auction of luxury vehicles...' },
+    'science-hub': { image: 'images/nubian-queen-sculture.jpg', video: 'videos/the-science-hub-2.mp4', title: 'Interplanetary Science Academy', specs: 'Location: Accra, Ghana • Students: 800+ annually', description: 'Converted from an abandoned industrial complex...' },
+    'global-reach': { image: 'images/global-reach.jpg', video: 'videos/global-reach.mp4', title: 'Puerto Rico Future Paradise Campus', specs: 'Location: San Juan, Puerto Rico • International Students: 1,200+', description: 'This breathtaking campus serves as a model for interplanetary education...' },
+    'impala-voiliner-hovercraft': {
+    image: 'images/impala-voidliner.jpg',
+    video: 'videos/impala-voiliner.mp4',
+    title: 'Impala-class Hovercraft',
+    specs: '2140 Model • Anti-Gravity • Atmospheric Containment',
+    description: 'Standard issue for Martian exploration. Features anti-gravity propulsion and atmospheric containment field for crew safety in thin Martian atmosphere.'
 },
-'crimson-cruiser': {
-image: 'images/cars/crimson-courier.jpg',
-title: 'Crimson Cruiser',
-specs: '2130 Model • Solar-Powered • Mars-Terrain • Range: 2,000km',
-description: 'Specifically engineered for the harsh Martian environment, the Crimson Cruiser features adaptive magnetic suspension that can handle everything from fine dust storms to rocky outcrops. Its solar-panel exterior generates enough power for continuous operation, while the dust-repelling nano-coating ensures optimal performance in all conditions.'
+'monte-astra-hovercraft': {
+    image: 'images/monte-astra.jpg',
+    video: 'videos/monte-astra.mp4',
+    title: 'Monte-Astra-class Hovercraft',
+    specs: '2142 Model • Mach 2 • Quantum Stabilized',
+    description: 'High-speed reconnaissance vehicle. Capable of Mach 2 in thin Martian atmosphere with quantum stabilization and stealth capabilities.'
 },
-'nebula-nomad': {
-image: 'images/cars/nebula-nomad.jpg',
-title: 'Nebula Nomad',
-specs: '2128 Model • Holographic Interface • Self-Healing • Bio-Regenerative',
-description: 'A marvel of Martian material science, the Nebula Nomad features a bio-regenerative exterior that repairs minor damage automatically using nano-technology. The holographic interface projects vital information directly into the driver\'s field of vision, while the AI co-pilot learns driving preferences over time.'
+'charger-ion-rex-hovercraft': {
+    image: 'images/charger.jpg',
+    video: 'videos/charger-ion-rex.mp4',
+    title: 'Charger-Ion-Rex-class Hovercraft',
+    specs: '2138 Model • 50-Ton Capacity • Heavy Transport',
+    description: 'Heavy transport and executive hovercraft. Can carry 50 metric tons across Valles Marineris in under 2 hours for colony construction.'
 },
-'impala-hovercraft': {
-image: 'images/hovercraft/impala-hovercraft.jpg',
-title: 'Impala-class Hovercraft',
-specs: '2140 Model • Anti-Gravity • Atmospheric Containment • Crew: 4',
-description: 'The standard issue hovercraft for Martian exploration teams. Features advanced anti-gravity propulsion that allows smooth travel over any terrain. The atmospheric containment field ensures crew safety even in the thin Martian atmosphere. Equipped with scientific instruments for surface analysis.'
+'phantom-mustang-hovercraft': {
+    image: 'images/ford-mustang.jpg',
+    video: 'videos/camaro-code-name-whisper.mp4',
+    title: 'Phantom-Mustang-class Hovercraft',
+    specs: '2145 Model • Stealth • Cloaking Technology',
+    description: 'Stealth reconnaissance with advanced cloaking technology. Used for sensitive scientific observations and security patrols.'
 },
-'valkyrie-hovercraft': {
-image: 'images/hovercraft/valkyrie-hovercraft.jpg',
-title: 'Valkyrie-class Hovercraft',
-specs: '2142 Model • Mach 2 • Quantum Stabilized • Stealth Capable',
-description: 'Designed for rapid response and reconnaissance, the Valkyrie-class can reach Mach 2 in Martian atmosphere. Quantum stabilization systems ensure smooth flight even at extreme speeds. Advanced stealth technology makes it nearly invisible to sensors when needed.'
+'vintage-camaro-code-name-whisper-hovercraft': {
+    image: 'images/vintage-camaro-code-name-whisper.jpg',
+    video: 'videos/whisper-camaro.mp4',
+    title: 'Whisper-Camaro-class Hovercraft',
+    specs: '2152 Model • Stealth • Cloaking Technology',
+    description: 'Top secret with advanced cloaking technology, favorite of Marvin. Used for sensitive espionage and security missions.'
 },
-'goliath-hovercraft': {
-image: 'images/hovercraft/goliath-hovercraft.jpg',
-title: 'Goliath-class Hovercraft',
-specs: '2138 Model • 50-Ton Capacity • Heavy Transport • Range: 5,000km',
-description: 'The workhorse of Martian colonization efforts. Capable of transporting 50 metric tons of equipment or personnel across vast distances. Used primarily for colony construction, resource transport, and large-scale scientific expeditions.'
+'golden-retriever-charger-hovercraft': {
+    image: 'images/golden-retriever.jpg',
+    video: 'videos/golden-charger.mp4',
+    title: 'Golden-Charger-class Hovercraft',
+    specs: '2153 Model • Deadly Stealth • Cloaking Technology',
+    description: 'Top secret with advanced cloaking technology, favorite of the Regent.'
 },
-'phantom-hovercraft': {
-image: 'images/hovercraft/phantom-hovercraft.jpg',
-title: 'Phantom-class Hovercraft',
-specs: '2145 Model • Stealth • Cloaking Technology • Silent Operation',
-description: 'The most advanced hovercraft in the Martian fleet. Features complete cloaking technology that renders it invisible to both visual and electronic detection. Used for sensitive scientific observations, security patrols, and diplomatic missions requiring discretion.'
+'mars-fire-rescue': {
+    image: 'images/fire-and-rescue-hovercraft.jpg',
+    video: 'videos/mars-fire-and-rescue.mp4',
+    title: 'Mars Fire & Rescue',
+    specs: '2148 Model • Rapid Response • Thermal Shielding',
+    description: 'The unsung heroes of the Martian colony. Built to withstand extreme heat and navigate through zero-visibility dust storms, these hovering rescue ships are always on standby.'
 },
-'medical-center': {
-image: 'images/buildings/futuristic-medical-center.jpg',
-title: 'Martian Pediatric Medical Center',
-specs: 'Location: New San Juan, Puerto Rico • Capacity: 500 patients',
-description: 'This state-of-the-art medical facility was funded entirely through the auction of luxury vehicles. It features zero-gravity rehabilitation chambers for physical therapy, holographic surgical suites, and AI-assisted diagnosis systems. The center provides free healthcare to children from across the Caribbean region.'
-},
-'science-hub': {
-image: 'images/buildings/martian-science-hub.jpg',
-title: 'Interplanetary Science Academy',
-specs: 'Location: Accra, Ghana • Students: 800+ annually',
-description: 'Converted from an abandoned industrial complex, this science hub now trains the next generation of Martian engineers and scientists. Features include holographic classrooms, robotics labs with Martian rover prototypes, and a zero-gravity simulation chamber for physics experiments.'
-},
-'global-reach': {
-image: 'images/buildings/puerto-rico-futuristic.jpg',
-title: 'Puerto Rico Future Paradise Campus',
-specs: 'Location: San Juan, Puerto Rico • International Students: 1,200+',
-description: 'This breathtaking campus serves as a model for interplanetary education. Students from Earth and Mars study together in harmony, learning advanced sciences while preserving cultural heritage. The architecture blends traditional Caribbean styles with futuristic Martian design principles.'
-}
 };
 
 function openModal(itemId) {
-const data = modalData[itemId];
-if (data) {
-modalImage.src = data.image;
-modalTitle.textContent = data.title;
-modalSpecs.textContent = data.specs;
-modalDescription.textContent = data.description;
-modal.style.display = 'block';
-document.body.style.overflow = 'hidden';
-}
+    const data = modalData[itemId];
+    if (data) {
+    // If your modalData has a video path, play the video. otherwise, show the image.
+    if (data.video) {
+        modalVideo.src = data.video;
+        modalVideo.style.display = 'block';
+        modalImage.style.display = 'none';
+        modalVideo.play().catch(e => console.log(e));
+    } else {
+        modalImage.src = data.image;
+        modalImage.style.display = 'block';
+        modalVideo.style.display = 'none';
+        modalVideo.pause();
+    }
+        modalTitle.textContent = data.title;
+        modalSpecs.textContent = data.specs;
+        modalDescription.textContent = data.description;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
 }
 
 function closeModal() {
-modal.style.display = 'none';
-document.body.style.overflow = 'auto';
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+
+    // Stop the video audio when the modal is closed
+    modalVideo.pause();
+    modalVideo.currentTime = 0;
 }
 
-// Close modal when clicking outside content
 modal.addEventListener('click', function(event) {
-if (event.target === modal) {
-closeModal();
-}
+    if (event.target === modal) closeModal();
 });
 
-// Close modal with Escape key
 document.addEventListener('keydown', function(event) {
-if (event.key === 'Escape') {
-closeModal();
-}
+    if (event.key === 'Escape') closeModal();
 });
 
 // ========== INITIALIZE ==========
 document.addEventListener('DOMContentLoaded', function() {
     initAudio();
-    initVideo();
+    if (hovercraftVideo) initVideo();
     initDropdowns();
-    
-    // Make sure video controls are always visible on mobile
+   
     if (window.innerWidth <= 1024) {
-        document.querySelector('.video-controls').style.opacity = '1';
+        const controls = document.querySelector('.video-controls');
+        if (controls) controls.style.opacity = '1';
     }
 });
 
-// ===== VIDEO PROTECTION =====
-(function() {
-document.querySelectorAll('video').forEach(video => {
-video.setAttribute('controlslist', 'nodownload');
-video.addEventListener('contextmenu', (e) => e.preventDefault());
-video.addEventListener('dragstart', (e) => e.preventDefault());
-});
-document.addEventListener('keydown', (e) => {
-const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
-if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
-e.preventDefault();
-}
-});
-})();
+// ========== VOLKSWAGEN VIDEO CONTROLS ==========
+const vwVideo = document.getElementById('vwVideo');
+const regentVideoPlayPause = document.getElementById('regentVideoPlayPause');
+const regentVideoMute = document.getElementById('regentVideoMute');
+const regentVideoExpand = document.getElementById('regentVideoExpand');
 
-// ===== MOBILE HAMBURGER MENU =====
+let isVwPlaying = true; // Starts playing due to autoplay
+let isVwAudioEnabled = false;
+
+if (vwVideo) {
+    // Play/Pause
+    regentVideoPlayPause.addEventListener('click', function() {
+        if (isVwPlaying) {
+            vwVideo.pause();
+            regentVideoPlayPause.textContent = '▶️ Play';
+        } else {
+            // Enable audio on first play if they haven't clicked mute yet
+            if (!isVwAudioEnabled) {
+                vwVideo.muted = false;
+                vwVideo.volume = 0.7;
+                isVwAudioEnabled = true;
+                regentVideoMute.textContent = '🔊 Mute Audio';
+            }
+            vwVideo.play();
+            regentVideoPlayPause.textContent = '⏸️ Pause';
+        }
+        isVwPlaying = !isVwPlaying;
+    });
+
+    // Mute/Unmute
+    regentVideoMute.addEventListener('click', function() {
+        if (isVwAudioEnabled) {
+            vwVideo.muted = !vwVideo.muted;
+            regentVideoMute.textContent = vwVideo.muted ? '🔇 Enable Audio' : '🔊 Mute Audio';
+        } else {
+            vwVideo.muted = false;
+            vwVideo.volume = 0.7;
+            isVwAudioEnabled = true;
+            regentVideoMute.textContent = '🔊 Mute Audio';
+           
+            // If it was paused, play it now that audio is on
+            if (!isVwPlaying) {
+                vwVideo.play();
+                regentVideoPlayPause.textContent = '⏸️ Pause';
+                isVwPlaying = true;
+            }
+        }
+    });
+
+    // Fullscreen
+    regentVideoExpand.addEventListener('click', function() {
+        const vwContainer = vwVideo.closest('.video-container');
+        if (!document.fullscreenElement) {
+            if (vwContainer.requestFullscreen) vwContainer.requestFullscreen();
+            else if (vwContainer.webkitRequestFullscreen) vwContainer.webkitRequestFullscreen();
+            else if (vwContainer.msRequestFullscreen) vwContainer.msRequestFullscreen();
+        } else {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
+        }
+    });
+
+    // Update button when video ends
+    vwVideo.addEventListener('ended', function() {
+        isVwPlaying = false;
+        regentVideoPlayPause.textContent = '▶️ Play';
+    });
+}
+
+// ========== FIRE & RESCUE VIDEO CONTROLS ==========
+const frVideo = document.getElementById('frVideo');
+const frVideoPlayPause = document.getElementById('frVideoPlayPause');
+const frVideoMute = document.getElementById('frVideoMute');
+const frVideoExpand = document.getElementById('frVideoExpand');
+
+let isFrPlaying = true; 
+let isFrAudioEnabled = false;
+
+if (frVideo) {
+    // Play/Pause
+    frVideoPlayPause.addEventListener('click', function() {
+        if (isFrPlaying) {
+            frVideo.pause();
+            frVideoPlayPause.textContent = '▶️ Play';
+        } else {
+            if (!isFrAudioEnabled) {
+                frVideo.muted = false;
+                frVideo.volume = 0.7;
+                isFrAudioEnabled = true;
+                frVideoMute.textContent = '🔊 Mute Audio';
+            }
+            frVideo.play();
+            frVideoPlayPause.textContent = '⏸️ Pause';
+        }
+        isFrPlaying = !isFrPlaying;
+    });
+
+    // Mute/Unmute
+    frVideoMute.addEventListener('click', function() {
+        if (isFrAudioEnabled) {
+            frVideo.muted = !frVideo.muted;
+            frVideoMute.textContent = frVideo.muted ? '🔇 Enable Audio' : '🔊 Mute Audio';
+        } else {
+            frVideo.muted = false;
+            frVideo.volume = 0.7;
+            isFrAudioEnabled = true;
+            frVideoMute.textContent = '🔊 Mute Audio';
+           
+            if (!isFrPlaying) {
+                frVideo.play();
+                frVideoPlayPause.textContent = '⏸️ Pause';
+                isFrPlaying = true;
+            }
+        }
+    });
+
+    // Fullscreen
+    frVideoExpand.addEventListener('click', function() {
+        const frContainer = frVideo.closest('.video-container');
+        if (!document.fullscreenElement) {
+            if (frContainer.requestFullscreen) frContainer.requestFullscreen();
+            else if (frContainer.webkitRequestFullscreen) frContainer.webkitRequestFullscreen();
+            else if (frContainer.msRequestFullscreen) frContainer.msRequestFullscreen();
+        } else {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
+        }
+    });
+}
+
+// ===== GALA MODAL LOGIC =====
+function openGalaModal() {
+    document.getElementById('galaModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeGalaModal() {
+    document.getElementById('galaModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal if user clicks outside the content box
+document.getElementById('galaModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeGalaModal();
+    }
+});
+
+// ===== MOBILE HAMBURGER MENU LOGIC =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const closeMenu = document.getElementById('closeMenu');
 const mobileMenu = document.getElementById('mobileMenu');
 const menuContent = document.querySelector('.menu-content');
 
 function createMobileMenu() {
-if (!menuContent) return;
-menuContent.innerHTML = '';
+    if (!menuContent) return;
+    menuContent.innerHTML = '';
 
-const menuItems = [
-{ text: '🏠 Home', href: 'index.html' },
-{ text: ' Why This World Matters', href: 'why-this-world-matters.html' },
-{ text: ' Homage to Courage', href: 'homage-to-courage.html' },
-{ text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
-{ text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
-{ text: ' My Mission', href: 'my-mission.html' },
-{ text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
-{ text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
-{ text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
-{ text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
+    const menuItems = [
+        { text: '🏠 Home', href: 'index.html', type: 'main' },
+        { text: '📖 Story', href: 'story.html', type: 'main' },
+        { text: '🎮 Martian Games', href: 'martian-games.html', type: 'main' },
+        { text: '🌍 Earth Codex', href: 'earth-codex.html', type: 'main' },
+        { text: '📰 Martian News', href: 'martian-news.html', type: 'main' },
+        { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html', type: 'main', active: true },
+        { text: 'What the Regent Misses', href: 'what-the-regent-misses.html', type: 'sub' },
+        { text: 'The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html', type: 'sub', active: true },
+        { text: 'Earthlings Beware', href: 'earthings-beware.html', type: 'sub' },
+        { text: 'Honor The Fallen', href: 'honor-the-fallen.html', type: 'sub' },
+        { text: 'Magic Tricks of Mars', href: 'magic-tricks-of-mars.html', type: 'sub' },
+        { text: 'Mars Comedy Central', href: 'mars-comedy-central-hour.html', type: 'sub' },
+        { text: 'Salem\'s Witching Hour', href: 'salems-witching-hour.html', type: 'sub' },
+        { text: 'Martian Critique', href: 'martian-critique-tron-ares.html', type: 'sub' },
+        { text: 'The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html', type: 'sub' },
+        { text: 'Tharsis Lectures', href: 'tharsis-scientific-lectures.html', type: 'sub' },
+        { text: 'The Tharsis Laureates', href: 'the-tharsis-laureates.html', type: 'sub' },
+        { text: 'ℹ️ About', href: 'about.html', type: 'main' },
+        { text: '🤝 Support', href: 'support.html', type: 'main' },
+        { text: '📧 Contact', href: 'contact.html', type: 'main' }
+    ];
 
-{ text: '📖 Story', href: 'story.html' },
-{ text: ' Characters', href: 'characters.html' },
-{ text: ' Gallery', href: 'gallery.html' },
-{ text: ' Art & Concepts', href: 'art-and-concepts.html' },
-{ text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
-{ text: ' Technical Database', href: 'technical-database.html' },
-{ text: ' The Martian Edicts', href: 'martian-edicts.html' },
-{ text: ' Alien Transport Network', href: 'alien-transport-network.html' },
-{ text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
-{ text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
-{ text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
-
-{ text: '🎮 Martian Games', href: 'martian-games.html' },
-{ text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
-{ text: ' Martian Racer', href: 'martian-racer.html' },
-{ text: ' Red Planet Defense', href: 'red-planet-defense.html' },
-{ text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
-{ text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
-{ text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
-{ text: ' Music Player', href: 'music-app.html' },
-{ text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
-
-{ text: '🌍 Earth Codex', href: 'earth-codex.html' },
-{ text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
-{ text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
-{ text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
-{ text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
-{ text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
-{ text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
-{ text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
-{ text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
-{ text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
-
-{ text: '📰 Martian News', href: 'martian-news.html' },
-{ text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
-{ text: ' Martian Actualities', href: 'martian-actualities.html' },
-{ text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
-{ text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
-{ text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
-{ text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
-{ text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
-{ text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
-{ text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
-{ text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
-{ text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
-{ text: ' M.A.R.V.I.N.', href: 'marvin.html' },
-
-{ text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
-{ text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
-{ text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
-{ text: ' Earthlings Beware', href: 'earthings-beware.html' },
-{ text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
-{ text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
-{ text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
-{ text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
-{ text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
-{ text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
-{ text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
-{ text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
-
-{ text: 'ℹ️ About', href: 'about.html' },
-{ text: ' About the Project', href: 'about-the-project.html' },
-{ text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
-{ text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
-{ text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
-{ text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
-{ text: ' The Pale Horse', href: 'the-pale-horse.html' },
-{ text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
-{ text: ' Arachne Labs', href: 'arachne-labs.html' },
-{ text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
-{ text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
-
-{ text: '🤝 Support', href: 'support.html' },
-{ text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
-{ text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
-{ text: ' Cosmic Economics', href: 'cosmic-economics.html' },
-{ text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
-{ text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
-{ text: ' Fund Martian Research', href: 'fund-martian-research.html' },
-{ text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
-{ text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
-
-{ text: '📧 Contact', href: 'contact.html' },
-{ text: '🚘 The Regent\'s Motor Collection (current)', href: 'the-regents-motor-collection.html', active: true }
-];
-
-menuItems.forEach(item => {
-const menuItem = document.createElement('div');
-menuItem.className = 'menu-item';
-const link = document.createElement('a');
-link.href = item.href;
-link.textContent = item.text;
-if (item.active) link.classList.add('active');
-menuItem.appendChild(link);
-menuContent.appendChild(menuItem);
-});
+    menuItems.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'menu-item ' + (item.type === 'main' ? 'main-title' : 'sub-page');
+        const a = document.createElement('a');
+        a.href = item.href;
+        a.textContent = item.text;
+        if (item.active) a.classList.add('active');
+        div.appendChild(a);
+        menuContent.appendChild(div);
+    });
 }
 
-createMobileMenu();
+if (hamburgerBtn && mobileMenu) {
+    createMobileMenu();
 
-hamburgerBtn.addEventListener('click', () => {
-mobileMenu.classList.add('active');
-document.body.style.overflow = 'hidden';
-});
+    hamburgerBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
 
-closeMenu.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-});
+    if (closeMenu) {
+        closeMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
 
-document.addEventListener('click', (e) => {
-if (mobileMenu.classList.contains('active') &&
-!mobileMenu.contains(e.target) &&
-!hamburgerBtn.contains(e.target)) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
+    document.addEventListener('click', (e) => {
+        if (mobileMenu.classList.contains('active') &&
+            !mobileMenu.contains(e.target) &&
+            !hamburgerBtn.contains(e.target)) {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+    function handleResize() {
+        if (window.innerWidth > 992) {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+    window.addEventListener('resize', handleResize);
 }
-});
-
-document.querySelectorAll('.mobile-menu a').forEach(link => {
-link.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-});
-});
-
-function handleResize() {
-if (window.innerWidth > 992) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
-}
-window.addEventListener('resize', handleResize);
 </script>
 </body>
 </html>
