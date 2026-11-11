@@ -3,949 +3,1815 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Why This World Matters - The Mars Abyss</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
+<title>Why This World Matters | The Mars Abyss</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
 * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body, html {
-height: 100%;
-width: 100%;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-color: #fff;
-overflow-x: hidden;
-background: #000;
+:root {
+    --bg-dark: #0a0908;
+    --bg-panel: #12100e;
+    --copper: #d48a3d;
+    --copper-bright: #f0b97d;
+    --text-main: #f5f2eb;
+    --text-muted: #a39b8e;
+    --border-color: rgba(212, 138, 61, 0.4);
+    --gold: #e0c68e;
+    --blue-accent: #00ccff;
 }
 
-/* VIDEO BACKGROUND */
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    background: var(--bg-dark);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ===== BACKGROUND VIDEO & OVERLAY ===== */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background: var(--bg-dark);
+}
+
 .video-background {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-object-fit: cover;
-object-position: center 20%;
-z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
 }
 
-/* === ENHANCED TOP MENU === */
+.video-background.loaded {
+    opacity: 0.85;
+}
+
+.video-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(
+        to bottom,
+        rgba(10, 9, 8, 0.1) 0%,
+        rgba(10, 9, 8, 0.4) 40%,
+        rgba(10, 9, 8, 0.85) 80%,
+        rgba(10, 9, 8, 0.95) 100%
+    );
+}
+
+.tron-grid {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: 
+        linear-gradient(rgba(212, 138, 61, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 138, 61, 0.03) 1px, transparent 1px);
+    background-size: 100px 100px;
+    background-position: center top;
+}
+
+/* ===== TOP MENU ===== */
 nav.top-menu {
-position: fixed;
-top: 0;
-width: 100%;
-display: flex;
-justify-content: center;
-background: rgba(17, 17, 17, 0.95);
-padding: 0.6rem 0;
-z-index: 1000;
-gap: 2.5rem;
-flex-wrap: nowrap;
-backdrop-filter: blur(10px);
-border-bottom: 2px solid #00ccff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(10, 9, 8, 0.95);
+    padding: 1rem 0;
+    z-index: 1000;
+    gap: 1.5rem;
+    flex-wrap: nowrap;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--copper);
+    transition: border-color 0.3s ease;
 }
 
 nav.top-menu a {
-color: #f5f5f5;
-text-decoration: none;
-font-size: 1.1rem;
-padding: 0.5rem 0.8rem;
-border-radius: 4px;
-transition: all 0.3s ease;
-display: flex;
-align-items: center;
-}
-
-nav.top-menu a.active,
-nav.top-menu a:hover {
-color: #00ccff;
-background: transparent;
-text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.5rem 0.8rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    white-space: nowrap;
 }
 
 .dropdown {
-position: relative;
-display: inline-block;
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown > a, .dropdown {
+    display: block;
+    align-items: center;
+    height: 100%;
 }
 
 .dropdown-content {
-display: none;
-position: absolute;
-background: rgba(26, 26, 26, 0.98);
-min-width: 140px;
-z-index: 1001;
-border-radius: 4px;
-border: 2px solid #00ccff;
-top: 100%;
-left: 0;
-backdrop-filter: blur(5px);
-padding: 4px 0;
+    display: none;
+    position: absolute;
+    background: rgba(18, 16, 14, 0.95); /* Translucent dark background */
+    min-width: 140px;
+    z-index: 1010;
+    border: 2px solid var(--copper); /* Full box border */
+    top: 100%;
+    left: 0;
+    padding: 4px 0;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
 .dropdown-content a {
-color: #f5f5f5;
-padding: 3px 5px;
-text-decoration: none;
-display: block;
-transition: background-color 0.3s ease;
-font-size: 0.7rem;
-line-height: 1;
+    color: var(--text-main);
+    padding: 3px 5px;
+    text-decoration: none;
+    display: block;
+    transition: all 0.3s ease;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1;
+    white-space: normal;
+    padding: 3px 5px;
 }
 
 .dropdown-content a:hover {
-background: rgba(0, 204, 255, 0.6);
-color: #fff;
+    background: rgba(212, 138, 61, 0.2);
+    color: var(--copper);
 }
+
 
 .dropdown:hover .dropdown-content {
-display: block;
+    display: block;
 }
 
-/* SITE TITLE OVERLAY */
+nav.top-menu a.active, 
+nav.top-menu a:hover {
+    color: var(--copper);
+}
+
+nav.top-menu:hover ~ .language-selector,
+nav.top-menu:hover ~ .content-toggle-controls {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ===== SITE TITLE & CONTROLS ===== */
 .site-title-overlay {
-position: fixed;
-top: 80px;
-left: 30px;
-z-index: 50;
+    position: relative;
+    top: 80px;
+    left: 40px;
+    z-index: 10;
+    background: rgba(10, 9, 8, 0.85);
+    padding: 6px 8px;
+    border-left: 3px solid var(--copper);
+    backdrop-filter: blur(5px);
+    transition: opacity 0.5s ease;
+    width: fit-content;
 }
 
 .site-title-overlay h1 {
-color: #00ccff;
-font-family: 'Orbitron', sans-serif;
-font-size: 1.8rem;
-text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
-font-weight: 300;
-letter-spacing: 2px;
+    color: var(--copper);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    text-shadow: 0 0 15px rgba(212, 138, 61, 0.5);
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
 }
 
-.site-title-overlay h1 sup {
- font-size: 0.6em;
- vertical-align: super;
- color: rgba(255, 105, 180, 0.9);
- text-shadow: 0 0 8px rgba(255, 105, 180, 0.7);
- margin-left: 2px;
+.site-title-overlay .sub {
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    margin-top: 6px;
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
-/* HIDE CONTENT BUTTON */
-.hide-content-btn {
-position: fixed;
-top: 80px;
-right: 30px;
-background: rgba(0, 0, 0, 0.7);
-color: #00ccff;
-border: 2px solid #00ccff;
-padding: 8px 12px;
-border-radius: 15px;
-cursor: pointer;
-z-index: 1001;
-font-size: clamp(0.7rem, 2vw, 0.8rem);
-transition: all 0.3s ease;
+.language-selector {
+    position: fixed;
+    top: 90px;
+    right: 180px;
+    z-index: 200;
+    display: flex;
+    gap: 5px;
+    transition: opacity 0.4s ease;
 }
 
-.hide-content-btn:hover {
-background: rgba(0, 204, 255, 0.6);
-color: black;
+.lang-btn {
+    background: rgba(18, 16, 14, 0.8);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
-/* AUDIO CONTROLS */
+.lang-btn.active, 
+.lang-btn:hover {
+    background: var(--copper);
+    color: var(--bg-dark);
+    border-color: var(--copper);
+}
+
+.content-toggle-controls {
+    position: fixed;
+    top: 90px;
+    right: 40px;
+    z-index: 1000;
+    transition: opacity 0.4s ease;
+}
+
+.toggle-btn, .audio-btn {
+    background: rgba(18, 16, 14, 0.8);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.toggle-btn:hover, .audio-btn:hover {
+    background: rgba(212, 138, 61, 0.2);
+    color: var(--copper);
+}
+
 .audio-controls {
-position: fixed;
-bottom: 80px;
-right: 41px;
-z-index: 1000;
+    position: fixed;
+    bottom: 80px;
+    right: 41px;
+    z-index: 1000;
 }
 
-.audio-btn {
-background: rgba(0, 204, 255, 0.8);
-border: 2px solid #00ccff;
-color: #fff;
-padding: 10px 15px;
-border-radius: 25px;
-cursor: pointer;
-transition: all 0.3s ease;
-backdrop-filter: blur(5px);
-font-size: 0.9rem;
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    position: relative;
+    padding: 0 5%;
+    min-height: 100vh;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
 }
 
-.audio-btn:hover {
-background: rgba(0, 204, 255, 0.6);
-box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+.main-content.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
-/* ===== HAMBURGER MENU (from index, adapted to blue theme) ===== */
-.mobile-nav {
-display: none;
-position: fixed;
-top: 15px;
-left: 15px;
-z-index: 1002;
+nav.top-menu.hidden, 
+footer.hidden, 
+.language-selector.hidden, 
+.site-title-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
-.hamburger-btn {
-background: rgba(17, 17, 17, 0.9);
-border: 2px solid #00ccff;
-border-radius: 4px;
-width: 50px;
-height: 50px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-cursor: pointer;
-transition: all 0.3s ease;
-backdrop-filter: blur(5px);
-}
-
-.hamburger-btn span {
-display: block;
-width: 25px;
-height: 2px;
-background: #00ccff;
-margin: 3px 0;
-transition: all 0.3s ease;
-}
-
-.hamburger-btn:hover {
-background: rgba(0, 204, 255, 0.9);
-}
-
-.hamburger-btn:hover span {
-background: #000;
-}
-
-.mobile-menu {
-position: fixed;
-top: 0;
-left: -100%;
-width: 300px;
-height: 100vh;
-background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(17, 17, 17, 0.9));
-border-right: 2px solid #00ccff;
-padding: 20px;
-transition: left 0.4s ease;
-z-index: 1003;
-overflow-y: auto;
-backdrop-filter: blur(10px);
-}
-
-.mobile-menu.active {
-left: 0;
-}
-
-.menu-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 20px;
-padding-bottom: 15px;
-border-bottom: 1px solid rgba(0, 204, 255, 0.3);
-}
-
-.menu-header h3 {
-color: #00ccff;
-font-family: 'Orbitron', sans-serif;
-font-size: 1rem;
-margin: 0;
-}
-
-.close-menu {
-background: transparent;
-border: none;
-color: #00ccff;
-font-size: 1.5rem;
-cursor: pointer;
-width: 30px;
-height: 30px;
-display: flex;
-align-items: center;
-justify-content: center;
-border-radius: 50%;
-transition: all 0.3s ease;
-}
-
-.close-menu:hover {
-background: rgba(0, 204, 255, 0.2);
-}
-
-.menu-content {
-margin-bottom: 20px;
-}
-
-.menu-content .menu-item {
-margin-bottom: 10px;
-}
-
-.menu-content .menu-item a {
-display: block;
-color: #fff;
-text-decoration: none;
-padding: 10px 15px;
-border-radius: 5px;
-border-left: 3px solid transparent;
-transition: all 0.3s ease;
-font-family: 'Segoe UI', sans-serif;
-font-size: 0.95rem;
-}
-
-.menu-content .menu-item a:hover,
-.menu-content .menu-item a.active {
-border-left-color: #00ccff;
-background: rgba(0, 204, 255, 0.1);
-color: #00ccff;
-}
-
-.menu-footer {
-margin-top: 20px;
-padding-top: 15px;
-border-top: 1px solid rgba(0, 204, 255, 0.3);
-text-align: center;
-color: #00ccff;
-font-family: 'Orbitron', sans-serif;
-font-size: 0.8rem;
-}
-
-.pulse {
-display: inline-block;
-width: 8px;
-height: 8px;
-background-color: #00ccff;
-border-radius: 50%;
-margin-right: 8px;
-animation: blink 1.5s infinite;
-}
-
-@keyframes blink {
-0%, 100% { opacity: 1; }
-50% { opacity: 0.3; }
-}
-
-/* CONTENT CONTAINER */
-.content-container {
-position: relative;
-z-index: 10;
-margin-top: 150px;
-padding: 40px;
-max-width: 1200px;
-margin-left: auto;
-margin-right: auto;
-background: rgba(0, 0, 0, 0.8);
-border-radius: 15px;
-border: 2px solid #00ccff;
-box-shadow: 0 0 30px rgba(0, 204, 255, 0.4);
-transition: all 0.5s ease;
-}
-
-.content-container.hidden,
-footer.hidden,
-nav.top-menu.hidden,
-.mobile-nav.hidden { /* also hide mobile button when content hidden */
-opacity: 0;
-pointer-events: none;
-transform: translateY(20px);
-}
-
-nav.top-hidden {
- opacity: 0;
-}
-
-/* HERO SECTION */
+/* ===== HERO SECTION ===== */
 .hero-section {
-text-align: center;
-margin-bottom: 60px;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+    padding-top: 15vh;
 }
 
-.page-title {
-font-family: 'Orbitron', sans-serif;
-font-size: 3.5rem;
-margin-bottom: 20px;
-color: #00ccff;
-text-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+.hero-kicker {
+    color: var(--copper);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
 }
 
-.page-subtitle {
-font-size: 1.5rem;
-color: #e0e0ff;
-font-style: italic;
-margin-bottom: 40px;
+.hero-title {
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    max-width: 1200px;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
 }
 
-/* MISSION STATEMENT */
+.hero-title span {
+    color: var(--copper);
+    font-style: italic;
+}
+
+.hero-subtitle {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    font-style: italic;
+    font-weight: 300;
+}
+
+/* ===== MISSION STATEMENT ===== */
 .mission-statement {
-background: rgba(0, 204, 255, 0.1);
-padding: 40px;
-border-radius: 10px;
-margin: 40px 0;
-border: 1px solid #00ccff;
-text-align: center;
+    max-width: 1000px;
+    margin: 6rem auto;
+    position: relative;
+    z-index: 10;
+    border-left: 4px solid var(--copper);
+    padding-left: 2rem;
 }
 
 .mission-statement h2 {
-color: #00ccff;
-font-family: 'Orbitron', sans-serif;
-font-size: 2.2rem;
-margin-bottom: 30px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--copper);
+    letter-spacing: 4px;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
 }
 
 .mission-text {
-font-size: 1.3rem;
-line-height: 1.8;
-color: #e0e0ff;
-max-width: 900px;
-margin: 0 auto;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    line-height: 1.6;
+    color: var(--text-main);
+    font-weight: 300;
 }
 
-/* INSPIRATION GRID */
+.mission-text strong {
+    color: var(--copper-bright);
+    font-weight: 600;
+}
+
+/* Fixes the text wrapping under quotation marks for the mission statement */
+.mission-text {
+    text-indent: -0.4em;
+    padding-left: 0.4em;
+}
+
+/* ==== Frosted Glass Text Panels ==== */
+/* This style applies a frosted glass effect to the mission statement panel */
+.mission-statement {
+    background: rgba(10, 9, 8, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 10px;
+    padding: 2rem;
+    border-left: 4px solid var(--copper);
+}
+
+/* For the voices of earth text */
+.voices-text {
+    background: rgba(10, 9, 8, 0.65);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    padding: 2rem;
+    border-left: 4px solid var(--copper);
+}
+
+/* For the Visionary Cards */
+.visionary-card {
+    background: rgba(18, 16, 14, 0.6);
+    border: 1px solid var(--border-color);
+    padding: 2.5rem 2rem;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== INSPIRATION GRID ===== */
+.inspiration-section {
+    max-width: 1400px;
+    margin: 8rem auto;
+    position: relative;
+    z-index: 10;
+}
+
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    border-bottom: 2px solid var(--copper);
+    padding-bottom: 1rem;
+}
+
 .inspiration-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-gap: 30px;
-margin: 50px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
 }
 
 .visionary-card {
-background: rgba(30, 30, 30, 0.9);
-padding: 30px;
-border-radius: 10px;
-border: 1px solid #00ccff;
-transition: transform 0.3s ease;
-text-align: center;
+    background: rgba(18, 16, 14, 0.6);
+    border: 1px solid var(--border-color);
+    padding: 2.5rem 2rem;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .visionary-card:hover {
-transform: translateY(-5px);
-box-shadow: 0 10px 25px rgba(0, 204, 255, 0.3);
+    border-color: var(--copper);
+    box-shadow: 0 0 30px rgba(212, 138, 61, 0.15);
+    transform: translateY(-5px);
+}
+
+.visionary-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        var(--copper),
+        var(--copper-bright)
+    );
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.visionary-card:hover::before {
+    transform: scaleX(1);
 }
 
 .visionary-icon {
-font-size: 3rem;
-margin-bottom: 20px;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    z-index: 2;
 }
 
 .visionary-card h3 {
-color: #00ccff;
-font-family: 'Orbitron', sans-serif;
-font-size: 1.5rem;
-margin-bottom: 15px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    color: var(--copper);
+    margin-bottom: 1rem;
+    z-index: 2;
 }
 
 .visionary-quote {
-font-style: italic;
-color: #e0e0ff;
-line-height: 1.6;
-margin-bottom: 15px;
-padding: 15px;
-background: rgba(255, 255, 255, 0.1);
-border-radius: 8px;
-border-left: 4px solid #00ccff;
+    font-style: italic;
+    color: var(--text-main);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+    z-index: 2;
 }
 
 .visionary-name {
-color: #00ccff;
-font-weight: bold;
-font-size: 1.1rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    z-index: 2;
 }
 
-/* CORE THEMES */
+.card-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.15;
+    z-index: 1;
+    transition: opacity 0.4s ease;
+}
+
+.visionary-card:hover .card-video {
+    opacity: 1;
+}
+
+.visionary-card h3, 
+.visionary-quote, 
+.visionary-name,
+.visionary-icon {
+    transition: opacity 0.4s ease;
+    z-index: 2;
+}
+
+.visionary-card:hover h3, 
+.visionary-card:hover .visionary-quote, 
+.visionary-card:hover .visionary-name,
+.visionary-card:hover .visionary-icon {
+    opacity: 0;
+}
+
+.visionary-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+}
+
+.visionary-modal-content {
+    position: relative;
+    background: #0a0908;
+    padding: 2rem;
+    border: 2px solid var(--copper);
+    border-radius: 15px;
+    max-width: 800px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 0 50px rgba(212, 138, 61, 0.4);
+    overflow: hidden;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.visionary-modal-content video {
+    width: 100%;
+    max-height: 70vh;
+    display: block;
+    background: #000;
+}
+
+.visionary-modal-content h3 {
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    color: var(--copper-bright);
+    margin: 0;
+    padding: 1.5rem;
+    letter-spacing: 2px;
+    background: rgba(18, 16, 14, 0.95);
+}
+
+.close-visionary-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--copper);
+    color: var(--copper);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.close-visionary-modal:hover {
+    color: #000;
+    background: var(--copper);
+    transform: scale(1.1);
+}
+
+/* ===== CORE THEMES ===== */
 .themes-section {
-background: rgba(253, 187, 45, 0.1);
-padding: 40px;
-border-radius: 10px;
-margin: 40px 0;
-border: 1px solid #fdbb2d;
+    max-width: 1200px;
+    margin: 8rem auto;
+    position: relative;
+    z-index: 10;
 }
 
-.themes-section h2 {
-color: #fdbb2d;
-font-family: 'Orbitron', sans-serif;
-font-size: 2.2rem;
-text-align: center;
-margin-bottom: 30px;
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
 }
 
 .theme-item {
-background: rgba(255, 255, 255, 0.1);
-padding: 20px;
-margin: 20px 0;
-border-radius: 8px;
-border-left: 4px solid #fdbb2d;
+    background: rgba(18, 16, 14, 0.6);
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    border-top: 3px solid var(--copper);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.theme-content {
+    position: relative;
+    z-index: 2;
+    transition: all 0.4s ease;
 }
 
 .theme-item h3 {
-color: #fdbb2d;
-margin-bottom: 10px;
-font-family: 'Orbitron', sans-serif;
+    color: var(--copper);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
 }
 
-/* CALL TO ACTION */
+.theme-item p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+.theme-hover-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.4s ease;
+}
+
+.theme-item:hover .theme-hover-video {
+    opacity: 1;
+}
+
+.theme-item:hover .theme-content {
+    opacity: 0;
+    transform: scale(0.95);
+    box-shadow: 0 0 20px rgba(212, 138, 61, 0.03);
+}
+
+/* ===== VOICES OF EARTH ===== */
+.voices-section {
+    max-width: 1400px;
+    margin: 8rem auto;
+    position: relative;
+    z-index: 10;
+}
+
+.voices-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4rem;
+    margin-bottom: 6rem;
+}
+
+.voices-row:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.voices-visual {
+    flex: 1;
+    min-width: 300px;
+    height: 400px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.voices-icon {
+    font-size: 6rem;
+    opacity: 0.8;
+    z-index: 2;
+    filter: drop-shadow(0 0 20px rgba(212, 138, 61, 0.5));
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+}
+
+.voices-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.4s ease;
+}
+
+.voices-row:hover .voices-video {
+    opacity: 1;
+}
+
+.voices-row:hover .voices-visual {
+    border-color: var(--copper);
+    box-shadow: 0 0 20px rgba(212, 138, 61, 0.3);
+}
+
+.voices-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.voices-text h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.voices-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 1rem;
+}
+
+.voices-text strong {
+    color: var(--copper);
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* ===== CTA SECTION ===== */
 .cta-section {
-text-align: center;
-margin: 60px 0 30px 0;
+    max-width: 1000px;
+    margin: 8rem auto 12rem;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    padding: 5rem 2rem;
+    border: 2px solid var(--copper);
+    background: linear-gradient(
+        135deg,
+        rgba(18, 16, 14, 0.9),
+        rgba(10, 9, 8, 0.95)
+    );
+    box-shadow: 0 0 40px rgba(212, 138, 61, 0.1);
 }
 
 .cta-title {
-font-family: 'Orbitron', sans-serif;
-font-size: 2.5rem;
-color: #00ccff;
-margin-bottom: 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
 }
 
 .cta-message {
-font-size: 1.2rem;
-color: #e0e0ff;
-line-height: 1.6;
-max-width: 800px;
-margin: 0 auto 30px;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
 }
 
-/* FOOTER */
+/* ===== CREATOR'S JOURNEY ===== */
+.creator-section {
+    max-width: 1000px;
+    margin: 8rem auto;
+    position: relative;
+    z-index: 10;
+    padding: 4rem;
+    background: rgba(18, 16, 14, 0.85);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--copper);
+}
+
+.creator-section h2 {
+    color: var(--copper);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.rejection-letter {
+    font-family: 'Courier New', monospace;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    border: 1px dashed var(--copper);
+    color: var(--gold);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin: 2rem 0;
+    position: relative;
+    font-style: italic;
+}
+
+.rejection-letter::before {
+    content: 'REJECTION LETTER · 1980s';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--bg-panel);
+    padding: 0 10px;
+    font-size: 0.7rem;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--copper);
+    letter-spacing: 2px;
+    font-style: normal;
+}
+
+/* ===== CREATOR'S JOURNEY FIXES ===== */
+.creator-section {
+    max-width: 1000px;
+    margin: 8rem auto;
+    position: relative;
+    z-index: 10;
+    padding: 3rem 4rem; /* Better padding */
+    background: rgba(18, 16, 14, 0.85);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--copper);
+    box-sizing: border-box;
+    width: 95%;
+}
+
+.creator-section h2 {
+    color: var(--copper);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Forces the Creator's Journey text to align perfectly left */
+.creator-section .mission-text {
+    text-indent: 0 !important;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    text-align: left !important;
+    white-space: normal !important;
+}
+
+.rejection-letter {
+    font-family: 'Courier New', monospace;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    border: 1px dashed var(--copper);
+    color: var(--gold);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin: 2rem 0;
+    position: relative;
+    font-style: italic;
+    /* This prevents the box from overflowing */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.rejection-letter::before {
+    content: 'REJECTION LETTER · 1980s';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--bg-panel);
+    padding: 0 10px;
+    font-size: 0.7rem;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--copper);
+    letter-spacing: 2px;
+    font-style: normal;
+}
+
+/* The new Footer for the Creator Section */
+.creator-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 2rem;
+}
+
+.creator-signature {
+    color: var(--copper);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.creator-socials {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Styling the buttons to match the action grid */
+.creator-socials .action-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    text-decoration: none;
+}
+
+/* Specific LinkedIn styling */
+.creator-socials .action-btn.linkedin {
+    border-color: #0077b5;
+    color: #0077b5;
+}
+
+.creator-socials .action-btn.linkedin:hover {
+    background: #0077b5;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 119, 181, 0.6);
+}
+
+/* Mobile adjustments for the creator section */
+@media (max-width: 768px) {
+    .creator-section {
+        padding: 2rem 1.5rem;
+    }
+    .creator-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* ===== ROADMAP ===== */
+.roadmap-section {
+    max-width: 1200px;
+    margin: 8rem auto;
+    position: relative;
+    z-index: 10;
+}
+
+.roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.roadmap-item {
+    background: rgba(18, 16, 14, 0.8);
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    position: relative;
+    border-top: 3px solid var(--copper);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.roadmap-content {
+    position: relative;
+    z-index: 2;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.roadmap-phase {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--copper);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.roadmap-item h3 {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.roadmap-item p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.roadmap-hover-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.4s ease;
+}
+
+.roadmap-item:hover .roadmap-hover-video {
+    opacity: 1;
+}
+
+.roadmap-item:hover .roadmap-content {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.roadmap-item:hover {
+    box-shadow: 0 0 20px rgba(212, 138, 61, 0.3);
+}
+
+/* ===== CORNERSTONES ===== */
+.cornerstone-section {
+    max-width: 1400px;
+    margin: 8rem auto;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+.cornerstone-quote {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--copper);
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 3rem;
+    transition: all 0.4s ease;
+}
+
+.cornerstone-quote:hover {
+    color: var(--copper);
+    -webkit-text-stroke: 2px transparent;
+    text-shadow: 0 0 40px rgba(212, 138, 61, 0.5);
+}
+
+.cornerstone-quote.filled {
+    color: #fff;
+    -webkit-text-stroke: 0px;
+}
+
+.cornerstone-sub {
+    font-size: 1.2rem;
+    color: var(--text-main);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 6rem;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Hover effect for the cornerstone quote */
+.cornerstone-quote:hover,
+.cornerstone-sub:active {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 20px rgba(212, 138, 61, 0.8);
+}
+
+/* ===== ACTION DASHBOARD ===== */
+.action-dashboard {
+    max-width: 1000px;
+    margin: 8rem auto 10rem;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 4rem 2rem;
+    border: 1px solid var(--border-color);
+    background: rgba(10, 9, 8, 0.8);
+}
+
+.action-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.action-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    background: transparent;
+    border: 2px solid var(--copper);
+    color: var(--copper);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.action-btn:hover {
+    background: var(--copper);
+    color: var(--bg-dark);
+    box-shadow: 0 0 20px rgba(212, 138, 61, 0.6);
+    transform: translateY(-3px);
+}
+
+/* ===== FOOTER ===== */
 footer {
-position: relative;
-bottom: 0;
-left: 0;
-width: 100%;
-text-align: center;
-padding: 0.6rem 0;
-background: rgba(0, 0, 0, 0.8);
-color: #00ccff;
-font-family: 'Segoe UI', sans-serif;
-z-index: 1000;
-border-top: 2px solid #00ccff;
-transition: opacity 0.5s ease;
-margin-top: 40px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(10, 9, 8, 0.95);
+    color: var(--gold);
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    z-index: 1000;
+    border-top: 2px solid var(--gold);
 }
 
-footer.hidden {
-opacity: 0;
-pointer-events: none;
+.content-spacer {
+    height: 50px;
 }
 
-/* ====================
- MOBILE FIXES ONLY
- ==================== */
-@media (max-width: 768px) {
- 
- /* 1. Fix the main content container to ensure it extends past the footer */
- .content-container {
- padding-bottom: 120px !important; /* Adds breathing room above the fixed footer */
- min-height: calc(100vh - 150px) !important; /* Ensures it fills the screen */
- }
-
- /* 2. Secure the footer's position at the very bottom */
- footer {
- position: fixed !important;
- bottom: 0 !important;
- left: 0 !important;
- width: 100% !important;
- z-index: 1000 !important;
- }
-
- /* 3. Adjust the 'Call to Action' section's bottom margin */
- .cta-section {
- margin-bottom: 100px !important; /* Pushes it up from the footer */
- }
-
- /* 4. Ensure video background scales correctly on all mobile devices */
- .video-background {
- object-position: center center !important;
- height: 100vh !important;
- width: 100vw !important;
- }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-.site-title-overlay {
-top: 70px;
-left: 20px;
-}
-.site-title-overlay h1 {
-font-size: 1.4rem;
-}
-.audio-controls {
-right: 20px;
-bottom: 70px;
-}
-.hide-content-btn {
-top: 70px;
-right: 20px;
-}
-.page-title {
-font-size: 2.5rem;
-}
-.content-container {
-margin-top: 120px;
-padding: 20px;
-}
-.mission-text {
-font-size: 1.1rem;
-}
-.inspiration-grid {
-grid-template-columns: 1fr;
-}
-}
-
-@media (max-width: 480px) {
-.page-title {
-font-size: 2rem;
-}
-.page-subtitle {
-font-size: 1.2rem;
-}
-}
-
-/* ===== MOBILE MEDIA QUERY (show hamburger, hide desktop menu) ===== */
-@media (max-width: 992px) {
-nav.top-menu {
-display: none;
-}
+/* ===== MOBILE HAMBURGER ===== */
 .mobile-nav {
-display: block;
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1002;
 }
-/* adjust site title and buttons for mobile */
-.site-title-overlay {
-top: 70px;
-left: 15px;
+
+.hamburger-btn {
+    background: rgba(10, 9, 8, 0.95);
+    backdrop-filter: blur(8px);
+    border: 2px solid var(--copper);
+    border-radius: 4px;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    animation: plasmaPulse 3s infinite ease-in-out;
 }
-.site-title-overlay h1 {
-font-size: 1.4rem;
+
+.hamburger-btn span {
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--copper);
+    margin: 4px 0;
+    transition: all 0.4s ease;
 }
-.hide-content-btn {
-top: 70px;
-right: 15px;
+
+.hamburger-btn:hover {
+    background: rgba(212, 138, 61, 0.15);
 }
-.audio-controls {
-bottom: 70px;
-right: 20px;
+
+@keyframes plasmaPulse {
+    0% {
+        box-shadow: 0 0 5px var(--copper);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--copper), 0 0 30px var(--copper-bright);
+    }
+    100% {
+        box-shadow: 0 0 5px var(--copper);
+    }
 }
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 320px;
+    height: 100vh;
+    background: var(--bg-dark);
+    border-right: 2px solid var(--copper);
+    padding: 25px 20px;
+    transition: left 0.5s ease;
+    z-index: 1003;
+    overflow-y: auto;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.9);
+}
+
+.mobile-menu.active {
+    left: 0;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--copper);
+}
+
+.menu-header h3 {
+    color: var(--copper);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+}
+
+.close-menu {
+    background: transparent;
+    border: 1px solid var(--copper);
+    color: var(--copper);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 8px;
+}
+
+.menu-content .menu-item a {
+    display: block;
+    color: var(--text-main);
+    text-decoration: none;
+    padding: 10px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.menu-content .menu-item a:hover, 
+.menu-content .menu-item a.active {
+    color: var(--copper);
+    background: rgba(212, 138, 61, 0.1);
+    border-left-color: var(--copper);
+    padding-left: 16px;
+}
+
+.menu-content .menu-item.main-title a {
+    color: #fff;
+    font-weight: 800;
+    background: rgba(212, 138, 61, 0.15);
+    border-left: 3px solid var(--copper);
+    margin-top: 10px;
+    text-transform: uppercase;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+}
+
+.menu-content .menu-item.sub-page a {
+    color: var(--text-muted);
+    padding-left: 28px;
+    font-weight: 400;
+}
+
+@media (max-width: 992px) {
+    nav.top-menu {
+        display: none;
+    }
+    .mobile-nav {
+        display: block;
+    }
+    .language-selector {
+        top: 85px !important;
+        right: 15px !important;
+        z-index: 1002;
+    }
+    .site-title-overlay {
+        top: 85px !important;
+        left: 15px !important;
+    }
+    .content-toggle-controls {
+        top: 15px !important;
+        right: 15px !important;
+        left: auto !important;
+        z-index: 1000;
+    }
+    .audio-controls {
+        bottom: 70px;
+        right: 20px;
+    }
+    .hero-title {
+        font-size: 3rem;
+    }
+    .mission-statement {
+        padding-left: 1rem;
+    }
+    .voices-visual {
+        height: 250px;
+    }
+    .voices-row {
+        gap: 2rem;
+        margin-bottom: 4rem;
+    }
 }
 </style>
 </head>
 <body>
-<!-- VIDEO BACKGROUND -->
-<video class="video-background" id="marsVideo" muted loop playsinline autoplay>
-<source src="videos/woman-smiling-warmly-2.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
+
+<!-- BACKGROUND VIDEO & OVERLAY -->
+<div class="background-container">
+    <video class="video-background" id="marsVideo" muted loop playsinline autoplay>
+        <source src="videos/woman-smiling-warmly-2.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+</div>
+<div class="tron-grid"></div>
 
 <!-- SITE TITLE OVERLAY -->
-<div class="site-title-overlay">
-<h1>The Mars Abyss<sup>™</sup></h1>
+<div class="site-title-overlay" id="siteTitle">
+    <h1>The Mars Abyss<sup>™</sup></h1>
+    <div class="sub">WHY THIS WORLD MATTERS</div>
 </div>
 
-<!-- HIDE CONTENT BUTTON -->
-<button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
+<!-- CONTENT TOGGLE -->
+<div class="content-toggle-controls">
+    <button class="toggle-btn" id="hideContentBtn">Hide Content</button>
+</div>
 
 <!-- AUDIO CONTROLS -->
 <div class="audio-controls">
-<button class="audio-btn" id="muteBtn">🔇 Unmute Sounds</button>
+    <button class="audio-btn" id="muteBtn">🔇 Unmute</button>
 </div>
 
 <!-- MOBILE HAMBURGER MENU -->
-<div class="mobile-nav">
-<button class="hamburger-btn" id="hamburgerBtn">
-<span></span>
-<span></span>
-<span></span>
-</button>
-<nav class="mobile-menu" id="mobileMenu">
-<div class="menu-header">
-<h3>THE MARS ABYSS</h3>
-<button class="close-menu" id="closeMenu">✕</button>
-</div>
-<div class="menu-content">
-<!-- Menu items will be generated by JavaScript -->
-</div>
-<div class="menu-footer">
-<span class="pulse"></span> MARTIAN SAGA
-</div>
-</nav>
+<div class="mobile-nav" id="mobileNavContainer">
+    <button class="hamburger-btn" id="hamburgerBtn">
+        <span></span><span></span><span></span>
+    </button>
+    <nav class="mobile-menu" id="mobileMenu">
+        <div class="menu-header">
+            <h3>THE MARS ABYSS</h3>
+            <button class="close-menu" id="closeMenu">✕</button>
+        </div>
+        <div class="menu-content"></div>
+        <div class="menu-footer"><span class="pulse"></span> MARTIAN SAGA</div>
+    </nav>
 </div>
 
-<!-- DESKTOP TOP MENU (You will paste your full navigation here) -->
-<nav class="top-menu">
-<div class="dropdown">
-<a href="index.html" class="dropbtn active">Home</a>
-<div class="dropdown-content">
-<a href="why-this-world-matters.html" class="active">Why This World Matters</a>
-<a href="homage-to-courage.html">Homage to Courage</a>
-<a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
-<a href="the-migrant-initiative.html">The Migrant Initiative</a>
-<a href="my-mission.html">My Mission</a>
-<a href="martian-reading-revival.html">Martian Reading Revival</a>
-<a href="why-mars-is-safer.html">Why Mars is Safer</a>
-<a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
-<a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="story.html" class="dropbtn">Story</a>
-<div class="dropdown-content">
-<a href="characters.html">Characters</a>
-<div class="dropdown">
-<a href="gallery.html" class="dropbtn">Gallery</a>
-<div class="dropdown-content">
-<a href="art-and-concepts.html">Art & Concepts</a>
-<a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
-<a href="technical-database.html">Technical Database</a>
-<a href="martian-edicts.html">The Martian Edicts</a>
-<a href="alien-transport-network.html">Alien Transport Network</a>
-<a href="martian-martial-arts.html">Martian Martial Arts</a>
-<a href="solar-system-explorer.html">Solar System Explorer</a>
-<a href="aliens-ufos.html">Aliens & UFOs</a>
-</div>
-</div>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="martian-games.html" class="dropbtn">Martian Games</a>
-<div class="dropdown-content">
-<a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
-<a href="martian-racer.html">Martian Racer</a>
-<a href="red-planet-defense.html">Red Planet Defense</a>
-<a href="the-regents-portal.html">The Regent's Portal</a>
-<a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
-<a href="the-knowledge-deck.html">The Knowledge Deck</a>
-<a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
-<a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="earth-codex.html" class="dropbtn">Earth Codex</a>
-<div class="dropdown-content">
-<a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
-<a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
-<a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
-<a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
-<a href="earths-great-poets.html">Earth's Great Poets</a>
-<a href="the-bohr-institute.html">The Bohr Institute</a>
-<a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
-<a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
-<a href="the-bronx-dome.html">The Bronx Dome</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="martian-news.html" class="dropbtn">Martian News</a>
-<div class="dropdown-content">
-<a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a>    
-<a href="martian-actualities.html">Martian Actualities</a>
-<a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
-<a href="mars-bee-facility.html">Mars Bee Facility</a>
-<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
-<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
-<a href="house-of-health-secrets.html">The House of Health Secrets</a>
-<a href="emergency-shelter-network.html">Emergency Shelter Network</a> 
-
-<a href="martian-rest-areas.html">Martian Rest Areas</a>
-  <div class="dropdown">
-<a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
-<div class="dropdown-content">
-<a href="mars-disinformation-unit.html">M.A.D. Unit</a>
-<a href="marvin.html">M.A.R.V.I.N.</a>
-</div>
-</div>
-
-  </div>
-  </div>
-
-<div class="dropdown">
-<a href="the-regents-scrolls.html">The Regent's Scrolls</a>
-<div class="dropdown-content">
-<a href="what-the-regent-misses.html">What the Regent Misses</a>
-<a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
-<a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
-<a href="honor-the-fallen.html">Honor The Fallen</a>
-<a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
-<a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
-<a href="salems-witching-hour.html">Salem's Witching Hour</a>
-<a href="martian-critique-tron-ares.html">Martian Critique</a>
-<a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
-<a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
-<a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="about.html" class="dropbtn">About</a>
-<div class="dropdown-content">
-<a href="about-the-project.html">About the Project</a>  
-<a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
-<a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
-<a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
-<a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
-<a href="the-pale-horse.html">The Pale Horse</a>
-<a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
-<a href="arachne-labs.html">Arachne Labs</a>
-<a href="the-pioneers-promise.html">The Pioneer's Promise</a>
-<a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
-</div>
-</div>
-
-<div class="dropdown">
-<a href="support.html" class="dropbtn">Support</a>
-<div class="dropdown-content">
-<a href="silver's-sign-language-course.html">Silver's language Academy</a>  
-<a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-<a href="cosmic-economics.html">Cosmic Economics</a>
-<a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
-<a href="support-earth-hospitals.html">Support Earth Hospitals</a>
-<a href="fund-martian-research.html">Fund Martian Research</a>
-<a href="martian-survival-manual.html">Martian Survival Manual</a>
-<a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255,105,180,0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
-</div>
-</div>
-
-<a href="contact.html">Contact</a>
+<!-- DESKTOP TOP MENU -->
+<nav class="top-menu" id="desktopMenu">
+    <div class="dropdown">
+        <a href="index.html" class="dropbtn">Home</a>
+        <div class="dropdown-content">
+            <a href="why-this-world-matters.html" class="active">Why This World Matters</a>
+            <a href="homage-to-courage.html">Homage to Courage</a>
+            <a href="the-oasis-of-qaseem.html">The Oasis of Qaseem</a>
+            <a href="the-migrant-initiative.html">The Migrant Initiative</a>
+            <a href="my-mission.html">My Mission</a>
+            <a href="martian-reading-revival.html">Martian Reading Revival</a>
+            <a href="why-mars-is-safer.html">Why Mars is Safer</a>
+            <a href="the-atlantis-library-of-mars.html">Atlantis Library of Mars</a>
+            <a href="mai-master-artificial-intelligence.html">MAI - Master Artificial Intelligence</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="story.html" class="dropbtn">Story</a>
+        <div class="dropdown-content">
+            <a href="characters.html">Characters</a>
+            <div class="dropdown">
+                <a href="gallery.html" class="dropbtn">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="art-and-concepts.html">Art & Concepts</a>
+                    <a href="martian-entertainment-previews.html">Martian Entertainment Previews</a>
+                    <a href="technical-database.html">Technical Database</a>
+                    <a href="martian-edicts.html">The Martian Edicts</a>
+                    <a href="alien-transport-network.html">Alien Transport Network</a>
+                    <a href="martian-martial-arts.html">Martian Martial Arts</a>
+                    <a href="solar-system-explorer.html">Solar System Explorer</a>
+                    <a href="aliens-ufos.html">Aliens & UFOs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="martian-games.html" class="dropbtn">Martian Games</a>
+        <div class="dropdown-content">
+            <a href="silvers-rescue-mission.html">Silver's Rescue Mission</a>
+            <a href="martian-racer.html">Martian Racer</a>
+            <a href="red-planet-defense.html">Red Planet Defense</a>
+            <a href="the-regents-portal.html">The Regent's Portal</a>
+            <a href="cast-your-vote-the-landing-party.html">Cast Your Vote - The Landing Party</a>
+            <a href="the-knowledge-deck.html">The Knowledge Deck</a>
+            <a href="music-app.html" style="color: #e0c68e; font-weight: bold; background: rgba(255, 215, 0, 0.3);">🎵 Martian Music Player</a>
+            <a href="martian-calender-conversion-chart.html" style="color: #81d4fa; font-weight: bold; border-top: 1px solid rgba(255, 105, 180, 0.3); margin-top: 5px; padding-top: 10px;">🗓️ Martian Calender Conversion Chart</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="earth-codex.html" class="dropbtn">Earth Codex</a>
+        <div class="dropdown-content">
+            <a href="puerto-rico-the-future-paradise.html">Puerto Rico: The Future Paradise</a>
+            <a href="puerto-rico-historical-timeline.html">Puerto Rico: Historical Timeline</a>
+            <a href="el-nuevo-imperio-del-reino-borincano.html">El Nuevo Imperio Del Reino Borincano</a>
+            <a href="earths-greatest-minds.html">Earth's Greatest Minds</a>
+            <a href="earths-great-poets.html">Earth's Great Poets</a>
+            <a href="the-bohr-institute.html">The Bohr Institute</a>
+            <a href="the-mars-cultural-initiative.html">Mars Cultural Initiative</a>
+            <a href="the-pharos-somniorum.html">The Pharos Somniorum</a>
+            <a href="the-bronx-dome.html">The Bronx Dome</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="martian-news.html" class="dropbtn">Martian News</a>
+        <div class="dropdown-content">
+            <a href="quantum-translation-labs.html" style="color: #FFD700; font-weight: bold; background: rgba(255, 215, 0, 0.1);">🔭 Quantum Translation Labs</a> 
+            <a href="martian-actualities.html">Martian Actualities</a>
+            <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
+            <a href="mars-bee-facility.html">Mars Bee Facility</a>
+            <a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+            <a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
+            <a href="house-of-health-secrets.html">The House of Health Secrets</a>
+            <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
+            <a href="martian-rest-areas.html">Martian Rest Areas</a>
+            <div class="dropdown">
+                <a href="manhunter.html">M.A.N.H.U.N.T.E.R.</a>
+                <div class="dropdown-content">
+                    <a href="mars-disinformation-unit.html">M.A.D. Unit</a>
+                    <a href="marvin.html">M.A.R.V.I.N.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="the-regents-scrolls.html">The Regent's Scrolls</a>
+        <div class="dropdown-content">
+            <a href="what-the-regent-misses.html">What the Regent Misses</a>
+            <a href="the-regents-motor-collection.html">The Regent's Motor Collection</a>
+            <a href="earthings-beware.html">Earthlings Beware - The Regent's Edicts</a>
+            <a href="honor-the-fallen.html">Honor The Fallen</a>
+            <a href="magic-tricks-of-mars.html">Magic Tricks of Mars</a>
+            <a href="mars-comedy-central-hour.html">Mars Comedy Central Hour</a>
+            <a href="salems-witching-hour.html">Salem's Witching Hour</a>
+            <a href="martian-critique-tron-ares.html">Martian Critique</a>
+            <a href="the-regents-music-chamber.html">The Regent's Music Chamber</a>
+            <a href="tharsis-scientific-lectures.html">Tharsis Scientific Lectures</a>
+            <a href="the-tharsis-laureates.html" style="color: #00ff88; font-weight: bold; background: rgba(255, 165, 0, 0.5);">🏅 The Tharsis Laureates</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="about.html" class="dropbtn">About</a>
+        <div class="dropdown-content">
+            <a href="about-the-project.html">About the Project</a> 
+            <a href="meanwhile-on-earth.html">Meanwhile on Earth...</a>
+            <a href="martian-fashion-frontier.html">Martian Fashion Frontier</a>
+            <a href="professor-squeaks-academy.html">Professor Squeaks' Academy</a>
+            <a href="the-martian-water-strolls.html">The Martian Water-Strolls</a>
+            <a href="the-pale-horse.html">The Pale Horse</a>
+            <a href="a-day-in-the-life-of.html">A Day in the Life Of...</a>
+            <a href="arachne-labs.html">Arachne Labs</a>
+            <a href="the-pioneers-promise.html">The Pioneer's Promise</a>
+            <a href="the-fair-act-of-life.html" style="color: #9b30ff; border-left: 2px solid #9b30ff; padding-left: 10px; margin-left: -10px;">🌌 The Fair Act of Life</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="support.html" class="dropbtn">Support</a>
+        <div class="dropdown-content">
+            <a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+            <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
+            <a href="cosmic-economics.html">Cosmic Economics</a>
+            <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
+            <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
+            <a href="fund-martian-research.html">Fund Martian Research</a>
+            <a href="martian-survival-manual.html">Martian Survival Manual</a>
+            <a href="weapon-free-mars.html" style="color: #FF69B4; font-weight: bold; border-top: 1px solid rgba(255, 105, 180, 0.3); margin-top: 5px; padding-top: 10px;">🛡️ Weapon-Free Mars</a>
+        </div>
+    </div>
+    <a href="contact.html">Contact</a>
 </nav>
 
 <!-- MAIN CONTENT -->
-<div class="content-container" id="contentContainer">
-<!-- HERO SECTION -->
-<div class="hero-section">
-<h1 class="page-title">WHY THIS WORLD MATTERS</h1>
-<p class="page-subtitle">A Vision of Hope Across the Stars</p>
-</div>
+<div class="main-content" id="mainContent">
 
-<!-- MISSION STATEMENT -->
-<div class="mission-statement">
-<h2>My Purpose</h2>
-<p class="mission-text">
-"The Mars Abyss is my personal exploration of humanity's future - blending Martian colonization with the preservation of Earth's beauty, all through my lens of compassion, creativity, and cultural continuity. I'm trying to answer the essential question: What parts of humanity do we take with us to the stars?"
-</p>
-</div>
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-kicker">A VISION OF HOPE ACROSS THE STARS</div>
+        <h1 class="hero-title">Why This<br><span>World Matters</span></h1>
+        <p class="hero-subtitle">"What parts of humanity do we take with us to the stars?"</p>
+    </section>
 
-<!-- VISIONARIES WHO INSPIRED US -->
-<div class="inspiration-grid">
-<div class="visionary-card">
-<div class="visionary-icon">🎬</div>
-<h3>Walt Disney</h3>
-<p class="visionary-quote">"If you can dream it, you can do it. Always remember that this whole thing was started by a mouse."</p>
-<p class="visionary-name">- The man who taught us to believe in magic</p>
-</div>
+    <!-- MISSION STATEMENT (Streamlined & Formatted) -->
+<section class="mission-statement">
+    <h2>MY PURPOSE</h2>
+    <p class="mission-text">
+        "The Mars Abyss is my personal exploration of humanity's future. It is a future where <strong>alliances between Puerto Rico, Spain, and China have forged a path of unity</strong>, proving that compassion can overcome corporate greed. But it is also a world where other nations fractured into isolation. I explore the essential question: What parts of humanity do we take with us to the stars? And what do we leave behind?"
+    </p>
+    
+    <p class="mission-text" style="margin-top: 1.5rem;">
+        "The very language of Mars is a testament to this unity. It is a creole forged from the Ainu, Mayan, and dozens of Earth dialects spoken by the migrant workers who built our domes. When you see the signs of our cities, you are reading the poetry of human cooperation."
+    </p>
 
-<div class="visionary-card">
-<div class="visionary-icon">🚀</div>
-<h3>Gene Roddenberry</h3>
-<p class="visionary-quote">"The human adventure is just beginning. To boldly go where no one has gone before."</p>
-<p class="visionary-name">- Creator of Star Trek</p>
-</div>
+    <p class="mission-text" style="margin-top: 1.5rem;">
+        "Earth's history was dominated by a patriarchal hierarchy that prized dominance over sustainability. When we rebuilt society on Mars, we corrected that imbalance. Today, the Martian Regency and the scientific councils are equally represented by women and men, because a society that values life cannot afford to silence half of its population."
+    </p>
+</section>
 
-<div class="visionary-card">
-<div class="visionary-icon">🌌</div>
-<h3>Octavia Butler</h3>
-<p class="visionary-quote">"All that you touch, You Change. All that you Change, Changes you. The only lasting truth is Change."</p>
-<p class="visionary-name">- Science fiction visionary</p>
-</div>
+<!-- INSPIRATION GRID (Videos) -->
+<section class="inspiration-section">
+    <h2 class="section-title">VISIONARIES WHO INSPIRED US</h2>
+    <div class="inspiration-grid">
+        <!-- 1. The Architect -->
+        <div class="visionary-card" onclick="openVisionaryModal(this)">
+            <video class="card-video" muted loop playsinline autoplay><source src="videos/yara-del-sol.mp4" type="video/mp4"></video>
+            <div class="visionary-icon">🏛️</div>
+            <h3>Yara Del Sol</h3>
+            <p class="visionary-quote">"We didn't just build domes; we built sanctuaries of the human spirit. If you can dream of a better world, you can engineer it."</p>
+            <p class="visionary-name">- The Earth-born Architect of the First Domes</p>
+        </div>
 
-<div class="visionary-card">
-<div class="visionary-icon">🍃</div>
-<h3>Hayao Miyazaki</h3>
-<p class="visionary-quote">"The creation of a single world comes from a huge number of fragments and chaos."</p>
-<p class="visionary-name">- Master of animated worlds</p>
-</div>
+        <!-- 2. The Physicist -->
+        <div class="visionary-card" onclick="openVisionaryModal(this)">
+            <video class="card-video" muted loop playsinline autoplay><source src="videos/dr-zhao-xing-lin.mp4" type="video/mp4"></video>
+            <div class="visionary-icon">🚀</div>
+            <h3>Dr. Zhao Xing Lin</h3>
+            <p class="visionary-quote">"The human adventure is just beginning. To boldly go where no one has gone before requires us to leave our petty conflicts behind."</p>
+            <p class="visionary-name">- Earth Physicist, Pioneer of the Quantum Drive</p>
+        </div>
 
-<div class="visionary-card">
-<div class="visionary-icon">📚</div>
-<h3>Frank Herbert</h3>
-<p class="visionary-quote">"The mystery of life isn't a problem to solve, but a reality to experience."</p>
-<p class="visionary-name">- Author of Dune</p>
-</div>
+        <!-- 3. The Philosopher -->
+        <div class="visionary-card" onclick="openVisionaryModal(this)">
+            <video class="card-video" muted loop playsinline autoplay><source src="videos/amara-kail-philosopher.mp4" type="video/mp4"></video>
+            <div class="visionary-icon">🌌</div>
+            <h3>Amara Kael</h3>
+            <p class="visionary-quote">"All that you touch, You Change. All that you Change, Changes you. The only lasting truth is Change."</p>
+            <p class="visionary-name">- Philosopher, Author of the Fair Act of Life</p>
+        </div>
 
-<div class="visionary-card">
-<div class="visionary-icon">💫</div>
-<h3>JR Adams/Tetrón</h3>
-<p class="visionary-quote">"Building bridges between worlds, preserving beauty, and extending compassion across the cosmos."</p>
-<p class="visionary-name">- The Mars Abyss Creator</p>
-</div>
-</div>
+        <!-- 4. The Artist -->
+        <div class="visionary-card" onclick="openVisionaryModal(this)">
+            <video class="card-video" muted loop playsinline autoplay><source src="videos/farah-nasser.mp4" type="video/mp4"></video>
+            <div class="visionary-icon">🍃</div>
+            <h3>Farah Nasser</h3>
+            <p class="visionary-quote">"The creation of a single world comes from a huge number of fragments and chaos. We find beauty in the assembly."</p>
+            <p class="visionary-name">- Master of Martian Holographic Arts</p>
+        </div>
 
-<!-- CORE THEMES -->
-<div class="themes-section">
-<h2>What Makes Our World Special</h2>
-<div class="theme-item">
-<h3>Hope & Survival</h3>
-<p>From the Martian Survival Manual to Dome Cities, we explore humanity's incredible capacity to adapt and thrive in the most challenging environments.</p>
-</div>
-<div class="theme-item">
-<h3>Compassion Across Worlds</h3>
-<p>The Martian Children's Sanctuary represents our highest ideal: that no child should suffer, whether born of Earth or Mars.</p>
-</div>
-<div class="theme-item">
-<h3>Cultural Bridges</h3>
-<p>Through Earth Codex and Puerto Rico's stories, we honor our roots while reaching for the stars.</p>
-</div>
-<div class="theme-item">
-<h3>The Human Spirit</h3>
-<p>Martial arts, poetry, fashion - the beautiful expressions that make us uniquely human, preserved for future generations.</p>
-</div>
-<div class="theme-item">
-<h3>Wonder & Exploration</h3>
-<p>From solar system exploration to alien encounters, we celebrate the endless curiosity that drives humanity forward.</p>
-</div>
-</div>
+        <!-- 5. The Industrialist -->
+        <div class="visionary-card" onclick="openVisionaryModal(this)">
+            <video class="card-video" muted loop playsinline autoplay><source src="videos/merlin-sterling.mp4" type="video/mp4"></video>
+            <div class="visionary-icon">📚</div>
+            <h3>Aterui Shakushain Tecumseh Sterling</h3>
+            <p class="visionary-quote">"The mystery of life isn't a problem to solve, but a reality to experience. And it requires the capital to explore it."</p>
+            <p class="visionary-name">- Visionary Industrialist, Founder of the Tharsis Institute</p>
+        </div>
 
-<!-- CALL TO ACTION -->
-<div class="cta-section">
-<h2 class="cta-title">Join My Journey</h2>
-<p class="cta-message">
-This world was born from my simple belief: that our future among the stars should be filled with the same beauty, compassion, and creativity that makes Earth worth preserving. Every page, every story, every vision is my invitation to imagine a better tomorrow together.
-</p>
-<p class="cta-message" style="font-style: italic; color: #fdbb2d;">
- "Right now, it's just me building this world. But with every visitor who explores these pages, the journey becomes ours."
-</p>
-<p class="cta-message" style="font-style: italic; color: #fdbb2d;">
-"Keep creating. The world needs more people who care this deeply."
-</p>
-</div>
+        <!-- 6. The Creator -->
+        <div class="visionary-card" onclick="openVisionaryModal(this)">
+            <video class="card-video" muted loop playsinline autoplay><source src="videos/the-theater-book-reading.mp4" type="video/mp4"></video>
+            <div class="visionary-icon">💫</div>
+            <h3>JR Adams/Tetrón</h3>
+            <p class="visionary-quote">"Building bridges between worlds, preserving beauty, and extending compassion across the cosmos."</p>
+            <p class="visionary-name">- The Mars Abyss Creator</p>
+        </div>
+    </div>
+</section>
+
+<!-- CORE THEMES (Lore Corrected) -->
+<section class="themes-section">
+    <h2 class="section-title">WHAT MAKES OUR WORLD SPECIAL</h2>
+    <div class="theme-grid">
+        <div class="theme-item" onclick="openVisionaryModal(this)">
+            <video class="theme-hover-video" muted loop playsinline>
+                <source src="videos/the-red-martian-eiffel-tower-of-mars.mp4" type="video/mp4">
+            </video>
+            <div class="theme-content">
+                <h3>Hope & Survival</h3>
+                <p>From the Martian Survival Manual to Dome Cities, we explore humanity's capacity to adapt and thrive in challenging environments.</p>
+            </div>
+        </div>
+
+        <div class="theme-item" onclick="openVisionaryModal(this)">
+            <video class="theme-hover-video" muted loop playsinline>
+                <source src="videos/magician-childrens-hospital.mp4" type="video/mp4">
+            </video>
+            <div class="theme-content">
+                <h3>Compassion Across Worlds</h3>
+                <p>The Martian Children's Sanctuary represents our highest ideal: that no child should suffer, whether born of Earth or Mars.</p>
+            </div>
+        </div>
+
+        <div class="theme-item" onclick="openVisionaryModal(this)">
+            <video class="theme-hover-video" muted loop playsinline>
+                <source src="videos/pr-ufo.mp4" type="video/mp4">
+            </video>
+            <div class="theme-content">
+                <h3>Cultural Bridges</h3>
+                <p>Through the Earth Codex and the Borikén Alliance, we honor our roots while reaching for the stars. We show that unity is possible.</p>
+            </div>
+        </div>
+
+        <div class="theme-item" onclick="openVisionaryModal(this)">
+            <video class="theme-hover-video" muted loop playsinline>
+                <source src="videos/the-human-spirit.mp4" type="video/mp4">
+            </video>
+            <div class="theme-content">
+                <h3>The Human Spirit</h3>
+                <p>Martial arts, poetry, and fashion—the beautiful expressions that make us uniquely human, preserved for future generations.</p>
+            </div>
+        </div>
+
+        <div class="theme-item" onclick="openVisionaryModal(this)">
+            <video class="theme-hover-video" muted loop playsinline>
+                <source src="videos/the-regent-and-a-version-of-silver.mp4" type="video/mp4">
+            </video>
+            <div class="theme-content">
+                <h3>Wonder & Exploration</h3>
+                <p>From solar system exploration to alien encounters, we celebrate the endless curiosity that drives humanity forward.</p>
+            </div>
+        </div>
+
+        <div class="theme-item" onclick="openVisionaryModal(this)">
+            <video class="theme-hover-video" muted loop playsinline>
+                <source src="videos/turbo-tank.mp4" type="video/mp4">
+            </video>
+            <div class="theme-content">
+                <h3>The Threat of Greed</h3>
+                <p>Not all of Earth chose unity. We explore the dangers of corporate greed and isolationism that threaten to destroy our homeworld.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section class="voices-section">
+    <h2 class="section-title">VOICES OF EARTH</h2>
+    
+    <!-- ROW 1: Environmentalist -->
+    <div class="voices-row">
+        <div class="voices-visual" style="background: #000;">
+            <!-- Added 'controls' and removed the muted/loop hover effect -->
+            <video class="voices-video" controls playsinline style="opacity: 1; z-index: 3;">
+                <source src="videos/soren-lindqvist.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="voices-text">
+            <h3>Soren Lindqvist</h3>
+            <p>The legendary Nordic exobiologist spent a century showing us the fragile beauty of our planet. His work reminds us that <strong>we are a part of nature, not apart from it.</strong></p>
+            <p>In The Mars Abyss, his documentaries are preserved in the Atlantis Library, required viewing for every Martian colonist before they are allowed to step foot on the red planet.</p>
+        </div>
+    </div>
+
+    <!-- ROW 2: Environmental Books -->
+    <div class="voices-row">
+        <div class="voices-visual" style="background: #000;">
+            <video class="voices-video" controls playsinline style="opacity: 1; z-index: 3;">
+                <source src="videos/lars-magnus.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="voices-text">
+            <h3>Environmental Books & Nobel Laureates</h3>
+            <p>From <strong>Lars Magnus's</strong> <em>"The Silent Earth"</em> to the climate research of the Tharsis Laureates, these books are the blueprint for survival.</p>
+            <p>We feature a curated library of environmental texts, including works on renewable energy, ecological preservation, and sustainable agriculture. <strong>Because you cannot build a future on Mars if you forget how to save the Earth.</strong></p>
+        </div>
+    </div>
+</section>
+
+<!-- CREATOR'S JOURNEY -->
+<section class="creator-section">
+    <h2>THE CREATOR'S JOURNEY</h2>
+    
+    <p class="mission-text">
+        This universe wasn't born in a boardroom. It was born in a humble house in the Puerto Rican countryside with curtains for doors and mosquito netting around the bed. It was born from a childhood staring at the stars through the cracks in the wooden walls.
+    </p>
+    
+    <p class="mission-text" style="margin-top: 1.5rem;">
+        After years of writing, a magazine sent a letter that could have ended the dream. Instead, it became the fuel to keep going for another 64 years.
+    </p>
+    
+    <div class="rejection-letter">
+        "Although we cannot publish your three stories at this time, we were impressed by your imagination and strongly encourage you to continue writing. The world needs more storytellers with your vision. And we certainly got a kick out of the last one."
+    </div>
+    
+    <div class="creator-footer">
+        <p class="creator-signature">
+            — JR Adams / Tetrón
+        </p>
+        <div class="creator-socials">
+            <a href="https://x.com/AdamsFantasy" target="_blank" class="action-btn">Follow on X</a>
+            <a href="https://www.linkedin.com/in/jaime-rivera-14a524258/" target="_blank" class="action-btn linkedin">Connect on LinkedIn</a>
+        </div>
+    </div>
+</section>
+
+    <!-- CORNERSTONES -->
+    <section class="cornerstone-section">
+        <div class="cornerstone-quote">Work was never meant<br>to consume the soul.</div>
+        <div class="cornerstone-quote filled">We take care<br>of our children.</div>
+        <div class="cornerstone-quote">Science without wisdom<br>is dangerous.</div>
+        <div class="cornerstone-sub">The Philosophical Foundation of Mars</div>
+    </section>
+
+    <!-- ROADMAP -->
+<section class="roadmap-section">
+    <h2 class="section-title">THE ROADMAP</h2>
+    <div class="roadmap-grid">
+        <div class="roadmap-item" onclick="openVisionaryModal(this)">
+            <video class="roadmap-hover-video" muted loop playsinline>
+                <source src="videos/midnight-hour-on-a-martian-street.mp4" type="video/mp4">
+            </video>
+            <div class="roadmap-content">
+                <span class="roadmap-phase">PHASE 01 · CURRENT</span>
+                <h3>Worldbuilding & Lore</h3>
+                <p>Building the immersive database of Martian history, cultures, and characters that you are exploring right now.</p>
+            </div>
+        </div>
+
+        <div class="roadmap-item" onclick="openVisionaryModal(this)">
+            <video class="roadmap-hover-video" muted loop playsinline>
+                <source src="videos/gargoyle-on-mars.mp4" type="video/mp4">
+            </video>
+            <div class="roadmap-content">
+                <span class="roadmap-phase">PHASE 02 · 2026</span>
+                <h3>Visual Media</h3>
+                <p>Expanding into animated lore videos, graphic novel panels, and AI-generated cinematic trailers for key events like The Migrant Initiative.</p>
+            </div>
+        </div>
+
+        <div class="roadmap-item" onclick="openVisionaryModal(this)">
+            <video class="roadmap-hover-video" muted loop playsinline>
+                <source src="videos/games-chase-sequence.mp4" type="video/mp4">
+            </video>
+            <div class="roadmap-content">
+                <span class="roadmap-phase">PHASE 03 · FUTURE</span>
+                <h3>Interactive Experiences</h3>
+                <p>Developing the 3D Pinball Machine and other playable Martian games for release on Steam.</p>
+            </div>
+        </div>
+
+        <div class="roadmap-item" onclick="openVisionaryModal(this)">
+            <video class="roadmap-hover-video" muted loop playsinline>
+                <source src="videos/the-noir-zone-old-car.mp4" type="video/mp4">
+            </video>
+            <div class="roadmap-content">
+                <span class="roadmap-phase">PHASE 04 · DREAM</span>
+                <h3>The Anthology Series</h3>
+                <p>Bringing the stories of the Regent, MAI, and Marvin to the screen as a full science-fiction series.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- ACTION DASHBOARD -->
+    <section class="action-dashboard">
+        <h2 class="action-title">JOIN THE MIGRATION</h2>
+        <p class="cta-message">This world was born from a simple belief: that our future among the stars should be filled with beauty, compassion, and creativity. Right now, it's just me building this world. But with every visitor who explores these pages, the journey becomes ours.</p>
+        <p class="cta-message" style="font-style: italic; color: var(--copper);">"Right now, it's just me building this world. But with every visitor who explores these pages, the journey becomes ours."</p>
+        <div class="action-grid">
+            <a href="story.html" class="action-btn">Explore the Stories</a>
+            <a href="martian-games.html" class="action-btn">Play the Games</a>
+            <a href="https://x.com/AdamsFantasy" target="_blank" class="action-btn">Follow on X</a>
+            <a href="contact.html" class="action-btn">Contact the Creator</a>
+        </div>
+    </section>
+
 </div>
 
 <div class="content-spacer"></div>
 
 <footer id="pageFooter">
-<p>© 2025 The Mars Abyss. All Rights Reserved.</p>
+    <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
 
+<!-- ===== Visionary Video Modal =====-->   
+ <div id="visionaryModal" class="visionary-modal">
+    <div class="visionary-modal-content">
+        <button class="close-visionary-modal" onclick="closeVisionaryModal()">X</button>
+        <video id="visionaryModalVideo" controls playsinline>
+        <h3 id="visionaryModalTitle"></h3>
+    </div>
+</div>
+
 <script>
-
-// ===== VIDEO PROTECTION =====
-(function() {
- document.querySelectorAll('video').forEach(video => {
-   video.setAttribute('controlslist', 'nodownload');
-   video.addEventListener('contextmenu', (e) => e.preventDefault());
-   video.addEventListener('dragstart', (e) => e.preventDefault());
- });
- 
- document.addEventListener('keydown', (e) => {
-   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
-   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
-     e.preventDefault();
-   }
- });
-})();
- 
-// VIDEO BACKGROUND
+// ===== VIDEO BACKGROUND =====
 const videoBg = document.getElementById('marsVideo');
-
-function initVideo() {
-videoBg.play().catch(e => {
-console.log('Video autoplay prevented, will play on user interaction');
-});
-
-document.addEventListener('click', function playVideo() {
-if (videoBg.paused) {
-videoBg.play().catch(e => {
-console.log('Video play failed:', e);
-});
-}
-document.removeEventListener('click', playVideo);
-});
+if (videoBg) {
+    videoBg.addEventListener('loadeddata', () => videoBg.classList.add('loaded'));
 }
 
 // ===== AUDIO SYSTEM =====
@@ -954,252 +1820,213 @@ let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
- const sounds = [
- { src: 'music/bailando-en-el-caribe.mp3', volume: 0.5 },
- { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
- { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
- ];
+    const sounds = [
+        { src: 'music/bailando-en-el-caribe.mp3', volume: 0.5 },
+        { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
+        { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
+    ];
 
- sounds.forEach(sound => {
- const audio = new Audio(sound.src);
- audio.volume = sound.volume;
- audio.loop = true;
- audio.muted = true;
- audioElements.push(audio);
- });
+    sounds.forEach(sound => {
+        const audio = new Audio(sound.src);
+        audio.volume = sound.volume;
+        audio.loop = true;
+        audio.muted = true;
+        audioElements.push(audio);
+    });
 
- const unmuteOnInteraction = function() {
- if (isMuted) {
- audioElements.forEach(audio => {
- audio.muted = false;
- audio.play().catch(e => {
- console.log('Audio play attempt failed:', e);
- });
- });
- isMuted = false;
- muteBtn.textContent = "🔊 MUTE LAB";
- }
- document.removeEventListener('click', unmuteOnInteraction);
- document.removeEventListener('keydown', unmuteOnInteraction);
- };
-
- document.addEventListener('click', unmuteOnInteraction);
- document.addEventListener('keydown', unmuteOnInteraction);
-
- setTimeout(() => {
- audioElements.forEach(audio => {
- audio.play().then(() => {
- console.log('Audio autoplay succeeded.');
- }).catch(e => {
- console.log('Audio autoplay blocked.');
- });
- });
- }, 1000);
 }
 
-muteBtn.addEventListener('click', function() {
- if (audioElements.length === 0) {
- initAudio();
- return;
- }
- isMuted = !isMuted;
- audioElements.forEach(audio => {
- audio.muted = isMuted;
- if (!isMuted) {
- audio.play().catch(e => console.log('Playback resume failed'));
- }
- });
- muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
-});
+if (muteBtn) {
+    muteBtn.addEventListener('click', function() {
+        if (audioElements.length === 0) {
+            initAudio();
+        }
 
-// HIDE CONTENT FUNCTIONALITY
+        isMuted = !isMuted;
+
+        audioElements.forEach(audio => {
+            audio.muted = isMuted;
+            if (!isMuted) {
+                audio.play().catch(() => {});
+        }
+        });
+
+        muteBtn.textContent = isMuted ? "🔇 UNMUTE" : "🔊 MUTE";
+    });
+}
+initAudio();
+
+// ===== HIDE CONTENT FUNCTIONALITY =====
 const hideContentBtn = document.getElementById('hideContentBtn');
-const contentContainer = document.getElementById('contentContainer');
+const mainContent = document.getElementById('mainContent');
 const pageFooter = document.getElementById('pageFooter');
 const topMenu = document.querySelector('nav.top-menu');
-const mobileNav = document.querySelector('.mobile-nav'); // also hide mobile button
+const langSelector = document.querySelector('.language-selector');
+const siteTitle = document.getElementById('siteTitle');
 let contentHidden = false;
 
-hideContentBtn.addEventListener('click', function() {
-contentHidden = !contentHidden;
-
-if (contentHidden) {
-contentContainer.classList.add('hidden');
-pageFooter.classList.add('hidden');
-topMenu.classList.add('hidden');
-mobileNav.classList.add('hidden');
-hideContentBtn.textContent = 'Show Content';
-} else {
-contentContainer.classList.remove('hidden');
-pageFooter.classList.remove('hidden');
-topMenu.classList.remove('hidden');
-mobileNav.classList.remove('hidden');
-hideContentBtn.textContent = 'Hide Content';
+if (hideContentBtn) {
+    hideContentBtn.addEventListener('click', function() {
+        contentHidden = !contentHidden;
+        if (contentHidden) {
+            mainContent.classList.add('hidden');
+            pageFooter.classList.add('hidden');
+            topMenu.classList.add('hidden');
+            langSelector.classList.add('hidden');
+            siteTitle.classList.add('hidden');
+            hideContentBtn.textContent = 'Show Content';
+        } else {
+            mainContent.classList.remove('hidden');
+            pageFooter.classList.remove('hidden');
+            topMenu.classList.remove('hidden');
+            langSelector.classList.remove('hidden');
+            siteTitle.classList.remove('hidden');
+            hideContentBtn.textContent = 'Hide Content';
+        }
+    });
 }
-});
 
-// ===== MOBILE HAMBURGER MENU (expanded with all pages) =====
+// ===== TRANSLATIONS =====
+let currentLang = localStorage.getItem('preferredLang') || 'en';
+function applyLanguage(lang) {
+    if (typeof window.MARS_TRANSLATIONS === 'undefined') return;
+    const t = window.MARS_TRANSLATIONS[lang];
+    if (!t) return;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.innerHTML = t[key];
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+    localStorage.setItem('preferredLang', lang);
+    currentLang = lang;
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
+});
+applyLanguage(currentLang);
+
+// ===== MOBILE HAMBURGER MENU =====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const closeMenu = document.getElementById('closeMenu');
 const mobileMenu = document.getElementById('mobileMenu');
 const menuContent = document.querySelector('.menu-content');
 
 function createMobileMenu() {
-if (!menuContent) return;
-menuContent.innerHTML = '';
-
-// Complete list of all pages (with indentation for grouping)
-const menuItems = [
-{ text: '🏠 Home', href: 'index.html' },
-{ text: ' Why This World Matters', href: 'why-this-world-matters.html', active: true },
-{ text: ' Homage to Courage', href: 'homage-to-courage.html' },
-{ text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html' },
-{ text: ' The Migrant Initiative', href: 'the-migrant-initiative.html' },
-{ text: ' My Mission', href: 'my-mission.html' },
-{ text: ' Martian Reading Revival', href: 'martian-reading-revival.html' },
-{ text: ' Why Mars is Safer', href: 'why-mars-is-safer.html' },
-{ text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html' },
-{ text: ' MAI', href: 'mai-master-artificial-intelligence.html' },
-
-{ text: '📖 Story', href: 'story.html' },
-{ text: ' Characters', href: 'characters.html' },
-{ text: ' Gallery', href: 'gallery.html' },
-{ text: ' Art & Concepts', href: 'art-and-concepts.html' },
-{ text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
-{ text: ' Technical Database', href: 'technical-database.html' },
-{ text: ' The Martian Edicts', href: 'martian-edicts.html' },
-{ text: ' Alien Transport Network', href: 'alien-transport-network.html' },
-{ text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
-{ text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
-{ text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
-
-{ text: '🎮 Martian Games', href: 'martian-games.html' },
-{ text: ' Silver\'s Rescue Mission', href: 'silvers-rescue-mission.html' },
-{ text: ' Martian Racer', href: 'martian-racer.html' },
-{ text: ' Red Planet Defense', href: 'red-planet-defense.html' },
-{ text: ' The Regent\'s Portal', href: 'the-regents-portal.html' },
-{ text: ' Cast Your Vote', href: 'cast-your-vote-the-landing-party.html' },
-{ text: ' The Knowledge Deck', href: 'the-knowledge-deck.html' },
-{ text: ' Music Player', href: 'music-app.html' },
-{ text: ' Martian Calendar', href: 'martian-calender-conversion-chart.html' },
-
-{ text: '🌍 Earth Codex', href: 'earth-codex.html' },
-{ text: ' Puerto Rico: Future Paradise', href: 'puerto-rico-the-future-paradise.html' },
-{ text: ' Puerto Rico: Historical Timeline', href: 'puerto-rico-historical-timeline.html' },
-{ text: ' El Nuevo Imperio', href: 'el-nuevo-imperio-del-reino-borincano.html' },
-{ text: ' Earth\'s Greatest Minds', href: 'earths-greatest-minds.html' },
-{ text: ' Earth\'s Great Poets', href: 'earths-great-poets.html' },
-{ text: ' The Bohr Institute', href: 'the-bohr-institute.html' },
-{ text: ' Mars Cultural Initiative', href: 'the-mars-cultural-initiative.html' },
-{ text: ' The Pharos Somniorum', href: 'the-pharos-somniorum.html' },
-{ text: ' The Bronx Dome', href: 'the-bronx-dome.html' },
-
-{ text: '📰 Martian News', href: 'martian-news.html' },
-{ text: ' Quantum Translation Labs', href: 'quantum-translation-labs.html' },
-{ text: ' Martian Actualities', href: 'martian-actualities.html' },
-{ text: ' The Martian Economic Vision', href: 'the-martian-economic-vision.html' },
-{ text: ' Mars Bee Facility', href: 'mars-bee-facility.html' },
-{ text: ' Mars Travel Preparation', href: 'mars-travel-preparation.html' },
-{ text: ' Dome Cities Tour', href: 'mars-dome-cities-tour.html' },
-{ text: ' House of Health Secrets', href: 'house-of-health-secrets.html' },
-{ text: ' Emergency Shelter Network', href: 'emergency-shelter-network.html' },
-{ text: ' Martian Rest Areas', href: 'martian-rest-areas.html' },
-{ text: ' M.A.N.H.U.N.T.E.R.', href: 'manhunter.html' },
-{ text: ' M.A.D. Unit', href: 'mars-disinformation-unit.html' },
-{ text: ' M.A.R.V.I.N.', href: 'marvin.html' },
-
-{ text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
-{ text: ' What the Regent Misses', href: 'what-the-regent-misses.html' },
-{ text: ' The Regent\'s Motor Collection', href: 'the-regents-motor-collection.html' },
-{ text: ' Earthlings Beware', href: 'earthings-beware.html' },
-{ text: ' Honor The Fallen', href: 'honor-the-fallen.html' },
-{ text: ' Magic Tricks of Mars', href: 'magic-tricks-of-mars.html' },
-{ text: ' Mars Comedy Central', href: 'mars-comedy-central-hour.html' },
-{ text: ' Salem\'s Witching Hour', href: 'salems-witching-hour.html' },
-{ text: ' Martian Critique', href: 'martian-critique-tron-ares.html' },
-{ text: ' The Regent\'s Music Chamber', href: 'the-regents-music-chamber.html' },
-{ text: ' Tharsis Lectures', href: 'tharsis-scientific-lectures.html' },
-{ text: ' The Tharsis Laureates', href: 'the-tharsis-laureates.html' },
-
-{ text: 'ℹ️ About', href: 'about.html' },
-{ text: ' About the Project', href: 'about-the-project.html' },
-{ text: ' Meanwhile on Earth', href: 'meanwhile-on-earth.html' },
-{ text: ' Martian Fashion Frontier', href: 'martian-fashion-frontier.html' },
-{ text: ' Professor Squeaks\' Academy', href: 'professor-squeaks-academy.html' },
-{ text: ' The Martian Water-Strolls', href: 'the-martian-water-strolls.html' },
-{ text: ' The Pale Horse', href: 'the-pale-horse.html' },
-{ text: ' A Day in the Life', href: 'a-day-in-the-life-of.html' },
-{ text: ' Arachne Labs', href: 'arachne-labs.html' },
-{ text: ' The Pioneer\'s Promise', href: 'the-pioneers-promise.html' },
-{ text: ' The Fair Act of Life', href: 'the-fair-act-of-life.html' },
-
-{ text: '🤝 Support', href: 'support.html' },
-{ text: ' Silver\'s Language Academy', href: 'silver\'s-sign-language-course.html' },
-{ text: ' Children\'s Sanctuary', href: 'martian-childrens-santuary.html' },
-{ text: ' Mars Food District', href: 'mars-food-district.html' },
-{ text: ' Quantum Financial Transfer', href: 'quantum-financial-transfer.html' },
-{ text: ' Support Earth Hospitals', href: 'support-earth-hospitals.html' },
-{ text: ' Fund Martian Research', href: 'fund-martian-research.html' },
-{ text: ' Martian Survival Manual', href: 'martian-survival-manual.html' },
-{ text: ' Weapon-Free Mars', href: 'weapon-free-mars.html' },
-
-{ text: '📧 Contact', href: 'contact.html' },
-{ text: ' Why This World Matters', href: 'why-this-world-matters.html', active: true },
-];
-
-menuItems.forEach(item => {
-const menuItem = document.createElement('div');
-menuItem.className = 'menu-item';
-const link = document.createElement('a');
-link.href = item.href;
-link.textContent = item.text;
-if (item.active) link.classList.add('active');
-menuItem.appendChild(link);
-menuContent.appendChild(menuItem);
-});
+    if (!menuContent) return;
+    menuContent.innerHTML = '';
+    const menuItems = [
+        { text: '🏠 Home', href: 'index.html', type: 'main' },
+        { text: ' Why This World Matters', href: 'why-this-world-matters.html', type: 'sub', active: true },
+        { text: ' Homage to Courage', href: 'homage-to-courage.html', type: 'sub' },
+        { text: ' The Oasis of Qaseem', href: 'the-oasis-of-qaseem.html', type: 'sub' },
+        { text: ' The Migrant Initiative', href: 'the-migrant-initiative.html', type: 'sub' },
+        { text: ' My Mission', href: 'my-mission.html', type: 'sub' },
+        { text: ' Martian Reading Revival', href: 'martian-reading-revival.html', type: 'sub' },
+        { text: ' Why Mars is Safer', href: 'why-mars-is-safer.html', type: 'sub' },
+        { text: ' Atlantis Library of Mars', href: 'the-atlantis-library-of-mars.html', type: 'sub' },
+        { text: ' MAI', href: 'mai-master-artificial-intelligence.html', type: 'sub' },
+        { text: '📖 Story', href: 'story.html', type: 'main' },
+        { text: '🎮 Martian Games', href: 'martian-games.html', type: 'main' },
+        { text: '🌍 Earth Codex', href: 'earth-codex.html', type: 'main' },
+        { text: '📰 Martian News', href: 'martian-news.html', type: 'main' },
+        { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html', type: 'main' },
+        { text: 'ℹ️ About', href: 'about.html', type: 'main' },
+        { text: '🤝 Support', href: 'support.html', type: 'main' },
+        { text: '📧 Contact', href: 'contact.html', type: 'main' }
+    ];
+    
+    menuItems.forEach(item => {
+        const menuItem = document.createElement('div');
+        menuItem.className = 'menu-item ' + (item.type === 'main' ? 'main-title' : 'sub-page');
+        const link = document.createElement('a');
+        link.href = item.href;
+        link.textContent = item.text;
+        if (item.active) link.classList.add('active');
+        menuItem.appendChild(link);
+        menuContent.appendChild(menuItem);
+    });
 }
 
 createMobileMenu();
 
-hamburgerBtn.addEventListener('click', () => {
-mobileMenu.classList.add('active');
-document.body.style.overflow = 'hidden';
-});
-
-closeMenu.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-});
-
-document.addEventListener('click', (e) => {
-if (mobileMenu.classList.contains('active') && 
-!mobileMenu.contains(e.target) && 
-!hamburgerBtn.contains(e.target)) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
+// ===== VISIONARY MODAL LOGIC =====
+function openVisionaryModal(card) {
+    // Get the video source and title from the clicked card
+    const videoSrc = card.querySelector('video source').src;
+    const title = card.querySelector('h3').innerText;
+    
+    // Target the modal elements
+    const modal = document.getElementById('visionaryModal');
+    const modalVideo = document.getElementById('visionaryModalVideo');
+    const modalTitle = document.getElementById('visionaryModalTitle');
+    
+    // Set the content
+    modalVideo.src = videoSrc;
+    modalTitle.innerText = title;
+    
+    // Show the modal and play the video
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Stop background scrolling
+    
+    modalVideo.play().catch(e => console.log("Video autoplay prevented:", e));
 }
-});
 
-document.querySelectorAll('.mobile-menu a').forEach(link => {
-link.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-});
-});
-
-function handleResize() {
-if (window.innerWidth > 992) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
+function closeVisionaryModal() {
+    const modal = document.getElementById('visionaryModal');
+    const modalVideo = document.getElementById('visionaryModalVideo');
+    
+    // Hide the modal and stop the video
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    
+    modalVideo.pause();
+    modalVideo.currentTime = 0;
 }
-}
-window.addEventListener('resize', handleResize);
 
-// Initialize everything
-window.addEventListener('load', function() {
-initVideo();
-initAudio();
+// Close modal if user clicks outside the content box
+document.getElementById('visionaryModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeVisionaryModal();
+    }
 });
+
+// ===== HOVER VIDEO LOGIC =====
+document.addEventListener("DOMContentLoaded", () => {
+    const hoverCards = document.querySelectorAll('.theme-item, .roadmap-item, .voices-row');
+
+    hoverCards.forEach(card => {
+        const video = card.querySelector('video');
+        
+        if (video) {
+            card.addEventListener('mouseenter', () => {
+                video.play().catch(error => {
+                    console.log("Video play failed:", error);
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                video.pause();
+                video.currentTime = 0;
+            });
+        }
+    });
+});
+
+if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+}
+if (closeMenu) {
+    closeMenu.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+}
 </script>
 </body>
 </html>
