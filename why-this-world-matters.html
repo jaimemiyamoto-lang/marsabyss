@@ -85,21 +85,47 @@ body {
     background-position: center top;
 }
 
-/* ===== TOP MENU ===== */
+/* ===== TOP MENU (FIXED & CLEANED) ===== */
 nav.top-menu {
     position: fixed;
     top: 0;
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     background: rgba(10, 9, 8, 0.95);
     padding: 1rem 0;
     z-index: 1000;
     gap: 1.5rem;
     flex-wrap: nowrap;
     backdrop-filter: blur(10px);
-    border-bottom: 2px solid var(--copper);
+    border-bottom: none; 
     transition: border-color 0.3s ease;
+}
+
+/* The Pulsing Line */
+nav.top-menu::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--copper),
+        var(--copper-bright),
+        var(--copper),
+        transparent
+    );
+    box-shadow: 0 0 10px var(--copper);
+    animation: menuPulse 3s infinite ease-in-out;
+}
+
+@keyframes menuPulse {
+    0%, 100% { opacity: 0.6; box-shadow: 0 0 5px var(--copper); }
+    50% { opacity: 1; box-shadow: 0 0 15px var(--copper), 0 0 25px var(--copper-bright); }
 }
 
 nav.top-menu a {
@@ -117,13 +143,16 @@ nav.top-menu a {
     white-space: nowrap;
 }
 
+/* The Dropdowns */
 .dropdown {
     position: relative;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
-.dropdown > a, .dropdown {
-    display: block;
+.dropdown > a {
+    display: flex;
     align-items: center;
     height: 100%;
 }
@@ -131,10 +160,10 @@ nav.top-menu a {
 .dropdown-content {
     display: none;
     position: absolute;
-    background: rgba(18, 16, 14, 0.95); /* Translucent dark background */
+    background: rgba(18, 16, 14, 0.95);
     min-width: 140px;
     z-index: 1010;
-    border: 2px solid var(--copper); /* Full box border */
+    border: 2px solid var(--copper);
     top: 100%;
     left: 0;
     padding: 4px 0;
@@ -144,23 +173,21 @@ nav.top-menu a {
 
 .dropdown-content a {
     color: var(--text-main);
-    padding: 3px 5px;
+    padding: 8px 12px;
     text-decoration: none;
     display: block;
     transition: all 0.3s ease;
     font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
-    line-height: 1;
+    line-height: 1.2;
     white-space: normal;
-    padding: 3px 5px;
 }
 
 .dropdown-content a:hover {
     background: rgba(212, 138, 61, 0.2);
     color: var(--copper);
 }
-
 
 .dropdown:hover .dropdown-content {
     display: block;
@@ -171,10 +198,14 @@ nav.top-menu a:hover {
     color: var(--copper);
 }
 
-nav.top-menu:hover ~ .language-selector,
-nav.top-menu:hover ~ .content-toggle-controls {
-    opacity: 0;
-    pointer-events: none;
+/* Contact Link Fix */
+nav.top-menu > a:last-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 /* ===== SITE TITLE & CONTROLS ===== */
@@ -347,8 +378,12 @@ footer.hidden,
     margin: 6rem auto;
     position: relative;
     z-index: 10;
+    background: rgba(10, 9, 8, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 10px;
+    padding: 2rem;
     border-left: 4px solid var(--copper);
-    padding-left: 2rem;
 }
 
 .mission-statement h2 {
@@ -366,51 +401,13 @@ footer.hidden,
     line-height: 1.6;
     color: var(--text-main);
     font-weight: 300;
+    text-indent: -0.4em;
+    padding-left: 0.4em;
 }
 
 .mission-text strong {
     color: var(--copper-bright);
     font-weight: 600;
-}
-
-/* Fixes the text wrapping under quotation marks for the mission statement */
-.mission-text {
-    text-indent: -0.4em;
-    padding-left: 0.4em;
-}
-
-/* ==== Frosted Glass Text Panels ==== */
-/* This style applies a frosted glass effect to the mission statement panel */
-.mission-statement {
-    background: rgba(10, 9, 8, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 10px;
-    padding: 2rem;
-    border-left: 4px solid var(--copper);
-}
-
-/* For the voices of earth text */
-.voices-text {
-    background: rgba(10, 9, 8, 0.65);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    padding: 2rem;
-    border-left: 4px solid var(--copper);
-}
-
-/* For the Visionary Cards */
-.visionary-card {
-    background: rgba(18, 16, 14, 0.6);
-    border: 1px solid var(--border-color);
-    padding: 2.5rem 2rem;
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
 }
 
 /* ===== INSPIRATION GRID ===== */
@@ -461,11 +458,7 @@ footer.hidden,
     left: 0;
     width: 100%;
     height: 3px;
-    background: linear-gradient(
-        90deg,
-        var(--copper),
-        var(--copper-bright)
-    );
+    background: linear-gradient(90deg, var(--copper), var(--copper-bright));
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s ease;
@@ -538,6 +531,7 @@ footer.hidden,
     opacity: 0;
 }
 
+/* Modal CSS */
 .visionary-modal {
     display: none;
     position: fixed;
@@ -560,13 +554,12 @@ footer.hidden,
     border-radius: 15px;
     max-width: 800px;
     width: 90%;
-    position: relative;
     box-shadow: 0 0 50px rgba(212, 138, 61, 0.4);
     overflow: hidden;
     animation: fadeIn 0.4s ease-out;
 }
 
-@keyframes modalFadeIn {
+@keyframes fadeIn {
     from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
 }
@@ -674,7 +667,6 @@ footer.hidden,
 .theme-item:hover .theme-content {
     opacity: 0;
     transform: scale(0.95);
-    box-shadow: 0 0 20px rgba(212, 138, 61, 0.03);
 }
 
 /* ===== VOICES OF EARTH ===== */
@@ -711,14 +703,6 @@ footer.hidden,
     transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
-.voices-icon {
-    font-size: 6rem;
-    opacity: 0.8;
-    z-index: 2;
-    filter: drop-shadow(0 0 20px rgba(212, 138, 61, 0.5));
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-}
-
 .voices-video {
     position: absolute;
     inset: 0;
@@ -728,15 +712,6 @@ footer.hidden,
     opacity: 0;
     z-index: 1;
     transition: opacity 0.4s ease;
-}
-
-.voices-row:hover .voices-video {
-    opacity: 1;
-}
-
-.voices-row:hover .voices-visual {
-    border-color: var(--copper);
-    box-shadow: 0 0 20px rgba(212, 138, 61, 0.3);
 }
 
 .voices-text {
@@ -766,94 +741,13 @@ footer.hidden,
     font-style: italic;
 }
 
-/* ===== CTA SECTION ===== */
-.cta-section {
-    max-width: 1000px;
-    margin: 8rem auto 12rem;
-    text-align: center;
-    position: relative;
-    z-index: 10;
-    padding: 5rem 2rem;
-    border: 2px solid var(--copper);
-    background: linear-gradient(
-        135deg,
-        rgba(18, 16, 14, 0.9),
-        rgba(10, 9, 8, 0.95)
-    );
-    box-shadow: 0 0 40px rgba(212, 138, 61, 0.1);
-}
-
-.cta-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 3rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-}
-
-.cta-message {
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    margin-bottom: 2rem;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.6;
-}
-
 /* ===== CREATOR'S JOURNEY ===== */
 .creator-section {
     max-width: 1000px;
     margin: 8rem auto;
     position: relative;
     z-index: 10;
-    padding: 4rem;
-    background: rgba(18, 16, 14, 0.85);
-    border: 1px solid var(--border-color);
-    border-left: 4px solid var(--copper);
-}
-
-.creator-section h2 {
-    color: var(--copper);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-}
-
-.rejection-letter {
-    font-family: 'Courier New', monospace;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 2rem;
-    border: 1px dashed var(--copper);
-    color: var(--gold);
-    font-size: 1.1rem;
-    line-height: 1.8;
-    margin: 2rem 0;
-    position: relative;
-    font-style: italic;
-}
-
-.rejection-letter::before {
-    content: 'REJECTION LETTER · 1980s';
-    position: absolute;
-    top: -12px;
-    left: 20px;
-    background: var(--bg-panel);
-    padding: 0 10px;
-    font-size: 0.7rem;
-    font-family: 'Orbitron', sans-serif;
-    color: var(--copper);
-    letter-spacing: 2px;
-    font-style: normal;
-}
-
-/* ===== CREATOR'S JOURNEY FIXES ===== */
-.creator-section {
-    max-width: 1000px;
-    margin: 8rem auto;
-    position: relative;
-    z-index: 10;
-    padding: 3rem 4rem; /* Better padding */
+    padding: 3rem 4rem;
     background: rgba(18, 16, 14, 0.85);
     border: 1px solid var(--border-color);
     border-left: 4px solid var(--copper);
@@ -868,11 +762,9 @@ footer.hidden,
     margin-bottom: 2rem;
 }
 
-/* Forces the Creator's Journey text to align perfectly left */
 .creator-section .mission-text {
     text-indent: 0 !important;
     padding-left: 0 !important;
-    margin-left: 0 !important;
     text-align: left !important;
     white-space: normal !important;
 }
@@ -888,9 +780,7 @@ footer.hidden,
     margin: 2rem 0;
     position: relative;
     font-style: italic;
-    /* This prevents the box from overflowing */
     word-wrap: break-word;
-    overflow-wrap: break-word;
     box-sizing: border-box;
     width: 100%;
 }
@@ -909,7 +799,6 @@ footer.hidden,
     font-style: normal;
 }
 
-/* The new Footer for the Creator Section */
 .creator-footer {
     display: flex;
     justify-content: space-between;
@@ -934,14 +823,12 @@ footer.hidden,
     flex-wrap: wrap;
 }
 
-/* Styling the buttons to match the action grid */
 .creator-socials .action-btn {
     padding: 0.6rem 1.2rem;
     font-size: 0.85rem;
     text-decoration: none;
 }
 
-/* Specific LinkedIn styling */
 .creator-socials .action-btn.linkedin {
     border-color: #0077b5;
     color: #0077b5;
@@ -950,18 +837,6 @@ footer.hidden,
 .creator-socials .action-btn.linkedin:hover {
     background: #0077b5;
     color: #fff;
-    box-shadow: 0 0 20px rgba(0, 119, 181, 0.6);
-}
-
-/* Mobile adjustments for the creator section */
-@media (max-width: 768px) {
-    .creator-section {
-        padding: 2rem 1.5rem;
-    }
-    .creator-footer {
-        flex-direction: column;
-        align-items: flex-start;
-    }
 }
 
 /* ===== ROADMAP ===== */
@@ -1083,14 +958,6 @@ footer.hidden,
     text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* Hover effect for the cornerstone quote */
-.cornerstone-quote:hover,
-.cornerstone-sub:active {
-    color: #ffffff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-    text-shadow: 0 0 20px rgba(212, 138, 61, 0.8);
-}
-
 /* ===== ACTION DASHBOARD ===== */
 .action-dashboard {
     max-width: 1000px;
@@ -1203,15 +1070,9 @@ footer {
 }
 
 @keyframes plasmaPulse {
-    0% {
-        box-shadow: 0 0 5px var(--copper);
-    }
-    50% {
-        box-shadow: 0 0 20px var(--copper), 0 0 30px var(--copper-bright);
-    }
-    100% {
-        box-shadow: 0 0 5px var(--copper);
-    }
+    0% { box-shadow: 0 0 5px var(--copper); }
+    50% { box-shadow: 0 0 20px var(--copper), 0 0 30px var(--copper-bright); }
+    100% { box-shadow: 0 0 5px var(--copper); }
 }
 
 .mobile-menu {
@@ -1220,13 +1081,14 @@ footer {
     left: -100%;
     width: 320px;
     height: 100vh;
-    background: var(--bg-dark);
-    border-right: 2px solid var(--copper);
+    background: linear-gradient(145deg, rgba(10, 9, 8, 0.98) 0%, rgba(26, 20, 15, 0.95) 100%);
+    border-right: 3px solid var(--copper);
     padding: 25px 20px;
-    transition: left 0.5s ease;
+    transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     z-index: 1003;
     overflow-y: auto;
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.9);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.9), 5px 0 25px rgba(212, 138, 61, 0.3);
+    backdrop-filter: blur(15px);
 }
 
 .mobile-menu.active {
@@ -1238,7 +1100,25 @@ footer {
     justify-content: space-between;
     margin-bottom: 20px;
     padding-bottom: 15px;
-    border-bottom: 2px solid var(--copper);
+    position: relative;
+    border-bottom: none;
+}
+
+.menu-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--copper), transparent);
+    box-shadow: 0 0 10px var(--copper);
+    animation: pulse-divider 2s infinite ease-in-out;
+}
+
+@keyframes pulse-divider {
+    0%, 100% { opacity: 0.4; box-shadow: 0 0 5px var(--copper); }
+    50% { opacity: 1; box-shadow: 0 0 15px var(--copper), 0 0 25px var(--copper-bright); }
 }
 
 .menu-header h3 {
@@ -1276,95 +1156,6 @@ footer {
     padding-left: 16px;
 }
 
-/* Update your existing .mobile-menu */
-.mobile-menu {
-    position: fixed;
-    top: 0;
-    left: -100%;
-    width: 320px;
-    height: 100vh;
-    background: linear-gradient(
-        145deg,
-        rgba(10, 9, 8, 0.98) 0%,
-        rgba(26, 20, 15, 0.95) 100%
-    );
-    border-right: 3px solid var(--copper);
-    padding: 25px 20px;
-    transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    z-index: 1003;
-    overflow-y: auto;
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.9), 5px 0 25px rgba(212, 138, 61, 0.3);
-    backdrop-filter: blur(15px);
-}
-
-/* Add the glowing divider line under the title */
-.menu-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    position: relative;
-    border-bottom: none;
-}
-
-.menu-header::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--copper), transparent);
-    box-shadow: 0 0 10px var(--copper);
-    animation: pulse-divider 2s infinite ease-in-out;
-}
-
-@keyframes pulse-divider {
-    0%, 100% { opacity: 0.4; box-shadow: 0 0 5px var(--copper); }
-    50% { opacity: 1; box-shadow: 0 0 15px var(--copper), 0 0 25px var(--copper-bright); }
-}
-
-/* Fix for the Contact link at the endof the top menu */
-nav.top-menu > a {
-    padding-bottom: 0.5rem 0.8rem;
-    display: flex;
-    align-items: center;
-}
-
-/* Add the pulsar line to the bottom of the menu */
-nav.top-menu {
-    position: relative;
-    border-bottom: none
-}
-
-nav.top-menu::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(
-        90deg, 
-        transparent, 
-        var(--copper), 
-        var(--copper-bright),
-        var(--copper),
-        transparent
-        );
-    box-shadow: 0 0 10px var(--copper);
-    animation: menuPulse 3s infinite ease-in-out;
-}
-
-@keyframes menuPulse {
-    0%, 100% { opacity: 0.6; box-shadow: 0 0 5px var(--copper); 
-    }
-    50% { opacity: 1; 
-        box-shadow: 0 0 15px var(--copper), 0 0 25px var(--copper-bright); 
-    }
-}
-
-/* The hierarchical titles and sub-pages */
 .menu-content .menu-item.main-title a {
     color: #ffffff;
     font-weight: 800;
@@ -1404,23 +1195,6 @@ nav.top-menu::after {
     border-left-color: var(--copper);
     padding-left: 32px;
     text-shadow: 0 0 6px var(--copper);
-}    
-
-.menu-content .menu-item.main-title a {
-    color: #fff;
-    font-weight: 800;
-    background: rgba(212, 138, 61, 0.15);
-    border-left: 3px solid var(--copper);
-    margin-top: 10px;
-    text-transform: uppercase;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.8rem;
-}
-
-.menu-content .menu-item.sub-page a {
-    color: var(--text-muted);
-    padding-left: 28px;
-    font-weight: 400;
 }
 
 @media (max-width: 992px) {
