@@ -1276,6 +1276,96 @@ footer {
     padding-left: 16px;
 }
 
+/* Update your existing .mobile-menu */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 320px;
+    height: 100vh;
+    background: linear-gradient(
+        145deg,
+        rgba(10, 9, 8, 0.98) 0%,
+        rgba(26, 20, 15, 0.95) 100%
+    );
+    border-right: 3px solid var(--copper);
+    padding: 25px 20px;
+    transition: left 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1003;
+    overflow-y: auto;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.9), 5px 0 25px rgba(212, 138, 61, 0.3);
+    backdrop-filter: blur(15px);
+}
+
+/* Add the glowing divider line under the title */
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    position: relative;
+    border-bottom: none;
+}
+
+.menu-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--copper), transparent);
+    box-shadow: 0 0 10px var(--copper);
+    animation: pulse-divider 2s infinite ease-in-out;
+}
+
+@keyframes pulse-divider {
+    0%, 100% { opacity: 0.4; box-shadow: 0 0 5px var(--copper); }
+    50% { opacity: 1; box-shadow: 0 0 15px var(--copper), 0 0 25px var(--copper-bright); }
+}
+
+/* The hierarchical titles and sub-pages */
+.menu-content .menu-item.main-title a {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.9rem;
+    background: rgba(212, 138, 61, 0.15);
+    border-left: 3px solid var(--copper);
+    margin-top: 12px;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    font-family: 'Orbitron', sans-serif;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.menu-content .menu-item.sub-page a {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 0.85rem;
+    padding: 8px 15px 8px 28px;
+    border-left: 1px solid rgba(212, 138, 61, 0.3);
+    margin-left: 12px;
+    border-radius: 0 4px 4px 0;
+    transition: all 0.3s ease;
+}
+
+.menu-content .menu-item.main-title a:hover,
+.menu-content .menu-item.main-title a.active {
+    background: rgba(212, 138, 61, 0.4);
+    border-left-color: #fff;
+    color: #fff;
+}
+
+.menu-content .menu-item.sub-page a:hover,
+.menu-content .menu-item.sub-page a.active {
+    color: var(--copper-bright);
+    background: rgba(212, 138, 61, 0.2);
+    border-left-color: var(--copper);
+    padding-left: 32px;
+    text-shadow: 0 0 6px var(--copper);
+}    
+
 .menu-content .menu-item.main-title a {
     color: #fff;
     font-weight: 800;
@@ -1744,7 +1834,7 @@ footer {
 
         <div class="roadmap-item" onclick="openVisionaryModal(this)">
             <video class="roadmap-hover-video" muted loop playsinline>
-                <source src="videos/gargoyle-on-mars.mp4" type="video/mp4">
+                <source src="videos/gargoyle-four.mp4" type="video/mp4">
             </video>
             <div class="roadmap-content">
                 <span class="roadmap-phase">PHASE 02 · 2026</span>
@@ -1781,7 +1871,7 @@ footer {
     <section class="action-dashboard">
         <h2 class="action-title">JOIN THE MIGRATION</h2>
         <p class="cta-message">This world was born from a simple belief: that our future among the stars should be filled with beauty, compassion, and creativity. Right now, it's just me building this world. But with every visitor who explores these pages, the journey becomes ours.</p>
-        <p class="cta-message" style="font-style: italic; color: var(--copper);">"Right now, it's just me building this world. But with every visitor who explores these pages, the journey becomes ours."</p>
+        <p class="cta-message" style="font-style: italic; color: var(--copper);">"This is just the beginning of the next migration. Until then, don't lose hope. Life will go on. 'Nuff said."</p>
         <div class="action-grid">
             <a href="story.html" class="action-btn">Explore the Stories</a>
             <a href="martian-games.html" class="action-btn">Play the Games</a>
