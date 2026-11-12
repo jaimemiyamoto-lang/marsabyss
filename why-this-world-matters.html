@@ -1324,6 +1324,46 @@ footer {
     50% { opacity: 1; box-shadow: 0 0 15px var(--copper), 0 0 25px var(--copper-bright); }
 }
 
+/* Fix for the Contact link at the endof the top menu */
+nav.top-menu > a {
+    padding-bottom: 0.5rem 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+/* Add the pulsar line to the bottom of the menu */
+nav.top-menu {
+    position: relative;
+    border-bottom: none
+}
+
+nav.top-menu::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+        90deg, 
+        transparent, 
+        var(--copper), 
+        var(--copper-bright),
+        var(--copper),
+        transparent
+        );
+    box-shadow: 0 0 10px var(--copper);
+    animation: menuPulse 3s infinite ease-in-out;
+}
+
+@keyframes menuPulse {
+    0%, 100% { opacity: 0.6; box-shadow: 0 0 5px var(--copper); 
+    }
+    50% { opacity: 1; 
+        box-shadow: 0 0 15px var(--copper), 0 0 25px var(--copper-bright); 
+    }
+}
+
 /* The hierarchical titles and sub-pages */
 .menu-content .menu-item.main-title a {
     color: #ffffff;
