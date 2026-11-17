@@ -21,14 +21,14 @@ overflow-x: hidden;
 position: relative;
 }
 
-/* VIDEO BACKGROUND WITH FALLBACK - CLEAN, NO FILTERS */
+/* VIDEO BACKGROUND - NO FILTERS! */
 .background-container {
 position: fixed;
 top: 0;
 left: 0;
 width: 100%;
 height: 100%;
-z-index: 1;
+z-index: -2;
 }
 
 .video-background {
@@ -39,6 +39,8 @@ width: 100%;
 height: 100%;
 object-fit: cover;
 z-index: 1;
+opacity: 1; /* Full opacity for full color */
+transition: opacity 0.5s ease;
 }
 
 .static-background {
@@ -65,22 +67,6 @@ opacity: 0;
 transition: opacity 1.5s ease;
 }
 
-.video-overlay {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(10, 10, 26, 0.4);
-z-index: 2;
-pointer-events: none;
-transition: opacity 0.3s ease; /* faster transition */
-}
-
-.video-overlay.hidden {
-opacity: 0;
-}
-
 /* === STANDARD TOP MENU === */
 nav.top-menu {
 position: fixed;
@@ -95,7 +81,7 @@ gap: 2.5rem;
 flex-wrap: nowrap;
 backdrop-filter: blur(10px);
 border-bottom: 2px solid #ff9553;
-transition: opacity 0.3s ease, transform 0.3s ease; /* faster */
+transition: all 0.5s ease;
 }
 
 nav.top-menu.hidden {
@@ -117,7 +103,7 @@ align-items: center;
 
 nav.top-menu a.active,
 nav.top-menu a:hover {
-color: #ff4444;
+color: #ff9553;
 background: transparent;
 }
 
@@ -179,7 +165,7 @@ display: block;
 display: block;
 }
 
-/* === HAMBURGER MENU (blue theme) === */
+/* === HAMBURGER MENU FOR MOBILE === */
 .mobile-nav {
 display: none;
 position: fixed;
@@ -188,8 +174,14 @@ left: 15px;
 z-index: 1002;
 }
 
+@keyframes plasmaPulse {
+    0% { box-shadow: 0 0 5px #ff9553;}
+    50% { box-shadow: 0 0 20px #ff9553, 0 0 30px #ff4444; }
+    100% { box-shadow: 0 0 5px #ff9553;}
+}
+
 .hamburger-btn {
-background: rgba(0, 0, 0, 0.85);
+background: rgba(17, 17, 17, 0.85);
 border: 2px solid #ff9553;
 border-radius: 4px;
 width: 50px;
@@ -201,6 +193,7 @@ align-items: center;
 cursor: pointer;
 transition: all 0.3s ease;
 backdrop-filter: blur(5px);
+animation: plasmaPulse 3s infinite ease-in-out;
 }
 
 .hamburger-btn span {
@@ -217,7 +210,7 @@ background: rgba(255, 149, 83, 0.9);
 }
 
 .hamburger-btn:hover span {
-background: #ffffff;
+background: #000;
 }
 
 .mobile-menu {
@@ -226,13 +219,13 @@ top: 0;
 left: -100%;
 width: 300px;
 height: 100vh;
-background: rgba(10, 10, 20, 0.98);
+background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(17, 17, 17, 0.9));
 border-right: 2px solid #ff9553;
 padding: 20px;
 transition: left 0.4s ease;
 z-index: 1003;
 overflow-y: auto;
-backdrop-filter: blur(8px);
+backdrop-filter: blur(10px);
 }
 
 .mobile-menu.active {
@@ -245,21 +238,20 @@ justify-content: space-between;
 align-items: center;
 margin-bottom: 20px;
 padding-bottom: 15px;
-border-bottom: 1px solid #ff9553;
+border-bottom: 1px solid rgba(255, 149, 83, 0.3);
 }
 
 .menu-header h3 {
-color: #ffffff;
+color: #ff9553;
 font-family: 'Orbitron', sans-serif;
 font-size: 1rem;
 margin: 0;
-text-shadow: 0 0 8px #ff9553;
 }
 
 .close-menu {
 background: transparent;
 border: none;
-color: #ffffff;
+color: #ff9553;
 font-size: 1.5rem;
 cursor: pointer;
 width: 30px;
@@ -272,8 +264,7 @@ transition: all 0.3s ease;
 }
 
 .close-menu:hover {
-background: rgba(255, 149, 83, 0.5);
-color: #fff;
+background: rgba(255, 149, 83, 0.2);
 }
 
 .menu-content {
@@ -298,31 +289,29 @@ font-size: 0.95rem;
 
 .menu-content .menu-item a:hover,
 .menu-content .menu-item a.active {
-border-left-color: #ffffff;
-background: rgba(255, 149, 83, 0.3);
-color: #ffffff;
+border-left-color: #ff9553;
+background: rgba(255, 149, 83, 0.1);
+color: #ff9553;
 }
 
 .menu-footer {
 margin-top: 20px;
 padding-top: 15px;
-border-top: 1px solid #ff9553;
+border-top: 1px solid rgba(255, 149, 83, 0.3);
 text-align: center;
-color: #ffffff;
+color: #ff9553;
 font-family: 'Orbitron', sans-serif;
 font-size: 0.8rem;
-text-shadow: 0 0 5px #ff9553;
 }
 
 .pulse {
 display: inline-block;
 width: 8px;
 height: 8px;
-background-color: #ffffff;
+background-color: #ff9553;
 border-radius: 50%;
 margin-right: 8px;
 animation: blink 1.5s infinite;
-box-shadow: 0 0 10px #ff9553;
 }
 
 @keyframes blink {
@@ -347,7 +336,7 @@ transition: all 0.3s ease;
 }
 
 .hide-content-btn:hover {
-background: rgba(255, 149, 83, 0.6);
+background: rgba(255, 68, 68, 0.3);
 color: black;
 }
 
@@ -357,7 +346,7 @@ position: fixed;
 top: 80px;
 left: 30px;
 z-index: 50;
-transition: opacity 0.3s ease;
+transition: opacity 0.4s ease;
 opacity: 1;
 }
 
@@ -377,34 +366,35 @@ font-size: 1.8rem;
 text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
 font-weight: 300;
 letter-spacing: 2px;
+transition: all 0.3s ease;
 }
 
-/* AUDIO CONTROLS - matching hide content button */
+/* AUDIO CONTROLS */
 .audio-controls {
 position: fixed;
 bottom: 80px;
-right: 40px;
+right: 30px;
 z-index: 1000;
 }
 
 .audio-btn {
 background: rgba(0, 0, 0, 0.7);
 border: 2px solid #ff9553;
-color: #ff9553;
-padding: 10px 15px;
-border-radius: 25px;
+color: #ff9553 !important; /* Forces the orange text */
+padding: 8px 12px;
+border-radius: 15px;
 cursor: pointer;
 transition: all 0.3s ease;
 backdrop-filter: blur(5px);
-font-size: 0.9rem;
+font-size: clamp(0.7rem, 2vw, 0.8rem);
 }
 
 .audio-btn:hover {
-background: rgba(255, 149, 83, 0.6);
-color: black;
+background: rgba(255, 68, 68, 0.3);
+color: black !important; /* Changes to black on hover */
 }
 
-/* Quote Overlay (initial) */
+/* Quote Overlay */
 .quote-container {
 position: fixed;
 top: 0;
@@ -415,7 +405,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 z-index: 200;
-background: rgba(10, 10, 26, 0.9);
+background: rgba(10, 10, 26, 0.6); /* Darker overlay so the marble stands out */
 opacity: 1;
 animation: fadeInOut 15s ease-in-out forwards;
 padding: 2rem;
@@ -432,29 +422,29 @@ padding: 2rem;
 max-width: 800px;
 text-align: center;
 padding: 3rem;
-background: rgba(20, 20, 40, 0.9);
+background: url('images/tcom-marble-slab-white-header.jpg') no-repeat center center / cover;
 border-radius: 15px;
-border: 2px solid rgba(255, 100, 100, 0.5);
+border: 4px solid #a0a0a0;
 box-shadow: 0 0 40px rgba(255, 50, 50, 0.3);
-backdrop-filter: blur(10px);
 }
 
+/* Dark text for the light marble */
 .quote {
 font-size: 1.8rem;
 line-height: 1.6;
 font-style: italic;
-margin-bottom: 2rem;
-color: #f5f5dc;
-text-shadow: 0 0 10px rgba(255, 235, 205, 0.5);
+margin-bottom: 1rem;
+color: #2c2c2c; /* Dark charcoal for the carved text */
+text-shadow: 1 1 0px rgba(255, 235, 205, 0.5); /* Slight highlight to look engraved */
 }
 
 .author {
 font-size: 1.4rem;
-color: #ff7b7b;
-text-shadow: 0 0 10px rgba(255, 100, 100, 0.5);
+color: #5a5a5a;
+text-shadow: 1 1 0px rgba(255, 100, 100, 0.4);
 }
 
-/* STORY CONTENT */
+/* STORY CONTENT - IMPROVED READABILITY */
 .story-content {
 position: relative;
 width: 100%;
@@ -462,39 +452,77 @@ min-height: 100vh;
 padding: 120px 2rem 2rem;
 z-index: 50;
 opacity: 1;
-transition: opacity 0.2s ease; /* faster toggle */
-}
-
-@keyframes contentFadeIn {
-to { opacity: 1; }
-}
-
-.story-content.hidden {
-opacity: 0 !important;
-pointer-events: none;
+transition: opacity 0.5s ease;
 }
 
 .story-title {
 font-size: 3.5rem;
 text-align: center;
 margin-bottom: 3rem;
-color: #ff4b4b;
+color: #da990d;
 text-shadow: 0 0 20px rgba(255, 75, 75, 0.7);
 font-family: 'Orbitron', sans-serif;
 }
 
-.story-text {
+/* Fix for hide Content functionality */
+.story-content.hidden-content {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    animation: none !important;
+}
+
+.story-text-container {
 max-width: 900px;
 margin: 0 auto;
-font-size: 1.3rem;
-line-height: 1.8;
-color: #f0f0f0;
 background: rgba(0, 0, 0, 0.7);
 padding: 3rem;
 border-radius: 15px;
 backdrop-filter: blur(10px);
 border: 1px solid rgba(255, 100, 100, 0.3);
 box-shadow: 0 0 30px rgba(255, 50, 50, 0.2);
+}
+
+.story-text {
+position: relative;
+max-width: 900px;
+margin: 0 auto 3rem auto;
+font-size: 1.3rem;
+line-height: 1.8;
+color: #f0f0f0;
+
+/* The Premium Banner look */
+background: rgba(10, 10, 20, 0.85); /* Dark, slightly blue tint */
+padding: 3rem;
+border-radius: 15px;
+backdrop-filter: blur(255, 149, 83, 0.4); /* Match your orange theme */
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 149, 83, 0.1);
+}
+
+/* The TOS Viewscreen Inner Frame */
+.story-text::before {
+content: '';
+position: absolute;
+top: 12px;
+bottom: 12px;
+left: 12px;
+right: 12px;
+border: 2px solid rgba(255, 149, 83, 0.6);
+border-radius: 10px;
+pointer-events: none;
+filter: blur(1px);
+animation: viewscreenPulse 4s infinite alternate;    
+}
+
+/* The Plasma Glow Animation */
+@keyframes viewscreenPulse {
+    0% {
+        border-color: rgba(255, 149, 83, 0.3);
+        box-shadow: 0 0 10px rgba(255, 149, 83, 0.2), inset 0 0 15px rgba(255, 68, 68, 0.1);
+    }
+    100% {
+        border-color: rgba(255, 149, 83, 0.8);
+        box-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
+    }
 }
 
 .story-text p {
@@ -507,6 +535,55 @@ font-weight: 600;
 text-shadow: 0 0 10px rgba(255, 100, 100, 0.5);
 }
 
+/* Plasma Divider Line */
+.plasma-divider {
+    width: 80;
+    max-width: 800px;
+    height: 3px;
+    margin: 3rem auto;
+    background: linear-gradient(90deg, transparent, #ff9553, #ff4444, #ff9553, transparent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ff9553, 0 0 20px #ff4444;
+    animation: plasmaFlow 2s infinite alternate;
+}
+
+@keyframes plasmaFlow {
+    0% { opacity: 0.6; box-shadow: 0 0 5px #ff9553; }
+    100% { opacity: 1; box-shadow: 0 0 20px #ff9553 0 0 30px #ff4444; }
+}
+
+/* Fix the bottom margin so the text is perfectly centered in the box */
+.story-text p:last-of-type {
+    margin-bottom: 0;
+}
+
+/* The Archive Signature */
+.archive-signature {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 149, 83, 0.3); /* Thin divider line */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stardate {
+    font-family: 'Orbitron', sans-serif;
+    color: #ff9553;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-shadow: 0 0 8px rgba(255, 149, 83, 0.5);
+}
+
+.signature-name {
+    font-family: 'segoe UI', sans-serif;
+    color: #f5f5dc;
+    font-style: italic;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
 /* FIXED SCROLLABLE CARD STRIP */
 .card-section {
 position: relative;
@@ -515,14 +592,9 @@ display: flex;
 align-items: center;
 justify-content: center;
 gap: 1rem;
-margin: 3rem auto;
+margin: 3rem auto 110px auto;
 padding: 0 2rem;
-transition: opacity 0.2s ease; /* faster */
-}
-
-.card-section.hidden {
-opacity: 0;
-pointer-events: none;
+transition: opacity 0.5s ease;
 }
 
 .card-container {
@@ -622,202 +694,243 @@ color: #ccc;
 font-family: 'Segoe UI', sans-serif;
 z-index: 1000;
 border-top: 2px solid #ff9553;
-transition: opacity 0.2s ease; /* faster */
+transition: opacity 0.5s ease;
 }
 
-footer.hidden {
-opacity: 0;
-pointer-events: none;
+/* ===== NEW PORTAL GRID ===== */
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto 5rem auto;
+  padding: 0 1rem;
 }
 
-/* Mobile media query – hide desktop menu, show hamburger */
-@media (max-width: 992px) {
- nav.top-menu {
- display: none;
- }
- .mobile-nav {
- display: block;
- }
- .site-title-overlay {
- top: 70px;
- left: 15px;
- }
- .site-title-overlay h1 {
- font-size: 1.4rem;
- }
- .hide-content-btn {
- top: 60px;
- right: 10px;
- }
- .audio-controls {
- bottom: 70px;
- right: 20px;
- }
+.portal-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  border: 2px solid rgba(255, 149, 83, 0.3);
+  transition: all 0.4s ease;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
 }
+
+.portal-card:hover {
+  border-color: #ff9553;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 149, 83, 0.3);
+}
+
+.portal-card-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+}
+
+.portal-card:hover .portal-card-video {
+  opacity: 0.8; /* Brightens the video on hover */
+}
+
+.portal-card-content {
+  position: relative;
+  z-index: 2;
+  padding: 2rem;
+  margin-top: auto;
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 70%, transparent 100%);
+}
+
+.portal-card-content h3 {
+  color: #ff9553;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.portal-card-content p {
+  color: #e0e0e0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
 
 /* ==================== RESPONSIVE DESIGN ==================== */
 
 /* Tablet & Mobile: Hide desktop menu, show hamburger */
 @media (max-width: 1024px) {
 nav.top-menu {
- display: none;
+    display: none;
 }
 
 .mobile-nav {
- display: block;
+    display: block;
 }
 
 .site-title-overlay {
- top: 70px;
- left: 20px;
+    top: 70px;
+    left: 20px;
 }
 
 .site-title-overlay h1 {
- font-size: 1.4rem;
+    font-size: 1.4rem;
 }
 
 .hide-content-btn {
- top: 70px;
- right: 20px;
+    top: 70px;
+    right: 20px;
 }
 }
 
 /* Tablet adjustments */
 @media (max-width: 768px) {
 .quote {
- font-size: 1.4rem;
+    font-size: 1.4rem;
 }
 
 .author {
- font-size: 1.2rem;
+    font-size: 1.2rem;
 }
 
 .quote-box {
- padding: 2rem;
+    padding: 2rem;
 }
 
 .story-title {
- font-size: 2.5rem;
+    font-size: 2.5rem;
+}
+
+.story-text-container {
+    padding: 2rem;
 }
 
 .story-text {
- font-size: 1.1rem;
- padding: 2rem;
+    font-size: 1.1rem;
 }
 
 .card-container {
- max-width: 95%;
- padding: 0.8rem 1rem;
+    max-width: 95%;
+    padding: 0.8rem 1rem;
 }
 
 .card {
- width: 130px;
- height: 200px;
+    width: 130px;
+    height: 200px;
 }
 
 .story-content {
- padding-top: 100px;
+    padding-top: 100px;
 }
 }
 
 /* Mobile adjustments */
 @media (max-width: 480px) {
 .quote {
- font-size: 1.2rem;
+    font-size: 1.2rem;
 }
 
 .author {
- font-size: 1rem;
+    font-size: 1rem;
 }
 
 .quote-box {
- padding: 1.5rem;
+    padding: 1.5rem;
 }
 
 .story-title {
- font-size: 2rem;
+    font-size: 2rem;
+}
+
+.story-text-container {
+    padding: 1.5rem;
 }
 
 .story-text {
- font-size: 1rem;
- padding: 1.5rem;
+    font-size: 1rem;
 }
 
 .card {
- width: 110px;
- height: 170px;
+    width: 110px;
+    height: 170px;
 }
 
 .arrow {
- font-size: 2rem;
+    font-size: 2rem;
 }
 
 .site-title-overlay {
- top: 65px;
- left: 15px;
+    top: 65px;
+    left: 15px;
 }
 
 .site-title-overlay h1 {
- font-size: 1.2rem;
+    font-size: 1.2rem;
 }
 
 .audio-controls {
- bottom: 60px;
- right: 20px;
+    bottom: 60px;
+    right: 20px;
 }
 
 .audio-btn {
- padding: 8px 12px;
- font-size: 0.8rem;
+    padding: 8px 12px;
+    font-size: 0.8rem;
 }
 
 .story-content {
- padding: 90px 1rem 1rem;
+    padding: 90px 1rem 1rem;
 }
 
 .hide-content-btn {
- top: 20px;
- right: 20px;
+    top: 20px;
+    right: 20px;
 }
 
 .menu-content .menu-item a {
- padding: 12px 15px;
- font-size: 0.9rem;
+    padding: 12px 15px;
+    font-size: 0.9rem;
 }
 }
 
 /* Very small phones */
 @media (max-width: 360px) {
 .card {
- width: 90px;
- height: 150px;
+    width: 90px;
+    height: 150px;
 }
 
 .story-title {
- font-size: 1.8rem;
+    font-size: 1.8rem;
 }
 
 .mobile-menu {
- width: 280px;
+    width: 280px;
 }
 }
 </style>
 </head>
+
 <body>
-<!-- BACKGROUND CONTAINER WITH VIDEO - NO FILTERS, FULL BRIGHTNESS -->
+<!-- BACKGROUND CONTAINER WITH VIDEO - NO FILTERS -->
 <div class="background-container">
 <video class="video-background" id="storyVideo" muted loop playsinline autoplay>
-<source src="videos/videomartian-preview-2.mp4" type="video/mp4">
+<source src="videos/tiger-and-trex-on-mars.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
 <div class="static-background" id="staticBg"></div>
 <div class="background-2" id="background2"></div>
 </div>
 
-<!-- Video overlay (dimming) – will be hidden when content hidden -->
-<div class="video-overlay" id="videoOverlay"></div>
-
-<!-- HAMBURGER MENU (blue theme) -->
+<!-- MOBILE HAMBURGER MENU -->
 <div class="mobile-nav">
 <button class="hamburger-btn" id="hamburgerBtn">
 <span></span>
@@ -826,12 +939,14 @@ Your browser does not support the video tag.
 </button>
 <nav class="mobile-menu" id="mobileMenu">
 <div class="menu-header">
-<h3>THE MARS ABYSS</h3>
+<h3>STORY PORTAL</h3>
 <button class="close-menu" id="closeMenu">✕</button>
 </div>
-<div class="menu-content"></div>
+<div class="menu-content">
+<!-- Menu items will be generated by JavaScript -->
+</div>
 <div class="menu-footer">
-<span class="pulse"></span> STORY
+<span class="pulse"></span> TRANSMISSION ACTIVE
 </div>
 </nav>
 </div>
@@ -840,13 +955,13 @@ Your browser does not support the video tag.
 <button class="hide-content-btn" id="hideContentBtn">Hide Content</button>
 
 <!-- SITE TITLE OVERLAY -->
-<div class="site-title-overlay" id="siteTitle">
+<div class="site-title-overlay">
 <h1>The Mars Abyss</h1>
 </div>
 
 <!-- AUDIO CONTROLS -->
 <div class="audio-controls">
-<button class="audio-btn" id="muteBtn">🔇 UNMUTE LAB</button>
+<button class="audio-btn" id="muteBtn">🔇 Mute Audio</button>
 </div>
 
 <!-- CORRECT TOP MENU -->
@@ -922,7 +1037,8 @@ Your browser does not support the video tag.
 <a href="martian-actualities.html">Martian Actualities</a>
 <a href="the-martian-economic-vision.html" style="color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1);">⭐ The Martian Economic Vision</a>
 <a href="mars-bee-facility.html">Mars Bee Facility</a>
-<a href="mars-dome-cities-tour.html">Dome Cities Tour</a>
+<a href="mars-travel-preparation.html">Mars Travel Preparation</a>
+<a href="mars-dome-cities-tour.html">Mars Dome Cities Tour</a>
 <a href="house-of-health-secrets.html">The House of Health Secrets</a>
 <a href="emergency-shelter-network.html">Emergency Shelter Network</a>
 <a href="martian-rest-areas.html">Martian Rest Areas</a>
@@ -972,9 +1088,9 @@ Your browser does not support the video tag.
 <div class="dropdown">
 <a href="support.html" class="dropbtn">Support</a>
 <div class="dropdown-content">
-<a href="silver's-sign-language-course.html">Silver's language Academy</a> 
+<a href="saint-claire-initiative.html">The Saint Claire Initiative</a> 
 <a href="martian-childrens-santuary.html">Children's Sanctuary</a>
-<a href="cosmic-economics.html">Cosmic Economics</a>
+<a href="mars-food-district.html">Mars Food District</a>
 <a href="quantum-financial-transfer.html">Quantum Financial Transfer</a>
 <a href="support-earth-hospitals.html">Support Earth Hospitals</a>
 <a href="fund-martian-research.html">Fund Martian Research</a>
@@ -986,8 +1102,8 @@ Your browser does not support the video tag.
 <a href="contact.html">Contact</a>
 </nav>
 
-<!-- Quote Overlay (appears on load, fades out) -->
-<div class="quote-container" id="quoteContainer">
+<!-- Quote Overlay -->
+<div class="quote-container">
 <div class="quote-box">
 <div class="quote">
 "Writing is like dreaming, and it's the writer's job to bring calm to the chaos often encountered in those dreams by giving them a direction that makes sense and rings true to the hearts and minds of every human being. This is what makes you smile at the end of a story."
@@ -998,25 +1114,73 @@ Your browser does not support the video tag.
 
 <!-- Story Content -->
 <div class="story-content" id="storyContent">
-<h1 class="story-title">The Story of The Mars Abyss</h1>
-<div class="story-text">
-<p>In the year 2147, humanity established its first permanent settlement on Mars. The colony, named <span class="story-highlight">Ares Prime</span>, was meant to be the beginning of a new chapter for our species. But what we found beneath the Martian soil would change everything.</p>
+  <h1 class="story-title">The Archives of The Mars Abyss</h1>
+  
+  <div class="story-text" style="text-align: center; margin-bottom: 2rem;">
+    <p>In 2147, humanity established its first permanent settlement on Mars: <span class="story-highlight">Ares Prime</span>.</p>
+    <p>Beneath the red soil, we found an ancient structure—a portal to another dimension. We call it <span class="story-highlight">The Mars Abyss</span>. It is not just a gateway; it is a sentient entity, and it is testing us.</p>
+    <p>Select a dossier below to explore the stories, the people, and the mysteries of the Red Planet.</p>
 
-<p>During a routine excavation, scientists discovered an ancient structure buried deep beneath the surface. Its design was unlike anything human civilization had ever created. The material defied analysis, and the symbols carved into its surface hinted at a language that predated humanity itself.</p>
+    <!-- THE ARCHIVE SIGNATURE -->
+     <div class="archive-signature">
+        <div class="stardate">ARCHIVE LOG · SOL 892 · ARES PRIME</div>
+        <div class="signature-name">— MAI, Master Artificial Intelligence of Mars </div>
+     </div>
+  </div>
 
-<p>As researchers delved deeper into the mystery, they uncovered what would come to be known as <span class="story-highlight">The Mars Abyss</span> - a portal to another dimension, one that connected Mars to distant corners of the universe. But the Abyss was not merely a gateway; it was a sentient entity, a consciousness that had waited eons for a species capable of understanding its purpose.</p>
+  <!-- THE NEW PORTAL GRID -->
+<div class="portal-grid">
+  
+  <!-- Card 1: The Regent -->
+  <a href="the-regents-scrolls.html" class="portal-card">
+    <video class="portal-card-video" autoplay muted loop playsinline>
+      <source src="videos/the-theater-book-reading.mp4" type="video/mp4">
+    </video>
+    <div class="portal-card-content">
+      <h3>The Regent's Scrolls</h3>
+      <p>Poetry, logs, and the heavy burden of leadership on Mars.</p>
+    </div>
+  </a>
 
-<p>The discovery divided the colony. Some saw it as humanity's greatest opportunity - a chance to learn from ancient alien civilizations and advance our technology by millennia. Others feared it, warning we were meddling with forces beyond our comprehension.</p>
+  <!-- Card 2: The Manhunter Files -->
+  <a href="manhunter.html" class="portal-card">
+    <video class="portal-card-video" autoplay muted loop playsinline>
+      <source src="videos/manhunter-team.mp4" type="video/mp4">
+    </video>
+    <div class="portal-card-content">
+      <h3>The Manhunter Files</h3>
+      <p>Elite operatives defending the domes from cosmic threats.</p>
+    </div>
+  </a>
 
-<p>When the first team entered the Abyss, they returned changed. They brought back knowledge that revolutionized energy production, medicine, and space travel. But they also brought back something else - fragments of alien memories, glimpses of cosmic truths that threatened to unravel human sanity.</p>
+  <!-- Card 3: MAI & Aion -->
+  <a href="mai-master-artificial-intelligence.html" class="portal-card">
+    <video class="portal-card-video" autoplay muted loop playsinline>
+      <source src="videos/whales-flying.mp4" type="video/mp4">
+    </video>
+    <div class="portal-card-content">
+      <h3>MAI & The Errant One</h3>
+      <p>The Master Intelligence and her lost quantum child.</p>
+    </div>
+  </a>
 
-<p>Now, as the Martian colonies expand and the influence of the Abyss grows, a small group of explorers must navigate the treacherous landscape of interplanetary politics, corporate interests, and the mysterious will of the Abyss itself. Their journey will determine whether humanity is ready to join the cosmic community or if we are destined to be consumed by the very knowledge we sought.</p>
+  <!-- Card 4: XJ-9 & The Rift -->
+  <a href="aliens-ufos.html" class="portal-card">
+    <video class="portal-card-video" autoplay muted loop playsinline>
+      <source src="videos/robot-walking-river.mp4" type="video/mp4">
+    </video>
+    <div class="portal-card-content">
+      <h3>XJ-9 & The Temporal Rift</h3>
+      <p>The robot who went back in time to change Puerto Rico's history.</p>
+    </div>
+  </a>
 
-<p>The Mars Abyss is more than a place - it is a test of humanity's readiness for the stars. And the examination has just begun.</p>
+</div>
 </div>
 
+
 <!-- Fixed Scrollable Cards -->
-<div class="card-section" id="cardSection">
+<div class="card-section">
 <div class="arrow" onclick="scrollCards(-1)">🖖</div>
 
 <div class="card-container" id="cards">
@@ -1033,79 +1197,59 @@ Your browser does not support the video tag.
 </div>
 </div>
 
-<footer id="pageFooter">
+<footer>
 <p>© 2025 The Mars Abyss. All Rights Reserved.</p>
 </footer>
 
 <script>
-// ===== VIDEO PROTECTION =====
-(function() {
- document.querySelectorAll('video').forEach(video => {
-   video.setAttribute('controlslist', 'nodownload');
-   video.addEventListener('contextmenu', (e) => e.preventDefault());
-   video.addEventListener('dragstart', (e) => e.preventDefault());
- });
- 
- document.addEventListener('keydown', (e) => {
-   const isVideo = e.target.tagName === 'VIDEO' || e.target.closest('video');
-   if (isVideo && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
-     e.preventDefault();
-   }
- });
-})();
- 
-// VIDEO BACKGROUND
+// VIDEO BACKGROUND - No filters, full color
 const videoBg = document.getElementById('storyVideo');
 videoBg.play().catch(e => console.log('Video autoplay prevented'));
 
 // Background change function
 function changeBackground(bgNumber) {
-const video = document.querySelector('.video-background');
-const staticBg = document.querySelector('.static-background');
-const bg2 = document.getElementById('background2');
+    const video = document.querySelector('.video-background');
+    const staticBg = document.querySelector('.static-background');
+    const bg2 = document.getElementById('background2');
 
-if (bgNumber === 1) {
- video.style.opacity = '1'; // full brightness
- staticBg.style.opacity = '0';
- bg2.style.opacity = '0';
-} else if (bgNumber === 2) {
- video.style.opacity = '0';
- staticBg.style.opacity = '0';
- bg2.style.opacity = '1';
-} else if (bgNumber === 3) {
- // Create a temporary background flash effect
- video.style.opacity = '0';
- staticBg.style.opacity = '0';
- bg2.style.opacity = '0';
-
- // After 1 second, return to video background
- setTimeout(() => {
- video.style.opacity = '1'; // full brightness
- staticBg.style.opacity = '0';
- bg2.style.opacity = '0';
- }, 1000);
-}
+    if (bgNumber === 1) {
+        video.style.opacity = '1';
+        staticBg.style.opacity = '0';
+        bg2.style.opacity = '0';
+    } else if (bgNumber === 2) {
+        video.style.opacity = '0';
+        staticBg.style.opacity = '0';
+        bg2.style.opacity = '1';
+    } else if (bgNumber === 3) {
+        video.style.opacity = '0';
+        staticBg.style.opacity = '0';
+        bg2.style.opacity = '0';
+        setTimeout(() => {
+            video.style.opacity = '1';
+            staticBg.style.opacity = '0';
+            bg2.style.opacity = '0';
+        }, 1000);
+    }
 }
 
 // Initialize backgrounds
 window.onload = function() {
-const video = document.querySelector('.video-background');
-const staticBg = document.querySelector('.static-background');
-const bg2 = document.getElementById('background2');
-
-video.style.opacity = '1'; // full brightness
-staticBg.style.opacity = '0';
-bg2.style.opacity = '0';
+    const video = document.querySelector('.video-background');
+    const staticBg = document.querySelector('.static-background');
+    const bg2 = document.getElementById('background2');
+    video.style.opacity = '1';
+    staticBg.style.opacity = '0';
+    bg2.style.opacity = '0';
 };
 
 // Card scrolling function
 function scrollCards(direction) {
-const container = document.querySelector(".card-container");
-const scrollAmount = 200;
-container.scrollBy({
- left: direction * scrollAmount,
- behavior: "smooth"
-});
+    const container = document.querySelector(".card-container");
+    const scrollAmount = 200;
+    container.scrollBy({
+        left: direction * scrollAmount,
+        behavior: "smooth"
+    });
 }
 
 // ==================== MOBILE HAMBURGER MENU ====================
@@ -1115,254 +1259,224 @@ const mobileMenu = document.getElementById('mobileMenu');
 const menuContent = document.querySelector('.menu-content');
 
 function createMobileMenu() {
-if (!menuContent) return;
-menuContent.innerHTML = '';
-
-const menuItems = [
-  { text: '🏠 Home', href: 'index.html' },
-  { text: '📖 Story', href: 'story.html', active: true },
-  { text: ' Characters', href: 'characters.html' },
-  { text: ' Gallery', href: 'gallery.html' },
-  { text: ' Art & Concepts', href: 'art-and-concepts.html' },
-  { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html' },
-  { text: ' Technical Database', href: 'technical-database.html' },
-  { text: ' The Martian Edicts', href: 'martian-edicts.html' },
-  { text: ' Alien Transport Network', href: 'alien-transport-network.html' },
-  { text: ' Martian Martial Arts', href: 'martian-martial-arts.html' },
-  { text: ' Solar System Explorer', href: 'solar-system-explorer.html' },
-  { text: ' Aliens & UFOs', href: 'aliens-ufos.html' },
-  { text: '🎮 Martian Games', href: 'martian-games.html' },
-  { text: '🌍 Earth Codex', href: 'earth-codex.html' },
-  { text: '📰 Martian News', href: 'martian-news.html' },
-  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html' },
-  { text: 'ℹ️ About', href: 'about.html' },
-  { text: '🤝 Support', href: 'support.html' },
-  { text: '📧 Contact', href: 'contact.html' }
+    menuContent.innerHTML = '';
+    const menuItems = [
+  { text: '🏠 Home', href: 'index.html', type: 'main' },
+  { text: '📖 Story', href: 'story.html', type: 'main', active: true },
+  { text: ' Characters', href: 'characters.html', type: 'sub' },
+  { text: ' Gallery', href: 'gallery.html', type: 'sub' },
+  { text: ' Art & Concepts', href: 'art-and-concepts.html', type: 'sub' },
+  { text: ' Martian Entertainment', href: 'martian-entertainment-previews.html', type: 'sub' },
+  { text: ' Technical Database', href: 'technical-database.html', type: 'sub' },
+  { text: ' The Martian Edicts', href: 'martian-edicts.html', type: 'sub' },
+  { text: ' Alien Transport Network', href: 'alien-transport-network.html', type: 'sub' },
+  { text: ' Martian Martial Arts', href: 'martian-martial-arts.html', type: 'sub' },
+  { text: ' Solar System Explorer', href: 'solar-system-explorer.html', type: 'sub' },
+  { text: ' Aliens & UFOs', href: 'aliens-ufos.html', type: 'sub' },
+  { text: '🎮 Martian Games', href: 'martian-games.html', type: 'main' },
+  { text: '🌍 Earth Codex', href: 'earth-codex.html', type: 'main' },
+  { text: '📰 Martian News', href: 'martian-news.html', type: 'main' },
+  { text: '📜 Regent\'s Scrolls', href: 'the-regents-scrolls.html', type: 'main' },
+  { text: 'ℹ️ About', href: 'about.html', type: 'main' },
+  { text: '🤝 Support', href: 'support.html', type: 'main' },
+  { text: '📧 Contact', href: 'contact.html', type: 'main' }
 ];
 
 menuItems.forEach(item => {
-const menuItem = document.createElement('div');
-menuItem.className = 'menu-item';
-const link = document.createElement('a');
-link.href = item.href;
-link.textContent = item.text;
-if (item.active) link.classList.add('active');
-menuItem.appendChild(link);
-menuContent.appendChild(menuItem);
+  const div = document.createElement('div');
+  div.className = 'menu-item ' + (item.type === 'main' ? 'main-title' : 'sub-page');
+  const a = document.createElement('a');
+  a.href = item.href;
+  a.textContent = item.text;
+  if (item.active) a.classList.add('active');
+  div.appendChild(a);
+  menuContent.appendChild(div);
 });
+
 }
 
 createMobileMenu();
 
 hamburgerBtn.addEventListener('click', () => {
-mobileMenu.classList.add('active');
-document.body.style.overflow = 'hidden';
+    mobileMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
 });
 
 closeMenu.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
 });
 
 document.addEventListener('click', (e) => {
-if (mobileMenu.classList.contains('active') &&
- !mobileMenu.contains(e.target) &&
- !hamburgerBtn.contains(e.target)) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
+    if (mobileMenu.classList.contains('active') && 
+        !mobileMenu.contains(e.target) && 
+        !hamburgerBtn.contains(e.target)) {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 });
 
 document.querySelectorAll('.mobile-menu a').forEach(link => {
-link.addEventListener('click', () => {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-});
+    link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    });
 });
 
 function handleResize() {
-if (window.innerWidth > 992) {
-mobileMenu.classList.remove('active');
-document.body.style.overflow = '';
-}
+    if (window.innerWidth > 1024) {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 }
 window.addEventListener('resize', handleResize);
 
-// ===== HIDE CONTENT FUNCTIONALITY - FAST TOGGLE =====
+// ==================== HIDE CONTENT FUNCTIONALITY ====================
 const hideContentBtn = document.getElementById('hideContentBtn');
-const storyContent = document.getElementById('storyContent');
-const cardSection = document.getElementById('cardSection');
-const pageFooter = document.getElementById('pageFooter');
-const topMenu = document.getElementById('topMenu');
-const siteTitle = document.getElementById('siteTitle');
-const videoOverlay = document.getElementById('videoOverlay');
-const quoteContainer = document.getElementById('quoteContainer');
+const storyContent = document.querySelector('.story-content');
+const pageFooter = document.querySelector('footer');
+const topMenu = document.querySelector('nav.top-menu');
+const storyTitle = document.querySelector('.story-title');
+const container = document.querySelector(".card-container");
 
 let contentHidden = false;
 
 hideContentBtn.addEventListener('click', function() {
-contentHidden = !contentHidden;
-
-if (contentHidden) {
- // Hide all UI elements
- storyContent.classList.add('hidden');
- cardSection.classList.add('hidden');
- pageFooter.classList.add('hidden');
- topMenu.classList.add('hidden');
- siteTitle.classList.add('hidden');
- videoOverlay.classList.add('hidden');
- // Also hide quote if still visible
- if (quoteContainer) quoteContainer.style.display = 'none';
- hideContentBtn.textContent = 'Show Content';
-} else {
- // Show all UI elements - REMOVE HIDDEN CLASS INSTANTLY
- storyContent.classList.remove('hidden');
- cardSection.classList.remove('hidden');
- pageFooter.classList.remove('hidden');
- topMenu.classList.remove('hidden');
- siteTitle.classList.remove('hidden');
- videoOverlay.classList.remove('hidden');
- // Quote will only be visible if it hasn't finished its fade-out yet
- hideContentBtn.textContent = 'Hide Content';
-}
+    contentHidden = !contentHidden;
+    if (contentHidden) {
+        // HIDE: Story text, title, and cards
+        storyContent.style.opacity = '0';
+        storyContent.style.pointerEvents = 'none';
+        storyTitle.style.opacity = '0';
+        container.style.opacity ='0';
+        // HIDE: Footer and menu
+        pageFooter.classList.add('hidden');
+        topMenu.classList.add('hidden');
+        // Change button text
+        hideContentBtn.textContent = 'Show Content';
+    } else {
+        // SHOW: Story text, title, and cards
+        storyContent.style.opacity = '1';
+        storyContent.style.pointerEvents = 'auto';
+        storyTitle.style.opacity = '1';
+        container.style.opacity = '1';
+        // SHOW: Footer and menu
+        pageFooter.classList.remove('hidden');
+        topMenu.classList.remove('hidden');
+        // Change button text
+        hideContentBtn.textContent = 'Hide Content';
+    }
 });
 
-// ===== AUDIO SYSTEM =====
+// ==================== AUDIO SYSTEM - FIXED ====================
 const muteBtn = document.getElementById('muteBtn');
 let isMuted = true;
 let audioElements = [];
 
 function initAudio() {
- const sounds = [
- { src: 'music/depths-of-mystery.mp3', volume: 0.5 },
- { src: 'sounds/waterfall-176958.mp3', volume: 0.3 },
- { src: 'sounds/birds-near-waterfall-324855.mp3', volume: 0.15 }
- ];
+    const sounds = [
+        { src: 'music/story-theme-red-dust.mp3', volume: 0.3 },
+        { src: 'sounds/ambient-space.mp3', volume: 0.2 }
+    ];
 
- sounds.forEach(sound => {
- const audio = new Audio(sound.src);
- audio.volume = sound.volume;
- audio.loop = true;
- audio.muted = true;
- audioElements.push(audio);
- });
-
- const unmuteOnInteraction = function() {
- if (isMuted) {
- audioElements.forEach(audio => {
- audio.muted = false;
- audio.play().catch(e => {
- console.log('Audio play attempt failed:', e);
- });
- });
- isMuted = false;
- muteBtn.textContent = "🔊 MUTE LAB";
- }
- document.removeEventListener('click', unmuteOnInteraction);
- document.removeEventListener('keydown', unmuteOnInteraction);
- };
-
- document.addEventListener('click', unmuteOnInteraction);
- document.addEventListener('keydown', unmuteOnInteraction);
-
- setTimeout(() => {
- audioElements.forEach(audio => {
- audio.play().then(() => {
- console.log('Audio autoplay succeeded.');
- }).catch(e => {
- console.log('Audio autoplay blocked.');
- });
- });
- }, 1000);
+    sounds.forEach(sound => {
+        const audio = new Audio(sound.src);
+        audio.volume = sound.volume;
+        audio.loop = true;
+        audio.muted = true; // Start muted for autoplay
+        audio.play().catch(e => console.log('Audio init (muted):', e));
+        audioElements.push(audio);
+    });
 }
 
-muteBtn.addEventListener('click', function() {
- if (audioElements.length === 0) {
- initAudio();
- return;
- }
- isMuted = !isMuted;
- audioElements.forEach(audio => {
- audio.muted = isMuted;
- if (!isMuted) {
- audio.play().catch(e => console.log('Playback resume failed'));
- }
- });
- muteBtn.textContent = isMuted ? "🔇 UNMUTE LAB" : "🔊 MUTE LAB";
-});
-
-// Initialize audio
+// Initialize audio on load (muted)
 initAudio();
 
-// SITE TITLE SCROLL FADE
-const siteTitleElem = document.querySelector('.site-title-overlay');
+// Unmute on first user click
+document.addEventListener('click', function startAudioOnFirstInteraction() {
+    if (isMuted) {
+        audioElements.forEach(audio => {
+            audio.muted = false;
+        });
+        isMuted = false;
+        muteBtn.textContent = "🔊 Mute Audio";
+    }
+    document.removeEventListener('click', startAudioOnFirstInteraction);
+});
+
+// Mute button toggle
+muteBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    isMuted = !isMuted;
+    audioElements.forEach(audio => { 
+        audio.muted = isMuted;
+    });
+    muteBtn.textContent = isMuted ? "🔇 Unmute Audio" : "🔊 Mute Audio";
+});
+
+// ==================== SITE TITLE SCROLL FADE ====================
+const siteTitle = document.querySelector('.site-title-overlay');
 let titleScrollTimer;
 
 function handleTitleScroll() {
-const scrolled = window.scrollY > 50;
-if (scrolled) {
- siteTitleElem.classList.add('scrolled');
- if (window.scrollY > 150) {
- siteTitleElem.classList.add('hidden');
- } else {
- siteTitleElem.classList.remove('hidden');
- }
-} else {
- siteTitleElem.classList.remove('scrolled', 'hidden');
-}
+    const scrolled = window.scrollY > 50;
+    if (scrolled) {
+        siteTitle.classList.add('scrolled');
+        if (window.scrollY > 150) {
+            siteTitle.classList.add('hidden');
+        } else {
+            siteTitle.classList.remove('hidden');
+        }
+    } else {
+        siteTitle.classList.remove('scrolled', 'hidden');
+    }
 
-clearTimeout(titleScrollTimer);
-titleScrollTimer = setTimeout(() => {
- if (window.scrollY > 100) {
- siteTitleElem.classList.remove('hidden');
- siteTitleElem.classList.add('scrolled');
- }
-}, 2000);
+    clearTimeout(titleScrollTimer);
+    titleScrollTimer = setTimeout(() => {
+        if (window.scrollY > 100) {
+            siteTitle.classList.remove('hidden');
+            siteTitle.classList.add('scrolled');
+        }
+    }, 2000);
 }
 
 window.addEventListener('scroll', handleTitleScroll);
 
-// Show title on mouse movement
 document.addEventListener('mousemove', () => {
-siteTitleElem.classList.remove('hidden');
-clearTimeout(titleScrollTimer);
-titleScrollTimer = setTimeout(() => {
- if (window.scrollY > 150) {
- siteTitleElem.classList.add('hidden');
- }
-}, 3000);
+    siteTitle.classList.remove('hidden');
+    clearTimeout(titleScrollTimer);
+    titleScrollTimer = setTimeout(() => {
+        if (window.scrollY > 150) {
+            siteTitle.classList.add('hidden');
+        }
+    }, 3000);
 });
 
-// ===== MOBILE / TABLET DROPDOWN FIX =====
+// ==================== MOBILE DROPDOWN FIX ====================
 document.querySelectorAll('.dropdown > a').forEach(anchor => {
-anchor.addEventListener('click', function (e) {
- const parent = this.parentElement;
-
- // Only intercept on touch-sized screens
- if (window.innerWidth <= 1024) {
- // If this dropdown isn't open yet → open it
- if (!parent.classList.contains('open')) {
- e.preventDefault(); // STOP navigation
- closeAllDropdowns(parent);
- parent.classList.add('open');
- }
- // If already open → allow normal navigation
- }
-});
+    anchor.addEventListener('click', function (e) {
+        const parent = this.parentElement;
+        if (window.innerWidth <= 1024) {
+            if (!parent.classList.contains('open')) {
+                e.preventDefault();
+                closeAllDropdowns(parent);
+                parent.classList.add('open');
+            }
+        }
+    });
 });
 
 function closeAllDropdowns(except = null) {
-document.querySelectorAll('.dropdown.open').forEach(drop => {
- if (drop !== except) drop.classList.remove('open');
-});
+    document.querySelectorAll('.dropdown.open').forEach(drop => {
+        if (drop !== except) drop.classList.remove('open');
+    });
 }
 
-// Close dropdowns when tapping outside nav
 document.addEventListener('click', function (e) {
-const nav = document.getElementById('topMenu');
-if (!nav.contains(e.target)) {
- closeAllDropdowns();
-}
+    const nav = document.getElementById('topMenu');
+    if (!nav.contains(e.target)) {
+        closeAllDropdowns();
+    }
 });
 </script>
 </body>
